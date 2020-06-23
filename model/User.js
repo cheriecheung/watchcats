@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema({
   //   type: Date,
   //   default: Date.now(),
   // },
+  facebook_id: {
+    type: String,
+    required: false,
+  },
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);
