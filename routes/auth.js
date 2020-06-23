@@ -4,6 +4,14 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { registerValidation, loginValidation } = require('../validation');
 
+router.get('/logout', (req, res) => {
+  res.send('logging out');
+});
+
+router.get('/google', (req, res) => {
+  res.send('logging in with google');
+});
+
 router.post('/register', async (req, res) => {
   const { error } = registerValidation(req.body);
   if (error) return res.status(400).json(error.details[0].message);
