@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: false,
     max: 1024,
     min: 6,
   },
@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema({
   //   type: Date,
   //   default: Date.now(),
   // },
+  google_id: {
+    type: String,
+    required: false,
+  },
   facebook_id: {
     type: String,
     required: false,
