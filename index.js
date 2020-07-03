@@ -1,32 +1,85 @@
-const express = require('express');
-const app = express();
 const mongoose = require('mongoose');
-const authRoute = require('./routes/auth');
-const postRoute = require('./routes/posts');
-const cookieSession = require('cookie-session');
+const express = require('express');
+const cors = require('cors');
 const passport = require('passport');
+const cookieParser = require('cookie-parser');
+const bcrypt = require('bcryptjs');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const app = express();
+const User = require('./model/User');
+const authRoute = require('./routes/auth');
 
 require('dotenv').config();
-require('./config/passport-setup');
 
-mongoose.connect(process.env.DB_CONNECT, () => {
-  console.log('connected to db yay');
-});
+mongoose.connect(
+  process.env.DB_CONNECT,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  () => {
+    console.log('connected to db yay');
+  }
+);
 
-// encrypt cookie
+// Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
-  cookieSession({
-    maxAge: 24 * 60 * 60 * 1000,
-    keys: [process.env.SESSION_COOKIE_KEY],
+  cors({
+    origin: 'http://localhost:3001',
+    credentials: true,
   })
 );
+app.use(
+  session({
+    secret: 'secretcode',
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(cookieParser('secretcode'));
 app.use(passport.initialize());
 app.use(passport.session());
+require('./config/passportConfig')(passport);
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Routes
+app.use('/auth', authRoute);
 
-app.use('/user', authRoute);
-app.use('/posts', postRoute);
+app.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) throw err;
+    if (!user) res.send('No User Exists');
+    else {
+      req.logIn(user, (err) => {
+        if (err) throw err;
+        res.send('Successfully Authenticated');
+        console.log(req.user);
+      });
+    }
+  })(req, res, next);
+});
+app.post('/register', (req, res) => {
+  User.findOne({ email: req.body.email }, async (err, doc) => {
+    if (err) throw err;
+    if (doc) res.send('User Already Exists');
+    if (!doc) {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
+      const newUser = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: hashedPassword,
+      });
+      await newUser.save();
+      res.send('User Created');
+    }
+  });
+});
+app.get('/user', (req, res) => {
+  res.send(req.user);
+});
+
+//Start Server
 app.listen(3000, () => console.log('Server up and running'));
