@@ -1,5 +1,7 @@
 const User = require('../model/User');
 const bcrypt = require('bcryptjs');
+const JwtStrategy = require('passport-jwt').Strategy;
+const { ExtractJwt } = require('passport-jwt');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20');
 
@@ -10,8 +12,8 @@ module.exports = function (passport) {
         usernameField: 'email',
         passwordField: 'password',
       },
-      (username, password, done) => {
-        User.findOne({ email: username }, (err, user) => {
+      (email, password, done) => {
+        User.findOne({ email }, (err, user) => {
           if (err) throw err;
           if (!user) return done(null, false);
           bcrypt.compare(password, user.password, (err, result) => {
