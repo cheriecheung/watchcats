@@ -40,6 +40,7 @@ app.use(
   })
 );
 app.use(cookieParser('secretcode'));
+// app.use(session({ secret: 'anything' }));
 app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passportConfig')(passport);

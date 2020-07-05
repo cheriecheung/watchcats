@@ -14,17 +14,27 @@ router.get('/logout', (req, res) => {
 });
 
 router.get(
+  '/secret',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    console.log(res.user);
+    return res.status(200).json({ secret: 'resource' });
+  }
+);
+
+router.get(
   '/google',
   passport.authenticate('google', {
+    session: false,
     scope: ['profile', 'email'],
   })
 );
 
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
+  console.log(res.req.authInfo);
   res.send(
     `<script>
-    const targetWindow = window.opener
-      targetWindow.postMessage("The user is");
+      window.localStorage.setItem('token', res.req.authInfo)
       window.opener.location.replace('http://localhost:3001/account');
       window.close();
     </script>`
@@ -40,53 +50,51 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
 //   })
 // );
 
-router.post('/login', (req, res, next) => {
-  const { error } = loginValidation(req.body);
-  if (error) return res.status(400).json(error.details[0].message);
+const signToken = (user) => {
+  return JWT.sign(
+    {
+      iss: 'FindPetSitter',
+      sub: user.id,
+      iat: new Date().getTime(), // current time
+      exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day ahead
+    },
+    process.env.JWT_SECRET
+  );
+};
 
-  passport.authenticate('local', (err, user, info) => {
-    if (err) throw err;
-    if (!user) res.status(404).json('No User Exists');
-    else {
-      req.logIn(user, (err) => {
-        if (err) throw err;
-        res.send('Successfully Authenticated');
-        console.log(req.user);
-      });
-    }
-  })(req, res, next);
-});
+router.post(
+  '/login',
+  passport.authenticate('local', { session: false }),
+  async (req, res, next) => {
+    const token = signToken(req.user);
+    return res.status(200).json({ token });
+  }
+);
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   const { error } = registerValidation(req.body);
   if (error) return res.status(400).json(error.details[0].message);
 
-  User.findOne({ email: req.body.email }, async (err, doc) => {
-    if (err) throw err;
-    if (doc) return res.status(409).json('Email is already in use');
-    if (!doc) {
-      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  const foundUser = await User.findOne({ email: req.body.email });
+  if (foundUser) return res.status(403).json({ error: 'Email already exists' });
 
-      const newUser = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: hashedPassword,
-      });
-      await newUser.save();
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(req.body.password, salt);
 
-      const token = JWT.sign(
-        {
-          iss: 'FindPetSitter',
-          sub: newUser.id,
-          iat: new Date().getTime(), // current time
-          exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day ahead
-        },
-        process.env.JWT_SECRET
-      );
-
-      return res.status(201).json({ token });
-    }
+  const newUser = new User({
+    name: req.body.name,
+    email: req.body.email,
+    password: hashPassword,
   });
+
+  try {
+    await newUser.save();
+    const token = signToken(newUser);
+    return res.status(201).json({ token });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(400).json({ error });
+  }
 });
 
 module.exports = router;
