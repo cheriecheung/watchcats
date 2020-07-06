@@ -57,6 +57,8 @@ module.exports = function (passport) {
           if (currentUser) {
             console.log({ currentUser, accessToken, profile: profile._json });
 
+            // return token too
+
             return done(null, currentUser);
           } else {
             const newUser = new User({

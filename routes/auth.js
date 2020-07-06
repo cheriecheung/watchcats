@@ -34,13 +34,11 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
   console.log(res.req.authInfo);
   res.send(
     `<script>
-      window.localStorage.setItem('token', res.req.authInfo)
       window.opener.location.replace('http://localhost:3001/account');
       window.close();
     </script>`
   );
 });
-// window.localStorage.setItem('JWT', 'you have your tokens here');
 
 // router.get(
 //   '/google/redirect',
@@ -66,6 +64,9 @@ router.post(
   '/login',
   passport.authenticate('local', { session: false }),
   async (req, res, next) => {
+    const { error } = loginValidation(req.body);
+    if (error) return res.status(400).json(error.details[0].message);
+
     const token = signToken(req.user);
     return res.status(200).json({ token });
   }
