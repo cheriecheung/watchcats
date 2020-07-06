@@ -53,4 +53,4 @@ app.use('/auth', authRoute);
 // });
 
 //Start Server
-app.listen(3000, () => console.log('Server up and running'));
+app.listen(5000, () => console.log('Server up and running'));
