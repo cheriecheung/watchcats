@@ -1,24 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+
+import "./App.css";
+
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import Header from "./components/Layout/Header";
+import Layout from "./components/Layout";
+import Home from "./containers/Home";
+import FindSitter from "./containers/FindSitter";
+import About from "./containers/About";
 
 function App() {
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    i18n.changeLanguage(localStorage.getItem("lang") || "en");
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter basename={"/"}>
+        <Layout>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/find" component={FindSitter} />
+            <Route path="/about" component={About} />
+            {/* <Route path="/login" component={Login} /> */}
+          </Switch>
+        </Layout>
+      </BrowserRouter>
     </div>
   );
 }

@@ -34,7 +34,7 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
   console.log(res.req.authInfo);
   res.send(
     `<script>
-      window.opener.location.replace('http://localhost:3001/account');
+      window.opener.location.replace('http://localhost:3000/account');
       window.close();
     </script>`
   );

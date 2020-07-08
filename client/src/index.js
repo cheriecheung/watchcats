@@ -1,14 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+
+import i18n from "./i18n/i18n";
+import { I18nextProvider } from "react-i18next";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  <I18nextProvider i18n={i18n}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </I18nextProvider>,
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
