@@ -68,7 +68,9 @@ router.post(
     if (error) return res.status(400).json(error.details[0].message);
 
     const token = signToken(req.user);
-    return res.status(200).json({ token });
+    const user = req.user.name;
+
+    return res.status(200).json({ token, user });
   }
 );
 

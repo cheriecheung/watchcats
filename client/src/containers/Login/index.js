@@ -1,66 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Modal from '../../components/General/Modal';
-import useAuth from '../../hooks/useAuth';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { userActions } from '../../_actions';
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 function Login({ show, onHide }) {
   const { t, i18n } = useTranslation();
-  const { login, registration } = useAuth();
   const { register, handleSubmit, errors } = useForm();
-  const [entry, setEntry] = useState('login');
+  const [entry, setEntry] = useState('authlogin');
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleLogin = async (data) => {
-    return login(data.email, data.password)
-      .then((token) => {
-        if (!token) {
-          console.log('no token');
-          setErrorMsg('Incorrect email or password');
-          return false;
-        }
+  const dispatch = useDispatch();
 
-        console.log(token);
-
-        cookies.set('token', token);
-
-        // window.location = "/account";
-        return true;
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
+  const handleLogin = (data) => {
+    dispatch(userActions.login(data.email, data.password));
   };
 
   const handleRegister = async (data) => {
-    return registration(
-      data.firstName,
-      data.lastName,
-      data.email,
-      data.password
-    )
-      .then((token) => {
-        if (!token) {
-          console.log('no token');
-          setErrorMsg('Incorrect email or password');
-          return false;
-        }
-
-        console.log(token);
-
-        // cookies.set("token", token);
-
-        // window.location = "/account";
-        return true;
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
+    //   return registration(
+    //     data.firstName,
+    //     data.lastName,
+    //     data.email,
+    //     data.password
+    //   )
+    //     .then((token) => {
+    //       if (!token) {
+    //         console.log('no token');
+    //         setErrorMsg('Incorrect email or password');
+    //         return false;
+    //       }
+    //       console.log(token);
+    //       // cookies.set("token", token);
+    //       // window.location = "/account";
+    //       return true;
+    //     })
+    //     .catch((err) => {
+    //       console.log(err.response);
+    //     });
   };
 
   const renderLogin = () => (
