@@ -31,6 +31,14 @@ function login(email, password) {
   };
 }
 
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  window.location = '/';
+
+  return { type: action.LOGOUT };
+}
+
 // async function registration(firstName, lastName, email, password) {
 //   const data = await axios.post(
 //     `${process.env.REACT_APP_API_DOMAIN}/auth/register`,
@@ -47,4 +55,5 @@ function login(email, password) {
 export const userActions = {
   action,
   login,
+  logout,
 };

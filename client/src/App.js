@@ -8,6 +8,7 @@ import Header from './components/Layout/Header';
 import Layout from './components/Layout';
 import Home from './containers/Home';
 import About from './containers/About';
+import Login from './containers/Login';
 import Account from './containers/Account';
 import FindSitter from './containers/FindSitter';
 
@@ -19,7 +20,9 @@ function PrivateRoute({ component: Component, ...rest }) {
         localStorage.getItem('user') ? (
           <Component {...props} />
         ) : (
-          <Redirect to={{ pathname: '/', state: { from: props.location } }} />
+          <Redirect
+            to={{ pathname: '/login', state: { from: props.location } }}
+          />
         )
       }
     />
@@ -41,7 +44,7 @@ function App() {
             <Route exact path="/" component={Home} />
             <Route path="/find" component={FindSitter} />
             <Route path="/about" component={About} />
-            {/* <Route path="/login" component={Login} /> */}
+            <Route path="/login" component={Login} />
             <PrivateRoute path="/account" component={Account} />
           </Switch>
         </Layout>

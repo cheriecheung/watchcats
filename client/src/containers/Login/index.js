@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import Modal from '../../components/General/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../../_actions';
 
@@ -12,8 +11,11 @@ const cookies = new Cookies();
 function Login({ show, onHide }) {
   const { t, i18n } = useTranslation();
   const { register, handleSubmit, errors } = useForm();
-  const [entry, setEntry] = useState('authlogin');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [entry, setEntry] = useState('login');
+
+  const loggedIn = useSelector((state) => state.authentication.loggedIn);
+
+  console.log(loggedIn);
 
   const dispatch = useDispatch();
 
@@ -116,7 +118,9 @@ function Login({ show, onHide }) {
           value={t('login.login')}
           style={{ float: 'right' }}
         />
-        {errorMsg !== '' && errorMsg}
+        {/* {!isLoggedIn && (
+          <span style={{ color: 'red' }}>Incorrect or email password</span>
+        )} */}
       </form>
     </>
   );
@@ -226,12 +230,16 @@ function Login({ show, onHide }) {
     </>
   );
 
+  const renderForgotPassword = () => <h1>forgot password?</h1>;
+
   return (
-    <Modal show={show} onHide={onHide}>
+    <div style={{ margin: 'auto', width: '30%' }}>
       <div style={{ display: 'grid', gridGap: 30 }}>
-        {entry === 'login' ? renderLogin() : renderRegister()}
+        {entry === 'login' && renderLogin()}
+        {entry === 'register' && renderRegister()}
+        {entry === 'forgot' && renderForgotPassword()}
       </div>
-    </Modal>
+    </div>
   );
 }
 
