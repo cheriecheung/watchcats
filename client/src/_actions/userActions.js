@@ -7,7 +7,8 @@ const action = {
   LOGIN_SUCCESS: 'LOGIN_SUCCESS',
   LOGIN_FAILURE: 'LOGIN_FAILURE',
 
-  LOGOUT: 'LOGOUT',
+  LOGOUT_SUCCESS: 'LOGOUT_SUCCESS',
+  LOGOUT_FAILURE: 'LOGOUT_FAILURE',
 };
 
 function login(email, password) {
@@ -26,17 +27,39 @@ function login(email, password) {
       })
       .catch((err) => {
         console.log(err.response);
-        dispatch({ type: action.LOGIN_FAILURE, err });
+        dispatch({
+          type: action.LOGIN_FAILURE,
+          payload: "Email and password combination isn't valid",
+        });
       });
   };
 }
 
 function logout() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-  window.location = '/';
+  const token = localStorage.getItem('token');
 
-  return { type: action.LOGOUT };
+  return (dispatch) => {
+    axios
+      .post(
+        `${process.env.REACT_APP_API_DOMAIN}/auth/logout`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((data) => {
+        console.log(data);
+        localStorage.clear();
+        dispatch({ type: action.LOGOUT_SUCCESS });
+        window.location = '/';
+      })
+      .catch((err) => {
+        console.log(err.response);
+        dispatch({ type: action.LOGOUT_FAILURE, err });
+      });
+  };
 }
 
 // async function registration(firstName, lastName, email, password) {

@@ -8,11 +8,6 @@ const {
 } = require('../helpers/validation');
 const passport = require('passport');
 
-router.get('/logout', (req, res) => {
-  req.logout();
-  console.log('youre now loggedout');
-});
-
 router.get(
   '/secret',
   passport.authenticate('jwt', { session: false }),
@@ -47,6 +42,38 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
 //     failureRedirect: '/auth/google/failure',
 //   })
 // );
+
+function verifyToken(req, res, next) {
+  // Get auth header value
+  const bearerHeader = req.headers['authorization'];
+
+  // Check if bearer is undefined
+  if (typeof bearerHeader !== 'undefined') {
+    // Split at the space
+    const bearer = bearerHeader.split(' ');
+    // Get token from array
+    const bearerToken = bearer[1].toString();
+    // Set the token
+    req.token = bearerToken;
+
+    console.log(typeof req.token);
+    // Next middleware
+    next();
+  } else {
+    // Forbidden
+    res.sendStatus(403);
+  }
+}
+
+router.post('/logout', verifyToken, (req, res) => {
+  JWT.verify(req.token, process.env.JWT_SECRET, (err, authData) => {
+    if (err) {
+      res.sendStatus(403);
+    } else {
+      res.sendStatus(204);
+    }
+  });
+});
 
 const signToken = (user) => {
   return JWT.sign(

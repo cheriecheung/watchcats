@@ -13,9 +13,7 @@ function Login({ show, onHide }) {
   const { register, handleSubmit, errors } = useForm();
   const [entry, setEntry] = useState('login');
 
-  const loggedIn = useSelector((state) => state.authentication.loggedIn);
-
-  console.log(loggedIn);
+  const auth = useSelector((state) => state.authentication);
 
   const dispatch = useDispatch();
 
@@ -118,9 +116,9 @@ function Login({ show, onHide }) {
           value={t('login.login')}
           style={{ float: 'right' }}
         />
-        {/* {!isLoggedIn && (
-          <span style={{ color: 'red' }}>Incorrect or email password</span>
-        )} */}
+        {auth.errorMessage && (
+          <span style={{ color: 'red' }}>{auth.errorMessage}</span>
+        )}
       </form>
     </>
   );
