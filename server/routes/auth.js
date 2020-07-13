@@ -1,11 +1,6 @@
 const router = require('express').Router();
-const User = require('../model/User');
 const JWT = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const {
-  registerValidation,
-  loginValidation,
-} = require('../helpers/validation');
+const { loginValidation } = require('../helpers/validation');
 const passport = require('passport');
 
 router.get(
@@ -101,30 +96,22 @@ router.post(
   }
 );
 
-router.post('/register', async (req, res) => {
-  const { error } = registerValidation(req.body);
-  if (error) return res.status(400).json(error.details[0].message);
+router.post('/activate-account', verifyToken, async (req, res) => {
+  JWT.verify(req.token, process.env.JWT_SECRET, async (err, authData) => {
+    if (err) {
+      console.log(err);
+      res.sendStatus(403);
+    } else {
+      const user = await User.findOne({ secretToken: req.token });
+      if (!user) return res.status(404).json('User not found');
 
-  const foundUser = await User.findOne({ email: req.body.email });
-  if (foundUser) return res.status(403).json({ error: 'Email already exists' });
+      user.active = true;
+      user.secretToken = '';
+      await user.save();
 
-  const salt = await bcrypt.genSalt(10);
-  const hashPassword = await bcrypt.hash(req.body.password, salt);
-
-  const newUser = new User({
-    name: req.body.name,
-    email: req.body.email,
-    password: hashPassword,
+      return res.status(200).json('You can now log in');
+    }
   });
-
-  try {
-    await newUser.save();
-    const token = signToken(newUser);
-    return res.status(201).json({ token });
-  } catch (error) {
-    console.log(error.message);
-    return res.status(400).json({ error });
-  }
 });
 
 module.exports = router;

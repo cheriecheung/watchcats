@@ -8,9 +8,9 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const app = express();
 const User = require('./model/User');
-const authRoute = require('./routes/auth');
-
 require('dotenv').config();
+const authRoute = require('./routes/auth');
+const userRoute = require('./routes/user');
 
 mongoose.connect(
   process.env.DB_CONNECT,
@@ -47,6 +47,7 @@ require('./config/passportConfig')(passport);
 
 // Routes
 app.use('/auth', authRoute);
+app.use('/user', userRoute);
 
 // app.get('/user', (req, res) => {
 //   res.send(req.user);

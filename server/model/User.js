@@ -21,10 +21,13 @@ const userSchema = new Schema({
     max: 1024,
     min: 6,
   },
-  // date: {
-  //   type: Date,
-  //   default: Date.now(),
-  // },
+  secretToken: {
+    type: String,
+  },
+  active: {
+    type: Boolean,
+    defaultValue: false,
+  },
   google_id: {
     type: String,
     required: false,
