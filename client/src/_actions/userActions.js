@@ -9,7 +9,40 @@ const action = {
 
   LOGOUT_SUCCESS: 'LOGOUT_SUCCESS',
   LOGOUT_FAILURE: 'LOGOUT_FAILURE',
+
+  VERIFY_SUCCESS: 'VERIFY_SUCCESS',
+  VERIFY_FAILURE: 'VERIFY_FAILURE',
 };
+
+function verifyEmail(token) {
+  return (dispatch) => {
+    axios
+      .post(
+        `${process.env.REACT_APP_API_DOMAIN}/auth/activate-account
+    `,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((data) => {
+        dispatch({
+          type: VERIFY_SUCCESS,
+          payload: 'Email verification successful! You can now log in',
+        });
+      })
+      .catch((err) => {
+        console.log(err.response);
+        dispatch({
+          type: action.VERIFY_FAILURE,
+          payload:
+            'Email verification fail. Try to get another email to verify again',
+        });
+      });
+  };
+}
 
 function login(email, password) {
   return (dispatch) => {

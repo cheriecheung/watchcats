@@ -24,7 +24,7 @@ const userSchema = new Schema({
   secretToken: {
     type: String,
   },
-  active: {
+  isVerified: {
     type: Boolean,
     defaultValue: false,
   },
@@ -35,6 +35,10 @@ const userSchema = new Schema({
   facebook_id: {
     type: String,
     required: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
   },
 });
 

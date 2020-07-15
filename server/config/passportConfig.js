@@ -38,7 +38,7 @@ module.exports = function (passport) {
           const isMatch = await user.isValidPassword(password);
           if (!isMatch) return done(null, false);
 
-          if (!user.active) return done(null, false);
+          if (!user.isVerified) return done(null, false);
 
           done(null, user);
         } catch (error) {

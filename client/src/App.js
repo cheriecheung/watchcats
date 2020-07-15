@@ -8,6 +8,7 @@ import Header from './components/Layout/Header';
 import Layout from './components/Layout';
 import Home from './containers/Home';
 import About from './containers/About';
+import VerifyEmail from './containers/VerifyEmail';
 import Login from './containers/Login';
 import Account from './containers/Account';
 import FindSitter from './containers/FindSitter';
@@ -45,6 +46,7 @@ function App() {
             <Route path="/find" component={FindSitter} />
             <Route path="/about" component={About} />
             <Route path="/login" component={Login} />
+            <Route path="/verify/:token?" component={VerifyEmail} />
             <PrivateRoute path="/account" component={Account} />
           </Switch>
         </Layout>

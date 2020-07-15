@@ -15,7 +15,7 @@ const signToken = (user) => {
       iat: new Date().getTime(), // current time
       exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day ahead
     },
-    process.env.JWT_SECRET
+    process.env.JWT_VERIFY_SECRET
   );
 };
 
@@ -29,39 +29,39 @@ router.post('/register', async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(req.body.password, salt);
 
-  const secretToken = randomstring.generate();
-
-  sendMail(req.body.email, secretToken);
-
   const newUser = new User({
     name: req.body.name,
     email: req.body.email,
     password: hashPassword,
-    secretToken,
   });
+
+  const secretToken = signToken(newUser);
+
+  sendMail(req.body.email, secretToken);
 
   try {
     await newUser.save();
-    const token = signToken(newUser);
-    return res.status(201).json({ token });
+    return res.status(201);
+    // const token = signToken(newUser);
+    // return res.status(201).json({ token });
   } catch (error) {
     console.log(error.message);
     return res.status(400).json({ error });
   }
 });
 
-router.post('/verify', async (req, res) => {
-  const { secretToken } = req.body;
+// router.post('/verify', async (req, res) => {
+//   const { secretToken } = req.body;
 
-  const user = await User.findOne({ secretToken: secretToken });
+//   const user = await User.findOne({ secretToken: secretToken });
 
-  if (!user) return res.status(404).json('User not found');
+//   if (!user) return res.status(404).json('User not found');
 
-  user.active = true;
-  user.secretToken = '';
-  await user.save();
+//   user.isVerified = true;
+//   user.secretToken = '';
+//   await user.save();
 
-  return res.status(200).json('You can now log in');
-});
+//   return res.status(200).json('You can now log in');
+// });
 
 module.exports = router;

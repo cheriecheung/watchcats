@@ -14,7 +14,7 @@ const sendMail = (to, token) => {
     html: `
       <p>Hi there!</p>
       <p>Please click on the following link to activate your account:</p>
-      <a href="${process.env.CLIENT_URL}/activate">${process.env.CLIENT_URL}/activate/${token}</a>
+      <a href="www.${process.env.CLIENT_URL}/activate">${process.env.CLIENT_URL}/activate/${token}</a>
     `,
   };
 

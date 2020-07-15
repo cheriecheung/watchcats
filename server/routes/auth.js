@@ -2,15 +2,16 @@ const router = require('express').Router();
 const JWT = require('jsonwebtoken');
 const { loginValidation } = require('../helpers/validation');
 const passport = require('passport');
+const User = require('../model/User');
 
-router.get(
-  '/secret',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    console.log(res.user);
-    return res.status(200).json({ secret: 'resource' });
-  }
-);
+// router.get(
+//   '/secret',
+//   passport.authenticate('jwt', { session: false }),
+//   (req, res) => {
+//     console.log(res.user);
+//     return res.status(200).json({ secret: 'resource' });
+//   }
+// );
 
 router.get(
   '/google',
@@ -61,10 +62,13 @@ function verifyToken(req, res, next) {
 }
 
 router.post('/logout', verifyToken, (req, res) => {
-  JWT.verify(req.token, process.env.JWT_SECRET, (err, authData) => {
+  JWT.verify(req.token, process.env.JWT_SECRET, async (err, authData) => {
     if (err) {
       res.sendStatus(403);
     } else {
+      const user = await User.findById(authData.sub);
+      if (!user) return res.status(404).json('User not found');
+
       res.sendStatus(204);
     }
   });
@@ -96,22 +100,25 @@ router.post(
   }
 );
 
-router.post('/activate-account', verifyToken, async (req, res) => {
-  JWT.verify(req.token, process.env.JWT_SECRET, async (err, authData) => {
-    if (err) {
-      console.log(err);
-      res.sendStatus(403);
-    } else {
-      const user = await User.findOne({ secretToken: req.token });
-      if (!user) return res.status(404).json('User not found');
+router.post('/activate-account', verifyToken, (req, res) => {
+  JWT.verify(
+    req.token,
+    process.env.JWT_VERIFY_SECRET,
+    async (err, authData) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(403);
+      } else {
+        const user = await User.findById(authData.sub);
+        if (!user) return res.status(404).json('User not found');
 
-      user.active = true;
-      user.secretToken = '';
-      await user.save();
+        user.isVerified = true;
+        await user.save();
 
-      return res.status(200).json('You can now log in');
+        return res.status(200).json('YAY!');
+      }
     }
-  });
+  );
 });
 
 module.exports = router;
