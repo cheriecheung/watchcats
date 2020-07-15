@@ -3,7 +3,7 @@ import { useHistory, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { userActions } from '../../_actions';
+import { login, registration } from '../../_actions/userActions';
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -18,10 +18,13 @@ function Login({ show, onHide }) {
   const dispatch = useDispatch();
 
   const handleLogin = (data) => {
-    dispatch(userActions.login(data.email, data.password));
+    dispatch(login(data.email, data.password));
   };
 
-  const handleRegister = async (data) => {
+  const handleRegister = (data) => {
+    dispatch(
+      registration(data.firstName, data.lastName, data.email, data.password)
+    );
     //   return registration(
     //     data.firstName,
     //     data.lastName,

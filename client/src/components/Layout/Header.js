@@ -6,7 +6,7 @@ import dutch from '../../assets/images/dutch.png';
 import english from '../../assets/images/english.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch } from 'react-redux';
-import { userActions } from '../../_actions';
+import { logout } from '../../_actions/userActions';
 
 function Header() {
   const { t, i18n } = useTranslation();
@@ -22,7 +22,7 @@ function Header() {
   };
 
   const handleLogout = () => {
-    dispatch(userActions.logout());
+    dispatch(logout());
   };
 
   return (

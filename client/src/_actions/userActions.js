@@ -1,20 +1,41 @@
 import axios from 'axios';
+import {
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAIL,
+  VERIFY_SUCCESS,
+  VERIFY_FAIL,
+} from './types';
 
-const action = {
-  REGISTER_SUCCESS: 'REGISTER_SUCCESS',
-  REGISTER_FAILURE: 'REGISTER_FAILURE',
+export function registration(firstName, lastName, email, password) {
+  return (dispatch) => {
+    axios
+      .post(`${process.env.REACT_APP_API_DOMAIN}/user/register`, {
+        name: `${firstName} ${lastName}`,
+        email,
+        password,
+      })
+      .then((data) => {
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload:
+            'Registration successful. Please log into your email to activate your account.',
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch({
+          type: REGISTER_FAIL,
+          payload: 'Registration fail. Please try again',
+        });
+      });
+  };
+}
 
-  LOGIN_SUCCESS: 'LOGIN_SUCCESS',
-  LOGIN_FAILURE: 'LOGIN_FAILURE',
-
-  LOGOUT_SUCCESS: 'LOGOUT_SUCCESS',
-  LOGOUT_FAILURE: 'LOGOUT_FAILURE',
-
-  VERIFY_SUCCESS: 'VERIFY_SUCCESS',
-  VERIFY_FAILURE: 'VERIFY_FAILURE',
-};
-
-function verifyEmail(token) {
+export function verifyEmail(token) {
   return (dispatch) => {
     axios
       .post(
@@ -34,9 +55,9 @@ function verifyEmail(token) {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        console.log(err);
         dispatch({
-          type: action.VERIFY_FAILURE,
+          type: VERIFY_FAIL,
           payload:
             'Email verification fail. Try to get another email to verify again',
         });
@@ -44,7 +65,7 @@ function verifyEmail(token) {
   };
 }
 
-function login(email, password) {
+export function login(email, password) {
   return (dispatch) => {
     axios
       .post(`${process.env.REACT_APP_API_DOMAIN}/auth/login`, {
@@ -55,20 +76,20 @@ function login(email, password) {
         localStorage.setItem('token', token);
         localStorage.setItem('user', user);
 
-        dispatch({ type: action.LOGIN_SUCCESS, user });
+        dispatch({ type: LOGIN_SUCCESS, user });
         window.location = '/account';
       })
       .catch((err) => {
         console.log(err.response);
         dispatch({
-          type: action.LOGIN_FAILURE,
+          type: LOGIN_FAIL,
           payload: "Email and password combination isn't valid",
         });
       });
   };
 }
 
-function logout() {
+export function logout() {
   const token = localStorage.getItem('token');
 
   return (dispatch) => {
@@ -85,31 +106,12 @@ function logout() {
       .then((data) => {
         console.log(data);
         localStorage.clear();
-        dispatch({ type: action.LOGOUT_SUCCESS });
+        dispatch({ type: LOGOUT_SUCCESS });
         window.location = '/';
       })
       .catch((err) => {
         console.log(err.response);
-        dispatch({ type: action.LOGOUT_FAILURE, err });
+        dispatch({ type: LOGOUT_FAIL, err });
       });
   };
 }
-
-// async function registration(firstName, lastName, email, password) {
-//   const data = await axios.post(
-//     `${process.env.REACT_APP_API_DOMAIN}/auth/register`,
-//     {
-//       name: `${firstName} ${lastName}`,
-//       email,
-//       password,
-//     }
-//   );
-
-//   return data;
-// }
-
-export const userActions = {
-  action,
-  login,
-  logout,
-};

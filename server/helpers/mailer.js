@@ -7,14 +7,18 @@ const mg = mailgun({
 });
 
 const sendMail = (to, token) => {
+  const link = `http://${process.env.CLIENT_URL}/activate/${token}`;
+
   const data = {
     from: 'noreply@purryful.com',
     to,
     subject: 'Please verify your email',
     html: `
-      <p>Hi there!</p>
-      <p>Please click on the following link to activate your account:</p>
-      <a href="www.${process.env.CLIENT_URL}/activate">${process.env.CLIENT_URL}/activate/${token}</a>
+      <html>
+        <h3>Hi there!</h3>
+        <p>Please click on the following link to activate your account:</p>
+        <a href="${link}">${link}</a>
+      </html>
     `,
   };
 

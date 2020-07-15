@@ -46,7 +46,7 @@ function App() {
             <Route path="/find" component={FindSitter} />
             <Route path="/about" component={About} />
             <Route path="/login" component={Login} />
-            <Route path="/verify/:token?" component={VerifyEmail} />
+            <Route path="/activate/:token?" component={VerifyEmail} />
             <PrivateRoute path="/account" component={Account} />
           </Switch>
         </Layout>

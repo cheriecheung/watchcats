@@ -1,10 +1,10 @@
+import { REGISTER_SUCCESS, REGISTER_FAIL } from '../_actions/types';
+
 export function registration(state = {}, action) {
   switch (action.type) {
-    case 'REGISTER_REQUEST':
-      return { registering: true };
-    case 'REGISTER_SUCCESS':
+    case REGISTER_SUCCESS:
       return {};
-    case 'REGISTER_FAILURE':
+    case REGISTER_FAIL:
       return {};
     default:
       return state;
