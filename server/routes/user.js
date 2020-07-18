@@ -1,30 +1,17 @@
 const router = require('express').Router();
-const verify = require('./verifyToken');
 const { registerValidation } = require('../helpers/validation');
 const bcrypt = require('bcryptjs');
 const User = require('../model/User');
-const randomstring = require('randomstring');
 const JWT = require('jsonwebtoken');
-const sendMail = require('../helpers/mailer');
-
-const signToken = (user) => {
-  return JWT.sign(
-    {
-      iss: 'FindPetSitter',
-      sub: user.id,
-      iat: new Date().getTime(), // current time
-      exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day ahead
-    },
-    process.env.JWT_VERIFY_SECRET
-  );
-};
+const { sendActivateMail, sendResetPwMail } = require('../helpers/mailer');
+const { verifyToken, signToken } = require('../helpers/token');
 
 router.post('/register', async (req, res) => {
   const { error } = registerValidation(req.body);
   if (error) return res.status(400).json(error.details[0].message);
 
-  const foundUser = await User.findOne({ email: req.body.email });
-  if (foundUser) return res.status(403).json({ error: 'Email already exists' });
+  const user = await User.findOne({ email: req.body.email });
+  if (user) return res.status(403).json({ error: 'Email already exists' });
 
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(req.body.password, salt);
@@ -35,9 +22,9 @@ router.post('/register', async (req, res) => {
     password: hashPassword,
   });
 
-  const secretToken = signToken(newUser);
+  const secretToken = signToken(newUser, process.env.JWT_VERIFY_SECRET);
 
-  sendMail(req.body.email, secretToken);
+  sendActivateMail(req.body.email, secretToken);
 
   try {
     await newUser.save();
@@ -50,18 +37,42 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// router.post('/verify', async (req, res) => {
-//   const { secretToken } = req.body;
+router.post('/forgot-password', async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user)
+    return res
+      .status(403)
+      .json({ error: 'User with this email does not exists' });
 
-//   const user = await User.findOne({ secretToken: secretToken });
+  const secretToken = signToken(user, process.env.JWT_RESET_PW_SECRET);
 
-//   if (!user) return res.status(404).json('User not found');
+  sendResetPwMail(req.body.email, secretToken);
+});
 
-//   user.isVerified = true;
-//   user.secretToken = '';
-//   await user.save();
+router.post('/password-reset', verifyToken, async (req, res) => {
+  JWT.verify(
+    req.token,
+    process.env.JWT_RESET_PW_SECRET,
+    async (err, authData) => {
+      if (err) {
+        console.log(err);
+        return res.status(401).json('Incorrect or expired token.');
+      } else {
+        const user = await User.findById(authData.sub);
+        if (!user) return res.status(404).json('User not found');
 
-//   return res.status(200).json('You can now log in');
-// });
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(req.body.password, salt);
+
+        user.password = hashPassword;
+        await user.save();
+
+        return res
+          .status(200)
+          .json('You have successfully changed your password.');
+      }
+    }
+  );
+});
 
 module.exports = router;

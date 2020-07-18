@@ -42,7 +42,7 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.methods.isValidPassword = async function (filledPassword) {
+userSchema.methods.isValidPassword = async (filledPassword) => {
   try {
     return await bcrypt.compare(filledPassword, this.password);
   } catch (error) {

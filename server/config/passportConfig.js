@@ -1,30 +1,10 @@
 const User = require('../model/User');
 const bcrypt = require('bcryptjs');
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20');
 const JWT = require('jsonwebtoken');
 
-module.exports = function (passport) {
-  passport.use(
-    new JwtStrategy(
-      {
-        jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-        secretOrKey: process.env.JWT_SECRET,
-      },
-      async (payload, done) => {
-        try {
-          const user = await User.findById(payload.sub);
-          if (!user) return done(null, false);
-          done(null, user);
-        } catch (error) {
-          done(error, false);
-        }
-      }
-    )
-  );
-
+module.exports = (passport) => {
   passport.use(
     new LocalStrategy(
       {

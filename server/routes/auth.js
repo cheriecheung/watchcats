@@ -3,15 +3,7 @@ const JWT = require('jsonwebtoken');
 const { loginValidation } = require('../helpers/validation');
 const passport = require('passport');
 const User = require('../model/User');
-
-// router.get(
-//   '/secret',
-//   passport.authenticate('jwt', { session: false }),
-//   (req, res) => {
-//     console.log(res.user);
-//     return res.status(200).json({ secret: 'resource' });
-//   }
-// );
+const { verifyToken, signToken } = require('../helpers/token');
 
 router.get(
   '/google',
@@ -39,28 +31,6 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
 //   })
 // );
 
-function verifyToken(req, res, next) {
-  // Get auth header value
-  const bearerHeader = req.headers['authorization'];
-
-  // Check if bearer is undefined
-  if (typeof bearerHeader !== 'undefined') {
-    // Split at the space
-    const bearer = bearerHeader.split(' ');
-    // Get token from array
-    const bearerToken = bearer[1].toString();
-    // Set the token
-    req.token = bearerToken;
-
-    console.log(typeof req.token);
-    // Next middleware
-    next();
-  } else {
-    // Forbidden
-    res.sendStatus(403);
-  }
-}
-
 router.post('/logout', verifyToken, (req, res) => {
   JWT.verify(req.token, process.env.JWT_SECRET, async (err, authData) => {
     if (err) {
@@ -74,18 +44,6 @@ router.post('/logout', verifyToken, (req, res) => {
   });
 });
 
-const signToken = (user) => {
-  return JWT.sign(
-    {
-      iss: 'FindPetSitter',
-      sub: user.id,
-      iat: new Date().getTime(), // current time
-      exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day ahead
-    },
-    process.env.JWT_SECRET
-  );
-};
-
 router.post(
   '/login',
   passport.authenticate('local', { session: false }),
@@ -93,7 +51,7 @@ router.post(
     const { error } = loginValidation(req.body);
     if (error) return res.status(400).json(error.details[0].message);
 
-    const token = signToken(req.user);
+    const token = signToken(req.user, process.env.JWT_SECRET);
     const user = req.user.name;
 
     return res.status(200).json({ token, user });
