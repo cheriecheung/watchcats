@@ -1,4 +1,16 @@
-const verifyToken = (req, res, next) => {
+const signAccessToken = (user, secret) => {
+  return JWT.sign(
+    {
+      iss: 'FindPetSitter',
+      sub: user.id,
+      iat: new Date().getTime(), // current time
+      exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day ahead
+    },
+    secret
+  );
+};
+
+const verifyAccessToken = (req, res, next) => {
   // Get auth header value
   const bearerHeader = req.headers['authorization'];
 
@@ -11,7 +23,6 @@ const verifyToken = (req, res, next) => {
     // Set the token
     req.token = bearerToken;
 
-    console.log(typeof req.token);
     // Next middleware
     next();
   } else {
@@ -20,16 +31,4 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-const signToken = (user, secret) => {
-  return JWT.sign(
-    {
-      iss: 'FindPetSitter',
-      sub: user.id,
-      iat: new Date().getTime(), // current time
-      exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day ahead
-    },
-    secret
-  );
-};
-
-module.exports = { verifyToken, signToken };
+module.exports = { verifyAccessToken, signAccessToken };

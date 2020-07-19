@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../model/User');
 const JWT = require('jsonwebtoken');
 const { sendActivateMail, sendResetPwMail } = require('../helpers/mailer');
-const { verifyToken, signToken } = require('../helpers/token');
+const { verifyAccessToken, signAccessToken } = require('../helpers/token');
 
 router.post('/register', async (req, res) => {
   const { error } = registerValidation(req.body);
@@ -22,20 +22,24 @@ router.post('/register', async (req, res) => {
     password: hashPassword,
   });
 
-  const secretToken = signToken(newUser, process.env.JWT_VERIFY_SECRET);
+  const secretToken = signAccessToken(newUser, process.env.JWT_VERIFY_SECRET);
 
   sendActivateMail(req.body.email, secretToken);
 
   try {
     await newUser.save();
     return res.status(201);
-    // const token = signToken(newUser);
+    // const token = signAccessToken(newUser);
     // return res.status(201).json({ token });
   } catch (error) {
     console.log(error.message);
     return res.status(400).json({ error });
   }
 });
+
+// router.post('/send-verify-email', async (req, res) => {
+//   // const {}
+// })
 
 router.post('/forgot-password', async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
@@ -44,12 +48,12 @@ router.post('/forgot-password', async (req, res) => {
       .status(403)
       .json({ error: 'User with this email does not exists' });
 
-  const secretToken = signToken(user, process.env.JWT_RESET_PW_SECRET);
+  const secretToken = signAccessToken(user, process.env.JWT_RESET_PW_SECRET);
 
   sendResetPwMail(req.body.email, secretToken);
 });
 
-router.post('/password-reset', verifyToken, async (req, res) => {
+router.post('/password-reset', verifyAccessToken, async (req, res) => {
   JWT.verify(
     req.token,
     process.env.JWT_RESET_PW_SECRET,

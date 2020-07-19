@@ -7,7 +7,7 @@ const sendSMS = (phone, code) => {
     MessageAttributes: {
       'AWS.SNS.SMS.SenderID': {
         DataType: 'String',
-        StringValue: 'Watch Cat Mobile Authentication',
+        StringValue: 'Watch Cat',
       },
     },
   };

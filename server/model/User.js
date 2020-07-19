@@ -28,6 +28,10 @@ const userSchema = new Schema({
     type: Boolean,
     defaultValue: false,
   },
+  twoFactorAuthEnabled: {
+    type: Boolean,
+    defaultValue: false,
+  },
   google_id: {
     type: String,
     required: false,

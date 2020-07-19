@@ -55,15 +55,16 @@ export function verifyEmail(token) {
         });
       })
       .catch((err) => {
-        console.log(err);
         dispatch({
           type: VERIFY_FAIL,
-          payload:
-            'Email verification fail. Try to get another email to verify again',
+          payload: err.response.data,
+          status: err.response.status,
         });
       });
   };
 }
+
+export function getVerificationLink() {}
 
 export function login(email, password) {
   return (dispatch) => {
