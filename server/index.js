@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 const express = require('express');
+const app = express();
 const cors = require('cors');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
-const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const app = express();
-const User = require('./model/User');
 require('dotenv').config();
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/user');
+const fs = require('fs');
+const https = require('https');
 
 mongoose.connect(
   process.env.DB_CONNECT,
@@ -51,9 +51,16 @@ require('./config/passportConfig')(passport);
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
 
-// app.get('/user', (req, res) => {
-//   res.send(req.user);
-// });
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
 
-//Start Server
-app.listen(5000, () => console.log('Server up and running'));
+const httpsOptions = {
+  key: fs.readFileSync('./server/certificate/localhost.key'),
+  cert: fs.readFileSync('./server/certificate/localhost.crt'),
+  passphrase: process.env.PASSPHRASE,
+};
+
+https.createServer(httpsOptions, app).listen(5000, () => {
+  console.log('SERVER RUNNING AT ' + 5000);
+});
