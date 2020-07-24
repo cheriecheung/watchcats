@@ -30,6 +30,7 @@
     "express": "latest",
     "express-session": "^1.17.1",
     "helmet": "^3.23.3",
+    "js-sha1": "^0.6.0",
     "jsonwebtoken": "^8.5.1",
     "mailgun-js": "^0.22.0",
     "mongoose": "^5.9.20",
