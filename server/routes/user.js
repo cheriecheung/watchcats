@@ -13,7 +13,7 @@ router.post('/register', async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
   if (user) return res.status(403).json({ error: 'Email already exists' });
 
-  const salt = await bcrypt.genSalt(10);
+  const salt = await bcrypt.genSalt(12);
   const hashPassword = await bcrypt.hash(req.body.password, salt);
 
   const newUser = new User({
@@ -28,9 +28,11 @@ router.post('/register', async (req, res) => {
 
   try {
     await newUser.save();
-    return res.status(201);
-    // const token = signAccessToken(newUser);
-    // return res.status(201).json({ token });
+    return res
+      .status(201)
+      .json(
+        'A link to activate your account has been emailed to the address provided.'
+      );
   } catch (error) {
     console.log(error.message);
     return res.status(400).json({ error });
@@ -43,14 +45,15 @@ router.post('/register', async (req, res) => {
 
 router.post('/forgot-password', async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
-  if (!user)
-    return res
-      .status(403)
-      .json({ error: 'User with this email does not exists' });
+  const responseMsg =
+    'If that email address is in our database, we will send you an email to reset your password.';
+
+  if (!user) return res.status(403).json(responseMsg);
 
   const secretToken = signAccessToken(user, process.env.JWT_RESET_PW_SECRET);
-
   sendResetPwMail(req.body.email, secretToken);
+
+  return res.status(200).json(responseMsg);
 });
 
 router.post('/password-reset', verifyAccessToken, async (req, res) => {
@@ -65,7 +68,7 @@ router.post('/password-reset', verifyAccessToken, async (req, res) => {
         const user = await User.findById(authData.sub);
         if (!user) return res.status(404).json('User not found');
 
-        const salt = await bcrypt.genSalt(10);
+        const salt = await bcrypt.genSalt(12);
         const hashPassword = await bcrypt.hash(req.body.password, salt);
 
         user.password = hashPassword;

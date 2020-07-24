@@ -50,7 +50,9 @@ router.post(
   passport.authenticate('local', { session: false }),
   async (req, res, next) => {
     const { error } = loginValidation(req.body);
-    if (error) return res.status(400).json(error.details[0].message);
+    //if (error) return res.status(400).json(error.details[0].message);
+    if (error)
+      return res.status(400).json('Login failed; Invalid user ID or password.');
 
     const token = signAccessToken(req.user, process.env.JWT_SECRET);
     const user = req.user.name;
