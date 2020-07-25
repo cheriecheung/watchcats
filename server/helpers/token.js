@@ -4,7 +4,9 @@ const signAccessToken = (user, secret) => {
       iss: 'FindPetSitter',
       sub: user.id,
       iat: new Date().getTime(), // current time
-      exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day ahead
+
+      // exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day ahead
+      exp: new Date().setDate(new Date().getMinutes() + 15), // current time + 1 day ahead
     },
     secret
   );
@@ -31,4 +33,16 @@ const verifyAccessToken = (req, res, next) => {
   }
 };
 
-module.exports = { verifyAccessToken, signAccessToken };
+const signRefreshToken = (user, secret) => {
+  return JWT.sign(
+    {
+      iss: 'FindPetSitter',
+      sub: user.id,
+      iat: new Date().getTime(), // current time
+      exp: new Date().setDate(new Date().getDate() + 15), // current time + 30 day ahead
+    },
+    secret
+  );
+};
+
+module.exports = { signAccessToken, verifyAccessToken, signRefreshToken };
