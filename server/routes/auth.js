@@ -5,32 +5,75 @@ const passport = require('passport');
 const User = require('../model/User');
 const Member = require('../model/Member');
 const { verifyAccessToken, signAccessToken } = require('../helpers/token');
+const { generateCodes } = require('../helpers/authorizationCode');
+const axios = require('axios');
+const qs = require('querystring');
 
-router.get(
-  '/google',
-  passport.authenticate('google', {
-    session: false,
-    scope: ['profile', 'email'],
-  })
-);
+let code_verifier;
+let code_challenge;
+let ssn = {};
 
-router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-  console.log(res.req.authInfo);
-  res.send(
-    `<script>
-      window.opener.location.replace('http://localhost:3000/account');
-      window.close();
-    </script>`
-  );
+const generate = async (req, res, next) => {
+  const { codeVerifier, codeChallenge, csrfToken } = await generateCodes();
+  code_verifier = codeVerifier;
+  code_challenge = codeChallenge;
+
+  ssn = req.session;
+  ssn.state = csrfToken;
+
+  return next();
+};
+
+router.get('/googleOauth2', generate, async (req, res) => {
+  const authenticationURI = `
+    https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${process.env.GOOGLE_OAUTH_CLIENT_ID}&scope=openid%20email&redirect_uri=${process.env.GOOGLE_OAUTH_CALLBACK_URL}&state=${ssn.state}&code_challenge=${code_challenge}&code_challenge_method=S256
+  `;
+
+  return res.status(200).json(authenticationURI);
 });
 
-// router.get(
-//   '/google/redirect',
-//   passport.authenticate('google', {
-//     successRedirect: '/auth/google/success',
-//     failureRedirect: '/auth/google/failure',
-//   })
-// );
+router.get('/oauth2callback', async (req, res) => {
+  const code = req.query.code;
+  const state = req.query.state.split(' ').join('+');
+
+  if (state !== ssn.state) {
+    return res.status(401).json('Invalid state parameter');
+  }
+
+  const requestBody = {
+    code,
+    client_id: process.env.GOOGLE_OAUTH_CLIENT_ID,
+    client_secret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+    redirect_uri: process.env.GOOGLE_OAUTH_CALLBACK_URL,
+    code_verifier,
+    grant_type: 'authorization_code',
+  };
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  };
+
+  await axios
+    .post(
+      'https://oauth2.googleapis.com/token',
+      qs.stringify(requestBody),
+      config
+    )
+    .then((response) => {
+      console.log(response);
+      return res.redirect('https://localhost:3000/find');
+    })
+    .catch((error) => {
+      console.log(error);
+      // redirect to certain page if failed
+    });
+});
+
+router.get('/tokencallback', (req, res) => {
+  console.log('youve come so far!');
+});
 
 router.post('/logout', verifyAccessToken, (req, res) => {
   JWT.verify(req.token, process.env.JWT_SECRET, async (err, authData) => {

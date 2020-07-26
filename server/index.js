@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const passport = require('passport');
+// const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -34,18 +34,20 @@ app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser('secretcode'));
+
 app.use(
   session({
-    secret: 'secretcode',
     resave: true,
     saveUninitialized: true,
+    secret: 'secretcode',
+    cookie: { secure: false },
   })
 );
-app.use(cookieParser('secretcode'));
 // app.use(session({ secret: 'anything' }));
-app.use(passport.initialize());
-app.use(passport.session());
-require('./config/passportConfig')(passport);
+// app.use(passport.initialize());
+// app.use(passport.session());
+// require('./config/passportConfig')(passport);
 
 // Routes
 app.use('/auth', authRoute);
@@ -53,6 +55,10 @@ app.use('/user', userRoute);
 
 app.get('/', (req, res) => {
   res.send('Hello World');
+});
+
+app.get('/oauth2callback', (req, res) => {
+  console.log(res);
 });
 
 const httpsOptions = {

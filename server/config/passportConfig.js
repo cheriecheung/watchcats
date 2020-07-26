@@ -29,60 +29,24 @@ module.exports = (passport) => {
   );
 
   passport.use(
+    'google-auth-req',
     new GoogleStrategy(
       {
-        callbackURL: process.env.GOOGLE_CALLBACK_URL,
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_OAUTH_CALLBACK_URL,
+        clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+        scope: 'profile',
+        state: true,
+        response_type: 'code',
+        pkce: true,
+        //code_challenge: codeChallenge,
+        //code_challenge_method: 'S256',
+        passReqToCallback: true,
       },
-      async (accessToken, refreshToken, profile, done) => {
-        User.findOne({ google_id: profile.id }).then(async (currentUser) => {
-          if (currentUser) {
-            console.log({ currentUser, accessToken, profile: profile._json });
-
-            // return token too
-
-            return done(null, currentUser);
-          } else {
-            const newUser = new User({
-              name: profile.displayName,
-              email: profile._json.email,
-              google_id: profile.id,
-            });
-
-            try {
-              await newUser.save();
-              const token = JWT.sign(
-                {
-                  iss: 'FindPetSitter',
-                  sub: newUser.id,
-                  iat: new Date().getTime(), // current time
-                  exp: new Date().setDate(new Date().getMinutes() + 15), // current time + 1 day ahead
-                },
-                process.env.JWT_SECRET
-              );
-
-              console.log({ token, newUser });
-              return done(null, newUser, { token });
-              // return { token };
-            } catch (error) {
-              console.log(error.message);
-              return { error };
-            }
-
-            // new User({
-            //   name: profile.displayName,
-            //   email: profile._json.email,
-            //   google_id: profile.id,
-            // })
-            //   .save()
-            //   .then((newUser) => {
-            //     console.log(`New user created: ${newUser}`);
-
-            //     return done(null, newUser);
-            //   });
-          }
-        });
+      async (request, accessToken, refreshToken, profile, done) => {
+        const authCode = request.originalUrl;
+        console.log({ accessToken });
+        //return done(null, { id: 875837527940 });
       }
     )
   );

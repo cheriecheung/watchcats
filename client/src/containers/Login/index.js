@@ -90,6 +90,18 @@ function Login({ show, onHide }) {
     // ---- if password has not been found, show highest password strength
   };
 
+  const handleGoogleLogin = () => {
+    axios
+      .get(`${process.env.REACT_APP_API_DOMAIN}/auth/googleOauth2`)
+      .then(({ data: authenticationURI }) => {
+        console.log(authenticationURI);
+        // redirect in backend instead?
+        window.open(authenticationURI, 'GoogleLogin', 'height=550,width=1000');
+        // console.log(response);
+      })
+      .catch((error) => console.log(error.response));
+  };
+
   const renderLogin = () => (
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -111,14 +123,14 @@ function Login({ show, onHide }) {
       <button
         type="button"
         className="form-control btn btn-danger"
-        onClick={() => {
-          console.log(process.env.REACT_APP_API_DOMAIN);
-          window.open(
-            `${process.env.REACT_APP_API_DOMAIN}/auth/google/`,
-            'GoogleLogin',
-            'height=550,width=1000'
-          );
-        }}
+        onClick={handleGoogleLogin}
+        //onClick={() => {
+        //  window.open(
+        //    `${process.env.REACT_APP_API_DOMAIN}/auth/googleOauth2`,
+        //    'GoogleLogin',
+        //    'height=550,width=1000'
+        //  );
+        //}}
       >
         Google
       </button>
