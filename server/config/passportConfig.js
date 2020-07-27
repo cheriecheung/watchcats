@@ -1,7 +1,6 @@
 const User = require('../model/User');
 const bcrypt = require('bcryptjs');
 const LocalStrategy = require('passport-local').Strategy;
-const GoogleStrategy = require('passport-google-oauth20');
 const JWT = require('jsonwebtoken');
 
 module.exports = (passport) => {
@@ -24,29 +23,6 @@ module.exports = (passport) => {
         } catch (error) {
           done(error, false);
         }
-      }
-    )
-  );
-
-  passport.use(
-    'google-auth-req',
-    new GoogleStrategy(
-      {
-        callbackURL: process.env.GOOGLE_OAUTH_CALLBACK_URL,
-        clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
-        scope: 'profile',
-        state: true,
-        response_type: 'code',
-        pkce: true,
-        //code_challenge: codeChallenge,
-        //code_challenge_method: 'S256',
-        passReqToCallback: true,
-      },
-      async (request, accessToken, refreshToken, profile, done) => {
-        const authCode = request.originalUrl;
-        console.log({ accessToken });
-        //return done(null, { id: 875837527940 });
       }
     )
   );

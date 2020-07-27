@@ -5,7 +5,7 @@ const passport = require('passport');
 const User = require('../model/User');
 const Member = require('../model/Member');
 const { verifyAccessToken, signAccessToken } = require('../helpers/token');
-const { generateCodes } = require('../helpers/authorizationCode');
+const { generateCodes } = require('../helpers/authentication');
 const axios = require('axios');
 const qs = require('querystring');
 
@@ -26,13 +26,14 @@ const generate = async (req, res, next) => {
 
 router.get('/googleOauth2', generate, async (req, res) => {
   const authenticationURI = `
-    https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${process.env.GOOGLE_OAUTH_CLIENT_ID}&scope=openid%20email&redirect_uri=${process.env.GOOGLE_OAUTH_CALLBACK_URL}&state=${ssn.state}&code_challenge=${code_challenge}&code_challenge_method=S256
+    https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${process.env.GOOGLE_OAUTH_CLIENT_ID}&scope=openid%20profile%20email&redirect_uri=${process.env.GOOGLE_OAUTH_CALLBACK_URL}&state=${ssn.state}&code_challenge=${code_challenge}&code_challenge_method=S256&access_type=offline
   `;
+  // add nonce parameter
 
   return res.status(200).json(authenticationURI);
 });
 
-router.get('/oauth2callback', async (req, res) => {
+const authenticateGoogleLogin = async (req, res, next) => {
   const code = req.query.code;
   const state = req.query.state.split(' ').join('+');
 
@@ -61,18 +62,67 @@ router.get('/oauth2callback', async (req, res) => {
       qs.stringify(requestBody),
       config
     )
-    .then((response) => {
-      console.log(response);
-      return res.redirect('https://localhost:3000/find');
+    .then(({ data: { access_token, refresh_token } }) => {
+      console.log(access_token, refresh_token);
+      req.accessToken = access_token;
+      req.refreshToken = refresh_token;
+      return next();
     })
     .catch((error) => {
       console.log(error);
       // redirect to certain page if failed
     });
-});
+};
 
-router.get('/tokencallback', (req, res) => {
-  console.log('youve come so far!');
+router.get('/oauth2callback', authenticateGoogleLogin, async (req, res) => {
+  const { accessToken, refreshToken } = req;
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
+  axios
+    .get('https://openidconnect.googleapis.com/v1/userinfo', config)
+    .then(async ({ data: { sub: google_id, email, name } }) => {
+      //const user = await User.findOne({ google_id });
+      const user = await User.findOne({ email });
+      if (!user) {
+        new User({
+          email,
+          google_id,
+          refreshToken,
+        })
+          .save()
+          .then(async (newUser) => {
+            const member = await Member.findOne({ userId: newUser._id });
+            if (member) return res.res.status(200).json({ member });
+
+            if (!member) {
+              const newMember = new Member({
+                userId: newUser._id,
+                name,
+                email,
+              });
+
+              if (!newMember)
+                return res.status(400).json('Unable to save member');
+              await newMember.save();
+              return res.status(200).json({ newMember });
+            }
+          });
+      }
+
+      if (user) {
+        const member = await Member.findOne({ userId: user._id });
+        if (member) return res.status(200).json({ member });
+      }
+    })
+    .catch((error) => {
+      // redirect to certain page if failed
+      console.log(error);
+    });
 });
 
 router.post('/logout', verifyAccessToken, (req, res) => {
