@@ -1,7 +1,12 @@
 const crypto = require('crypto');
 const { randomBytes } = require('crypto');
+const axios = require('axios');
+const qs = require('querystring');
 
-const generateCodes = () => {
+let code_verifier;
+let ssn = {};
+
+const generateCodes = async (req, res, next) => {
   const base64URLEncode = (str) => {
     return str
       .toString('base64')
@@ -18,7 +23,57 @@ const generateCodes = () => {
 
   const csrfToken = randomBytes(100).toString('base64');
 
-  return { codeVerifier, codeChallenge, csrfToken };
+  code_verifier = codeVerifier;
+
+  req.code_challenge = codeChallenge;
+  req.code_verifier = codeVerifier;
+  req.state = csrfToken;
+
+  ssn = req.session;
+  ssn.state = csrfToken;
+
+  return next();
 };
 
-module.exports = { generateCodes };
+const authenticateUser = async (req, res, next) => {
+  const code = req.query.code;
+  const state = req.query.state.split(' ').join('+');
+
+  if (state !== ssn.state) {
+    return res.status(401).json('Invalid state parameter');
+  }
+
+  const requestBody = {
+    code,
+    client_id: process.env.GOOGLE_OAUTH_CLIENT_ID,
+    client_secret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+    redirect_uri: process.env.GOOGLE_OAUTH_CALLBACK_URL,
+    code_verifier,
+    grant_type: 'authorization_code',
+  };
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  };
+
+  await axios
+    .post(
+      'https://oauth2.googleapis.com/token',
+      qs.stringify(requestBody),
+      config
+    )
+    .then(async ({ data: { access_token, refresh_token } }) => {
+      console.log(access_token, refresh_token);
+      req.accessToken = await access_token;
+      req.refreshToken = await refresh_token;
+      return next();
+    })
+    .catch((error) => {
+      console.log(error);
+      // redirect to certain page if failed
+    });
+};
+
+module.exports = { generateCodes, authenticateUser };

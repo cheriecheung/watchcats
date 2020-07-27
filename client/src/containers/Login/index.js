@@ -94,12 +94,13 @@ function Login({ show, onHide }) {
     axios
       .get(`${process.env.REACT_APP_API_DOMAIN}/auth/googleOauth2`)
       .then(({ data: authenticationURI }) => {
-        console.log(authenticationURI);
         // redirect in backend instead?
-        window.open(authenticationURI, 'GoogleLogin', 'height=550,width=1000');
-        // console.log(response);
+        window.location = authenticationURI;
       })
-      .catch((error) => console.log(error.response));
+      .then(async (data) => {
+        console.log(data);
+      });
+    // .catch((error) => console.log(error.response));
   };
 
   const renderLogin = () => (
