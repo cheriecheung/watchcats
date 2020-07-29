@@ -10,6 +10,7 @@ import Home from './containers/Home';
 import About from './containers/About';
 import VerifyEmail from './containers/VerifyEmail';
 import Login from './containers/Login';
+import Loading from './containers/Login/Loading';
 import Account from './containers/Account';
 import FindSitter from './containers/FindSitter';
 
@@ -18,7 +19,7 @@ function PrivateRoute({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={(props) =>
-        localStorage.getItem('user') ? (
+        localStorage.getItem('user') || localStorage.getItem('token') ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -48,6 +49,7 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/activate/:token?" component={VerifyEmail} />
             <PrivateRoute path="/account" component={Account} />
+            <Route path="/loading" component={Loading} />
           </Switch>
         </Layout>
       </BrowserRouter>

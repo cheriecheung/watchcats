@@ -11,9 +11,11 @@ const {
 } = require('../helpers/authentication');
 const { googleLogin, googleUser } = require('../controllers/auth');
 
-router.get('/googleOauth2', generateCodes, googleLogin);
+router.get('/googlelogin', generateCodes, googleLogin);
 
-router.get('/oauth2callback', authenticateUser, googleUser);
+router.get('/oauth2callback', authenticateUser);
+
+router.get('/getUser', googleUser);
 
 router.post('/logout', verifyAccessToken, (req, res) => {
   JWT.verify(req.token, process.env.JWT_SECRET, async (err, authData) => {

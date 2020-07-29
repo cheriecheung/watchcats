@@ -3,7 +3,7 @@ import { useHistory, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, registration } from '../../_actions/userActions';
+import { googleLogin, login, registration } from '../../_actions/userActions';
 import axios from 'axios';
 import sha1 from 'js-sha1';
 
@@ -91,16 +91,7 @@ function Login({ show, onHide }) {
   };
 
   const handleGoogleLogin = () => {
-    axios
-      .get(`${process.env.REACT_APP_API_DOMAIN}/auth/googleOauth2`)
-      .then(({ data: authenticationURI }) => {
-        // redirect in backend instead?
-        window.location = authenticationURI;
-      })
-      .then(async (data) => {
-        console.log(data);
-      });
-    // .catch((error) => console.log(error.response));
+    dispatch(googleLogin());
   };
 
   const renderLogin = () => (
@@ -125,13 +116,6 @@ function Login({ show, onHide }) {
         type="button"
         className="form-control btn btn-danger"
         onClick={handleGoogleLogin}
-        //onClick={() => {
-        //  window.open(
-        //    `${process.env.REACT_APP_API_DOMAIN}/auth/googleOauth2`,
-        //    'GoogleLogin',
-        //    'height=550,width=1000'
-        //  );
-        //}}
       >
         Google
       </button>

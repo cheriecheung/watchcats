@@ -11,6 +11,8 @@ const initialState = userItem ? { loggedIn: true, user: userItem } : {};
 
 export function authentication(state = initialState, action) {
   switch (action.type) {
+    case 'GOOGLE_LOGIN':
+      return (window.location = action.payload);
     case LOGIN_SUCCESS:
       return {
         loggedIn: true,

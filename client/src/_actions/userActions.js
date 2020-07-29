@@ -10,6 +10,20 @@ import {
   VERIFY_FAIL,
 } from './types';
 
+export function googleLogin() {
+  return (dispatch) => {
+    axios
+      .get(`${process.env.REACT_APP_API_DOMAIN}/auth/googlelogin`)
+      .then(({ data: authenticationURI }) => {
+        dispatch({
+          type: 'GOOGLE_LOGIN',
+          payload: authenticationURI,
+        });
+      })
+      .catch((error) => console.log(error.response));
+  };
+}
+
 export function registration(firstName, lastName, email, password) {
   return (dispatch) => {
     axios

@@ -4,15 +4,15 @@ const Member = require('../model/Member');
 
 module.exports = {
   googleLogin: async (req, res) => {
-    const authenticationURI = `
-          https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${process.env.GOOGLE_OAUTH_CLIENT_ID}&scope=openid%20profile%20email&redirect_uri=${process.env.GOOGLE_OAUTH_CALLBACK_URL}&state=${req.state}&code_challenge=${req.code_challenge}&code_challenge_method=S256&access_type=offline
-        `;
+    const authenticationURI = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${process.env.GOOGLE_OAUTH_CLIENT_ID}&scope=openid%20profile%20email&redirect_uri=${process.env.GOOGLE_OAUTH_CALLBACK_URL}&state=${req.state}&code_challenge=${req.code_challenge}&code_challenge_method=S256&access_type=offline`;
     // add nonce parameter
 
     return res.status(200).json(authenticationURI);
   },
   googleUser: async (req, res) => {
     const { accessToken, refreshToken } = req;
+
+    // console.log({ SESSION: req.session });
 
     const config = {
       headers: {
@@ -62,7 +62,7 @@ module.exports = {
       })
       .catch((error) => {
         // redirect to certain page if failed
-        console.log(error);
+        console.log('cannot login');
       });
   },
 };

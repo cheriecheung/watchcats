@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 // const passport = require('passport');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 require('dotenv').config();
@@ -34,17 +34,21 @@ app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser('secretcode'));
+// app.use(cookieParser('secretcode'));
 
 app.use(
   session({
     resave: true,
     saveUninitialized: true,
-    secret: 'secretcode',
-    cookie: { secure: false },
+    secret: process.env.SESSION_SECRET,
+    cookie: {
+      httpOnly: true,
+      secure: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
   })
 );
-// app.use(session({ secret: 'anything' }));
+
 // app.use(passport.initialize());
 // app.use(passport.session());
 // require('./config/passportConfig')(passport);
@@ -54,11 +58,12 @@ app.use('/auth', authRoute);
 app.use('/user', userRoute);
 
 app.get('/', (req, res) => {
+  req.session.userName = 'Wiestjeeeeeee';
   res.send('Hello World');
 });
 
-app.get('/oauth2callback', (req, res) => {
-  console.log(res);
+app.get('/getUsername', (req, res) => {
+  console.log(req.session.userName);
 });
 
 const httpsOptions = {

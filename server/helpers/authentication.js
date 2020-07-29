@@ -65,10 +65,12 @@ const authenticateUser = async (req, res, next) => {
       config
     )
     .then(async ({ data: { access_token, refresh_token } }) => {
-      console.log(access_token, refresh_token);
-      req.accessToken = await access_token;
-      req.refreshToken = await refresh_token;
-      return next();
+      req.accessToken = access_token;
+      req.refreshToken = refresh_token;
+
+      return res.redirect('https://localhost:3000/loading');
+
+      // return next();
     })
     .catch((error) => {
       console.log(error);
