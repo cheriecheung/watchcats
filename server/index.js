@@ -23,14 +23,13 @@ mongoose.connect(
   }
 );
 
-// Middleware
-// app.use(
-//   cors({
-//     origin: 'http://localhost:3000',
-//     credentials: true,
-//   })
-// );
-app.use(cors());
+app.use(
+  cors({
+    origin: 'https://localhost:3000',
+    credentials: true,
+  })
+);
+// app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -58,12 +57,7 @@ app.use('/auth', authRoute);
 app.use('/user', userRoute);
 
 app.get('/', (req, res) => {
-  req.session.userName = 'Wiestjeeeeeee';
   res.send('Hello World');
-});
-
-app.get('/getUsername', (req, res) => {
-  console.log(req.session.userName);
 });
 
 const httpsOptions = {
