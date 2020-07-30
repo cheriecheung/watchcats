@@ -17,6 +17,15 @@ router.get('/oauth2callback', authenticateUser);
 
 router.get('/getUser', googleUser);
 
+router.get('/getData', (req, res) => {
+  User.findById(req.session.userId)
+    .populate('member')
+    .exec((err, member) => {
+      console.log({ member });
+      return res.status(200).json({ memberProfileHere: member });
+    });
+});
+
 router.post('/logout', verifyAccessToken, (req, res) => {
   JWT.verify(req.token, process.env.JWT_SECRET, async (err, authData) => {
     if (err) {
