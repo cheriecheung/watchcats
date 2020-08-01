@@ -13,13 +13,15 @@ import Login from './containers/Login';
 import Loading from './containers/Login/Loading';
 import Account from './containers/Account';
 import FindSitter from './containers/FindSitter';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 function PrivateRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
       render={(props) =>
-        localStorage.getItem('user') || localStorage.getItem('token') ? (
+        cookies.get('sid') ? (
           <Component {...props} />
         ) : (
           <Redirect

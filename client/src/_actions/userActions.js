@@ -9,6 +9,8 @@ import {
   VERIFY_SUCCESS,
   VERIFY_FAIL,
 } from './types';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 export function googleLogin() {
   return (dispatch) => {
@@ -21,6 +23,26 @@ export function googleLogin() {
         });
       })
       .catch((error) => console.log(error.response));
+  };
+}
+
+export function googleAuthenticate() {
+  return (dispatch) => {
+    axios
+      .get(`${process.env.REACT_APP_API_DOMAIN}/auth/getUser`, {
+        withCredentials: true,
+        // credentials: 'include',
+      })
+      .then(({ data: { sid, user } }) => {
+        console.log({ sid, user });
+        cookies.set('sid', sid);
+        //window.location = '/account';
+        dispatch({ type: LOGIN_SUCCESS, user });
+      })
+      .catch((error) => {
+        window.location = '/';
+        console.log(error);
+      });
   };
 }
 
@@ -104,23 +126,13 @@ export function login(email, password) {
   };
 }
 
-export function logout() {
-  const token = localStorage.getItem('token');
-
+export function userlogout() {
   return (dispatch) => {
     axios
-      .post(
-        `${process.env.REACT_APP_API_DOMAIN}/auth/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .delete(`${process.env.REACT_APP_API_DOMAIN}/auth/userlogout`)
       .then((data) => {
         console.log(data);
-        localStorage.clear();
+        // localStorage.clear();
         dispatch({ type: LOGOUT_SUCCESS });
         window.location = '/';
       })
@@ -130,3 +142,30 @@ export function logout() {
       });
   };
 }
+
+// export function logout() {
+//   const token = localStorage.getItem('token');
+
+//   return (dispatch) => {
+//     axios
+//       .post(
+//         `${process.env.REACT_APP_API_DOMAIN}/auth/logout`,
+//         {},
+//         {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         }
+//       )
+//       .then((data) => {
+//         console.log(data);
+//         localStorage.clear();
+//         dispatch({ type: LOGOUT_SUCCESS });
+//         window.location = '/';
+//       })
+//       .catch((err) => {
+//         console.log(err.response);
+//         dispatch({ type: LOGOUT_FAIL, err });
+//       });
+//   };
+// }

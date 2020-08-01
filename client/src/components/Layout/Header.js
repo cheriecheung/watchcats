@@ -6,7 +6,9 @@ import dutch from '../../assets/images/dutch.png';
 import english from '../../assets/images/english.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch } from 'react-redux';
-import { logout } from '../../_actions/userActions';
+import { userlogout } from '../../_actions/userActions';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 function Header() {
   const { t, i18n } = useTranslation();
@@ -22,7 +24,7 @@ function Header() {
   };
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(userlogout());
   };
 
   return (
@@ -56,7 +58,7 @@ function Header() {
       </div>
 
       <div>
-        {localStorage.getItem('user') ? (
+        {cookies.get('sid') ? (
           <>
             <Link
               to="/account"

@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
+import { googleAuthenticate } from '../../_actions/userActions';
 import axios from 'axios';
 
 function Loading() {
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_DOMAIN}/auth/getUser`, {
-        withCredentials: true,
-        // credentials: 'include',
-      })
-      .then((response) => console.log(response))
-      .catch((error) => {
-        window.location = '/';
-        console.log(error);
-      });
-    // if is not google login, redirect to homepage
+    dispatch(googleAuthenticate());
   }, []);
 
   return <div>Loading...</div>;

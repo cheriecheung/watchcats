@@ -65,8 +65,9 @@ const authenticateUser = async (req, res, next) => {
       config
     )
     .then(async ({ data: { access_token, refresh_token } }) => {
-      req.session.access_token = access_token;
-      req.session.refresh_token = refresh_token;
+      req.session.access_token = await access_token;
+      req.session.refresh_token = await refresh_token;
+
       return res.redirect('https://localhost:3000/loading');
 
       // return next();

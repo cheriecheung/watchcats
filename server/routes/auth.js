@@ -20,24 +20,29 @@ router.get('/getUser', googleUser);
 router.get('/getData', (req, res) => {
   User.findById(req.session.userId)
     .populate('member')
-    .exec((err, member) => {
-      console.log({ member });
-      return res.status(200).json({ memberProfileHere: member });
+    .exec((err, user) => {
+      if (err) return err;
+      console.log({ member: user.member });
+      return res.status(200).json({ memberProfileHere: user });
     });
 });
 
-router.post('/logout', verifyAccessToken, (req, res) => {
-  JWT.verify(req.token, process.env.JWT_SECRET, async (err, authData) => {
-    if (err) {
-      res.sendStatus(403);
-    } else {
-      const user = await User.findById(authData.sub);
-      if (!user) return res.status(404).json('User not found');
-
-      res.sendStatus(204);
-    }
-  });
+router.delete('/userlogout', (req, res) => {
+  console.log({ REQsession: req.session });
 });
+
+// router.post('/logout', verifyAccessToken, (req, res) => {
+//   JWT.verify(req.token, process.env.JWT_SECRET, async (err, authData) => {
+//     if (err) {
+//       res.sendStatus(403);
+//     } else {
+//       const user = await User.findById(authData.sub);
+//       if (!user) return res.status(404).json('User not found');
+
+//       res.sendStatus(204);
+//     }
+//   });
+// });
 
 router.post(
   '/login',

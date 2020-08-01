@@ -5,15 +5,23 @@ const cors = require('cors');
 // const passport = require('passport');
 // const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
 require('dotenv').config();
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/user');
 const fs = require('fs');
 const https = require('https');
+const {
+  DB_CONNECT,
+  SESS_NAME,
+  SESS_SECRET,
+  SESS_LIFETIME,
+  PASSPHRASE,
+} = process.env;
 
 mongoose.connect(
-  process.env.DB_CONNECT,
+  DB_CONNECT,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -37,13 +45,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   session({
+    name: SESS_NAME,
     resave: true,
     saveUninitialized: true,
-    secret: process.env.SESSION_SECRET,
+    secret: SESS_SECRET,
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      collection: 'session',
+      ttl: parseInt(SESS_LIFETIME) / 1000,
+    }),
     cookie: {
       httpOnly: true,
       secure: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      maxAge: parseInt(SESS_LIFETIME),
     },
   })
 );
@@ -63,7 +77,7 @@ app.get('/', (req, res) => {
 const httpsOptions = {
   key: fs.readFileSync('./server/certificate/localhost.key'),
   cert: fs.readFileSync('./server/certificate/localhost.crt'),
-  passphrase: process.env.PASSPHRASE,
+  passphrase: PASSPHRASE,
 };
 
 https.createServer(httpsOptions, app).listen(5000, () => {

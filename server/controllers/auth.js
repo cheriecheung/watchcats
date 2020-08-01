@@ -11,7 +11,8 @@ module.exports = {
     return res.status(200).json(authenticationURI);
   },
   googleUser: async (req, res) => {
-    const { access_token, refresh_token } = req.session;
+    console.log({ googleUserrrrrrrrrrrr: req.session });
+    const { access_token, refresh_token } = await req.session;
 
     // if (!access_token && !refresh_token) {
     //   return res.redirect('https://localhost:3000/');
@@ -29,35 +30,35 @@ module.exports = {
         const user = await User.findOne({ email });
 
         if (!user) {
-          const newUser = new User({
+          const newMember = new Member({
             _id: new mongoose.Types.ObjectId(),
+            name,
             email,
-            refreshToken: refresh_token,
           });
 
-          newUser.save((err) => {
+          newMember.save((err) => {
             if (err) return err;
 
-            const newMember = new Member({
-              name,
+            const newUser = new User({
+              member: newMember._id,
               email,
-              user: newUser._id,
+              refreshToken: refresh_token,
             });
 
-            newMember.save((err) => {
+            newUser.save((err) => {
               if (err) return err;
-
               req.session.userId = newUser._id;
-              return res.status(201).json({ newMember });
+              return res.status(201).json({ newMember, newUser });
             });
           });
         }
 
-        // const member = await Member.findOne({ userId: user._id });
-        // if (!member) return res.status(404).json('Cannot find member');
         if (user) {
           req.session.userId = user._id;
-          return res.status(200).json({ user });
+          return res
+            .status(200)
+            .json({ sid: req.session.id, user: { name, email } });
+          // .json({ sid: req.session.id })
         }
       })
       .catch((error) => {
