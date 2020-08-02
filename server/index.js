@@ -52,12 +52,13 @@ app.use(
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
       collection: 'session',
-      ttl: parseInt(SESS_LIFETIME) / 1000,
+      ttl: (24 * 60 * 60) / 1000,
     }),
+
     cookie: {
       httpOnly: true,
       secure: true,
-      maxAge: parseInt(SESS_LIFETIME),
+      maxAge: 24 * 60 * 60,
     },
   })
 );

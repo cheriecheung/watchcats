@@ -12,6 +12,25 @@ import {
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
+export async function checkLoggedIn() {
+  axios
+    .get(`${process.env.REACT_APP_API_DOMAIN}/auth/checkloggedIn`, {
+      withCredentials: true,
+      // credentials: 'include',
+    })
+    .then((response) => {
+      console.log(response);
+      //   preloadedState = {
+      //     session: user
+      //   };
+      // return preloadedState;
+    })
+    .catch((error) => {
+      window.location = '/';
+      console.log(error);
+    });
+}
+
 export function googleLogin() {
   return (dispatch) => {
     axios

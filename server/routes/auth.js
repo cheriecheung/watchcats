@@ -17,14 +17,16 @@ router.get('/oauth2callback', authenticateUser);
 
 router.get('/getUser', googleUser);
 
-router.get('/getData', (req, res) => {
-  User.findById(req.session.userId)
-    .populate('member')
-    .exec((err, user) => {
-      if (err) return err;
-      console.log({ member: user.member });
-      return res.status(200).json({ memberProfileHere: user });
-    });
+router.get('/checkloggedIn', (req, res) => {
+  console.log({ checkloggedIn: req.session });
+  return res.json(req.session.userId);
+  // User.findById(req.session.userId)
+  //   .populate('member')
+  //   .exec((err, user) => {
+  //     if (err) return err;
+  //     console.log({ member: user.member });
+  //     return res.status(200).json({ memberProfileHere: user });
+  //   });
 });
 
 router.delete('/userlogout', (req, res) => {
