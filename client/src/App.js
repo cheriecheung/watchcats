@@ -13,6 +13,8 @@ import Login from './containers/Login';
 import Loading from './containers/Login/Loading';
 import Account from './containers/Account';
 import FindSitter from './containers/FindSitter';
+import { useSelector } from 'react-redux';
+
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
@@ -21,7 +23,7 @@ function PrivateRoute({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={(props) =>
-        cookies.get('sid') ? (
+        cookies.get('sessionId') ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -35,7 +37,6 @@ function PrivateRoute({ component: Component, ...rest }) {
 
 function App() {
   const { i18n } = useTranslation();
-
   useEffect(() => {
     i18n.changeLanguage(localStorage.getItem('lang') || 'en');
   }, []);

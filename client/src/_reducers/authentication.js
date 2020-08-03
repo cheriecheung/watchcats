@@ -8,10 +8,11 @@ import {
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-let sessionId = cookies.get('sid');
-const initialState = sessionId ? { loggedIn: true } : {};
+// let sessionId = cookies.get('sid');
+// const initialState = sessionId ? { loggedIn: true } : {};
 
-export function authentication(state = initialState, action) {
+export function authentication(state = {}, action) {
+  console.log({ state });
   switch (action.type) {
     case 'GOOGLE_LOGIN':
       return (window.location = action.payload);

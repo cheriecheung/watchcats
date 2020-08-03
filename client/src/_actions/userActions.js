@@ -20,10 +20,10 @@ export async function checkLoggedIn() {
     })
     .then((response) => {
       console.log(response);
-      //   preloadedState = {
-      //     session: user
-      //   };
-      // return preloadedState;
+      const preloadedState = {
+        session: response.data,
+      };
+      return preloadedState;
     })
     .catch((error) => {
       window.location = '/';
@@ -54,9 +54,9 @@ export function googleAuthenticate() {
       })
       .then(({ data: { sid, user } }) => {
         console.log({ sid, user });
-        cookies.set('sid', sid);
+        cookies.set('sessionId', sid);
         //window.location = '/account';
-        dispatch({ type: LOGIN_SUCCESS, user });
+        dispatch({ type: 'GOOGLE_LOGIN_SUCCESS', user });
       })
       .catch((error) => {
         window.location = '/';
