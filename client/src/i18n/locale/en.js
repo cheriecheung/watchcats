@@ -3,7 +3,9 @@ export default {
     find_sitter: 'Find a cat sitter',
     find_cat: 'Find a cat to sit',
     about: 'About',
+    profile: 'Profile',
     login: 'Login',
+    logout: 'Logout',
   },
   home: {
     i_am: 'I am a...',
