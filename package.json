@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/cheriecheung/find-pet-sitter-backend#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.14.0",
     "@hapi/joi": "^17.1.1",
     "aws-sdk": "^2.715.0",
     "axios": "^0.19.2",
@@ -46,6 +47,7 @@
     "qs": "^6.9.4",
     "randomstring": "^1.1.5",
     "react-redux": "^7.2.0",
+    "reactstrap": "^8.5.1",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",

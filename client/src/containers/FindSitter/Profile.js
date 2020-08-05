@@ -43,6 +43,7 @@ function Profile() {
                 <Review />
               </Carousel.Item>
             </Carousel>
+            {/* use pagination for reviews */}
 
             <About />
           </div>
