@@ -3,7 +3,7 @@ export default {
     find_sitter: 'Oppas zoeken',
     find_cat: 'Kat zoeken',
     about: 'Over',
-    profile: 'Profiel',
+    account: 'Account',
     login: 'Inloggen',
     logout: 'Uitloggen',
   },

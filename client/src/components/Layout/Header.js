@@ -14,7 +14,7 @@ const cookies = new Cookies();
 const Nav = styled.nav`
   padding: 0 20px;
   min-height: 9vh;
-  background: #dbe6e0;
+  border-bottom: 1px solid #a0dfcf;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -38,7 +38,7 @@ const Item = styled.li`
 `;
 
 const NavIcon = styled.button`
-  outline: none;
+  outline: none !important;
   background: none;
   cursor: pointer;
   border: none;
@@ -54,7 +54,7 @@ const Line = styled.span`
   width: 25px;
   height: 3px;
   margin: 5px;
-  background-color: #fff;
+  background-color: #a0dfcf;
   transition: width 0.4s ease-in-out;
 
   :nth-child(2) {
@@ -66,7 +66,7 @@ const Overlay = styled.div`
   position: absolute;
   height: ${(props) => (props.open ? '91vh' : 0)};
   width: 100vw;
-  background: #dbe6e0;
+  background: #f5f5f5;
   transition: height 0.4s ease-in-out;
 
   @media (min-width: 769px) {
@@ -127,7 +127,7 @@ function Header() {
       {cookies.get('sessionId') ? (
         <>
           <Item>
-            <Link to="/login"> {t('header.profile')}</Link>
+            <Link to="/account"> {t('header.account')}</Link>
           </Item>
           <Item>
             <Link to="/login"> {t('header.logout')}</Link>

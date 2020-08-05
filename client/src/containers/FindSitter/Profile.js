@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import styled from 'styled-components';
+import { Calendar } from 'antd';
+import moment from 'moment';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -14,7 +16,7 @@ const ContentContainer = styled.div`
 
 function Profile() {
   return (
-    <div style={{ margin: '20px 5%' }}>
+    <div>
       <div style={{ textAlign: 'left' }}>
         <p>&#x3c; Back</p>
         <h5>Title right here</h5>
@@ -185,24 +187,28 @@ function About() {
 
       <div>
         <h5>Experience</h5>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta
-          commodi voluptatum recusandae sunt et minima enim aliquid incidunt
-          ipsa maiores, cupiditate tenetur itaque eos quae eveniet ullam ipsam
-          ad iste sed voluptatibus nulla hic temporibus? Corrupti ipsam adipisci
-          quos accusamus!
-        </p>
+        <p>display icons for types of experience</p>
       </div>
 
       <div>
         <h5>Availability</h5>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta
-          commodi voluptatum recusandae sunt et minima enim aliquid incidunt
-          ipsa maiores, cupiditate tenetur itaque eos quae eveniet ullam ipsam
-          ad iste sed voluptatibus nulla hic temporibus? Corrupti ipsam adipisci
-          quos accusamus!
-        </p>
+        <Calendar
+          disabledDate={(current) => {
+            return (
+              moment().add(-1, 'days') >= current ||
+              moment().add(1, 'month') <= current
+            );
+          }}
+          defaultValue={moment('20200815')}
+          fullscreen={false}
+          //validRange={[moment(new Date()).format('YYYYMMDD')]}
+          // onPanelChange={onPanelChange}
+        />
+      </div>
+
+      <div>
+        <h5>Location</h5>
+        <p>Display google map</p>
       </div>
     </>
   );

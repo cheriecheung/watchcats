@@ -1,12 +1,12 @@
-import React from "react";
-import Header from "./Header";
-import Footer from "./Footer";
+import React from 'react';
+import Header from './Header';
+import Footer from './Footer';
 
 function Layout({ children }) {
   return (
     <>
       <Header />
-      <div>{children}</div>
+      <div style={{ padding: '20px 5%' }}>{children}</div>
       <Footer />
     </>
   );
