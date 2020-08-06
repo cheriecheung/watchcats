@@ -3,7 +3,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import { Row, Col, Label, FormGroup, Input } from 'reactstrap';
 import styled from 'styled-components';
-import { Calendar } from 'antd';
+import { Calendar, DatePicker } from 'antd';
 
 const Container = styled.div`
   text-align: left;
@@ -270,8 +270,35 @@ function OwnerProfile() {
       </Section>
 
       <Section>
-        <h5>About my cat</h5>
+        <h5>Cat sitting period</h5>
+        <Row>
+          <Col md={6} className="mb-3">
+            <div className="d-flex flex-column">
+              <Label>From</Label>
+              <DatePicker
+                showTime
+                //onChange={onChange}
+                //onOk={onOk}
+              />
+            </div>
+          </Col>
+          <Col md={6} className="mb-3">
+            <div className="d-flex flex-column">
+              <Label>To</Label>
+              <DatePicker
+                showTime
+                //onChange={onChange}
+                //onOk={onOk}
+              />
+            </div>
+          </Col>
+        </Row>
+        <i class="fas fa-plus fa-2x mr-1" />
+        Add another time
+      </Section>
 
+      <Section>
+        <h5>About my cat</h5>
         <Row>
           <Col md={6} className="mb-3">
             <Label>Name</Label>
@@ -295,18 +322,40 @@ function OwnerProfile() {
           </Col>
           <Col md={6} className="mb-3">
             <Label>Needs Medicine</Label>
-            <Input type="text" />
+            <Input type="select">
+              <option>None</option>
+              <option>Injection</option>
+              <option>Pill</option>
+            </Input>
           </Col>
           <Col md={6} className="mb-3">
-            <Label>Needs Medicine</Label>
+            <Label>Personality that fits your cat the best</Label>
+            <Input type="select">
+              <option>Select</option>
+              <option>Shy and can be easily scared</option>
+              <option>Curious and hyper</option>
+              <option>Dominant and can be aggressive</option>
+              <option>Friendly and affectionate</option>
+              <option>Solitary and calm</option>
+            </Input>
+          </Col>
+          <Col md={6} className="mb-3">
+            <Label>Favorite treat</Label>
             <Input type="text" />
-            <p>shy and can be easily scared</p>
-            <p>curious and active</p>
-            <p>dominant and can be aggressive</p>
-            <p>calm and affectionate</p>
-            <p>happy and sociable </p>
           </Col>
         </Row>
+        <i class="fas fa-plus fa-2x mr-1" />
+        Add another cat
+      </Section>
+
+      <Section>
+        <h5>Description of cat(s)</h5>
+        <Input
+          type="textarea"
+          placeholder="Please write a description about your cat(s) - include their feeing, litter, playtime routine, and other needs. It is also important to include your vets details should the cat sitter needs to get hold if them."
+          rows="5"
+          style={{ resize: 'none' }}
+        />
       </Section>
     </>
   );
