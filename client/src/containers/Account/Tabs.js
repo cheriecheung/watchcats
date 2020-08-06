@@ -15,7 +15,7 @@ const Section = styled.div`
 `;
 
 function ProfileTabs() {
-  const [key, setKey] = useState('sitter');
+  const [key, setKey] = useState('owner');
 
   return (
     <Tabs
@@ -23,6 +23,11 @@ function ProfileTabs() {
       activeKey={key}
       onSelect={(k) => setKey(k)}
     >
+      <Tab eventKey="general" title="General Info">
+        <Container>
+          <GeneralInfo />
+        </Container>
+      </Tab>
       <Tab eventKey="sitter" title="Cat sitter profile">
         <Container>
           <SitterProfile />
@@ -33,11 +38,11 @@ function ProfileTabs() {
           <OwnerProfile />
         </Container>
       </Tab>
-      <Tab eventKey="membership" title="Membership">
+      {/* <Tab eventKey="membership" title="Membership">
         <Container>
           <Membership />
         </Container>
-      </Tab>
+      </Tab> */}
       <Tab eventKey="settings" title="Settings">
         <Container>
           <Settings />
@@ -47,11 +52,10 @@ function ProfileTabs() {
   );
 }
 
-function SitterProfile() {
+function GeneralInfo() {
   return (
     <>
       <Section>
-        <h5>General Information</h5>
         <Row>
           <Col md={6} className="mb-3">
             <Label>First Name</Label>
@@ -108,9 +112,15 @@ function SitterProfile() {
           </Col>
         </Row>
       </Section>
+    </>
+  );
+}
 
+function SitterProfile() {
+  return (
+    <>
       <Section>
-        <h5>About You</h5>
+        <h5>About me</h5>
 
         <Row>
           <Col md={6} className="mb-3">
@@ -228,9 +238,77 @@ function SitterProfile() {
 
 function OwnerProfile() {
   return (
-    <div>
-      <h1>Cat owner profile</h1>
-    </div>
+    <>
+      <Section>
+        <h5>About me and my house</h5>
+
+        <Row>
+          <Col md={6} className="mb-3">
+            <Input
+              type="textarea"
+              placeholder="Tell cat sitters about yourself. Start with a little description of yourself and your house - which neighbourhood do you live in? Why are you looking for a cat sitter?"
+              rows="10"
+              style={{ resize: 'none' }}
+            />
+          </Col>
+          <Col md={6} className="mb-3">
+            <p>
+              To let cat sitters get an idea of where they will be cat sitting,
+              you can upload pictures of your place.
+            </p>
+            <Input
+              type="file"
+              style={{
+                border: '1px solid #ced4da',
+                padding: 5,
+                borderRadius: '4px',
+                marginBottom: 10,
+              }}
+            />
+          </Col>
+        </Row>
+      </Section>
+
+      <Section>
+        <h5>About my cat</h5>
+
+        <Row>
+          <Col md={6} className="mb-3">
+            <Label>Name</Label>
+            <Input type="text" />
+          </Col>
+          <Col md={6} className="mb-3">
+            <Label>Age</Label>
+            <Input type="text" />
+          </Col>
+          <Col md={6} className="mb-3">
+            <Label>Gender</Label>
+            <Input type="text" />
+          </Col>
+          <Col md={6} className="mb-3">
+            <Label>Breed</Label>
+            <Input type="text" />
+          </Col>
+          <Col md={6} className="mb-3">
+            <Label>Pet Insurance</Label>
+            <Input type="text" />
+          </Col>
+          <Col md={6} className="mb-3">
+            <Label>Needs Medicine</Label>
+            <Input type="text" />
+          </Col>
+          <Col md={6} className="mb-3">
+            <Label>Needs Medicine</Label>
+            <Input type="text" />
+            <p>shy and can be easily scared</p>
+            <p>curious and active</p>
+            <p>dominant and can be aggressive</p>
+            <p>calm and affectionate</p>
+            <p>happy and sociable </p>
+          </Col>
+        </Row>
+      </Section>
+    </>
   );
 }
 
@@ -246,7 +324,21 @@ function Settings() {
   return (
     <div>
       <Section>
+        <h5>Payment Method</h5>
+      </Section>
+      <Section>
+        <h5>Change password</h5>
+      </Section>
+      <Section>
         <h5>Two-factor authentication</h5>
+        <p>
+          Protect your account with an extra layer of security. Once configured,
+          you'll be required to enter both your password and an authentication
+          code from your mobile phone in order to sign in
+        </p>
+      </Section>
+      <Section>
+        <h5>Delete account</h5>
       </Section>
     </div>
   );

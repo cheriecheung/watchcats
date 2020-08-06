@@ -3,6 +3,7 @@ export default {
     find_sitter: 'Oppas zoeken',
     find_cat: 'Kat zoeken',
     about: 'Over',
+    bookings: 'Bookings',
     account: 'Account',
     login: 'Inloggen',
     logout: 'Uitloggen',

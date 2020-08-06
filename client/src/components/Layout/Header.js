@@ -22,7 +22,10 @@ const Nav = styled.nav`
 
 const Menu = styled.ul`
   list-style: none;
+  width: 100%;
   display: flex;
+  justify-content: space-between;
+  margin-bottom: 0;
 
   li:nth-child(2) {
     margin: 0px 20px;
@@ -114,57 +117,64 @@ function Header() {
 
   const menuItems = () => (
     <>
-      <Item>
-        <Link to="/find">{t('header.find_sitter')}</Link>
-      </Item>
-      <Item>
-        <Link to="/find">{t('header.find_cat')}</Link>
-      </Item>
-      <Item>
-        <Link to="/about">{t('header.about')}</Link>
-      </Item>
-
-      {cookies.get('sessionId') ? (
-        <>
-          <Item>
-            <Link to="/account"> {t('header.account')}</Link>
-          </Item>
-          <Item>
-            <Link to="/login"> {t('header.logout')}</Link>
-          </Item>
-        </>
-      ) : (
+      <div style={{ display: 'flex' }}>
         <Item>
-          <Link to="/login"> {t('header.login')}</Link>
+          <Link to="/find">{t('header.find_sitter')}</Link>
         </Item>
-      )}
-      <Item>
-        <button
-          onClick={() => setLanguage('en')}
-          style={{
-            border: 'none',
-            background: 'none',
-            padding: 0,
-            outline: 0,
-            cursor: 'pointer',
-            marginRight: 5,
-          }}
-        >
-          <img src={english} width={20} />
-        </button>
-        <button
-          onClick={() => setLanguage('nl')}
-          style={{
-            border: 'none',
-            background: 'none',
-            padding: 0,
-            outline: 0,
-            cursor: 'pointer',
-          }}
-        >
-          <img src={dutch} width={20} />
-        </button>
-      </Item>
+        <Item>
+          <Link to="/find">{t('header.find_cat')}</Link>
+        </Item>
+        <Item>
+          <Link to="/about">{t('header.about')}</Link>
+        </Item>
+      </div>
+
+      <div style={{ display: 'flex' }}>
+        {cookies.get('sessionId') ? (
+          <>
+            <Item>
+              <Link to="/bookings"> {t('header.bookings')}</Link>
+            </Item>
+            <Item>
+              <Link to="/account"> {t('header.account')}</Link>
+            </Item>
+            <Item>
+              <Link to="/login"> {t('header.logout')}</Link>
+            </Item>
+          </>
+        ) : (
+          <Item>
+            <Link to="/login"> {t('header.login')}</Link>
+          </Item>
+        )}
+        <Item>
+          <button
+            onClick={() => setLanguage('en')}
+            style={{
+              border: 'none',
+              background: 'none',
+              padding: 0,
+              outline: 0,
+              cursor: 'pointer',
+              marginRight: 5,
+            }}
+          >
+            <img src={english} width={20} />
+          </button>
+          <button
+            onClick={() => setLanguage('nl')}
+            style={{
+              border: 'none',
+              background: 'none',
+              padding: 0,
+              outline: 0,
+              cursor: 'pointer',
+            }}
+          >
+            <img src={dutch} width={20} />
+          </button>
+        </Item>
+      </div>
     </>
   );
 
