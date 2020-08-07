@@ -18,37 +18,39 @@ function ProfileTabs() {
   const [key, setKey] = useState('owner');
 
   return (
-    <Tabs
-      id="controlled-tab-example"
-      activeKey={key}
-      onSelect={(k) => setKey(k)}
-    >
-      <Tab eventKey="general" title="General Info">
-        <Container>
-          <GeneralInfo />
-        </Container>
-      </Tab>
-      <Tab eventKey="sitter" title="Cat sitter profile">
-        <Container>
-          <SitterProfile />
-        </Container>
-      </Tab>
-      <Tab eventKey="owner" title="Cat owner profile">
-        <Container>
-          <OwnerProfile />
-        </Container>
-      </Tab>
-      {/* <Tab eventKey="membership" title="Membership">
+    <>
+      <Tabs
+        id="controlled-tab-example"
+        activeKey={key}
+        onSelect={(k) => setKey(k)}
+      >
+        <Tab eventKey="general" title="General Info">
+          <Container>
+            <GeneralInfo />
+          </Container>
+        </Tab>
+        <Tab eventKey="sitter" title="Cat sitter profile">
+          <Container>
+            <SitterProfile />
+          </Container>
+        </Tab>
+        <Tab eventKey="owner" title="Cat owner profile">
+          <Container>
+            <OwnerProfile />
+          </Container>
+        </Tab>
+        {/* <Tab eventKey="membership" title="Membership">
         <Container>
           <Membership />
         </Container>
       </Tab> */}
-      <Tab eventKey="settings" title="Settings">
-        <Container>
-          <Settings />
-        </Container>
-      </Tab>
-    </Tabs>
+        <Tab eventKey="settings" title="Settings">
+          <Container>
+            <Settings />
+          </Container>
+        </Tab>
+      </Tabs>
+    </>
   );
 }
 

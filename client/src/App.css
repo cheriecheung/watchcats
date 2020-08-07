@@ -3,6 +3,7 @@ html {
   min-height: 100%;
   /* without !important it will be overwritten by antd.css imported in FindSitter/Search.js */
   height: unset !important;
+  overflow-x: hidden;
 }
 
 body {
@@ -56,6 +57,10 @@ footer {
   display: inline-block;
   height: 1px;
   vertical-align: middle;
+}
+
+#controlled-tab-example {
+  z-index: 5;
 }
 
 /* modal */
@@ -133,4 +138,12 @@ footer {
 
 .review-carousel .carousel-indicators {
   bottom: -10px;
+}
+
+img {
+  -khtml-user-select: none;
+  -o-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
