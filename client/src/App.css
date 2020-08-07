@@ -59,6 +59,54 @@ footer {
   vertical-align: middle;
 }
 
+.card2 {
+  position: absolute;
+  margin-top: 10ch;
+  left: 25ch;
+  width: 20ch;
+  height: 25ch;
+  background-image: url('./assets//images/cat_stretch.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.card_scottish_fold {
+  opacity: 0.8;
+  position: absolute;
+  margin-top: 30ch;
+  right: 25ch;
+  width: 30ch;
+  height: 25ch;
+  background-image: url('./assets//images/scottish_fold.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.card_sphynx {
+  opacity: 0.8;
+  position: absolute;
+  margin-top: 30ch;
+  left: 10;
+  bottom: 10ch;
+  width: 40ch;
+  height: 25ch;
+  background-image: url('./assets//images/sphynx.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.card_jump {
+  position: absolute;
+  margin-top: 30ch;
+  right: 50ch;
+  top: -10ch;
+  width: 40ch;
+  height: 25ch;
+  background-image: url('./assets//images/jump_cat.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 #controlled-tab-example {
   z-index: 5;
 }

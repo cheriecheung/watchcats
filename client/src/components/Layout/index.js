@@ -7,7 +7,7 @@ function Layout({ children }) {
     <>
       <Header />
       <div style={{ padding: '20px 5%' }}>{children}</div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

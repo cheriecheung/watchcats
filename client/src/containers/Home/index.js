@@ -1,64 +1,50 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-
 import { useTranslation } from 'react-i18next';
+import { useSpring, animated } from 'react-spring';
 
-import cat_stretch from '../../assets/images/cat_stretch.png';
-import longhair from '../../assets/images/longhair.png';
+const calc = (x, y) => [x - window.innerWidth / 2, y - window.innerHeight / 2];
+//const trans2 = (x, y) => `translate3d(${x / 3.5}px,${y / 3.5}px,0)`;
+const trans2 = (x, y) => `translate3d(${-x / 30}px,${y / 20}px,0)`;
+const trans3 = (x, y) => `translate3d(${x / 20}px,${y / 25}px,0)`;
+const trans4 = (x, y) => `translate3d(${x / 20}px,${y / 25}px,0)`;
+const trans_jump = (x, y) => `translate3d(${x / 20}px,${y / 5}px,0)`;
 
 function Home() {
+  const [props, set] = useSpring(() => ({
+    xy: [0, 0],
+    config: { mass: 10, tension: 550, friction: 140 },
+  }));
   const { t, i18n } = useTranslation();
-  const leftCatSize = '20vw';
-  const leftCatPosition = '65vw';
-  const rightCatSize = '16vw';
-  const rightCatPosition = '16vw';
-
-  const stretchCatRef = useRef(null);
-  const rightCatRef = useRef(null);
-
-  const followMouse = (e) => {
-    const x = e.clientX / 15;
-    const y = e.clientY / 20;
-
-    rightCatRef.current.style.transform = `rotate(-40deg) translateY(${y}px)`;
-    if (x > 25 && x < 52) {
-      stretchCatRef.current.style.transform = `translate3d(${x}px, 0, 0)`;
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('mousemove', followMouse);
-
-    return () => {
-      window.removeEventListener('mousemove', followMouse);
-    };
-  }, []);
 
   return (
     <>
       <h3>{t('home.i_am')}</h3>
+      <animated.div
+        class="card_sphynx"
+        //style={{
+        //  transform: props.xy.interpolate(trans4),
+        //}}
+      />
       <div
         style={{
           display: 'flex',
           justifyContent: 'center',
           marginTop: 100,
         }}
+        onMouseMove={({ clientX: x, clientY: y }) => set({ xy: calc(x, y) })}
       >
-        <img
-          src={cat_stretch}
+        <animated.div
+          class="card2"
           style={{
-            zIndex: 5,
-            position: 'absolute',
-            bottom: '20vw',
-            left: '10vw',
-            width: '15vw',
+            transform: props.xy.interpolate(trans2),
           }}
-          ref={stretchCatRef}
         />
+
         <Link
           to="/find"
           style={{
-            border: '2px solid #a0dfcf',
+            border: '2px solid #f0f0f0',
             width: '25vw',
             height: '13vw',
             marginRight: 20,
@@ -71,33 +57,17 @@ function Home() {
           </h5>
         </Link>
 
-        {/* <img
-          src={silhoutte_2}
-          style={{
-            zIndex: 5,
-            position: 'absolute',
-            bottom: rightCatPosition - 10,
-            right: rightCatPosition,
-            width: rightCatSize,
-            height: rightCatSize,
-          }}
-          ref={rightCatRef}
-        /> */}
-        <img
-          src={longhair}
-          style={{
-            zIndex: 5,
-            position: 'absolute',
-            bottom: 20,
-            right: 20,
-            width: leftCatSize,
-            opacity: 0.7,
-          }}
+        <animated.div
+          class="card_scottish_fold"
+          //style={{
+          //  transform: props.xy.interpolate(trans3),
+          //}}
         />
+
         <Link
           to="/find"
           style={{
-            border: '2px solid #a0dfcf',
+            border: '2px solid #f0f0f0',
             width: '25vw',
             height: '13vw',
             padding: 30,
@@ -108,6 +78,12 @@ function Home() {
             {t('home.sitter_finds_owner')}
           </h5>
         </Link>
+        <animated.div
+          class="card_jump"
+          style={{
+            transform: props.xy.interpolate(trans_jump),
+          }}
+        />
       </div>
     </>
   );
