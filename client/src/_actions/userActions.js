@@ -55,8 +55,8 @@ export function googleAuthenticate() {
       .then(({ data: { sid, user } }) => {
         console.log({ sid, user });
         cookies.set('sessionId', sid);
-        //window.location = '/account';
         dispatch({ type: 'GOOGLE_LOGIN_SUCCESS', user });
+        window.location = '/account';
       })
       .catch((error) => {
         window.location = '/';

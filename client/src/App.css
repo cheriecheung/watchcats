@@ -59,6 +59,12 @@ footer {
   vertical-align: middle;
 }
 
+.clear-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
 .card2 {
   position: absolute;
   margin-top: 10ch;
@@ -195,3 +201,32 @@ img {
   -webkit-user-select: none;
   user-select: none;
 }
+
+/* Forms */
+
+.add-field-btn {
+  background: none;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 5px 10px;
+  outline: none;
+}
+
+.btn-background {
+  -webkit-transition: -webkit-transform 500ms ease-out;
+}
+/* 
+.ant-tabs-tab {
+  color: #595959 !important;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: white !important;
+} */
+
+/* change width to height when in mobile view */
+/* .ant-tabs-ink-bar {
+  background-color: #a0dfcf !important;
+  width: 92% !important;
+  z-index: -1;
+} */

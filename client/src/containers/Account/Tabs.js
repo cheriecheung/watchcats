@@ -1,62 +1,44 @@
 import React, { useState } from 'react';
-import Tabs from 'react-bootstrap/Tabs';
-import Tab from 'react-bootstrap/Tab';
 import { Row, Col, Label, FormGroup, Input } from 'reactstrap';
 import styled from 'styled-components';
 import { Calendar, DatePicker } from 'antd';
+import { Tabs } from 'antd';
+const { TabPane } = Tabs;
 
 const Container = styled.div`
   text-align: left;
-  margin: 50px 9%;
+  margin: 50px 5%;
 `;
 
 const Section = styled.div`
+  text-align: left;
   margin-bottom: 40px;
 `;
 
 function ProfileTabs() {
-  const [key, setKey] = useState('owner');
+  const accountTabs = [
+    { key: 'general', tab: 'General Info', content: <GeneralInfo /> },
+    { key: 'sitter', tab: 'Cat sitter profile', content: <SitterProfile /> },
+    { key: 'owner', tab: 'Cat owner profile', content: <OwnerProfile /> },
+    { key: 'settings', tab: 'Settings', content: <Settings /> },
+  ];
 
   return (
-    <>
-      <Tabs
-        id="controlled-tab-example"
-        activeKey={key}
-        onSelect={(k) => setKey(k)}
-      >
-        <Tab eventKey="general" title="General Info">
-          <Container>
-            <GeneralInfo />
-          </Container>
-        </Tab>
-        <Tab eventKey="sitter" title="Cat sitter profile">
-          <Container>
-            <SitterProfile />
-          </Container>
-        </Tab>
-        <Tab eventKey="owner" title="Cat owner profile">
-          <Container>
-            <OwnerProfile />
-          </Container>
-        </Tab>
-        {/* <Tab eventKey="membership" title="Membership">
-        <Container>
-          <Membership />
-        </Container>
-      </Tab> */}
-        <Tab eventKey="settings" title="Settings">
-          <Container>
-            <Settings />
-          </Container>
-        </Tab>
+    <div>
+      <Tabs defaultActiveKey="general" tabPosition="left">
+        {accountTabs.map(({ key, tab, content }) => (
+          <TabPane tab={tab} key={key}>
+            {content}
+          </TabPane>
+        ))}
       </Tabs>
-    </>
+    </div>
   );
 }
 
 function GeneralInfo() {
   return (
-    <>
+    <Container>
       <Section>
         <Row>
           <Col md={6} className="mb-3">
@@ -114,18 +96,18 @@ function GeneralInfo() {
           </Col>
         </Row>
       </Section>
-    </>
+    </Container>
   );
 }
 
 function SitterProfile() {
   return (
-    <>
+    <Container>
       <Section>
         <h5>About me</h5>
 
         <Row>
-          <Col md={6} className="mb-3">
+          <Col md={6}>
             <Input
               type="textarea"
               placeholder="Tell cat owners about yourself. Start with a little description of yourself - What do you do for a living? Why do you want to be a cat sitter?"
@@ -133,7 +115,7 @@ function SitterProfile() {
               style={{ resize: 'none' }}
             />
           </Col>
-          <Col md={6} className="mb-3">
+          <Col md={6}>
             <p>
               To let cat owners get an idea of who's sitting their cats, you can
               upload pictures of yourself.
@@ -155,7 +137,7 @@ function SitterProfile() {
         <h5>Experience</h5>
 
         <Row>
-          <Col md={6} className="mb-3">
+          <Col md={6}>
             <Input
               type="textarea"
               placeholder="Tell cat owners about your service. What type of services can you offer as a cat sitter? Why should a cat sitter invite you to take care of their cats?"
@@ -164,34 +146,37 @@ function SitterProfile() {
             />
           </Col>
 
-          <Col>
-            <Row>
-              <Col md={6} className="mb-3">
-                <i class="fas fa-cat fa-2x mr-1" />
-                <span>Owns / owned a cat</span>
-                <Input type="checkbox" />
-              </Col>
-              <Col md={6} className="mb-3">
-                <i class="fas fa-paw fa-2x mr-1" />
-                <span> Working knowledge of cat behavior</span>
-              </Col>
-              <Col md={6} className="mb-3">
-                <i class="fas fa-pills fa-2x mr-1" />
-                <span> Able to administer medication</span>
-              </Col>
-              <Col md={6} className="mb-3">
-                <i class="fas fa-syringe fa-2x mr-1" />
-                <span> Able to do injections</span>
-              </Col>
-              <Col md={6} className="mb-3">
-                <i class="fas fa-certificate fa-2x mr-1" />
-                <span> Has pet sitting certification</span>
-              </Col>
-              <Col md={6} className="mb-3">
-                <i class="fas fa-broom fa-2x mr-1" />
-                <span> Has pet grooming skills</span>
-              </Col>
-            </Row>
+          <Col Col md={6}>
+            <div className="d-flex mb-4">
+              <i class="fas fa-cat fa-2x mr-4" />
+              <span style={{ flexBasis: '90%' }}>Owns / owned a cat</span>
+              <input type="checkbox" />
+            </div>
+            <div className="d-flex mb-4">
+              <i class="fas fa-pills fa-2x mr-4" />
+              <span style={{ flexBasis: '90%' }}>
+                Able to administer medication
+              </span>
+              <input type="checkbox" />
+            </div>
+            <div className="d-flex mb-4">
+              <i class="fas fa-syringe fa-2x mr-4" />
+              <span style={{ flexBasis: '90%' }}> Able do injections</span>
+              <input type="checkbox" />
+            </div>
+            <div className="d-flex mb-4">
+              <i class="fas fa-certificate fa-2x mr-4" />
+              <span style={{ flexBasis: '90%' }}>
+                {' '}
+                Has pet sitting certification
+              </span>
+              <input type="checkbox" />
+            </div>
+            <div className="d-flex mb-4">
+              <i class="fas fa-broom fa-2x mr-4" />
+              <span style={{ flexBasis: '90%' }}> Has pet grooming skills</span>
+              <input type="checkbox" />
+            </div>
           </Col>
         </Row>
       </Section>
@@ -199,7 +184,7 @@ function SitterProfile() {
       <Section>
         <h5>Pricing</h5>
         <Row>
-          <Col md={6} className="mb-3">
+          <Col md={6}>
             <Label>One time visit</Label>
             <Input
               type="text"
@@ -207,7 +192,7 @@ function SitterProfile() {
               //onChange={handleInput}
             />
           </Col>
-          <Col md={6} className="mb-3">
+          <Col md={6}>
             <Label>Overnight visit</Label>
             <Input type="text" />
             <span>Per night</span>
@@ -234,13 +219,13 @@ function SitterProfile() {
           </Col>
         </Row>
       </Section>
-    </>
+    </Container>
   );
 }
 
 function OwnerProfile() {
   return (
-    <>
+    <Container>
       <Section>
         <h5>About me and my house</h5>
 
@@ -295,8 +280,10 @@ function OwnerProfile() {
             </div>
           </Col>
         </Row>
-        <i class="fas fa-plus fa-2x mr-1" />
-        Add another time
+        <button className="add-field-btn">
+          <i class="fas fa-plus mr-1" />
+          Add another time
+        </button>
       </Section>
 
       <Section>
@@ -346,12 +333,14 @@ function OwnerProfile() {
             <Input type="text" />
           </Col>
         </Row>
-        <i class="fas fa-plus fa-2x mr-1" />
-        Add another cat
+        <button className="add-field-btn">
+          <i class="fas fa-plus mr-1" />
+          Add another cat
+        </button>
       </Section>
 
       <Section>
-        <h5>Description of cat(s)</h5>
+        <h5>Description of my cat(s)</h5>
         <Input
           type="textarea"
           placeholder="Please write a description about your cat(s) - include their feeing, litter, playtime routine, and other needs. It is also important to include your vets details should the cat sitter needs to get hold if them."
@@ -359,7 +348,7 @@ function OwnerProfile() {
           style={{ resize: 'none' }}
         />
       </Section>
-    </>
+    </Container>
   );
 }
 
@@ -373,7 +362,7 @@ function Membership() {
 
 function Settings() {
   return (
-    <div>
+    <Container>
       <Section>
         <h5>Payment Method</h5>
       </Section>
@@ -391,7 +380,7 @@ function Settings() {
       <Section>
         <h5>Delete account</h5>
       </Section>
-    </div>
+    </Container>
   );
 }
 

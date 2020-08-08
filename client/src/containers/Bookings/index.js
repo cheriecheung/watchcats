@@ -5,13 +5,8 @@ import { Link } from 'react-router-dom';
 function Bookings() {
   return (
     <>
-      <div style={{ marginBottom: 10 }}>
-        <button style={{ background: 'none', border: 'none', marginRight: 10 }}>
-          Cat sitter bookings
-        </button>
-        <button style={{ background: 'none', border: 'none', marginRight: 10 }}>
-          Cat owner bookings
-        </button>
+      <div style={{ textAlign: 'right', marginBottom: 10 }}>
+        <Link to="/profile">View My Public Profile</Link>
       </div>
       <Tabs />
     </>
