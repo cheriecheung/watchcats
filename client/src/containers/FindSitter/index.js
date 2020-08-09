@@ -10,13 +10,13 @@ function FindSitter() {
 
   return (
     <>
-      <Profile />
-      {/* <Search />
-      <div style={{ display: "flex" }}>
-        <ResultDisplay /> */}
-      {/* <Map /> */}
-      {/* <div style={{ width: "100%", background: "#E0FFFF" }}></div>
-      </div>  */}
+      {/* <Profile /> */}
+      <Search />
+      <div style={{ display: 'flex' }}>
+        <ResultDisplay />
+        <Map />
+        {/* <div style={{ width: "100%", background: "#E0FFFF" }}></div> */}
+      </div>
     </>
   );
 }

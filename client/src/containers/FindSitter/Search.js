@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { DatePicker } from "antd";
-import "antd/dist/antd.css";
-import { useEffect } from "react";
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { DatePicker } from 'antd';
+import 'antd/dist/antd.css';
+import { useEffect } from 'react';
 
 function Search() {
   const { t, i18n } = useTranslation();
   const [openStartDate, setOpenStartDate] = useState(false);
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState('');
   const [openEndDate, setOpenEndDate] = useState(false);
-  const [endDate, setEndDate] = useState("");
+  const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
     if (openStartDate) {
@@ -27,17 +27,17 @@ function Search() {
     return (
       <button
         style={{
-          background: "transparent",
-          border: "none",
-          float: "left",
-          position: "absolute",
+          background: 'transparent',
+          border: 'none',
+          float: 'left',
+          position: 'absolute',
         }}
         onClick={() => {
-          if (type === "startDate") {
-            setStartDate("");
+          if (type === 'startDate') {
+            setStartDate('');
             setOpenStartDate(false);
           } else {
-            setEndDate("");
+            setEndDate('');
             setOpenEndDate(false);
           }
         }}
@@ -51,40 +51,39 @@ function Search() {
     <div
       style={{
         height: 100,
-        background: "#F8F8F8",
-        borderTop: "1px solid #a0dfcf",
-        borderBottom: "1px solid #a0dfcf",
-        display: "flex",
-        justifyContent: "space-around",
-        alignItems: "center",
+        background: '#F8F8F8',
+        borderBottom: '1px solid #a0dfcf',
+        display: 'flex',
+        justifyContent: 'space-around',
+        alignItems: 'center',
       }}
     >
       <div
         style={{
           marginTop: -10,
           width: 130,
-          display: "flex",
-          justifyContent: "space-between",
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
       >
         <div>
           <button
             style={{
-              background: "#a0dfcf",
-              border: "none",
+              background: '#a0dfcf',
+              border: 'none',
               padding: 10,
-              position: "absolute",
-              outline: "none",
+              position: 'absolute',
+              outline: 'none',
               width: 100,
             }}
             onClick={() => setOpenStartDate(!openStartDate)}
           >
-            {startDate !== "" ? startDate : "Start date"}
+            {startDate !== '' ? startDate : 'Start date'}
           </button>
           <DatePicker
             style={{ width: 0, zIndex: -1 }}
             open={openStartDate}
-            renderExtraFooter={() => pickerFooter("startDate")}
+            renderExtraFooter={() => pickerFooter('startDate')}
             format="DD-MM-YY"
             onChange={(date, dateString) => {
               setStartDate(dateString);
@@ -96,21 +95,21 @@ function Search() {
         <div>
           <button
             style={{
-              background: "#a0dfcf",
-              border: "none",
+              background: '#a0dfcf',
+              border: 'none',
               padding: 10,
-              position: "absolute",
-              outline: "none",
+              position: 'absolute',
+              outline: 'none',
               width: 100,
             }}
             onClick={() => setOpenEndDate(!openEndDate)}
           >
-            {endDate !== "" ? endDate : "End date"}
+            {endDate !== '' ? endDate : 'End date'}
           </button>
           <DatePicker
             style={{ width: 0, zIndex: -1 }}
             open={openEndDate}
-            renderExtraFooter={() => pickerFooter("endDate")}
+            renderExtraFooter={() => pickerFooter('endDate')}
             format="DD-MM-YY"
             onChange={(date, dateString) => {
               setEndDate(dateString);
@@ -122,10 +121,10 @@ function Search() {
 
       <button
         style={{
-          background: "#a0dfcf",
-          border: "none",
+          background: '#a0dfcf',
+          border: 'none',
           padding: 10,
-          outline: "none",
+          outline: 'none',
         }}
       >
         About my cat(s)
@@ -133,10 +132,10 @@ function Search() {
 
       <button
         style={{
-          background: "#a0dfcf",
-          border: "none",
+          background: '#a0dfcf',
+          border: 'none',
           padding: 10,
-          outline: "none",
+          outline: 'none',
         }}
       >
         Requirement
@@ -145,7 +144,7 @@ function Search() {
       <input
         type="text"
         placeholder="Where would you like to search?"
-        style={{ outline: "none", padding: 10, width: 200 }}
+        style={{ outline: 'none', padding: 10, width: 200 }}
       />
     </div>
   );

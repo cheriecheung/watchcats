@@ -153,6 +153,19 @@ img {
   user-select: none;
 }
 
+/* Google map Info Window close button */
+.gm-style .gm-style-iw-c {
+  overflow: visible !important;
+}
+
+.gm-ui-hover-effect {
+  background: #a0dfcf !important;
+  opacity: 1;
+  border-radius: 50%;
+  top: -10px !important;
+  right: -10px !important;
+}
+
 /* Forms */
 
 .ant-input-affix-wrapper {

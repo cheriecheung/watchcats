@@ -6,7 +6,11 @@ function Layout({ children }) {
   return (
     <>
       <Header />
-      <div style={{ padding: '20px 5%' }}>{children}</div>
+      <div
+      //style={{ padding: '20px 5%' }}
+      >
+        {children}
+      </div>
       {/* <Footer /> */}
     </>
   );
