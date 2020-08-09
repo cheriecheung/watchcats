@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Tabs from 'react-bootstrap/Tabs';
-import Tab from 'react-bootstrap/Tab';
 import { Row, Col, Label, FormGroup, Input } from 'reactstrap';
 import styled from 'styled-components';
 import { Calendar } from 'antd';
-import { Tabs as AntTabs } from 'antd';
-const { TabPane } = AntTabs;
+import { Tabs } from 'antd';
+const { TabPane } = Tabs;
 
 const Container = styled.div`
   text-align: left;
@@ -103,7 +101,8 @@ function BookingTabs() {
 
   return (
     <div style={{ display: 'flex', marginTop: 10 }}>
-      <AntTabs
+      <Tabs
+        className="custom-tab"
         defaultActiveKey="sitter"
         tabPosition="left"
         onChange={changeTab}
@@ -113,23 +112,26 @@ function BookingTabs() {
             {content}
           </TabPane>
         ))}
-      </AntTabs>
+      </Tabs>
     </div>
   );
 }
-
 export default BookingTabs;
 
 function SitterBookings({ bookingTypeTabs }) {
   return (
     <Container>
-      <AntTabs defaultActiveKey="sitter" tabPosition="top">
+      <Tabs
+        defaultActiveKey="sitter"
+        tabPosition="top"
+        className="horizontal-tab"
+      >
         {bookingTypeTabs.map(({ key, tab, content }) => (
           <TabPane tab={tab} key={key}>
             {content}
           </TabPane>
         ))}
-      </AntTabs>
+      </Tabs>
     </Container>
   );
 }
@@ -137,13 +139,13 @@ function SitterBookings({ bookingTypeTabs }) {
 function OwnerBookings({ bookingTypeTabs }) {
   return (
     <Container>
-      <AntTabs defaultActiveKey="sitter" tabPosition="top">
+      <Tabs defaultActiveKey="sitter" tabPosition="top">
         {bookingTypeTabs.map(({ key, tab, content }) => (
           <TabPane tab={tab} key={key}>
             {content}
           </TabPane>
         ))}
-      </AntTabs>
+      </Tabs>
     </Container>
   );
 }

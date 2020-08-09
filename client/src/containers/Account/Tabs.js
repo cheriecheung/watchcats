@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Row, Col, Label, FormGroup, Input } from 'reactstrap';
+import { Row, Col, Label, FormGroup, Input, Button } from 'reactstrap';
 import styled from 'styled-components';
-import { Calendar, DatePicker } from 'antd';
+import { Calendar, DatePicker, Modal, Input as AntInput } from 'antd';
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
 
@@ -15,6 +16,14 @@ const Section = styled.div`
   margin-bottom: 40px;
 `;
 
+const SettingsSection = styled.div`
+  text-align: left;
+  margin-bottom: 40px;
+  border: 1px solid #f0f0f0;
+  border-radius: 5px;
+  padding: 15px 20px;
+`;
+
 function ProfileTabs() {
   const accountTabs = [
     { key: 'general', tab: 'General Info', content: <GeneralInfo /> },
@@ -25,7 +34,7 @@ function ProfileTabs() {
 
   return (
     <div>
-      <Tabs defaultActiveKey="general" tabPosition="left">
+      <Tabs defaultActiveKey="settings" tabPosition="left">
         {accountTabs.map(({ key, tab, content }) => (
           <TabPane tab={tab} key={key}>
             {content}
@@ -38,65 +47,118 @@ function ProfileTabs() {
 
 function GeneralInfo() {
   return (
-    <Container>
-      <Section>
-        <Row>
-          <Col md={6} className="mb-3">
-            <Label>First Name</Label>
-            <Input
-              type="text"
-              //value={details.newLpn}
-              //onChange={handleInput}
-            />
-          </Col>
-          <Col md={6} className="mb-3">
-            <Label>Last Name</Label>
-            <Input type="text" />
-          </Col>
-          <Col md={6} className="mb-3">
-            <Label>Mobile number</Label>
-            <Input type="text" />
-          </Col>
-          <Col md={6} className="mb-3">
-            <Label>Email</Label>
-            <Input type="text" />
-          </Col>
-          <Col md={6} className="mb-3">
-            <Label>Address 1</Label>
-            <Input type="text" />
-          </Col>
-          <Col md={6} className="mb-3">
-            <Label>Address 2</Label>
-            <Input type="text" />
-          </Col>
-        </Row>
-      </Section>
+    <>
+      <Container>
+        <Section>
+          <Row>
+            <Col md={6}>
+              <Label>Profile picture</Label>
 
-      <Section>
-        <h5>Proof of Address</h5>
-        <Row>
-          <Col md={6} className="mb-3">
-            <p>
-              Before we can make your profile live we need proof of your
-              address. We accept photo/scan of a physical letter or PDF copies
-              of your digital statements within the past year. Read more on
-              other documents we vaccept.
-            </p>
-          </Col>
-          <Col md={6} className="mb-3">
-            <Input
-              type="file"
-              style={{
-                border: '1px solid #ced4da',
-                padding: 5,
-                borderRadius: '4px',
-                marginBottom: 10,
-              }}
-            />
-          </Col>
-        </Row>
-      </Section>
-    </Container>
+              <div style={{ fontSize: '0.80rem' }}>
+                <span>Please choose a high quality picture of yourself: </span>
+                <ul style={{ padding: '0px 20px' }}>
+                  <li>
+                    A well-lit photo with your face fully visible, and in focus
+                  </li>
+                  <li>No filters, effects or stickers applied to the image</li>
+                  <li>You’re alone in the picture</li>
+                  <li>A colour photo</li>
+                  <li>
+                    Best image format JPG, JPEG, PNG. <br /> Minimum size 360 x
+                    254 pixels
+                  </li>
+                </ul>
+              </div>
+            </Col>
+            <Col md={6}>
+              {/* <img
+                style={{
+                  width: 200,
+                  height: 200,
+                  border: '1px solid #ced4da',
+                  borderRadius: '50%',
+                  position: 'absolute',
+                  zIndex: -1,
+                }}
+              />
+              <div style={{ position: 'absolute' }}>
+                <i class="fas fa-camera fa-3x"></i>
+                <p>Drop your image here or click to add one</p>
+              </div> */}
+              <Input
+                type="file"
+                style={{
+                  border: '1px solid #ced4da',
+                  borderRadius: '50%',
+                  width: 200,
+                  height: 200,
+                  opacity: 0,
+                  outline: 'none',
+                }}
+              />
+            </Col>
+          </Row>
+        </Section>
+
+        <Section>
+          <Row>
+            <Col md={6} className="mb-3">
+              <Label>First Name</Label>
+              <Input
+                type="text"
+                //value={details.newLpn}
+                //onChange={handleInput}
+              />
+            </Col>
+            <Col md={6} className="mb-3">
+              <Label>Last Name</Label>
+              <Input type="text" />
+            </Col>
+            <Col md={6} className="mb-3">
+              <Label>Mobile number</Label>
+              <Input type="text" />
+            </Col>
+            <Col md={6} className="mb-3">
+              <Label>Email</Label>
+              <Input type="text" />
+            </Col>
+            <Col md={6}>
+              <Label>Address 1</Label>
+              <Input type="text" />
+            </Col>
+            <Col md={6}>
+              <Label>Address 2</Label>
+              <Input type="text" />
+            </Col>
+          </Row>
+        </Section>
+
+        <Section>
+          <h5>Proof of Address</h5>
+          <Row>
+            <Col md={6} className="mb-3">
+              <p>
+                Before we can make your profile live we need proof of your
+                address. We accept photo/scan of a physical letter or PDF copies
+                of your digital statements within the past year. Read more on
+                other documents we vaccept.
+              </p>
+            </Col>
+            <Col md={6} className="mb-3">
+              <Input
+                type="file"
+                style={{
+                  border: '1px solid #ced4da',
+                  padding: 5,
+                  borderRadius: '4px',
+                  marginBottom: 10,
+                }}
+              />
+            </Col>
+          </Row>
+        </Section>
+      </Container>
+    </>
   );
 }
 
@@ -147,36 +209,35 @@ function SitterProfile() {
           </Col>
 
           <Col Col md={6}>
-            <div className="d-flex mb-4">
+            <label className="d-flex mb-4">
               <i class="fas fa-cat fa-2x mr-4" />
               <span style={{ flexBasis: '90%' }}>Owns / owned a cat</span>
               <input type="checkbox" />
-            </div>
-            <div className="d-flex mb-4">
+            </label>
+            <label className="d-flex mb-4">
               <i class="fas fa-pills fa-2x mr-4" />
               <span style={{ flexBasis: '90%' }}>
                 Able to administer medication
               </span>
               <input type="checkbox" />
-            </div>
-            <div className="d-flex mb-4">
+            </label>
+            <label className="d-flex mb-4">
               <i class="fas fa-syringe fa-2x mr-4" />
               <span style={{ flexBasis: '90%' }}> Able do injections</span>
               <input type="checkbox" />
-            </div>
-            <div className="d-flex mb-4">
+            </label>
+            <label className="d-flex mb-4">
               <i class="fas fa-certificate fa-2x mr-4" />
               <span style={{ flexBasis: '90%' }}>
-                {' '}
                 Has pet sitting certification
               </span>
               <input type="checkbox" />
-            </div>
-            <div className="d-flex mb-4">
+            </label>
+            <label className="d-flex mb-4">
               <i class="fas fa-broom fa-2x mr-4" />
               <span style={{ flexBasis: '90%' }}> Has pet grooming skills</span>
               <input type="checkbox" />
-            </div>
+            </label>
           </Col>
         </Row>
       </Section>
@@ -294,7 +355,7 @@ function OwnerProfile() {
             <Input type="text" />
           </Col>
           <Col md={6} className="mb-3">
-            <Label>Age</Label>
+            <Label>Date of birth</Label>
             <Input type="text" />
           </Col>
           <Col md={6} className="mb-3">
@@ -305,10 +366,10 @@ function OwnerProfile() {
             <Label>Breed</Label>
             <Input type="text" />
           </Col>
-          <Col md={6} className="mb-3">
+          {/* <Col md={6} className="mb-3">
             <Label>Pet Insurance</Label>
             <Input type="text" />
-          </Col>
+          </Col> */}
           <Col md={6} className="mb-3">
             <Label>Needs Medicine</Label>
             <Input type="select">
@@ -331,6 +392,18 @@ function OwnerProfile() {
           <Col md={6} className="mb-3">
             <Label>Favorite treat</Label>
             <Input type="text" />
+          </Col>
+          <Col md={6} className="mb-3">
+            <Label>Pictures of your cat (max. 3)</Label>
+            <Input
+              type="file"
+              style={{
+                border: '1px solid #ced4da',
+                padding: 5,
+                borderRadius: '4px',
+                marginBottom: 10,
+              }}
+            />
           </Col>
         </Row>
         <button className="add-field-btn">
@@ -361,25 +434,158 @@ function Membership() {
 }
 
 function Settings() {
+  const [modal, setModal] = useState({
+    show: false,
+    loading: false,
+    title: '',
+    content: '',
+  });
+
+  const handleOk = () => {
+    setModal({ ...modal, loading: true });
+    setTimeout(() => {
+      setModal({ ...modal, show: false, loading: false });
+    }, 2000);
+  };
+
+  const renderAddCard = () => (
+    <Row style={{ textAlign: 'left' }}>
+      <Col md={12} className="mb-3">
+        <Label>Card number</Label>
+        <Input type="text" prefix={<h4>haha</h4>} />
+      </Col>
+      <Col md={12} className="mb-3">
+        <Label>name</Label>
+        <Input type="text" />
+      </Col>
+      <Col md={8} className="mb-3">
+        <Label>MM / YY</Label>
+        <Input type="text" />
+      </Col>
+      <Col md={4} className="mb-3">
+        <Label>CVC</Label>
+        <Input type="text" />
+      </Col>
+    </Row>
+  );
+
   return (
     <Container>
-      <Section>
+      <SettingsSection>
         <h5>Payment Method</h5>
-      </Section>
-      <Section>
+        <Col style={{ paddingLeft: 0 }}>
+          <button
+            className="add-field-btn"
+            style={{ width: 200 }}
+            onClick={() =>
+              setModal({
+                ...modal,
+                show: true,
+                title: 'Add credit / debit card',
+                content: renderAddCard(),
+              })
+            }
+          >
+            <i class="fas fa-plus mr-1" />
+            Add credit / debit card
+          </button>
+        </Col>
+        <Col style={{ paddingLeft: 0, marginTop: 10 }}>
+          <button
+            className="add-field-btn"
+            style={{ width: 200 }}
+            onClick={() =>
+              setModal({
+                ...modal,
+                show: true,
+                title: 'Add bank account',
+                content: 'give us your bank account and money!',
+              })
+            }
+          >
+            <i class="fas fa-plus mr-1" />
+            Add bank account
+          </button>
+        </Col>
+        <Modal
+          title={modal.title}
+          visible={modal.show}
+          onOk={handleOk}
+          confirmLoading={modal.loading}
+          onCancel={() => setModal({ ...modal, show: false })}
+        >
+          {modal.loading ? <h4>loading...</h4> : <p>{modal.content}</p>}
+        </Modal>
+      </SettingsSection>
+
+      <SettingsSection>
         <h5>Change password</h5>
-      </Section>
-      <Section>
+        <Row>
+          <Col md={6} className="mb-3">
+            <Label>Current password</Label>
+            <AntInput.Password />
+          </Col>
+        </Row>
+        <Row>
+          <Col md={6} className="mb-3">
+            <Label>New password</Label>
+            <AntInput.Password />
+          </Col>
+        </Row>
+        <Row>
+          <Col md={6} className="mb-3">
+            <Label>Repeat new password</Label>
+            <AntInput.Password />
+          </Col>
+        </Row>
+        <Button color="info" size="sm">
+          Change password
+        </Button>
+      </SettingsSection>
+
+      <SettingsSection>
+        <h5>Change email</h5>
+        <Row>
+          <Col md={6} className="mb-3">
+            <Label>New email</Label>
+            <Input type="text" />
+          </Col>
+        </Row>
+        <Row>
+          <Col md={6} className="mb-3">
+            <Label>Confirm new email</Label>
+            <Input type="text" />
+          </Col>
+        </Row>
+        <Row>
+          <Col md={6} className="mb-3">
+            <Label>Password</Label>
+            <Input type="text" />
+          </Col>
+        </Row>
+        <Button color="info" size="sm">
+          Change email
+        </Button>
+        <span style={{ marginLeft: 10 }}>
+          Your email address will not change until you confirm it via email.
+        </span>
+      </SettingsSection>
+
+      <SettingsSection>
         <h5>Two-factor authentication</h5>
         <p>
           Protect your account with an extra layer of security. Once configured,
           you'll be required to enter both your password and an authentication
           code from your mobile phone in order to sign in
         </p>
-      </Section>
-      <Section>
+      </SettingsSection>
+
+      <SettingsSection>
         <h5>Delete account</h5>
-      </Section>
+        <Button color="danger" size="sm">
+          Delete account
+        </Button>
+      </SettingsSection>
     </Container>
   );
 }
