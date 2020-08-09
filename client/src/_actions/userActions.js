@@ -26,7 +26,7 @@ export async function checkLoggedIn() {
       return preloadedState;
     })
     .catch((error) => {
-      window.location = '/';
+      // window.location = '/';
       console.log(error);
     });
 }

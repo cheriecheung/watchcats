@@ -1,0 +1,123 @@
+import React from 'react';
+import { Row, Col, Label, Input } from 'reactstrap';
+import styled from 'styled-components';
+
+const Section = styled.div`
+  text-align: left;
+  margin-bottom: 40px;
+`;
+
+function GeneralInfo() {
+  return (
+    <>
+      <Section>
+        <Row>
+          <Col md={6}>
+            <Label>Profile picture</Label>
+
+            <div style={{ fontSize: '0.80rem' }}>
+              <span>Please choose a high quality picture of yourself: </span>
+              <ul style={{ padding: '0px 20px' }}>
+                <li>
+                  A well-lit photo with your face fully visible, and in focus
+                </li>
+                <li>No filters, effects or stickers applied to the image</li>
+                <li>You’re alone in the picture</li>
+                <li>A colour photo</li>
+                <li>
+                  Best image format JPG, JPEG, PNG. <br /> Minimum size 360 x
+                  254 pixels
+                </li>
+              </ul>
+            </div>
+          </Col>
+          <Col md={6}>
+            {/* <img
+                      style={{
+                        width: 200,
+                        height: 200,
+                        border: '1px solid #ced4da',
+                        borderRadius: '50%',
+                        position: 'absolute',
+                        zIndex: -1,
+                      }}
+                    />
+                    <div style={{ position: 'absolute' }}>
+                      <i class="fas fa-camera fa-3x"></i>
+                      <p>Drop your image here or click to add one</p>
+                    </div> */}
+            <Input
+              type="file"
+              style={{
+                border: '1px solid #ced4da',
+                borderRadius: '50%',
+                width: 200,
+                height: 200,
+                opacity: 0,
+                outline: 'none',
+              }}
+            />
+          </Col>
+        </Row>
+      </Section>
+      <Section>
+        <Row>
+          <Col md={6} className="mb-3">
+            <Label>First Name</Label>
+            <Input
+              type="text"
+              //value={details.newLpn}
+              //onChange={handleInput}
+            />
+          </Col>
+          <Col md={6} className="mb-3">
+            <Label>Last Name</Label>
+            <Input type="text" />
+          </Col>
+          <Col md={6} className="mb-3">
+            <Label>Mobile number</Label>
+            <Input type="text" />
+          </Col>
+          <Col md={6} className="mb-3">
+            <Label>Email</Label>
+            <Input type="text" />
+          </Col>
+          <Col md={6}>
+            <Label>Address 1</Label>
+            <Input type="text" />
+          </Col>
+          <Col md={6}>
+            <Label>Address 2</Label>
+            <Input type="text" />
+          </Col>
+        </Row>
+      </Section>
+      <Section>
+        <h5>Proof of Address</h5>
+        <Row>
+          <Col md={6} className="mb-3">
+            <p>
+              Before we can make your profile live we need proof of your
+              address. We accept photo/scan of a physical letter or PDF copies
+              of your digital statements within the past year. Read more on
+              other documents we vaccept.
+            </p>
+          </Col>
+          <Col md={6} className="mb-3">
+            <Input
+              type="file"
+              style={{
+                border: '1px solid #ced4da',
+                padding: 5,
+                borderRadius: '4px',
+                marginBottom: 10,
+              }}
+            />
+          </Col>
+        </Row>
+      </Section>
+    </>
+  );
+}
+
+export default GeneralInfo;
