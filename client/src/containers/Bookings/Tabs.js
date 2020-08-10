@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Label, FormGroup, Input } from 'reactstrap';
+import Button from 'react-bootstrap/Button';
+
 import styled from 'styled-components';
 import { Calendar } from 'antd';
 import { Tabs } from 'antd';
@@ -69,8 +71,22 @@ function BookingTabs() {
     if (activeKey === 'sitter') {
       const sitterBookings = {
         request: [
-          { name: 'Owner1', cat: 'Tom' },
-          { name: 'Owner2', cat: 'Jerry' },
+          {
+            name: 'Owner1',
+            email: 'owner_1@gmail.com',
+            phone: '0633577246',
+            cat: 'Tom',
+            message:
+              'Hi, would you have time the next Saturday night to look after my cat Tom. He can be a little feisty but nothing too hard to handle',
+          },
+          {
+            name: 'Owner2',
+            cat: 'Jerry',
+            email: 'owner_two@gmail.com',
+            phone: '0623477622',
+            message:
+              "Hey cat sitter, my fat cat Jerry would need someone to feed him shrimps when I'm out of town for my 3 week vacation. Can we have a meet up first to talk about it?",
+          },
         ],
         confirmed: [{ name: 'Owner3', cat: 'Aiden' }],
         completed: [
@@ -153,16 +169,39 @@ function OwnerBookings({ bookingTypeTabs }) {
 function Requested({ bookings }) {
   return (
     <>
-      {bookings.map(({ name, cat }, index) => {
+      {bookings.map(({ name, cat, email, phone, message }, index) => {
         return (
           <div>
-            <p>{index + 1}</p>
+            <b>Request No. {index + 1}</b>
             <p>Owner: {name}</p>
+            <p>Email: {email}</p>
+            <p>Phone: {phone}</p>
             <p>Cat: {cat}</p>
+            <p>Message: {message}</p>
+
+            <Button variant="outline-primary" size="sm" className="mr-3">
+              Invite to meet up before accepting request
+            </Button>
+            <Button variant="outline-success" size="sm" className="mr-3">
+              Accept request
+            </Button>
+            <Button variant="outline-danger" size="sm" className="mr-3">
+              Cancel request
+            </Button>
+
             <hr />
           </div>
         );
       })}
+
+      <br />
+      <br />
+
+      <p>
+        Remark: It is highly recommended to have a meet up session between you
+        and cat owners before accepting their requests. Directly accepting a
+        request is meant for owners you have previously completed bookings with.
+      </p>
     </>
   );
 }

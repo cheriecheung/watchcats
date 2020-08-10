@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col, Label, Input } from 'reactstrap';
+import { Input as AntInput } from 'antd';
 import styled from 'styled-components';
 
 const Section = styled.div`
@@ -7,11 +8,60 @@ const Section = styled.div`
   margin-bottom: 40px;
 `;
 
+const SummarySection = styled.div`
+  display: flex;
+  justify-content: space-around;
+  text-align: left;
+  margin-bottom: 50px;
+  padding: 15px 20px;
+`;
+
 function GeneralInfo() {
   return (
     <>
+      <SummarySection>
+        <span>Account creation date: 10 August 2019</span>
+        <span>Account status: Not verified</span>
+        <p>
+          *To have your account verified, please submit a proof of address (see
+          below)
+        </p>
+      </SummarySection>
+
       <Section>
+        <h5>My profile</h5>
+        <p style={{ marginBottom: 50 }}>
+          The personal data in the following section will be used for
+          communication purpose when a cat sitting service is requested.
+        </p>
         <Row>
+          <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
+            <img
+              style={{
+                width: 200,
+                height: 200,
+                border: '1px solid #ced4da',
+                borderRadius: '50%',
+                position: 'absolute',
+                zIndex: -1,
+              }}
+            />
+            {/* <div style={{ position: 'absolute' }}>
+              <i class="fas fa-camera fa-3x"></i>
+              <p>Drop your image here or click to add one</p>
+            </div> */}
+            <Input
+              type="file"
+              style={{
+                border: '1px solid #ced4da',
+                borderRadius: '50%',
+                width: 200,
+                height: 200,
+                opacity: 0,
+                outline: 'none',
+              }}
+            />
+          </Col>
           <Col md={6}>
             <Label>Profile picture</Label>
 
@@ -30,33 +80,6 @@ function GeneralInfo() {
                 </li>
               </ul>
             </div>
-          </Col>
-          <Col md={6}>
-            {/* <img
-                      style={{
-                        width: 200,
-                        height: 200,
-                        border: '1px solid #ced4da',
-                        borderRadius: '50%',
-                        position: 'absolute',
-                        zIndex: -1,
-                      }}
-                    />
-                    <div style={{ position: 'absolute' }}>
-                      <i class="fas fa-camera fa-3x"></i>
-                      <p>Drop your image here or click to add one</p>
-                    </div> */}
-            <Input
-              type="file"
-              style={{
-                border: '1px solid #ced4da',
-                borderRadius: '50%',
-                width: 200,
-                height: 200,
-                opacity: 0,
-                outline: 'none',
-              }}
-            />
           </Col>
         </Row>
       </Section>
@@ -92,6 +115,31 @@ function GeneralInfo() {
           </Col>
         </Row>
       </Section>
+
+      <Section>
+        <h5>Social media links</h5>
+        <Row>
+          <Col md={6} className="mb-3">
+            <Label>Facebook profile</Label>
+            <AntInput
+              type="text"
+              prefix={<i class="fab fa-facebook-square fa-lg mr-1" />}
+            />
+          </Col>
+          <Col md={6} className="mb-3">
+            <Label>Instagram profile</Label>
+            <AntInput
+              type="text"
+              prefix={<i class="fab fa-instagram fa-lg mr-1" />}
+            />
+          </Col>
+          <Col md={6}>
+            <Label>Other profile</Label>
+            <Input type="text" />
+          </Col>
+        </Row>
+      </Section>
+
       <Section>
         <h5>Proof of Address</h5>
         <Row>

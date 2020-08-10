@@ -213,3 +213,45 @@ img {
 ant-tabs-tab-remove:active {
   color: #595959 !important;
 }
+
+/* react-day-picker calendar */
+/* .DayPicker-Day--today {
+  border: 1px solid red !important;
+} */
+
+.DayPicker-Day {
+  border-radius: 0 !important;
+  border: 1.5px solid #a0dfcf;
+}
+
+.DayPicker-Month {
+  width: 35vw !important;
+  margin: 0 !important;
+}
+
+.DayPicker-wrapper {
+  outline: none !important;
+}
+
+.DayPicker-NavButton--prev,
+.DayPicker-NavButton--next {
+  outline: none !important;
+}
+
+/* Ant Calendar */
+/* .ant-picker-content th {
+  font-weight: 600 !important;
+}
+
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-content {
+  height: 20px !important;
+}
+
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date {
+  margin: 0 !important;
+  border: 1px solid #f0f0f0 !important;
+}
+
+.ant-picker-body .ant-picker-content tbody {
+  border: 3px solid #f0f0f0 !important;
+} */

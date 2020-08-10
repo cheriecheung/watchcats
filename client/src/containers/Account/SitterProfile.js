@@ -1,14 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Row, Col, Label, Input } from 'reactstrap';
 import { Calendar } from 'antd';
+import moment from 'moment';
 import styled from 'styled-components';
+import DayPicker, { DateUtils } from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
 
 const Section = styled.div`
   text-align: left;
   margin-bottom: 40px;
 `;
 
+// function disabledDate(current) {
+//   return current < moment().endOf('day');
+// }
+
 function SitterProfile() {
+  const [selectedDays, setSelectedDays] = useState([]);
+
+  const handleDayClick = (day, { selected }) => {
+    const updateSelectedDays = [...selectedDays];
+    if (selected) {
+      const selectedIndex = updateSelectedDays.findIndex((selectedDay) =>
+        DateUtils.isSameDay(selectedDay, day)
+      );
+      updateSelectedDays.splice(selectedIndex, 1);
+    } else {
+      updateSelectedDays.push(day);
+    }
+    setSelectedDays(updateSelectedDays);
+  };
+
   return (
     <>
       <Section>
@@ -109,7 +131,15 @@ function SitterProfile() {
 
       <Section>
         <h5>Availability</h5>
-        <Calendar fullscreen={false} />
+        <DayPicker selectedDays={selectedDays} onDayClick={handleDayClick} />
+        {/* <Calendar
+          style={{ width: '35vw' }}
+          disabledDate={disabledDate}
+          defaultValue={moment(new Date())}
+          onSelect={(date) => console.log({ date })}
+          onChange={(date) => console.log({ date })}
+          showToday={true}
+        /> */}
       </Section>
 
       <Section>
