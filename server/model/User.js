@@ -7,6 +7,51 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Member',
   },
+  catOwner: {
+    type: Schema.Types.ObjectId,
+    ref: 'CatOwner',
+  },
+  catSitter: {
+    type: Schema.Types.ObjectId,
+    ref: 'CatSitter',
+  },
+  cat: {
+    type: Schema.Types.ObjectId,
+    ref: 'Cat',
+  },
+  firstName: {
+    type: String,
+  },
+  lastName: {
+    type: String,
+  },
+  // profileImage: {
+  //   type: String,
+  // },
+  phone: {
+    type: String,
+  },
+  address1: {
+    type: String,
+  },
+  address2: {
+    type: String,
+  },
+  addressProof: {
+    type: String,
+  },
+  isAddressProofVerified: {
+    type: String,
+  },
+  facebookLink: {
+    type: String,
+  },
+  instagramLink: {
+    type: String,
+  },
+  otherLink: {
+    type: String,
+  },
   email: {
     type: String,
     required: false,
@@ -26,7 +71,7 @@ const userSchema = new Schema({
     type: Boolean,
     defaultValue: false,
   },
-  twoFactorAuthEnabled: {
+  isEnabled2FA: {
     type: Boolean,
     defaultValue: false,
   },
@@ -36,6 +81,10 @@ const userSchema = new Schema({
   },
   facebook_id: {
     type: String,
+    required: false,
+  },
+  isDeleted: {
+    type: Boolean,
     required: false,
   },
   createdAt: {

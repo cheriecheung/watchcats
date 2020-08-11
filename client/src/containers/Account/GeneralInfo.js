@@ -148,7 +148,7 @@ function GeneralInfo() {
               Before we can make your profile live we need proof of your
               address. We accept photo/scan of a physical letter or PDF copies
               of your digital statements within the past year. Read more on
-              other documents we vaccept.
+              other documents we accept.
             </p>
           </Col>
           <Col md={6} className="mb-3">
