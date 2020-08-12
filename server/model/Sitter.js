@@ -10,26 +10,33 @@ const sitterSchema = new Schema({
     type: Text,
     required: true,
   },
-  // photos: {
-  // },
+  photo: {
+    type: Schema.Types.ObjectId,
+    ref: 'Photo',
+  },
   experience: {
     type: Text,
     required: true,
   },
   hasCat: {
     type: Boolean,
+    required: false,
   },
   hasMedicationSkills: {
     type: Boolean,
+    required: false,
   },
   hasInjectionSkills: {
     type: Boolean,
+    required: false,
   },
   hasGroomingSkills: {
     type: Boolean,
+    required: false,
   },
   hasCertification: {
     type: Boolean,
+    required: false,
   },
   priceOneTime: {
     type: Number,
@@ -39,8 +46,10 @@ const sitterSchema = new Schema({
     type: Number,
     required: true,
   },
-  //   availableDates: {
-  //   },
+  unavailableDate: {
+    type: Schema.Types.ObjectId,
+    ref: 'UnavailableDate',
+  },
   emergencyContactNumber: {
     type: String,
     required: true,
@@ -52,6 +61,7 @@ const sitterSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now(),
+    required: false,
   },
 });
 

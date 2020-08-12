@@ -121,9 +121,9 @@ function Header() {
         <Item>
           <Link to="/find">{t('header.find_sitter')}</Link>
         </Item>
-        <Item>
+        {/* <Item>
           <Link to="/find">{t('header.find_cat')}</Link>
-        </Item>
+        </Item> */}
         <Item>
           <Link to="/about">{t('header.about')}</Link>
         </Item>

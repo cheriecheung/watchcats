@@ -97,13 +97,13 @@ function Login({ show, onHide }) {
   const renderLogin = () => (
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h4>{t('form.login')}</h4>
+        <h4>{t('login.login')}</h4>
         <button
           type="button"
           onClick={() => setEntry('register')}
           style={{ background: 'none', border: 'none', outline: 'none' }}
         >
-          {t('form.register')}
+          {t('login.register')}
         </button>
       </div>
 
@@ -158,7 +158,7 @@ function Login({ show, onHide }) {
         </div>
         <input
           type="submit"
-          value={t('form.login')}
+          value={t('login.login')}
           style={{ float: 'right' }}
         />
         {auth.errorMessage && (
@@ -171,13 +171,13 @@ function Login({ show, onHide }) {
   const renderRegister = () => (
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h4>{t('form.register')}</h4>
+        <h4>{t('register.register')}</h4>
         <button
           type="button"
           onClick={() => setEntry('login')}
           style={{ background: 'none', border: 'none', outline: 'none' }}
         >
-          {t('form.login')}
+          {t('login.login')}
         </button>
       </div>
 

@@ -1,7 +1,7 @@
 export default {
   header: {
     find_sitter: 'Oppas zoeken',
-    find_cat: 'Kat zoeken',
+    // find_cat: 'Kat zoeken',
     about: 'Over',
     bookings: 'Bookings',
     account: 'Account',

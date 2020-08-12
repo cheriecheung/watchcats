@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const catSchema = new Schema({
-  user: {
+  owner: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Owner',
   },
   name: {
     type: String,
@@ -44,6 +44,7 @@ const catSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now(),
+    required: false,
   },
 });
 

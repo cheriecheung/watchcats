@@ -1,7 +1,7 @@
 export default {
   header: {
     find_sitter: 'Find a cat sitter',
-    find_cat: 'Find a cat to sit',
+    // find_cat: 'Find a cat to sit',
     about: 'About',
     bookings: 'Bookings',
     account: 'Account',

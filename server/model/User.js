@@ -7,13 +7,13 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Member',
   },
-  catOwner: {
+  owner: {
     type: Schema.Types.ObjectId,
-    ref: 'CatOwner',
+    ref: 'Owner',
   },
-  catSitter: {
+  sitter: {
     type: Schema.Types.ObjectId,
-    ref: 'CatSitter',
+    ref: 'Sitter',
   },
   cat: {
     type: Schema.Types.ObjectId,
@@ -21,36 +21,46 @@ const userSchema = new Schema({
   },
   firstName: {
     type: String,
+    required: true,
   },
   lastName: {
     type: String,
+    required: true,
   },
   // profileImage: {
   //   type: String,
   // },
   phone: {
     type: String,
+    required: true,
   },
   address1: {
     type: String,
+    required: true,
   },
   address2: {
     type: String,
+    required: false,
   },
   addressProof: {
     type: String,
+    required: true,
   },
   isAddressProofVerified: {
     type: String,
+    required: false,
   },
   facebookLink: {
     type: String,
+    required: false,
   },
   instagramLink: {
     type: String,
+    required: false,
   },
   otherLink: {
     type: String,
+    required: false,
   },
   email: {
     type: String,
@@ -66,6 +76,7 @@ const userSchema = new Schema({
   },
   refreshToken: {
     type: String,
+    required: false,
   },
   isVerified: {
     type: Boolean,
@@ -90,6 +101,7 @@ const userSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now(),
+    required: false,
   },
 });
 

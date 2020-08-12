@@ -10,23 +10,29 @@ const ownerSchema = new Schema({
     type: Text,
     required: true,
   },
-  // photos: {
-  // },
+  photo: {
+    type: Schema.Types.ObjectId,
+    ref: 'Photo',
+  },
   // appointmentOneTime: {
   // },
   // appointmentOvernight: {
   // },
   hasBikeStorageNearby: {
     type: Boolean,
+    required: false,
   },
   hasCarPark: {
     type: Boolean,
+    required: false,
   },
   hasKids: {
     type: Boolean,
+    required: false,
   },
   hasMultipleCats: {
     type: Boolean,
+    required: false,
   },
   catsDescription: {
     type: Text,
@@ -35,6 +41,7 @@ const ownerSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now(),
+    required: false,
   },
 });
 
