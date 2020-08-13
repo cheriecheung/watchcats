@@ -53,12 +53,12 @@ function BookingTabs() {
   const bookingTabs = [
     {
       key: 'sitter',
-      tab: 'Cat sitter bookings',
+      tab: 'Sitting jobs for me',
       content: <SitterBookings bookingTypeTabs={bookingTypeTabs} />,
     },
     {
       key: 'owner',
-      tab: 'Cat owner bookings',
+      tab: 'Sitting service for my cat',
       content: <OwnerBookings bookingTypeTabs={bookingTypeTabs} />,
     },
   ];

@@ -238,20 +238,14 @@ ant-tabs-tab-remove:active {
   outline: none !important;
 }
 
-/* Ant Calendar */
-/* .ant-picker-content th {
-  font-weight: 600 !important;
+/* AntD Checkbox */
+.ant-checkbox-wrapper {
+  width: 90% !important;
+  display: flex !important;
+  flex-direction: row-reverse !important;
+  justify-content: space-between !important;
 }
 
-.ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-content {
-  height: 20px !important;
+.ant-checkbox {
+  align-self: center;
 }
-
-.ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date {
-  margin: 0 !important;
-  border: 1px solid #f0f0f0 !important;
-}
-
-.ant-picker-body .ant-picker-content tbody {
-  border: 3px solid #f0f0f0 !important;
-} */

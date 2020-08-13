@@ -103,7 +103,7 @@ function Login({ show, onHide }) {
           onClick={() => setEntry('register')}
           style={{ background: 'none', border: 'none', outline: 'none' }}
         >
-          {t('login.register')}
+          {t('register.register')}
         </button>
       </div>
 
