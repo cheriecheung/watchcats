@@ -1,6 +1,6 @@
 import Checkbox from './Checkbox';
-import Dropdown from './Dropdown';
+import SelectField from './SelectField';
 import TextArea from './TextArea';
 import TextField from './TextField';
 
-export { Checkbox, Dropdown, TextArea, TextField };
+export { Checkbox, SelectField, TextArea, TextField };

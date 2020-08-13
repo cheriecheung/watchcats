@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import {
   Checkbox,
-  Dropdown,
+  SelectField,
   TextArea,
   TextField,
 } from '../../components/FormComponents';
@@ -121,11 +121,14 @@ function SitterProfile() {
             <Row>
               <Col md={6}>
                 <Label>One time visit</Label>
-                <Dropdown />
-                <Input
-                  type="text"
-                  //value={details.newLpn}
-                  //onChange={handleInput}
+                <SelectField
+                  name="priceOneTime"
+                  options={[
+                    { value: 6, label: 6 },
+                    { value: 7, label: 7 },
+                    { value: 8, label: 8 },
+                    { value: 9, label: 9 },
+                  ]}
                 />
               </Col>
               <Col md={6}>
