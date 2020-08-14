@@ -153,13 +153,13 @@ img {
   user-select: none;
 }
 
-/* Google map Info Window close button */
+/* ------------------- Google map Info Window close button -------------------*/
 .gm-style .gm-style-iw-c {
   overflow: visible !important;
 }
 
 .gm-ui-hover-effect {
-  background: #a0dfcf !important;
+  background: #4e766b !important;
   opacity: 1;
   border-radius: 50%;
   top: -10px !important;
@@ -186,8 +186,20 @@ img {
   -webkit-transition: -webkit-transform 500ms ease-out;
 }
 
+/* ------------------- AntD Tabs ------------------- */
+/* .ant-tabs-nav {
+  margin-left: 30px;
+  width: 180px;
+} */
+
+.ant-tabs-content-holder {
+  padding-left: 30px;
+  padding-right: 50px;
+  border-left: 1px solid #a1bfb7 !important;
+}
+
 .ant-tabs-ink-bar {
-  background-color: #a0dfcf !important;
+  background-color: #a1bfb7 !important;
   padding: 2px;
   z-index: -1;
 }
@@ -204,7 +216,7 @@ img {
 }
 
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: #a0dfcf !important;
+  color: #595959 !important;
 }
 
 .ant-tabs-tab-btn:focus,
@@ -214,14 +226,14 @@ ant-tabs-tab-remove:active {
   color: #595959 !important;
 }
 
-/* react-day-picker calendar */
+/* ------------------- react-day-picker calendar ------------------- */
 /* .DayPicker-Day--today {
   border: 1px solid red !important;
 } */
 
 .DayPicker-Day {
   border-radius: 0 !important;
-  border: 1.5px solid #a0dfcf;
+  border: 1.5px solid #4e766b;
 }
 
 .DayPicker-Month {

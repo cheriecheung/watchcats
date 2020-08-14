@@ -1,5 +1,6 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { themeColor } from '../../style/theme';
 
 export default function TextArea({ name, placeholder, rows = 10 }) {
   const { control, errors } = useFormContext();
@@ -14,7 +15,11 @@ export default function TextArea({ name, placeholder, rows = 10 }) {
           placeholder={placeholder}
           rows={rows}
           className="form-control"
-          style={{ resize: 'none' }}
+          style={{
+            resize: 'none',
+            // background: 'rgba(15,126,107, 0.08)',
+            borderRadius: 20,
+          }}
         />
       }
       control={control}

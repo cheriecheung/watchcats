@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import logo from '../../assets/images/purryful_logo.png';
 import dutch from '../../assets/images/dutch.png';
 import english from '../../assets/images/english.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,10 +13,10 @@ const cookies = new Cookies();
 const Nav = styled.nav`
   padding: 0 20px;
   min-height: 9vh;
-  border-bottom: 1px solid #a0dfcf;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: #4e766b;
 `;
 
 const Menu = styled.ul`
@@ -115,17 +114,20 @@ function Header() {
     dispatch(userlogout());
   };
 
+  const color = '#ffdce2';
+
   const menuItems = () => (
     <>
       <div style={{ display: 'flex' }}>
         <Item>
-          <Link to="/find">{t('header.find_sitter')}</Link>
+          <Link to="/find" style={{ color }}>
+            {t('header.find_sitter')}
+          </Link>
         </Item>
-        {/* <Item>
-          <Link to="/find">{t('header.find_cat')}</Link>
-        </Item> */}
         <Item>
-          <Link to="/about">{t('header.about')}</Link>
+          <Link to="/about" style={{ color }}>
+            {t('header.about')}
+          </Link>
         </Item>
       </div>
 
@@ -133,18 +135,26 @@ function Header() {
         {cookies.get('sessionId') ? (
           <>
             <Item>
-              <Link to="/bookings"> {t('header.bookings')}</Link>
+              <Link to="/bookings" style={{ color }}>
+                {t('header.bookings')}
+              </Link>
             </Item>
             <Item>
-              <Link to="/account"> {t('header.account')}</Link>
+              <Link to="/account" style={{ color }}>
+                {t('header.account')}
+              </Link>
             </Item>
             <Item>
-              <Link to="/login"> {t('header.logout')}</Link>
+              <Link to="/login" style={{ color }}>
+                {t('header.logout')}
+              </Link>
             </Item>
           </>
         ) : (
           <Item>
-            <Link to="/login"> {t('header.login')}</Link>
+            <Link to="/login" style={{ color }}>
+              {t('header.login')}
+            </Link>
           </Item>
         )}
         <Item>
@@ -182,7 +192,15 @@ function Header() {
     <>
       <Nav>
         <Link to="/">
-          <img src={logo} width={150} />
+          <h4
+            style={{
+              color,
+              fontFamily: 'Suez One, serif',
+              marginBottom: 0,
+            }}
+          >
+            CatYouLater
+          </h4>
         </Link>
 
         <Menu>{menuItems()}</Menu>

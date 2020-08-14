@@ -11,7 +11,12 @@ export default function TextField({ name, title }) {
       as={
         <>
           <label>{title}</label>
-          <input type="text" name={name} className="form-control" />
+          <input
+            type="text"
+            name={name}
+            className="form-control"
+            style={{ borderRadius: 50 }}
+          />
         </>
       }
       control={control}

@@ -9,8 +9,9 @@ const { TabPane } = Tabs;
 
 const Container = styled.div`
   text-align: left;
-  margin: 50px 5%;
+  margin: 5% 3% 3% 3%;
 `;
+//   margin: 50px 5%;
 
 function ProfileTabs() {
   const accountTabs = [

@@ -10,12 +10,17 @@ import {
   TextArea,
   TextField,
 } from '../../components/FormComponents';
+import { themeColor } from '../../style/theme';
 
 import 'react-day-picker/lib/style.css';
 
 const Section = styled.div`
   text-align: left;
   margin-bottom: 40px;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 54px -15px rgba(78, 118, 107, 0.5);
+  background: #fff;
 `;
 
 function SitterProfile() {
@@ -39,13 +44,14 @@ function SitterProfile() {
   const sendData = (data) => {
     console.log(data);
   };
+  const color = '#207367';
 
   return (
     <>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(sendData)}>
           <Section>
-            <h5>About me</h5>
+            <h5 style={{ color, fontWeight: 800 }}>About me</h5>
 
             <Row>
               <Col md={6}>
@@ -79,7 +85,7 @@ function SitterProfile() {
           </Section>
 
           <Section>
-            <h5>Experience</h5>
+            <h5 style={{ color, fontWeight: 800 }}>Experience</h5>
 
             <Row>
               <Col md={6}>
@@ -91,23 +97,23 @@ function SitterProfile() {
 
               <Col Col md={6}>
                 <Checkbox name="hasCat">
-                  <i class="fas fa-cat fa-2x mr-4" />
+                  <i class="fas fa-cat fa-2x mr-4" style={{ color }} />
                   <span>Owns / owned a cat</span>
                 </Checkbox>
                 <Checkbox name="hasMedicationSkills">
-                  <i class="fas fa-pills fa-2x mr-4" />
+                  <i class="fas fa-pills fa-2x mr-4" style={{ color }} />
                   <span>Able to administer medication</span>
                 </Checkbox>
                 <Checkbox name="hasInjectionSkills">
-                  <i class="fas fa-syringe fa-2x mr-4" />
+                  <i class="fas fa-syringe fa-2x mr-4" style={{ color }} />
                   <span> Able do injections</span>
                 </Checkbox>
                 <Checkbox name="hasCertification">
-                  <i class="fas fa-certificate fa-2x mr-4" />
+                  <i class="fas fa-certificate fa-2x mr-4" style={{ color }} />
                   <span>Has pet sitting certification</span>
                 </Checkbox>
                 <Checkbox name="hasGroomingSkills">
-                  <i class="fas fa-broom fa-2x mr-4" />
+                  <i class="fas fa-broom fa-2x mr-4" style={{ color }} />
                   <span style={{ flexBasis: '90%' }}>
                     Has pet grooming skills
                   </span>
@@ -117,7 +123,7 @@ function SitterProfile() {
           </Section>
 
           <Section>
-            <h5>Pricing</h5>
+            <h5 style={{ color, fontWeight: 800 }}>Pricing</h5>
             <Row>
               <Col md={6}>
                 <Label>One time visit</Label>
@@ -140,7 +146,7 @@ function SitterProfile() {
           </Section>
 
           <Section>
-            <h5>Availability</h5>
+            <h5 style={{ color, fontWeight: 800 }}>Availability</h5>
             <DayPicker
               selectedDays={selectedDays}
               onDayClick={handleDayClick}
@@ -148,7 +154,7 @@ function SitterProfile() {
           </Section>
 
           <Section>
-            <h5>Emergency Contact</h5>
+            <h5 style={{ color, fontWeight: 800 }}>Emergency Contact</h5>
             <p>
               In case of an emergency, cat owners can contact the following:
             </p>
