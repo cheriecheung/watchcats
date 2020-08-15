@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { Row, Col, Label, Input } from 'reactstrap';
 import moment from 'moment';
-import styled from 'styled-components';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import {
   Checkbox,

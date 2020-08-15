@@ -224,16 +224,47 @@ select:-webkit-autofill:focus {
 }
 
 ::-webkit-input-placeholder {
-  opacity: 0.5 !important;
+  opacity: 0.75 !important;
 }
 ::-moz-placeholder {
-  opacity: 0.5 !important;
+  opacity: 0.75 !important;
 }
 :-ms-input-placeholder {
-  opacity: 0.5 !important;
+  opacity: 0.75 !important;
 }
 :-moz-placeholder {
-  opacity: 0.5 !important;
+  opacity: 0.75 !important;
+}
+
+/* ------------------- AntD Datepicker ------------------- */
+.ant-picker-clear {
+  display: flex !important;
+}
+
+.date-picker .ant-picker,
+.time-picker .ant-picker {
+  /* background-size: 20px 20px;
+  background-repeat: no-repeat;
+  padding-left: 30px !important; */
+  position: relative;
+  height: 38px;
+  border-radius: 15px;
+}
+
+.date-picker .ant-picker:before,
+.time-picker .ant-picker:before {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  margin-right: 10px;
+  opacity: 0.3;
+}
+
+.date-picker .ant-picker:before {
+  content: '\f272';
+}
+
+.time-picker .ant-picker:before {
+  content: '\f017';
 }
 
 /* ------------------- AntD Tabs ------------------- */

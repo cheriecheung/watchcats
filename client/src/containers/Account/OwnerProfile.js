@@ -1,43 +1,82 @@
-import React from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 import { Row, Col, Label, Input } from 'reactstrap';
 import {
+  DatePicker,
   FormButtons,
   SectionContainer,
   SelectField,
   TextArea,
   TextField,
+  TimePicker,
 } from '../../components/FormComponents';
-import styled from 'styled-components';
-import { DatePicker } from 'antd';
+// import { DatePicker } from 'antd';
+import { themeColor } from '../../style/theme';
+
+const oneDayObj = { date: '', startTime: '', endTime: '' };
+const overnightObj = { startDate: '', endDate: '' };
+const catObj = {
+  name: '',
+  age: '',
+  gender: '',
+  breed: '',
+  needsMedicine: '',
+  persionality: '',
+  favoriteTreat: '',
+  pictures: [],
+};
 
 const defaultValues = {
   aboutMe: '',
-  photos: [],
-  sittingPeriod: [],
-  cat: [
-    {
-      name: '',
-      age: '',
-      gender: '',
-      breed: '',
-      needsMedicine: '',
-      persionality: '',
-      favoriteTreat: '',
-      pictures: [],
-    },
-  ],
+  // photos: [],
+  bookingOneDay: [oneDayObj],
+  bookingOvernight: [overnightObj],
+  cat: [catObj],
   descriptionCats: '',
 };
 
 function OwnerProfile() {
-  const methods = useForm();
-  const { register, handleSubmit, reset } = methods;
+  const methods = useForm({ defaultValues });
+  const { register, control, handleSubmit, reset, watch } = methods;
+  const {
+    fields: oneDayFields,
+    append: oneDayAppend,
+    remove: oneDayRemove,
+  } = useFieldArray({
+    control,
+    name: 'bookingOneDay',
+  });
+  const {
+    fields: overnightFields,
+    append: overnightAppend,
+    remove: overnightRemove,
+  } = useFieldArray({
+    control,
+    name: 'bookingOvernight',
+  });
+  const {
+    fields: catFields,
+    append: catAppend,
+    remove: catRemove,
+  } = useFieldArray({
+    control,
+    name: 'cat',
+  });
+
+  const handleRemoveCat = (index) => {
+    if (window.confirm('Click Ok to confirm to remove cat record')) {
+      catRemove(index);
+    }
+  };
 
   const sendData = (data) => {
     console.log(data);
   };
-  const color = '#32765d';
+  const color = themeColor.green;
+
+  useEffect(() => {
+    console.log(watch('bookingOvernight'));
+  }, [watch('bookingOvernight')]);
 
   return (
     <>
@@ -74,130 +113,251 @@ function OwnerProfile() {
           <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>Cat sitting appointment</h6>
 
-            <h6 style={{ color, marginTop: 30 }}>One time visit</h6>
-            <Row>
-              <Col md={6} className="mb-3">
-                <div className="d-flex flex-column">
-                  <Label>Date</Label>
-                  <DatePicker
-                    showTime
-                    //onChange={onChange}
-                    //onOk={onOk}
-                  />
-                </div>
-              </Col>
-              <Col md={6} className="mb-3">
-                <div className="d-flex flex-column">
-                  <Label>Time</Label>
-                  <DatePicker
-                    showTime
-                    //onChange={onChange}
-                    //onOk={onOk}
-                  />
-                </div>
-              </Col>
-            </Row>
-            <button className="add-field-btn">
-              <i class="fas fa-plus mr-1" />
-              Add another time
-            </button>
+            <h6 style={{ color, marginTop: 30 }}>One day visit</h6>
 
-            <h6 style={{ color, marginTop: 30 }}>Overnight visit</h6>
-            <Row>
-              <Col md={6} className="mb-3">
-                <div className="d-flex flex-column">
-                  <Label>From</Label>
-                  <DatePicker
-                    showTime
-                    //onChange={onChange}
-                    //onOk={onOk}
+            {oneDayFields.map((item, index) => {
+              return (
+                <div key={item.id}>
+                  <div
+                    style={{ display: 'flex', justifyContent: 'space-between' }}
+                  >
+                    <h6 hidden={index === 0} style={{ color }}>
+                      One day visit #{index + 1}
+                    </h6>
+                    <button
+                      hidden={index === 0}
+                      type="button"
+                      onClick={() => oneDayRemove(index)}
+                      style={{
+                        alignSelf: 'flex-end',
+                        background: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        float: 'right',
+                      }}
+                    >
+                      Remove
+                    </button>
+                  </div>
+
+                  <Row>
+                    <Col md={4} className="mb-3">
+                      <DatePicker
+                        name={`bookingOneDay[${index}].date`}
+                        title="Date"
+                      />
+                    </Col>
+                    <Col md={4} className="mb-3">
+                      <TimePicker
+                        name={`bookingOneDay[${index}].startTime`}
+                        title="Start time"
+                      />
+                    </Col>
+                    <Col md={4} className="mb-3">
+                      <TimePicker
+                        name={`bookingOneDay[${index}].endTime`}
+                        title="End time"
+                      />
+                    </Col>
+                  </Row>
+
+                  <hr
+                    hidden={watch('bookingOneDay').length === 1}
+                    style={{ margin: '20px 0' }}
                   />
                 </div>
-              </Col>
-              <Col md={6} className="mb-3">
-                <div className="d-flex flex-column">
-                  <Label>To</Label>
-                  <DatePicker
-                    showTime
-                    //onChange={onChange}
-                    //onOk={onOk}
-                  />
-                </div>
-              </Col>
-            </Row>
-            <button className="add-field-btn">
+              );
+            })}
+            <button
+              hidden={watch('bookingOneDay').length >= 2}
+              className="add-field-btn"
+              onClick={() => oneDayAppend(oneDayObj)}
+            >
               <i class="fas fa-plus mr-1" />
               Add another time
             </button>
+            <span hidden={watch('bookingOneDay').length < 2}>
+              You can at most request 2 one-day appointments at the same time!
+            </span>
+
+            <h6 style={{ color, marginTop: 40 }}>Overnight visit</h6>
+
+            {overnightFields.map((item, index) => {
+              return (
+                <div key={item.id}>
+                  <div
+                    style={{ display: 'flex', justifyContent: 'space-between' }}
+                  >
+                    <h6 hidden={index === 0} style={{ color }}>
+                      Overnight visit #{index + 1}
+                    </h6>
+                    <button
+                      hidden={index === 0}
+                      type="button"
+                      onClick={() => overnightRemove(index)}
+                      style={{
+                        alignSelf: 'flex-end',
+                        background: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        float: 'right',
+                      }}
+                    >
+                      Remove
+                    </button>
+                  </div>
+
+                  <Row>
+                    <Col md={6} className="mb-3">
+                      <DatePicker
+                        name={`bookingOvernight[${index}].startDate`}
+                        title="Start date"
+                      />
+                    </Col>
+                    <Col md={6} className="mb-3">
+                      <DatePicker
+                        name={`bookingOvernight[${index}].endDate`}
+                        title="End date"
+                      />
+                    </Col>
+                  </Row>
+
+                  <hr
+                    hidden={watch('bookingOvernight').length === 1}
+                    style={{ margin: '20px 0' }}
+                  />
+                </div>
+              );
+            })}
+
+            <button
+              hidden={watch('bookingOvernight').length >= 2}
+              className="add-field-btn"
+              onClick={() => {
+                console.log(watch('bookingOvernight'));
+                overnightAppend(overnightObj);
+              }}
+            >
+              <i class="fas fa-plus mr-1" />
+              Add another time
+            </button>
+            <span hidden={watch('bookingOvernight').length < 2}>
+              You can at most request 2 overnight sitting appointments at the
+              same time!
+            </span>
           </SectionContainer>
 
           <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>About my cat</h6>
-            <Row>
-              <Col md={6} className="mb-3">
-                <TextField name="name" title="Name" />
-              </Col>
-              <Col md={6} className="mb-3">
-                <TextField name="age" title="Age" />
-              </Col>
-              <Col md={6} className="mb-3">
-                <TextField name="gender" title="Gender" />
-              </Col>
-              <Col md={6} className="mb-3">
-                <TextField name="breed" title="Breed" />
-              </Col>
-              {/* <Col md={6} className="mb-3">
-              <Label>Pet Insurance</Label>
-              <Input type="text" />
-            </Col> */}
-              <Col md={6} className="mb-3">
-                <Label>Needs Medicine</Label>
-                <Input type="select">
-                  <option>None</option>
-                  <option>Injection</option>
-                  <option>Pill</option>
-                </Input>
-              </Col>
-              <Col md={6} className="mb-3">
-                <Label>Personality that fits your cat the best</Label>
-                <Input type="select">
-                  <option>Select</option>
-                  <option>Shy and can be easily scared</option>
-                  <option>Curious and hyper</option>
-                  <option>Dominant and can be aggressive</option>
-                  <option>Friendly and affectionate</option>
-                  <option>Solitary and calm</option>
-                </Input>
-              </Col>
-              <Col md={6} className="mb-3">
-                <TextField name="favoriteTreat" title="Favorite treat" />
-              </Col>
-              <Col md={6} className="mb-3">
-                <Label>Pictures of your cat (max. 3)</Label>
-                <Input
-                  type="file"
-                  style={{
-                    border: '1px solid #ced4da',
-                    padding: 5,
-                    borderRadius: '4px',
-                    marginBottom: 10,
-                  }}
-                />
-              </Col>
-            </Row>
-            <button className="add-field-btn">
+
+            {catFields.map((item, index) => {
+              return (
+                <div key={item.id}>
+                  <div
+                    style={{ display: 'flex', justifyContent: 'space-between' }}
+                  >
+                    <h6 hidden={index === 0} style={{ color, fontWeight: 800 }}>
+                      And my #{index + 1} cat
+                    </h6>
+                    <button
+                      hidden={index === 0}
+                      type="button"
+                      onClick={() => handleRemoveCat(index)}
+                      style={{
+                        marginBottom: 10,
+                        background: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        float: 'right',
+                      }}
+                    >
+                      Remove cat
+                    </button>
+                  </div>
+
+                  <Row>
+                    <Col md={6} className="mb-3">
+                      <TextField name={`cat[${index}].name`} title="Name" />
+                    </Col>
+
+                    <Col md={6} className="mb-3">
+                      <TextField name={`cat[${index}].age`} title="Age" />
+                    </Col>
+                    <Col md={6} className="mb-3">
+                      <TextField name={`cat[${index}].gender`} title="Gender" />
+                    </Col>
+                    <Col md={6} className="mb-3">
+                      <TextField name={`cat[${index}].breed`} title="Breed" />
+                    </Col>
+                    <Col md={6} className="mb-3">
+                      <Label>Needs Medicine</Label>
+                      <Input type="select">
+                        <option>None</option>
+                        <option>Injection</option>
+                        <option>Pill</option>
+                      </Input>
+                    </Col>
+                    <Col md={6} className="mb-3">
+                      <Label>Personality that fits your cat the best</Label>
+                      <Input type="select">
+                        <option>Select</option>
+                        <option>Shy and can be easily scared</option>
+                        <option>Curious and hyper</option>
+                        <option>Dominant and can be aggressive</option>
+                        <option>Friendly and affectionate</option>
+                        <option>Solitary and calm</option>
+                      </Input>
+                    </Col>
+                    <Col md={6} className="mb-3">
+                      <TextField
+                        name={`cat[${index}].favoriteTreat`}
+                        title="Favorite treat"
+                      />
+                    </Col>
+                    <Col md={6} className="mb-3">
+                      <Label>Pictures of your cat (max. 3)</Label>
+                      <Input
+                        type="file"
+                        style={{
+                          border: '1px solid #ced4da',
+                          padding: 5,
+                          borderRadius: '4px',
+                          marginBottom: 10,
+                        }}
+                      />
+                    </Col>
+                  </Row>
+
+                  <hr
+                    hidden={watch('cat').length === 1}
+                    style={{ margin: '20px 0px 35px 0' }}
+                  />
+                </div>
+              );
+            })}
+
+            <button
+              hidden={watch('cat').length > 4}
+              className="add-field-btn"
+              onClick={() => catAppend(catObj)}
+            >
               <i class="fas fa-plus mr-1" />
               Add another cat
             </button>
+
+            <span hidden={watch('cat').length <= 4}>
+              If you have 5 or more cats, perhaps you would want to consider
+              having them stay at a pet hotel, so they can all be taken care of
+              by full time staff!
+            </span>
           </SectionContainer>
 
           <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>Description of my cat(s)</h6>
-            <Input
-              type="textarea"
+            <TextArea
+              name="descriptionCats"
               placeholder="Please write a description about your cat(s) - include their feeing, litter, playtime routine, and other needs. It is also important to include your vets details should the cat sitter needs to get hold if them."
               rows="5"
-              style={{ resize: 'none' }}
             />
           </SectionContainer>
 

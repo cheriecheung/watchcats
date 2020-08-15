@@ -17,6 +17,7 @@ export default function TextArea({ name, placeholder, rows = 10 }) {
           className="form-control"
           style={{
             resize: 'none',
+            fontSize: '0.9rem',
             // background: 'rgba(15,126,107, 0.08)',
           }}
         />

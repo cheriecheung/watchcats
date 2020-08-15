@@ -22,7 +22,7 @@ function ProfileTabs() {
   ];
 
   return (
-    <Tabs defaultActiveKey="general" tabPosition="left">
+    <Tabs defaultActiveKey="owner" tabPosition="left">
       {accountTabs.map(({ key, tab, content }) => (
         <TabPane tab={tab} key={key}>
           <Container>{content}</Container>

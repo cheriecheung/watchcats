@@ -140,7 +140,6 @@ function Header() {
           <>
             <Item>
               <Link to="/bookings" style={menuItemStyle}>
-                <i class="fas fa-file-alt mr-2" />
                 {t('header.bookings')}
               </Link>
             </Item>

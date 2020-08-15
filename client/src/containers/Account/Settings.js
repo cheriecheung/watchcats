@@ -3,7 +3,7 @@ import { Row, Col, Label, Input, Button } from 'reactstrap';
 import { Modal, Input as AntInput } from 'antd';
 import { TextField, SectionContainer } from '../../components/FormComponents';
 import valid from 'card-validator';
-import styled from 'styled-components';
+import { themeColor } from '../../style/theme';
 
 function Settings() {
   const [modal, setModal] = useState({
@@ -107,7 +107,7 @@ function Settings() {
     );
   };
 
-  const color = '#32765d';
+  const color = themeColor.green;
 
   return (
     <>
