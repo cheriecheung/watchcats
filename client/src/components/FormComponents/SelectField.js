@@ -3,10 +3,12 @@ import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import Select from 'react-select';
 
+const bgColor = (opacity) => `rgba(32, 115, 103, ${opacity})`;
+const bordercolor = (opacity) => `1px solid rgba(32, 115, 103, ${opacity})`;
+
 const colourStyles = {
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     console.log({ data, isDisabled, isFocused, isSelected });
-    const bgColor = (opacity) => `rgba(160, 223, 207, ${opacity})`;
 
     return {
       ...styles,
@@ -29,10 +31,10 @@ const colourStyles = {
 
   control: (base, state) => ({
     ...base,
-    border: state.isFocused ? '1px solid #a0dfcf' : '1px solid #ced4da',
+    border: state.isFocused ? bordercolor(0.35) : bordercolor(0.2),
     boxShadow: 'none',
     '&:hover': {
-      border: state.isFocused ? '1px solid #a0dfcf' : '1px solid #ced4da',
+      border: state.isFocused ? bordercolor(0.35) : bordercolor(0.2),
     },
   }),
 };

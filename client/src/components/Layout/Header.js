@@ -7,16 +7,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch } from 'react-redux';
 import { userlogout } from '../../_actions/userActions';
 import styled from 'styled-components';
+import { themeColor } from '../../style/theme';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 const Nav = styled.nav`
   padding: 0 20px;
-  min-height: 9vh;
+  min-height: 7vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #4e766b;
+  background: ${themeColor.green};
 `;
 
 const Menu = styled.ul`
@@ -114,18 +115,21 @@ function Header() {
     dispatch(userlogout());
   };
 
-  const color = '#ffdce2';
+  const menuItemStyle = {
+    color: 'rgba(255, 255, 255, 1',
+    fontWeight: 400,
+  };
 
   const menuItems = () => (
     <>
       <div style={{ display: 'flex' }}>
         <Item>
-          <Link to="/find" style={{ color }}>
+          <Link to="/find" style={menuItemStyle}>
             {t('header.find_sitter')}
           </Link>
         </Item>
         <Item>
-          <Link to="/about" style={{ color }}>
+          <Link to="/about" style={menuItemStyle}>
             {t('header.about')}
           </Link>
         </Item>
@@ -135,24 +139,27 @@ function Header() {
         {cookies.get('sessionId') ? (
           <>
             <Item>
-              <Link to="/bookings" style={{ color }}>
+              <Link to="/bookings" style={menuItemStyle}>
+                <i class="fas fa-file-alt mr-2" />
                 {t('header.bookings')}
               </Link>
             </Item>
             <Item>
-              <Link to="/account" style={{ color }}>
-                {t('header.account')}
+              <Link to="/account" style={menuItemStyle}>
+                <i class="fas fa-user-circle" />
+                {/* {t('header.account')} */}
               </Link>
             </Item>
             <Item>
-              <Link to="/login" style={{ color }}>
-                {t('header.logout')}
+              <Link to="/login" style={menuItemStyle}>
+                <i class="fas fa-sign-out-alt" />
+                {/* {t('header.logout')} */}
               </Link>
             </Item>
           </>
         ) : (
           <Item>
-            <Link to="/login" style={{ color }}>
+            <Link to="/login" style={menuItemStyle}>
               {t('header.login')}
             </Link>
           </Item>
@@ -191,15 +198,24 @@ function Header() {
   return (
     <>
       <Nav>
-        <Link to="/">
+        <Link to="/" style={{ display: 'flex' }}>
           <h4
             style={{
-              color,
-              fontFamily: 'Suez One, serif',
+              color: '#fcd1da',
+              fontFamily: 'Raleway, sans-serif',
               marginBottom: 0,
             }}
           >
-            CatYouLater
+            Cat
+          </h4>
+          <h4
+            style={{
+              color: '#fff',
+              fontFamily: 'Raleway, sans-serif',
+              marginBottom: 0,
+            }}
+          >
+            YouLater
           </h4>
         </Link>
 

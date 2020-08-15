@@ -3,12 +3,12 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { Checkbox as AntCheckbox } from 'antd';
 import styled from 'styled-components';
 
+const Container = styled.div`
+  margin-bottom: 20px;
+`;
+
 export default function Checkbox({ name, children }) {
   const { control, errors } = useFormContext();
-
-  const Container = styled.div`
-    margin-bottom: 20px;
-  `;
 
   return (
     <Container>

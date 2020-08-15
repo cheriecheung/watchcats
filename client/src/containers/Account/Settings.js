@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
 import { Row, Col, Label, Input, Button } from 'reactstrap';
 import { Modal, Input as AntInput } from 'antd';
+import { TextField, SectionContainer } from '../../components/FormComponents';
 import valid from 'card-validator';
 import styled from 'styled-components';
-
-const Section = styled.div`
-  text-align: left;
-  margin-bottom: 40px;
-  border: 1px solid #f0f0f0;
-  border-radius: 5px;
-  padding: 15px 20px;
-`;
 
 function Settings() {
   const [modal, setModal] = useState({
@@ -114,10 +107,12 @@ function Settings() {
     );
   };
 
+  const color = '#32765d';
+
   return (
     <>
-      <Section>
-        <h5>Payment Method</h5>
+      <SectionContainer>
+        <h6 style={{ color, fontWeight: 800 }}>Payment Method</h6>
         <Col style={{ paddingLeft: 0 }}>
           <button
             className="add-field-btn"
@@ -159,10 +154,10 @@ function Settings() {
         >
           {modal.loading ? <h4>loading...</h4> : renderModalContent()}
         </Modal>
-      </Section>
+      </SectionContainer>
 
-      <Section>
-        <h5>Change password</h5>
+      <SectionContainer>
+        <h6 style={{ color, fontWeight: 800 }}>Change password</h6>
         <Row>
           <Col md={6} className="mb-3">
             <Label>Current password</Label>
@@ -184,10 +179,10 @@ function Settings() {
         <Button color="info" size="sm">
           Change password
         </Button>
-      </Section>
+      </SectionContainer>
 
-      <Section>
-        <h5>Change email</h5>
+      <SectionContainer>
+        <h6 style={{ color, fontWeight: 800 }}>Change email</h6>
         <Row>
           <Col md={6} className="mb-3">
             <Label>New email</Label>
@@ -212,23 +207,23 @@ function Settings() {
         <span style={{ marginLeft: 10 }}>
           Your email address will not change until you confirm it via email.
         </span>
-      </Section>
+      </SectionContainer>
 
-      <Section>
-        <h5>Two-factor authentication</h5>
+      <SectionContainer>
+        <h6 style={{ color, fontWeight: 800 }}>Two-factor authentication</h6>
         <p>
           Protect your account with an extra layer of security. Once configured,
           you'll be required to enter both your password and an authentication
           code from your mobile phone in order to sign in
         </p>
-      </Section>
+      </SectionContainer>
 
-      <Section>
-        <h5>Delete account</h5>
+      <SectionContainer>
+        <h6 style={{ color, fontWeight: 800 }}>Delete account</h6>
         <Button color="danger" size="sm">
           Delete account
         </Button>
-      </Section>
+      </SectionContainer>
     </>
   );
 }

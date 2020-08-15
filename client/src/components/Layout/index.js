@@ -7,10 +7,7 @@ function Layout({ children }) {
   return (
     <>
       <Header />
-      <div
-        //style={{ padding: '20px 5%' }}
-        style={{ background: 'rgba(211, 226, 223, 0.5)' }}
-      >
+      <div style={{ background: 'rgba(252, 237,237, 0.5)', paddingBottom: 50 }}>
         {children}
       </div>
       {/* <Footer /> */}

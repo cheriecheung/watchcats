@@ -1,25 +1,19 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { Input } from 'antd';
 
-export default function TextField({ name, title }) {
+export default function TextField({ name, title, prefix }) {
   const { control, errors } = useFormContext();
 
   return (
-    // no Controller needed for uncontrolled component
-    <Controller
-      name={name}
-      as={
-        <>
-          <label>{title}</label>
-          <input
-            type="text"
-            name={name}
-            className="form-control"
-            style={{ borderRadius: 50 }}
-          />
-        </>
-      }
-      control={control}
-    />
+    <>
+      <label>{title}</label>
+
+      <Controller
+        name={name}
+        as={<Input prefix={prefix} style={{ padding: 7, borderRadius: 5 }} />}
+        control={control}
+      />
+    </>
   );
 }

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Row, Col, Label, Input } from 'reactstrap';
 import { useForm, FormProvider } from 'react-hook-form';
+import { Row, Col, Label, Input } from 'reactstrap';
 import moment from 'moment';
 import styled from 'styled-components';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import {
   Checkbox,
+  FormButtons,
+  SectionContainer,
   SelectField,
   TextArea,
   TextField,
@@ -14,18 +16,25 @@ import { themeColor } from '../../style/theme';
 
 import 'react-day-picker/lib/style.css';
 
-const Section = styled.div`
-  text-align: left;
-  margin-bottom: 40px;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 54px -15px rgba(78, 118, 107, 0.5);
-  background: #fff;
-`;
+const defaultValues = {
+  aboutMe: '',
+  photos: [],
+  experience: '',
+  hasCat: false,
+  hasMedicationSkills: false,
+  hasInjectionSkills: false,
+  hasCertification: false,
+  hasGroomingSkills: false,
+  priceOneTime: { value: '', label: '' },
+  priceOvernight: { value: '', label: '' },
+  availability: [],
+  emergencyName: '',
+  emergencyNumber: '',
+};
 
 function SitterProfile() {
   const methods = useForm();
-  const { register, handleSubmit } = methods;
+  const { register, handleSubmit, reset } = methods;
   const [selectedDays, setSelectedDays] = useState([]);
 
   const handleDayClick = (day, { selected }) => {
@@ -44,14 +53,14 @@ function SitterProfile() {
   const sendData = (data) => {
     console.log(data);
   };
-  const color = '#207367';
+  const color = themeColor.green;
 
   return (
     <>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(sendData)}>
-          <Section>
-            <h5 style={{ color, fontWeight: 800 }}>About me</h5>
+          <SectionContainer>
+            <h6 style={{ color, fontWeight: 800 }}>About me</h6>
 
             <Row>
               <Col md={6}>
@@ -82,10 +91,10 @@ function SitterProfile() {
                 /> */}
               </Col>
             </Row>
-          </Section>
+          </SectionContainer>
 
-          <Section>
-            <h5 style={{ color, fontWeight: 800 }}>Experience</h5>
+          <SectionContainer>
+            <h6 style={{ color, fontWeight: 800 }}>Experience</h6>
 
             <Row>
               <Col md={6}>
@@ -120,10 +129,10 @@ function SitterProfile() {
                 </Checkbox>
               </Col>
             </Row>
-          </Section>
+          </SectionContainer>
 
-          <Section>
-            <h5 style={{ color, fontWeight: 800 }}>Pricing</h5>
+          <SectionContainer>
+            <h6 style={{ color, fontWeight: 800 }}>Pricing</h6>
             <Row>
               <Col md={6}>
                 <Label>One time visit</Label>
@@ -143,41 +152,32 @@ function SitterProfile() {
                 <span>Per night</span>
               </Col>
             </Row>
-          </Section>
+          </SectionContainer>
 
-          <Section>
-            <h5 style={{ color, fontWeight: 800 }}>Availability</h5>
+          <SectionContainer>
+            <h6 style={{ color, fontWeight: 800 }}>Availability</h6>
             <DayPicker
               selectedDays={selectedDays}
               onDayClick={handleDayClick}
             />
-          </Section>
+          </SectionContainer>
 
-          <Section>
-            <h5 style={{ color, fontWeight: 800 }}>Emergency Contact</h5>
+          <SectionContainer>
+            <h6 style={{ color, fontWeight: 800 }}>Emergency Contact</h6>
             <p>
               In case of an emergency, cat owners can contact the following:
             </p>
             <Row>
-              <Col md={6} className="mb-3">
+              <Col md={6}>
                 <TextField name="emergencyName" title="Full name" />
               </Col>
-              <Col md={6} className="mb-3">
+              <Col md={6}>
                 <TextField name="emergencyNumber" title="Mobile number" />
               </Col>
             </Row>
-          </Section>
+          </SectionContainer>
 
-          <input type="submit" style={{ float: 'right' }} />
-
-          {/* <div className="float-right mb-5">
-        <Button variant="outline-danger" size="sm" className="mr-3">
-          Reset
-        </Button>
-        <Button variant="outline-primary" size="sm">
-          Save
-        </Button>
-      </div> */}
+          <FormButtons onClick={() => reset(defaultValues)} />
         </form>
       </FormProvider>
     </>

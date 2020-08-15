@@ -18,7 +18,6 @@ export default function TextArea({ name, placeholder, rows = 10 }) {
           style={{
             resize: 'none',
             // background: 'rgba(15,126,107, 0.08)',
-            borderRadius: 20,
           }}
         />
       }
