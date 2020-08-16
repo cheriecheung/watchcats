@@ -8,7 +8,7 @@ const bordercolor = (opacity) => `1px solid rgba(32, 115, 103, ${opacity})`;
 
 const colourStyles = {
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-    console.log({ data, isDisabled, isFocused, isSelected });
+    // console.log({ data, isDisabled, isFocused, isSelected });
 
     return {
       ...styles,
@@ -32,6 +32,7 @@ const colourStyles = {
   control: (base, state) => ({
     ...base,
     border: state.isFocused ? bordercolor(0.35) : bordercolor(0.2),
+    borderRadius: '15px',
     boxShadow: 'none',
     '&:hover': {
       border: state.isFocused ? bordercolor(0.35) : bordercolor(0.2),

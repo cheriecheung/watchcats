@@ -12,10 +12,6 @@ const Container = styled.div`
   margin: 0px 5%;
 `;
 
-const Section = styled.div`
-  margin-bottom: 40px;
-`;
-
 function BookingTabs() {
   const [activeKey, setActiveKey] = useState('sitter');
   const [bookings, setBookings] = useState({});
@@ -118,10 +114,10 @@ function BookingTabs() {
   return (
     <div style={{ display: 'flex', marginTop: 10 }}>
       <Tabs
-        className="custom-tab"
         defaultActiveKey="sitter"
         tabPosition="left"
         onChange={changeTab}
+        className="vertical-tabs"
       >
         {bookingTabs.map(({ key, tab, content }) => (
           <TabPane tab={tab} key={key}>
@@ -140,7 +136,7 @@ function SitterBookings({ bookingTypeTabs }) {
       <Tabs
         defaultActiveKey="sitter"
         tabPosition="top"
-        className="horizontal-tab"
+        className="horizontal-tabs"
       >
         {bookingTypeTabs.map(({ key, tab, content }) => (
           <TabPane tab={tab} key={key}>
@@ -155,7 +151,11 @@ function SitterBookings({ bookingTypeTabs }) {
 function OwnerBookings({ bookingTypeTabs }) {
   return (
     <Container>
-      <Tabs defaultActiveKey="sitter" tabPosition="top">
+      <Tabs
+        defaultActiveKey="sitter"
+        tabPosition="top"
+        className="horizontal-tabs"
+      >
         {bookingTypeTabs.map(({ key, tab, content }) => (
           <TabPane tab={tab} key={key}>
             {content}

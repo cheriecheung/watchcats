@@ -1,33 +1,35 @@
 import React from 'react';
 import { themeColor } from '../../style/theme';
+import styled from 'styled-components';
+
+const ResetButton = styled.button`
+  border: none;
+  background: none;
+  outline: none;
+  margin-right: 20px;
+`;
+
+const SaveButton = styled.input`
+  background: ${themeColor.green};
+  border: none;
+  outline: none;
+  padding: 5px 25px;
+  border-radius: 15px;
+  color: #fff;
+  height: 35px;
+`;
 
 export default function FormButtons({ onClick }) {
+  const handleReset = (resetFunction) => {
+    if (window.confirm('Click Ok to confirm to reset')) {
+      resetFunction();
+    }
+  };
+
   return (
     <div className="float-right">
-      <button
-        type="button"
-        onClick={onClick}
-        style={{
-          border: 'none',
-          background: 'none',
-          outline: 'none',
-          marginRight: 20,
-        }}
-      >
-        Reset
-      </button>
-      <input
-        value="Save"
-        type="submit"
-        style={{
-          background: themeColor.green,
-          border: 'none',
-          outline: 'none',
-          padding: '5px 25px',
-          borderRadius: '50px',
-          color: '#fff',
-        }}
-      />
+      <ResetButton onClick={() => handleReset(onClick)}>Reset</ResetButton>
+      <SaveButton value="Save" type="submit" />
     </div>
   );
 }

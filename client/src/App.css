@@ -1,5 +1,7 @@
 :root {
   --theme-color-green: #2d9074;
+  --theme-color-pink: rgba(252, 237, 237, 0.5);
+  --theme-border-radius: 15px;
 }
 
 html {
@@ -8,6 +10,7 @@ html {
   /* without !important it will be overwritten by antd.css imported in FindSitter/Search.js */
   height: unset !important;
   overflow-x: hidden;
+  background-color: var(--theme-color-pink);
 }
 
 body {
@@ -172,11 +175,11 @@ img {
 
 /* Forms */
 
-.ant-input-affix-wrapper {
+/* .ant-input-affix-wrapper {
   padding: 7px 11px !important;
   border: 1px solid #ced4da !important;
   border-radius: 4px !important;
-}
+} */
 
 .add-field-btn {
   background: none;
@@ -190,10 +193,19 @@ img {
   -webkit-transition: -webkit-transform 500ms ease-out;
 }
 
-/* ------------------- Form element: Text input type ------------------- */
-.ant-input-affix-wrapper {
-  border-radius: 5px !important;
+/* ------------------- Form element: Text type ------------------- */
+.text-area {
+  border-radius: var(--theme-border-radius) !important;
 }
+
+.ant-input {
+  padding: 7px 15px !important;
+  border-radius: var(--theme-border-radius) !important;
+}
+
+/* .ant-input-affix-wrapper {
+  border-radius: 5px !important;
+} */
 
 /* .form-control {
   border-color: rgba(32, 115, 103, 0.2) !important;
@@ -248,7 +260,7 @@ select:-webkit-autofill:focus {
   padding-left: 30px !important; */
   position: relative;
   height: 38px;
-  border-radius: 15px;
+  border-radius: var(--theme-border-radius);
 }
 
 .date-picker .ant-picker:before,
@@ -268,9 +280,21 @@ select:-webkit-autofill:focus {
 }
 
 /* ------------------- AntD Tabs ------------------- */
-.ant-tabs-nav {
+.ant-tabs-content-holder .horizontal-tabs {
+  margin-left: -20px;
+}
+.horizontal-tabs .ant-tabs-nav {
+  width: 100vw !important;
+}
+
+.horizontal-tabs .ant-tabs-content-holder {
+  border-left: none !important;
+  padding-left: 0 !important;
+}
+
+.vertical-tabs .ant-tabs-nav {
   margin-left: 20px;
-  width: 170px;
+  width: 200px;
 }
 
 .ant-tabs-content-holder {
@@ -341,13 +365,21 @@ ant-tabs-tab-remove:active {
 }
 
 /* AntD Checkbox */
-.ant-checkbox-wrapper {
+.row-reverse-checkbox {
   width: 90% !important;
   display: flex !important;
   flex-direction: row-reverse !important;
   justify-content: space-between !important;
 }
 
+.ant-checkbox-group-item {
+  width: 100px !important;
+}
+
 .ant-checkbox {
   align-self: center;
+}
+
+.checkbox-group-padding .ant-checkbox {
+  margin-right: 8px !important;
 }

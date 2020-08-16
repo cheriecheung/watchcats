@@ -14,10 +14,11 @@ export default function TextArea({ name, placeholder, rows = 10 }) {
         <textarea
           placeholder={placeholder}
           rows={rows}
-          className="form-control"
+          className="text-area form-control"
           style={{
             resize: 'none',
             fontSize: '0.9rem',
+            borderRadius: 20,
             // background: 'rgba(15,126,107, 0.08)',
           }}
         />

@@ -12,6 +12,7 @@ import {
   TextField,
 } from '../../components/FormComponents';
 import { themeColor } from '../../style/theme';
+import { priceOneDayOptions } from '../../constants';
 
 import 'react-day-picker/lib/style.css';
 
@@ -93,7 +94,7 @@ function SitterProfile() {
           </SectionContainer>
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>Experience</h6>
+            <h6 style={{ color, fontWeight: 800 }}>Experience and service</h6>
 
             <Row>
               <Col md={6}>
@@ -104,24 +105,24 @@ function SitterProfile() {
               </Col>
 
               <Col Col md={6}>
-                <Checkbox name="hasCat">
-                  <i class="fas fa-cat fa-2x mr-4" style={{ color }} />
+                <Checkbox name="hasCat" className="checkboxyz">
+                  <i class="fas fa-cat fa-lg mr-4" style={{ color }} />
                   <span>Owns / owned a cat</span>
                 </Checkbox>
                 <Checkbox name="hasMedicationSkills">
-                  <i class="fas fa-pills fa-2x mr-4" style={{ color }} />
+                  <i class="fas fa-pills fa-lg mr-4" style={{ color }} />
                   <span>Able to administer medication</span>
                 </Checkbox>
                 <Checkbox name="hasInjectionSkills">
-                  <i class="fas fa-syringe fa-2x mr-4" style={{ color }} />
+                  <i class="fas fa-syringe fa-lg mr-4" style={{ color }} />
                   <span> Able do injections</span>
                 </Checkbox>
                 <Checkbox name="hasCertification">
-                  <i class="fas fa-certificate fa-2x mr-4" style={{ color }} />
+                  <i class="fas fa-certificate fa-lg mr-4" style={{ color }} />
                   <span>Has pet sitting certification</span>
                 </Checkbox>
                 <Checkbox name="hasGroomingSkills">
-                  <i class="fas fa-broom fa-2x mr-4" style={{ color }} />
+                  <i class="fas fa-broom fa-lg mr-4" style={{ color }} />
                   <span style={{ flexBasis: '90%' }}>
                     Has pet grooming skills
                   </span>
@@ -135,15 +136,7 @@ function SitterProfile() {
             <Row>
               <Col md={6}>
                 <Label>One time visit</Label>
-                <SelectField
-                  name="priceOneTime"
-                  options={[
-                    { value: 6, label: 6 },
-                    { value: 7, label: 7 },
-                    { value: 8, label: 8 },
-                    { value: 9, label: 9 },
-                  ]}
-                />
+                <SelectField name="priceOneTime" options={priceOneDayOptions} />
               </Col>
               <Col md={6}>
                 <Label>Overnight visit</Label>

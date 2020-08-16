@@ -1,6 +1,7 @@
-import Checkbox from './Checkbox';
+import { Checkbox, CheckboxGroup } from './Checkbox';
 import DatePicker from './DatePicker';
 import FormButtons from './FormButtons';
+import { RadioGroup, RadioButton } from './Radio';
 import SectionContainer from './SectionContainer';
 import SelectField from './SelectField';
 import TextArea from './TextArea';
@@ -9,8 +10,11 @@ import TimePicker from './TimePicker';
 
 export {
   Checkbox,
+  CheckboxGroup,
   DatePicker,
   FormButtons,
+  RadioGroup,
+  RadioButton,
   SectionContainer,
   SelectField,
   TextArea,

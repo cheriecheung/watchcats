@@ -2,16 +2,24 @@ import React, { useEffect } from 'react';
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 import { Row, Col, Label, Input } from 'reactstrap';
 import {
+  Checkbox,
+  CheckboxGroup,
   DatePicker,
   FormButtons,
+  RadioGroup,
+  RadioButton,
   SectionContainer,
   SelectField,
   TextArea,
   TextField,
   TimePicker,
 } from '../../components/FormComponents';
-// import { DatePicker } from 'antd';
 import { themeColor } from '../../style/theme';
+import {
+  catBreedOptions,
+  personalityOptions,
+  medicineOptions,
+} from '../../constants';
 
 const oneDayObj = { date: '', startTime: '', endTime: '' };
 const overnightObj = { startDate: '', endDate: '' };
@@ -19,8 +27,10 @@ const catObj = {
   name: '',
   age: '',
   gender: '',
+  isVaccinated: '',
+  isInsured: '',
   breed: '',
-  needsMedicine: '',
+  medicalNeeds: '',
   persionality: '',
   favoriteTreat: '',
   pictures: [],
@@ -73,10 +83,6 @@ function OwnerProfile() {
     console.log(data);
   };
   const color = themeColor.green;
-
-  useEffect(() => {
-    console.log(watch('bookingOvernight'));
-  }, [watch('bookingOvernight')]);
 
   return (
     <>
@@ -180,7 +186,7 @@ function OwnerProfile() {
               You can at most request 2 one-day appointments at the same time!
             </span>
 
-            <h6 style={{ color, marginTop: 40 }}>Overnight visit</h6>
+            <h6 style={{ color, marginTop: 30 }}>Overnight visit</h6>
 
             {overnightFields.map((item, index) => {
               return (
@@ -233,10 +239,7 @@ function OwnerProfile() {
             <button
               hidden={watch('bookingOvernight').length >= 2}
               className="add-field-btn"
-              onClick={() => {
-                console.log(watch('bookingOvernight'));
-                overnightAppend(overnightObj);
-              }}
+              onClick={() => overnightAppend(overnightObj)}
             >
               <i class="fas fa-plus mr-1" />
               Add another time
@@ -284,29 +287,50 @@ function OwnerProfile() {
                       <TextField name={`cat[${index}].age`} title="Age" />
                     </Col>
                     <Col md={6} className="mb-3">
-                      <TextField name={`cat[${index}].gender`} title="Gender" />
+                      <label>Gender</label>
+                      <br />
+                      <RadioGroup name={`cat[${index}].gender`}>
+                        <RadioButton value="M" label="Male" />
+                        <RadioButton value="F" label="Female" />
+                      </RadioGroup>
+                    </Col>
+                    <Col md={6}>
+                      <label>Medical needs</label>
+                      <br />
+                      <CheckboxGroup
+                        name={`cat[${index}].medicalNeeds`}
+                        options={['Injection', 'Pill']}
+                      />
                     </Col>
                     <Col md={6} className="mb-3">
-                      <TextField name={`cat[${index}].breed`} title="Breed" />
+                      <label>Vaccinated</label>
+                      <br />
+                      <RadioGroup name={`cat[${index}].isVaccinated`}>
+                        <RadioButton value="Y" label="Yes" />
+                        <RadioButton value="N" label="No" />
+                      </RadioGroup>
                     </Col>
                     <Col md={6} className="mb-3">
-                      <Label>Needs Medicine</Label>
-                      <Input type="select">
-                        <option>None</option>
-                        <option>Injection</option>
-                        <option>Pill</option>
-                      </Input>
+                      <label>Insured</label>
+                      <br />
+                      <RadioGroup name={`cat[${index}].isInsured`}>
+                        <RadioButton value="Y" label="Yes" />
+                        <RadioButton value="N" label="No" />
+                      </RadioGroup>
+                    </Col>
+                    <Col md={6} className="mb-3">
+                      <Label>Breed</Label>
+                      <SelectField
+                        name={`cat[${index}].breed`}
+                        options={catBreedOptions}
+                      />
                     </Col>
                     <Col md={6} className="mb-3">
                       <Label>Personality that fits your cat the best</Label>
-                      <Input type="select">
-                        <option>Select</option>
-                        <option>Shy and can be easily scared</option>
-                        <option>Curious and hyper</option>
-                        <option>Dominant and can be aggressive</option>
-                        <option>Friendly and affectionate</option>
-                        <option>Solitary and calm</option>
-                      </Input>
+                      <SelectField
+                        name={`cat[${index}].personality`}
+                        options={personalityOptions}
+                      />
                     </Col>
                     <Col md={6} className="mb-3">
                       <TextField

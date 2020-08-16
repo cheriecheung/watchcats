@@ -196,6 +196,33 @@ function GeneralInfo() {
             </Row>
           </SectionContainer>
 
+          <SectionContainer>
+            <h6 style={{ color, fontWeight: 800 }}>Police check (optional)</h6>
+            <Row>
+              <Col md={6} className="mb-3">
+                <p>
+                  To increase legitimacy for your profile as a sitter and/or
+                  owner, you can upload a copy of your latest police check.
+                </p>
+                <p>
+                  After it has been approved, your sitter and/or owner profile
+                  will show that you have been police checked.
+                </p>
+              </Col>
+              <Col md={6} className="mb-3">
+                <Input
+                  type="file"
+                  style={{
+                    border: '1px solid #ced4da',
+                    padding: 5,
+                    borderRadius: '4px',
+                    marginBottom: 10,
+                  }}
+                />
+              </Col>
+            </Row>
+          </SectionContainer>
+
           <FormButtons onClick={() => reset(defaultValues)} />
         </form>
       </FormProvider>

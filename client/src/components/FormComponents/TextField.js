@@ -11,7 +11,7 @@ export default function TextField({ name, title, prefix }) {
 
       <Controller
         name={name}
-        as={<Input prefix={prefix} style={{ padding: 7, borderRadius: 5 }} />}
+        as={<Input prefix={prefix} />}
         control={control}
       />
     </>
