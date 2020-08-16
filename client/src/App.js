@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 
 import './App.css';
+import './style/formComponents.css';
+import './style/uiComponents.css';
 
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

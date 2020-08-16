@@ -1,0 +1,82 @@
+:root {
+  --theme-color-green: #2d9074;
+  --theme-color-pink: rgba(252, 237, 237, 0.5);
+  --theme-border-radius: 15px;
+}
+
+/* ------------------- antd tabs ------------------- */
+
+.horizontal-tabs .ant-tabs-nav {
+  width: 100vw !important;
+}
+
+.horizontal-tabs .ant-tabs-content-holder {
+  border-left: none !important;
+  padding-left: 0 !important;
+}
+
+@media only screen and (min-width: 930px) {
+  .vertical-tabs .ant-tabs-nav {
+    margin-left: 20px;
+    width: 200px;
+  }
+  .ant-tabs-content-holder {
+    padding-left: 30px;
+    padding-right: 50px;
+    border-left: 1px solid rgba(50, 118, 93, 0.5) !important;
+  }
+  .ant-tabs-content-holder .horizontal-tabs {
+    margin-left: -20px;
+  }
+}
+
+@media only screen and (max-width: 930px) {
+  .ant-tabs-nav-wrap {
+    justify-content: center;
+  }
+
+  .ant-tabs-nav-list {
+    margin-right: -32px !important;
+  }
+}
+
+/* .ant-tabs-content-holder {
+      padding-left: 30px;
+      padding-right: 50px;
+      border-left: 1px solid rgba(50, 118, 93, 0.5) !important;
+    } */
+
+.ant-tabs-ink-bar {
+  background-color: var(--theme-color-green) !important;
+  padding: 2px;
+  z-index: -1;
+}
+
+.ant-tabs-tab {
+  color: rgba(50, 118, 93, 0.7) !important;
+  margin-bottom: 5px !important;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--theme-color-green) !important;
+}
+
+.ant-tabs-tab-btn:focus,
+.ant-tabs-tab-remove:focus,
+.ant-tabs-tab-btn:active,
+ant-tabs-tab-remove:active {
+  color: rgba(50, 118, 93, 0.7) !important;
+}
+
+/* ------------------- google map Info Window close button ------------------- */
+.gm-style .gm-style-iw-c {
+  overflow: visible !important;
+}
+
+.gm-ui-hover-effect {
+  background: #4e766b !important;
+  opacity: 1;
+  border-radius: 50%;
+  top: -10px !important;
+  right: -10px !important;
+}

@@ -5,6 +5,7 @@ import moment from 'moment';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import {
   Checkbox,
+  FieldLabel,
   FormButtons,
   SectionContainer,
   SelectField,
@@ -12,7 +13,7 @@ import {
   TextField,
 } from '../../components/FormComponents';
 import { themeColor } from '../../style/theme';
-import { priceOneDayOptions } from '../../constants';
+import { priceOneDayOptions, priceOvernightOptions } from '../../constants';
 
 import 'react-day-picker/lib/style.css';
 
@@ -135,12 +136,15 @@ function SitterProfile() {
             <h6 style={{ color, fontWeight: 800 }}>Pricing</h6>
             <Row>
               <Col md={6}>
-                <Label>One time visit</Label>
+                <FieldLabel>One time visit</FieldLabel>
                 <SelectField name="priceOneTime" options={priceOneDayOptions} />
               </Col>
               <Col md={6}>
-                <Label>Overnight visit</Label>
-                <Input type="text" />
+                <FieldLabel>Overnight visit</FieldLabel>
+                <SelectField
+                  name="priceOvernight"
+                  options={priceOvernightOptions}
+                />
                 <span>Per night</span>
               </Col>
             </Row>

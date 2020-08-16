@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 import { Row, Col, Label, Input } from 'reactstrap';
 import {
-  Checkbox,
   CheckboxGroup,
   DatePicker,
+  FieldLabel,
   FormButtons,
   RadioGroup,
   RadioButton,
@@ -148,22 +148,31 @@ function OwnerProfile() {
 
                   <Row>
                     <Col md={4} className="mb-3">
-                      <DatePicker
-                        name={`bookingOneDay[${index}].date`}
-                        title="Date"
-                      />
+                      <div className="d-flex flex-column date-picker">
+                        <FieldLabel>Date</FieldLabel>
+                        <DatePicker
+                          name={`bookingOneDay[${index}].date`}
+                          title="Date"
+                        />
+                      </div>
                     </Col>
                     <Col md={4} className="mb-3">
-                      <TimePicker
-                        name={`bookingOneDay[${index}].startTime`}
-                        title="Start time"
-                      />
+                      <div className="d-flex flex-column time-picker">
+                        <FieldLabel>Start time</FieldLabel>
+                        <TimePicker
+                          name={`bookingOneDay[${index}].startTime`}
+                          title="Start time"
+                        />
+                      </div>
                     </Col>
                     <Col md={4} className="mb-3">
-                      <TimePicker
-                        name={`bookingOneDay[${index}].endTime`}
-                        title="End time"
-                      />
+                      <div className="d-flex flex-column time-picker">
+                        <FieldLabel>End time</FieldLabel>
+                        <TimePicker
+                          name={`bookingOneDay[${index}].endTime`}
+                          title="End time"
+                        />
+                      </div>
                     </Col>
                   </Row>
 
@@ -215,16 +224,22 @@ function OwnerProfile() {
 
                   <Row>
                     <Col md={6} className="mb-3">
-                      <DatePicker
-                        name={`bookingOvernight[${index}].startDate`}
-                        title="Start date"
-                      />
+                      <div className="d-flex flex-column date-picker">
+                        <FieldLabel>Start date </FieldLabel>
+                        <DatePicker
+                          name={`bookingOvernight[${index}].startDate`}
+                          title="Start date"
+                        />
+                      </div>
                     </Col>
                     <Col md={6} className="mb-3">
-                      <DatePicker
-                        name={`bookingOvernight[${index}].endDate`}
-                        title="End date"
-                      />
+                      <div className="d-flex flex-column date-picker">
+                        <FieldLabel>End date</FieldLabel>
+                        <DatePicker
+                          name={`bookingOvernight[${index}].endDate`}
+                          title="End date"
+                        />
+                      </div>
                     </Col>
                   </Row>
 
@@ -279,76 +294,81 @@ function OwnerProfile() {
                   </div>
 
                   <Row>
-                    <Col md={6} className="mb-3">
-                      <TextField name={`cat[${index}].name`} title="Name" />
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>Name</FieldLabel>
+                      <TextField name={`cat[${index}].name`} />
                     </Col>
 
-                    <Col md={6} className="mb-3">
-                      <TextField name={`cat[${index}].age`} title="Age" />
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>Age</FieldLabel>
+                      <TextField name={`cat[${index}].age`} />
                     </Col>
-                    <Col md={6} className="mb-3">
-                      <label>Gender</label>
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>Gender</FieldLabel>
                       <br />
                       <RadioGroup name={`cat[${index}].gender`}>
                         <RadioButton value="M" label="Male" />
                         <RadioButton value="F" label="Female" />
                       </RadioGroup>
                     </Col>
-                    <Col md={6}>
-                      <label>Medical needs</label>
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>Medical needs</FieldLabel>
                       <br />
                       <CheckboxGroup
                         name={`cat[${index}].medicalNeeds`}
                         options={['Injection', 'Pill']}
                       />
                     </Col>
-                    <Col md={6} className="mb-3">
-                      <label>Vaccinated</label>
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>Vaccinated</FieldLabel>
                       <br />
                       <RadioGroup name={`cat[${index}].isVaccinated`}>
                         <RadioButton value="Y" label="Yes" />
                         <RadioButton value="N" label="No" />
                       </RadioGroup>
                     </Col>
-                    <Col md={6} className="mb-3">
-                      <label>Insured</label>
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>Insured</FieldLabel>
                       <br />
                       <RadioGroup name={`cat[${index}].isInsured`}>
                         <RadioButton value="Y" label="Yes" />
                         <RadioButton value="N" label="No" />
                       </RadioGroup>
                     </Col>
-                    <Col md={6} className="mb-3">
-                      <Label>Breed</Label>
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>Breed</FieldLabel>
                       <SelectField
                         name={`cat[${index}].breed`}
                         options={catBreedOptions}
                       />
                     </Col>
-                    <Col md={6} className="mb-3">
-                      <Label>Personality that fits your cat the best</Label>
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>
+                        Personality that fits your cat the best
+                      </FieldLabel>
                       <SelectField
                         name={`cat[${index}].personality`}
                         options={personalityOptions}
                       />
                     </Col>
                     <Col md={6} className="mb-3">
-                      <TextField
-                        name={`cat[${index}].favoriteTreat`}
-                        title="Favorite treat"
-                      />
+                      <FieldLabel>Favorite treat</FieldLabel>
+                      <TextField name={`cat[${index}].favoriteTreat`} />
                     </Col>
                     <Col md={6} className="mb-3">
-                      <Label>Pictures of your cat (max. 3)</Label>
-                      <Input
-                        type="file"
-                        style={{
-                          border: '1px solid #ced4da',
-                          padding: 5,
-                          borderRadius: '4px',
-                          marginBottom: 10,
-                        }}
-                      />
+                      <FieldLabel>Pictures of your cat (max. 3)</FieldLabel>
+                      <br />
+                      <label
+                        for="file-upload"
+                        className="upload-file-input form-control"
+                      >
+                        <i
+                          class="fas fa-upload"
+                          style={{ opacity: 0.4, marginRight: 10 }}
+                        />
+                        <span>Upload</span>
+                      </label>
+                      <input id="file-upload" type="file" />
                     </Col>
                   </Row>
 

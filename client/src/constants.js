@@ -1,3 +1,36 @@
+export const sitterBookings = {
+  request: [
+    {
+      name: 'Owner1',
+      email: 'owner_1@gmail.com',
+      phone: '0633577246',
+      cat: 'Tom',
+      message:
+        'Hi, would you have time the next Saturday night to look after my cat Tom. He can be a little feisty but nothing too hard to handle',
+    },
+    {
+      name: 'Owner2',
+      cat: 'Jerry',
+      email: 'owner_two@gmail.com',
+      phone: '0623477622',
+      message:
+        "Hey cat sitter, my fat cat Jerry would need someone to feed him shrimps when I'm out of town for my 3 week vacation. Can we have a meet up first to talk about it?",
+    },
+  ],
+  confirmed: [{ name: 'Owner3', cat: 'Aiden' }],
+  completed: [
+    { name: 'Owner4', cat: 'Mary' },
+    { name: 'Owner5', cat: 'Tom' },
+    { name: 'Owner6', cat: 'Helena' },
+    { name: 'Owner1', cat: 'Baby' },
+  ],
+  reviews: [
+    { name: 'Owner4', cat: 'Mary' },
+    { name: 'Owner6', cat: 'Helena' },
+    { name: 'Owner1', cat: 'Baby' },
+  ],
+};
+
 export const catBreedOptions = [
   { value: 1, label: 'Abyssinian' },
   { value: 2, label: 'Bengal cat' },
