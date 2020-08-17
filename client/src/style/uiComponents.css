@@ -1,7 +1,6 @@
 :root {
-  --theme-color-green: #2d9074;
-  --theme-color-pink: rgba(252, 237, 237, 0.5);
-  --theme-border-radius: 15px;
+  --theme-color-grey: #c5c1c7;
+  --theme-border-radius: 20px;
 }
 
 /* ------------------- antd tabs ------------------- */
@@ -23,7 +22,7 @@
   .ant-tabs-content-holder {
     padding-left: 30px;
     padding-right: 50px;
-    border-left: 1px solid rgba(50, 118, 93, 0.5) !important;
+    border-left: 1px solid var(--theme-color-grey) !important;
   }
   .ant-tabs-content-holder .horizontal-tabs {
     margin-left: -20px;
@@ -47,25 +46,25 @@
     } */
 
 .ant-tabs-ink-bar {
-  background-color: var(--theme-color-green) !important;
+  background-color: var(--theme-color-grey) !important;
   padding: 2px;
   z-index: -1;
 }
 
 .ant-tabs-tab {
-  color: rgba(50, 118, 93, 0.7) !important;
+  color: var(--theme-color-grey) !important;
   margin-bottom: 5px !important;
 }
 
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: var(--theme-color-green) !important;
+  color: var(--theme-color-grey) !important;
 }
 
 .ant-tabs-tab-btn:focus,
 .ant-tabs-tab-remove:focus,
 .ant-tabs-tab-btn:active,
 ant-tabs-tab-remove:active {
-  color: rgba(50, 118, 93, 0.7) !important;
+  color: var(--theme-color-grey) !important;
 }
 
 /* ------------------- google map Info Window close button ------------------- */

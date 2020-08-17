@@ -1,6 +1,7 @@
 export const themeColor = {
+  peach: '#ffa195',
   blue: '#68b39f',
-  green: '#3d7761',
+  green: '#225959',
   yellow: '#FBE8A6',
   orange: '#F4976C',
   navy: '#303C6C',

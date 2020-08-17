@@ -9,7 +9,8 @@ function Layout({ children }) {
       <Header />
       <div
         style={{
-          background: 'rgba(252, 237,237, 0.5)',
+          // background: 'rgba(252, 237,237, 0.5)',
+          background: '#fcf4f4',
           paddingBottom: 50,
         }}
       >

@@ -10,7 +10,14 @@ export function RadioGroup({ name, children }) {
       name={name}
       control={control}
       render={({ onChange }) => (
-        <AntRadio.Group onChange={(e) => onChange(e.target.value)}>
+        <AntRadio.Group
+          onChange={(e) => onChange(e.target.value)}
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-around',
+          }}
+        >
           {children}
         </AntRadio.Group>
       )}
@@ -18,10 +25,19 @@ export function RadioGroup({ name, children }) {
   );
 }
 
-export function RadioButton({ value, label }) {
+export function RadioButton({ value, children }) {
   return (
-    <AntRadio value={value} className="mr-5" style={{ width: 60 }}>
-      <span className="ml-2">{label}</span>
-    </AntRadio>
+    <AntRadio.Button
+      value={value}
+      style={{
+        width: '40%',
+        height: 40,
+        borderRadius: 10,
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      {children}
+    </AntRadio.Button>
   );
 }

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Select from 'react-select';
 
 const bgColor = (opacity) => `rgba(32, 115, 103, ${opacity})`;
-const bordercolor = (opacity) => `1px solid rgba(32, 115, 103, ${opacity})`;
+const bordercolor = (opacity) => `1px solid rgb(255, 161, 149, ${opacity})`;
 
 const colourStyles = {
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -31,12 +31,12 @@ const colourStyles = {
 
   control: (base, state) => ({
     ...base,
-    border: state.isFocused ? bordercolor(0.3) : bordercolor(0.2),
+    border: state.isFocused ? bordercolor(0.3) : bordercolor(0.4),
     borderRadius: '15px',
     // backgroundColor: 'rgba(45, 144, 116, 0.05) ',
     boxShadow: 'none',
     '&:hover': {
-      border: state.isFocused ? bordercolor(0.3) : bordercolor(0.2),
+      border: state.isFocused ? bordercolor(0.3) : bordercolor(0.4),
     },
   }),
 };

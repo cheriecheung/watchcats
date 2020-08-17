@@ -17,7 +17,7 @@ const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: ${themeColor.green};
+  background: ${themeColor.peach};
 `;
 
 const Menu = styled.ul`
@@ -116,7 +116,7 @@ function Header() {
   };
 
   const menuItemStyle = {
-    color: 'rgba(255, 255, 255, 1',
+    color: '#fff',
     fontWeight: 400,
   };
 
@@ -200,21 +200,12 @@ function Header() {
         <Link to="/" style={{ display: 'flex' }}>
           <h4
             style={{
-              color: '#fcd1da',
-              fontFamily: 'Raleway, sans-serif',
-              marginBottom: 0,
-            }}
-          >
-            Cat
-          </h4>
-          <h4
-            style={{
               color: '#fff',
-              fontFamily: 'Raleway, sans-serif',
+              fontFamily: 'Alata, sans-serif',
               marginBottom: 0,
             }}
           >
-            YouLater
+            CatYouLater
           </h4>
         </Link>
 

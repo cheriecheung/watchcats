@@ -82,7 +82,7 @@ function OwnerProfile() {
   const sendData = (data) => {
     console.log(data);
   };
-  const color = themeColor.green;
+  const color = '#252525';
 
   return (
     <>
@@ -119,7 +119,7 @@ function OwnerProfile() {
           <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>Cat sitting appointment</h6>
 
-            <h6 style={{ color, marginTop: 30 }}>One day visit</h6>
+            <h6 style={{ marginTop: 30 }}>One day visit</h6>
 
             {oneDayFields.map((item, index) => {
               return (
@@ -127,9 +127,7 @@ function OwnerProfile() {
                   <div
                     style={{ display: 'flex', justifyContent: 'space-between' }}
                   >
-                    <h6 hidden={index === 0} style={{ color }}>
-                      One day visit #{index + 1}
-                    </h6>
+                    <h6 hidden={index === 0}>One day visit #{index + 1}</h6>
                     <button
                       hidden={index === 0}
                       type="button"
@@ -140,6 +138,7 @@ function OwnerProfile() {
                         border: 'none',
                         outline: 'none',
                         float: 'right',
+                        color: themeColor.peach,
                       }}
                     >
                       Remove
@@ -178,7 +177,7 @@ function OwnerProfile() {
 
                   <hr
                     hidden={watch('bookingOneDay').length === 1}
-                    style={{ margin: '20px 0' }}
+                    style={{ margin: '30px 0' }}
                   />
                 </div>
               );
@@ -187,6 +186,13 @@ function OwnerProfile() {
               hidden={watch('bookingOneDay').length >= 2}
               className="add-field-btn"
               onClick={() => oneDayAppend(oneDayObj)}
+              style={{
+                background: '#ffecea',
+                color: '#ffa195',
+                outline: 'none',
+                border: 'none',
+                borderRadius: 15,
+              }}
             >
               <i class="fas fa-plus mr-1" />
               Add another time
@@ -195,7 +201,7 @@ function OwnerProfile() {
               You can at most request 2 one-day appointments at the same time!
             </span>
 
-            <h6 style={{ color, marginTop: 30 }}>Overnight visit</h6>
+            <h6 style={{ marginTop: 30 }}>Overnight visit</h6>
 
             {overnightFields.map((item, index) => {
               return (
@@ -216,6 +222,7 @@ function OwnerProfile() {
                         border: 'none',
                         outline: 'none',
                         float: 'right',
+                        color: themeColor.peach,
                       }}
                     >
                       Remove
@@ -245,7 +252,7 @@ function OwnerProfile() {
 
                   <hr
                     hidden={watch('bookingOvernight').length === 1}
-                    style={{ margin: '20px 0' }}
+                    style={{ margin: '30px 0' }}
                   />
                 </div>
               );
@@ -255,6 +262,13 @@ function OwnerProfile() {
               hidden={watch('bookingOvernight').length >= 2}
               className="add-field-btn"
               onClick={() => overnightAppend(overnightObj)}
+              style={{
+                background: '#ffecea',
+                color: '#ffa195',
+                outline: 'none',
+                border: 'none',
+                borderRadius: 15,
+              }}
             >
               <i class="fas fa-plus mr-1" />
               Add another time
@@ -307,8 +321,14 @@ function OwnerProfile() {
                       <FieldLabel>Gender</FieldLabel>
                       <br />
                       <RadioGroup name={`cat[${index}].gender`}>
-                        <RadioButton value="M" label="Male" />
-                        <RadioButton value="F" label="Female" />
+                        <RadioButton value="M">
+                          <i class="fas fa-mars fa-2x icon-gender" />
+                          <span>Male</span>
+                        </RadioButton>
+                        <RadioButton value="F">
+                          <i class="fas fa-venus fa-2x icon-gender" />
+                          <span>Female</span>
+                        </RadioButton>
                       </RadioGroup>
                     </Col>
                     <Col md={6} className="mb-4">
@@ -323,16 +343,28 @@ function OwnerProfile() {
                       <FieldLabel>Vaccinated</FieldLabel>
                       <br />
                       <RadioGroup name={`cat[${index}].isVaccinated`}>
-                        <RadioButton value="Y" label="Yes" />
-                        <RadioButton value="N" label="No" />
+                        <RadioButton value="Y">
+                          <i class="fas fa-check fa-2x icon-yes-no" />
+                          <span>Yes</span>
+                        </RadioButton>
+                        <RadioButton value="N">
+                          <i class="fas fa-times fa-2x icon-yes-no" />
+                          <span>No</span>
+                        </RadioButton>
                       </RadioGroup>
                     </Col>
                     <Col md={6} className="mb-4">
                       <FieldLabel>Insured</FieldLabel>
                       <br />
                       <RadioGroup name={`cat[${index}].isInsured`}>
-                        <RadioButton value="Y" label="Yes" />
-                        <RadioButton value="N" label="No" />
+                        <RadioButton value="Y">
+                          <i class="fas fa-check fa-2x icon-yes-no" />
+                          <span>Yes</span>
+                        </RadioButton>
+                        <RadioButton value="N">
+                          <i class="fas fa-times fa-2x icon-yes-no" />
+                          <span>No</span>
+                        </RadioButton>
                       </RadioGroup>
                     </Col>
                     <Col md={6} className="mb-4">
@@ -384,6 +416,13 @@ function OwnerProfile() {
               hidden={watch('cat').length > 4}
               className="add-field-btn"
               onClick={() => catAppend(catObj)}
+              style={{
+                background: '#ffecea',
+                color: '#ffa195',
+                outline: 'none',
+                border: 'none',
+                borderRadius: 15,
+              }}
             >
               <i class="fas fa-plus mr-1" />
               Add another cat
