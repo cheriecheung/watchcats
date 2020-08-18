@@ -54,7 +54,7 @@ function SitterProfile() {
   const sendData = (data) => {
     console.log(data);
   };
-  const color = themeColor.green;
+  const color = themeColor.grey;
 
   return (
     <>
@@ -96,38 +96,38 @@ function SitterProfile() {
 
           <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>Experience and service</h6>
-
+            <p style={{ margin: '20px 0 30px 0' }}>
+              Please select relevant experience / skills you possess. For every
+              item selected, please briefly explain the details in the text box
+              below.
+            </p>
             <Row>
-              <Col md={6}>
+              <Col md={12} className="sitter-skills">
+                <Checkbox name="hasCat">
+                  <span>Owns / owned a cat</span>
+                </Checkbox>
+                <Checkbox name="hasVolunteered">
+                  <span>Has done volunteer work</span>
+                </Checkbox>
+                <Checkbox name="hasMedicationSkills">
+                  <span>Able to administer medication</span>
+                </Checkbox>
+                <Checkbox name="hasInjectionSkills">
+                  <span> Able do injections</span>
+                </Checkbox>
+                <Checkbox name="hasCertification">
+                  <span>Has pet sitting certification</span>
+                </Checkbox>
+                <Checkbox name="hasGroomingSkills">
+                  <span>Has pet grooming skills</span>
+                </Checkbox>
+              </Col>
+
+              <Col md={12}>
                 <TextArea
                   name="experience"
                   placeholder="Tell cat owners about your service. What type of services can you offer as a cat sitter? Why should a cat sitter invite you to take care of their cats?"
                 />
-              </Col>
-
-              <Col Col md={6}>
-                <Checkbox name="hasCat" className="checkboxyz">
-                  <i class="fas fa-cat fa-lg mr-4" style={{ color }} />
-                  <span>Owns / owned a cat</span>
-                </Checkbox>
-                <Checkbox name="hasMedicationSkills">
-                  <i class="fas fa-pills fa-lg mr-4" style={{ color }} />
-                  <span>Able to administer medication</span>
-                </Checkbox>
-                <Checkbox name="hasInjectionSkills">
-                  <i class="fas fa-syringe fa-lg mr-4" style={{ color }} />
-                  <span> Able do injections</span>
-                </Checkbox>
-                <Checkbox name="hasCertification">
-                  <i class="fas fa-certificate fa-lg mr-4" style={{ color }} />
-                  <span>Has pet sitting certification</span>
-                </Checkbox>
-                <Checkbox name="hasGroomingSkills">
-                  <i class="fas fa-broom fa-lg mr-4" style={{ color }} />
-                  <span style={{ flexBasis: '90%' }}>
-                    Has pet grooming skills
-                  </span>
-                </Checkbox>
               </Col>
             </Row>
           </SectionContainer>

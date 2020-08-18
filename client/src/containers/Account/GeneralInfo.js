@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { Row, Col, Label, Input } from 'reactstrap';
 import {
+  FieldLabel,
   FormButtons,
   TextField,
   SectionContainer,
@@ -128,45 +129,55 @@ function GeneralInfo() {
 
             <Row>
               <Col md={6} className="mb-3">
-                <TextField name="firstName" title="First Name" />
+                <FieldLabel>First name</FieldLabel>
+                <TextField name="firstName" />
               </Col>
               <Col md={6} className="mb-3">
-                <TextField name="lastName" title="Last Name" />
+                <FieldLabel>Last name</FieldLabel>
+                <TextField name="lastName" />
               </Col>
               <Col md={6} className="mb-3">
-                <TextField name="mobile" title="Mobile" />
+                <FieldLabel>Mobile</FieldLabel>
+                <TextField name="mobile" />
               </Col>
               <Col md={6} className="mb-3">
-                <TextField name="email" title="Email" />
+                <FieldLabel>Email</FieldLabel>
+                <TextField name="email" />
+              </Col>
+              <Col md={6} className="mb-3">
+                <FieldLabel>Address</FieldLabel>
+                <TextField name="address" />
               </Col>
               <Col md={6}>
-                <TextField name="address1" title="Address 1" />
-              </Col>
-              <Col md={6}>
-                <TextField name="address2" title="Address 2" />
+                <FieldLabel>Postcode</FieldLabel>
+                <TextField name="postcode" />
               </Col>
             </Row>
           </SectionContainer>
 
           <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>Social media links</h6>
-            <Row>
+            <Row className="social-media-input">
               <Col md={6} className="mb-3">
+                <FieldLabel>Facebook profile</FieldLabel>
                 <TextField
                   name="profileFB"
-                  title="Facebook profile"
                   prefix={<i class="fab fa-facebook-square fa-lg mr-1" />}
                 />
               </Col>
               <Col md={6} className="mb-3">
+                <FieldLabel>Instagram profile</FieldLabel>
                 <TextField
                   name="profileIG"
-                  title="Instagram profile"
-                  //   prefix={<i class="fab fa-instagram fa-lg mr-1" />}
+                  prefix={<i class="fab fa-instagram fa-lg mr-1" />}
                 />
               </Col>
               <Col md={6}>
-                <TextField name="profileOther" title="Other profile" />
+                <FieldLabel>Other profile</FieldLabel>
+                <TextField
+                  name="profileOther"
+                  prefix={<i class="fas fa-user  mr-1" />}
+                />
               </Col>
             </Row>
           </SectionContainer>

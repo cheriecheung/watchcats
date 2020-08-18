@@ -32,7 +32,7 @@ const colourStyles = {
   control: (base, state) => ({
     ...base,
     border: state.isFocused ? bordercolor(0.3) : bordercolor(0.4),
-    borderRadius: '15px',
+    borderRadius: '10px',
     // backgroundColor: 'rgba(45, 144, 116, 0.05) ',
     boxShadow: 'none',
     '&:hover': {

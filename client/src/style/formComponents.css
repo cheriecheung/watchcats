@@ -2,7 +2,7 @@
   --theme-color-green: #3c7880;
   --theme-color-peach: #ffa195;
   --theme-color-pink: rgba(252, 237, 237, 0.5);
-  --theme-border-radius: 15px;
+  --theme-border-radius: 10px !important;
 }
 
 /* ------------------- Form ------------------- */
@@ -13,6 +13,10 @@
 }
 
 /* ------------------- Form element: Text type ------------------- */
+/* .social-media-input div:first-child .ant-input::before {
+  content: "Read this: ";
+} */
+
 .upload-file-input,
 .form-control {
   border-radius: var(--theme-border-radius) !important;
@@ -99,6 +103,21 @@ select:-webkit-autofill:focus {
   opacity: 0.75 !important;
 }
 
+.social-media-input div .ant-input-affix-wrapper {
+  height: 40px !important;
+  overflow: hidden !important;
+  border-radius: 10px !important;
+}
+
+.social-media-input div .ant-input-affix-wrapper .ant-input,
+.social-media-input div .ant-input-affix-wrapper:hover .ant-input {
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  height: 40px !important;
+  margin-top: -2% !important;
+}
+
 /* ------------------- antd radio ------------------- */
 .ant-radio-button-wrapper {
   color: #a8a5a5 !important;
@@ -110,9 +129,10 @@ select:-webkit-autofill:focus {
 .ant-radio-button-wrapper:hover,
 .ant-radio-button-wrapper-checked {
   color: #ffa195 !important;
-  border: 2px solid rgb(255, 161, 149, 0.5) !important;
+  border: 1px solid rgb(255, 161, 149, 0.5) !important;
+  background: rgb(255, 236, 234, 0.4) !important;
   -webkit-box-shadow: 0 0 0 2px rgb(255, 161, 149, 0.5) !important;
-  box-shadow: 0 0 0 2pxrgb (255, 161, 149, 0.5) !important;
+  box-shadow: 0 0 0 2px rgb (255, 161, 149, 0.5) !important;
 }
 
 .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
@@ -150,11 +170,69 @@ select:-webkit-autofill:focus {
 
 /* ------------------- antd checkbox ------------------- */
 
-.row-reverse-checkbox {
-  width: 90% !important;
+.row-reverse-checkbox.ant-checkbox-wrapper {
+  width: 100% !important;
   display: flex !important;
-  flex-direction: row-reverse !important;
-  justify-content: space-between !important;
+  /* flex-direction: row-reverse !important; */
+  justify-content: flex-start !important;
+}
+
+.sitter-skills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.sitter-skills > div {
+  flex: 0 45%;
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 950px) {
+  .sitter-skills > div {
+    flex: 0 100%;
+    box-sizing: border-box;
+  }
+}
+
+.sitter-skills div .row-reverse-checkbox.ant-checkbox-wrapper {
+  padding-left: 35px !important;
+}
+
+.sitter-skills
+  div:first-child
+  .row-reverse-checkbox.ant-checkbox-wrapper::before {
+  content: '\f6be' !important;
+}
+
+.sitter-skills
+  div:nth-child(2)
+  .row-reverse-checkbox.ant-checkbox-wrapper::before {
+  content: '\f4be' !important;
+}
+
+.sitter-skills
+  div:nth-child(3)
+  .row-reverse-checkbox.ant-checkbox-wrapper::before {
+  content: '\f484' !important;
+}
+
+.sitter-skills
+  div:nth-child(4)
+  .row-reverse-checkbox.ant-checkbox-wrapper::before {
+  content: '\f48e' !important;
+}
+
+.sitter-skills
+  div:nth-child(5)
+  .row-reverse-checkbox.ant-checkbox-wrapper::before {
+  content: '\f559' !important;
+}
+
+.sitter-skills
+  div:nth-child(6)
+  .row-reverse-checkbox.ant-checkbox-wrapper::before {
+  content: '\f0c4' !important;
 }
 
 .ant-checkbox {
@@ -176,14 +254,16 @@ select:-webkit-autofill:focus {
   display: flex !important;
   justify-content: center !important;
   padding-top: 7px !important;
+  transition: 0.1s all 0.1s;
 }
 
 .ant-checkbox-wrapper:hover,
 .ant-checkbox-wrapper-checked {
   color: #ffa195 !important;
-  border: 2px solid rgb(255, 161, 149, 0.5) !important;
+  background: rgb(255, 236, 234, 0.4);
+  border: 1px solid rgb(255, 161, 149, 0.5) !important;
   -webkit-box-shadow: 0 0 0 2px rgb(255, 161, 149, 0.5) !important;
-  box-shadow: 0 0 0 2pxrgb (255, 161, 149, 0.5) !important;
+  box-shadow: 0 0 0 2px rgb (255, 161, 149, 0.5) !important;
 }
 
 .ant-checkbox-wrapper:first-child::before {
@@ -296,13 +376,14 @@ select:-webkit-autofill:focus {
 } */
 
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
-  background-color: rgba(32, 115, 103, 0.35) !important;
+  background-color: rgba(255, 161, 149, 0.5) !important;
+  color: #494442 !important;
 }
 
 .DayPicker-Day {
   background: #fff !important;
   border-radius: 0 !important;
-  border-top: 2px solid rgba(32, 115, 103, 0.15);
+  border-top: 2px solid rgba(197, 193, 199, 0.5);
   border-left: 8px solid #fff;
   width: 20px !important;
   margin: 10px !important;
@@ -312,7 +393,7 @@ select:-webkit-autofill:focus {
 }
 
 .DayPicker-Day:hover {
-  background: rgba(32, 115, 103, 0.1) !important;
+  background: rgb(255, 161, 149, 0.2) !important;
 }
 
 .DayPicker-Month {

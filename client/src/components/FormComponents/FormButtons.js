@@ -10,13 +10,14 @@ const ResetButton = styled.button`
 `;
 
 const SaveButton = styled.input`
-  background: ${themeColor.green};
+  background: ${themeColor.peach};
   border: none;
   outline: none;
   padding: 5px 25px;
   border-radius: 15px;
   color: #fff;
   height: 35px;
+  font-weight: 600;
 `;
 
 export default function FormButtons({ onClick }) {

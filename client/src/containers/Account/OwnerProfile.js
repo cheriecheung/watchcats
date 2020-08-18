@@ -187,7 +187,7 @@ function OwnerProfile() {
               className="add-field-btn"
               onClick={() => oneDayAppend(oneDayObj)}
               style={{
-                background: '#ffecea',
+                // background: '#ffecea',
                 color: '#ffa195',
                 outline: 'none',
                 border: 'none',
@@ -263,7 +263,7 @@ function OwnerProfile() {
               className="add-field-btn"
               onClick={() => overnightAppend(overnightObj)}
               style={{
-                background: '#ffecea',
+                //  background: '#ffecea',
                 color: '#ffa195',
                 outline: 'none',
                 border: 'none',
@@ -284,7 +284,13 @@ function OwnerProfile() {
 
             {catFields.map((item, index) => {
               return (
-                <div key={item.id}>
+                <div
+                  key={item.id}
+                  // style={{
+                  //   background:
+                  //     index % 2 !== 0 ? 'rgba(168, 165, 165, 0.1)' : 'none',
+                  // }}
+                >
                   <div
                     style={{ display: 'flex', justifyContent: 'space-between' }}
                   >
@@ -301,6 +307,7 @@ function OwnerProfile() {
                         border: 'none',
                         outline: 'none',
                         float: 'right',
+                        color: '#ffa195',
                       }}
                     >
                       Remove cat
@@ -417,7 +424,7 @@ function OwnerProfile() {
               className="add-field-btn"
               onClick={() => catAppend(catObj)}
               style={{
-                background: '#ffecea',
+                // background: '#ffecea',
                 color: '#ffa195',
                 outline: 'none',
                 border: 'none',
