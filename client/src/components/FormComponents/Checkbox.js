@@ -18,7 +18,7 @@ export function Checkbox({ name, children }) {
         defaultValue={false}
         render={({ value, onChange }) => (
           <AntCheckbox
-            className="row-reverse-checkbox"
+            className="custom-checkbox-basic"
             checked={value}
             onChange={(e) => {
               onChange(e.target.checked);
@@ -43,8 +43,7 @@ export function CheckboxGroup({ name, options }) {
       as={
         <AntCheckbox.Group
           options={options}
-          style={{ display: 'flex' }}
-          className="checkbox-group-padding"
+          className="custom-checkbox-group"
         />
       }
     />

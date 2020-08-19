@@ -14,7 +14,7 @@ export default function TextArea({ name, placeholder, rows = 10 }) {
         <textarea
           placeholder={placeholder}
           rows={rows}
-          className="text-area form-control"
+          className="form-control"
           style={{
             resize: 'none',
             fontSize: '0.9rem',

@@ -20,6 +20,15 @@ import {
   personalityOptions,
   medicineOptions,
 } from '../../constants';
+import styled from 'styled-components';
+
+const CatInfoContainer = styled.div`
+  text-align: left;
+  margin-bottom: 40px;
+  border-radius: 10px;
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 1);
+`;
 
 const oneDayObj = { date: '', startTime: '', endTime: '' };
 const overnightObj = { startDate: '', endDate: '' };
@@ -146,7 +155,7 @@ function OwnerProfile() {
                   </div>
 
                   <Row>
-                    <Col md={4} className="mb-3">
+                    <Col md={6} className="mb-3">
                       <div className="d-flex flex-column date-picker">
                         <FieldLabel>Date</FieldLabel>
                         <DatePicker
@@ -155,22 +164,28 @@ function OwnerProfile() {
                         />
                       </div>
                     </Col>
-                    <Col md={4} className="mb-3">
-                      <div className="d-flex flex-column time-picker">
-                        <FieldLabel>Start time</FieldLabel>
-                        <TimePicker
-                          name={`bookingOneDay[${index}].startTime`}
-                          title="Start time"
-                        />
-                      </div>
-                    </Col>
-                    <Col md={4} className="mb-3">
-                      <div className="d-flex flex-column time-picker">
-                        <FieldLabel>End time</FieldLabel>
-                        <TimePicker
-                          name={`bookingOneDay[${index}].endTime`}
-                          title="End time"
-                        />
+                    <Col md={6} className="mb-3">
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <div className="d-flex flex-column time-picker">
+                          <FieldLabel>Start time</FieldLabel>
+                          <TimePicker
+                            name={`bookingOneDay[${index}].startTime`}
+                            title="Start time"
+                          />
+                        </div>
+                        <i class="fas fa-arrow-right align-self-center mt-4" />
+                        <div className="d-flex flex-column time-picker">
+                          <FieldLabel>End time</FieldLabel>
+                          <TimePicker
+                            name={`bookingOneDay[${index}].endTime`}
+                            title="End time"
+                          />
+                        </div>
                       </div>
                     </Col>
                   </Row>
@@ -229,7 +244,30 @@ function OwnerProfile() {
                     </button>
                   </div>
 
-                  <Row>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <div className="d-flex flex-column date-picker overnight-visit-date-picker">
+                      <FieldLabel>Start date </FieldLabel>
+                      <DatePicker
+                        name={`bookingOvernight[${index}].startDate`}
+                        title="Start date"
+                      />
+                    </div>
+                    <i class="fas fa-arrow-right align-self-center mt-4" />
+                    <div className="d-flex flex-column date-picker overnight-visit-date-picker">
+                      <FieldLabel>End date</FieldLabel>
+                      <DatePicker
+                        name={`bookingOvernight[${index}].endDate`}
+                        title="End date"
+                      />
+                    </div>
+                  </div>
+
+                  {/* <Row>
                     <Col md={6} className="mb-3">
                       <div className="d-flex flex-column date-picker">
                         <FieldLabel>Start date </FieldLabel>
@@ -248,7 +286,7 @@ function OwnerProfile() {
                         />
                       </div>
                     </Col>
-                  </Row>
+                  </Row> */}
 
                   <hr
                     hidden={watch('bookingOvernight').length === 1}
@@ -279,17 +317,18 @@ function OwnerProfile() {
             </span>
           </SectionContainer>
 
-          <SectionContainer>
+          <CatInfoContainer>
             <h6 style={{ color, fontWeight: 800 }}>About my cat</h6>
 
             {catFields.map((item, index) => {
               return (
                 <div
                   key={item.id}
-                  // style={{
-                  //   background:
-                  //     index % 2 !== 0 ? 'rgba(168, 165, 165, 0.1)' : 'none',
-                  // }}
+                  style={{
+                    background:
+                      index % 2 !== 0 ? 'rgba(168, 165, 165, 0.05)' : 'none',
+                    padding: '0 20px',
+                  }}
                 >
                   <div
                     style={{ display: 'flex', justifyContent: 'space-between' }}
@@ -440,7 +479,7 @@ function OwnerProfile() {
               having them stay at a pet hotel, so they can all be taken care of
               by full time staff!
             </span>
-          </SectionContainer>
+          </CatInfoContainer>
 
           <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>Description of my cat(s)</h6>

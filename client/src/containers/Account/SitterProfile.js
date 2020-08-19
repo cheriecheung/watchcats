@@ -101,35 +101,35 @@ function SitterProfile() {
               item selected, please briefly explain the details in the text box
               below.
             </p>
-            <Row>
-              <Col md={12} className="sitter-skills">
-                <Checkbox name="hasCat">
-                  <span>Owns / owned a cat</span>
-                </Checkbox>
-                <Checkbox name="hasVolunteered">
-                  <span>Has done volunteer work</span>
-                </Checkbox>
-                <Checkbox name="hasMedicationSkills">
-                  <span>Able to administer medication</span>
-                </Checkbox>
-                <Checkbox name="hasInjectionSkills">
-                  <span> Able do injections</span>
-                </Checkbox>
-                <Checkbox name="hasCertification">
-                  <span>Has pet sitting certification</span>
-                </Checkbox>
-                <Checkbox name="hasGroomingSkills">
-                  <span>Has pet grooming skills</span>
-                </Checkbox>
-              </Col>
+            {/* <Row> */}
+            <div className="sitter-skills">
+              <Checkbox name="hasCat">
+                <span>Owns / owned a cat</span>
+              </Checkbox>
+              <Checkbox name="hasVolunteered">
+                <span>Has done volunteer work</span>
+              </Checkbox>
+              <Checkbox name="hasMedicationSkills">
+                <span>Able to administer medication</span>
+              </Checkbox>
+              <Checkbox name="hasInjectionSkills">
+                <span> Able do injections</span>
+              </Checkbox>
+              <Checkbox name="hasCertification">
+                <span>Has pet sitting certification</span>
+              </Checkbox>
+              <Checkbox name="hasGroomingSkills">
+                <span>Has pet grooming skills</span>
+              </Checkbox>
+            </div>
 
-              <Col md={12}>
-                <TextArea
-                  name="experience"
-                  placeholder="Tell cat owners about your service. What type of services can you offer as a cat sitter? Why should a cat sitter invite you to take care of their cats?"
-                />
-              </Col>
-            </Row>
+            {/* <Col md={12}>  */}
+            <TextArea
+              name="experience"
+              placeholder="Tell cat owners about your service. What type of services can you offer as a cat sitter? Why should a cat sitter invite you to take care of their cats?"
+            />
+            {/* </Col> */}
+            {/* </Row> */}
           </SectionContainer>
 
           <SectionContainer>
@@ -152,10 +152,52 @@ function SitterProfile() {
 
           <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>Availability</h6>
-            <DayPicker
-              selectedDays={selectedDays}
-              onDayClick={handleDayClick}
-            />
+            <Row>
+              <Col md={12}>
+                <p>
+                  Select the dates that you are not available, so that cat
+                  owners can send you requests based on your availability.
+                </p>
+              </Col>
+              <Col
+                md={12}
+                style={{ display: 'flex', justifyContent: 'center' }}
+              >
+                <DayPicker
+                  disabledDays={{ before: new Date() }}
+                  selectedDays={selectedDays}
+                  onDayClick={handleDayClick}
+                />
+              </Col>
+              <Col
+                md={12}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  marginTop: 15,
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                  }}
+                >
+                  <div className="calendar-available-date-box" />
+                  <span>Available</span>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginLeft: 50,
+                  }}
+                >
+                  <div className="calendar-unavailable-date-box" />
+                  <span>Unavailable</span>
+                </div>
+              </Col>
+            </Row>
           </SectionContainer>
 
           <SectionContainer>
