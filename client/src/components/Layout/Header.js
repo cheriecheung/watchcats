@@ -57,7 +57,7 @@ const Line = styled.span`
   width: 25px;
   height: 3px;
   margin: 5px;
-  background-color: #a0dfcf;
+  background-color: #fff;
   transition: width 0.4s ease-in-out;
 
   :nth-child(2) {
@@ -66,6 +66,7 @@ const Line = styled.span`
 `;
 
 const Overlay = styled.div`
+  z-index: 5;
   position: absolute;
   height: ${(props) => (props.open ? '91vh' : 0)};
   width: 100vw;

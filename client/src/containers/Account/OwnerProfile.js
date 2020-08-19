@@ -266,28 +266,6 @@ function OwnerProfile() {
                       />
                     </div>
                   </div>
-
-                  {/* <Row>
-                    <Col md={6} className="mb-3">
-                      <div className="d-flex flex-column date-picker">
-                        <FieldLabel>Start date </FieldLabel>
-                        <DatePicker
-                          name={`bookingOvernight[${index}].startDate`}
-                          title="Start date"
-                        />
-                      </div>
-                    </Col>
-                    <Col md={6} className="mb-3">
-                      <div className="d-flex flex-column date-picker">
-                        <FieldLabel>End date</FieldLabel>
-                        <DatePicker
-                          name={`bookingOvernight[${index}].endDate`}
-                          title="End date"
-                        />
-                      </div>
-                    </Col>
-                  </Row> */}
-
                   <hr
                     hidden={watch('bookingOvernight').length === 1}
                     style={{ margin: '30px 0' }}
@@ -318,7 +296,9 @@ function OwnerProfile() {
           </SectionContainer>
 
           <CatInfoContainer>
-            <h6 style={{ color, fontWeight: 800 }}>About my cat</h6>
+            <h6 style={{ color, fontWeight: 800, padding: 20 }}>
+              About my cat
+            </h6>
 
             {catFields.map((item, index) => {
               return (
@@ -327,7 +307,7 @@ function OwnerProfile() {
                   style={{
                     background:
                       index % 2 !== 0 ? 'rgba(168, 165, 165, 0.05)' : 'none',
-                    padding: '0 20px',
+                    padding: '20px 20px 0 20px',
                   }}
                 >
                   <div
@@ -452,7 +432,7 @@ function OwnerProfile() {
 
                   <hr
                     hidden={watch('cat').length === 1}
-                    style={{ margin: '20px 0px 35px 0' }}
+                    style={{ margin: '20px 0 0 0' }}
                   />
                 </div>
               );
@@ -468,6 +448,7 @@ function OwnerProfile() {
                 outline: 'none',
                 border: 'none',
                 borderRadius: 15,
+                padding: 20,
               }}
             >
               <i class="fas fa-plus mr-1" />

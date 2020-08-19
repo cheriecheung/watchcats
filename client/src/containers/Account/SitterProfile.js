@@ -207,10 +207,12 @@ function SitterProfile() {
             </p>
             <Row>
               <Col md={6}>
-                <TextField name="emergencyName" title="Full name" />
+                <FieldLabel>Full name</FieldLabel>
+                <TextField name="emergencyName" />
               </Col>
               <Col md={6}>
-                <TextField name="emergencyNumber" title="Mobile number" />
+                <FieldLabel>Contact number</FieldLabel>
+                <TextField name="emergencyNumber" />
               </Col>
             </Row>
           </SectionContainer>

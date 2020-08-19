@@ -3,7 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import Select from 'react-select';
 
-const bgColor = (opacity) => `rgba(32, 115, 103, ${opacity})`;
+const bgColor = (opacity) => `rgba(255, 161, 149, ${opacity})`;
 const bordercolor = (opacity) => `1px solid rgb(255, 161, 149, ${opacity})`;
 
 const colourStyles = {
@@ -15,28 +15,33 @@ const colourStyles = {
       backgroundColor: isDisabled
         ? null
         : isSelected
-        ? bgColor(0.6)
+        ? bgColor(0.5)
         : isFocused
         ? bgColor(0.2)
         : null,
-      color: '#333333',
+      color: '#494442',
 
       ':active': {
         ...styles[':active'],
         backgroundColor:
-          !isDisabled && (isSelected ? data.color : bgColor(0.4)),
+          !isDisabled && (isSelected ? data.color : bgColor(0.3)),
       },
     };
   },
 
   control: (base, state) => ({
     ...base,
-    border: state.isFocused ? bordercolor(0.3) : bordercolor(0.4),
+    // border: state.isFocused ? bordercolor(0.3) : bordercolor(0.4),
+    border: '1px solid #d9d9d9',
     borderRadius: '10px',
-    // backgroundColor: 'rgba(45, 144, 116, 0.05) ',
     boxShadow: 'none',
     '&:hover': {
-      border: state.isFocused ? bordercolor(0.3) : bordercolor(0.4),
+      // border: state.isFocused ? bordercolor(0.3) : bordercolor(0.4),
+      // border: '1px solid #d9d9d9',
+      cursor: 'pointer',
+      border: '1px solid rgba(255, 161, 149, 0.4)',
+      '-webkit-box-shadow': '0 0 0 2px rgba(255, 161, 149, 0.15) !important',
+      boxShadow: '0 0 0 2px rgba(255, 161, 149, 0.15) !important',
     },
   }),
 };

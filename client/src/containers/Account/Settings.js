@@ -76,32 +76,42 @@ function Settings() {
 
   const renderModalContent = () => {
     return modal.title === 'Add credit / debit card' ? (
-      <Row style={{ textAlign: 'left' }}>
-        <Col md={12} className="mb-3">
-          <Label>Card number</Label>
-          <AntInput
-            type="text"
-            onChange={handleCardNumber}
-            prefix={renderCardIcon()}
-          />
-        </Col>
-        <Col md={4}>
-          <Label>Expiry date</Label>
-          <Input
-            type="text"
-            placeholder="MM"
-            onChange={handleCardExpiryMonth}
-          />
-        </Col>
-        <Col md={4}>
-          <Label style={{ visibility: 'hidden' }}>Expiry date</Label>
-          <Input type="text" placeholder="YY" onChange={handleCardExpiryYear} />
-        </Col>
-        <Col md={4}>
-          <Label>CVV</Label>
-          <Input type="text" onChange={handleCardCvv} />
-        </Col>
-      </Row>
+      <div style={{ textAlign: 'left' }} className="credit-card-input">
+        <Label>Card number</Label>
+        <AntInput
+          type="text"
+          onChange={handleCardNumber}
+          prefix={renderCardIcon()}
+        />
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginTop: 20,
+          }}
+        >
+          <div style={{ width: '30%' }}>
+            <Label>Expiry date</Label>
+            <Input
+              type="text"
+              placeholder="MM"
+              onChange={handleCardExpiryMonth}
+            />
+          </div>
+          <div style={{ width: '30%' }}>
+            <Label style={{ visibility: 'hidden' }}>Expiry date</Label>
+            <Input
+              type="text"
+              placeholder="YY"
+              onChange={handleCardExpiryYear}
+            />
+          </div>
+          <div style={{ width: '30%' }}>
+            <Label>CVV</Label>
+            <Input type="text" onChange={handleCardCvv} />
+          </div>
+        </div>
+      </div>
     ) : (
       <h4>helo bank account</h4>
     );

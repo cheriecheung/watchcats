@@ -1,6 +1,6 @@
 :root {
   --theme-color-grey: #c5c1c7;
-  --theme-border-radius: 20px;
+  --theme-border-radius: 10px !important;
 }
 
 /* ------------------- antd tabs ------------------- */
@@ -65,6 +65,16 @@
 .ant-tabs-tab-btn:active,
 ant-tabs-tab-remove:active {
   color: var(--theme-color-grey) !important;
+}
+
+/* antd modal */
+.ant-modal-close {
+  outline: none !important;
+}
+
+.ant-modal-header,
+.ant-modal-content {
+  border-radius: var(--theme-border-radius) !important;
 }
 
 /* ------------------- google map Info Window close button ------------------- */
