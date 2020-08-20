@@ -205,9 +205,7 @@ function GeneralInfo() {
                 />
               </Col>
             </Row>
-          </SectionContainer>
 
-          <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>Police check (optional)</h6>
             <Row>
               <Col md={6} className="mb-3">

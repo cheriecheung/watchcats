@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DatePicker } from 'antd';
 import 'antd/dist/antd.css';
-import { useEffect } from 'react';
+import { themeColor } from '../../style/theme';
 
-function Search() {
+function Search({ setCenter, reset, setReset }) {
   const { t, i18n } = useTranslation();
   const [openStartDate, setOpenStartDate] = useState(false);
   const [startDate, setStartDate] = useState('');
@@ -52,12 +52,17 @@ function Search() {
       style={{
         height: 100,
         background: '#F8F8F8',
-        borderBottom: '1px solid #a0dfcf',
+        borderBottom: `1px solid ${themeColor.peach}`,
         display: 'flex',
         justifyContent: 'space-around',
         alignItems: 'center',
       }}
     >
+      <GooglePlaceAutoComplete
+        setCenter={setCenter}
+        reset={reset}
+        setReset={setReset}
+      />
       <div
         style={{
           marginTop: -10,
@@ -140,14 +145,65 @@ function Search() {
       >
         Requirement
       </button>
-
-      <input
-        type="text"
-        placeholder="Where would you like to search?"
-        style={{ outline: 'none', padding: 10, width: 200 }}
-      />
     </div>
   );
 }
 
 export default Search;
+
+const GooglePlaceAutoComplete = ({ setCenter, reset, setReset }) => {
+  let autoComplete;
+  // const { google } = window;
+  // const google = (window.google = window.google ? window.google : {});
+
+  const [address, setAddress] = useState('');
+  const autoCompleteRef = useRef(null);
+
+  const handlePlaceSelect = async (udpateAddress) => {
+    const addressObject = autoComplete.getPlace();
+    const newAddress = addressObject.formatted_address;
+    udpateAddress(newAddress);
+
+    const lat = addressObject.geometry.location.lat();
+    const lng = addressObject.geometry.location.lng();
+
+    setCenter({ lat, lng });
+    setReset(true);
+  };
+
+  const handleScriptLoad = (updateAddress, ref) => {
+    autoComplete = new window.google.maps.places.Autocomplete(ref.current, {
+      componentRestrictions: { country: 'nl' },
+    });
+    autoComplete.setFields([
+      'address_components',
+      'formatted_address',
+      'geometry',
+    ]);
+    autoComplete.addListener('place_changed', () =>
+      handlePlaceSelect(updateAddress)
+    );
+  };
+
+  useEffect(() => {
+    handleScriptLoad(setAddress, autoCompleteRef);
+  }, []);
+
+  useEffect(() => {
+    if (reset === false) {
+      setAddress('');
+    }
+  }, [reset]);
+
+  return (
+    <input
+      ref={autoCompleteRef}
+      onChange={(e) => setAddress(e.target.value)}
+      value={address}
+      type="text"
+      placeholder="Where would you like to search?"
+      className="find-sitter-by-address"
+      style={{ outline: 'none', padding: '5px 10px', width: 200 }}
+    />
+  );
+};

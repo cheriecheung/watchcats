@@ -169,19 +169,15 @@ function Settings() {
       <SectionContainer>
         <h6 style={{ color, fontWeight: 800 }}>Change password</h6>
         <Row>
-          <Col md={6} className="mb-3">
+          <Col md={4} className="mb-3">
             <Label>Current password</Label>
             <AntInput.Password />
           </Col>
-        </Row>
-        <Row>
-          <Col md={6} className="mb-3">
+          <Col md={4} className="mb-3">
             <Label>New password</Label>
             <AntInput.Password />
           </Col>
-        </Row>
-        <Row>
-          <Col md={6} className="mb-3">
+          <Col md={4} className="mb-3">
             <Label>Repeat new password</Label>
             <AntInput.Password />
           </Col>
@@ -191,22 +187,21 @@ function Settings() {
         </Button>
       </SectionContainer>
 
-      <SectionContainer>
+      {/* <SectionContainer>
         <h6 style={{ color, fontWeight: 800 }}>Change email</h6>
+        <span style={{ marginBottom: 30 }}>
+          Your email address will not change until you confirm it via email.
+        </span>
         <Row>
-          <Col md={6} className="mb-3">
+          <Col md={4} className="mb-3">
             <Label>New email</Label>
             <Input type="text" />
           </Col>
-        </Row>
-        <Row>
-          <Col md={6} className="mb-3">
+          <Col md={4} className="mb-3">
             <Label>Confirm new email</Label>
             <Input type="text" />
           </Col>
-        </Row>
-        <Row>
-          <Col md={6} className="mb-3">
+          <Col md={4} className="mb-3">
             <Label>Password</Label>
             <Input type="text" />
           </Col>
@@ -214,10 +209,7 @@ function Settings() {
         <Button color="info" size="sm">
           Change email
         </Button>
-        <span style={{ marginLeft: 10 }}>
-          Your email address will not change until you confirm it via email.
-        </span>
-      </SectionContainer>
+      </SectionContainer> */}
 
       <SectionContainer>
         <h6 style={{ color, fontWeight: 800 }}>Two-factor authentication</h6>
@@ -229,8 +221,8 @@ function Settings() {
       </SectionContainer>
 
       <SectionContainer>
-        <h6 style={{ color, fontWeight: 800 }}>Delete account</h6>
-        <Button color="danger" size="sm">
+        <h6 style={{ color: 'red', fontWeight: 800 }}>Delete account</h6>
+        <Button color="danger" size="sm" style={{ borderRadius: 10 }}>
           Delete account
         </Button>
       </SectionContainer>
