@@ -1,6 +1,81 @@
 :root {
+  --theme-color-peach: #ffa195;
   --theme-color-grey: #c5c1c7;
   --theme-border-radius: 10px !important;
+}
+
+/* ------------------- font awesome icons ------------------- */
+
+.icon-gender {
+  font-size: 25px;
+  margin-right: 15px;
+}
+
+.icon-yes-no {
+  font-size: 20px;
+  margin-right: 15px;
+}
+
+.icon-group-sort .ant-radio-button-wrapper {
+  margin: 0 5px !important;
+}
+
+.icon-sort-review {
+  font-size: 10px;
+  margin: 0 1px !important;
+}
+
+.icon-sort-distance,
+.icon-sort-price {
+  font-size: 15px;
+  margin-right: 7px !important;
+}
+
+.icon-verified {
+  font-size: 15px;
+  margin: 0 5px !important;
+}
+
+/* ------------------- pagination ------------------- */
+li.ant-pagination-prev button.ant-pagination-item-link,
+li.ant-pagination-next button.ant-pagination-item-link,
+li.ant-pagination-item {
+  border-radius: var(--theme-border-radius);
+}
+
+li.ant-pagination-prev .ant-pagination-item-link svg,
+li.ant-pagination-next .ant-pagination-item-link svg {
+  margin-top: -5px !important;
+}
+
+li.ant-pagination-prev:hover .ant-pagination-item-link,
+li.ant-pagination-next:hover .ant-pagination-item-link,
+li.ant-pagination-item:hover,
+.ant-pagination-item.ant-pagination-item-active,
+.ant-pagination-item.ant-pagination-item-active:hover,
+.ant-pagination-item.ant-pagination-item-active:focus {
+  border-color: var(--theme-color-peach);
+}
+
+li.ant-pagination-prev.ant-pagination-disabled:hover .ant-pagination-item-link,
+li.ant-pagination-next.ant-pagination-disabled:hover .ant-pagination-item-link {
+  border-color: #d9d9d9 !important;
+}
+
+/* li.ant-pagination-prev.ant-pagination-disabled:hover
+  button.ant-pagination-item-link {
+  border-color: 1px solid #d9d9d9 !important;
+} */
+
+li.ant-pagination-prev:hover .ant-pagination-item-link,
+li.ant-pagination-next:hover .ant-pagination-item-link,
+li.ant-pagination-prev:focus .ant-pagination-item-link svg,
+li.ant-pagination-next:focus .ant-pagination-item-link svg,
+li.ant-pagination-item:hover a,
+.ant-pagination-item.ant-pagination-item-active a,
+.ant-pagination-item.ant-pagination-item-active:hover a,
+.ant-pagination-item.ant-pagination-item-active:focus a {
+  color: var(--theme-color-peach);
 }
 
 /* ------------------- antd tabs ------------------- */

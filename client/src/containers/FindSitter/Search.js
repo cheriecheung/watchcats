@@ -1,213 +1,3 @@
-// import React, { useState, useEffect, useRef } from 'react';
-// import { useTranslation } from 'react-i18next';
-// import { DatePicker } from 'antd';
-// import 'antd/dist/antd.css';
-// import { themeColor } from '../../style/theme';
-
-// function Search({ setCenter, reset, setReset }) {
-//   const { t, i18n } = useTranslation();
-//   const [openStartDate, setOpenStartDate] = useState(false);
-//   const [startDate, setStartDate] = useState('');
-//   const [openEndDate, setOpenEndDate] = useState(false);
-//   const [endDate, setEndDate] = useState('');
-
-//   useEffect(() => {
-//     if (openStartDate) {
-//       setOpenEndDate(false);
-//     }
-//   }, [openStartDate]);
-
-//   useEffect(() => {
-//     if (openEndDate) {
-//       setOpenStartDate(false);
-//     }
-//   }, [openEndDate]);
-
-//   const pickerFooter = (type) => {
-//     return (
-//       <button
-//         style={{
-//           background: 'transparent',
-//           border: 'none',
-//           float: 'left',
-//           position: 'absolute',
-//         }}
-//         onClick={() => {
-//           if (type === 'startDate') {
-//             setStartDate('');
-//             setOpenStartDate(false);
-//           } else {
-//             setEndDate('');
-//             setOpenEndDate(false);
-//           }
-//         }}
-//       >
-//         CLEAR
-//       </button>
-//     );
-//   };
-
-//   return (
-//     <div
-//       style={{
-//         height: 100,
-//         background: '#F8F8F8',
-//         borderBottom: `1px solid ${themeColor.peach}`,
-//         display: 'flex',
-//         justifyContent: 'space-around',
-//         alignItems: 'center',
-//       }}
-//     >
-//       <GooglePlaceAutoComplete
-//         setCenter={setCenter}
-//         reset={reset}
-//         setReset={setReset}
-//       />
-//       <div
-//         style={{
-//           marginTop: -10,
-//           width: 130,
-//           display: 'flex',
-//           justifyContent: 'space-between',
-//         }}
-//       >
-//         <div>
-//           <button
-//             style={{
-//               background: '#a0dfcf',
-//               border: 'none',
-//               padding: 10,
-//               position: 'absolute',
-//               outline: 'none',
-//               width: 100,
-//             }}
-//             onClick={() => setOpenStartDate(!openStartDate)}
-//           >
-//             {startDate !== '' ? startDate : 'Start date'}
-//           </button>
-//           <DatePicker
-//             style={{ width: 0, zIndex: -1 }}
-//             open={openStartDate}
-//             renderExtraFooter={() => pickerFooter('startDate')}
-//             format="DD-MM-YY"
-//             onChange={(date, dateString) => {
-//               setStartDate(dateString);
-//               setOpenStartDate(false);
-//             }}
-//           />
-//         </div>
-
-//         <div>
-//           <button
-//             style={{
-//               background: '#a0dfcf',
-//               border: 'none',
-//               padding: 10,
-//               position: 'absolute',
-//               outline: 'none',
-//               width: 100,
-//             }}
-//             onClick={() => setOpenEndDate(!openEndDate)}
-//           >
-//             {endDate !== '' ? endDate : 'End date'}
-//           </button>
-//           <DatePicker
-//             style={{ width: 0, zIndex: -1 }}
-//             open={openEndDate}
-//             renderExtraFooter={() => pickerFooter('endDate')}
-//             format="DD-MM-YY"
-//             onChange={(date, dateString) => {
-//               setEndDate(dateString);
-//               setOpenEndDate(false);
-//             }}
-//           />
-//         </div>
-//       </div>
-
-//       <button
-//         style={{
-//           background: '#a0dfcf',
-//           border: 'none',
-//           padding: 10,
-//           outline: 'none',
-//         }}
-//       >
-//         About my cat(s)
-//       </button>
-
-//       <button
-//         style={{
-//           background: '#a0dfcf',
-//           border: 'none',
-//           padding: 10,
-//           outline: 'none',
-//         }}
-//       >
-//         Requirement
-//       </button>
-//     </div>
-//   );
-// }
-
-// export default Search;
-
-// const GooglePlaceAutoComplete = ({ setCenter, reset, setReset }) => {
-//   let autoComplete;
-//   // const { google } = window;
-//   // const google = (window.google = window.google ? window.google : {});
-
-//   const [address, setAddress] = useState('');
-//   const autoCompleteRef = useRef(null);
-
-//   const handlePlaceSelect = async (udpateAddress) => {
-//     const addressObject = autoComplete.getPlace();
-//     const newAddress = addressObject.formatted_address;
-//     udpateAddress(newAddress);
-
-//     const lat = addressObject.geometry.location.lat();
-//     const lng = addressObject.geometry.location.lng();
-
-//     setCenter({ lat, lng });
-//     setReset(true);
-//   };
-
-//   const handleScriptLoad = (updateAddress, ref) => {
-//     autoComplete = new window.google.maps.places.Autocomplete(ref.current, {
-//       componentRestrictions: { country: 'nl' },
-//     });
-//     autoComplete.setFields([
-//       'address_components',
-//       'formatted_address',
-//       'geometry',
-//     ]);
-//     autoComplete.addListener('place_changed', () =>
-//       handlePlaceSelect(updateAddress)
-//     );
-//   };
-
-//   useEffect(() => {
-//     handleScriptLoad(setAddress, autoCompleteRef);
-//   }, []);
-
-//   useEffect(() => {
-//     if (reset === false) {
-//       setAddress('');
-//     }
-//   }, [reset]);
-
-//   return (
-//     <input
-//       ref={autoCompleteRef}
-//       onChange={(e) => setAddress(e.target.value)}
-//       value={address}
-//       type="text"
-//       placeholder="Where would you like to search?"
-//       className="find-sitter-by-address"
-//       style={{ outline: 'none', padding: '5px 10px', width: 200 }}
-//     />
-//   );
-// };
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Row, Col } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
@@ -277,7 +67,7 @@ function Search({ setCenter }) {
         <form
           onSubmit={handleSubmit(sendData)}
           style={{
-            minHeight: 100,
+            minHeight: 120,
             display: 'flex',
             alignItems: 'center',
           }}
@@ -290,7 +80,7 @@ function Search({ setCenter }) {
               <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                 <div
                   className="d-flex flex-column date-picker"
-                  style={{ flexBasis: '45%', minWidth: 200 }}
+                  style={{ flexBasis: '45%' }}
                 >
                   <DatePicker name="startDate" placeholder="Start date" />
                 </div>
@@ -303,18 +93,18 @@ function Search({ setCenter }) {
                 </div>
               </div>
             </Col>
-            <Col md={4} className="mb-3">
+            <Col md={4} className="mb-3 icon-group-sort">
               <RadioGroup name="sortBy">
                 <RadioButton value="reviews" style={{ marginRight: 5 }}>
-                  <i className="fas fa-comment-dots fa-lg icon-sort" />
+                  <i className="fas fa-star icon-sort-distance" />
                   <span>Review</span>
                 </RadioButton>
                 <RadioButton value="Distance" style={{ marginRight: 5 }}>
-                  <i className="fas fa-road fa-lg icon-sort" />
+                  <i className="fas fa-map-marker-alt icon-sort-distance" />
                   <span>Distance</span>
                 </RadioButton>
                 <RadioButton value="price">
-                  <i className="fas fa-dollar-sign fa-lg icon-sort" />
+                  <i className="fas fa-euro-sign icon-sort-price" />
                   <span>Price</span>
                 </RadioButton>
               </RadioGroup>
@@ -327,104 +117,6 @@ function Search({ setCenter }) {
               </button>
             </Col>
           </Row>
-
-          {/* <div
-      style={{
-        height: 100,
-        background: '#F8F8F8',
-        borderBottom: `1px solid ${themeColor.peach}`,
-        display: 'flex',
-        // justifyContent: 'space-around',
-        alignItems: 'center',
-      }}
-    >
-      <GooglePlaceAutoComplete
-        setCenter={setCenter}
-      />
-
-      <div
-        style={{
-          marginTop: -10,
-          width: 130,
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div>
-          <button
-            style={{
-              background: '#a0dfcf',
-              border: 'none',
-              padding: 10,
-              position: 'absolute',
-              outline: 'none',
-              width: 100,
-            }}
-            onClick={() => setOpenStartDate(!openStartDate)}
-          >
-            {startDate !== '' ? startDate : 'Start date'}
-          </button>
-          <DatePicker
-            style={{ width: 0, zIndex: -1 }}
-            open={openStartDate}
-            renderExtraFooter={() => pickerFooter('startDate')}
-            format="DD-MM-YY"
-            onChange={(date, dateString) => {
-              setStartDate(dateString);
-              setOpenStartDate(false);
-            }}
-          />
-        </div>
-
-        <div>
-          <button
-            style={{
-              background: '#a0dfcf',
-              border: 'none',
-              padding: 10,
-              position: 'absolute',
-              outline: 'none',
-              width: 100,
-            }}
-            onClick={() => setOpenEndDate(!openEndDate)}
-          >
-            {endDate !== '' ? endDate : 'End date'}
-          </button>
-          <DatePicker
-            style={{ width: 0, zIndex: -1 }}
-            open={openEndDate}
-            renderExtraFooter={() => pickerFooter('endDate')}
-            format="DD-MM-YY"
-            onChange={(date, dateString) => {
-              setEndDate(dateString);
-              setOpenEndDate(false);
-            }}
-          />
-        </div>
-      </div>
-
-      <button
-        style={{
-          background: '#a0dfcf',
-          border: 'none',
-          padding: 10,
-          outline: 'none',
-        }}
-      >
-        About my cat(s)
-      </button>
-
-      <button
-        style={{
-          background: '#a0dfcf',
-          border: 'none',
-          padding: 10,
-          outline: 'none',
-        }}
-      >
-        Requirement
-      </button>
-    </div> */}
         </form>
       </FormProvider>
     </>

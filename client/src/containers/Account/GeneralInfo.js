@@ -158,21 +158,21 @@ function GeneralInfo() {
           <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>Social media links</h6>
             <Row className="social-media-input">
-              <Col md={6} className="mb-3">
+              <Col md={4} className="mb-3">
                 <FieldLabel>Facebook profile</FieldLabel>
                 <TextField
                   name="profileFB"
                   prefix={<i className="fab fa-facebook-square fa-lg mr-1" />}
                 />
               </Col>
-              <Col md={6} className="mb-3">
+              <Col md={4} className="mb-3">
                 <FieldLabel>Instagram profile</FieldLabel>
                 <TextField
                   name="profileIG"
                   prefix={<i className="fab fa-instagram fa-lg mr-1" />}
                 />
               </Col>
-              <Col md={6}>
+              <Col md={4}>
                 <FieldLabel>Other profile</FieldLabel>
                 <TextField
                   name="profileOther"
