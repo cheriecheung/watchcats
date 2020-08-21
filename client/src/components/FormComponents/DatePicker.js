@@ -3,13 +3,13 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { DatePicker as AntDatePicker } from 'antd';
 import moment from 'moment';
 
-export default function DatePicker({ name }) {
+export default function DatePicker({ name, placeholder }) {
   const { control, errors } = useFormContext();
 
   return (
     <Controller
       name={name}
-      as={<AntDatePicker placeholder="" />}
+      as={<AntDatePicker placeholder={placeholder} />}
       control={control}
     />
   );

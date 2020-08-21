@@ -82,7 +82,7 @@ function GeneralInfo() {
                   }}
                 />
                 {/* <div style={{ position: 'absolute' }}>
-              <i class="fas fa-camera fa-3x"></i>
+              <i className="fas fa-camera fa-3x"></i>
               <p>Drop your image here or click to add one</p>
             </div> */}
                 <Input
@@ -162,21 +162,21 @@ function GeneralInfo() {
                 <FieldLabel>Facebook profile</FieldLabel>
                 <TextField
                   name="profileFB"
-                  prefix={<i class="fab fa-facebook-square fa-lg mr-1" />}
+                  prefix={<i className="fab fa-facebook-square fa-lg mr-1" />}
                 />
               </Col>
               <Col md={6} className="mb-3">
                 <FieldLabel>Instagram profile</FieldLabel>
                 <TextField
                   name="profileIG"
-                  prefix={<i class="fab fa-instagram fa-lg mr-1" />}
+                  prefix={<i className="fab fa-instagram fa-lg mr-1" />}
                 />
               </Col>
               <Col md={6}>
                 <FieldLabel>Other profile</FieldLabel>
                 <TextField
                   name="profileOther"
-                  prefix={<i class="fas fa-user  mr-1" />}
+                  prefix={<i className="fas fa-user  mr-1" />}
                 />
               </Col>
             </Row>

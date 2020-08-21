@@ -169,6 +169,10 @@ select:-webkit-autofill:focus {
   justify-content: space-around !important;
 }
 
+.custom-radio-button.ant-radio-button-wrapper {
+  min-width: 130px !important;
+}
+
 .custom-radio-button {
   width: var(--theme-select-button-width) !important;
   height: var(--theme-field-height) !important;
@@ -208,7 +212,8 @@ select:-webkit-autofill:focus {
   margin-right: 15px;
 }
 
-.icon-yes-no {
+.icon-yes-no,
+.icon-sort {
   font-size: 20px;
   margin-right: 15px;
 }
@@ -343,6 +348,22 @@ select:-webkit-autofill:focus {
 }
 
 /* ------------------- antd datepicker ------------------- */
+.ant-picker-cell-selected .ant-picker-cell-inner {
+  background: var(--theme-color-peach) !important;
+}
+
+.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+  border: none !important;
+}
+.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner {
+  color: red !important;
+  font-weight: bold;
+}
+
+.ant-picker-cell-selected.ant-picker-cell-today .ant-picker-cell-inner {
+  color: #fff !important;
+}
+
 .ant-picker-clear {
   display: flex !important;
 }

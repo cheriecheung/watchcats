@@ -21,7 +21,7 @@ function Home() {
     <>
       <h3>{t('home.i_am')}</h3>
       <animated.div
-        class="card_sphynx"
+        className="card_sphynx"
         //style={{
         //  transform: props.xy.interpolate(trans4),
         //}}
@@ -35,7 +35,7 @@ function Home() {
         onMouseMove={({ clientX: x, clientY: y }) => set({ xy: calc(x, y) })}
       >
         <animated.div
-          class="card2"
+          className="card2"
           style={{
             transform: props.xy.interpolate(trans2),
           }}
@@ -58,7 +58,7 @@ function Home() {
         </Link>
 
         <animated.div
-          class="card_scottish_fold"
+          className="card_scottish_fold"
           //style={{
           //  transform: props.xy.interpolate(trans3),
           //}}
@@ -79,7 +79,7 @@ function Home() {
           </h5>
         </Link>
         <animated.div
-          class="card_jump"
+          className="card_jump"
           style={{
             transform: props.xy.interpolate(trans_jump),
           }}

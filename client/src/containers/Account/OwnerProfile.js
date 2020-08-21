@@ -158,10 +158,7 @@ function OwnerProfile() {
                     <Col md={6} className="mb-3">
                       <div className="d-flex flex-column date-picker">
                         <FieldLabel>Date</FieldLabel>
-                        <DatePicker
-                          name={`bookingOneDay[${index}].date`}
-                          title="Date"
-                        />
+                        <DatePicker name={`bookingOneDay[${index}].date`} />
                       </div>
                     </Col>
                     <Col md={6} className="mb-3">
@@ -175,15 +172,13 @@ function OwnerProfile() {
                           <FieldLabel>Start time</FieldLabel>
                           <TimePicker
                             name={`bookingOneDay[${index}].startTime`}
-                            title="Start time"
                           />
                         </div>
-                        <i class="fas fa-arrow-right align-self-center mt-4" />
+                        <i className="fas fa-arrow-right align-self-center mt-4" />
                         <div className="d-flex flex-column time-picker">
                           <FieldLabel>End time</FieldLabel>
                           <TimePicker
                             name={`bookingOneDay[${index}].endTime`}
-                            title="End time"
                           />
                         </div>
                       </div>
@@ -209,7 +204,7 @@ function OwnerProfile() {
                 borderRadius: 15,
               }}
             >
-              <i class="fas fa-plus mr-1" />
+              <i className="fas fa-plus mr-1" />
               Add another time
             </button>
             <span hidden={watch('bookingOneDay').length < 2}>
@@ -254,16 +249,12 @@ function OwnerProfile() {
                       <FieldLabel>Start date </FieldLabel>
                       <DatePicker
                         name={`bookingOvernight[${index}].startDate`}
-                        title="Start date"
                       />
                     </div>
-                    <i class="fas fa-arrow-right align-self-center mt-4" />
+                    <i className="fas fa-arrow-right align-self-center mt-4" />
                     <div className="d-flex flex-column date-picker overnight-visit-date-picker">
                       <FieldLabel>End date</FieldLabel>
-                      <DatePicker
-                        name={`bookingOvernight[${index}].endDate`}
-                        title="End date"
-                      />
+                      <DatePicker name={`bookingOvernight[${index}].endDate`} />
                     </div>
                   </div>
                   <hr
@@ -286,7 +277,7 @@ function OwnerProfile() {
                 borderRadius: 15,
               }}
             >
-              <i class="fas fa-plus mr-1" />
+              <i className="fas fa-plus mr-1" />
               Add another time
             </button>
             <span hidden={watch('bookingOvernight').length < 2}>
@@ -348,11 +339,11 @@ function OwnerProfile() {
                       <br />
                       <RadioGroup name={`cat[${index}].gender`}>
                         <RadioButton value="M">
-                          <i class="fas fa-mars fa-2x icon-gender" />
+                          <i className="fas fa-mars fa-2x icon-gender" />
                           <span>Male</span>
                         </RadioButton>
                         <RadioButton value="F">
-                          <i class="fas fa-venus fa-2x icon-gender" />
+                          <i className="fas fa-venus fa-2x icon-gender" />
                           <span>Female</span>
                         </RadioButton>
                       </RadioGroup>
@@ -370,11 +361,11 @@ function OwnerProfile() {
                       <br />
                       <RadioGroup name={`cat[${index}].isVaccinated`}>
                         <RadioButton value="Y">
-                          <i class="fas fa-check fa-2x icon-yes-no" />
+                          <i className="fas fa-check fa-2x icon-yes-no" />
                           <span>Yes</span>
                         </RadioButton>
                         <RadioButton value="N">
-                          <i class="fas fa-times fa-2x icon-yes-no" />
+                          <i className="fas fa-times fa-2x icon-yes-no" />
                           <span>No</span>
                         </RadioButton>
                       </RadioGroup>
@@ -384,11 +375,11 @@ function OwnerProfile() {
                       <br />
                       <RadioGroup name={`cat[${index}].isInsured`}>
                         <RadioButton value="Y">
-                          <i class="fas fa-check fa-2x icon-yes-no" />
+                          <i className="fas fa-check fa-2x icon-yes-no" />
                           <span>Yes</span>
                         </RadioButton>
                         <RadioButton value="N">
-                          <i class="fas fa-times fa-2x icon-yes-no" />
+                          <i className="fas fa-times fa-2x icon-yes-no" />
                           <span>No</span>
                         </RadioButton>
                       </RadioGroup>
@@ -421,7 +412,7 @@ function OwnerProfile() {
                         className="upload-file-input form-control"
                       >
                         <i
-                          class="fas fa-upload"
+                          className="fas fa-upload"
                           style={{ opacity: 0.4, marginRight: 10 }}
                         />
                         <span>Upload</span>
@@ -451,7 +442,7 @@ function OwnerProfile() {
                 padding: 20,
               }}
             >
-              <i class="fas fa-plus mr-1" />
+              <i className="fas fa-plus mr-1" />
               Add another cat
             </button>
 

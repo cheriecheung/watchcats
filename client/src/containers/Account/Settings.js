@@ -65,7 +65,7 @@ function Settings() {
 
   const renderCardIcon = () => {
     return cardType === '' ? (
-      <i class="far fa-credit-card mr-1"></i>
+      <i className="far fa-credit-card mr-1" />
     ) : (
       <img
         src={require(`../../assets/images/paymentMethods/${cardType}.png`)}
@@ -135,7 +135,7 @@ function Settings() {
               })
             }
           >
-            <i class="fas fa-plus mr-1" />
+            <i className="fas fa-plus mr-1" />
             Add credit / debit card
           </button>
         </Col>
@@ -151,7 +151,7 @@ function Settings() {
               })
             }
           >
-            <i class="fas fa-plus mr-1" />
+            <i className="fas fa-plus mr-1" />
             Add bank account
           </button>
         </Col>

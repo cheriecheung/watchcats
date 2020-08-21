@@ -21,9 +21,13 @@ export function RadioGroup({ name, children }) {
   );
 }
 
-export function RadioButton({ value, children }) {
+export function RadioButton({ value, children, style }) {
   return (
-    <AntRadio.Button value={value} className="custom-radio-button">
+    <AntRadio.Button
+      value={value}
+      className="custom-radio-button"
+      style={style}
+    >
       {children}
     </AntRadio.Button>
   );

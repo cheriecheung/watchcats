@@ -146,13 +146,13 @@ function Header() {
             </Item>
             <Item>
               <Link to="/account" style={menuItemStyle}>
-                <i class="fas fa-user-circle" />
+                <i className="fas fa-user-circle" />
                 {/* {t('header.account')} */}
               </Link>
             </Item>
             <Item>
               <Link to="/login" style={menuItemStyle}>
-                <i class="fas fa-sign-out-alt" />
+                <i className="fas fa-sign-out-alt" />
                 {/* {t('header.logout')} */}
               </Link>
             </Item>
