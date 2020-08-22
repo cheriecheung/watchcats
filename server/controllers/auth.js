@@ -10,8 +10,8 @@ module.exports = {
 
     return res.status(200).json(authenticationURI);
   },
+
   googleUser: async (req, res) => {
-    console.log({ googleUserrrrrrrrrrrr: req.session });
     const { access_token, refresh_token } = await req.session;
 
     // if (!access_token && !refresh_token) {
@@ -55,10 +55,7 @@ module.exports = {
 
         if (user) {
           req.session.userId = user._id;
-          return res
-            .status(200)
-            .json({ sid: req.session.id, user: { name, email } });
-          // .json({ sid: req.session.id })
+          return res.status(200).json({ userId: user._id });
         }
       })
       .catch((error) => {

@@ -17,16 +17,9 @@ router.get('/oauth2callback', authenticateUser);
 
 router.get('/getUser', googleUser);
 
-router.get('/checkloggedIn', (req, res) => {
-  console.log({ checkloggedIn: req.session });
+router.get('/checkloggedIn', async (req, res) => {
+  console.log({ checkloggedIn: req.session.userId });
   return res.json(req.session.userId);
-  // User.findById(req.session.userId)
-  //   .populate('member')
-  //   .exec((err, user) => {
-  //     if (err) return err;
-  //     console.log({ member: user.member });
-  //     return res.status(200).json({ memberProfileHere: user });
-  //   });
 });
 
 router.delete('/userlogout', (req, res) => {

@@ -21,22 +21,22 @@ const userSchema = new Schema({
   },
   firstName: {
     type: String,
-    required: true,
+    required: false,
   },
   lastName: {
     type: String,
-    required: true,
+    required: false,
   },
   // profileImage: {
   //   type: String,
   // },
   phone: {
     type: String,
-    required: true,
+    required: false,
   },
   address1: {
     type: String,
-    required: true,
+    required: false,
   },
   address2: {
     type: String,
@@ -44,7 +44,7 @@ const userSchema = new Schema({
   },
   addressProof: {
     type: String,
-    required: true,
+    required: false,
   },
   isAddressProofVerified: {
     type: String,

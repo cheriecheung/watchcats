@@ -2,6 +2,8 @@ const router = require('express').Router();
 const { registerValidation } = require('../helpers/validation');
 const bcrypt = require('bcryptjs');
 const User = require('../model/User');
+const Owner = require('../model/Owner');
+const mongoose = require('mongoose');
 const JWT = require('jsonwebtoken');
 const { sendActivateMail, sendResetPwMail } = require('../helpers/mailer');
 const { verifyAccessToken, signAccessToken } = require('../helpers/token');
@@ -80,6 +82,60 @@ router.post('/password-reset', verifyAccessToken, async (req, res) => {
       }
     }
   );
+});
+
+router.get('/owner', async (req, res) => {
+  const userId = req.headers['authorization'];
+
+  //User.findById(req.session.userId)
+  User.findById(userId)
+    .populate('owner')
+    .exec((err, user) => {
+      if (err) return err;
+
+      const {
+        owner: { aboutMe },
+      } = user;
+      return res.status(200).json({ aboutMe });
+    });
+});
+
+router.post('/owner', async (req, res) => {
+  const { aboutMe } = req.body;
+
+  const user = await User.findById(req.session.userId);
+
+  if (!user.owner) {
+    const newOwner = new Owner({
+      _id: new mongoose.Types.ObjectId(),
+      aboutMe,
+    });
+
+    await newOwner.save((err) => {
+      if (err) return err;
+      user.owner = newOwner._id;
+      user.save();
+    });
+  }
+
+  // .populate('owner')
+  // .exec(async (err, user) => {
+  //   if (err) return err;
+  //   if (!user.owner) {
+  //     const newOwner = new Owner({
+  //       _id: new mongoose.Types.ObjectId(),
+  //       aboutMe,
+  //     });
+
+  //     console.log('you are here');
+
+  //     await newOwner.save((err) => {
+  //       if (err) return err;
+  //       console.log({ YOUDIDIT: newOwner });
+  //     });
+  //   }
+  //   // return res.status(200).json({ memberProfileHere: user });
+  // });
 });
 
 module.exports = router;

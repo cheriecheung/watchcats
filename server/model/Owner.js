@@ -7,12 +7,13 @@ const ownerSchema = new Schema({
     ref: 'User',
   },
   aboutMe: {
-    type: Text,
+    type: String,
     required: true,
   },
   photo: {
     type: Schema.Types.ObjectId,
     ref: 'Photo',
+    required: false,
   },
   // appointmentOneTime: {
   // },
@@ -35,8 +36,8 @@ const ownerSchema = new Schema({
     required: false,
   },
   catsDescription: {
-    type: Text,
-    required: true,
+    type: String,
+    required: false,
   },
   createdAt: {
     type: Date,

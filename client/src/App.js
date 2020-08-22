@@ -26,7 +26,7 @@ function PrivateRoute({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={(props) =>
-        cookies.get('sessionId') ? (
+        cookies.get('userId') ? (
           <Component {...props} />
         ) : (
           <Redirect

@@ -137,7 +137,7 @@ function Header() {
       </div>
 
       <div style={{ display: 'flex' }}>
-        {cookies.get('sessionId') ? (
+        {cookies.get('userId') ? (
           <>
             <Item>
               <Link to="/bookings" style={menuItemStyle}>

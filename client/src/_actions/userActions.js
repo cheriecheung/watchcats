@@ -52,10 +52,9 @@ export function googleAuthenticate() {
         withCredentials: true,
         // credentials: 'include',
       })
-      .then(({ data: { sid, user } }) => {
-        console.log({ sid, user });
-        cookies.set('sessionId', sid);
-        dispatch({ type: 'GOOGLE_LOGIN_SUCCESS', user });
+      .then(({ data: { userId } }) => {
+        cookies.set('userId', userId);
+        dispatch({ type: 'GOOGLE_LOGIN_SUCCESS', userId });
         window.location = '/account';
       })
       .catch((error) => {
