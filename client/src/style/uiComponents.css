@@ -23,6 +23,11 @@
 .icon-sort-review {
   font-size: 10px;
   margin: 0 1px !important;
+  color: #ffc600;
+}
+
+.icon-sort-distance {
+  color: #c24136;
 }
 
 .icon-sort-distance,

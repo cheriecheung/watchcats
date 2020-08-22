@@ -10,6 +10,17 @@ import {
 import { useForm, FormProvider } from 'react-hook-form';
 import 'antd/dist/antd.css';
 import { themeColor } from '../../style/theme';
+import styled from 'styled-components';
+
+const SearchContainer = styled.div`
+  text-align: left;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.05), 0 1px 6px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 1);
+  overflow: hidden;
+  display: flex;
+`;
 
 function Search({ setCenter }) {
   const { t, i18n } = useTranslation();
@@ -62,64 +73,72 @@ function Search({ setCenter }) {
   };
 
   return (
-    <>
-      <FormProvider {...methods}>
-        <form
-          onSubmit={handleSubmit(sendData)}
-          style={{
-            minHeight: 120,
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <Row style={{ width: '100%', margin: '0 5px' }}>
-            <Col md={3} className="mb-3">
-              <GooglePlaceAutoComplete setCenter={setCenter} />
-            </Col>
-            <Col md={4} className="mb-3">
-              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+    <div style={{ paddingTop: 25 }}>
+      <SearchContainer>
+        <FormProvider {...methods}>
+          <form
+            onSubmit={handleSubmit(sendData)}
+            style={{
+              minHeight: 80,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <Row style={{ width: '100%', margin: '0 5px' }}>
+              <Col md={3}>
+                <GooglePlaceAutoComplete setCenter={setCenter} />
+              </Col>
+              <Col md={4}>
                 <div
-                  className="d-flex flex-column date-picker"
-                  style={{ flexBasis: '45%' }}
+                  style={{ display: 'flex', justifyContent: 'space-around' }}
                 >
-                  <DatePicker name="startDate" placeholder="Start date" />
+                  <div
+                    className="d-flex flex-column date-picker"
+                    style={{ flexBasis: '45%' }}
+                  >
+                    <DatePicker name="startDate" placeholder="Start date" />
+                  </div>
+                  <i className="fas fa-arrow-right align-self-center" />
+                  <div
+                    className="d-flex flex-column date-picker"
+                    style={{ flexBasis: '45%' }}
+                  >
+                    <DatePicker name="endDate" placeholder="End date" />
+                  </div>
                 </div>
-                <i className="fas fa-arrow-right align-self-center" />
-                <div
-                  className="d-flex flex-column date-picker"
-                  style={{ flexBasis: '45%' }}
+              </Col>
+              <Col md={4} className="icon-group-sort">
+                <RadioGroup name="sortBy">
+                  <RadioButton value="reviews" style={{ marginRight: 5 }}>
+                    <i className="fas fa-star icon-sort-price" />
+                    <span>Review</span>
+                  </RadioButton>
+                  <RadioButton value="Distance" style={{ marginRight: 5 }}>
+                    <i className="fas fa-map-marker-alt icon-sort-price" />
+                    <span>Distance</span>
+                  </RadioButton>
+                  <RadioButton value="price">
+                    <i className="fas fa-euro-sign icon-sort-price" />
+                    <span>Price</span>
+                  </RadioButton>
+                </RadioGroup>
+              </Col>
+              <Col md={1} style={{ alignSelf: 'center' }}>
+                <button
+                  style={{
+                    background: 'none',
+                    outline: 'none',
+                    border: 'none',
+                  }}
                 >
-                  <DatePicker name="endDate" placeholder="End date" />
-                </div>
-              </div>
-            </Col>
-            <Col md={4} className="mb-3 icon-group-sort">
-              <RadioGroup name="sortBy">
-                <RadioButton value="reviews" style={{ marginRight: 5 }}>
-                  <i className="fas fa-star icon-sort-distance" />
-                  <span>Review</span>
-                </RadioButton>
-                <RadioButton value="Distance" style={{ marginRight: 5 }}>
-                  <i className="fas fa-map-marker-alt icon-sort-distance" />
-                  <span>Distance</span>
-                </RadioButton>
-                <RadioButton value="price">
-                  <i className="fas fa-euro-sign icon-sort-price" />
-                  <span>Price</span>
-                </RadioButton>
-              </RadioGroup>
-            </Col>
-            <Col md={1} className="mb-3" style={{ alignSelf: 'center' }}>
-              <button
-                style={{ background: 'none', outline: 'none', border: 'none' }}
-              >
-                Reset
-              </button>
-            </Col>
-          </Row>
-        </form>
-      </FormProvider>
-    </>
+                  Reset
+                </button>
+              </Col>
+            </Row>
+          </form>
+        </FormProvider>
+      </SearchContainer>
+    </div>
   );
 }
 

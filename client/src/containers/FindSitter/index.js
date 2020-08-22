@@ -21,7 +21,6 @@ function FindSitter() {
             style={{
               background: 'lightblue',
               //  width: '80vh',
-              width: '95%',
               height: mapHeight,
               top: 20,
               bottom: 20,

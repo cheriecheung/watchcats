@@ -32,8 +32,12 @@ const CatInfoContainer = styled.div`
   background: rgba(255, 255, 255, 1);
 `;
 
-const oneDayObj = { date: '', startTime: '', endTime: '' };
-const overnightObj = { startDate: '', endDate: '' };
+const oneDayObj = {
+  date: '2020-08-27',
+  startTime: '',
+  endTime: '',
+};
+const overnightObj = { startDate: '2020-09-11', endDate: '' };
 const catObj = {
   name: '',
   age: '',
@@ -101,7 +105,7 @@ function OwnerProfile() {
   useEffect(() => {
     if (ownerData) {
       const { aboutMe } = ownerData;
-      reset({ ...defaultValues, aboutMe });
+      reset({ ...defaultValues, aboutMe, isVaccinated: true });
     }
   }, [ownerData]);
 

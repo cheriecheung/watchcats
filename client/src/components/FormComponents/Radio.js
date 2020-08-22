@@ -3,7 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { Radio as AntRadio } from 'antd';
 
 export function RadioGroup({ name, children }) {
-  const { control, errors } = useFormContext();
+  const { control, watch, errors } = useFormContext();
 
   return (
     <Controller
@@ -11,6 +11,7 @@ export function RadioGroup({ name, children }) {
       control={control}
       render={({ onChange }) => (
         <AntRadio.Group
+          value={watch(name)}
           onChange={(e) => onChange(e.target.value)}
           className="custom-radio-group"
         >
@@ -21,13 +22,9 @@ export function RadioGroup({ name, children }) {
   );
 }
 
-export function RadioButton({ value, children, style }) {
+export function RadioButton({ children, style }) {
   return (
-    <AntRadio.Button
-      value={value}
-      className="custom-radio-button"
-      style={style}
-    >
+    <AntRadio.Button className="custom-radio-button" style={style}>
       {children}
     </AntRadio.Button>
   );

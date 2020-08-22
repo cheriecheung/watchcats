@@ -364,6 +364,18 @@ select:-webkit-autofill:focus {
   width: 45%;
 }
 
+.ant-picker-month-btn:hover,
+.ant-picker-year-btn:hover,
+.ant-picker-decade-btn:hover {
+  color: var(--theme-color-peach) !important;
+}
+
+.ant-picker-time-panel-column
+  > li.ant-picker-time-panel-cell-selected
+  .ant-picker-time-panel-cell-inner {
+  background: var(--theme-field-border-hover) !important;
+}
+
 .date-picker .ant-picker,
 .time-picker .ant-picker {
   /* background-size: 20px 20px;
