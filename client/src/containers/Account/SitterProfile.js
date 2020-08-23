@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { Row, Col, Label, Input } from 'reactstrap';
 import moment from 'moment';
@@ -14,12 +14,14 @@ import {
 } from '../../components/FormComponents';
 import { themeColor } from '../../style/theme';
 import { priceOneDayOptions, priceOvernightOptions } from '../../constants';
+import { getSitter, saveSitter } from '../../_actions/accountActions';
+import { useDispatch, useSelector } from 'react-redux';
 
 import 'react-day-picker/lib/style.css';
 
 const defaultValues = {
-  aboutMe: '',
-  photos: [],
+  aboutSitter: '',
+  //photos: [],
   experience: '',
   hasCat: false,
   hasMedicationSkills: false,
@@ -28,12 +30,13 @@ const defaultValues = {
   hasGroomingSkills: false,
   priceOneTime: { value: '', label: '' },
   priceOvernight: { value: '', label: '' },
-  availability: [],
+  unavailableDates: [],
   emergencyName: '',
   emergencyNumber: '',
 };
 
 function SitterProfile() {
+  const dispatch = useDispatch();
   const methods = useForm();
   const { register, handleSubmit, reset } = methods;
   const [selectedDays, setSelectedDays] = useState([]);
@@ -51,22 +54,64 @@ function SitterProfile() {
     setSelectedDays(allDays);
   };
 
-  const sendData = (data) => {
-    console.log(data);
-  };
+  useEffect(() => {
+    dispatch(getSitter());
+  }, []);
+
+  const { data: sitterData } = useSelector((state) => state.account);
+
+  useEffect(() => {
+    console.log({ sitterData });
+    if (sitterData) {
+      const {
+        aboutSitter,
+        experience,
+        hasCat = false,
+        hasMedicationSkills = false,
+        hasInjectionSkills = false,
+        hasCertification = false,
+        hasGroomingSkills = false,
+        priceOneTime = { value: '', label: '' },
+        priceOvernight = { value: '', label: '' },
+        // unavailableDates= [],
+        emergencyName,
+        emergencyNumber,
+      } = sitterData;
+
+      reset({
+        ...defaultValues,
+        aboutSitter,
+        experience,
+        hasCat,
+        hasMedicationSkills,
+        hasInjectionSkills,
+        hasCertification,
+        hasGroomingSkills,
+        priceOneTime,
+        priceOvernight,
+        // unavailableDates,
+        emergencyName,
+        emergencyNumber,
+      });
+    }
+  }, [sitterData]);
+
+  const onSubmit = (data) => dispatch(saveSitter(data));
+  // const onSubmit = (data) => console.log(data);
+
   const color = themeColor.grey;
 
   return (
     <>
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(sendData)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>About me</h6>
 
             <Row>
               <Col md={6}>
                 <TextArea
-                  name="aboutMe"
+                  name="aboutSitter"
                   placeholder="Tell cat owners about yourself. Start with a little description of yourself - What do you do for a living? Why do you want to be a cat sitter?"
                 />
               </Col>

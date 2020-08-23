@@ -61,10 +61,9 @@ const defaultValues = {
 };
 
 function OwnerProfile() {
-  const [ownerInfo, setOwnerInfo] = useState({});
   const dispatch = useDispatch();
   const methods = useForm({ defaultValues });
-  const { register, control, handleSubmit, reset, watch, setValue } = methods;
+  const { register, control, handleSubmit, reset, watch } = methods;
   const {
     fields: oneDayFields,
     append: oneDayAppend,

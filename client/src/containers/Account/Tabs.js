@@ -35,7 +35,7 @@ function ProfileTabs() {
 
   return (
     <Tabs
-      defaultActiveKey="owner"
+      defaultActiveKey="sitter"
       tabPosition={tabPosition}
       className="vertical-tabs"
     >

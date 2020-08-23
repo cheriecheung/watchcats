@@ -3,6 +3,7 @@ const { registerValidation } = require('../helpers/validation');
 const bcrypt = require('bcryptjs');
 const User = require('../model/User');
 const Owner = require('../model/Owner');
+const Sitter = require('../model/Sitter');
 const AppointmentOneDay = require('../model/AppointmentOneDay');
 const AppointmentOvernight = require('../model/AppointmentOvernight');
 const Cat = require('../model/Cat');
@@ -87,8 +88,128 @@ router.post('/password-reset', verifyAccessToken, async (req, res) => {
   );
 });
 
+router.get('/sitter', async (req, res) => {
+  const userId = req.headers['authorization'];
+  // const user = await User.findById(userId);
+
+  // if (user.sitter) {
+  User.findById(userId)
+    .populate('sitter')
+    .exec(async (err, user) => {
+      if (err) return err;
+
+      const {
+        sitter: {
+          aboutSitter,
+          experience,
+          hasCat,
+          hasMedicationSkills,
+          hasVolunteered,
+          hasInjectionSkills,
+          hasCertification,
+          hasGroomingSkills,
+          priceOneTime,
+          priceOvernight,
+          emergencyName,
+          emergencyNumber,
+        },
+      } = user;
+
+      return res.status(200).json({
+        aboutSitter,
+        experience,
+        hasCat,
+        hasMedicationSkills,
+        hasVolunteered,
+        hasInjectionSkills,
+        hasCertification,
+        hasGroomingSkills,
+        priceOneTime,
+        priceOvernight,
+        //unavailableDates: [],
+        emergencyName,
+        emergencyNumber,
+      });
+    });
+  // }
+
+  // return res.status(200).json('Youve arrived in sitter profile page');
+});
+
+router.post('/sitter', async (req, res) => {
+  const userId = req.headers['authorization'];
+  const user = await User.findById(userId);
+  const {
+    aboutSitter,
+    experience,
+    hasCat,
+    hasMedicationSkills,
+    hasVolunteered,
+    hasInjectionSkills,
+    hasCertification,
+    hasGroomingSkills,
+    priceOneTime,
+    priceOvernight,
+    emergencyName,
+    emergencyNumber,
+  } = req.body;
+
+  if (!user.sitter) {
+    const newSitter = new Sitter({
+      _id: new mongoose.Types.ObjectId(),
+      aboutSitter,
+      experience,
+      hasCat,
+      hasMedicationSkills,
+      hasVolunteered,
+      hasInjectionSkills,
+      hasCertification,
+      hasGroomingSkills,
+      priceOneTime,
+      priceOvernight,
+      emergencyName,
+      emergencyNumber,
+    });
+
+    await newSitter.save((err) => {
+      if (err) return err;
+      user.sitter = newSitter._id;
+      user.save();
+
+      return res.status(201).json('Sitter profile successful created');
+    });
+  }
+
+  if (user.sitter) {
+    User.findById(userId)
+      .populate('sitter')
+      .exec(async (err, user) => {
+        if (err) return err;
+
+        const { sitter } = user;
+        sitter.aboutSitter = aboutSitter;
+        sitter.experience = experience;
+        sitter.hasCat = hasCat;
+        sitter.hasMedicationSkills = hasMedicationSkills;
+        sitter.hasVolunteered = hasVolunteered;
+        sitter.hasInjectionSkills = hasInjectionSkills;
+        sitter.hasCertification = hasCertification;
+        sitter.hasGroomingSkills = hasGroomingSkills;
+        sitter.priceOneTime = priceOneTime;
+        sitter.priceOvernight = priceOvernight;
+        sitter.emergencyName = emergencyName;
+        sitter.emergencyNumber = emergencyNumber;
+        sitter.save();
+
+        return res.status(200).json('Sitter profile successful updated');
+      });
+  }
+});
+
 router.get('/owner', async (req, res) => {
   const userId = req.headers['authorization'];
+
+  // ---------------- if (user.owner)
 
   // if appointment date is passed, delete it
 

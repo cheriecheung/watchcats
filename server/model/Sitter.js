@@ -6,19 +6,23 @@ const sitterSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-  aboutMe: {
-    type: Text,
-    required: true,
+  aboutSitter: {
+    type: String,
+    required: false,
   },
-  photo: {
-    type: Schema.Types.ObjectId,
-    ref: 'Photo',
-  },
+  // photo: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Photo',
+  // },
   experience: {
-    type: Text,
-    required: true,
+    type: String,
+    required: false,
   },
   hasCat: {
+    type: Boolean,
+    required: false,
+  },
+  hasVolunteered: {
     type: Boolean,
     required: false,
   },
@@ -39,24 +43,24 @@ const sitterSchema = new Schema({
     required: false,
   },
   priceOneTime: {
-    type: Number,
-    required: true,
+    type: Object,
+    required: false,
   },
   priceOvernight: {
-    type: Number,
-    required: true,
+    type: Object,
+    required: false,
   },
   unavailableDate: {
     type: Schema.Types.ObjectId,
     ref: 'UnavailableDate',
   },
-  emergencyContactNumber: {
+  emergencyName: {
     type: String,
-    required: true,
+    required: false,
   },
-  emergencyContactName: {
+  emergencyNumber: {
     type: String,
-    required: true,
+    required: false,
   },
   createdAt: {
     type: Date,
