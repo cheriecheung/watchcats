@@ -8,35 +8,39 @@ const catSchema = new Schema({
   },
   name: {
     type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
+    required: false,
   },
   age: {
     type: Number,
-    required: true,
+    required: false,
   },
   gender: {
     type: String,
-    required: true,
-  },
-  breed: {
-    type: String,
-    required: true,
+    required: false,
   },
   medicalNeeds: {
-    type: String,
-    required: true,
+    type: Array,
+    required: false,
+  },
+  isVaccinated: {
+    type: Boolean,
+    required: false,
+  },
+  isInsured: {
+    type: Boolean,
+    required: false,
+  },
+  breed: {
+    type: Object,
+    required: false,
   },
   personality: {
-    type: String,
-    required: true,
+    type: Object,
+    required: false,
   },
   favouriteTreat: {
     type: String,
-    required: true,
+    required: false,
   },
   // photos: {
   // },

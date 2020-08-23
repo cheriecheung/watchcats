@@ -5,6 +5,7 @@ const User = require('../model/User');
 const Owner = require('../model/Owner');
 const AppointmentOneDay = require('../model/AppointmentOneDay');
 const AppointmentOvernight = require('../model/AppointmentOvernight');
+const Cat = require('../model/Cat');
 const mongoose = require('mongoose');
 const JWT = require('jsonwebtoken');
 const { sendActivateMail, sendResetPwMail } = require('../helpers/mailer');
@@ -101,28 +102,68 @@ router.get('/owner', async (req, res) => {
         owner: { id: ownerId, aboutMe, catsDescription },
       } = user;
 
-      const allOneDays = await AppointmentOneDay.find({
-        owner: mongoose.Types.ObjectId(ownerId),
+      let bookingOneDay, bookingOvernight, cat;
+
+      const [allOneDays, allOvernight, allCats] = await Promise.all([
+        AppointmentOneDay.find({
+          owner: mongoose.Types.ObjectId(ownerId),
+        }),
+        AppointmentOvernight.find({
+          owner: mongoose.Types.ObjectId(ownerId),
+        }),
+        Cat.find({
+          owner: mongoose.Types.ObjectId(ownerId),
+        }),
+      ]);
+
+      if (allOneDays.length > 0) {
+        bookingOneDay = allOneDays.map(({ date, startTime, endTime }) => ({
+          date,
+          startTime,
+          endTime,
+        }));
+      }
+
+      if (allOvernight.length > 0) {
+        bookingOvernight = allOvernight.map(({ startDate, endDate }) => ({
+          startDate,
+          endDate,
+        }));
+      }
+
+      if (allCats.length > 0) {
+        cat = allCats.map(
+          ({
+            name,
+            age,
+            gender,
+            medicalNeeds,
+            isVaccinated,
+            isInsured,
+            breed,
+            personality,
+            favouriteTreat,
+          }) => ({
+            name,
+            age,
+            gender,
+            medicalNeeds,
+            isVaccinated,
+            isInsured,
+            breed,
+            personality,
+            favouriteTreat,
+          })
+        );
+      }
+
+      return res.status(200).json({
+        aboutMe,
+        bookingOneDay,
+        bookingOvernight,
+        cat,
+        catsDescription,
       });
-
-      const allOvernight = await AppointmentOvernight.find({
-        owner: mongoose.Types.ObjectId(ownerId),
-      });
-
-      const bookingOneDay = allOneDays.map(({ date, startTime, endTime }) => ({
-        date,
-        startTime,
-        endTime,
-      }));
-
-      const bookingOvernight = allOvernight.map(({ startDate, endDate }) => ({
-        startDate,
-        endDate,
-      }));
-
-      return res
-        .status(200)
-        .json({ aboutMe, catsDescription, bookingOneDay, bookingOvernight });
     });
 });
 
@@ -131,9 +172,10 @@ router.post('/owner', async (req, res) => {
   const user = await User.findById(userId);
   const {
     aboutMe,
-    catsDescription,
     bookingOneDay: oneDay,
     bookingOvernight: overnight,
+    cat: catData,
+    catsDescription,
   } = req.body;
 
   if (!user.owner) {
@@ -164,6 +206,36 @@ router.post('/owner', async (req, res) => {
         });
         newOvernight.save();
       });
+    }
+
+    if (catData.length > 0) {
+      catData.forEach(
+        ({
+          name,
+          age,
+          gender,
+          medicalNeeds,
+          isVaccinated,
+          isInsured,
+          breed,
+          personality,
+          favouriteTreat,
+        }) => {
+          const newCat = new Cat({
+            owner: newOwner._id,
+            name,
+            age,
+            gender,
+            medicalNeeds,
+            isVaccinated,
+            isInsured,
+            breed,
+            personality,
+            favouriteTreat,
+          });
+          newCat.save();
+        }
+      );
     }
 
     await newOwner.save((err) => {
@@ -232,6 +304,60 @@ router.post('/owner', async (req, res) => {
 
           allOvernight.forEach((item, index) => {
             if (!overnight[index]) allOvernight[index].remove();
+          });
+        }
+
+        if (catData.length > 0) {
+          const allCats = await Cat.find({
+            owner: ownerIdObj,
+          });
+
+          catData.forEach(
+            (
+              {
+                name,
+                age,
+                gender,
+                medicalNeeds,
+                isVaccinated,
+                isInsured,
+                breed,
+                personality,
+                favouriteTreat,
+              },
+              index
+            ) => {
+              if (allCats[index]) {
+                allCats[index].name = name;
+                allCats[index].age = age;
+                allCats[index].gender = gender;
+                allCats[index].medicalNeeds = medicalNeeds;
+                allCats[index].isVaccinated = isVaccinated;
+                allCats[index].isInsured = isInsured;
+                allCats[index].breed = breed;
+                allCats[index].personality = personality;
+                allCats[index].favouriteTreat = favouriteTreat;
+                allCats[index].save();
+              } else {
+                const newCat = new Cat({
+                  owner: ownerIdObj,
+                  name,
+                  age,
+                  gender,
+                  medicalNeeds,
+                  isVaccinated,
+                  isInsured,
+                  breed,
+                  personality,
+                  favouriteTreat,
+                });
+                newCat.save();
+              }
+            }
+          );
+
+          allCats.forEach((item, index) => {
+            if (!catData[index]) allCats[index].remove();
           });
         }
 

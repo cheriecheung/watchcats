@@ -47,7 +47,7 @@ const catObj = {
   breed: '',
   medicalNeeds: '',
   persionality: '',
-  favoriteTreat: '',
+  favouriteTreat: '',
   pictures: [],
 };
 
@@ -106,37 +106,11 @@ function OwnerProfile() {
     if (ownerData) {
       const {
         aboutMe,
-        bookingOneDay = [{}],
-        bookingOvernight = [{}],
-        cat = [{}],
+        bookingOneDay = [oneDayObj],
+        bookingOvernight = [overnightObj],
+        cat = [catObj],
         catsDescription,
       } = ownerData;
-      // const cat = [
-      //   {
-      //     name: 'Milkshake',
-      //     age: '9',
-      //     gender: 'M',
-      //     isVaccinated: false,
-      //     isInsured: true,
-      //     breed: { value: 4, label: 'British Shorthair' },
-      //     medicalNeeds: ['Injection', 'Pill'],
-      //     personality: { value: 4, label: 'Friendly and affectionate' },
-      //     favoriteTreat: 'Shrimp, potatoes',
-      //     pictures: [],
-      //   },
-      //   {
-      //     name: 'Bubble Tea',
-      //     age: '3',
-      //     gender: 'F',
-      //     isVaccinated: true,
-      //     isInsured: true,
-      //     breed: { value: 12, label: 'Ragdoll' },
-      //     medicalNeeds: ['Injection'],
-      //     personality: { value: 4, label: 'Friendly and affectionate' },
-      //     favoriteTreat: 'Chicken',
-      //     pictures: [],
-      //   },
-      // ];
 
       reset({
         ...defaultValues,
@@ -456,7 +430,7 @@ function OwnerProfile() {
                   </Col>
                   <Col md={6} className="mb-3">
                     <FieldLabel>Favorite treat</FieldLabel>
-                    <TextField name={`cat[${index}].favoriteTreat`} />
+                    <TextField name={`cat[${index}].favouriteTreat`} />
                   </Col>
                   <Col md={6} className="mb-3">
                     <FieldLabel>Pictures of your cat (max. 3)</FieldLabel>
