@@ -15,10 +15,14 @@ const ownerSchema = new Schema({
     ref: 'Photo',
     required: false,
   },
-  // appointmentOneTime: {
-  // },
-  // appointmentOvernight: {
-  // },
+  appointmentOneDay: {
+    type: Schema.Types.ObjectId,
+    ref: 'AppointmentOneDay',
+  },
+  appointmentOvernight: {
+    type: Schema.Types.ObjectId,
+    ref: 'AppointmentOvernight',
+  },
   hasBikeStorageNearby: {
     type: Boolean,
     required: false,
@@ -39,6 +43,11 @@ const ownerSchema = new Schema({
     type: String,
     required: false,
   },
+  // updatedAt: {
+  //   type: Date,
+  //   default: Date.now(),
+  //   required: false,
+  // },
   createdAt: {
     type: Date,
     default: Date.now(),

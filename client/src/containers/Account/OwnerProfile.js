@@ -33,11 +33,11 @@ const CatInfoContainer = styled.div`
 `;
 
 const oneDayObj = {
-  date: '2020-08-27',
+  date: '',
   startTime: '',
   endTime: '',
 };
-const overnightObj = { startDate: '2020-09-11', endDate: '' };
+const overnightObj = { startDate: '', endDate: '' };
 const catObj = {
   name: '',
   age: '',
@@ -57,7 +57,7 @@ const defaultValues = {
   bookingOneDay: [oneDayObj],
   bookingOvernight: [overnightObj],
   cat: [catObj],
-  descriptionCats: '',
+  catsDescription: '',
 };
 
 function OwnerProfile() {
@@ -104,12 +104,54 @@ function OwnerProfile() {
 
   useEffect(() => {
     if (ownerData) {
-      const { aboutMe } = ownerData;
-      reset({ ...defaultValues, aboutMe, isVaccinated: true });
+      const {
+        aboutMe,
+        bookingOneDay = [{}],
+        bookingOvernight = [{}],
+        cat = [{}],
+        catsDescription,
+      } = ownerData;
+      // const cat = [
+      //   {
+      //     name: 'Milkshake',
+      //     age: '9',
+      //     gender: 'M',
+      //     isVaccinated: false,
+      //     isInsured: true,
+      //     breed: { value: 4, label: 'British Shorthair' },
+      //     medicalNeeds: ['Injection', 'Pill'],
+      //     personality: { value: 4, label: 'Friendly and affectionate' },
+      //     favoriteTreat: 'Shrimp, potatoes',
+      //     pictures: [],
+      //   },
+      //   {
+      //     name: 'Bubble Tea',
+      //     age: '3',
+      //     gender: 'F',
+      //     isVaccinated: true,
+      //     isInsured: true,
+      //     breed: { value: 12, label: 'Ragdoll' },
+      //     medicalNeeds: ['Injection'],
+      //     personality: { value: 4, label: 'Friendly and affectionate' },
+      //     favoriteTreat: 'Chicken',
+      //     pictures: [],
+      //   },
+      // ];
+
+      reset({
+        ...defaultValues,
+        aboutMe,
+        bookingOneDay,
+        bookingOvernight,
+        cat,
+        catsDescription,
+      });
     }
   }, [ownerData]);
 
   const onSubmit = (data) => dispatch(saveOwner(data));
+  // const onSubmit = (data) => console.log(data);
+
   const color = '#252525';
 
   return (
@@ -173,13 +215,13 @@ function OwnerProfile() {
                 </div>
 
                 <Row>
-                  <Col md={6} className="mb-3">
+                  <Col md={6}>
                     <div className="d-flex flex-column date-picker">
                       <FieldLabel>Date</FieldLabel>
                       <DatePicker name={`bookingOneDay[${index}].date`} />
                     </div>
                   </Col>
-                  <Col md={6} className="mb-3">
+                  <Col md={6}>
                     <div
                       style={{
                         display: 'flex',
@@ -227,7 +269,7 @@ function OwnerProfile() {
             You can at most request 2 one-day appointments at the same time!
           </span>
 
-          <h6 style={{ marginTop: 30 }}>Overnight visit</h6>
+          <h6 style={{ marginTop: 40 }}>Overnight visit</h6>
 
           {overnightFields.map((item, index) => {
             return (
@@ -372,11 +414,11 @@ function OwnerProfile() {
                     <FieldLabel>Vaccinated</FieldLabel>
                     <br />
                     <RadioGroup name={`cat[${index}].isVaccinated`}>
-                      <RadioButton value="Y">
+                      <RadioButton value={true}>
                         <i className="fas fa-check fa-2x icon-yes-no" />
                         <span>Yes</span>
                       </RadioButton>
-                      <RadioButton value="N">
+                      <RadioButton value={false}>
                         <i className="fas fa-times fa-2x icon-yes-no" />
                         <span>No</span>
                       </RadioButton>
@@ -386,11 +428,11 @@ function OwnerProfile() {
                     <FieldLabel>Insured</FieldLabel>
                     <br />
                     <RadioGroup name={`cat[${index}].isInsured`}>
-                      <RadioButton value="Y">
+                      <RadioButton value={true}>
                         <i className="fas fa-check fa-2x icon-yes-no" />
                         <span>Yes</span>
                       </RadioButton>
-                      <RadioButton value="N">
+                      <RadioButton value={false}>
                         <i className="fas fa-times fa-2x icon-yes-no" />
                         <span>No</span>
                       </RadioButton>
@@ -468,7 +510,7 @@ function OwnerProfile() {
         <SectionContainer>
           <h6 style={{ color, fontWeight: 800 }}>Description of my cat(s)</h6>
           <TextArea
-            name="descriptionCats"
+            name="catsDescription"
             placeholder="Please write a description about your cat(s) - include their feeing, litter, playtime routine, and other needs. It is also important to include your vets details should the cat sitter needs to get hold if them."
             rows="5"
           />

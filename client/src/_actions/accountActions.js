@@ -25,10 +25,12 @@ export function getOwner() {
 }
 
 export function saveOwner(data) {
+  console.log({ data });
   return (dispatch) => {
     axios
       .post(ownerURL, data, config)
       .then((response) => {
+        console.log(response);
         dispatch({
           type: 'SAVE_PROFILE',
           payload: 'done',

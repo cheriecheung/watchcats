@@ -20,7 +20,7 @@ export default function DatePicker({ name, placeholder }) {
             return current && current < moment();
           }}
           onChange={(date, dateString) => setValue(name, dateString)}
-          value={selectedDate ? moment(selectedDate) : null}
+          value={selectedDate ? moment(selectedDate, 'YYYY-MM-DD') : null}
         />
       )}
     />

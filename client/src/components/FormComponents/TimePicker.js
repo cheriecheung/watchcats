@@ -4,7 +4,7 @@ import { TimePicker as AntTimePicker } from 'antd';
 import moment from 'moment';
 
 export default function TimePicker({ name }) {
-  const { control, setValue, errors } = useFormContext();
+  const { control, watch, setValue, errors } = useFormContext();
 
   const allSeconds = () => {
     const arr = Array.apply(null, Array(60));
@@ -12,6 +12,8 @@ export default function TimePicker({ name }) {
 
     return allSeconds;
   };
+
+  const selectedTime = watch(name);
 
   return (
     <>
@@ -28,6 +30,7 @@ export default function TimePicker({ name }) {
             disabledSeconds={() => allSeconds()}
             hideDisabledOptions={true}
             onChange={(date, timeString) => setValue(name, timeString)}
+            value={selectedTime ? moment(selectedTime, 'hh:mm') : null}
           />
         )}
         control={control}

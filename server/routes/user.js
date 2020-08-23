@@ -3,6 +3,8 @@ const { registerValidation } = require('../helpers/validation');
 const bcrypt = require('bcryptjs');
 const User = require('../model/User');
 const Owner = require('../model/Owner');
+const AppointmentOneDay = require('../model/AppointmentOneDay');
+const AppointmentOvernight = require('../model/AppointmentOvernight');
 const mongoose = require('mongoose');
 const JWT = require('jsonwebtoken');
 const { sendActivateMail, sendResetPwMail } = require('../helpers/mailer');
@@ -87,55 +89,160 @@ router.post('/password-reset', verifyAccessToken, async (req, res) => {
 router.get('/owner', async (req, res) => {
   const userId = req.headers['authorization'];
 
+  // if appointment date is passed, delete it
+
   //User.findById(req.session.userId)
   User.findById(userId)
     .populate('owner')
-    .exec((err, user) => {
+    .exec(async (err, user) => {
       if (err) return err;
 
       const {
-        owner: { aboutMe },
+        owner: { id: ownerId, aboutMe, catsDescription },
       } = user;
-      return res.status(200).json({ aboutMe });
+
+      const allOneDays = await AppointmentOneDay.find({
+        owner: mongoose.Types.ObjectId(ownerId),
+      });
+
+      const allOvernight = await AppointmentOvernight.find({
+        owner: mongoose.Types.ObjectId(ownerId),
+      });
+
+      const bookingOneDay = allOneDays.map(({ date, startTime, endTime }) => ({
+        date,
+        startTime,
+        endTime,
+      }));
+
+      const bookingOvernight = allOvernight.map(({ startDate, endDate }) => ({
+        startDate,
+        endDate,
+      }));
+
+      return res
+        .status(200)
+        .json({ aboutMe, catsDescription, bookingOneDay, bookingOvernight });
     });
 });
 
 router.post('/owner', async (req, res) => {
-  const { aboutMe } = req.body;
-
-  const user = await User.findById(req.session.userId);
+  const userId = req.headers['authorization'];
+  const user = await User.findById(userId);
+  const {
+    aboutMe,
+    catsDescription,
+    bookingOneDay: oneDay,
+    bookingOvernight: overnight,
+  } = req.body;
 
   if (!user.owner) {
     const newOwner = new Owner({
       _id: new mongoose.Types.ObjectId(),
       aboutMe,
+      catsDescription,
     });
+
+    if (oneDay.length > 0) {
+      oneDay.forEach(({ date, startTime, endTime }) => {
+        const newOneDay = new AppointmentOneDay({
+          owner: newOwner._id,
+          date,
+          startTime,
+          endTime,
+        });
+        newOneDay.save();
+      });
+    }
+
+    if (overnight.length > 0) {
+      overnight.forEach(({ startDate, endDate }) => {
+        const newOvernight = new AppointmentOvernight({
+          owner: newOwner._id,
+          startDate,
+          endDate,
+        });
+        newOvernight.save();
+      });
+    }
 
     await newOwner.save((err) => {
       if (err) return err;
       user.owner = newOwner._id;
       user.save();
+
+      return res.status(201).json('Owner profile successful created');
     });
   }
 
-  // .populate('owner')
-  // .exec(async (err, user) => {
-  //   if (err) return err;
-  //   if (!user.owner) {
-  //     const newOwner = new Owner({
-  //       _id: new mongoose.Types.ObjectId(),
-  //       aboutMe,
-  //     });
+  if (user.owner) {
+    User.findById(userId)
+      .populate('owner')
+      .exec(async (err, user) => {
+        if (err) return err;
 
-  //     console.log('you are here');
+        const ownerIdObj = user.owner;
 
-  //     await newOwner.save((err) => {
-  //       if (err) return err;
-  //       console.log({ YOUDIDIT: newOwner });
-  //     });
-  //   }
-  //   // return res.status(200).json({ memberProfileHere: user });
-  // });
+        if (oneDay.length > 0) {
+          const allOneDays = await AppointmentOneDay.find({
+            owner: ownerIdObj,
+          });
+
+          oneDay.forEach(({ date, startTime, endTime }, index) => {
+            if (allOneDays[index]) {
+              allOneDays[index].date = date;
+              allOneDays[index].startTime = startTime;
+              allOneDays[index].endTime = endTime;
+              allOneDays[index].save();
+            } else {
+              const newOneDay = new AppointmentOneDay({
+                owner: ownerIdObj,
+                date,
+                startTime,
+                endTime,
+              });
+              newOneDay.save();
+            }
+          });
+
+          allOneDays.forEach((item, index) => {
+            if (!oneDay[index]) allOneDays[index].remove();
+          });
+        }
+
+        if (overnight.length > 0) {
+          const allOvernight = await AppointmentOvernight.find({
+            owner: ownerIdObj,
+          });
+
+          overnight.forEach(({ startDate, endDate }, index) => {
+            if (allOvernight[index]) {
+              allOvernight[index].startDate = startDate;
+              allOvernight[index].endDate = endDate;
+              allOvernight[index].save();
+            } else {
+              const newOvernight = new AppointmentOvernight({
+                owner: ownerIdObj,
+                startDate,
+                endDate,
+              });
+              newOvernight.save();
+            }
+          });
+
+          allOvernight.forEach((item, index) => {
+            if (!overnight[index]) allOvernight[index].remove();
+          });
+        }
+
+        const { owner } = user;
+        owner.aboutMe = aboutMe;
+        owner.catsDescription = catsDescription;
+        owner.save();
+
+        return res.status(200).json('Owner profile successful updated');
+      });
+  }
 });
 
 module.exports = router;

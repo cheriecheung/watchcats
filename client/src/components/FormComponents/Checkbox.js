@@ -32,14 +32,14 @@ export function Checkbox({ name, children }) {
   );
 }
 
-export function CheckboxGroup({ name, options }) {
-  const { control, errors } = useFormContext();
+export function CheckboxGroup({ name, value, options }) {
+  const { control, watch, errors } = useFormContext();
 
   return (
     <Controller
       control={control}
       name={name}
-      defaultValue={false}
+      value={watch(value)}
       as={
         <AntCheckbox.Group
           options={options}
