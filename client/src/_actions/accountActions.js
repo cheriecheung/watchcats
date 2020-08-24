@@ -27,6 +27,7 @@ export function getSitter() {
 }
 
 export function saveSitter(data) {
+  console.log({ data });
   return (dispatch) => {
     axios
       .post(sitterURL, data, config)

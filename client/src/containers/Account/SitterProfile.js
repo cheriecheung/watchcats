@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { Row, Col, Label, Input } from 'reactstrap';
 import moment from 'moment';
-import DayPicker, { DateUtils } from 'react-day-picker';
+import { DateUtils } from 'react-day-picker';
 import {
+  Calendar,
   Checkbox,
   FieldLabel,
   FormButtons,
@@ -38,8 +39,8 @@ const defaultValues = {
 function SitterProfile() {
   const dispatch = useDispatch();
   const methods = useForm();
-  const { register, handleSubmit, reset } = methods;
-  const [selectedDays, setSelectedDays] = useState([]);
+  const { register, handleSubmit, watch, reset } = methods;
+  const selectedDays = watch('unavailableDates');
 
   const handleDayClick = (day, { selected }) => {
     const allDays = [...selectedDays];
@@ -51,7 +52,7 @@ function SitterProfile() {
     } else {
       allDays.push(day);
     }
-    setSelectedDays(allDays);
+    reset({ unavailableDates: allDays });
   };
 
   useEffect(() => {
@@ -73,7 +74,7 @@ function SitterProfile() {
         hasGroomingSkills = false,
         priceOneTime = { value: '', label: '' },
         priceOvernight = { value: '', label: '' },
-        // unavailableDates= [],
+        unavailableDates = [],
         emergencyName,
         emergencyNumber,
       } = sitterData;
@@ -89,7 +90,7 @@ function SitterProfile() {
         hasGroomingSkills,
         priceOneTime,
         priceOvernight,
-        // unavailableDates,
+        unavailableDates: unavailableDates.map((item) => new Date(item)),
         emergencyName,
         emergencyNumber,
       });
@@ -208,11 +209,17 @@ function SitterProfile() {
                 md={12}
                 style={{ display: 'flex', justifyContent: 'center' }}
               >
-                <DayPicker
+                <Calendar
+                  name="unavailableDates"
+                  selectedDays={selectedDays}
+                  handleDayClick={handleDayClick}
+                />
+                {/* <DayPicker
+                  name="unavailableDates"
                   disabledDays={{ before: new Date() }}
                   selectedDays={selectedDays}
                   onDayClick={handleDayClick}
-                />
+                /> */}
               </Col>
               <Col
                 md={12}

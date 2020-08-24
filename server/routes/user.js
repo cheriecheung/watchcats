@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../model/User');
 const Owner = require('../model/Owner');
 const Sitter = require('../model/Sitter');
+const UnavailableDate = require('../model/UnavailableDate');
 const AppointmentOneDay = require('../model/AppointmentOneDay');
 const AppointmentOvernight = require('../model/AppointmentOvernight');
 const Cat = require('../model/Cat');
@@ -100,6 +101,7 @@ router.get('/sitter', async (req, res) => {
 
       const {
         sitter: {
+          id: sitterId,
           aboutSitter,
           experience,
           hasCat,
@@ -115,6 +117,16 @@ router.get('/sitter', async (req, res) => {
         },
       } = user;
 
+      let unavailableDates;
+
+      const allDays = await UnavailableDate.find({
+        sitter: mongoose.Types.ObjectId(sitterId),
+      });
+
+      if (allDays.length > 0) {
+        unavailableDates = allDays.map(({ date }) => date);
+      }
+
       return res.status(200).json({
         aboutSitter,
         experience,
@@ -126,14 +138,11 @@ router.get('/sitter', async (req, res) => {
         hasGroomingSkills,
         priceOneTime,
         priceOvernight,
-        //unavailableDates: [],
+        unavailableDates,
         emergencyName,
         emergencyNumber,
       });
     });
-  // }
-
-  // return res.status(200).json('Youve arrived in sitter profile page');
 });
 
 router.post('/sitter', async (req, res) => {
@@ -150,9 +159,12 @@ router.post('/sitter', async (req, res) => {
     hasGroomingSkills,
     priceOneTime,
     priceOvernight,
+    unavailableDates: unavailableDatesData,
     emergencyName,
     emergencyNumber,
   } = req.body;
+
+  console.log({ unavailableDatesData });
 
   if (!user.sitter) {
     const newSitter = new Sitter({
@@ -171,6 +183,17 @@ router.post('/sitter', async (req, res) => {
       emergencyNumber,
     });
 
+    if (unavailableDatesData.length > 0) {
+      unavailableDatesData.forEach((date) => {
+        const newDate = new UnavailableDate({
+          sitter: newSitter._id,
+          date,
+        });
+
+        newDate.save();
+      });
+    }
+
     await newSitter.save((err) => {
       if (err) return err;
       user.sitter = newSitter._id;
@@ -185,6 +208,31 @@ router.post('/sitter', async (req, res) => {
       .populate('sitter')
       .exec(async (err, user) => {
         if (err) return err;
+
+        const sitterIdObj = user.sitter;
+
+        if (unavailableDatesData.length > 0) {
+          const allDays = await UnavailableDate.find({
+            sitter: sitterIdObj,
+          });
+
+          console.log({ allDays });
+
+          unavailableDatesData.forEach((date, index) => {
+            if (!allDays.includes(date)) {
+              const newDate = new UnavailableDate({
+                sitter: sitterIdObj,
+                date,
+              });
+              newDate.save();
+            }
+          });
+
+          allDays.length > 0 &&
+            allDays.forEach((item, index) => {
+              if (!unavailableDatesData.includes(item)) allDays[index].remove();
+            });
+        }
 
         const { sitter } = user;
         sitter.aboutSitter = aboutSitter;
