@@ -84,6 +84,9 @@ li.ant-pagination-item:hover a,
 }
 
 /* ------------------- antd tabs ------------------- */
+.ant-tabs-tabpane.ant-tabs-tabpane-active {
+  padding-left: 0 !important;
+}
 
 .horizontal-tabs .ant-tabs-nav {
   width: 100vw !important;
@@ -91,7 +94,12 @@ li.ant-pagination-item:hover a,
 
 .horizontal-tabs .ant-tabs-content-holder {
   border-left: none !important;
-  padding-left: 0 !important;
+  /* padding-left: 0 !important; */
+  margin-top: 20px !important;
+}
+
+.ant-tabs.ant-tabs-top.horizontal-tabs {
+  max-width: 900px !important;
 }
 
 @media only screen and (min-width: 930px) {
@@ -99,6 +107,7 @@ li.ant-pagination-item:hover a,
     margin-left: 20px;
     width: 200px;
   }
+
   .ant-tabs-content-holder {
     padding-left: 30px;
     padding-right: 50px;

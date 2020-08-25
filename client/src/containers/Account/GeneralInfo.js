@@ -101,9 +101,7 @@ function GeneralInfo() {
                 <Label>Profile picture</Label>
 
                 <div style={{ fontSize: '0.80rem' }}>
-                  <span>
-                    Please choose a high quality picture of yourself:{' '}
-                  </span>
+                  <span>Please choose a high quality picture of yourself:</span>
                   <ul style={{ padding: '0px 20px' }}>
                     <li>
                       A well-lit photo with your face fully visible, and in

@@ -5,10 +5,9 @@ import { SectionContainer } from '../../components/FormComponents';
 import styled from 'styled-components';
 import { Pagination } from 'antd';
 
-const cardHeight = 160;
+// const cardHeight = 160;
 
 const ResultContainer = styled.div`
-  height: ${cardHeight};
   text-align: left;
   margin-bottom: 25px;
   border-radius: 10px;
@@ -16,6 +15,7 @@ const ResultContainer = styled.div`
   background: rgba(255, 255, 255, 1);
   overflow: hidden;
   display: flex;
+  padding: 20px;
 `;
 
 let resultsFound = [
@@ -91,9 +91,12 @@ function Result() {
             <ResultContainer>
               <div
                 style={{
-                  height: cardHeight,
+                  //maxHeight: 150,
                   flexBasis: '26%',
-                  background: 'pink',
+                  margin: '0 15px 0 -20px',
+                  borderTopRightRadius: 10,
+                  borderBottomRightRadius: 10,
+                  overflow: 'hidden',
                 }}
               >
                 <img
@@ -104,9 +107,7 @@ function Result() {
               </div>
               <div
                 style={{
-                  height: cardHeight,
                   flexBasis: '75%',
-                  padding: '15px 15px 15px 20px',
                 }}
               >
                 <div
@@ -117,23 +118,36 @@ function Result() {
                 >
                   <h5>{item.value}</h5>
                   <div>
-                    <i className="fas fa-address-card icon-verified" />
-                    <i className="fas fa-home icon-verified" />
-                    <i className="fas fa-phone icon-verified" />
-                    <i className="fab fa-facebook-square icon-verified" />
+                    <div>
+                      <i className="fas fa-map-marker-alt icon-sort-distance" />
+                      <span>{'<'} 500m</span>
+                    </div>
+                    <div>
+                      <i className="fas fa-euro-sign icon-sort-price" />
+                      <span>{price} / booking</span>
+                    </div>
                   </div>
                 </div>
+                {/* <div className="mb-2">
+                  <span className="mr-2">Verified by: </span>
+                  <i className="fas fa-address-card icon-verified" />
+                  <i className="fas fa-home icon-verified" />
+                  <i className="fas fa-phone icon-verified" />
+                  <i className="fab fa-facebook-square icon-verified" />
+                </div> */}
                 <Row>
-                  <Col md={5} className="mb-2">
+                  <Col md={4} style={{ minWidth: 200 }} className="mb-2">
                     {fiveStarDisplay(12)}
                   </Col>
-                  <Col md={3} className="mb-2">
-                    <i className="fas fa-map-marker-alt icon-sort-distance" />
-                    <span>{'<'} 500m</span>
+                </Row>
+                <Row>
+                  <Col md={4} className="mb-2" style={{ minWidth: 200 }}>
+                    <i class="far fa-calendar-alt mr-2" />
+                    <span>10 Completed bookings</span>
                   </Col>
-                  <Col md={4} className="mb-2">
-                    <i className="fas fa-euro-sign icon-sort-price" />
-                    <span>{price} / booking</span>
+                  <Col className="mb-2" style={{ minWidth: 200 }}>
+                    <i className="fas fa-redo-alt mr-2" />
+                    <span>Repeated customer</span>
                   </Col>
                 </Row>
                 <hr style={{ margin: '10px 0' }} />
@@ -141,6 +155,9 @@ function Result() {
                   My name is Marieke. I have had a cat since I was 11 years old
                   and I have been in love with cats ever since then...
                 </p>
+                <a href="#" style={{ float: 'right' }}>
+                  View profile
+                </a>
               </div>
             </ResultContainer>
           );

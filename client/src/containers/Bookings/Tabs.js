@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
+import { Row, Col } from 'reactstrap';
 import ScreenWidthListener from '../../components/General/ScreenWidthListener';
 import { sitterBookings } from '../../constants';
 
@@ -10,6 +11,43 @@ const { TabPane } = Tabs;
 const Container = styled.div`
   text-align: left;
   margin: 0px 5%;
+`;
+
+const ActionButton = styled.button`
+  border: 1px solid ${(props) => props.backgroundColor};
+  border-radius: 15px;
+  background-color: #fff;
+  color: #494442;
+  outline: none;
+  padding: 0 15px;
+  height: 30px;
+  margin-right: 10px;
+`;
+
+const fiveStarDisplay = (number) => {
+  return (
+    <>
+      <i className="fas fa-star icon-sort-review" />
+      <i className="fas fa-star icon-sort-review" />
+      <i className="fas fa-star icon-sort-review" />
+      <i className="fas fa-star icon-sort-review" />
+      <i className="fas fa-star icon-sort-review" />
+      <span className="ml-1">{number}</span>
+    </>
+  );
+};
+
+const cardHeight = 140;
+
+const ResultContainer = styled.div`
+  height: ${cardHeight};
+  text-align: left;
+  padding: 20px;
+  margin-bottom: 40px;
+  border-radius: 10px;
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.05), 0 1px 6px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 1);
+  overflow: visible;
 `;
 
 function BookingTabs() {
@@ -149,32 +187,93 @@ function Requested({ bookings }) {
     <>
       {bookings.map(({ name, cat, email, phone, message }, index) => {
         return (
-          <div>
-            <b>Request No. {index + 1}</b>
-            <p>Owner: {name}</p>
-            <p>Email: {email}</p>
-            <p>Phone: {phone}</p>
-            <p>Cat: {cat}</p>
-            <p>Message: {message}</p>
+          <ResultContainer>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div
+                style={{
+                  width: cardHeight,
+                  height: cardHeight,
+                  marginLeft: -20,
+                  borderBottomRightRadius: 10,
+                  borderTopRightRadius: 10,
+                  overflow: 'hidden',
+                }}
+              >
+                <img
+                  src="https://images.pexels.com/photos/569170/pexels-photo-569170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                  alt="pic"
+                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                />
+              </div>
+              <div
+                style={{
+                  height: cardHeight,
+                  width: '80%',
+                  paddingLeft: 20,
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    marginBottom: 5,
+                  }}
+                >
+                  <h5>Kaitlynn</h5>
+                  <a href="#">View profile</a>
+                </div>
 
-            <Button variant="outline-primary" size="sm" className="mr-3">
-              Invite to meet up before accepting request
-            </Button>
-            <Button variant="outline-success" size="sm" className="mr-3">
-              Accept request
-            </Button>
-            <Button variant="outline-danger" size="sm" className="mr-3">
-              Cancel request
-            </Button>
+                <Row>
+                  <Col md={3}>Phone number:</Col>
+                  <Col md={6}>+31 06 23477622</Col>
+                </Row>
+                <Row style={{ marginTop: 10 }}>
+                  <Col md={3}>
+                    <span>Sitter needed:</span>
+                  </Col>
+                  <Col md={6}>
+                    <b
+                      style={{
+                        padding: '4px 10px',
+                        background: '#ffecea',
+                        borderRadius: 15,
+                      }}
+                    >
+                      25-08-2020, 11:00 - 13:00
+                    </b>
+                  </Col>
+                </Row>
+              </div>
+            </div>
 
-            <hr />
-          </div>
+            <div style={{ margin: '25px 0 30px 0' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <i class="fas fa-quote-left" />
+              </div>
+              <p style={{ margin: '10px 0 0 0', padding: '0 15px' }}>
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem
+                aperiam neque rerum velit architecto! Veniam, atque! Neque
+                repellendus dolor deserunt debitis obcaecati culpa ratione sed
+                nesciunt numquam architecto beatae, molestias nemo voluptatum
+                voluptas quos consequatur vero. Sit odit a eaque!
+              </p>
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <i class="fas fa-quote-right float-right" />
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <ActionButton backgroundColor="#FFAE42">
+                Invite to meet up first
+              </ActionButton>
+              <ActionButton backgroundColor="#FF5C4E">Reject</ActionButton>
+              <ActionButton backgroundColor="#9ACD32">Accept</ActionButton>
+            </div>
+          </ResultContainer>
         );
       })}
 
       <br />
-      <br />
-
       <p>
         Remark: It is highly recommended to have a meet up session between you
         and cat owners before accepting their requests. Directly accepting a
@@ -189,12 +288,12 @@ function Confirmed({ bookings }) {
     <>
       {bookings.map(({ name, cat }, index) => {
         return (
-          <div>
+          <ResultContainer>
             <p>{index + 1}</p>
             <p>Owner: {name}</p>
             <p>Cat: {cat}</p>
             <hr />
-          </div>
+          </ResultContainer>
         );
       })}
     </>
@@ -206,12 +305,12 @@ function Completed({ bookings }) {
     <>
       {bookings.map(({ name, cat }, index) => {
         return (
-          <div>
+          <ResultContainer>
             <p>{index + 1}</p>
             <p>Owner: {name}</p>
             <p>Cat: {cat}</p>
             <hr />
-          </div>
+          </ResultContainer>
         );
       })}
     </>
@@ -223,12 +322,12 @@ function Reviews({ bookings }) {
     <>
       {bookings.map(({ name, cat }, index) => {
         return (
-          <div>
+          <ResultContainer>
             <p>{index + 1}</p>
             <p>Owner: {name}</p>
             <p>Cat: {cat}</p>
             <hr />
-          </div>
+          </ResultContainer>
         );
       })}
     </>
