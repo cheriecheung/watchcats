@@ -97,7 +97,7 @@ function OwnerProfile() {
 
   useEffect(() => {
     dispatch(getOwner());
-  }, []);
+  }, [dispatch]);
 
   const { data: ownerData } = useSelector((state) => state.account);
 
@@ -120,7 +120,7 @@ function OwnerProfile() {
         catsDescription,
       });
     }
-  }, [ownerData]);
+  }, [ownerData, reset]);
 
   const onSubmit = (data) => dispatch(saveOwner(data));
   // const onSubmit = (data) => console.log(data);

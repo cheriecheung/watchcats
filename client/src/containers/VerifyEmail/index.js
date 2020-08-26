@@ -12,7 +12,7 @@ function Home() {
 
   useEffect(() => {
     dispatch(verifyEmail(token));
-  }, []);
+  }, [dispatch, token]);
 
   return (
     <>

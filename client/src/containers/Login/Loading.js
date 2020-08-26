@@ -9,7 +9,7 @@ function Loading() {
 
   useEffect(() => {
     dispatch(googleAuthenticate());
-  }, []);
+  }, [dispatch]);
 
   return <div>Loading...</div>;
 }

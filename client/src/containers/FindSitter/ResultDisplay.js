@@ -78,14 +78,7 @@ function Result() {
       {resultsFound &&
         resultsFound.length > 0 &&
         resultsFound.slice(minValue, maxValue).map((item, index) => {
-          const {
-            profilePic,
-            name,
-            reviews,
-            distance,
-            price = 10,
-            aboutMe,
-          } = item;
+          const { profilePic, name, reviews, distance, price = 10, aboutMe } = item;
 
           return (
             <ResultContainer>
@@ -141,19 +134,19 @@ function Result() {
                   </Col>
                 </Row>
                 <Row>
-                  <Col md={4} className="mb-2" style={{ minWidth: 200 }}>
+                  <Col md={4} className="mb-2" style={{ minWidth: 200, color: '#00C68E' }}>
                     <i class="far fa-calendar-alt mr-2" />
                     <span>10 Completed bookings</span>
                   </Col>
-                  <Col className="mb-2" style={{ minWidth: 200 }}>
+                  <Col className="mb-2" style={{ minWidth: 200, color: '#00C68E' }}>
                     <i className="fas fa-redo-alt mr-2" />
-                    <span>Repeated customer</span>
+                    <span>2 Repeated customer(s)</span>
                   </Col>
                 </Row>
                 <hr style={{ margin: '10px 0' }} />
                 <p style={{ margin: 0, padding: 0 }}>
-                  My name is Marieke. I have had a cat since I was 11 years old
-                  and I have been in love with cats ever since then...
+                  My name is Marieke. I have had a cat since I was 11 years old and I have been in
+                  love with cats ever since then...
                 </p>
                 <a href="#" style={{ float: 'right' }}>
                   View profile

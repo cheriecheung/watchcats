@@ -57,7 +57,7 @@ function SitterProfile() {
 
   useEffect(() => {
     dispatch(getSitter());
-  }, []);
+  }, [dispatch]);
 
   const { data: sitterData } = useSelector((state) => state.account);
 
@@ -95,7 +95,7 @@ function SitterProfile() {
         emergencyNumber,
       });
     }
-  }, [sitterData]);
+  }, [reset, sitterData]);
 
   const onSubmit = (data) => dispatch(saveSitter(data));
   // const onSubmit = (data) => console.log(data);

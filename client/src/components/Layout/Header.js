@@ -105,7 +105,7 @@ function Header() {
 
   useEffect(() => {
     i18n.changeLanguage(localStorage.getItem('lang') || 'en');
-  }, []);
+  }, [i18n]);
 
   const setLanguage = (language) => {
     localStorage.setItem('lang', language);

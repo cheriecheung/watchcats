@@ -42,7 +42,7 @@ function App() {
   const { i18n } = useTranslation();
   useEffect(() => {
     i18n.changeLanguage(localStorage.getItem('lang') || 'en');
-  }, []);
+  }, [i18n]);
 
   return (
     <div className="App">
