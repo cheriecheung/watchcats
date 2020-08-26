@@ -1,12 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Row, Col } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
-import {
-  DatePicker,
-  FieldLabel,
-  RadioGroup,
-  RadioButton,
-} from '../../components/FormComponents';
+import { DatePicker, FieldLabel, RadioGroup, RadioButton } from '../../components/FormComponents';
 import { useForm, FormProvider } from 'react-hook-form';
 import 'antd/dist/antd.css';
 import { themeColor } from '../../style/theme';
@@ -22,51 +17,48 @@ const SearchContainer = styled.div`
   display: flex;
 `;
 
+const defaultValues = {
+  startDate: '',
+  endDate: '',
+  sortBy: '',
+};
+
 function Search({ setCenter }) {
   const { t, i18n } = useTranslation();
-  const methods = useForm();
-  const { register, control, handleSubmit, reset, watch } = methods;
+  const methods = useForm({ defaultValues });
+  const { register, control, handleSubmit, reset, watch, setValue } = methods;
+  const startDateValue = watch('startDate');
+  const endDateValue = watch('endDate');
+  const sortByValue = watch('sortBy');
 
-  const [openStartDate, setOpenStartDate] = useState(false);
-  const [startDate, setStartDate] = useState('');
-  const [openEndDate, setOpenEndDate] = useState(false);
-  const [endDate, setEndDate] = useState('');
+  const [address, setAddress] = useState('');
 
-  useEffect(() => {
-    if (openStartDate) {
-      setOpenEndDate(false);
-    }
-  }, [openStartDate]);
-
-  useEffect(() => {
-    if (openEndDate) {
-      setOpenStartDate(false);
-    }
-  }, [openEndDate]);
-
-  const pickerFooter = (type) => {
-    return (
-      <button
-        style={{
-          background: 'transparent',
-          border: 'none',
-          float: 'left',
-          position: 'absolute',
-        }}
-        onClick={() => {
-          if (type === 'startDate') {
-            setStartDate('');
-            setOpenStartDate(false);
-          } else {
-            setEndDate('');
-            setOpenEndDate(false);
-          }
-        }}
-      >
-        CLEAR
-      </button>
-    );
+  const fetchSitters = () => {
+    console.log('fetch sitters here');
   };
+
+  useEffect(() => {
+    if (sortByValue !== '') {
+      setValue('startDate', '');
+      setValue('endDate', '');
+      setAddress('');
+    }
+  }, [sortByValue]);
+
+  useEffect(() => {
+    if (startDateValue !== '' || endDateValue !== '') {
+      setValue('sortBy', '');
+      setAddress('');
+    }
+
+    if (startDateValue !== '' && endDateValue !== '') {
+      if (new Date(startDateValue) > new Date(endDateValue)) {
+        console.log('hey make sure your end date is after or equal to start date');
+      } else {
+        fetchSitters();
+      }
+    }
+  }, [startDateValue, endDateValue]);
 
   const sendData = (data) => {
     console.log(data);
@@ -86,23 +78,20 @@ function Search({ setCenter }) {
           >
             <Row style={{ width: '100%', margin: '0 5px' }}>
               <Col md={3}>
-                <GooglePlaceAutoComplete setCenter={setCenter} />
+                <GooglePlaceAutoComplete
+                  setCenter={setCenter}
+                  address={address}
+                  setAddress={setAddress}
+                  emptyOtherFilters={() => reset(defaultValues)}
+                />
               </Col>
               <Col md={4}>
-                <div
-                  style={{ display: 'flex', justifyContent: 'space-around' }}
-                >
-                  <div
-                    className="d-flex flex-column date-picker"
-                    style={{ flexBasis: '45%' }}
-                  >
+                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                  <div className="d-flex flex-column date-picker" style={{ flexBasis: '45%' }}>
                     <DatePicker name="startDate" placeholder="Start date" />
                   </div>
                   <i className="fas fa-arrow-right align-self-center" />
-                  <div
-                    className="d-flex flex-column date-picker"
-                    style={{ flexBasis: '45%' }}
-                  >
+                  <div className="d-flex flex-column date-picker" style={{ flexBasis: '45%' }}>
                     <DatePicker name="endDate" placeholder="End date" />
                   </div>
                 </div>
@@ -113,7 +102,7 @@ function Search({ setCenter }) {
                     <i className="fas fa-star icon-sort-price" />
                     <span>Review</span>
                   </RadioButton>
-                  <RadioButton value="Distance" style={{ marginRight: 5 }}>
+                  <RadioButton value="distance" style={{ marginRight: 5 }}>
                     <i className="fas fa-map-marker-alt icon-sort-price" />
                     <span>Distance</span>
                   </RadioButton>
@@ -130,6 +119,11 @@ function Search({ setCenter }) {
                     outline: 'none',
                     border: 'none',
                   }}
+                  // type="submit"
+                  onClick={() => {
+                    reset(defaultValues);
+                    setAddress('');
+                  }}
                 >
                   Reset
                 </button>
@@ -144,15 +138,16 @@ function Search({ setCenter }) {
 
 export default Search;
 
-const GooglePlaceAutoComplete = ({ setCenter }) => {
+const GooglePlaceAutoComplete = ({ setCenter, address, setAddress, emptyOtherFilters }) => {
   let autoComplete;
   // const { google } = window;
   // const google = (window.google = window.google ? window.google : {});
 
-  const [address, setAddress] = useState('');
   const autoCompleteRef = useRef(null);
 
   // const handlePlaceSelect = async (udpateAddress) => {
+  //   emptyOtherFilters();
+
   //   const addressObject = autoComplete.getPlace();
   //   const newAddress = addressObject.formatted_address;
   //   udpateAddress(newAddress);
@@ -160,32 +155,20 @@ const GooglePlaceAutoComplete = ({ setCenter }) => {
   //   const lat = addressObject.geometry.location.lat();
   //   const lng = addressObject.geometry.location.lng();
 
-  //   setCenter({ lat, lng });
+  //   // setCenter({ lat, lng });
   // };
 
   // const handleScriptLoad = (updateAddress, ref) => {
   //   autoComplete = new window.google.maps.places.Autocomplete(ref.current, {
   //     componentRestrictions: { country: 'nl' },
   //   });
-  //   autoComplete.setFields([
-  //     'address_components',
-  //     'formatted_address',
-  //     'geometry',
-  //   ]);
-  //   autoComplete.addListener('place_changed', () =>
-  //     handlePlaceSelect(updateAddress)
-  //   );
+  //   autoComplete.setFields(['address_components', 'formatted_address', 'geometry']);
+  //   autoComplete.addListener('place_changed', () => handlePlaceSelect(updateAddress));
   // };
 
   // useEffect(() => {
   //   handleScriptLoad(setAddress, autoCompleteRef);
   // }, []);
-
-  // useEffect(() => {
-  //   if (reset === false) {
-  //     setAddress('');
-  //   }
-  // }, [reset]);
 
   return (
     <input

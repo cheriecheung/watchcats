@@ -61,6 +61,11 @@ function Result() {
   const totalResults = resultsFound.length;
 
   const handleChange = (pageNum) => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+
     if (pageNum <= 1) {
       setMinValue(0);
       setMaxValue(resultsEachPage);

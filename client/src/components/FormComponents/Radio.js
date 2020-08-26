@@ -9,9 +9,10 @@ export function RadioGroup({ name, children }) {
     <Controller
       name={name}
       control={control}
-      render={({ onChange }) => (
+      render={({ onChange, value }) => (
         <AntRadio.Group
-          defaultValue={watch(name)}
+          //defaultValue={watch(name)}
+          value={value}
           onChange={(e) => onChange(e.target.value)}
           className="custom-radio-group"
         >
@@ -24,11 +25,7 @@ export function RadioGroup({ name, children }) {
 
 export function RadioButton({ value, children, style }) {
   return (
-    <AntRadio.Button
-      value={value}
-      className="custom-radio-button"
-      style={style}
-    >
+    <AntRadio.Button value={value} className="custom-radio-button" style={style}>
       {children}
     </AntRadio.Button>
   );

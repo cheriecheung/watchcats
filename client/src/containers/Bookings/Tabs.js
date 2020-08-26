@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Row, Col } from 'reactstrap';
 import ScreenWidthListener from '../../components/General/ScreenWidthListener';
 import { sitterBookings } from '../../constants';
+import { Modal } from 'antd';
 
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
@@ -57,18 +58,16 @@ function BookingTabs() {
   const [activeKey, setActiveKey] = useState('sitter');
   const [bookings, setBookings] = useState({});
 
-  const {
-    request = [],
-    confirmed = [],
-    completed = [],
-    reviews = [],
-  } = bookings;
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState(<h4>test</h4>);
+
+  const { request = [], confirmed = [], completed = [], reviews = [] } = bookings;
 
   const bookingTypeTabs = [
     {
       key: 'requested',
       tab: `Requested (${request.length})`,
-      content: <Requested bookings={request} />,
+      content: <Requested bookings={request} openModal={() => setModalVisible(true)} />,
     },
     {
       key: 'confirmed',
@@ -141,6 +140,15 @@ function BookingTabs() {
           </TabPane>
         ))}
       </Tabs>
+
+      <Modal
+        //title=""
+        visible={modalVisible}
+        onOk={() => setModalVisible(false)}
+        onCancel={() => setModalVisible(false)}
+      >
+        {modalContent}
+      </Modal>
     </div>
   );
 }
@@ -149,11 +157,7 @@ export default BookingTabs;
 function SitterBookings({ bookingTypeTabs }) {
   return (
     <Container>
-      <Tabs
-        defaultActiveKey="sitter"
-        tabPosition="top"
-        className="horizontal-tabs"
-      >
+      <Tabs defaultActiveKey="sitter" tabPosition="top" className="horizontal-tabs">
         {bookingTypeTabs.map(({ key, tab, content }) => (
           <TabPane tab={tab} key={key}>
             {content}
@@ -167,11 +171,7 @@ function SitterBookings({ bookingTypeTabs }) {
 function OwnerBookings({ bookingTypeTabs }) {
   return (
     <Container>
-      <Tabs
-        defaultActiveKey="sitter"
-        tabPosition="top"
-        className="horizontal-tabs"
-      >
+      <Tabs defaultActiveKey="sitter" tabPosition="top" className="horizontal-tabs">
         {bookingTypeTabs.map(({ key, tab, content }) => (
           <TabPane tab={tab} key={key}>
             {content}
@@ -182,7 +182,7 @@ function OwnerBookings({ bookingTypeTabs }) {
   );
 }
 
-function Requested({ bookings }) {
+function Requested({ bookings, openModal }) {
   return (
     <>
       {bookings.map(({ name, cat, email, phone, message }, index) => {
@@ -224,8 +224,10 @@ function Requested({ bookings }) {
                 </div>
 
                 <Row>
-                  <Col md={3}>Phone number:</Col>
-                  <Col md={6}>+31 06 23477622</Col>
+                  {/* <Col md={3}>Phone number:</Col>
+                  <Col md={6}>+31 06 23477622</Col> */}
+                  <Col md={3}>Area:</Col>
+                  <Col md={6}>1025EE, Amsterdam Noord</Col>
                 </Row>
                 <Row style={{ marginTop: 10 }}>
                   <Col md={3}>
@@ -251,10 +253,9 @@ function Requested({ bookings }) {
                 <i class="fas fa-quote-left" />
               </div>
               <p style={{ margin: '10px 0 0 0', padding: '0 15px' }}>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem
-                aperiam neque rerum velit architecto! Veniam, atque! Neque
-                repellendus dolor deserunt debitis obcaecati culpa ratione sed
-                nesciunt numquam architecto beatae, molestias nemo voluptatum
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem aperiam neque rerum
+                velit architecto! Veniam, atque! Neque repellendus dolor deserunt debitis obcaecati
+                culpa ratione sed nesciunt numquam architecto beatae, molestias nemo voluptatum
                 voluptas quos consequatur vero. Sit odit a eaque!
               </p>
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -263,11 +264,11 @@ function Requested({ bookings }) {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <ActionButton backgroundColor="#FFAE42">
-                Invite to meet up first
-              </ActionButton>
+              <ActionButton backgroundColor="#FFAE42">Invite to meet up first</ActionButton>
               <ActionButton backgroundColor="#FF5C4E">Reject</ActionButton>
-              <ActionButton backgroundColor="#9ACD32">Accept</ActionButton>
+              <ActionButton backgroundColor="#9ACD32" onClick={openModal}>
+                Accept
+              </ActionButton>
             </div>
           </ResultContainer>
         );
@@ -275,9 +276,9 @@ function Requested({ bookings }) {
 
       <br />
       <p>
-        Remark: It is highly recommended to have a meet up session between you
-        and cat owners before accepting their requests. Directly accepting a
-        request is meant for owners you have previously completed bookings with.
+        Remark: It is highly recommended to have a meet up session between you and cat owners before
+        accepting their requests. Directly accepting a request is meant for owners you have
+        previously completed bookings with.
       </p>
     </>
   );
