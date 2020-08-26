@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 
 import './App.css';
+import './style/formComponents.css';
+import './style/uiComponents.css';
 
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -10,15 +12,21 @@ import Home from './containers/Home';
 import About from './containers/About';
 import VerifyEmail from './containers/VerifyEmail';
 import Login from './containers/Login';
+import Loading from './containers/Login/Loading';
+import Bookings from './containers/Bookings';
 import Account from './containers/Account';
 import FindSitter from './containers/FindSitter';
+import { useSelector } from 'react-redux';
+
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 function PrivateRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
       render={(props) =>
-        localStorage.getItem('user') ? (
+        cookies.get('userId') ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -32,10 +40,9 @@ function PrivateRoute({ component: Component, ...rest }) {
 
 function App() {
   const { i18n } = useTranslation();
-
   useEffect(() => {
     i18n.changeLanguage(localStorage.getItem('lang') || 'en');
-  }, []);
+  }, [i18n]);
 
   return (
     <div className="App">
@@ -47,7 +54,9 @@ function App() {
             <Route path="/about" component={About} />
             <Route path="/login" component={Login} />
             <Route path="/activate/:token?" component={VerifyEmail} />
+            <PrivateRoute path="/bookings" component={Bookings} />
             <PrivateRoute path="/account" component={Account} />
+            <Route path="/loading" component={Loading} />
           </Switch>
         </Layout>
       </BrowserRouter>

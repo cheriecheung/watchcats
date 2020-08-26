@@ -6,7 +6,16 @@ const mg = mailgun({
   domain: DOMAIN,
 });
 
-const sendMail = (to, token) => {
+const send = (data) => {
+  mg.messages().send(data, (error, body) => {
+    if (error) {
+      console.log(error);
+    }
+    console.log(body);
+  });
+};
+
+const sendActivateMail = (to, token) => {
   const link = `http://${process.env.CLIENT_URL}/activate/${token}`;
 
   const data = {
@@ -22,12 +31,26 @@ const sendMail = (to, token) => {
     `,
   };
 
-  mg.messages().send(data, function (error, body) {
-    if (error) {
-      console.log(error);
-    }
-    console.log(body);
-  });
+  send(data);
 };
 
-module.exports = sendMail;
+const sendResetPwMail = (to, token) => {
+  const link = `http://${process.env.CLIENT_URL}/resetpassword/${token}`;
+
+  const data = {
+    from: 'noreply@purryful.com',
+    to,
+    subject: 'Reset password',
+    html: `
+      <html>
+        <h3>Hi there!</h3>
+        <p>Please click on the following link to reset your password:</p>
+        <a href="${link}">${link}</a>
+      </html>
+    `,
+  };
+
+  send(data);
+};
+
+module.exports = { sendActivateMail, sendResetPwMail };

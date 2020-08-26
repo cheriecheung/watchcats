@@ -1,10 +1,7 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
+import React from 'react';
 
 function About() {
-  const { t, i18n } = useTranslation();
-
-  return <div className="App"></div>;
+  return <h4>About</h4>;
 }
 
 export default About;

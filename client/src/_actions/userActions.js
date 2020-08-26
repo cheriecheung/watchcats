@@ -9,6 +9,60 @@ import {
   VERIFY_SUCCESS,
   VERIFY_FAIL,
 } from './types';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
+export async function checkLoggedIn() {
+  axios
+    .get(`${process.env.REACT_APP_API_DOMAIN}/auth/checkloggedIn`, {
+      withCredentials: true,
+      // credentials: 'include',
+    })
+    .then((response) => {
+      console.log(response);
+      const preloadedState = {
+        session: response.data,
+      };
+      return preloadedState;
+    })
+    .catch((error) => {
+      // window.location = '/';
+      console.log(error);
+    });
+}
+
+export function googleLogin() {
+  return (dispatch) => {
+    axios
+      .get(`${process.env.REACT_APP_API_DOMAIN}/auth/googlelogin`)
+      .then(({ data: authenticationURI }) => {
+        dispatch({
+          type: 'GOOGLE_LOGIN',
+          payload: authenticationURI,
+        });
+      })
+      .catch((error) => console.log(error.response));
+  };
+}
+
+export function googleAuthenticate() {
+  return (dispatch) => {
+    axios
+      .get(`${process.env.REACT_APP_API_DOMAIN}/auth/getUser`, {
+        withCredentials: true,
+        // credentials: 'include',
+      })
+      .then(({ data: { userId } }) => {
+        cookies.set('userId', userId);
+        dispatch({ type: 'GOOGLE_LOGIN_SUCCESS', userId });
+        window.location = '/account';
+      })
+      .catch((error) => {
+        window.location = '/';
+        console.log(error);
+      });
+  };
+}
 
 export function registration(firstName, lastName, email, password) {
   return (dispatch) => {
@@ -55,15 +109,16 @@ export function verifyEmail(token) {
         });
       })
       .catch((err) => {
-        console.log(err);
         dispatch({
           type: VERIFY_FAIL,
-          payload:
-            'Email verification fail. Try to get another email to verify again',
+          payload: err.response.data,
+          status: err.response.status,
         });
       });
   };
 }
+
+export function getVerificationLink() {}
 
 export function login(email, password) {
   return (dispatch) => {
@@ -89,23 +144,13 @@ export function login(email, password) {
   };
 }
 
-export function logout() {
-  const token = localStorage.getItem('token');
-
+export function userlogout() {
   return (dispatch) => {
     axios
-      .post(
-        `${process.env.REACT_APP_API_DOMAIN}/auth/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .delete(`${process.env.REACT_APP_API_DOMAIN}/auth/userlogout`)
       .then((data) => {
         console.log(data);
-        localStorage.clear();
+        // localStorage.clear();
         dispatch({ type: LOGOUT_SUCCESS });
         window.location = '/';
       })
@@ -115,3 +160,30 @@ export function logout() {
       });
   };
 }
+
+// export function logout() {
+//   const token = localStorage.getItem('token');
+
+//   return (dispatch) => {
+//     axios
+//       .post(
+//         `${process.env.REACT_APP_API_DOMAIN}/auth/logout`,
+//         {},
+//         {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         }
+//       )
+//       .then((data) => {
+//         console.log(data);
+//         localStorage.clear();
+//         dispatch({ type: LOGOUT_SUCCESS });
+//         window.location = '/';
+//       })
+//       .catch((err) => {
+//         console.log(err.response);
+//         dispatch({ type: LOGOUT_FAIL, err });
+//       });
+//   };
+// }

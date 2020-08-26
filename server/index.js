@@ -1,19 +1,27 @@
 const mongoose = require('mongoose');
 const express = require('express');
-const cors = require('cors');
-const passport = require('passport');
-const cookieParser = require('cookie-parser');
-const bcrypt = require('bcryptjs');
-const session = require('express-session');
-const bodyParser = require('body-parser');
 const app = express();
-const User = require('./model/User');
+const cors = require('cors');
+// const passport = require('passport');
+// const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const bodyParser = require('body-parser');
 require('dotenv').config();
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/user');
+const fs = require('fs');
+const https = require('https');
+const {
+  DB_CONNECT,
+  SESS_NAME,
+  SESS_SECRET,
+  SESS_LIFETIME,
+  PASSPHRASE,
+} = process.env;
 
 mongoose.connect(
-  process.env.DB_CONNECT,
+  DB_CONNECT,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -23,37 +31,56 @@ mongoose.connect(
   }
 );
 
-// Middleware
-// app.use(
-//   cors({
-//     origin: 'http://localhost:3000',
-//     credentials: true,
-//   })
-// );
-app.use(cors());
+app.use(
+  cors({
+    origin: 'https://localhost:3000',
+    credentials: true,
+  })
+);
+// app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(cookieParser('secretcode'));
+
 app.use(
   session({
-    secret: 'secretcode',
+    name: SESS_NAME,
     resave: true,
     saveUninitialized: true,
+    secret: SESS_SECRET,
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      collection: 'session',
+      ttl: (24 * 60 * 60) / 1000,
+    }),
+
+    cookie: {
+      httpOnly: true,
+      secure: true,
+      maxAge: 24 * 60 * 60,
+    },
   })
 );
-app.use(cookieParser('secretcode'));
-// app.use(session({ secret: 'anything' }));
-app.use(passport.initialize());
-app.use(passport.session());
-require('./config/passportConfig')(passport);
+
+// app.use(passport.initialize());
+// app.use(passport.session());
+// require('./config/passportConfig')(passport);
 
 // Routes
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
 
-// app.get('/user', (req, res) => {
-//   res.send(req.user);
-// });
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
 
-//Start Server
-app.listen(5000, () => console.log('Server up and running'));
+const httpsOptions = {
+  key: fs.readFileSync('./server/certificate/localhost.key'),
+  cert: fs.readFileSync('./server/certificate/localhost.crt'),
+  passphrase: PASSPHRASE,
+};
+
+https.createServer(httpsOptions, app).listen(5000, () => {
+  console.log('SERVER RUNNING AT ' + 5000);
+});

@@ -1,0 +1,180 @@
+:root {
+  --theme-color-peach: #ffa195;
+  --theme-color-grey: #c5c1c7;
+  --theme-border-radius: 10px !important;
+}
+
+/* ------------------- font awesome icons ------------------- */
+
+.icon-gender {
+  font-size: 25px;
+  margin-right: 15px;
+}
+
+.icon-yes-no {
+  font-size: 20px;
+  margin-right: 15px;
+}
+
+.icon-group-sort .ant-radio-button-wrapper {
+  margin: 0 5px !important;
+}
+
+.icon-sort-review {
+  font-size: 10px;
+  margin: 0 1px !important;
+  color: #ffc600;
+}
+
+.icon-sort-distance {
+  color: #c24136;
+}
+
+.icon-sort-distance,
+.icon-sort-price {
+  font-size: 15px;
+  margin-right: 7px !important;
+}
+
+.icon-verified {
+  font-size: 15px;
+  margin: 0 5px !important;
+}
+
+/* ------------------- pagination ------------------- */
+li.ant-pagination-prev button.ant-pagination-item-link,
+li.ant-pagination-next button.ant-pagination-item-link,
+li.ant-pagination-item {
+  border-radius: var(--theme-border-radius);
+}
+
+li.ant-pagination-prev .ant-pagination-item-link svg,
+li.ant-pagination-next .ant-pagination-item-link svg {
+  margin-top: -5px !important;
+}
+
+li.ant-pagination-prev:hover .ant-pagination-item-link,
+li.ant-pagination-next:hover .ant-pagination-item-link,
+li.ant-pagination-item:hover,
+.ant-pagination-item.ant-pagination-item-active,
+.ant-pagination-item.ant-pagination-item-active:hover,
+.ant-pagination-item.ant-pagination-item-active:focus {
+  border-color: var(--theme-color-peach);
+}
+
+li.ant-pagination-prev.ant-pagination-disabled:hover .ant-pagination-item-link,
+li.ant-pagination-next.ant-pagination-disabled:hover .ant-pagination-item-link {
+  border-color: #d9d9d9 !important;
+}
+
+/* li.ant-pagination-prev.ant-pagination-disabled:hover
+  button.ant-pagination-item-link {
+  border-color: 1px solid #d9d9d9 !important;
+} */
+
+li.ant-pagination-prev:hover .ant-pagination-item-link,
+li.ant-pagination-next:hover .ant-pagination-item-link,
+li.ant-pagination-prev:focus .ant-pagination-item-link svg,
+li.ant-pagination-next:focus .ant-pagination-item-link svg,
+li.ant-pagination-item:hover a,
+.ant-pagination-item.ant-pagination-item-active a,
+.ant-pagination-item.ant-pagination-item-active:hover a,
+.ant-pagination-item.ant-pagination-item-active:focus a {
+  color: var(--theme-color-peach);
+}
+
+/* ------------------- antd tabs ------------------- */
+.ant-tabs-tabpane.ant-tabs-tabpane-active {
+  padding-left: 0 !important;
+}
+
+.horizontal-tabs .ant-tabs-nav {
+  width: 100vw !important;
+}
+
+.horizontal-tabs .ant-tabs-content-holder {
+  border-left: none !important;
+  /* padding-left: 0 !important; */
+  margin-top: 20px !important;
+}
+
+.ant-tabs.ant-tabs-top.horizontal-tabs {
+  max-width: 900px !important;
+}
+
+@media only screen and (min-width: 930px) {
+  .vertical-tabs .ant-tabs-nav {
+    margin-left: 20px;
+    width: 200px;
+  }
+
+  .ant-tabs-content-holder {
+    padding-left: 30px;
+    padding-right: 50px;
+    border-left: 1px solid var(--theme-color-grey) !important;
+  }
+  .ant-tabs-content-holder .horizontal-tabs {
+    margin-left: -20px;
+  }
+}
+
+@media only screen and (max-width: 930px) {
+  .ant-tabs-nav-wrap {
+    justify-content: center;
+  }
+
+  .ant-tabs-nav-list {
+    margin-right: -32px !important;
+  }
+}
+
+/* .ant-tabs-content-holder {
+      padding-left: 30px;
+      padding-right: 50px;
+      border-left: 1px solid rgba(50, 118, 93, 0.5) !important;
+    } */
+
+.ant-tabs-ink-bar {
+  background-color: var(--theme-color-grey) !important;
+  padding: 2px;
+  z-index: -1;
+}
+
+.ant-tabs-tab {
+  color: var(--theme-color-grey) !important;
+  margin-bottom: 5px !important;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--theme-color-grey) !important;
+}
+
+.ant-tabs-tab-btn:focus,
+.ant-tabs-tab-remove:focus,
+.ant-tabs-tab-btn:active,
+ant-tabs-tab-remove:active {
+  color: var(--theme-color-grey) !important;
+}
+
+/* antd modal */
+.ant-modal-close {
+  outline: none !important;
+}
+
+.ant-modal-header,
+.ant-modal-content {
+  border-radius: var(--theme-border-radius) !important;
+}
+
+/* ------------------- google map Info Window close button ------------------- */
+.gm-style .gm-style-iw-c {
+  overflow: visible !important;
+}
+
+.gm-ui-hover-effect {
+  background: #4e766b !important;
+  opacity: 1;
+  border-radius: 50%;
+  top: -10px !important;
+  right: -10px !important;
+}
