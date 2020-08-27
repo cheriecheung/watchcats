@@ -11,9 +11,11 @@ import { themeColor } from '../../style/theme';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
+export const NavHeight = 7;
+
 const Nav = styled.nav`
   padding: 0 20px;
-  min-height: 7vh;
+  min-height: ${NavHeight}vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -145,15 +147,18 @@ function Header() {
               </Link>
             </Item>
             <Item>
+              <Link to="/messages" style={menuItemStyle}>
+                <i class="far fa-envelope" />
+              </Link>
+            </Item>
+            <Item>
               <Link to="/account" style={menuItemStyle}>
                 <i className="fas fa-user-circle" />
-                {/* {t('header.account')} */}
               </Link>
             </Item>
             <Item>
               <Link to="/login" style={menuItemStyle}>
                 <i className="fas fa-sign-out-alt" />
-                {/* {t('header.logout')} */}
               </Link>
             </Item>
           </>

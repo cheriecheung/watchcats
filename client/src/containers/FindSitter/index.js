@@ -13,7 +13,27 @@ function FindSitter() {
 
   return (
     <div style={{ padding: '0 40px' }}>
-      <Profile />
+      {/* <Profile /> */}
+      <Search />
+      <Row>
+        <Col md={5}>
+          <div
+            style={{
+              background: 'lightblue',
+              //  width: '80vh',
+              height: mapHeight,
+              top: 20,
+              bottom: 20,
+              position: 'sticky',
+            }}
+          >
+            {/* <GoogleMap mapHeight={mapHeight} /> */}
+          </div>
+        </Col>
+        <Col md={7}>
+          <ResultDisplay />
+        </Col>
+      </Row>
     </div>
   );
 }

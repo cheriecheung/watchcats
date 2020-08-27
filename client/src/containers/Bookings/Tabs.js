@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Row, Col } from 'reactstrap';
 import ScreenWidthListener from '../../components/General/ScreenWidthListener';
@@ -220,7 +221,10 @@ function Requested({ bookings, openModal }) {
                   }}
                 >
                   <h5>Kaitlynn</h5>
-                  <a href="#">View profile</a>
+                  <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'right' }}>
+                    <a href="#">View profile</a>
+                    <Link to="/messages">View conversation</Link>
+                  </div>
                 </div>
 
                 <Row>

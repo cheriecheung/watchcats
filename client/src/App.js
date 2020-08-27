@@ -14,6 +14,7 @@ import VerifyEmail from './containers/VerifyEmail';
 import Login from './containers/Login';
 import Loading from './containers/Login/Loading';
 import Bookings from './containers/Bookings';
+import Messages from './containers/Messages';
 import Account from './containers/Account';
 import FindSitter from './containers/FindSitter';
 import { useSelector } from 'react-redux';
@@ -29,9 +30,7 @@ function PrivateRoute({ component: Component, ...rest }) {
         cookies.get('userId') ? (
           <Component {...props} />
         ) : (
-          <Redirect
-            to={{ pathname: '/login', state: { from: props.location } }}
-          />
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
         )
       }
     />
@@ -55,6 +54,7 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/activate/:token?" component={VerifyEmail} />
             <PrivateRoute path="/bookings" component={Bookings} />
+            <PrivateRoute path="/messages" component={Messages} />
             <PrivateRoute path="/account" component={Account} />
             <Route path="/loading" component={Loading} />
           </Switch>
