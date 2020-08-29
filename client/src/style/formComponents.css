@@ -5,10 +5,8 @@
   --theme-field-height: 40px;
   --theme-field-border: 1px solid #d9d9d9 !important;
   --theme-field-border-hover: rgba(255, 161, 149, 0.4) !important;
-  --theme-field-border-box-shadow: rgba(45, 144, 116, 0.35);
   --theme-select-button-width: 45%;
-  --theme-select-button-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15),
-    0 1px 6px rgba(0, 0, 0, 0.05) !important;
+  --theme-select-button-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15), 0 1px 6px rgba(0, 0, 0, 0.05) !important;
 }
 
 /* ------------------- Form ------------------- */
@@ -235,39 +233,27 @@ select:-webkit-autofill:focus {
   padding-left: 35px !important;
 }
 
-.sitter-skills
-  div:first-child
-  .custom-checkbox-basic.ant-checkbox-wrapper::before {
+.sitter-skills div:first-child .custom-checkbox-basic.ant-checkbox-wrapper::before {
   content: '\f6be' !important;
 }
 
-.sitter-skills
-  div:nth-child(2)
-  .custom-checkbox-basic.ant-checkbox-wrapper::before {
+.sitter-skills div:nth-child(2) .custom-checkbox-basic.ant-checkbox-wrapper::before {
   content: '\f4be' !important;
 }
 
-.sitter-skills
-  div:nth-child(3)
-  .custom-checkbox-basic.ant-checkbox-wrapper::before {
+.sitter-skills div:nth-child(3) .custom-checkbox-basic.ant-checkbox-wrapper::before {
   content: '\f484' !important;
 }
 
-.sitter-skills
-  div:nth-child(4)
-  .custom-checkbox-basic.ant-checkbox-wrapper::before {
+.sitter-skills div:nth-child(4) .custom-checkbox-basic.ant-checkbox-wrapper::before {
   content: '\f48e' !important;
 }
 
-.sitter-skills
-  div:nth-child(5)
-  .custom-checkbox-basic.ant-checkbox-wrapper::before {
+.sitter-skills div:nth-child(5) .custom-checkbox-basic.ant-checkbox-wrapper::before {
   content: '\f559' !important;
 }
 
-.sitter-skills
-  div:nth-child(6)
-  .custom-checkbox-basic.ant-checkbox-wrapper::before {
+.sitter-skills div:nth-child(6) .custom-checkbox-basic.ant-checkbox-wrapper::before {
   content: '\f0c4' !important;
 }
 

@@ -1,7 +1,5 @@
 import React from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
 import styled from 'styled-components';
-import { TextField } from '../../components/FormComponents';
 
 const ListItemContainer = styled.div`
   display: flex;
@@ -27,9 +25,6 @@ const TextContainer = styled.div`
 `;
 
 function List() {
-  const methods = useForm();
-  const { register, handleSubmit, watch, reset } = methods;
-
   const allChats = [
     {
       id: 1,
@@ -47,39 +42,25 @@ function List() {
     { id: 8, name: 'Allie K', image: '', message: 'Hi id like you to look after my cat' },
   ];
 
-  return (
-    <FormProvider {...methods}>
-      <form className="social-media-input">
-        <div style={{ padding: 10 }}>
-          <TextField name="profileFB" prefix={<i className="fas fa-search" />} />
-        </div>
-        {allChats.map((item, index) => (
-          <ListItem key={item.id} item={item} index={index} />
-        ))}
-      </form>
-    </FormProvider>
-  );
+  return allChats.map((item, index) => {
+    const { id, name, image, message, isSelected } = item;
+
+    return (
+      <ListItemContainer style={{ background: isSelected ? '#f3f3f3' : '#fff' }}>
+        <ImageContainer>
+          <img
+            src="https://images.pexels.com/photos/569170/pexels-photo-569170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+            alt="pic"
+            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+          />
+        </ImageContainer>
+        <TextContainer>
+          <h6>{name}</h6>
+          <span>{message}</span>
+        </TextContainer>
+      </ListItemContainer>
+    );
+  });
 }
 
 export default List;
-
-function ListItem({ item, index }) {
-  //   const backgroundColor = index % 2 === 0 ? 'pink' : '#fff';
-  const { id, name, image, message, isSelected } = item;
-
-  return (
-    <ListItemContainer style={{ background: isSelected ? '#f3f3f3' : '#fff' }}>
-      <ImageContainer>
-        <img
-          src="https://images.pexels.com/photos/569170/pexels-photo-569170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-          alt="pic"
-          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-        />
-      </ImageContainer>
-      <TextContainer>
-        <h6>{name}</h6>
-        <span>{message}</span>
-      </TextContainer>
-    </ListItemContainer>
-  );
-}

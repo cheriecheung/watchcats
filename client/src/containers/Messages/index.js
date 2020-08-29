@@ -2,10 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import List from './List';
 import Chat from './Chat';
+import ChatDetails from './ChatDetails';
 import { NavHeight } from '../../components/Layout/Header';
 
-const ListContainerWidth = 25;
-const ChatContainerWidth = 100 - ListContainerWidth;
+const ListWidth = 25;
+const ChatDetailsWidth = 25;
+const ChatWidth = 100 - ListWidth - ChatDetailsWidth;
 
 const InboxContainerHeight = 100 - NavHeight;
 
@@ -13,33 +15,70 @@ const InboxContainer = styled.div`
   text-align: left;
   width: 100vw;
   height: ${InboxContainerHeight}vh;
-  border-radius: 10px;
-  // box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);
   display: flex;
 `;
 
-const ListContainer = styled.div`
-  width: ${ListContainerWidth}%;
-  background: rgba(255, 255, 255, 0.8);
+const InboxPartContainer = styled.div`
+  width: ${(props) => props.width}%;
+  background: rgba(255, 255, 255, ${(props) => props.backgroundOpacity});
+  border-left: ${(props) => props.borderLeft};
+  border-right: ${(props) => props.borderRight};
   overflow-x: hidden;
-  overflow-y: visible;
+  overflow-y: hidden;
+  &:hover {
+    overflow-y: ${(props) => props.hoverOverflowY};
+  }
 `;
 
-const ChatContainer = styled.div`
-  width: ${ChatContainerWidth}%;
-  background: rgba(255, 255, 255, 0.2);
+const ListContainer = styled.div`
+  width: ${(props) => props.width}%;
+  background: rgba(255, 255, 255, ${(props) => props.backgroundOpacity});
+  border-left: ${(props) => props.borderLeft};
+  border-right: ${(props) => props.borderRight};
+  overflow: auto;
+  visibility: hidden;
+  transition: visibility 0.6s;
+  &::-webkit-transition {
+    visibility 0.6s;
+  }
+  &:hover {
+    visibility: visible;
+  }
+  &:focus {
+    visibility: visible;
+  }
+`;
+
+const ListContent = styled.div`
+  border-right: 1px solid #e8e8e8;
+  visibility: visible;
 `;
 
 function Messages() {
   return (
     <>
-      <InboxContainer>
-        <ListContainer>
-          <List />
+      <InboxContainer className="message-inbox">
+        <ListContainer
+          width={ListWidth}
+          backgroundOpacity={0.8}
+          borderRight="1px solid #E8E8E8"
+          hoverOverflowY="auto"
+        >
+          <ListContent>
+            <List />
+          </ListContent>
         </ListContainer>
-        <ChatContainer>
+        <InboxPartContainer width={ChatWidth} backgroundOpacity={0.2} hoverOverflowY="hidden">
           <Chat />
-        </ChatContainer>
+        </InboxPartContainer>
+        <InboxPartContainer
+          width={ChatDetailsWidth}
+          backgroundOpacity={0.8}
+          borderLeft="1px solid #E8E8E8"
+          hoverOverflowY="auto"
+        >
+          <ChatDetails />
+        </InboxPartContainer>
       </InboxContainer>
     </>
   );
