@@ -17,6 +17,7 @@ import Bookings from './containers/Bookings';
 import Messages from './containers/Messages';
 import Account from './containers/Account';
 import FindSitter from './containers/FindSitter';
+import Profile from './containers/Profile';
 import { useSelector } from 'react-redux';
 
 import Cookies from 'universal-cookie';
@@ -53,6 +54,7 @@ function App() {
             <Route path="/about" component={About} />
             <Route path="/login" component={Login} />
             <Route path="/activate/:token?" component={VerifyEmail} />
+            <PrivateRoute path="/profile" component={Profile} />
             <PrivateRoute path="/bookings" component={Bookings} />
             <PrivateRoute path="/messages" component={Messages} />
             <PrivateRoute path="/account" component={Account} />
