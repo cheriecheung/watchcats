@@ -222,7 +222,7 @@ function Requested({ bookings, openModal }) {
                 >
                   <h5>Kaitlynn</h5>
                   <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'right' }}>
-                    <a href="#">View profile</a>
+                    <Link to="/profile">View profile</Link>
                     <Link to="/messages">View conversation</Link>
                   </div>
                 </div>

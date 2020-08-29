@@ -15,6 +15,7 @@ const SearchContainer = styled.div`
   background: rgba(255, 255, 255, 1);
   overflow: hidden;
   display: flex;
+  padding: 2px 0;
 `;
 
 const defaultValues = {
