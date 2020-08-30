@@ -254,7 +254,7 @@ function Requested({ bookings, openModal }) {
 
             <div style={{ margin: '25px 0 30px 0' }}>
               <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                <i class="fas fa-quote-left" />
+                <i className="fas fa-quote-left" />
               </div>
               <p style={{ margin: '10px 0 0 0', padding: '0 15px' }}>
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem aperiam neque rerum
@@ -263,7 +263,7 @@ function Requested({ bookings, openModal }) {
                 voluptas quos consequatur vero. Sit odit a eaque!
               </p>
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <i class="fas fa-quote-right float-right" />
+                <i className="fas fa-quote-right float-right" />
               </div>
             </div>
 

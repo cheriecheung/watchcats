@@ -148,7 +148,7 @@ function Header() {
             </Item>
             <Item>
               <Link to="/messages" style={menuItemStyle}>
-                <i class="far fa-envelope" />
+                <i className="far fa-envelope" />
               </Link>
             </Item>
             <Item>

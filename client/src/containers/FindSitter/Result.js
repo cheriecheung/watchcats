@@ -103,7 +103,7 @@ function Result({ item }) {
               </Col>
             ) : (
               <Col md={4} style={{ minWidth: 200, color: '#00C68E' }} className="mb-1">
-                <i class="fas fa-user-plus mr-2" />
+                <i className="fas fa-user-plus mr-2" />
                 <span>New member</span>
               </Col>
             )}
@@ -119,7 +119,7 @@ function Result({ item }) {
                 visibility: totalCompletedBookings > 0 ? 'visible' : 'hidden',
               }}
             >
-              <i class="far fa-calendar-alt mr-2" />
+              <i className="far fa-calendar-alt mr-2" />
               <span>{totalCompletedBookings} Completed bookings</span>
             </Col>
             <Col

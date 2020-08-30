@@ -33,9 +33,11 @@ function Sitter() {
         <ContentContainer>
           <div style={{ flexBasis: '60%', marginBottom: 100 }}>
             <ImageSlider />
-            <h5>Reviews(10)</h5>
+            <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
+              Reviews(10)
+            </h5>
 
-            <div ref={reviewListRef} style={{ paddingTop: 20 }}>
+            <div>
               <List
                 itemLayout="vertical"
                 size="large"

@@ -12,13 +12,11 @@ const authRoute = require('./routes/auth');
 const userRoute = require('./routes/user');
 const fs = require('fs');
 const https = require('https');
-const {
-  DB_CONNECT,
-  SESS_NAME,
-  SESS_SECRET,
-  SESS_LIFETIME,
-  PASSPHRASE,
-} = process.env;
+const Conversation = require('./model/Conversation');
+
+const socketio = require('socket.io');
+
+const { DB_CONNECT, SESS_NAME, SESS_SECRET, SESS_LIFETIME, PASSPHRASE } = process.env;
 
 mongoose.connect(
   DB_CONNECT,
@@ -68,12 +66,33 @@ app.use(
 // require('./config/passportConfig')(passport);
 
 // Routes
-app.use('/auth', authRoute);
-app.use('/user', userRoute);
+app.use('/', authRoute);
+app.use('/', userRoute);
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
+// app.get('/', async (req, res) => {
+//   // res.send('Hello World');
+
+//   const conversation = await Conversation.find({ participants: { $all: ['001', '002'] } });
+
+//   if (conversation.length === 0) {
+//     console.log('creating new conversation record');
+//     const newConversation = new Conversation({
+//       participants: ['001', '002'],
+//     });
+
+//     await newConversation.save();
+//     return res.status(201).json('New conversation created');
+//   }
+
+//   console.log('>>>>>>> hello');
+// });
+
+// app.get('/findConvo', async (req, res) => {
+//   // const conversation = await Conversation.find({ participants: { $in: ['001', '003'] } });
+//   const conversation = await Conversation.find({ participants: { $all: ['001', '002'] } });
+
+//   console.log({ conversation });
+// });
 
 const httpsOptions = {
   key: fs.readFileSync('./server/certificate/localhost.key'),
@@ -81,6 +100,20 @@ const httpsOptions = {
   passphrase: PASSPHRASE,
 };
 
-https.createServer(httpsOptions, app).listen(5000, () => {
+const server = https.createServer(httpsOptions, app).listen(5000, () => {
   console.log('SERVER RUNNING AT ' + 5000);
+});
+
+const io = socketio(server);
+
+io.on('connection', (socket) => {
+  console.log('>>>>>>>>>>> we have a new connection');
+
+  socket.on('send', ({ message }) => {
+    console.log({ message });
+  });
+
+  socket.on('disconnect', () => {
+    console.log('<<<<<<<<<<< user is now disconnected');
+  });
 });

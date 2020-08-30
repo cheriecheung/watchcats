@@ -2,8 +2,8 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-const ownerURL = `${process.env.REACT_APP_API_DOMAIN}/user/owner`;
-const sitterURL = `${process.env.REACT_APP_API_DOMAIN}/user/sitter`;
+const ownerURL = `${process.env.REACT_APP_API_DOMAIN}/owner`;
+const sitterURL = `${process.env.REACT_APP_API_DOMAIN}/sitter`;
 const config = {
   withCredentials: true,
   headers: {

@@ -24,29 +24,23 @@ const TextContainer = styled.div`
   text-overflow: ellipsis;
 `;
 
-function List() {
-  const allChats = [
-    {
-      id: 1,
-      name: 'Marsha B',
-      image: '',
-      message: 'Hi id like you to look after my cat',
-      isSelected: true,
-    },
-    { id: 2, name: 'Allie K', image: '', message: 'Hi id like you to look after my cat' },
-    { id: 3, name: 'Liana D', image: '', message: 'Hi id like you to look after my cat' },
-    { id: 4, name: 'Charlie J', image: '', message: 'Hi id like you to look after my cat' },
-    { id: 5, name: 'Amber W', image: '', message: 'Hi id like you to look after my cat' },
-    { id: 6, name: 'Marsha B', image: '', message: 'Hi id like you to look after my cat' },
-    { id: 7, name: 'Allie K', image: '', message: 'Hi id like you to look after my cat' },
-    { id: 8, name: 'Allie K', image: '', message: 'Hi id like you to look after my cat' },
-  ];
+const allChats = [];
+for (let i = 0; i < 18; i++) {
+  allChats.push({
+    id: i,
+    name: `Person 00${i}`,
+    image: '',
+    message: 'Hi id like you to look after my cat',
+    isSelected: i === 2,
+  });
+}
 
+function List() {
   return allChats.map((item, index) => {
     const { id, name, image, message, isSelected } = item;
 
     return (
-      <ListItemContainer style={{ background: isSelected ? '#f3f3f3' : '#fff' }}>
+      <ListItemContainer style={{ background: isSelected ? '#f3f3f3' : '#fff' }} key={id}>
         <ImageContainer>
           <img
             src="https://images.pexels.com/photos/569170/pexels-photo-569170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"

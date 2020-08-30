@@ -23,22 +23,6 @@ const ownerSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'AppointmentOvernight',
   },
-  hasBikeStorageNearby: {
-    type: Boolean,
-    required: false,
-  },
-  hasCarPark: {
-    type: Boolean,
-    required: false,
-  },
-  hasKids: {
-    type: Boolean,
-    required: false,
-  },
-  hasMultipleCats: {
-    type: Boolean,
-    required: false,
-  },
   catsDescription: {
     type: String,
     required: false,

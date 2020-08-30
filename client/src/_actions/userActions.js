@@ -14,7 +14,7 @@ const cookies = new Cookies();
 
 export async function checkLoggedIn() {
   axios
-    .get(`${process.env.REACT_APP_API_DOMAIN}/auth/checkloggedIn`, {
+    .get(`${process.env.REACT_APP_API_DOMAIN}/checkloggedIn`, {
       withCredentials: true,
       // credentials: 'include',
     })
@@ -34,7 +34,7 @@ export async function checkLoggedIn() {
 export function googleLogin() {
   return (dispatch) => {
     axios
-      .get(`${process.env.REACT_APP_API_DOMAIN}/auth/googlelogin`)
+      .get(`${process.env.REACT_APP_API_DOMAIN}/googlelogin`)
       .then(({ data: authenticationURI }) => {
         dispatch({
           type: 'GOOGLE_LOGIN',
@@ -48,7 +48,7 @@ export function googleLogin() {
 export function googleAuthenticate() {
   return (dispatch) => {
     axios
-      .get(`${process.env.REACT_APP_API_DOMAIN}/auth/getUser`, {
+      .get(`${process.env.REACT_APP_API_DOMAIN}/getUser`, {
         withCredentials: true,
         // credentials: 'include',
       })
@@ -67,7 +67,7 @@ export function googleAuthenticate() {
 export function registration(firstName, lastName, email, password) {
   return (dispatch) => {
     axios
-      .post(`${process.env.REACT_APP_API_DOMAIN}/user/register`, {
+      .post(`${process.env.REACT_APP_API_DOMAIN}/register`, {
         name: `${firstName} ${lastName}`,
         email,
         password,
@@ -75,8 +75,7 @@ export function registration(firstName, lastName, email, password) {
       .then((data) => {
         dispatch({
           type: REGISTER_SUCCESS,
-          payload:
-            'Registration successful. Please log into your email to activate your account.',
+          payload: 'Registration successful. Please log into your email to activate your account.',
         });
       })
       .catch((err) => {
@@ -93,7 +92,7 @@ export function verifyEmail(token) {
   return (dispatch) => {
     axios
       .post(
-        `${process.env.REACT_APP_API_DOMAIN}/auth/activate-account
+        `${process.env.REACT_APP_API_DOMAIN}/activate-account
     `,
         {},
         {
@@ -123,7 +122,7 @@ export function getVerificationLink() {}
 export function login(email, password) {
   return (dispatch) => {
     axios
-      .post(`${process.env.REACT_APP_API_DOMAIN}/auth/login`, {
+      .post(`${process.env.REACT_APP_API_DOMAIN}/login`, {
         email,
         password,
       })
@@ -147,7 +146,7 @@ export function login(email, password) {
 export function userlogout() {
   return (dispatch) => {
     axios
-      .delete(`${process.env.REACT_APP_API_DOMAIN}/auth/userlogout`)
+      .delete(`${process.env.REACT_APP_API_DOMAIN}/userlogout`)
       .then((data) => {
         console.log(data);
         // localStorage.clear();
@@ -167,7 +166,7 @@ export function userlogout() {
 //   return (dispatch) => {
 //     axios
 //       .post(
-//         `${process.env.REACT_APP_API_DOMAIN}/auth/logout`,
+//         `${process.env.REACT_APP_API_DOMAIN}/logout`,
 //         {},
 //         {
 //           headers: {

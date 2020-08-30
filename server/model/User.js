@@ -3,10 +3,6 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
 
 const userSchema = new Schema({
-  member: {
-    type: Schema.Types.ObjectId,
-    ref: 'Member',
-  },
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'Owner',
@@ -34,11 +30,11 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
-  address1: {
+  address: {
     type: String,
     required: false,
   },
-  address2: {
+  postcode: {
     type: String,
     required: false,
   },

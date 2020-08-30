@@ -3,6 +3,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import styled from 'styled-components';
 import { TextArea } from '../../components/FormComponents';
 import { NavHeight } from '../../components/Layout/Header';
+import io from 'socket.io-client';
 
 const ChatContainer = styled.div`
   padding: 0 20px;
@@ -29,48 +30,30 @@ const MessageInputContainer = styled.div`
   display: flex;
 `;
 
-const allMessagesFake = [
-  {
-    id: 0,
-    userId: '002',
-    image: '',
-    date: '2020-05-02',
+const allMessagesFake = [];
+for (let i = 0; i < 31; i++) {
+  allMessagesFake.push({
+    id: i,
+    userId: i % 3 === 0 ? '002' : '001',
+    image:
+      'https://images.pexels.com/photos/569170/pexels-photo-569170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+    date: `2020-05-${i}`,
     time: '12:10',
     content: 'Lorem ipsum dolor sit ame? ',
-  },
-  {
-    id: 1,
-    userId: '001',
-    image: '',
-    date: '2020-05-02',
-    time: '12:10',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit doloribus corporis repudiandae nisi ipsa quidem dicta, assumenda distinctio nam, ullam error? ',
-  },
-  {
-    id: 2,
-    userId: '001',
-    image: '',
-    date: '2020-05-02',
-    time: '13:12',
-    content: 'Lorem ipsum dolor sit amet, ',
-  },
-  {
-    id: 3,
-    userId: '002',
-    image: '',
-    date: '2020-08-20',
-    time: '18:39',
-    content:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia, similique id vero repellat illo doloribus corporis repudiandae nisi ipsa quidem modi iure ipsum dicta, assumenda distinctio nam, ullam error? Labore.',
-  },
-];
+  });
+}
+
+const defaultValues = {
+  messageInput: '',
+};
+
+let socket;
 
 function Chat() {
   const chatContainerRef = useRef(null);
-
-  const methods = useForm();
+  const methods = useForm({ defaultValues });
   const { register, handleSubmit, watch, reset } = methods;
+
   const [messageInputHeight, setMessageInputHeight] = useState(10);
   const [textAreaRows, setTextAreaRows] = useState(1);
 
@@ -86,13 +69,24 @@ function Chat() {
     scrollToBottom();
   }, [allMessages]);
 
-  const handleSendMessage = (e) => {
-    e.preventDefault();
+  // retrieve data
+  useEffect(() => {
+    socket = io(process.env.REACT_APP_API_DOMAIN);
+
+    return () => {
+      // does not disconnect here
+      socket.emit('disconnect');
+      socket.off();
+    };
+  }, []);
+
+  const onSubmit = (data) => {
+    socket.emit('send', { message: data.messageInput });
   };
 
   return (
     <FormProvider {...methods}>
-      <form className="m-0">
+      <form className="m-0" onSubmit={handleSubmit(onSubmit)}>
         <ChatContainer
           style={{ height: `${100 - NavHeight - messageInputHeight}vh` }}
           ref={chatContainerRef}
@@ -103,7 +97,7 @@ function Chat() {
         </ChatContainer>
         <MessageInputContainer style={{ height: `${messageInputHeight}vh` }}>
           <TextArea
-            name="message"
+            name="messageInput"
             placeholder="Type a message..."
             rows={textAreaRows}
             customStyle={{ margin: '0 5px', overflowY: 'auto' }}
@@ -119,9 +113,9 @@ function Chat() {
               //borderRadius: 10,
               //border: '1px solid #d9d9d9',
             }}
-            onClick={handleSendMessage}
+            type="submit"
           >
-            <i class="fas fa-paper-plane fa-lg" />
+            <i className="fas fa-paper-plane fa-lg" />
           </button>
         </MessageInputContainer>
       </form>
@@ -132,17 +126,6 @@ function Chat() {
 export default Chat;
 
 function Messages({ allMessages }) {
-  const increaseAllMessages = [
-    ...allMessages,
-    ...allMessages,
-    ...allMessages,
-    ...allMessages,
-    ...allMessages,
-    ...allMessages,
-    ...allMessages,
-    ...allMessages,
-  ];
-
   return (
     <>
       <AutomatedMessage
@@ -150,7 +133,7 @@ function Messages({ allMessages }) {
         date="2020-08-02"
         time="14:07"
       />
-      {increaseAllMessages.map(({ id, userId, name, image, date, time, content }, index) => {
+      {allMessagesFake.map(({ id, userId, name, image, date, time, content }, index) => {
         const messageFlexDirection = userId === '002' ? 'row-reverse' : 'row';
         const messageBorderRadius =
           userId === '002' ? { borderBottomRightRadius: 0 } : { borderBottomLeftRadius: 0 };

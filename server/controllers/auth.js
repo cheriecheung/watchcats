@@ -1,7 +1,5 @@
 const axios = require('axios');
 const User = require('../model/User');
-const Member = require('../model/Member');
-const mongoose = require('mongoose');
 
 module.exports = {
   googleLogin: async (req, res) => {
@@ -29,34 +27,10 @@ module.exports = {
       .then(async ({ data: { sub: google_id, email, name } }) => {
         const user = await User.findOne({ email });
 
-        if (!user) {
-          const newMember = new Member({
-            _id: new mongoose.Types.ObjectId(),
-            name,
-            email,
-          });
+        if (!user) return res.status(404).json('User not found');
 
-          newMember.save((err) => {
-            if (err) return err;
-
-            const newUser = new User({
-              member: newMember._id,
-              email,
-              refreshToken: refresh_token,
-            });
-
-            newUser.save((err) => {
-              if (err) return err;
-              req.session.userId = newUser._id;
-              return res.status(201).json({ newMember, newUser });
-            });
-          });
-        }
-
-        if (user) {
-          req.session.userId = user._id;
-          return res.status(200).json({ userId: user._id });
-        }
+        req.session.userId = user._id;
+        return res.status(200).json({ userId: user._id });
       })
       .catch((error) => {
         // redirect to certain page if failed
