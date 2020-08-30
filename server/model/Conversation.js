@@ -2,8 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const conversationSchema = new Schema({
-  participants: {
-    type: Array,
+  message: {
+    type: Schema.Types.ObjectId,
+    ref: 'Message',
+  },
+  participant1: {
+    type: Schema.Types.ObjectId,
+  },
+  participant2: {
+    type: Schema.Types.ObjectId,
   },
   createdAt: {
     type: Date,

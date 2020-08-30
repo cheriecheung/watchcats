@@ -5,7 +5,7 @@ const passport = require('passport');
 const User = require('../model/User');
 const { verifyAccessToken, signAccessToken } = require('../helpers/token');
 const { generateCodes, authenticateUser } = require('../helpers/authentication');
-const { googleLogin, googleUser } = require('../controllers/auth');
+const { googleLogin, googleUser } = require('../controllers/AuthController');
 
 router.get('/googlelogin', generateCodes, googleLogin);
 
