@@ -15,8 +15,9 @@ import {
 } from '../../components/FormComponents';
 import { themeColor } from '../../style/theme';
 import { priceOneDayOptions, priceOvernightOptions } from '../../constants';
-import { getSitter, saveSitter } from '../../_actions/accountActions';
+import { getSitterAccount, saveSitterAccount } from '../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import 'react-day-picker/lib/style.css';
 
@@ -37,6 +38,7 @@ const defaultValues = {
 };
 
 function SitterProfile() {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const methods = useForm();
   const { register, handleSubmit, watch, reset } = methods;
@@ -56,7 +58,9 @@ function SitterProfile() {
   };
 
   useEffect(() => {
-    dispatch(getSitter());
+    if (id) {
+      dispatch(getSitterAccount(id));
+    }
   }, [dispatch]);
 
   const { data: sitterData } = useSelector((state) => state.account);
@@ -97,7 +101,7 @@ function SitterProfile() {
     }
   }, [reset, sitterData]);
 
-  const onSubmit = (data) => dispatch(saveSitter(data));
+  const onSubmit = (data) => dispatch(saveSitterAccount(id, data));
   // const onSubmit = (data) => console.log(data);
 
   const color = themeColor.grey;

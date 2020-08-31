@@ -51,15 +51,15 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
-  facebookLink: {
+  profileFacebook: {
     type: String,
     required: false,
   },
-  instagramLink: {
+  profileInstagram: {
     type: String,
     required: false,
   },
-  otherLink: {
+  profileOther: {
     type: String,
     required: false,
   },

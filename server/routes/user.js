@@ -3,6 +3,9 @@ const { verifyAccessToken, signAccessToken } = require('../helpers/token');
 
 const UserController = require('../controllers/UserController');
 
+router.get('/user', UserController.get);
+router.post('/user', UserController.post);
+
 router.post('/register', UserController.register);
 
 // router.post('/send-verify-email', async (req, res) => {

@@ -6,6 +6,71 @@ const { sendActivateMail, sendResetPwMail } = require('../helpers/mailer');
 const { verifyAccessToken, signAccessToken } = require('../helpers/token');
 
 module.exports = {
+  get: async (req, res) => {
+    const userId = req.headers['authorization'];
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json('User not found');
+
+    const {
+      firstName,
+      lastName,
+      email,
+      phone,
+      address,
+      postcode,
+      profileFacebook,
+      profileInstagram,
+      profileOther,
+    } = user;
+
+    return res.status(200).json({
+      firstName,
+      lastName,
+      email,
+      phone,
+      address,
+      postcode,
+      profileFacebook,
+      profileInstagram,
+      profileOther,
+    });
+  },
+
+  post: async (req, res) => {
+    const userId = req.headers['authorization'];
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json('User not found');
+
+    const {
+      firstName,
+      lastName,
+      email,
+      phone,
+      address,
+      postcode,
+      profileFacebook,
+      profileInstagram,
+      profileOther,
+    } = req.body;
+
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.email = email;
+    user.phone = phone;
+    user.address = address;
+    user.postcode = postcode;
+    user.profileFacebook = profileFacebook;
+    user.profileInstagram = profileInstagram;
+    user.profileOther = profileOther;
+
+    await user.save((err) => {
+      if (err) return err;
+      return res.status(200).json('User general profile successful saved');
+    });
+  },
+
   register: async (req, res) => {
     const { error } = registerValidation(req.body);
     if (error) return res.status(400).json(error.details[0].message);
@@ -23,7 +88,6 @@ module.exports = {
     });
 
     const secretToken = signAccessToken(newUser, process.env.JWT_VERIFY_SECRET);
-
     sendActivateMail(req.body.email, secretToken);
 
     try {

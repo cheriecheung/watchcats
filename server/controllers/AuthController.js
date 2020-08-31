@@ -36,11 +36,11 @@ module.exports = {
 
           await newUser.save();
           req.session.userId = newUser._id;
-          return res.status(200).json({ userId: newUser._id });
+          return res.status(200).json({ userId: newUser._id, shortId: newUser.urlId });
         }
 
         req.session.userId = user._id;
-        return res.status(200).json({ userId: user._id });
+        return res.status(200).json({ userId: user._id, shortId: user.urlId });
       })
       .catch((error) => {
         // redirect to certain page if failed

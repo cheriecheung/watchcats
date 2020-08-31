@@ -2,8 +2,11 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
+const userURL = `${process.env.REACT_APP_API_DOMAIN}/user`;
+const sitterAccountURL = (id) => `${process.env.REACT_APP_API_DOMAIN}/sitter/account/${id}`;
+const sitterProfileURL = (id) => `${process.env.REACT_APP_API_DOMAIN}/sitter/profile/${id}`;
+
 const ownerURL = `${process.env.REACT_APP_API_DOMAIN}/owner`;
-const sitterURL = `${process.env.REACT_APP_API_DOMAIN}/sitter`;
 const config = {
   withCredentials: true,
   headers: {
@@ -11,11 +14,40 @@ const config = {
   },
 };
 
-export function getSitter(id) {
-  const axiosGetSitter = id ? axios.get(`${sitterURL}/${id}`) : axios.get(sitterURL, config);
-
+export function getUser() {
   return (dispatch) => {
-    axiosGetSitter
+    axios
+      .get(userURL, config)
+      .then((response) => {
+        console.log(response);
+        dispatch({
+          type: 'GET_USER',
+          payload: response.data,
+        });
+      })
+      .catch((error) => console.log(error.response));
+  };
+}
+
+export function sendUser(data) {
+  return (dispatch) => {
+    axios
+      .post(userURL, data, config)
+      .then((response) => {
+        console.log(response);
+        dispatch({
+          type: 'SAVE_USER',
+          payload: response.data,
+        });
+      })
+      .catch((error) => console.log(error.response));
+  };
+}
+
+export function getSitterProfile(id) {
+  return (dispatch) => {
+    axios
+      .get(sitterProfileURL(id))
       .then((response) => {
         console.log(response);
         dispatch({
@@ -27,11 +59,26 @@ export function getSitter(id) {
   };
 }
 
-export function saveSitter(data) {
+export function getSitterAccount(id) {
+  return (dispatch) => {
+    axios
+      .get(sitterProfileURL(id))
+      .then((response) => {
+        console.log(response);
+        dispatch({
+          type: 'GET_PROFILE',
+          payload: response.data,
+        });
+      })
+      .catch((error) => console.log(error.response));
+  };
+}
+
+export function saveSitterAccount(id, data) {
   console.log({ data });
   return (dispatch) => {
     axios
-      .post(sitterURL, data, config)
+      .post(sitterAccountURL(id), data, config)
       .then((response) => {
         console.log(response);
 

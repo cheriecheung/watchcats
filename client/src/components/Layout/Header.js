@@ -152,7 +152,7 @@ function Header() {
               </Link>
             </Item>
             <Item>
-              <Link to="/account" style={menuItemStyle}>
+              <Link to={`/account/${cookies.get('shortId')}`} style={menuItemStyle}>
                 <i className="fas fa-user-circle" />
               </Link>
             </Item>

@@ -52,10 +52,13 @@ export function googleAuthenticate() {
         withCredentials: true,
         // credentials: 'include',
       })
-      .then(({ data: { userId } }) => {
+      .then(({ data: { userId, shortId } }) => {
+        console.log({ userId, shortId });
         cookies.set('userId', userId);
+        cookies.set('shortId', shortId);
+
         dispatch({ type: 'GOOGLE_LOGIN_SUCCESS', userId });
-        window.location = '/account';
+        window.location = `/account/${shortId}`;
       })
       .catch((error) => {
         window.location = '/';

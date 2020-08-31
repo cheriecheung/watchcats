@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import styled from 'styled-components';
-import { Calendar, List } from 'antd';
+import { List } from 'antd';
 import moment from 'moment';
 import Review from './Review';
 import { SectionContainer } from '../../components/FormComponents';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSitter } from '../../_actions/accountActions';
+import { getSitterProfile } from '../../_actions/accountActions';
 import ThemeButton from '../../components/General/ThemeButton';
+import DayPicker from 'react-day-picker';
 
 const ContentContainer = styled.div`
   margin-top: 20px;
@@ -28,6 +29,13 @@ const ImageContainer = styled.div`
   border-radius: 10px;
 `;
 
+const defaultValues = {
+  aboutSitter: '',
+  //photos: [],
+  experience: '',
+  unavailableDates: [],
+};
+
 const allReviews = [];
 for (let i = 0; i < 23; i++) {
   allReviews.push({ id: i, name: `User ${i}` });
@@ -41,12 +49,12 @@ function CatSitter() {
 
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
-  const [errorMsg, setErrorMsg] = useState('');
+  const [sitterInfo, setSitterInfo] = useState(defaultValues);
 
   useEffect(() => {
     if (id) {
       // fetch sitter profile by id
-      dispatch(getSitter(id));
+      dispatch(getSitterProfile(id));
 
       // show 'does not exist' message if no profile with such id
       console.log({ id });
@@ -57,7 +65,15 @@ function CatSitter() {
     // if(!sitterData) {
     //   setErrorMsg('Profile doesn\'t exist');
     // }
-    console.log({ sitterData });
+    if (sitterData) {
+      const { aboutSitter, experience, unavailableDates } = sitterData;
+
+      setSitterInfo({
+        aboutSitter,
+        experience,
+        unavailableDates: unavailableDates.map((item) => new Date(item)),
+      });
+    }
   }, [sitterData]);
 
   return (
@@ -82,7 +98,7 @@ function CatSitter() {
                 renderItem={({ name }) => <Review name={name} />}
               />
             </div>
-            <About />
+            <About sitterInfo={sitterInfo} />
           </div>
 
           <SectionContainer
@@ -161,7 +177,8 @@ function ImageSlider() {
   );
 }
 
-function About() {
+function About({ sitterInfo }) {
+  console.log({ sitterInfo });
   return (
     <>
       <div>
@@ -181,7 +198,30 @@ function About() {
 
       <div>
         <h5>Availability</h5>
-        <Calendar
+        <DayPicker
+          disabledDays={{ before: new Date() }}
+          selectedDays={sitterInfo.unavailableDates}
+        />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+          }}
+        >
+          <div className="calendar-available-date-box" />
+          <span>Available</span>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            marginLeft: 50,
+          }}
+        >
+          <div className="calendar-unavailable-date-box" />
+          <span>Unavailable</span>
+        </div>
+        {/* <Calendar
           disabledDate={(current) => {
             return moment().add(-1, 'days') >= current || moment().add(1, 'month') <= current;
           }}
@@ -189,7 +229,7 @@ function About() {
           fullscreen={false}
           //validRange={[moment(new Date()).format('YYYYMMDD')]}
           // onPanelChange={onPanelChange}
-        />
+        /> */}
       </div>
 
       <div>

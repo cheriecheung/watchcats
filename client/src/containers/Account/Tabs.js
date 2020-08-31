@@ -34,11 +34,7 @@ function ProfileTabs() {
   }, [screenWidth]);
 
   return (
-    <Tabs
-      defaultActiveKey="sitter"
-      tabPosition={tabPosition}
-      className="vertical-tabs"
-    >
+    <Tabs defaultActiveKey="general" tabPosition={tabPosition} className="vertical-tabs">
       {accountTabs.map(({ key, tab, content }) => (
         <TabPane tab={tab} key={key}>
           <Container>{content}</Container>
