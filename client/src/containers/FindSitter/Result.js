@@ -136,10 +136,10 @@ function Result({ item }) {
           <hr style={{ margin: '10px 0' }} />
           <p style={{ margin: 0, padding: 0 }}>{description}</p>
 
-          {/* <Link to={`/profile/${id}`} style={{ float: 'right' }}> */}
-          <Link to="/profile" style={{ float: 'right' }}>
-            View profile
-          </Link>
+          {/* href={`/profile/catsitter/${id}`} */}
+          <a href="/profile/catsitter/123" target="_blank" style={{ float: 'right' }}>
+            View Profile
+          </a>
         </div>
       </ResultContainer>
     </div>

@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
+const shortid = require('shortid');
 
 const userSchema = new Schema({
+  urlId: {
+    type: String,
+    default: shortid.generate(),
+  },
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'Owner',

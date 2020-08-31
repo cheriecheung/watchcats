@@ -11,10 +11,11 @@ const config = {
   },
 };
 
-export function getSitter() {
+export function getSitter(id) {
+  const axiosGetSitter = id ? axios.get(`${sitterURL}/${id}`) : axios.get(sitterURL, config);
+
   return (dispatch) => {
-    axios
-      .get(sitterURL, config)
+    axiosGetSitter
       .then((response) => {
         console.log(response);
         dispatch({

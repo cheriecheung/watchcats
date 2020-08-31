@@ -8,41 +8,21 @@ module.exports = {
     const userId = req.headers['authorization'];
     // const user = await User.findById(userId);
 
-    // if (user.sitter) {
-    User.findById(userId)
-      .populate('sitter')
-      .exec(async (err, user) => {
-        if (err) return err;
+    const FindUser = req.params.id ? User.findOne({ urlId: req.params.id }) : User.findById(userId);
 
-        const {
-          sitter: {
-            id: sitterId,
-            aboutSitter,
-            experience,
-            hasCat,
-            hasMedicationSkills,
-            hasVolunteered,
-            hasInjectionSkills,
-            hasCertification,
-            hasGroomingSkills,
-            priceOneTime,
-            priceOvernight,
-            emergencyName,
-            emergencyNumber,
-          },
-        } = user;
+    // User.findOne({ _id: makeObjId(userId), sitter })
+    // .then(response => {
+    //    if (response) {
+    //
+    //    }
+    // })
+    //
+    FindUser.populate('sitter').exec(async (err, user) => {
+      if (err) return err;
 
-        let unavailableDates;
-
-        const allDays = await UnavailableDate.find({
-          sitter: mongoose.Types.ObjectId(sitterId),
-        });
-
-        if (allDays.length > 0) {
-          unavailableDates = allDays.map(({ date }) => date);
-        }
-
-        return res.status(200).json({
+      const {
+        sitter: {
+          id: sitterId,
           aboutSitter,
           experience,
           hasCat,
@@ -53,11 +33,37 @@ module.exports = {
           hasGroomingSkills,
           priceOneTime,
           priceOvernight,
-          unavailableDates,
           emergencyName,
           emergencyNumber,
-        });
+        },
+      } = user;
+
+      let unavailableDates;
+
+      const allDays = await UnavailableDate.find({
+        sitter: mongoose.Types.ObjectId(sitterId),
       });
+
+      if (allDays.length > 0) {
+        unavailableDates = allDays.map(({ date }) => date);
+      }
+
+      return res.status(200).json({
+        aboutSitter,
+        experience,
+        hasCat,
+        hasMedicationSkills,
+        hasVolunteered,
+        hasInjectionSkills,
+        hasCertification,
+        hasGroomingSkills,
+        priceOneTime,
+        priceOvernight,
+        unavailableDates,
+        emergencyName,
+        emergencyNumber,
+      });
+    });
   },
 
   post: async (req, res) => {
@@ -79,11 +85,12 @@ module.exports = {
       emergencyNumber,
     } = req.body;
 
-    console.log({ unavailableDatesData });
+    // console.log({ unavailableDatesData });
 
     if (!user.sitter) {
       const newSitter = new Sitter({
         _id: new mongoose.Types.ObjectId(),
+        urlId: user.urlId,
         aboutSitter,
         experience,
         hasCat,
@@ -131,7 +138,7 @@ module.exports = {
               sitter: sitterIdObj,
             });
 
-            console.log({ allDays });
+            // console.log({ allDays });
 
             unavailableDatesData.forEach((date, index) => {
               if (!allDays.includes(date)) {

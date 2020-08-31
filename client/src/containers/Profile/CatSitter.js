@@ -1,10 +1,14 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import styled from 'styled-components';
 import { Calendar, List } from 'antd';
 import moment from 'moment';
 import Review from './Review';
 import { SectionContainer } from '../../components/FormComponents';
+import { useParams, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSitter } from '../../_actions/accountActions';
+import ThemeButton from '../../components/General/ThemeButton';
 
 const ContentContainer = styled.div`
   margin-top: 20px;
@@ -16,20 +20,49 @@ const ContentContainer = styled.div`
     flex-direction: column-reverse;
   }
 `;
+const ImageContainer = styled.div`
+  width: 100px;
+  height: 100px;
+  background: pink;
+  overflow: hidden;
+  border-radius: 10px;
+`;
 
 const allReviews = [];
 for (let i = 0; i < 23; i++) {
   allReviews.push({ id: i, name: `User ${i}` });
 }
 
-function Sitter() {
+function CatSitter() {
+  const { id } = useParams();
   const reviewListRef = useRef(null);
+  const dispatch = useDispatch();
+  const { data: sitterData } = useSelector((state) => state.account);
+
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
+
+  const [errorMsg, setErrorMsg] = useState('');
+
+  useEffect(() => {
+    if (id) {
+      // fetch sitter profile by id
+      dispatch(getSitter(id));
+
+      // show 'does not exist' message if no profile with such id
+      console.log({ id });
+    }
+  }, [id]);
+
+  useEffect(() => {
+    // if(!sitterData) {
+    //   setErrorMsg('Profile doesn\'t exist');
+    // }
+    console.log({ sitterData });
+  }, [sitterData]);
 
   return (
     <div style={{ padding: '30px 60px' }}>
       <div style={{ textAlign: 'left' }}>
-        <b>&#x3c; Back</b>
         <ContentContainer>
           <div style={{ flexBasis: '60%', marginBottom: 100 }}>
             <ImageSlider />
@@ -61,12 +94,18 @@ function Sitter() {
             }}
           >
             <h4>Member's name</h4>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum, dicta nisi accusantium
-              dolorem eum enim fugiat delectus repudiandae amet aut ipsum voluptatum natus minus
-              maxime?
-            </p>
-            <span>Location</span>
+            <ImageContainer>
+              <img
+                src="https://images.pexels.com/photos/569170/pexels-photo-569170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                alt="pic"
+                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+              />
+            </ImageContainer>
+            <br />
+            <ThemeButton>Send message</ThemeButton>
+            <ThemeButton>Send request for sitting job</ThemeButton>
+            <hr />
+            <h5>Verified</h5>
           </SectionContainer>
         </ContentContainer>
       </div>
@@ -161,4 +200,4 @@ function About() {
   );
 }
 
-export default Sitter;
+export default CatSitter;

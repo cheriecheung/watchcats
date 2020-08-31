@@ -40,7 +40,7 @@ function SitterProfile() {
   const dispatch = useDispatch();
   const methods = useForm();
   const { register, handleSubmit, watch, reset } = methods;
-  const selectedDays = watch('unavailableDates');
+  const selectedDays = watch('unavailableDates') || [];
 
   const handleDayClick = (day, { selected }) => {
     const allDays = [...selectedDays];
@@ -118,8 +118,8 @@ function SitterProfile() {
               </Col>
               <Col md={6}>
                 <p>
-                  To let cat owners get an idea of who's sitting their cats, you
-                  can upload pictures of yourself.
+                  To let cat owners get an idea of who's sitting their cats, you can upload pictures
+                  of yourself.
                 </p>
                 {/* <Controller
                   name="photos"
@@ -143,9 +143,8 @@ function SitterProfile() {
           <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>Experience and service</h6>
             <p style={{ margin: '20px 0 30px 0' }}>
-              Please select relevant experience / skills you possess. For every
-              item selected, please briefly explain the details in the text box
-              below.
+              Please select relevant experience / skills you possess. For every item selected,
+              please briefly explain the details in the text box below.
             </p>
             {/* <Row> */}
             <div className="sitter-skills">
@@ -187,10 +186,7 @@ function SitterProfile() {
               </Col>
               <Col md={6}>
                 <FieldLabel>Overnight visit</FieldLabel>
-                <SelectField
-                  name="priceOvernight"
-                  options={priceOvernightOptions}
-                />
+                <SelectField name="priceOvernight" options={priceOvernightOptions} />
                 <span>Per night</span>
               </Col>
             </Row>
@@ -201,14 +197,11 @@ function SitterProfile() {
             <Row>
               <Col md={12}>
                 <p>
-                  Select the dates that you are not available, so that cat
-                  owners can send you requests based on your availability.
+                  Select the dates that you are not available, so that cat owners can send you
+                  requests based on your availability.
                 </p>
               </Col>
-              <Col
-                md={12}
-                style={{ display: 'flex', justifyContent: 'center' }}
-              >
+              <Col md={12} style={{ display: 'flex', justifyContent: 'center' }}>
                 <Calendar
                   name="unavailableDates"
                   selectedDays={selectedDays}
@@ -254,9 +247,7 @@ function SitterProfile() {
 
           <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>Emergency Contact</h6>
-            <p>
-              In case of an emergency, cat owners can contact the following:
-            </p>
+            <p>In case of an emergency, cat owners can contact the following:</p>
             <Row>
               <Col md={6}>
                 <FieldLabel>Full name</FieldLabel>

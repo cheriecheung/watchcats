@@ -17,7 +17,7 @@ import Bookings from './containers/Bookings';
 import Messages from './containers/Messages';
 import Account from './containers/Account';
 import FindSitter from './containers/FindSitter';
-import Profile from './containers/Profile';
+import { CatSitter, CatOwner } from './containers/Profile';
 import { useSelector } from 'react-redux';
 
 import Cookies from 'universal-cookie';
@@ -54,10 +54,11 @@ function App() {
             <Route path="/about" component={About} />
             <Route path="/login" component={Login} />
             <Route path="/activate/:token?" component={VerifyEmail} />
-            <PrivateRoute path="/profile" component={Profile} />
+            <Route path="/profile/catsitter/:id" component={CatSitter} />
+            <Route path="/profile/catowner/:id" component={CatOwner} />
             <PrivateRoute path="/bookings" component={Bookings} />
-            <PrivateRoute path="/messages" component={Messages} />
-            <PrivateRoute path="/account" component={Account} />
+            <PrivateRoute path="/messages/:id?" component={Messages} />
+            <PrivateRoute path="/account/:id?" component={Account} />
             <Route path="/loading" component={Loading} />
           </Switch>
         </Layout>

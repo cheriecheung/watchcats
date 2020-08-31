@@ -27,14 +27,24 @@ module.exports = {
       .then(async ({ data: { sub: google_id, email, name } }) => {
         const user = await User.findOne({ email });
 
-        if (!user) return res.status(404).json('User not found');
+        // if (!user) return res.status(404).json('User not found');
+        if (!user) {
+          const newUser = new User({
+            name,
+            email,
+          });
+
+          await newUser.save();
+          req.session.userId = newUser._id;
+          return res.status(200).json({ userId: newUser._id });
+        }
 
         req.session.userId = user._id;
         return res.status(200).json({ userId: user._id });
       })
       .catch((error) => {
         // redirect to certain page if failed
-        console.log('cannot login');
+        console.log('____________________cannot login', error);
         return res.status(401).json('Incorrect credentials');
       });
   },

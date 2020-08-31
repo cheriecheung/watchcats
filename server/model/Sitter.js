@@ -6,6 +6,14 @@ const sitterSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
+  urlId: {
+    type: String,
+    required: false,
+  },
+  review: {
+    type: Schema.Types.ObjectId,
+    ref: 'Review',
+  },
   aboutSitter: {
     type: String,
     required: false,

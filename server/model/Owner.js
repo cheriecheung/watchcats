@@ -6,6 +6,13 @@ const ownerSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
+  urlId: {
+    type: String,
+  },
+  review: {
+    type: Schema.Types.ObjectId,
+    ref: 'Review',
+  },
   aboutMe: {
     type: String,
     required: true,
