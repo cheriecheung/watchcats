@@ -62,7 +62,7 @@ export function getSitterProfile(id) {
 export function getSitterAccount(id) {
   return (dispatch) => {
     axios
-      .get(sitterProfileURL(id))
+      .get(sitterAccountURL(id))
       .then((response) => {
         console.log(response);
         dispatch({

@@ -1,24 +1,31 @@
 const mongoose = require('mongoose');
 const User = require('../model/User');
 const Sitter = require('../model/Sitter');
-const UnavailableDate = require('../model/UnavailableDate');
-const { getSitterData } = require('../helpers/user');
+const UnavailableDates = require('../model/UnavailableDates');
+const { getUnavailableDates } = require('../helpers/user');
 
 module.exports = {
   getProfile: async (req, res) => {
-    // User.findOne({ _id: makeObjId(userId), sitter })
-    // .then(response => {
-    //    if (response) {
-    //
-    //    }
-    // })
-    //
+    User.findOne({ urlId: req.params.id })
+      .populate('sitter')
+      .exec(async (err, user) => {
+        if (err) return err;
 
-    const sitterData = getSitterData(req.params.id);
+        const { sitter, firstName, lastName, postcode } = user;
+        const { id: sitterObjectId } = sitter;
 
-    console.log({ sitterData });
+        const allUnavailableDates = await getUnavailableDates(sitterObjectId);
 
-    // return res.status(200).json({ ...sitterData });
+        const sitterData = {
+          ...sitter._doc,
+          unavailableDates: allUnavailableDates,
+          firstName,
+          lastName,
+          postcode,
+        };
+
+        return res.status(200).json(sitterData);
+      });
   },
 
   getAccount: async (req, res) => {
@@ -27,49 +34,14 @@ module.exports = {
       .exec(async (err, user) => {
         if (err) return err;
 
-        const {
-          sitter: {
-            id: sitterId,
-            aboutSitter,
-            experience,
-            hasCat,
-            hasMedicationSkills,
-            hasVolunteered,
-            hasInjectionSkills,
-            hasCertification,
-            hasGroomingSkills,
-            priceOneTime,
-            priceOvernight,
-            emergencyName,
-            emergencyNumber,
-          },
-        } = user;
+        const { sitter } = user;
+        const { id: sitterObjectId } = sitter;
 
-        let unavailableDates;
+        const allUnavailableDates = await getUnavailableDates(sitterObjectId);
 
-        const allDays = await UnavailableDate.find({
-          sitter: mongoose.Types.ObjectId(sitterId),
-        });
+        const sitterData = { ...sitter._doc, unavailableDates: allUnavailableDates };
 
-        if (allDays.length > 0) {
-          unavailableDates = allDays.map(({ date }) => date);
-        }
-
-        return res.status(200).json({
-          aboutSitter,
-          experience,
-          hasCat,
-          hasMedicationSkills,
-          hasVolunteered,
-          hasInjectionSkills,
-          hasCertification,
-          hasGroomingSkills,
-          priceOneTime,
-          priceOvernight,
-          unavailableDates,
-          emergencyName,
-          emergencyNumber,
-        });
+        return res.status(200).json(sitterData);
       });
   },
 
@@ -114,7 +86,7 @@ module.exports = {
 
       if (unavailableDatesData.length > 0) {
         unavailableDatesData.forEach((date) => {
-          const newDate = new UnavailableDate({
+          const newDate = new UnavailableDates({
             sitter: newSitter._id,
             date,
           });
@@ -141,7 +113,7 @@ module.exports = {
           const sitterIdObj = user.sitter;
 
           if (unavailableDatesData.length > 0) {
-            const allDays = await UnavailableDate.find({
+            const allDays = await UnavailableDates.find({
               sitter: sitterIdObj,
             });
 
@@ -149,7 +121,7 @@ module.exports = {
 
             unavailableDatesData.forEach((date, index) => {
               if (!allDays.includes(date)) {
-                const newDate = new UnavailableDate({
+                const newDate = new UnavailableDates({
                   sitter: sitterIdObj,
                   date,
                 });

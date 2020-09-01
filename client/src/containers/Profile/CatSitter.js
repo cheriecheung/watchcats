@@ -29,12 +29,9 @@ const ImageContainer = styled.div`
   border-radius: 10px;
 `;
 
-const defaultValues = {
-  aboutSitter: '',
-  //photos: [],
-  experience: '',
-  unavailableDates: [],
-};
+const ProfileSection = styled.div`
+  margin: 50px 0;
+`;
 
 const allReviews = [];
 for (let i = 0; i < 23; i++) {
@@ -49,11 +46,10 @@ function CatSitter() {
 
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
-  const [sitterInfo, setSitterInfo] = useState(defaultValues);
+  const [sitterInfo, setSitterInfo] = useState({});
 
   useEffect(() => {
     if (id) {
-      // fetch sitter profile by id
       dispatch(getSitterProfile(id));
 
       // show 'does not exist' message if no profile with such id
@@ -62,16 +58,11 @@ function CatSitter() {
   }, [id]);
 
   useEffect(() => {
-    // if(!sitterData) {
-    //   setErrorMsg('Profile doesn\'t exist');
-    // }
     if (sitterData) {
-      const { aboutSitter, experience, unavailableDates } = sitterData;
-
+      console.log({ sitterData });
       setSitterInfo({
-        aboutSitter,
-        experience,
-        unavailableDates: unavailableDates.map((item) => new Date(item)),
+        ...sitterData,
+        unavailableDates: sitterData.unavailableDates.map((item) => new Date(item)),
       });
     }
   }, [sitterData]);
@@ -82,11 +73,11 @@ function CatSitter() {
         <ContentContainer>
           <div style={{ flexBasis: '60%', marginBottom: 100 }}>
             <ImageSlider />
-            <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
-              Reviews(10)
-            </h5>
 
-            <div>
+            <ProfileSection>
+              <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
+                Reviews(10)
+              </h5>
               <List
                 itemLayout="vertical"
                 size="large"
@@ -97,8 +88,35 @@ function CatSitter() {
                 dataSource={allReviews}
                 renderItem={({ name }) => <Review name={name} />}
               />
-            </div>
-            <About sitterInfo={sitterInfo} />
+            </ProfileSection>
+
+            <hr />
+
+            <ProfileSection>
+              <h5>About</h5>
+              <p>{sitterInfo.aboutSitter}</p>
+            </ProfileSection>
+
+            <hr />
+
+            <ProfileSection>
+              <h5>Experience</h5>
+              <p>{sitterInfo.experience}</p>
+            </ProfileSection>
+
+            <hr />
+
+            <ProfileSection>
+              <h5>Availability</h5>
+              <AvailabilityCalendar unavailableDates={sitterInfo.unavailableDates} />
+            </ProfileSection>
+
+            <hr />
+
+            <ProfileSection>
+              <h5>Location</h5>
+              <p>{sitterInfo.postcode}</p>
+            </ProfileSection>
           </div>
 
           <SectionContainer
@@ -109,7 +127,9 @@ function CatSitter() {
               top: 20,
             }}
           >
-            <h4>Member's name</h4>
+            <h4>
+              {sitterInfo.firstName} {sitterInfo.lastName}
+            </h4>
             <ImageContainer>
               <img
                 src="https://images.pexels.com/photos/569170/pexels-photo-569170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
@@ -126,6 +146,33 @@ function CatSitter() {
         </ContentContainer>
       </div>
     </div>
+  );
+}
+
+function AvailabilityCalendar({ unavailableDates }) {
+  return (
+    <>
+      <DayPicker disabledDays={{ before: new Date() }} selectedDays={unavailableDates} />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+      >
+        <div className="calendar-available-date-box" />
+        <span>Available</span>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          marginLeft: 50,
+        }}
+      >
+        <div className="calendar-unavailable-date-box" />
+        <span>Unavailable</span>
+      </div>
+    </>
   );
 }
 
@@ -174,69 +221,6 @@ function ImageSlider() {
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
-  );
-}
-
-function About({ sitterInfo }) {
-  console.log({ sitterInfo });
-  return (
-    <>
-      <div>
-        <h5>About</h5>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta commodi voluptatum
-          recusandae sunt et minima enim aliquid incidunt ipsa maiores, cupiditate tenetur itaque
-          eos quae eveniet ullam ipsam ad iste sed voluptatibus nulla hic temporibus? Corrupti ipsam
-          adipisci quos accusamus!
-        </p>
-      </div>
-
-      <div>
-        <h5>Experience</h5>
-        <p>display icons for types of experience</p>
-      </div>
-
-      <div>
-        <h5>Availability</h5>
-        <DayPicker
-          disabledDays={{ before: new Date() }}
-          selectedDays={sitterInfo.unavailableDates}
-        />
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-          }}
-        >
-          <div className="calendar-available-date-box" />
-          <span>Available</span>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            marginLeft: 50,
-          }}
-        >
-          <div className="calendar-unavailable-date-box" />
-          <span>Unavailable</span>
-        </div>
-        {/* <Calendar
-          disabledDate={(current) => {
-            return moment().add(-1, 'days') >= current || moment().add(1, 'month') <= current;
-          }}
-          defaultValue={moment('20200815')}
-          fullscreen={false}
-          //validRange={[moment(new Date()).format('YYYYMMDD')]}
-          // onPanelChange={onPanelChange}
-        /> */}
-      </div>
-
-      <div>
-        <h5>Location</h5>
-        <p>Display google map</p>
-      </div>
-    </>
   );
 }
 

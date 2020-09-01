@@ -2,7 +2,7 @@ import React from 'react';
 
 function Review({ name }) {
   return (
-    <>
+    <div style={{ margin: '20px 0' }}>
       <div
         style={{
           display: 'flex',
@@ -34,15 +34,7 @@ function Review({ name }) {
           </p>
         </div>
       </div>
-
-      <div
-        style={{
-          borderTop: '1px solid #d3d3d3',
-          marginTop: 15,
-          marginBottom: 15,
-        }}
-      />
-    </>
+    </div>
   );
 }
 

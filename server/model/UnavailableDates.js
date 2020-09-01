@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const unavailableDateSchema = new Schema({
+const unavailableDatesSchema = new Schema({
   sitter: {
     type: Schema.Types.ObjectId,
     ref: 'Sitter',
@@ -17,4 +17,4 @@ const unavailableDateSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model('UnavailableDate', unavailableDateSchema);
+module.exports = mongoose.model('UnavailableDates', unavailableDatesSchema);
