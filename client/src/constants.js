@@ -31,6 +31,15 @@ export const sitterBookings = {
   ],
 };
 
+export const sitterExperience = [
+  { value: 'ownCat', label: 'Owns / owned a cat' },
+  { value: 'volunteer', label: 'Has done volunteer work' },
+  { value: 'medication', label: 'Able to administer medication' },
+  { value: 'injections', label: 'Able to do injections' },
+  { value: 'certification', label: 'Has pet sitting certification' },
+  { value: 'grooming', label: 'Has pet grooming skills' },
+];
+
 export const catBreedOptions = [
   { value: 1, label: 'Abyssinian' },
   { value: 2, label: 'Bengal cat' },
@@ -51,7 +60,6 @@ export const catBreedOptions = [
 ];
 
 export const medicineOptions = [
-  { value: 'none', label: 'None' },
   { value: 'injection', label: 'Injection' },
   { value: 'pill', label: 'Pill' },
 ];

@@ -72,6 +72,7 @@ function SitterProfile() {
         aboutSitter,
         experience,
         hasCat = false,
+        hasVolunteered = false,
         hasMedicationSkills = false,
         hasInjectionSkills = false,
         hasCertification = false,
@@ -88,12 +89,13 @@ function SitterProfile() {
         aboutSitter,
         experience,
         hasCat,
+        hasVolunteered,
         hasMedicationSkills,
         hasInjectionSkills,
         hasCertification,
         hasGroomingSkills,
-        priceOneTime,
-        priceOvernight,
+        priceOneTime: { value: priceOneTime, label: `€ ${priceOneTime},00` },
+        priceOvernight: { value: priceOvernight, label: `€ ${priceOvernight},00` },
         unavailableDates: unavailableDates.map((item) => new Date(item)),
         emergencyName,
         emergencyNumber,
@@ -101,7 +103,15 @@ function SitterProfile() {
     }
   }, [reset, sitterData]);
 
-  const onSubmit = (data) => dispatch(saveSitterAccount(id, data));
+  const onSubmit = (data) => {
+    const cleanedData = {
+      ...data,
+      priceOneTime: data.priceOneTime.value,
+      priceOvernight: data.priceOvernight.value,
+    };
+
+    dispatch(saveSitterAccount(id, cleanedData));
+  };
   // const onSubmit = (data) => console.log(data);
 
   const color = themeColor.grey;
@@ -162,7 +172,7 @@ function SitterProfile() {
                 <span>Able to administer medication</span>
               </Checkbox>
               <Checkbox name="hasInjectionSkills">
-                <span> Able do injections</span>
+                <span>Able do injections</span>
               </Checkbox>
               <Checkbox name="hasCertification">
                 <span>Has pet sitting certification</span>

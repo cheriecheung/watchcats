@@ -15,11 +15,7 @@ import {
   TimePicker,
 } from '../../components/FormComponents';
 import { themeColor } from '../../style/theme';
-import {
-  catBreedOptions,
-  personalityOptions,
-  medicineOptions,
-} from '../../constants';
+import { catBreedOptions, personalityOptions, medicineOptions } from '../../constants';
 import styled from 'styled-components';
 import { getOwner, saveOwner } from '../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -64,11 +60,7 @@ function OwnerProfile() {
   const dispatch = useDispatch();
   const methods = useForm({ defaultValues });
   const { register, control, handleSubmit, reset, watch } = methods;
-  const {
-    fields: oneDayFields,
-    append: oneDayAppend,
-    remove: oneDayRemove,
-  } = useFieldArray({
+  const { fields: oneDayFields, append: oneDayAppend, remove: oneDayRemove } = useFieldArray({
     control,
     name: 'bookingOneDay',
   });
@@ -80,11 +72,7 @@ function OwnerProfile() {
     control,
     name: 'bookingOvernight',
   });
-  const {
-    fields: catFields,
-    append: catAppend,
-    remove: catRemove,
-  } = useFieldArray({
+  const { fields: catFields, append: catAppend, remove: catRemove } = useFieldArray({
     control,
     name: 'cat',
   });
@@ -142,8 +130,8 @@ function OwnerProfile() {
             </Col>
             <Col md={6}>
               <p>
-                To let cat sitters get an idea of where they will be cat
-                sitting, you can upload pictures of your place.
+                To let cat sitters get an idea of where they will be cat sitting, you can upload
+                pictures of your place.
               </p>
               <Input
                 type="file"
@@ -166,9 +154,7 @@ function OwnerProfile() {
           {oneDayFields.map((item, index) => {
             return (
               <div key={item.id}>
-                <div
-                  style={{ display: 'flex', justifyContent: 'space-between' }}
-                >
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <h6 hidden={index === 0}>One day visit #{index + 1}</h6>
                   <button
                     hidden={index === 0}
@@ -203,9 +189,7 @@ function OwnerProfile() {
                     >
                       <div className="d-flex flex-column time-picker">
                         <FieldLabel>Start time</FieldLabel>
-                        <TimePicker
-                          name={`bookingOneDay[${index}].startTime`}
-                        />
+                        <TimePicker name={`bookingOneDay[${index}].startTime`} />
                       </div>
                       <i className="fas fa-arrow-right align-self-center mt-4" />
                       <div className="d-flex flex-column time-picker">
@@ -216,10 +200,7 @@ function OwnerProfile() {
                   </Col>
                 </Row>
 
-                <hr
-                  hidden={watch('bookingOneDay').length === 1}
-                  style={{ margin: '30px 0' }}
-                />
+                <hr hidden={watch('bookingOneDay').length === 1} style={{ margin: '30px 0' }} />
               </div>
             );
           })}
@@ -247,9 +228,7 @@ function OwnerProfile() {
           {overnightFields.map((item, index) => {
             return (
               <div key={item.id}>
-                <div
-                  style={{ display: 'flex', justifyContent: 'space-between' }}
-                >
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <h6 hidden={index === 0} style={{ color }}>
                     Overnight visit #{index + 1}
                   </h6>
@@ -286,10 +265,7 @@ function OwnerProfile() {
                     <DatePicker name={`bookingOvernight[${index}].endDate`} />
                   </div>
                 </div>
-                <hr
-                  hidden={watch('bookingOvernight').length === 1}
-                  style={{ margin: '30px 0' }}
-                />
+                <hr hidden={watch('bookingOvernight').length === 1} style={{ margin: '30px 0' }} />
               </div>
             );
           })}
@@ -310,8 +286,7 @@ function OwnerProfile() {
             Add another time
           </button>
           <span hidden={watch('bookingOvernight').length < 2}>
-            You can at most request 2 overnight sitting appointments at the same
-            time!
+            You can at most request 2 overnight sitting appointments at the same time!
           </span>
         </SectionContainer>
 
@@ -323,14 +298,11 @@ function OwnerProfile() {
               <div
                 key={item.id}
                 style={{
-                  background:
-                    index % 2 !== 0 ? 'rgba(168, 165, 165, 0.05)' : 'none',
+                  background: index % 2 !== 0 ? 'rgba(168, 165, 165, 0.05)' : 'none',
                   padding: '20px 20px 0 20px',
                 }}
               >
-                <div
-                  style={{ display: 'flex', justifyContent: 'space-between' }}
-                >
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <h6 hidden={index === 0} style={{ color, fontWeight: 800 }}>
                     And my #{index + 1} cat
                   </h6>
@@ -378,10 +350,7 @@ function OwnerProfile() {
                   <Col md={6} className="mb-4">
                     <FieldLabel>Medical needs</FieldLabel>
                     <br />
-                    <CheckboxGroup
-                      name={`cat[${index}].medicalNeeds`}
-                      options={['Injection', 'Pill']}
-                    />
+                    <CheckboxGroup name={`cat[${index}].medicalNeeds`} options={medicineOptions} />
                   </Col>
                   <Col md={6} className="mb-4">
                     <FieldLabel>Vaccinated</FieldLabel>
@@ -413,19 +382,11 @@ function OwnerProfile() {
                   </Col>
                   <Col md={6} className="mb-4">
                     <FieldLabel>Breed</FieldLabel>
-                    <SelectField
-                      name={`cat[${index}].breed`}
-                      options={catBreedOptions}
-                    />
+                    <SelectField name={`cat[${index}].breed`} options={catBreedOptions} />
                   </Col>
                   <Col md={6} className="mb-4">
-                    <FieldLabel>
-                      Personality that fits your cat the best
-                    </FieldLabel>
-                    <SelectField
-                      name={`cat[${index}].personality`}
-                      options={personalityOptions}
-                    />
+                    <FieldLabel>Personality that fits your cat the best</FieldLabel>
+                    <SelectField name={`cat[${index}].personality`} options={personalityOptions} />
                   </Col>
                   <Col md={6} className="mb-3">
                     <FieldLabel>Favorite treat</FieldLabel>
@@ -434,24 +395,15 @@ function OwnerProfile() {
                   <Col md={6} className="mb-3">
                     <FieldLabel>Pictures of your cat (max. 3)</FieldLabel>
                     <br />
-                    <label
-                      for="file-upload"
-                      className="upload-file-input form-control"
-                    >
-                      <i
-                        className="fas fa-upload"
-                        style={{ opacity: 0.4, marginRight: 10 }}
-                      />
+                    <label for="file-upload" className="upload-file-input form-control">
+                      <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
                       <span>Upload</span>
                     </label>
                     <input id="file-upload" type="file" />
                   </Col>
                 </Row>
 
-                <hr
-                  hidden={watch('cat').length === 1}
-                  style={{ margin: '20px 0 0 0' }}
-                />
+                <hr hidden={watch('cat').length === 1} style={{ margin: '20px 0 0 0' }} />
               </div>
             );
           })}
@@ -474,9 +426,8 @@ function OwnerProfile() {
           </button>
 
           <span hidden={watch('cat').length <= 4}>
-            If you have 5 or more cats, perhaps you would want to consider
-            having them stay at a pet hotel, so they can all be taken care of by
-            full time staff!
+            If you have 5 or more cats, perhaps you would want to consider having them stay at a pet
+            hotel, so they can all be taken care of by full time staff!
           </span>
         </CatInfoContainer>
 

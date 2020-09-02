@@ -17,4 +17,4 @@ const unavailableDatesSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model('UnavailableDates', unavailableDatesSchema);
+module.exports = mongoose.model('UnavailableDate', unavailableDatesSchema);

@@ -104,6 +104,13 @@ function CatSitter() {
               <p>{sitterInfo.experience}</p>
             </ProfileSection>
 
+            {sitterInfo.hasCat && <h5>Owns / owned a cat</h5>}
+            {sitterInfo.hasVolunteered && <h5>Owns / owned a cat</h5>}
+            {sitterInfo.hasMedicationSkills && <h5>Able to administer medication</h5>}
+            {sitterInfo.hasInjectionSkills && <h5>Able to do injections</h5>}
+            {sitterInfo.hasCertification && <h5>Has pet sitting certification</h5>}
+            {sitterInfo.hasGroomingSkills && <h5>Has pet grooming skills</h5>}
+
             <hr />
 
             <ProfileSection>
@@ -137,11 +144,21 @@ function CatSitter() {
                 style={{ objectFit: 'cover', width: '100%', height: '100%' }}
               />
             </ImageContainer>
-            <br />
+
+            <hr />
+            <h6>Verified</h6>
+            <hr />
+
+            <span style={{ display: 'flex' }}>
+              <h5>€ {sitterInfo.priceOneTime} </h5>per day
+            </span>
+
+            <span style={{ display: 'flex' }}>
+              <h5>€ {sitterInfo.priceOvernight}</h5> per night
+            </span>
+
             <ThemeButton>Send message</ThemeButton>
             <ThemeButton>Send request for sitting job</ThemeButton>
-            <hr />
-            <h5>Verified</h5>
           </SectionContainer>
         </ContentContainer>
       </div>

@@ -51,11 +51,11 @@ const sitterSchema = new Schema({
     required: false,
   },
   priceOneTime: {
-    type: Object,
+    type: Number,
     required: false,
   },
   priceOvernight: {
-    type: Object,
+    type: Number,
     required: false,
   },
   unavailableDate: {

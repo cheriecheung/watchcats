@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('../model/User');
 const Sitter = require('../model/Sitter');
-const UnavailableDates = require('../model/UnavailableDates');
+const UnavailableDate = require('../model/UnavailableDate');
 const { getUnavailableDates } = require('../helpers/user');
 
 module.exports = {
@@ -40,6 +40,8 @@ module.exports = {
         const allUnavailableDates = await getUnavailableDates(sitterObjectId);
 
         const sitterData = { ...sitter._doc, unavailableDates: allUnavailableDates };
+
+        console.log({ sitterData });
 
         return res.status(200).json(sitterData);
       });
@@ -86,7 +88,7 @@ module.exports = {
 
       if (unavailableDatesData.length > 0) {
         unavailableDatesData.forEach((date) => {
-          const newDate = new UnavailableDates({
+          const newDate = new UnavailableDate({
             sitter: newSitter._id,
             date,
           });
@@ -113,7 +115,7 @@ module.exports = {
           const sitterIdObj = user.sitter;
 
           if (unavailableDatesData.length > 0) {
-            const allDays = await UnavailableDates.find({
+            const allDays = await UnavailableDate.find({
               sitter: sitterIdObj,
             });
 
@@ -121,7 +123,7 @@ module.exports = {
 
             unavailableDatesData.forEach((date, index) => {
               if (!allDays.includes(date)) {
-                const newDate = new UnavailableDates({
+                const newDate = new UnavailableDate({
                   sitter: sitterIdObj,
                   date,
                 });

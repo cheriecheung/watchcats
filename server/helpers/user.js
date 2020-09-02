@@ -1,7 +1,7 @@
-const UnavailableDates = require('../model/UnavailableDates');
+const UnavailableDate = require('../model/UnavailableDate');
 
 const getUnavailableDates = async (sitterObjectId) => {
-  return await UnavailableDates.find({
+  return await UnavailableDate.find({
     sitter: sitterObjectId,
   }).then((response) => {
     return response.map(({ date }) => date);
