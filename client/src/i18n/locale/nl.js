@@ -28,28 +28,71 @@ export default {
 
   login: {
     login: 'Inloggen',
-    response: 'Login failed; Invalid user ID or password.',
+    // response: 'Login failed; Invalid user ID or password.',
+    error_message: '',
   },
 
   register: {
     register: 'Registreren',
-    response: 'A link to activate your account has been emailed to the address provided.',
-    password: 'Password should be 8 to 12 characters',
+    // response: 'A link to activate your account has been emailed to the address provided.',
+    success_message: '',
+    password_instruction: 'Password should be 8 to 12 characters',
   },
 
-  forgotPassword: {
+  forgot_password: {
     response:
       'If that email address is in our database, we will send you an email to reset your password.',
   },
 
+  find_sitter: {
+    address: 'Adres',
+    start_date: 'Startdatum',
+    end_date: 'Einddatum',
+    review: 'Recensie',
+    reviews: 'Recensies',
+    distance: 'Afstand',
+    price: 'Prijs',
+    reset: 'Resetten',
+
+    showing: (total) => `Showing ${total} cat sitter`,
+    no_results: 'Geen kattenoppas gevonden',
+    new_member: 'Nieuw lid',
+    completed_booking: 'Voltooide afspraak',
+    completed_bookings: 'Voltooide afspraken',
+    repeated_customer: 'Repeated customer',
+    repeated_customers: 'Repeated customers',
+    view_profile: 'Bekijk profiel',
+  },
+
+  profile_summary: {
+    verified: 'Geverifieerd',
+    id_verified: 'ID geverifieerd',
+    phone_verified: 'Phone geverifieerd',
+    address_verified: 'Address geverifieerd',
+  },
+
+  sitter_profile: {
+    send_message: 'Stuur bericht',
+    send_request: 'Send request for sitting job',
+
+    location: 'Location',
+    feedback: 'Feedback from cat owners',
+  },
+
+  owner_profile: {
+    sitter_needed: 'Sitter needed',
+    location: 'Location',
+    feedback: 'Feedback from cat sitters',
+  },
+
   account: {
     general_info: 'Algemene informatie',
-    cat_sitter_profile: 'Kattenoppasprofiel',
-    cat_owner_profile: 'Katteneigenaarsprofiel',
+    sitter_profile: 'Kattenoppasprofiel',
+    owner_profile: 'Katteneigenaarsprofiel',
     settings: 'Instellingen',
   },
 
-  generalInfo: {
+  general_info: {
     profile_picture: 'Profielfoto',
 
     personal_info: 'Persoonsgegevens',
@@ -63,7 +106,7 @@ export default {
     social_media: 'Sociale media',
     facebook: 'Facebook profiel',
     instagram: 'Instagram profiel',
-    other: '',
+    other: 'Andere profiel',
 
     proof_address: 'Proof of address',
     proof_address_description1:
@@ -71,57 +114,52 @@ export default {
     proof_address_description2: 'Read more on the documents we accept',
   },
 
-  catSitterProfile: {
-    view_my_profile: 'Bekijk mijn openbare kattenoppasprofiel',
+  sitter_form: {
+    view_profile: 'Bekijk mijn openbare kattenoppasprofiel',
 
     about_me: 'Over mij',
     about_me_description:
       'Tell cat owners about yourself. Start with a little description of yourself - What do you do for a living? Why do you want to be a cat sitter?',
 
-    experience_and_serivce: 'Ervaring en service',
+    experience_serivce: 'Ervaring en service',
     experience_description:
       'Please select relevant experience / skills you possess. For every item selected, please briefly explain the details in the text box below.',
     has_cat: 'Eigenaar van een kat',
     volunteer: 'Heeft vrijwillegerswerk gedaan',
-    administer_medication: 'Kan medicijnen toedienen ',
-    do_injections: 'Kan injecties toedienen',
+    medication: 'Kan medicijnen toedienen ',
+    injection: 'Kan injecties toedienen',
     certificate: 'Heeft certificaat voor dierenverzorging ',
-    grooming_skills: 'Heeft verzorgings bekwaamheid voor huisdieren',
+    grooming: 'Heeft verzorgings bekwaamheid voor huisdieren',
 
-    pricing: 'Pricing',
-    one_day: 'One day visit',
-    per_hour: 'per hour',
-    overnight: 'Overnight visit',
-    per_night: 'per night',
+    pricing: 'Prijsstelling',
+    one_day: 'Eendaags bezoek',
+    per_hour: 'per uur',
+    overnight: 'Overnachting',
+    per_night: 'per nacht',
 
     availability: 'Beschikbaarheid',
     availability_description:
       'Select the dates that you are not available, so that cat owners can send you requests based on your availability.',
     available: 'Beschikbaar',
     unavailable: 'Niet beschikbaar',
-
-    emergency_contact: 'Emergency contact',
-    emergency_description: 'In case of an emergency, cat owners can contact the following:',
-    contact_full_name: 'Contact full name',
-    contact_number: 'Contact number',
   },
 
-  catOwnerProfile: {
+  owner_form: {
     view_profile: 'Bekijk mijn openbare katteneigenaarsprofiel',
 
     about_me: 'Over mij',
     about_me_description: '',
 
     appointment: 'Cat sitting appointment',
-    one_day: 'One day visit',
-    date: 'Date',
-    start_time: 'Start time',
-    end_time: 'End time',
-    overnight: 'Overnight visit',
-    start_date: 'Start date',
-    end_date: 'End date',
-    add_period: 'Add another period',
-    remove: 'Remove',
+    one_day: 'Eendaags bezoek',
+    date: 'Datum',
+    start_time: 'Starttijd',
+    end_time: 'Eindtijd',
+    overnight: 'Overnachting',
+    start_date: 'Startdatum',
+    end_date: 'Einddatum',
+    add_period: 'Periode toevoegen',
+    remove: 'Verwijderen',
 
     about_cat: 'Over mijn kat',
     name: 'Naam',
@@ -129,7 +167,7 @@ export default {
     gender: 'Geslacht',
     male: 'Man',
     female: 'Vrouw',
-    medical_needs: 'Medical needs',
+    medical_needs: 'Medische behoeften',
     injection: 'Injecties',
     pill: 'Pil',
     vaccinated: 'Gevaccineerd',
@@ -139,30 +177,65 @@ export default {
     breed: 'Ras',
     favourite_treat: 'Favoriete traktatie',
     pictures: "Foto's van je kat",
-    add_cat: 'Add another cat',
-    remove_cat: 'Remove cat',
+    upload: 'Uploaden',
+    add_cat: 'Kat toevoegen',
 
     cat_description: 'Description of my cat(s)',
     cat_description_text: '',
+  },
+
+  cat_breed: {
+    abyssinian: 'Abessijn',
+    bengal_cat: 'Bengaalse kat',
+    birman: 'Birmaan',
+    burmese: 'Birmees',
+    british_shorthair: 'Britse korthaar',
+    devon_rex: 'Devon Rex',
+    exotioc: 'Exotisch',
+    maine_coon: 'Maine Coon',
+    moggy: 'Moggy',
+    oriental: 'Oosters',
+    persian: 'Pers',
+    ragdoll: 'Ragdoll',
+    siamese: 'Siamees',
+    sphynx: 'Sphynx',
+    tabby: 'Tabby',
+    other: 'Andere',
+  },
+
+  settings: {
+    payment_method: 'Betalingsmiddel',
+    add_card: 'Kredietkaart / debetkaart toevoegen',
+    card_number: 'Kaartnummer',
+    expiry_date: 'Vervaldatum',
+    add_bank_account: 'Bankrekening toevoegen',
+
+    change_password: 'Wachtwoord wijzigen',
+    current_password: 'Huidig wachtwoord',
+    new_password: 'Nieuw wachtwoord',
+    repeat_new_password: 'Herhaal nieuw wachtwoord',
+
+    two_factor_auth: 'Tweefactorauthenticatie',
+    two_factor_auth_description: '',
   },
 
   bookings: {
     sitting_jobs: 'Oppas jobs voor mij',
     sitting_service: 'Oppas diensten voor mijn kat',
 
-    requested: 'Requested',
-    confirmed: 'Confirmed',
-    completed: 'Completed',
-    reviews: 'Reviews',
+    requested: 'Aangevraagd',
+    confirmed: 'Bevestigd',
+    completed: 'Voltooid',
+    reviews: 'Recensies',
 
     view_profile: 'Bekijk profiel',
     view_conversation: 'Bekijk gesprek',
 
-    area: '',
-    sitter_needed: '',
+    area: 'Area',
+    sitter_needed: 'Sitter needed',
 
     schedule_meetup: 'Plan eerst een afspraak',
-    reject: 'Afwijzen',
+    reject: 'Weigeren',
     accept: 'Accepteren',
   },
 };

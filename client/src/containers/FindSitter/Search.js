@@ -84,16 +84,17 @@ function Search({ setCenter }) {
                   address={address}
                   setAddress={setAddress}
                   emptyOtherFilters={() => reset(defaultValues)}
+                  t={t}
                 />
               </Col>
               <Col md={4}>
                 <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                   <div className="d-flex flex-column date-picker" style={{ flexBasis: '45%' }}>
-                    <DatePicker name="startDate" placeholder="Start date" />
+                    <DatePicker name="startDate" placeholder={t('find_sitter.start_date')} />
                   </div>
                   <i className="fas fa-arrow-right align-self-center" />
                   <div className="d-flex flex-column date-picker" style={{ flexBasis: '45%' }}>
-                    <DatePicker name="endDate" placeholder="End date" />
+                    <DatePicker name="endDate" placeholder={t('find_sitter.end_date')} />
                   </div>
                 </div>
               </Col>
@@ -101,15 +102,15 @@ function Search({ setCenter }) {
                 <RadioGroup name="sortBy">
                   <RadioButton value="reviews" style={{ marginRight: 5 }}>
                     <i className="fas fa-star icon-sort-price" />
-                    <span>Review</span>
+                    <span>{t('find_sitter.reviews')}</span>
                   </RadioButton>
                   <RadioButton value="distance" style={{ marginRight: 5 }}>
                     <i className="fas fa-map-marker-alt icon-sort-price" />
-                    <span>Distance</span>
+                    <span>{t('find_sitter.distance')}</span>
                   </RadioButton>
                   <RadioButton value="price">
                     <i className="fas fa-euro-sign icon-sort-price" />
-                    <span>Price</span>
+                    <span>{t('find_sitter.price')}</span>
                   </RadioButton>
                 </RadioGroup>
               </Col>
@@ -126,7 +127,7 @@ function Search({ setCenter }) {
                     setAddress('');
                   }}
                 >
-                  Reset
+                  {t('find_sitter.reset')}
                 </button>
               </Col>
             </Row>
@@ -139,7 +140,7 @@ function Search({ setCenter }) {
 
 export default Search;
 
-const GooglePlaceAutoComplete = ({ setCenter, address, setAddress, emptyOtherFilters }) => {
+const GooglePlaceAutoComplete = ({ setCenter, address, setAddress, emptyOtherFilters, t }) => {
   let autoComplete;
   // const { google } = window;
   // const google = (window.google = window.google ? window.google : {});
@@ -177,7 +178,7 @@ const GooglePlaceAutoComplete = ({ setCenter, address, setAddress, emptyOtherFil
       onChange={(e) => setAddress(e.target.value)}
       value={address}
       type="text"
-      placeholder="Address"
+      placeholder={t('find_sitter.address')}
       className="form-control"
       style={{ outline: 'none', paddingLeft: 10 }}
     />

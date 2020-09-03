@@ -28,28 +28,72 @@ export default {
 
   login: {
     login: 'Login',
-    response: 'Login failed; Invalid user ID or password.',
+    // response: 'Login failed; Invalid user ID or password.',
+    error_message: '',
   },
 
   register: {
     register: 'Register',
-    response: 'A link to activate your account has been emailed to the address provided.',
-    password: 'Password should be 8 to 12 characters',
+    // response: 'A link to activate your account has been emailed to the address provided.',
+    success_message: '',
+    password_instruction: 'Password should be 8 to 12 characters',
   },
 
-  forgotPassword: {
+  forgot_password: {
     response:
       'If that email address is in our database, we will send you an email to reset your password.',
   },
 
+  find_sitter: {
+    address: 'Address',
+    start_date: 'Start date',
+    end_date: 'End date',
+    review: 'Review',
+    reviews: 'Reviews',
+    distance: 'Distance',
+    price: 'Price',
+    reset: 'Reset',
+
+    showing: (total) => `Showing ${total} cat sitter`,
+    no_results: 'No cat sitters can be found',
+    new_member: 'New member',
+    completed_booking: 'Completed booking',
+    completed_bookings: 'Completed bookings',
+    repeated_customer: 'Repeated customer',
+    repeated_customers: 'Repeated customers',
+    view_profile: 'View profile',
+  },
+
+  profile_summary: {
+    verified: 'Verified',
+    id_verified: 'ID verified',
+    phone_verified: 'Phone verified',
+    address_verified: 'Address verified',
+  },
+
+  sitter_profile: {
+    send_message: 'Send message',
+    send_request: 'Send request for sitting job',
+
+    location: 'Location',
+    feedback: 'Feedback from cat owners',
+  },
+
+  owner_profile: {
+    sitter_needed: 'Sitter needed',
+
+    location: 'Location',
+    feedback: 'Feedback from cat sitters',
+  },
+
   account: {
     general_info: 'General info',
-    cat_sitter_profile: 'Cat sitter profile',
-    cat_owner_profile: 'Cat owner profile',
+    sitter_profile: 'Cat sitter profile',
+    owner_profile: 'Cat owner profile',
     settings: 'Settings',
   },
 
-  generalInfo: {
+  general_info: {
     profile_picture: 'Profile picture',
 
     personal_info: 'Personal info',
@@ -71,22 +115,22 @@ export default {
     proof_address_description2: 'Read more on the documents we accept',
   },
 
-  catSitterProfile: {
+  sitter_form: {
     view_profile: 'View my public cat sitter profile',
 
     about_me: 'About me',
     about_me_description:
       'Tell cat owners about yourself. Start with a little description of yourself - What do you do for a living? Why do you want to be a cat sitter?',
 
-    experience_and_serivce: 'Experience and service',
+    experience_serivce: 'Experience and service',
     experience_description:
       'Please select relevant experience / skills you possess. For every item selected, please briefly explain the details in the text box below.',
     has_cat: 'Owns / owned a cat',
     volunteer: 'Has done volunteer work',
-    administer_medication: 'Able to administer medication',
-    do_injections: 'Able to do injections',
+    medication: 'Able to administer medication',
+    injection: 'Able to do injections',
     certificate: 'Has animal care certification',
-    grooming_skills: 'Has pet grooming skills',
+    grooming: 'Has pet grooming skills',
 
     pricing: 'Pricing',
     one_day: 'One day visit',
@@ -99,14 +143,9 @@ export default {
       'Select the dates that you are not available, so that cat owners can send you requests based on your availability.',
     available: 'Available',
     unavailable: 'Unavailable',
-
-    emergency_contact: 'Emergency contact',
-    emergency_description: 'In case of an emergency, cat owners can contact the following:',
-    contact_full_name: 'Contact full name',
-    contact_number: 'Contact number',
   },
 
-  catOwnerProfile: {
+  owner_form: {
     view_profile: 'View my public cat owner profile',
 
     about_me: 'About me',
@@ -139,11 +178,47 @@ export default {
     breed: 'Breed',
     favourite_treat: 'Favourite treat',
     pictures: 'Pictures of your cat',
+    upload: 'Upload',
     add_cat: 'Add another cat',
-    remove_cat: 'Remove cat',
 
     cat_description: 'Description of my cat(s)',
-    cat_description_text: '',
+    cat_description_text:
+      'Please write a description about your cat(s) - include their feeing, litter, playtime routine, and other needs. It is also important to include your vets details should the cat sitter needs to get hold if them.',
+  },
+
+  cat_breed: {
+    abyssinian: 'Abyssinian',
+    bengal_cat: 'Bengal cat',
+    birman: 'Birman',
+    burmese: 'Burmese',
+    british_shorthair: 'British shorthair',
+    devon_rex: 'Devon Rex',
+    exotioc: 'Exotic',
+    maine_coon: 'Maine Coon',
+    moggy: 'Moggy',
+    oriental: 'Oriental',
+    persian: 'Persian',
+    ragdoll: 'Ragdoll',
+    siamese: 'Siamese',
+    sphynx: 'Sphynx',
+    tabby: 'Tabby',
+    other: 'Other',
+  },
+
+  settings: {
+    payment_method: 'Payment method',
+    add_card: 'Add credit / debit card',
+    card_number: 'Card number',
+    expiry_date: 'Expiry date',
+    add_bank_account: 'Add bank account',
+
+    change_password: 'Change password',
+    current_password: 'Current password',
+    new_password: 'New password',
+    repeat_new_password: 'Repeat new password',
+
+    two_factor_auth: 'Two-factor authentication',
+    two_factor_auth_description: '',
   },
 
   bookings: {

@@ -11,6 +11,7 @@ import { themeColor } from '../../style/theme';
 import styled from 'styled-components';
 import { getUser, sendUser } from '../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const SummarySection = styled.div`
   display: flex;
@@ -36,6 +37,7 @@ const defaultValues = {
 };
 
 function GeneralInfo() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { data: userData } = useSelector((state) => state.account);
 
@@ -111,7 +113,7 @@ function GeneralInfo() {
           </SummarySection>
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>Profile picture</h6>
+            <h6 style={{ color, fontWeight: 800 }}>{t('general_info.profile_picture')}</h6>
             <p style={{ marginBottom: 50 }}>
               The personal data in the following section will be used for communication purpose when
               a cat sitting service is requested.
@@ -164,68 +166,67 @@ function GeneralInfo() {
           </SectionContainer>
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>Personal info</h6>
+            <h6 style={{ color, fontWeight: 800 }}>{t('general_info.personal_info')}</h6>
 
             <Row>
               <Col md={6} className="mb-3">
-                <FieldLabel>First name</FieldLabel>
+                <FieldLabel>{t('general_info.first_name')}</FieldLabel>
                 <TextField name="firstName" />
               </Col>
               <Col md={6} className="mb-3">
-                <FieldLabel>Last name</FieldLabel>
+                <FieldLabel>{t('general_info.last_name')}</FieldLabel>
                 <TextField name="lastName" />
               </Col>
               <Col md={6} className="mb-3">
-                <FieldLabel>Phone</FieldLabel>
+                <FieldLabel>{t('general_info.phone')}</FieldLabel>
                 <TextField name="phone" />
               </Col>
               <Col md={6} className="mb-3">
-                <FieldLabel>Email</FieldLabel>
+                <FieldLabel>{t('general_info.email')}</FieldLabel>
                 <TextField name="email" />
               </Col>
               <Col md={6} className="mb-3">
-                <FieldLabel>Address</FieldLabel>
+                <FieldLabel>{t('general_info.address')}</FieldLabel>
                 <TextField name="address" />
               </Col>
               <Col md={6}>
-                <FieldLabel>Postcode</FieldLabel>
+                <FieldLabel>{t('general_info.postcode')}</FieldLabel>
                 <TextField name="postcode" />
               </Col>
             </Row>
           </SectionContainer>
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>Social media links</h6>
+            <h6 style={{ color, fontWeight: 800 }}>{t('general_info.social_media')}</h6>
             <Row className="social-media-input">
               <Col md={4} className="mb-3">
-                <FieldLabel>Facebook profile</FieldLabel>
+                <FieldLabel>{t('general_info.facebook')}</FieldLabel>
                 <TextField
                   name="profileFacebook"
                   prefix={<i className="fab fa-facebook-square fa-lg mr-1" />}
                 />
               </Col>
               <Col md={4} className="mb-3">
-                <FieldLabel>Instagram profile</FieldLabel>
+                <FieldLabel>{t('general_info.instagram')}</FieldLabel>
                 <TextField
                   name="profileInstagram"
                   prefix={<i className="fab fa-instagram fa-lg mr-1" />}
                 />
               </Col>
               <Col md={4}>
-                <FieldLabel>Other profile</FieldLabel>
+                <FieldLabel>{t('general_info.other')}</FieldLabel>
                 <TextField name="profileOther" prefix={<i className="fas fa-user  mr-1" />} />
               </Col>
             </Row>
           </SectionContainer>
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>Proof of Address</h6>
+            <h6 style={{ color, fontWeight: 800 }}>{t('general_info.proof_address')}</h6>
             <Row>
               <Col md={6} className="mb-3">
                 <p>
-                  Before we can make your profile live we need proof of your address. We accept
-                  photo/scan of a physical letter or PDF copies of your digital statements within
-                  the past year. Read more on other documents we accept.
+                  {t('general_info.proof_address_description1')}
+                  {t('general_info.proof_address_description2')}
                 </p>
               </Col>
               <Col md={6} className="mb-3">

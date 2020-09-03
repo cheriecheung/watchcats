@@ -6,6 +6,7 @@ import { Row, Col } from 'reactstrap';
 import ScreenWidthListener from '../../components/General/ScreenWidthListener';
 import { sitterBookings } from '../../constants';
 import { Modal } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
@@ -53,6 +54,7 @@ const ResultContainer = styled.div`
 `;
 
 function BookingTabs() {
+  const { t } = useTranslation();
   const { screenWidth } = ScreenWidthListener();
   const [tabPosition, setTabPosition] = useState('');
 
@@ -67,22 +69,22 @@ function BookingTabs() {
   const bookingTypeTabs = [
     {
       key: 'requested',
-      tab: `Requested (${request.length})`,
-      content: <Requested bookings={request} openModal={() => setModalVisible(true)} />,
+      tab: `${t('bookings.requested')} (${request.length})`,
+      content: <Requested bookings={request} openModal={() => setModalVisible(true)} t={t} />,
     },
     {
       key: 'confirmed',
-      tab: `Confirmed (${confirmed.length})`,
+      tab: `${t('bookings.confirmed')} (${confirmed.length})`,
       content: <Confirmed bookings={confirmed} />,
     },
     {
       key: 'completed',
-      tab: `Completed (${completed.length})`,
+      tab: `${t('bookings.completed')} (${completed.length})`,
       content: <Completed bookings={completed} />,
     },
     {
       key: 'reviews',
-      tab: `Reviews (${reviews.length})`,
+      tab: `${t('bookings.reviews')} (${reviews.length})`,
       content: <Reviews bookings={reviews} />,
     },
   ];
@@ -90,12 +92,12 @@ function BookingTabs() {
   const bookingTabs = [
     {
       key: 'sitter',
-      tab: 'Sitting jobs for me',
+      tab: t('bookings.sitting_jobs'),
       content: <SitterBookings bookingTypeTabs={bookingTypeTabs} />,
     },
     {
       key: 'owner',
-      tab: 'Sitting service for my cat',
+      tab: t('bookings.sitting_service'),
       content: <OwnerBookings bookingTypeTabs={bookingTypeTabs} />,
     },
   ];
@@ -183,7 +185,7 @@ function OwnerBookings({ bookingTypeTabs }) {
   );
 }
 
-function Requested({ bookings, openModal }) {
+function Requested({ bookings, openModal, t }) {
   return (
     <>
       {bookings.map(({ name, cat, email, phone, message }, index) => {
@@ -222,20 +224,20 @@ function Requested({ bookings, openModal }) {
                 >
                   <h5>Kaitlynn</h5>
                   <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'right' }}>
-                    <Link to="/profile">View profile</Link>
-                    <Link to="/messages">View conversation</Link>
+                    <Link to="/profile">{t('bookings.view_profile')}</Link>
+                    <Link to="/messages">{t('bookings.view_conversation')}</Link>
                   </div>
                 </div>
 
                 <Row>
                   {/* <Col md={3}>Phone number:</Col>
                   <Col md={6}>+31 06 23477622</Col> */}
-                  <Col md={3}>Area:</Col>
+                  <Col md={3}>{t('bookings.area')}:</Col>
                   <Col md={6}>1025EE, Amsterdam Noord</Col>
                 </Row>
                 <Row style={{ marginTop: 10 }}>
                   <Col md={3}>
-                    <span>Sitter needed:</span>
+                    <span>{t('bookings.sitter_needed')}:</span>
                   </Col>
                   <Col md={6}>
                     <b
@@ -268,10 +270,10 @@ function Requested({ bookings, openModal }) {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <ActionButton backgroundColor="#FFAE42">Invite to meet up first</ActionButton>
-              <ActionButton backgroundColor="#FF5C4E">Reject</ActionButton>
+              <ActionButton backgroundColor="#FFAE42">{t('bookings.schedule_meetup')}</ActionButton>
+              <ActionButton backgroundColor="#FF5C4E">{t('bookings.reject')}</ActionButton>
               <ActionButton backgroundColor="#9ACD32" onClick={openModal}>
-                Accept
+                {t('bookings.accept')}
               </ActionButton>
             </div>
           </ResultContainer>

@@ -8,9 +8,6 @@ function Account() {
 
   return (
     <>
-      <div style={{ textAlign: 'right' }}>
-        <Link to="/profile">View My Public Profile</Link>
-      </div>
       <Tabs />
     </>
   );

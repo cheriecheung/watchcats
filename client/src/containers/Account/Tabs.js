@@ -5,6 +5,7 @@ import SitterProfile from './SitterProfile';
 import OwnerProfile from './OwnerProfile';
 import Settings from './Settings';
 import ScreenWidthListener from '../../components/General/ScreenWidthListener';
+import { useTranslation } from 'react-i18next';
 
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
@@ -14,16 +15,17 @@ const Container = styled.div`
   margin: 5% 3% 3% 3%;
 `;
 
-const accountTabs = [
-  { key: 'general', tab: 'General Info', content: <GeneralInfo /> },
-  { key: 'sitter', tab: 'Cat sitter profile', content: <SitterProfile /> },
-  { key: 'owner', tab: 'Cat owner profile', content: <OwnerProfile /> },
-  { key: 'settings', tab: 'Settings', content: <Settings /> },
-];
-
 function ProfileTabs() {
+  const { t } = useTranslation();
   const { screenWidth } = ScreenWidthListener();
   const [tabPosition, setTabPosition] = useState('');
+
+  const accountTabs = [
+    { key: 'general', tab: t('account.general_info'), content: <GeneralInfo /> },
+    { key: 'sitter', tab: t('account.sitter_profile'), content: <SitterProfile /> },
+    { key: 'owner', tab: t('account.owner_profile'), content: <OwnerProfile /> },
+    { key: 'settings', tab: t('account.settings'), content: <Settings /> },
+  ];
 
   useEffect(() => {
     if (screenWidth <= 930) {

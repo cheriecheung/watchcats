@@ -19,6 +19,8 @@ import { catBreedOptions, personalityOptions, medicineOptions } from '../../cons
 import styled from 'styled-components';
 import { getOwner, saveOwner } from '../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const CatInfoContainer = styled.div`
   text-align: left;
@@ -57,6 +59,8 @@ const defaultValues = {
 };
 
 function OwnerProfile() {
+  const { t } = useTranslation();
+  const { id } = useParams();
   const dispatch = useDispatch();
   const methods = useForm({ defaultValues });
   const { register, control, handleSubmit, reset, watch } = methods;
@@ -116,333 +120,349 @@ function OwnerProfile() {
   const color = '#252525';
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <SectionContainer>
-          <h6 style={{ color, fontWeight: 800 }}>About me and my house</h6>
+    <>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 20 }}>
+        <a href={`/profile/catowner/${id}`} target="_blank">
+          {t('owner_form.view_profile')}
+        </a>
+      </div>
 
-          <Row>
-            <Col md={6}>
-              <TextArea
-                name="aboutMe"
-                placeholder="Tell cat sitters about yourself. Start with a little description of yourself and your house - which neighbourhood do you live in? Why are you looking for a cat sitter?"
-              />
-            </Col>
-            <Col md={6}>
-              <p>
-                To let cat sitters get an idea of where they will be cat sitting, you can upload
-                pictures of your place.
-              </p>
-              <Input
-                type="file"
-                style={{
-                  border: '1px solid #ced4da',
-                  padding: 5,
-                  borderRadius: '4px',
-                  marginBottom: 10,
-                }}
-              />
-            </Col>
-          </Row>
-        </SectionContainer>
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <SectionContainer>
+            <h6 style={{ color, fontWeight: 800 }}> {t('owner_form.about_me')}</h6>
 
-        <SectionContainer>
-          <h6 style={{ color, fontWeight: 800 }}>Cat sitting appointment</h6>
+            <Row>
+              <Col md={6}>
+                <TextArea name="aboutMe" placeholder={t('owner_form.about_me_description')} />
+              </Col>
+              <Col md={6}>
+                <p>
+                  To let cat sitters get an idea of where they will be cat sitting, you can upload
+                  pictures of your place.
+                </p>
+                <Input
+                  type="file"
+                  style={{
+                    border: '1px solid #ced4da',
+                    padding: 5,
+                    borderRadius: '4px',
+                    marginBottom: 10,
+                  }}
+                />
+              </Col>
+            </Row>
+          </SectionContainer>
 
-          <h6 style={{ marginTop: 30 }}>One day visit</h6>
+          <SectionContainer>
+            <h6 style={{ color, fontWeight: 800 }}>{t('owner_form.appointment')}</h6>
 
-          {oneDayFields.map((item, index) => {
-            return (
-              <div key={item.id}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <h6 hidden={index === 0}>One day visit #{index + 1}</h6>
-                  <button
-                    hidden={index === 0}
-                    type="button"
-                    onClick={() => oneDayRemove(index)}
-                    style={{
-                      alignSelf: 'flex-end',
-                      background: 'none',
-                      border: 'none',
-                      outline: 'none',
-                      float: 'right',
-                      color: themeColor.peach,
-                    }}
-                  >
-                    Remove
-                  </button>
-                </div>
+            <h6 style={{ marginTop: 30 }}>{t('owner_form.one_day')}</h6>
 
-                <Row>
-                  <Col md={6}>
-                    <div className="d-flex flex-column date-picker">
-                      <FieldLabel>Date</FieldLabel>
-                      <DatePicker name={`bookingOneDay[${index}].date`} />
-                    </div>
-                  </Col>
-                  <Col md={6}>
-                    <div
+            {oneDayFields.map((item, index) => {
+              return (
+                <div key={item.id}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <h6 hidden={index === 0}>
+                      {t('owner_form.one_day')} #{index + 1}
+                    </h6>
+                    <button
+                      hidden={index === 0}
+                      type="button"
+                      onClick={() => oneDayRemove(index)}
                       style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
+                        alignSelf: 'flex-end',
+                        background: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        float: 'right',
+                        color: themeColor.peach,
                       }}
                     >
-                      <div className="d-flex flex-column time-picker">
-                        <FieldLabel>Start time</FieldLabel>
-                        <TimePicker name={`bookingOneDay[${index}].startTime`} />
+                      {t('owner_form.remove')}
+                    </button>
+                  </div>
+
+                  <Row>
+                    <Col md={6}>
+                      <div className="d-flex flex-column date-picker">
+                        <FieldLabel> {t('owner_form.date')}</FieldLabel>
+                        <DatePicker name={`bookingOneDay[${index}].date`} />
                       </div>
-                      <i className="fas fa-arrow-right align-self-center mt-4" />
-                      <div className="d-flex flex-column time-picker">
-                        <FieldLabel>End time</FieldLabel>
-                        <TimePicker name={`bookingOneDay[${index}].endTime`} />
+                    </Col>
+                    <Col md={6}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <div className="d-flex flex-column time-picker">
+                          <FieldLabel> {t('owner_form.start_time')}</FieldLabel>
+                          <TimePicker name={`bookingOneDay[${index}].startTime`} />
+                        </div>
+                        <i className="fas fa-arrow-right align-self-center mt-4" />
+                        <div className="d-flex flex-column time-picker">
+                          <FieldLabel> {t('owner_form.end_time')}</FieldLabel>
+                          <TimePicker name={`bookingOneDay[${index}].endTime`} />
+                        </div>
                       </div>
-                    </div>
-                  </Col>
-                </Row>
+                    </Col>
+                  </Row>
 
-                <hr hidden={watch('bookingOneDay').length === 1} style={{ margin: '30px 0' }} />
-              </div>
-            );
-          })}
-          <button
-            hidden={watch('bookingOneDay').length >= 2}
-            className="add-field-btn"
-            onClick={() => oneDayAppend(oneDayObj)}
-            style={{
-              // background: '#ffecea',
-              color: '#ffa195',
-              outline: 'none',
-              border: 'none',
-              borderRadius: 15,
-            }}
-          >
-            <i className="fas fa-plus mr-1" />
-            Add another time
-          </button>
-          <span hidden={watch('bookingOneDay').length < 2}>
-            You can at most request 2 one-day appointments at the same time!
-          </span>
+                  <hr hidden={watch('bookingOneDay').length === 1} style={{ margin: '30px 0' }} />
+                </div>
+              );
+            })}
+            <button
+              hidden={watch('bookingOneDay').length >= 2}
+              className="add-field-btn"
+              onClick={() => oneDayAppend(oneDayObj)}
+              style={{
+                // background: '#ffecea',
+                color: '#ffa195',
+                outline: 'none',
+                border: 'none',
+                borderRadius: 15,
+              }}
+            >
+              <i className="fas fa-plus mr-1" />
+              {t('owner_form.add_period')}
+            </button>
+            <span hidden={watch('bookingOneDay').length < 2}>
+              You can at most request 2 one-day appointments at the same time!
+            </span>
 
-          <h6 style={{ marginTop: 40 }}>Overnight visit</h6>
+            <h6 style={{ marginTop: 40 }}> {t('owner_form.overnight')}</h6>
 
-          {overnightFields.map((item, index) => {
-            return (
-              <div key={item.id}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <h6 hidden={index === 0} style={{ color }}>
-                    Overnight visit #{index + 1}
-                  </h6>
-                  <button
-                    hidden={index === 0}
-                    type="button"
-                    onClick={() => overnightRemove(index)}
+            {overnightFields.map((item, index) => {
+              return (
+                <div key={item.id}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <h6 hidden={index === 0} style={{ color }}>
+                      {t('owner_form.overnight')} visit #{index + 1}
+                    </h6>
+                    <button
+                      hidden={index === 0}
+                      type="button"
+                      onClick={() => overnightRemove(index)}
+                      style={{
+                        alignSelf: 'flex-end',
+                        background: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        float: 'right',
+                        color: themeColor.peach,
+                      }}
+                    >
+                      {t('owner_form.remove')}
+                    </button>
+                  </div>
+
+                  <div
                     style={{
-                      alignSelf: 'flex-end',
-                      background: 'none',
-                      border: 'none',
-                      outline: 'none',
-                      float: 'right',
-                      color: themeColor.peach,
+                      display: 'flex',
+                      justifyContent: 'space-between',
                     }}
                   >
-                    Remove
-                  </button>
+                    <div className="d-flex flex-column date-picker overnight-visit-date-picker">
+                      <FieldLabel>{t('owner_form.start_date')}</FieldLabel>
+                      <DatePicker name={`bookingOvernight[${index}].startDate`} />
+                    </div>
+                    <i className="fas fa-arrow-right align-self-center mt-4" />
+                    <div className="d-flex flex-column date-picker overnight-visit-date-picker">
+                      <FieldLabel>{t('owner_form.end_date')}</FieldLabel>
+                      <DatePicker name={`bookingOvernight[${index}].endDate`} />
+                    </div>
+                  </div>
+                  <hr
+                    hidden={watch('bookingOvernight').length === 1}
+                    style={{ margin: '30px 0' }}
+                  />
                 </div>
+              );
+            })}
 
+            <button
+              hidden={watch('bookingOvernight').length >= 2}
+              className="add-field-btn"
+              onClick={() => overnightAppend(overnightObj)}
+              style={{
+                //  background: '#ffecea',
+                color: '#ffa195',
+                outline: 'none',
+                border: 'none',
+                borderRadius: 15,
+              }}
+            >
+              <i className="fas fa-plus mr-1" />
+              {t('owner_form.add_period')}
+            </button>
+            <span hidden={watch('bookingOvernight').length < 2}>
+              You can at most request 2 overnight sitting appointments at the same time!
+            </span>
+          </SectionContainer>
+
+          <CatInfoContainer>
+            <h6 style={{ color, fontWeight: 800, padding: 20 }}>{t('owner_form.about_cat')}</h6>
+
+            {catFields.map((item, index) => {
+              return (
                 <div
+                  key={item.id}
                   style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
+                    background: index % 2 !== 0 ? 'rgba(168, 165, 165, 0.05)' : 'none',
+                    padding: '20px 20px 0 20px',
                   }}
                 >
-                  <div className="d-flex flex-column date-picker overnight-visit-date-picker">
-                    <FieldLabel>Start date </FieldLabel>
-                    <DatePicker name={`bookingOvernight[${index}].startDate`} />
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <h6 hidden={index === 0} style={{ color, fontWeight: 800 }}>
+                      And my #{index + 1} cat
+                    </h6>
+                    <button
+                      hidden={index === 0}
+                      type="button"
+                      onClick={() => handleRemoveCat(index)}
+                      style={{
+                        marginBottom: 10,
+                        background: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        float: 'right',
+                        color: '#ffa195',
+                      }}
+                    >
+                      {t('owner_form.remove')}
+                    </button>
                   </div>
-                  <i className="fas fa-arrow-right align-self-center mt-4" />
-                  <div className="d-flex flex-column date-picker overnight-visit-date-picker">
-                    <FieldLabel>End date</FieldLabel>
-                    <DatePicker name={`bookingOvernight[${index}].endDate`} />
-                  </div>
+
+                  <Row>
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>{t('owner_form.name')}</FieldLabel>
+                      <TextField name={`cat[${index}].name`} />
+                    </Col>
+
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>{t('owner_form.age')}</FieldLabel>
+                      <TextField name={`cat[${index}].age`} />
+                    </Col>
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>{t('owner_form.gender')}</FieldLabel>
+                      <br />
+                      <RadioGroup name={`cat[${index}].gender`}>
+                        <RadioButton value="M">
+                          <i className="fas fa-mars fa-2x icon-gender" />
+                          <span>{t('owner_form.male')}</span>
+                        </RadioButton>
+                        <RadioButton value="F">
+                          <i className="fas fa-venus fa-2x icon-gender" />
+                          <span>{t('owner_form.female')}</span>
+                        </RadioButton>
+                      </RadioGroup>
+                    </Col>
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>{t('owner_form.medical_needs')}</FieldLabel>
+                      <br />
+                      <CheckboxGroup
+                        name={`cat[${index}].medicalNeeds`}
+                        options={medicineOptions}
+                      />
+                    </Col>
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>{t('owner_form.vaccinated')}</FieldLabel>
+                      <br />
+                      <RadioGroup name={`cat[${index}].isVaccinated`}>
+                        <RadioButton value={true}>
+                          <i className="fas fa-check fa-2x icon-yes-no" />
+                          <span>{t('owner_form.yes')}</span>
+                        </RadioButton>
+                        <RadioButton value={false}>
+                          <i className="fas fa-times fa-2x icon-yes-no" />
+                          <span>{t('owner_form.no')}</span>
+                        </RadioButton>
+                      </RadioGroup>
+                    </Col>
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>{t('owner_form.insured')}</FieldLabel>
+                      <br />
+                      <RadioGroup name={`cat[${index}].isInsured`}>
+                        <RadioButton value={true}>
+                          <i className="fas fa-check fa-2x icon-yes-no" />
+                          <span>{t('owner_form.yes')}</span>
+                        </RadioButton>
+                        <RadioButton value={false}>
+                          <i className="fas fa-times fa-2x icon-yes-no" />
+                          <span>{t('owner_form.no')}</span>
+                        </RadioButton>
+                      </RadioGroup>
+                    </Col>
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>{t('owner_form.breed')}</FieldLabel>
+                      <SelectField name={`cat[${index}].breed`} options={catBreedOptions} />
+                    </Col>
+                    <Col md={6} className="mb-4">
+                      <FieldLabel>Personality that fits your cat the best</FieldLabel>
+                      <SelectField
+                        name={`cat[${index}].personality`}
+                        options={personalityOptions}
+                      />
+                    </Col>
+                    <Col md={6} className="mb-3">
+                      <FieldLabel>{t('owner_form.favourite_treat')}</FieldLabel>
+                      <TextField name={`cat[${index}].favouriteTreat`} />
+                    </Col>
+                    <Col md={6} className="mb-3">
+                      <FieldLabel>{t('owner_form.pictures')} (max. 3)</FieldLabel>
+                      <br />
+                      <label for="file-upload" className="upload-file-input form-control">
+                        <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
+                        <span>{t('owner_form.upload')}</span>
+                      </label>
+                      <input id="file-upload" type="file" />
+                    </Col>
+                  </Row>
+
+                  <hr hidden={watch('cat').length === 1} style={{ margin: '20px 0 0 0' }} />
                 </div>
-                <hr hidden={watch('bookingOvernight').length === 1} style={{ margin: '30px 0' }} />
-              </div>
-            );
-          })}
+              );
+            })}
 
-          <button
-            hidden={watch('bookingOvernight').length >= 2}
-            className="add-field-btn"
-            onClick={() => overnightAppend(overnightObj)}
-            style={{
-              //  background: '#ffecea',
-              color: '#ffa195',
-              outline: 'none',
-              border: 'none',
-              borderRadius: 15,
-            }}
-          >
-            <i className="fas fa-plus mr-1" />
-            Add another time
-          </button>
-          <span hidden={watch('bookingOvernight').length < 2}>
-            You can at most request 2 overnight sitting appointments at the same time!
-          </span>
-        </SectionContainer>
+            <button
+              hidden={watch('cat').length > 4}
+              className="add-field-btn"
+              onClick={() => catAppend(catObj)}
+              style={{
+                // background: '#ffecea',
+                color: '#ffa195',
+                outline: 'none',
+                border: 'none',
+                borderRadius: 15,
+                padding: 20,
+              }}
+            >
+              <i className="fas fa-plus mr-1" />
+              {t('owner_form.add_cat')}
+            </button>
 
-        <CatInfoContainer>
-          <h6 style={{ color, fontWeight: 800, padding: 20 }}>About my cat</h6>
+            <span hidden={watch('cat').length <= 4}>
+              If you have 5 or more cats, perhaps you would want to consider having them stay at a
+              pet hotel, so they can all be taken care of by full time staff!
+            </span>
+          </CatInfoContainer>
 
-          {catFields.map((item, index) => {
-            return (
-              <div
-                key={item.id}
-                style={{
-                  background: index % 2 !== 0 ? 'rgba(168, 165, 165, 0.05)' : 'none',
-                  padding: '20px 20px 0 20px',
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <h6 hidden={index === 0} style={{ color, fontWeight: 800 }}>
-                    And my #{index + 1} cat
-                  </h6>
-                  <button
-                    hidden={index === 0}
-                    type="button"
-                    onClick={() => handleRemoveCat(index)}
-                    style={{
-                      marginBottom: 10,
-                      background: 'none',
-                      border: 'none',
-                      outline: 'none',
-                      float: 'right',
-                      color: '#ffa195',
-                    }}
-                  >
-                    Remove cat
-                  </button>
-                </div>
+          <SectionContainer>
+            <h6 style={{ color, fontWeight: 800 }}>{t('owner_form.cat_description')}</h6>
+            <TextArea
+              name="catsDescription"
+              placeholder={t('owner_form.cat_description_text')}
+              rows="5"
+            />
+          </SectionContainer>
 
-                <Row>
-                  <Col md={6} className="mb-4">
-                    <FieldLabel>Name</FieldLabel>
-                    <TextField name={`cat[${index}].name`} />
-                  </Col>
-
-                  <Col md={6} className="mb-4">
-                    <FieldLabel>Age</FieldLabel>
-                    <TextField name={`cat[${index}].age`} />
-                  </Col>
-                  <Col md={6} className="mb-4">
-                    <FieldLabel>Gender</FieldLabel>
-                    <br />
-                    <RadioGroup name={`cat[${index}].gender`}>
-                      <RadioButton value="M">
-                        <i className="fas fa-mars fa-2x icon-gender" />
-                        <span>Male</span>
-                      </RadioButton>
-                      <RadioButton value="F">
-                        <i className="fas fa-venus fa-2x icon-gender" />
-                        <span>Female</span>
-                      </RadioButton>
-                    </RadioGroup>
-                  </Col>
-                  <Col md={6} className="mb-4">
-                    <FieldLabel>Medical needs</FieldLabel>
-                    <br />
-                    <CheckboxGroup name={`cat[${index}].medicalNeeds`} options={medicineOptions} />
-                  </Col>
-                  <Col md={6} className="mb-4">
-                    <FieldLabel>Vaccinated</FieldLabel>
-                    <br />
-                    <RadioGroup name={`cat[${index}].isVaccinated`}>
-                      <RadioButton value={true}>
-                        <i className="fas fa-check fa-2x icon-yes-no" />
-                        <span>Yes</span>
-                      </RadioButton>
-                      <RadioButton value={false}>
-                        <i className="fas fa-times fa-2x icon-yes-no" />
-                        <span>No</span>
-                      </RadioButton>
-                    </RadioGroup>
-                  </Col>
-                  <Col md={6} className="mb-4">
-                    <FieldLabel>Insured</FieldLabel>
-                    <br />
-                    <RadioGroup name={`cat[${index}].isInsured`}>
-                      <RadioButton value={true}>
-                        <i className="fas fa-check fa-2x icon-yes-no" />
-                        <span>Yes</span>
-                      </RadioButton>
-                      <RadioButton value={false}>
-                        <i className="fas fa-times fa-2x icon-yes-no" />
-                        <span>No</span>
-                      </RadioButton>
-                    </RadioGroup>
-                  </Col>
-                  <Col md={6} className="mb-4">
-                    <FieldLabel>Breed</FieldLabel>
-                    <SelectField name={`cat[${index}].breed`} options={catBreedOptions} />
-                  </Col>
-                  <Col md={6} className="mb-4">
-                    <FieldLabel>Personality that fits your cat the best</FieldLabel>
-                    <SelectField name={`cat[${index}].personality`} options={personalityOptions} />
-                  </Col>
-                  <Col md={6} className="mb-3">
-                    <FieldLabel>Favorite treat</FieldLabel>
-                    <TextField name={`cat[${index}].favouriteTreat`} />
-                  </Col>
-                  <Col md={6} className="mb-3">
-                    <FieldLabel>Pictures of your cat (max. 3)</FieldLabel>
-                    <br />
-                    <label for="file-upload" className="upload-file-input form-control">
-                      <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
-                      <span>Upload</span>
-                    </label>
-                    <input id="file-upload" type="file" />
-                  </Col>
-                </Row>
-
-                <hr hidden={watch('cat').length === 1} style={{ margin: '20px 0 0 0' }} />
-              </div>
-            );
-          })}
-
-          <button
-            hidden={watch('cat').length > 4}
-            className="add-field-btn"
-            onClick={() => catAppend(catObj)}
-            style={{
-              // background: '#ffecea',
-              color: '#ffa195',
-              outline: 'none',
-              border: 'none',
-              borderRadius: 15,
-              padding: 20,
-            }}
-          >
-            <i className="fas fa-plus mr-1" />
-            Add another cat
-          </button>
-
-          <span hidden={watch('cat').length <= 4}>
-            If you have 5 or more cats, perhaps you would want to consider having them stay at a pet
-            hotel, so they can all be taken care of by full time staff!
-          </span>
-        </CatInfoContainer>
-
-        <SectionContainer>
-          <h6 style={{ color, fontWeight: 800 }}>Description of my cat(s)</h6>
-          <TextArea
-            name="catsDescription"
-            placeholder="Please write a description about your cat(s) - include their feeing, litter, playtime routine, and other needs. It is also important to include your vets details should the cat sitter needs to get hold if them."
-            rows="5"
-          />
-        </SectionContainer>
-
-        <FormButtons onClick={() => reset(defaultValues)} />
-      </form>
-    </FormProvider>
+          <FormButtons onClick={() => reset(defaultValues)} />
+        </form>
+      </FormProvider>
+    </>
   );
 }
 

@@ -18,6 +18,7 @@ import { priceOneDayOptions, priceOvernightOptions } from '../../constants';
 import { getSitterAccount, saveSitterAccount } from '../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import 'react-day-picker/lib/style.css';
 
@@ -38,6 +39,7 @@ const defaultValues = {
 };
 
 function SitterProfile() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const dispatch = useDispatch();
   const methods = useForm();
@@ -118,17 +120,20 @@ function SitterProfile() {
 
   return (
     <>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 20 }}>
+        <a href={`/profile/catsitter/${id}`} target="_blank">
+          {t('sitter_form.view_profile')}
+        </a>
+      </div>
+
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>About me</h6>
+            <h6 style={{ color, fontWeight: 800 }}>{t('sitter_form.about_me')}</h6>
 
             <Row>
               <Col md={6}>
-                <TextArea
-                  name="aboutSitter"
-                  placeholder="Tell cat owners about yourself. Start with a little description of yourself - What do you do for a living? Why do you want to be a cat sitter?"
-                />
+                <TextArea name="aboutSitter" placeholder={t('sitter_form.about_me_description')} />
               </Col>
               <Col md={6}>
                 <p>
@@ -154,31 +159,30 @@ function SitterProfile() {
             </Row>
           </SectionContainer>
 
+          {/*  YEARS OF CAT CARE  */}
+
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>Experience and service</h6>
-            <p style={{ margin: '20px 0 30px 0' }}>
-              Please select relevant experience / skills you possess. For every item selected,
-              please briefly explain the details in the text box below.
-            </p>
+            <h6 style={{ color, fontWeight: 800 }}>{t('sitter_form.experience_serivce')}</h6>
+            <p style={{ margin: '20px 0 30px 0' }}>{t('sitter_form.experience_description')}</p>
             {/* <Row> */}
             <div className="sitter-skills">
               <Checkbox name="hasCat">
-                <span>Owns / owned a cat</span>
+                <span>{t('sitter_form.has_cat')}</span>
               </Checkbox>
               <Checkbox name="hasVolunteered">
-                <span>Has done volunteer work</span>
+                <span>{t('sitter_form.volunteer')}</span>
               </Checkbox>
               <Checkbox name="hasMedicationSkills">
-                <span>Able to administer medication</span>
+                <span>{t('sitter_form.medication')}</span>
               </Checkbox>
               <Checkbox name="hasInjectionSkills">
-                <span>Able do injections</span>
+                <span>{t('sitter_form.injection')}</span>
               </Checkbox>
               <Checkbox name="hasCertification">
-                <span>Has pet sitting certification</span>
+                <span>{t('sitter_form.certificate')}</span>
               </Checkbox>
               <Checkbox name="hasGroomingSkills">
-                <span>Has pet grooming skills</span>
+                <span>{t('sitter_form.grooming')}</span>
               </Checkbox>
             </div>
 
@@ -192,28 +196,26 @@ function SitterProfile() {
           </SectionContainer>
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>Pricing</h6>
+            <h6 style={{ color, fontWeight: 800 }}>{t('sitter_form.pricing')}</h6>
             <Row>
               <Col md={6}>
-                <FieldLabel>One time visit</FieldLabel>
+                <FieldLabel>{t('sitter_form.one_day')}</FieldLabel>
                 <SelectField name="priceOneTime" options={priceOneDayOptions} />
+                <span>{t('sitter_form.per_hour')}</span>
               </Col>
               <Col md={6}>
-                <FieldLabel>Overnight visit</FieldLabel>
+                <FieldLabel>{t('sitter_form.overnight')}</FieldLabel>
                 <SelectField name="priceOvernight" options={priceOvernightOptions} />
-                <span>Per night</span>
+                <span>{t('sitter_form.per_night')}</span>
               </Col>
             </Row>
           </SectionContainer>
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>Availability</h6>
+            <h6 style={{ color, fontWeight: 800 }}>{t('sitter_form.availability')}</h6>
             <Row>
               <Col md={12}>
-                <p>
-                  Select the dates that you are not available, so that cat owners can send you
-                  requests based on your availability.
-                </p>
+                <p>{t('sitter_form.availability_description')}</p>
               </Col>
               <Col md={12} style={{ display: 'flex', justifyContent: 'center' }}>
                 <Calendar
@@ -221,12 +223,6 @@ function SitterProfile() {
                   selectedDays={selectedDays}
                   handleDayClick={handleDayClick}
                 />
-                {/* <DayPicker
-                  name="unavailableDates"
-                  disabledDays={{ before: new Date() }}
-                  selectedDays={selectedDays}
-                  onDayClick={handleDayClick}
-                /> */}
               </Col>
               <Col
                 md={12}
@@ -243,7 +239,7 @@ function SitterProfile() {
                   }}
                 >
                   <div className="calendar-available-date-box" />
-                  <span>Available</span>
+                  <span>{t('sitter_form.available')}</span>
                 </div>
                 <div
                   style={{
@@ -253,13 +249,13 @@ function SitterProfile() {
                   }}
                 >
                   <div className="calendar-unavailable-date-box" />
-                  <span>Unavailable</span>
+                  <span>{t('sitter_form.unavailable')}</span>
                 </div>
               </Col>
             </Row>
           </SectionContainer>
 
-          <SectionContainer>
+          {/* <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>Emergency Contact</h6>
             <p>In case of an emergency, cat owners can contact the following:</p>
             <Row>
@@ -272,7 +268,7 @@ function SitterProfile() {
                 <TextField name="emergencyNumber" />
               </Col>
             </Row>
-          </SectionContainer>
+          </SectionContainer> */}
 
           <FormButtons onClick={() => reset(defaultValues)} />
         </form>

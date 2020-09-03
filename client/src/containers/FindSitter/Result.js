@@ -34,6 +34,8 @@ const fiveStarDisplay = (number) => {
 };
 
 function Result({ item }) {
+  const { t } = useTranslation();
+
   const {
     id,
     name,
@@ -104,7 +106,7 @@ function Result({ item }) {
             ) : (
               <Col md={4} style={{ minWidth: 200, color: '#00C68E' }} className="mb-1">
                 <i className="fas fa-user-plus mr-2" />
-                <span>New member</span>
+                <span>{t('find_sitter.new_member')}</span>
               </Col>
             )}
           </Row>
@@ -120,7 +122,9 @@ function Result({ item }) {
               }}
             >
               <i className="far fa-calendar-alt mr-2" />
-              <span>{totalCompletedBookings} Completed bookings</span>
+              <span>
+                {totalCompletedBookings} {t('find_sitter.completed_bookings')}
+              </span>
             </Col>
             <Col
               style={{
@@ -130,7 +134,9 @@ function Result({ item }) {
               }}
             >
               <i className="fas fa-redo-alt mr-2" />
-              <span>{totalRepeatedCustomers} Repeated customer(s)</span>
+              <span>
+                {totalRepeatedCustomers} {t('find_sitter.repeated_customers')}
+              </span>
             </Col>
           </Row>
           <hr style={{ margin: '10px 0' }} />
@@ -138,7 +144,7 @@ function Result({ item }) {
 
           {/* href={`/profile/catsitter/${id}`} */}
           <a href="/profile/catsitter/123" target="_blank" style={{ float: 'right' }}>
-            View Profile
+            {t('find_sitter.view_profile')}
           </a>
         </div>
       </ResultContainer>

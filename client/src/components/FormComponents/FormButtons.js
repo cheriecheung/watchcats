@@ -1,6 +1,7 @@
 import React from 'react';
 import { themeColor } from '../../style/theme';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 const ResetButton = styled.button`
   border: none;
@@ -21,6 +22,8 @@ const SaveButton = styled.input`
 `;
 
 export default function FormButtons({ onClick }) {
+  const { t } = useTranslation();
+
   const handleReset = (resetFunction) => {
     if (window.confirm('Click Ok to confirm to reset')) {
       resetFunction();
@@ -29,8 +32,8 @@ export default function FormButtons({ onClick }) {
 
   return (
     <div className="float-right">
-      <ResetButton onClick={() => handleReset(onClick)}>Reset</ResetButton>
-      <SaveButton value="Save" type="submit" />
+      <ResetButton onClick={() => handleReset(onClick)}>{t('form.reset')}</ResetButton>
+      <SaveButton value={t('form.save')} type="submit" />
     </div>
   );
 }
