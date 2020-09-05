@@ -209,9 +209,10 @@ function Header() {
               color: '#fff',
               fontFamily: 'Alata, sans-serif',
               marginBottom: 0,
+              whiteSpace: 'nowrap',
             }}
           >
-            CatYouLater
+            Watch Cats
           </h4>
         </Link>
 

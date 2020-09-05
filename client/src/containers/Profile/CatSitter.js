@@ -1,37 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import styled from 'styled-components';
 import { List } from 'antd';
-import moment from 'moment';
 import Review from './Review';
-import { SectionContainer } from '../../components/FormComponents';
+import {
+  ContentContainer,
+  ImageContainer,
+  SectionContainer,
+  SummaryCard,
+} from '../../components/ProfileComponents';
+import ThemeButton from '../../components/General/ThemeButton';
+import DayPicker from 'react-day-picker';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSitterProfile } from '../../_actions/accountActions';
-import ThemeButton from '../../components/General/ThemeButton';
-import DayPicker from 'react-day-picker';
-
-const ContentContainer = styled.div`
-  margin-top: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  @media (max-width: 700px) {
-    flex-direction: column-reverse;
-  }
-`;
-const ImageContainer = styled.div`
-  width: 100px;
-  height: 100px;
-  background: pink;
-  overflow: hidden;
-  border-radius: 10px;
-`;
-
-const ProfileSection = styled.div`
-  margin: 50px 0;
-`;
 
 const allReviews = [];
 for (let i = 0; i < 23; i++) {
@@ -74,7 +55,7 @@ function CatSitter() {
           <div style={{ flexBasis: '60%', marginBottom: 100 }}>
             <ImageSlider />
 
-            <ProfileSection>
+            <SectionContainer>
               <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
                 Reviews(10)
               </h5>
@@ -88,21 +69,21 @@ function CatSitter() {
                 dataSource={allReviews}
                 renderItem={({ name }) => <Review name={name} />}
               />
-            </ProfileSection>
+            </SectionContainer>
 
             <hr />
 
-            <ProfileSection>
+            <SectionContainer>
               <h5>About</h5>
               <p>{sitterInfo.aboutSitter}</p>
-            </ProfileSection>
+            </SectionContainer>
 
             <hr />
 
-            <ProfileSection>
+            <SectionContainer>
               <h5>Experience</h5>
               <p>{sitterInfo.experience}</p>
-            </ProfileSection>
+            </SectionContainer>
 
             {sitterInfo.hasCat && <h5>Owns / owned a cat</h5>}
             {sitterInfo.hasVolunteered && <h5>Owns / owned a cat</h5>}
@@ -113,20 +94,20 @@ function CatSitter() {
 
             <hr />
 
-            <ProfileSection>
+            <SectionContainer>
               <h5>Availability</h5>
               <AvailabilityCalendar unavailableDates={sitterInfo.unavailableDates} />
-            </ProfileSection>
+            </SectionContainer>
 
             <hr />
 
-            <ProfileSection>
+            <SectionContainer>
               <h5>Location</h5>
               <p>{sitterInfo.postcode}</p>
-            </ProfileSection>
+            </SectionContainer>
           </div>
 
-          <SectionContainer
+          <SummaryCard
             style={{
               flexBasis: '35%',
               maxHeight: 400,
@@ -159,7 +140,7 @@ function CatSitter() {
 
             <ThemeButton>Send message</ThemeButton>
             <ThemeButton>Send request for sitting job</ThemeButton>
-          </SectionContainer>
+          </SummaryCard>
         </ContentContainer>
       </div>
     </div>

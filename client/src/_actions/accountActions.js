@@ -5,6 +5,8 @@ const cookies = new Cookies();
 const userURL = `${process.env.REACT_APP_API_DOMAIN}/user`;
 const sitterAccountURL = (id) => `${process.env.REACT_APP_API_DOMAIN}/sitter/account/${id}`;
 const sitterProfileURL = (id) => `${process.env.REACT_APP_API_DOMAIN}/sitter/profile/${id}`;
+const ownerAccountURL = (id) => `${process.env.REACT_APP_API_DOMAIN}/owner/account/${id}`;
+const ownerProfileURL = (id) => `${process.env.REACT_APP_API_DOMAIN}/owner/profile/${id}`;
 
 const ownerURL = `${process.env.REACT_APP_API_DOMAIN}/owner`;
 const config = {
@@ -37,6 +39,21 @@ export function sendUser(data) {
         console.log(response);
         dispatch({
           type: 'SAVE_USER',
+          payload: response.data,
+        });
+      })
+      .catch((error) => console.log(error.response));
+  };
+}
+
+export function getOwnerProfile(id) {
+  return (dispatch) => {
+    axios
+      .get(ownerProfileURL(id))
+      .then((response) => {
+        console.log(response);
+        dispatch({
+          type: 'GET_PROFILE',
           payload: response.data,
         });
       })

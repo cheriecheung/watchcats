@@ -46,7 +46,7 @@ function FindSitter() {
               position: 'sticky',
             }}
           >
-            {/* <GoogleMap mapHeight={mapHeight} /> */}
+            <GoogleMap mapHeight={mapHeight} />
           </div>
         </Col>
         <Col md={7}>
