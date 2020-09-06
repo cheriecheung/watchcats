@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Row, Col } from 'reactstrap';
-import GoogleMap from './GoogleMap';
+import GoogleMap from '../../components/GoogleMap';
 import Search from './Search';
 import Result from './Result';
 import styled from 'styled-components';
@@ -26,10 +26,17 @@ for (let i = 0; i < 23; i++) {
 
 const mapHeight = '80vh';
 
+const allLocations = [
+  { id: 1, name: 'Cat Owner #1', lat: 52.3449, lng: 4.8766 },
+  { id: 2, name: 'Cat Owner #2', lat: 52.364, lng: 4.939 },
+];
+
 function FindSitter() {
   const { t, i18n } = useTranslation();
   const resultsRef = useRef(null);
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
+
+  const [selectedMarker, setSelectedMarker] = useState({ id: '' });
 
   return (
     <div style={{ padding: '0 40px' }}>
@@ -46,7 +53,13 @@ function FindSitter() {
               position: 'sticky',
             }}
           >
-            <GoogleMap mapHeight={mapHeight} />
+            <GoogleMap
+              mapHeight={mapHeight}
+              defaultCenter={{ lat: 52.3667, lng: 4.8945 }}
+              allLocations={allLocations}
+              selectedMarker={selectedMarker}
+              setSelectedMarker={setSelectedMarker}
+            />
           </div>
         </Col>
         <Col md={7}>

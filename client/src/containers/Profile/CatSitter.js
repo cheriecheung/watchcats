@@ -13,11 +13,14 @@ import DayPicker from 'react-day-picker';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSitterProfile } from '../../_actions/accountActions';
+import GoogleMap from '../../components/GoogleMap';
 
 const allReviews = [];
 for (let i = 0; i < 23; i++) {
   allReviews.push({ id: i, name: `User ${i}` });
 }
+
+const allLocations = { id: 1, name: 'Cat Owner #1', lat: 52.3449, lng: 4.8766 };
 
 function CatSitter() {
   const { id } = useParams();
@@ -86,7 +89,7 @@ function CatSitter() {
             </SectionContainer>
 
             {sitterInfo.hasCat && <h5>Owns / owned a cat</h5>}
-            {sitterInfo.hasVolunteered && <h5>Owns / owned a cat</h5>}
+            {sitterInfo.hasVolunteered && <h5>Has done volunteer work</h5>}
             {sitterInfo.hasMedicationSkills && <h5>Able to administer medication</h5>}
             {sitterInfo.hasInjectionSkills && <h5>Able to do injections</h5>}
             {sitterInfo.hasCertification && <h5>Has pet sitting certification</h5>}
@@ -103,7 +106,11 @@ function CatSitter() {
 
             <SectionContainer>
               <h5>Location</h5>
-              <p>{sitterInfo.postcode}</p>
+              <GoogleMap
+                mapHeight="45vh"
+                allLocations={allLocations}
+                defaultCenter={{ lat: 52.3667, lng: 4.8945 }}
+              />
             </SectionContainer>
           </div>
 

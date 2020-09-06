@@ -54,6 +54,17 @@ const ListContent = styled.div`
   visibility: visible;
 `;
 
+const allChats = [];
+for (let i = 0; i < 8; i++) {
+  allChats.push({
+    id: i,
+    name: `Person 00${i}`,
+    image: '',
+    message: 'Hi id like you to look after my cat',
+    isSelected: i === 2,
+  });
+}
+
 function Messages() {
   return (
     <>
@@ -65,7 +76,7 @@ function Messages() {
           hoverOverflowY="auto"
         >
           <ListContent>
-            <List />
+            <List allChats={allChats} />
           </ListContent>
         </ListContainer>
         <InboxPartContainer width={ChatWidth} backgroundOpacity={0.2} hoverOverflowY="hidden">

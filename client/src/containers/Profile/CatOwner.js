@@ -14,12 +14,14 @@ import Review from './Review';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOwnerProfile } from '../../_actions/accountActions';
-import GoogleMap from '../FindSitter/GoogleMap';
+import GoogleMap from '../../components/GoogleMap';
 
 const allReviews = [];
 for (let i = 0; i < 7; i++) {
   allReviews.push({ id: i, name: `User ${i}` });
 }
+
+const allLocations = { id: 1, name: 'Cat Owner #1', lat: 52.3449, lng: 4.8766 };
 
 function CatOwner() {
   const { id } = useParams();
@@ -165,7 +167,11 @@ function CatOwner() {
 
             <SectionContainer>
               <h5>Location</h5>
-              <GoogleMap mapHeight="50vh" />
+              <GoogleMap
+                mapHeight="45vh"
+                allLocations={allLocations}
+                defaultCenter={{ lat: 52.3449, lng: 4.8766 }}
+              />
             </SectionContainer>
           </div>
 
