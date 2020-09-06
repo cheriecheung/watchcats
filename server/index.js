@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const cookie = require('cookie');
 // const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
@@ -9,6 +10,9 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 const fs = require('fs');
 const https = require('https');
+const User = require('./model/User');
+const Conversation = require('./model/Conversation');
+const Message = require('./model/Message');
 
 const { baseRouter } = require('./routes');
 
@@ -58,6 +62,14 @@ app.use(
   })
 );
 
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Headers","*");
+// res.header('Access-Control-Allow-Credentials', true);
+//   res.header('Access-Control-Allow-Origin', 'YOUR-DOMAIN.TLD'); // update to match the domain you will make the request from
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//   next();
+// });
+
 app.use('/', baseRouter);
 
 const httpsOptions = {
@@ -72,11 +84,69 @@ const server = https.createServer(httpsOptions, app).listen(5000, () => {
 
 const io = socketio(server);
 
-io.on('connection', (socket) => {
-  console.log('>>>>>>>>>>> we have a new connection');
+// const checkHeader = () => {
+//   io.use((socket, next) => {
+//     console.log({ cookie: socket.request.headers.cookie });
+//     if (socket.request.headers.cookie) return next();
+//     next(new Error('Authentication error'));
+//   });
+// };
 
-  socket.on('send', ({ message }) => {
-    console.log({ message });
+io.use((socket, next) => {
+  // if (socket.request.headers.cookie) return next();
+  // next(new Error('Authentication error'));
+  const userId = socket.handshake.query.userId;
+
+  // 1. steps to verify incoming userId
+  // 2. throw err if wrong userId / no userId
+
+  socket.userId = userId;
+  next();
+});
+
+io.on('connection', (socket) => {
+  console.log('>>>>>>>>>>> we have a connection');
+
+  socket.on('send', async ({ message, recipient }) => {
+    console.log({ message, recipient });
+
+    const recipientUser = await User.findOne({ urlId: recipient });
+    const recipientObjId = mongoose.Types.ObjectId(recipientUser._id);
+
+    const senderObjId = mongoose.Types.ObjectId(socket.userId);
+
+    const currentConversation = await Conversation.findOne({
+      participant1: [recipientObjId, senderObjId],
+      participant2: [recipientObjId, senderObjId],
+    });
+
+    if (currentConversation) {
+      console.log({ currentConversation });
+      console.log('see, this conversation exists');
+    }
+
+    if (!currentConversation) {
+      const newConversation = new Conversation({
+        lastMessage: message,
+        lastMessageDate: Date.now(),
+        participant1: recipientObjId,
+        participant2: senderObjId,
+      });
+
+      // save new message in Message model
+
+      const newMessage = new Message({
+        // displays as plain string, not obj id
+        sender: senderObjId,
+        content: message,
+      });
+
+      await newConversation.save((err) => {
+        if (err) return err;
+        newMessage.conversation = newConversation._id;
+        newMessage.save();
+      });
+    }
   });
 
   socket.on('disconnect', () => {

@@ -28,5 +28,6 @@ baseRouter.use('/', require('./auth'));
 baseRouter.use('/', require('./user'));
 baseRouter.use('/', require('./cat_sitter'));
 baseRouter.use('/', require('./cat_owner'));
+baseRouter.use('/', require('./chat'));
 
 module.exports = { baseRouter };

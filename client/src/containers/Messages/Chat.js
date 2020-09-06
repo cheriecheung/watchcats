@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { TextArea } from '../../components/FormComponents';
 import { NavHeight } from '../../components/Layout/Header';
 import io from 'socket.io-client';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const ChatContainer = styled.div`
   padding: 0 20px;
@@ -50,6 +53,7 @@ const defaultValues = {
 let socket;
 
 function Chat() {
+  const { id: recipientId } = useParams();
   const chatContainerRef = useRef(null);
   const methods = useForm({ defaultValues });
   const { register, handleSubmit, watch, reset } = methods;
@@ -71,7 +75,7 @@ function Chat() {
 
   // retrieve data
   useEffect(() => {
-    socket = io(process.env.REACT_APP_API_DOMAIN);
+    socket = io(process.env.REACT_APP_API_DOMAIN, { query: { userId: cookies.get('userId') } });
 
     return () => {
       // does not disconnect here
@@ -81,7 +85,12 @@ function Chat() {
   }, []);
 
   const onSubmit = (data) => {
-    socket.emit('send', { message: data.messageInput });
+    socket.emit('send', {
+      message: data.messageInput,
+      sender: cookies.get('shortId'),
+      recipient: recipientId,
+    });
+    reset(defaultValues);
   };
 
   return (
