@@ -13,6 +13,10 @@ const ownerSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Review',
   },
+  booking: {
+    type: Schema.Types.ObjectId,
+    ref: 'Booking',
+  },
   aboutMe: {
     type: String,
     required: true,

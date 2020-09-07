@@ -228,15 +228,19 @@ export default {
     requested: 'Requested',
     confirmed: 'Confirmed',
     completed: 'Completed',
-    reviews: 'Reviews',
+    cancelled: 'Cancelled',
+    //reviews: 'Reviews',
 
     view_profile: 'View profile',
     view_conversation: 'View conversation',
 
-    area: 'Area',
-    sitter_needed: 'Sitter needed',
+    sitter: 'Cat sitter',
+    owner: 'Cat owner',
+    location: 'Location',
+    time: 'Time',
+    price: 'Price',
 
-    schedule_meetup: 'Schedule a meet-up first',
+    schedule_meetup: 'Schedule meet-up',
     reject: 'Reject',
     accept: 'Accept',
   },

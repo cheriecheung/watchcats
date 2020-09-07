@@ -226,15 +226,19 @@ export default {
     requested: 'Aangevraagd',
     confirmed: 'Bevestigd',
     completed: 'Voltooid',
-    reviews: 'Recensies',
+    cancelled: 'Geannuleerd',
+    //reviews: 'Recensies',
 
     view_profile: 'Bekijk profiel',
     view_conversation: 'Bekijk gesprek',
 
-    area: 'Area',
-    sitter_needed: 'Sitter needed',
+    sitter: 'Kattenoppas',
+    owner: 'Katteneigenaar',
+    location: 'Locatie',
+    time: 'Tijd',
+    price: 'Prjs',
 
-    schedule_meetup: 'Plan eerst een afspraak',
+    schedule_meetup: 'Afspraak plannen',
     reject: 'Weigeren',
     accept: 'Accepteren',
   },

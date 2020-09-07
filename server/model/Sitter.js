@@ -14,6 +14,10 @@ const sitterSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Review',
   },
+  booking: {
+    type: Schema.Types.ObjectId,
+    ref: 'Booking',
+  },
   aboutSitter: {
     type: String,
     required: false,
