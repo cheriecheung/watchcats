@@ -224,10 +224,28 @@ export default {
     sitting_service: 'Oppas diensten voor mijn kat',
 
     requested: 'Aangevraagd',
+    schedule_meetup: 'Afspraak plannen',
+    schedule_meetup_confirm:
+      'You just scheduled to meet up with the cat owner first. This booking will remain as "Request" status until you decide to accept or reject it after your meet up.',
+    decline: 'Weigeren',
+    decline_confirm:
+      'Click "OK" to confirm the booking decline. It is recommended that you write the cat owner about the reason you reject the booking',
+    accept: 'Accepteren',
+    accept_confirm:
+      'Click "OK" to confirm the booking acceptance. The status of this booking will be changed from "Requested" to "Confirmed".',
+
     confirmed: 'Bevestigd',
+    cancel: 'Boeking annuleren',
+    cancel_confirm:
+      'Click "OK" to confirm the booking cancellation. Make sure to inform the cat owner about the cancellation and the reason.',
+    complete: 'boeking voltooid',
+    complete_confirm:
+      'Click "OK" to confirm the booking completion. The status of this booking will be changed from "Confirmed" to "Completed". You will be able to write the cat sitter a review.',
+
     completed: 'Voltooid',
+    write_review: 'Schrijf een recensie',
+
     cancelled: 'Geannuleerd',
-    //reviews: 'Recensies',
 
     view_profile: 'Bekijk profiel',
     view_conversation: 'Bekijk gesprek',
@@ -237,9 +255,5 @@ export default {
     location: 'Locatie',
     time: 'Tijd',
     price: 'Prjs',
-
-    schedule_meetup: 'Afspraak plannen',
-    reject: 'Weigeren',
-    accept: 'Accepteren',
   },
 };

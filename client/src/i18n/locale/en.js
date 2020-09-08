@@ -226,10 +226,28 @@ export default {
     sitting_service: 'Sitting service for my cat',
 
     requested: 'Requested',
+    schedule_meetup: 'Schedule meet-up',
+    schedule_meetup_confirm:
+      'You just scheduled to meet up with the cat owner first. This booking will remain as "Request" status until you decide to accept or reject it after your meet up.',
+    decline: 'Decline',
+    decline_confirm:
+      'Click "OK" to confirm the booking decline. It is recommended that you write the cat owner about the reason you reject the booking',
+    accept: 'Accept',
+    accept_confirm:
+      'Click "OK" to confirm the booking acceptance. The status of this booking will be changed from "Requested" to "Confirmed".',
+
     confirmed: 'Confirmed',
+    cancel: 'Cancel Booking',
+    cancel_confirm:
+      'Click "OK" to confirm the booking cancellation. Make sure to inform the cat owner about the cancellation and the reason.',
+    complete: 'Booking completed',
+    complete_confirm:
+      'Click "OK" to confirm the booking completion. The status of this booking will be changed from "Confirmed" to "Completed". You will be able to write the cat sitter a review.',
+
     completed: 'Completed',
+    write_review: 'Write a review',
+
     cancelled: 'Cancelled',
-    //reviews: 'Reviews',
 
     view_profile: 'View profile',
     view_conversation: 'View conversation',
@@ -239,9 +257,5 @@ export default {
     location: 'Location',
     time: 'Time',
     price: 'Price',
-
-    schedule_meetup: 'Schedule meet-up',
-    reject: 'Reject',
-    accept: 'Accept',
   },
 };

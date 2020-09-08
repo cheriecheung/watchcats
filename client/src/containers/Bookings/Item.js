@@ -17,18 +17,7 @@ const Container = styled.div`
   overflow: visible;
 `;
 
-const ActionButton = styled.button`
-  border: 1px solid ${(props) => props.backgroundColor};
-  border-radius: 15px;
-  background-color: #fff;
-  color: #494442;
-  outline: none;
-  padding: 0 15px;
-  height: 30px;
-  margin-right: 10px;
-`;
-
-const Item = ({ data }) => {
+const Item = ({ data, renderActionButtons }) => {
   const { t } = useTranslation();
 
   return (
@@ -86,11 +75,7 @@ const Item = ({ data }) => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <ActionButton backgroundColor="#FFAE42">{t('bookings.schedule_meetup')}</ActionButton>
-        <ActionButton backgroundColor="#FF5C4E">{t('bookings.reject')}</ActionButton>
-        <ActionButton backgroundColor="#9ACD32">{t('bookings.accept')}</ActionButton>
-      </div>
+      {renderActionButtons && renderActionButtons()}
     </Container>
   );
 };

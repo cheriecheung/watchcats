@@ -1,15 +1,17 @@
 import { combineReducers } from 'redux';
 
+import { account } from './account';
 import { authentication } from './authentication';
+import { bookings } from './bookings';
 import { registration } from './registration';
 import { session } from './session';
-import { account } from './account';
 
 const rootReducer = combineReducers({
   account,
-  session,
   authentication,
+  bookings,
   registration,
+  session,
 });
 
 export default rootReducer;

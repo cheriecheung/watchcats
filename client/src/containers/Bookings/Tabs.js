@@ -14,6 +14,17 @@ const Container = styled.div`
   margin: 0px 5%;
 `;
 
+const ActionButton = styled.button`
+  border: 1px solid ${(props) => props.backgroundColor};
+  border-radius: 15px;
+  background-color: #fff;
+  color: #494442;
+  outline: none !important;
+  padding: 0 15px;
+  height: 30px;
+  margin-right: 10px;
+`;
+
 const cardHeight = 140;
 
 function BookingTabs() {
@@ -25,30 +36,56 @@ function BookingTabs() {
   const [bookings, setBookings] = useState({});
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalContent, setModalContent] = useState(<h4>test</h4>);
+  const [modalContent, setModalContent] = useState('');
+  const [confirmAction, setConfirmAction] = useState('');
 
   const { request = [], confirmed = [], completed = [], cancelled = [] } = bookings;
+
+  useEffect(() => {
+    console.log({ modalContent });
+  }, [modalContent]);
 
   const bookingTypeTabs = [
     {
       key: 'requested',
       tab: `${t('bookings.requested')} (${request.length})`,
-      content: <Requested bookings={request} openModal={() => setModalVisible(true)} t={t} />,
+      content: (
+        <Requested
+          bookings={request}
+          openModal={() => setModalVisible(true)}
+          setModalContent={(content) => setModalContent(content)}
+          t={t}
+        />
+      ),
     },
     {
       key: 'confirmed',
       tab: `${t('bookings.confirmed')} (${confirmed.length})`,
-      content: <Confirmed bookings={confirmed} />,
+      content: (
+        <Confirmed
+          bookings={confirmed}
+          openModal={() => setModalVisible(true)}
+          setModalContent={(content) => setModalContent(content)}
+          t={t}
+        />
+      ),
     },
     {
       key: 'completed',
       tab: `${t('bookings.completed')} (${completed.length})`,
-      content: <Completed bookings={completed} />,
+      content: (
+        <Completed
+          bookings={completed}
+          openModal={() => setModalVisible(true)}
+          setModalContent={(content) => setModalContent(content)}
+          t={t}
+        />
+      ),
     },
     {
       key: 'reviews',
       tab: `${t('bookings.cancelled')} (${cancelled.length})`,
-      content: <Cancelled bookings={cancelled} />,
+      content: <Cancelled bookings={cancelled} openModal={() => setModalVisible(true)} />,
     },
   ];
 
@@ -108,11 +145,14 @@ function BookingTabs() {
       </Tabs>
 
       <Modal
-        //title=""
+        //  title=""
         visible={modalVisible}
         onOk={() => setModalVisible(false)}
         onCancel={() => setModalVisible(false)}
+        maskClosable={false}
       >
+        <br />
+        <br />
         {modalContent}
       </Modal>
     </div>
@@ -148,11 +188,43 @@ function OwnerBookings({ bookingTypeTabs }) {
   );
 }
 
-function Requested({ bookings, openModal, t }) {
+function Requested({ bookings, openModal, setModalContent, t }) {
+  const renderActionButtons = () => (
+    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <ActionButton
+        backgroundColor="#FF5C4E"
+        onClick={() => {
+          openModal();
+          setModalContent(t('bookings.decline_confirm'));
+        }}
+      >
+        {t('bookings.decline')}
+      </ActionButton>
+      <ActionButton
+        backgroundColor="#FFAE42"
+        onClick={() => {
+          openModal();
+          setModalContent(t('bookings.schedule_meetup_confirm'));
+        }}
+      >
+        {t('bookings.schedule_meetup')}
+      </ActionButton>
+      <ActionButton
+        backgroundColor="#9ACD32"
+        onClick={() => {
+          openModal();
+          setModalContent(t('bookings.accept_confirm'));
+        }}
+      >
+        {t('bookings.accept')}
+      </ActionButton>
+    </div>
+  );
+
   return (
     <>
       {bookings.map((data, index) => (
-        <Item data={data} />
+        <Item data={data} renderActionButtons={renderActionButtons} />
       ))}
 
       <br />
@@ -165,14 +237,55 @@ function Requested({ bookings, openModal, t }) {
   );
 }
 
-function Confirmed({ bookings }) {
-  return bookings.map((data, index) => <Item data={data} />);
+function Confirmed({ bookings, openModal, setModalContent, t }) {
+  const renderActionButtons = () => (
+    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <ActionButton
+        backgroundColor="#FF5C4E"
+        onClick={() => {
+          openModal();
+          setModalContent(t('bookings.cancel_confirm'));
+        }}
+      >
+        {t('bookings.cancel')}
+      </ActionButton>
+      <ActionButton
+        backgroundColor="#9ACD32"
+        onClick={() => {
+          openModal();
+          setModalContent(t('bookings.complete_confirm'));
+        }}
+      >
+        {t('bookings.complete')}
+      </ActionButton>
+    </div>
+  );
+
+  return bookings.map((data, index) => (
+    <Item data={data} openModal={openModal} renderActionButtons={renderActionButtons} />
+  ));
 }
 
-function Completed({ bookings }) {
-  return bookings.map((data, index) => <Item data={data} />);
+function Completed({ bookings, openModal, setModalContent, t }) {
+  const renderActionButtons = () => (
+    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <ActionButton
+        backgroundColor="#FF5C4E"
+        onClick={() => {
+          openModal();
+          setModalContent(t('bookings.cancel_confirm'));
+        }}
+      >
+        {t('bookings.write_review')}
+      </ActionButton>
+    </div>
+  );
+
+  return bookings.map((data, index) => (
+    <Item data={data} openModal={openModal} renderActionButtons={renderActionButtons} />
+  ));
 }
 
-function Cancelled({ bookings }) {
-  return bookings.map((data, index) => <Item data={data} />);
+function Cancelled({ bookings, openModal }) {
+  return bookings.map((data, index) => <Item data={data} openModal={openModal} />);
 }

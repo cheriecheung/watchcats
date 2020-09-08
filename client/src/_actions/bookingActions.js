@@ -4,13 +4,16 @@ const cookies = new Cookies();
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
-const userURL = `${REACT_APP_API_DOMAIN}/user`;
-const sitterAccountURL = (id) => `${REACT_APP_API_DOMAIN}/sitter/account/${id}`;
-const sitterProfileURL = (id) => `${REACT_APP_API_DOMAIN}/sitter/profile/${id}`;
-const ownerAccountURL = (id) => `${REACT_APP_API_DOMAIN}/owner/account/${id}`;
-const ownerProfileURL = (id) => `${REACT_APP_API_DOMAIN}/owner/profile/${id}`;
+const sittingJobBookingsURL = `${REACT_APP_API_DOMAIN}/booking/sitting-job`;
+const sittingServiceBookingsUrl = `${REACT_APP_API_DOMAIN}/booking/sitting-service`;
 
-const ownerURL = `${process.env.REACT_APP_API_DOMAIN}/owner`;
+const declineUrl = (id) => `${REACT_APP_API_DOMAIN}/booking/${id}/decline`;
+const scheduleMeetupUrl = (id) => `${REACT_APP_API_DOMAIN}/booking/${id}/schedule-meetup`;
+const acceptUrl = (id) => `${REACT_APP_API_DOMAIN}/booking/${id}/accept`;
+const cancelUrl = (id) => `${REACT_APP_API_DOMAIN}/booking/${id}/cancel`;
+const completedUrl = (id) => `${REACT_APP_API_DOMAIN}/booking/${id}/completed`;
+const reviewUrl = `${REACT_APP_API_DOMAIN}/review`;
+
 const config = {
   withCredentials: true,
   headers: {
@@ -18,14 +21,14 @@ const config = {
   },
 };
 
-export function getUser() {
+export function getAllSittingJobBookings() {
   return (dispatch) => {
     axios
-      .get(userURL, config)
+      .get(sittingJobBookingsURL, config)
       .then((response) => {
         console.log(response);
         dispatch({
-          type: 'GET_USER',
+          type: 'GET_SITTING_JOB_BOOKINGS',
           payload: response.data,
         });
       })
@@ -33,14 +36,14 @@ export function getUser() {
   };
 }
 
-export function sendUser(data) {
+export function getAllSittingServiceBookings() {
   return (dispatch) => {
     axios
-      .post(userURL, data, config)
+      .get(sittingServiceBookingsUrl, config)
       .then((response) => {
         console.log(response);
         dispatch({
-          type: 'SAVE_USER',
+          type: 'GET_SITTING_JOB_BOOKINGS',
           payload: response.data,
         });
       })
@@ -48,92 +51,84 @@ export function sendUser(data) {
   };
 }
 
-export function getOwnerProfile(id) {
+export function decline(id) {
   return (dispatch) => {
     axios
-      .get(ownerProfileURL(id))
+      .get(declineUrl(id), config)
       .then((response) => {
         console.log(response);
         dispatch({
-          type: 'GET_PROFILE',
-          payload: response.data,
+          type: 'DECLINE_BOOKING',
         });
       })
       .catch((error) => console.log(error.response));
   };
 }
 
-export function getSitterProfile(id) {
+export function scheduleMeetup(id) {
   return (dispatch) => {
     axios
-      .get(sitterProfileURL(id))
+      .get(scheduleMeetupUrl(id), config)
       .then((response) => {
         console.log(response);
         dispatch({
-          type: 'GET_PROFILE',
-          payload: response.data,
+          type: 'SCHEDULE_MEETUP',
         });
       })
       .catch((error) => console.log(error.response));
   };
 }
 
-export function getSitterAccount(id) {
+export function accept(id) {
   return (dispatch) => {
     axios
-      .get(sitterAccountURL(id))
+      .get(acceptUrl(id), config)
       .then((response) => {
         console.log(response);
         dispatch({
-          type: 'GET_PROFILE',
-          payload: response.data,
+          type: 'ACCEPT_BOOKING',
         });
       })
       .catch((error) => console.log(error.response));
   };
 }
 
-export function saveSitterAccount(id, data) {
-  console.log({ data });
+export function cancel(id) {
   return (dispatch) => {
     axios
-      .post(sitterAccountURL(id), data, config)
+      .get(cancelUrl(id), config)
       .then((response) => {
         console.log(response);
-
         dispatch({
-          type: 'SAVE_PROFILE',
-          payload: 'data',
+          type: 'CANCEL_BOOKING',
         });
       })
       .catch((error) => console.log(error.response));
   };
 }
 
-export function getOwner() {
+export function completed(id) {
   return (dispatch) => {
     axios
-      .get(ownerURL, config)
-      .then(({ data }) => {
+      .get(completedUrl(id), config)
+      .then((response) => {
+        console.log(response);
         dispatch({
-          type: 'GET_PROFILE',
-          payload: data,
+          type: 'COMPLETED_BOOKING',
         });
       })
       .catch((error) => console.log(error.response));
   };
 }
 
-export function saveOwner(data) {
-  console.log({ data });
+export function submitReview(bookingId, reviewContent) {
   return (dispatch) => {
     axios
-      .post(ownerURL, data, config)
+      .post(reviewUrl, config, { bookingId, reviewContent })
       .then((response) => {
         console.log(response);
         dispatch({
-          type: 'SAVE_PROFILE',
-          payload: 'done',
+          type: 'SUBMIT_REVIEW',
         });
       })
       .catch((error) => console.log(error.response));
