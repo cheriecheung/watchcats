@@ -5,7 +5,9 @@ import { sitterBookings } from '../../constants';
 import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import Item from './Item';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { decline } from '../../_actions/bookingActions';
+import { Cancelled, Completed, Confirmed, Requested } from './Type';
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
 
@@ -14,21 +16,10 @@ const Container = styled.div`
   margin: 0px 5%;
 `;
 
-const ActionButton = styled.button`
-  border: 1px solid ${(props) => props.backgroundColor};
-  border-radius: 15px;
-  background-color: #fff;
-  color: #494442;
-  outline: none !important;
-  padding: 0 15px;
-  height: 30px;
-  margin-right: 10px;
-`;
-
-const cardHeight = 140;
-
 function BookingTabs() {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   const { screenWidth } = ScreenWidthListener();
   const [tabPosition, setTabPosition] = useState('');
 
@@ -37,13 +28,11 @@ function BookingTabs() {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState('');
-  const [confirmAction, setConfirmAction] = useState('');
+
+  const [confirmActionType, setConfirmActionType] = useState('');
+  const [bookingId, setBookingId] = useState('');
 
   const { request = [], confirmed = [], completed = [], cancelled = [] } = bookings;
-
-  useEffect(() => {
-    console.log({ modalContent });
-  }, [modalContent]);
 
   const bookingTypeTabs = [
     {
@@ -54,6 +43,8 @@ function BookingTabs() {
           bookings={request}
           openModal={() => setModalVisible(true)}
           setModalContent={(content) => setModalContent(content)}
+          setConfirmActionType={(type) => setConfirmActionType(type)}
+          setBookingId={(id) => setBookingId(id)}
           t={t}
         />
       ),
@@ -129,6 +120,19 @@ function BookingTabs() {
     }
   }, [screenWidth]);
 
+  const performBookingAction = () => {
+    switch (confirmActionType) {
+      case 'decline':
+        dispatch(decline(bookingId));
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    console.log({ confirmActionType });
+  }, [confirmActionType]);
+
   return (
     <div style={{ display: 'flex', marginTop: 10 }}>
       <Tabs
@@ -147,11 +151,10 @@ function BookingTabs() {
       <Modal
         //  title=""
         visible={modalVisible}
-        onOk={() => setModalVisible(false)}
+        onOk={() => performBookingAction()}
         onCancel={() => setModalVisible(false)}
         maskClosable={false}
       >
-        <br />
         <br />
         {modalContent}
       </Modal>
@@ -186,106 +189,4 @@ function OwnerBookings({ bookingTypeTabs }) {
       </Tabs>
     </Container>
   );
-}
-
-function Requested({ bookings, openModal, setModalContent, t }) {
-  const renderActionButtons = () => (
-    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <ActionButton
-        backgroundColor="#FF5C4E"
-        onClick={() => {
-          openModal();
-          setModalContent(t('bookings.decline_confirm'));
-        }}
-      >
-        {t('bookings.decline')}
-      </ActionButton>
-      <ActionButton
-        backgroundColor="#FFAE42"
-        onClick={() => {
-          openModal();
-          setModalContent(t('bookings.schedule_meetup_confirm'));
-        }}
-      >
-        {t('bookings.schedule_meetup')}
-      </ActionButton>
-      <ActionButton
-        backgroundColor="#9ACD32"
-        onClick={() => {
-          openModal();
-          setModalContent(t('bookings.accept_confirm'));
-        }}
-      >
-        {t('bookings.accept')}
-      </ActionButton>
-    </div>
-  );
-
-  return (
-    <>
-      {bookings.map((data, index) => (
-        <Item data={data} renderActionButtons={renderActionButtons} />
-      ))}
-
-      <br />
-      <p>
-        Remark: It is highly recommended to have a meet up session between you and cat owners before
-        accepting their requests. Directly accepting a request is meant for owners you have
-        previously completed bookings with.
-      </p>
-    </>
-  );
-}
-
-function Confirmed({ bookings, openModal, setModalContent, t }) {
-  const renderActionButtons = () => (
-    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <ActionButton
-        backgroundColor="#FF5C4E"
-        onClick={() => {
-          openModal();
-          setModalContent(t('bookings.cancel_confirm'));
-        }}
-      >
-        {t('bookings.cancel')}
-      </ActionButton>
-      <ActionButton
-        backgroundColor="#9ACD32"
-        onClick={() => {
-          openModal();
-          setModalContent(t('bookings.complete_confirm'));
-        }}
-      >
-        {t('bookings.complete')}
-      </ActionButton>
-    </div>
-  );
-
-  return bookings.map((data, index) => (
-    <Item data={data} openModal={openModal} renderActionButtons={renderActionButtons} />
-  ));
-}
-
-function Completed({ bookings, openModal, setModalContent, t }) {
-  const renderActionButtons = () => (
-    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <ActionButton
-        backgroundColor="#FF5C4E"
-        onClick={() => {
-          openModal();
-          setModalContent(t('bookings.cancel_confirm'));
-        }}
-      >
-        {t('bookings.write_review')}
-      </ActionButton>
-    </div>
-  );
-
-  return bookings.map((data, index) => (
-    <Item data={data} openModal={openModal} renderActionButtons={renderActionButtons} />
-  ));
-}
-
-function Cancelled({ bookings, openModal }) {
-  return bookings.map((data, index) => <Item data={data} openModal={openModal} />);
 }

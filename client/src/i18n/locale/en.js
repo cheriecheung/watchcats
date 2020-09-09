@@ -237,9 +237,10 @@ export default {
       'Click "OK" to confirm the booking acceptance. The status of this booking will be changed from "Requested" to "Confirmed".',
 
     confirmed: 'Confirmed',
-    cancel: 'Cancel Booking',
+    cancel: 'Cancel',
     cancel_confirm:
       'Click "OK" to confirm the booking cancellation. Make sure to inform the cat owner about the cancellation and the reason.',
+    pay_now: 'Pay now',
     complete: 'Booking completed',
     complete_confirm:
       'Click "OK" to confirm the booking completion. The status of this booking will be changed from "Confirmed" to "Completed". You will be able to write the cat sitter a review.',

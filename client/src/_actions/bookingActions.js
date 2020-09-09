@@ -4,6 +4,8 @@ const cookies = new Cookies();
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
+const requestUrl = `${REACT_APP_API_DOMAIN}/booking/request`;
+
 const sittingJobBookingsURL = `${REACT_APP_API_DOMAIN}/booking/sitting-job`;
 const sittingServiceBookingsUrl = `${REACT_APP_API_DOMAIN}/booking/sitting-service`;
 
@@ -20,6 +22,21 @@ const config = {
     Authorization: cookies.get('userId'),
   },
 };
+
+export function sendBookingRequest(sitterId) {
+  return (dispatch) => {
+    axios
+      .post(requestUrl, config)
+      .then((response) => {
+        console.log(response);
+        dispatch({
+          type: 'GET_SITTING_JOB_BOOKINGS',
+          payload: response.data,
+        });
+      })
+      .catch((error) => console.log(error.response));
+  };
+}
 
 export function getAllSittingJobBookings() {
   return (dispatch) => {
@@ -53,22 +70,24 @@ export function getAllSittingServiceBookings() {
 
 export function decline(id) {
   return (dispatch) => {
-    axios
-      .get(declineUrl(id), config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'DECLINE_BOOKING',
-        });
-      })
-      .catch((error) => console.log(error.response));
+    console.log('your id is' + id);
+
+    // axios
+    //   .post(declineUrl(id), config)
+    //   .then((response) => {
+    //     console.log(response);
+    //     dispatch({
+    //       type: 'DECLINE_BOOKING',
+    //     });
+    //   })
+    //   .catch((error) => console.log(error.response));
   };
 }
 
 export function scheduleMeetup(id) {
   return (dispatch) => {
     axios
-      .get(scheduleMeetupUrl(id), config)
+      .post(scheduleMeetupUrl(id), config)
       .then((response) => {
         console.log(response);
         dispatch({
@@ -82,7 +101,7 @@ export function scheduleMeetup(id) {
 export function accept(id) {
   return (dispatch) => {
     axios
-      .get(acceptUrl(id), config)
+      .post(acceptUrl(id), config)
       .then((response) => {
         console.log(response);
         dispatch({
@@ -96,7 +115,7 @@ export function accept(id) {
 export function cancel(id) {
   return (dispatch) => {
     axios
-      .get(cancelUrl(id), config)
+      .post(cancelUrl(id), config)
       .then((response) => {
         console.log(response);
         dispatch({
@@ -110,7 +129,7 @@ export function cancel(id) {
 export function completed(id) {
   return (dispatch) => {
     axios
-      .get(completedUrl(id), config)
+      .post(completedUrl(id), config)
       .then((response) => {
         console.log(response);
         dispatch({
