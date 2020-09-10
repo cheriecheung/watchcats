@@ -64,19 +64,12 @@ function BookingTabs() {
     {
       key: 'completed',
       tab: `${t('bookings.completed')} (${completed.length})`,
-      content: (
-        <Completed
-          bookings={completed}
-          openModal={() => setModalVisible(true)}
-          setModalContent={(content) => setModalContent(content)}
-          t={t}
-        />
-      ),
+      content: <Completed bookings={completed} t={t} />,
     },
     {
       key: 'reviews',
       tab: `${t('bookings.cancelled')} (${cancelled.length})`,
-      content: <Cancelled bookings={cancelled} openModal={() => setModalVisible(true)} />,
+      content: <Cancelled bookings={cancelled} />,
     },
   ];
 

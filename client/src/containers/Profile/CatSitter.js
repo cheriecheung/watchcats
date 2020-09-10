@@ -13,6 +13,8 @@ import DayPicker from 'react-day-picker';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSitterProfile } from '../../_actions/accountActions';
+import { getChatContacts, getChatConversation } from '../../_actions/chatActions';
+import { sendBookingRequest } from '../../_actions/bookingActions';
 import GoogleMap from '../../components/GoogleMap';
 
 const allReviews = [];
@@ -44,12 +46,26 @@ function CatSitter() {
   useEffect(() => {
     if (sitterData) {
       console.log({ sitterData });
+
+      const allUnavailableDates = sitterData.unavailableDates
+        ? sitterData.unavailableDates.map((item) => new Date(item))
+        : [];
+
       setSitterInfo({
         ...sitterData,
-        unavailableDates: sitterData.unavailableDates.map((item) => new Date(item)),
+        unavailableDates: allUnavailableDates,
       });
     }
   }, [sitterData]);
+
+  const handleSendMessage = () => {
+    dispatch(getChatContacts);
+    dispatch(getChatConversation);
+  };
+
+  const handleSendRequest = () => {
+    dispatch(sendBookingRequest);
+  };
 
   return (
     <div style={{ padding: '30px 60px' }}>
@@ -106,11 +122,11 @@ function CatSitter() {
 
             <SectionContainer>
               <h5>Location</h5>
-              <GoogleMap
+              {/* <GoogleMap
                 mapHeight="45vh"
                 allLocations={allLocations}
                 defaultCenter={{ lat: 52.3667, lng: 4.8945 }}
-              />
+              /> */}
             </SectionContainer>
           </div>
 
@@ -145,8 +161,8 @@ function CatSitter() {
               <h5>€ {sitterInfo.priceOvernight}</h5> per night
             </span>
 
-            <ThemeButton>Send message</ThemeButton>
-            <ThemeButton>Send request for sitting job</ThemeButton>
+            <ThemeButton onClick={handleSendMessage}>Send message</ThemeButton>
+            <ThemeButton onClick={handleSendRequest}>Send request for sitting job</ThemeButton>
           </SummaryCard>
         </ContentContainer>
       </div>
