@@ -14,8 +14,10 @@ import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSitterProfile } from '../../_actions/accountActions';
 import { getChatContacts, getChatConversation } from '../../_actions/chatActions';
-import { sendBookingRequest } from '../../_actions/bookingActions';
+import { getAppointmentTime, sendBookingRequest } from '../../_actions/bookingActions';
 import GoogleMap from '../../components/GoogleMap';
+import moment from 'moment';
+import RequestModal from './RequestModal';
 
 const allReviews = [];
 for (let i = 0; i < 23; i++) {
@@ -29,10 +31,12 @@ function CatSitter() {
   const reviewListRef = useRef(null);
   const dispatch = useDispatch();
   const { data: sitterData } = useSelector((state) => state.account);
+  // const { data: appointmentTime } = useSelector((state) => state.booking);
 
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
   const [sitterInfo, setSitterInfo] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -58,13 +62,26 @@ function CatSitter() {
     }
   }, [sitterData]);
 
+  useEffect(() => {
+    if (modalVisible) {
+      dispatch(getAppointmentTime);
+    }
+  }, [modalVisible]);
+
   const handleSendMessage = () => {
     dispatch(getChatContacts);
     dispatch(getChatConversation);
   };
 
   const handleSendRequest = () => {
-    dispatch(sendBookingRequest);
+    const bookingDetails = {
+      sitterId: id,
+      location: 'Amsterdam Zuid',
+      time: { startDate: moment('12-12-2020'), endDate: moment('12-12-2020') },
+      price: 26,
+    };
+
+    dispatch(sendBookingRequest(bookingDetails));
   };
 
   return (
@@ -162,7 +179,14 @@ function CatSitter() {
             </span>
 
             <ThemeButton onClick={handleSendMessage}>Send message</ThemeButton>
-            <ThemeButton onClick={handleSendRequest}>Send request for sitting job</ThemeButton>
+            <ThemeButton onClick={() => setModalVisible(true)}>Send request</ThemeButton>
+
+            <RequestModal
+              modalVisible={modalVisible}
+              closeModal={() => setModalVisible(false)}
+              // appointmentTime={appointmentTime}
+              handleSendRequest={handleSendRequest}
+            />
           </SummaryCard>
         </ContentContainer>
       </div>

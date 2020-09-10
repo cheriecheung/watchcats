@@ -17,7 +17,7 @@ const defaultValues = {
   review: '',
 };
 
-function Review() {
+function WriteReview() {
   const methods = useForm({ defaultValues });
   const { register, handleSubmit, watch, reset } = methods;
 
@@ -60,4 +60,4 @@ function Review() {
   );
 }
 
-export default Review;
+export default WriteReview;

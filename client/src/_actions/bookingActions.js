@@ -4,6 +4,7 @@ const cookies = new Cookies();
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
+const appointmentUrl = `${REACT_APP_API_DOMAIN}/appointment`;
 const requestUrl = `${REACT_APP_API_DOMAIN}/booking/request`;
 
 const sittingJobBookingsURL = `${REACT_APP_API_DOMAIN}/booking/sitting-job`;
@@ -23,14 +24,29 @@ const config = {
   },
 };
 
-export function sendBookingRequest(sitterId) {
+export function getAppointmentTime() {
   return (dispatch) => {
     axios
-      .post(requestUrl, config)
+      .get(appointmentUrl, config)
       .then((response) => {
         console.log(response);
         dispatch({
-          type: 'GET_SITTING_JOB_BOOKINGS',
+          type: 'GET_APPOINTMENT_TIME',
+          payload: response.data,
+        });
+      })
+      .catch((error) => console.log(error.response));
+  };
+}
+
+export function sendBookingRequest(data) {
+  return (dispatch) => {
+    axios
+      .post(requestUrl, data, config)
+      .then((response) => {
+        console.log(response);
+        dispatch({
+          type: 'SEND_BOOKING_REQUEST',
           payload: response.data,
         });
       })
@@ -70,24 +86,22 @@ export function getAllSittingServiceBookings() {
 
 export function decline(id) {
   return (dispatch) => {
-    console.log('your id is' + id);
-
-    // axios
-    //   .post(declineUrl(id), config)
-    //   .then((response) => {
-    //     console.log(response);
-    //     dispatch({
-    //       type: 'DECLINE_BOOKING',
-    //     });
-    //   })
-    //   .catch((error) => console.log(error.response));
+    axios
+      .put(declineUrl(id), config)
+      .then((response) => {
+        console.log(response);
+        dispatch({
+          type: 'DECLINE_BOOKING',
+        });
+      })
+      .catch((error) => console.log(error.response));
   };
 }
 
 export function scheduleMeetup(id) {
   return (dispatch) => {
     axios
-      .post(scheduleMeetupUrl(id), config)
+      .put(scheduleMeetupUrl(id), config)
       .then((response) => {
         console.log(response);
         dispatch({
@@ -101,7 +115,7 @@ export function scheduleMeetup(id) {
 export function accept(id) {
   return (dispatch) => {
     axios
-      .post(acceptUrl(id), config)
+      .put(acceptUrl(id), config)
       .then((response) => {
         console.log(response);
         dispatch({
@@ -115,7 +129,7 @@ export function accept(id) {
 export function cancel(id) {
   return (dispatch) => {
     axios
-      .post(cancelUrl(id), config)
+      .put(cancelUrl(id), config)
       .then((response) => {
         console.log(response);
         dispatch({
@@ -129,7 +143,7 @@ export function cancel(id) {
 export function completed(id) {
   return (dispatch) => {
     axios
-      .post(completedUrl(id), config)
+      .put(completedUrl(id), config)
       .then((response) => {
         console.log(response);
         dispatch({

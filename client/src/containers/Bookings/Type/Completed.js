@@ -9,7 +9,7 @@ function Completed({ bookings, t }) {
         backgroundColor="#FF5C4E"
         // use <Link> instead
         onClick={() => {
-          window.location = `/Review/${bookingId}`;
+          window.location = `/writereivew/${bookingId}`;
         }}
       >
         {t('bookings.write_review')}

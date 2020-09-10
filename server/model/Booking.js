@@ -13,8 +13,17 @@ const bookingSchema = new Schema({
   location: {
     type: String,
   },
-  time: {
-    type: String,
+  startDate: {
+    type: Date,
+  },
+  endDate: {
+    type: Date,
+  },
+  startTime: {
+    type: Date,
+  },
+  endTime: {
+    type: Date,
   },
   price: {
     type: Number,

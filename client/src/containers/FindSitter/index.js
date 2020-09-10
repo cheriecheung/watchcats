@@ -53,13 +53,13 @@ function FindSitter() {
               position: 'sticky',
             }}
           >
-            <GoogleMap
+            {/* <GoogleMap
               mapHeight={mapHeight}
               defaultCenter={{ lat: 52.3667, lng: 4.8945 }}
               allLocations={allLocations}
               selectedMarker={selectedMarker}
               setSelectedMarker={setSelectedMarker}
-            />
+            /> */}
           </div>
         </Col>
         <Col md={7}>

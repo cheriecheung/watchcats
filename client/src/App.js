@@ -14,7 +14,7 @@ import VerifyEmail from './containers/VerifyEmail';
 import Login from './containers/Login';
 import Loading from './containers/Login/Loading';
 import Bookings from './containers/Bookings';
-import Review from './containers/Review';
+import WriteReview from './containers/WriteReview';
 import Messages from './containers/Messages';
 import Account from './containers/Account';
 import FindSitter from './containers/FindSitter';
@@ -58,7 +58,7 @@ function App() {
             <Route path="/profile/catsitter/:id" component={CatSitter} />
             <Route path="/profile/catowner/:id" component={CatOwner} />
             <PrivateRoute path="/bookings" component={Bookings} />
-            <PrivateRoute path="/review/:id?" component={Review} />
+            <PrivateRoute path="/writereivew/:id?" component={WriteReview} />
             <PrivateRoute path="/messages/:id?" component={Messages} />
             <PrivateRoute path="/account/:id?" component={Account} />
             <Route path="/loading" component={Loading} />
