@@ -1,7 +1,9 @@
-export function bookings(state = {}, action) {
+export function booking(state = {}, action) {
   switch (action.type) {
-    case 'GET_SITTING_JOB_BOOKINGS':
-      return { data: action.payload };
+    case 'APPOINTMENT_TIME_NOT_FOUND':
+      return { error: action.payload };
+    case 'OWNER_PROFILE_NOT_FOUND':
+      return { error: action.payload };
     case 'GET_SITTING_JOB_BOOKINGS':
       return { data: action.payload };
     case 'DECLINE_BOOKING':

@@ -31,12 +31,16 @@ function CatSitter() {
   const reviewListRef = useRef(null);
   const dispatch = useDispatch();
   const { data: sitterData } = useSelector((state) => state.account);
-  // const { data: appointmentTime } = useSelector((state) => state.booking);
+  const { error: errorType } = useSelector((state) => state.booking);
 
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
   const [sitterInfo, setSitterInfo] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    console.log({ errorType });
+  }, [errorType]);
 
   useEffect(() => {
     if (id) {
@@ -64,7 +68,7 @@ function CatSitter() {
 
   useEffect(() => {
     if (modalVisible) {
-      dispatch(getAppointmentTime);
+      dispatch(getAppointmentTime());
     }
   }, [modalVisible]);
 
@@ -184,6 +188,7 @@ function CatSitter() {
             <RequestModal
               modalVisible={modalVisible}
               closeModal={() => setModalVisible(false)}
+              error={errorType}
               // appointmentTime={appointmentTime}
               handleSendRequest={handleSendRequest}
             />

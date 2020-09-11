@@ -341,11 +341,11 @@ function OwnerProfile() {
                       <FieldLabel>{t('owner_form.name')}</FieldLabel>
                       <TextField name={`cat[${index}].name`} />
                     </Col>
-
-                    <Col md={6} className="mb-4">
+                    <Col md={6} className="mb-4" style={{ marginBottom: 30 }}>
                       <FieldLabel>{t('owner_form.age')}</FieldLabel>
                       <TextField name={`cat[${index}].age`} />
                     </Col>
+
                     <Col md={6} className="mb-4">
                       <FieldLabel>{t('owner_form.gender')}</FieldLabel>
                       <br />
@@ -368,6 +368,7 @@ function OwnerProfile() {
                         options={medicineOptions}
                       />
                     </Col>
+
                     <Col md={6} className="mb-4">
                       <FieldLabel>{t('owner_form.vaccinated')}</FieldLabel>
                       <br />
@@ -396,6 +397,7 @@ function OwnerProfile() {
                         </RadioButton>
                       </RadioGroup>
                     </Col>
+
                     <Col md={6} className="mb-4">
                       <FieldLabel>{t('owner_form.breed')}</FieldLabel>
                       <SelectField name={`cat[${index}].breed`} options={catBreedOptions} />
@@ -407,6 +409,7 @@ function OwnerProfile() {
                         options={personalityOptions}
                       />
                     </Col>
+
                     <Col md={6} className="mb-3">
                       <FieldLabel>{t('owner_form.favourite_treat')}</FieldLabel>
                       <TextField name={`cat[${index}].favouriteTreat`} />

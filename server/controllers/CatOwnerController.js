@@ -20,7 +20,7 @@ module.exports = {
         if (err) return err;
 
         const {
-          owner: { id: ownerId, aboutMe, catsDescription },
+          owner: { _id: ownerId, aboutMe, catsDescription },
         } = user;
 
         let bookingOneDay, bookingOvernight, cat;
@@ -107,31 +107,31 @@ module.exports = {
       });
 
       if (oneDay.length > 0) {
-        oneDay.forEach(({ date, startTime, endTime }) => {
+        oneDay.forEach(async ({ date, startTime, endTime }) => {
           const newOneDay = new AppointmentOneDay({
             owner: newOwner._id,
             date,
             startTime,
             endTime,
           });
-          newOneDay.save();
+          await newOneDay.save();
         });
       }
 
       if (overnight.length > 0) {
-        overnight.forEach(({ startDate, endDate }) => {
+        overnight.forEach(async ({ startDate, endDate }) => {
           const newOvernight = new AppointmentOvernight({
             owner: newOwner._id,
             startDate,
             endDate,
           });
-          newOvernight.save();
+          await newOvernight.save();
         });
       }
 
       if (catData.length > 0) {
         catData.forEach(
-          ({
+          async ({
             name,
             age,
             gender,
@@ -154,7 +154,7 @@ module.exports = {
               personality,
               favouriteTreat,
             });
-            newCat.save();
+            await newCat.save();
           }
         );
       }

@@ -4,7 +4,7 @@ const cookies = new Cookies();
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
-const appointmentUrl = `${REACT_APP_API_DOMAIN}/appointment`;
+const appointmentTimeUrl = `${REACT_APP_API_DOMAIN}/booking/time`;
 const requestUrl = `${REACT_APP_API_DOMAIN}/booking/request`;
 
 const sittingJobBookingsURL = `${REACT_APP_API_DOMAIN}/booking/sitting-job`;
@@ -27,7 +27,7 @@ const config = {
 export function getAppointmentTime() {
   return (dispatch) => {
     axios
-      .get(appointmentUrl, config)
+      .get(appointmentTimeUrl, config)
       .then((response) => {
         console.log(response);
         dispatch({
@@ -35,7 +35,19 @@ export function getAppointmentTime() {
           payload: response.data,
         });
       })
-      .catch((error) => console.log(error.response));
+      .catch((error) => {
+        const errorType = error.response.data;
+
+        if (errorType === 'OWNER_PROFILE_NOT_FOUND') {
+          dispatch({ type: errorType, payload: errorType });
+        }
+
+        if (errorType === 'APPOINTMENT_TIME_NOT_FOUND') {
+          dispatch({ type: errorType, payload: errorType });
+        }
+
+        console.log(error.response);
+      });
   };
 }
 
