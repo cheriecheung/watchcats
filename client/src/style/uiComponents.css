@@ -204,3 +204,9 @@ ant-tabs-tab-remove:active {
   top: -10px !important;
   right: -10px !important;
 }
+
+/* ------------------- sitter profile page : request modal ------------------- */
+
+.request-modal-style {
+  width: 700px !important;
+}

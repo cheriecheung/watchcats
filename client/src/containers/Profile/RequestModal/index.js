@@ -1,23 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { Modal } from 'antd';
+import { useForm, FormProvider } from 'react-hook-form';
+import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Modal } from 'antd';
+import { DatePicker, FieldLabel, TimePicker } from '../../../components/FormComponents';
+import moment from 'moment';
+import CreateAppointmentTime from './CreateAppointmentTime';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 function RequestModal({ modalVisible, closeModal, error, appointmentTime, handleSendRequest }) {
+  const { t } = useTranslation();
+
   useEffect(() => {
     console.log({ error });
   }, [error]);
+
   return (
     <Modal
       //  title=""
       visible={modalVisible}
       onOk={handleSendRequest}
+      okText={t('sitter_profile.send_request')}
       onCancel={closeModal}
+      className="request-modal-style"
     >
       <br />
       {error === 'OWNER_PROFILE_NOT_FOUND' && <OwnerProfileError />}
-      {error === 'APPOINTMENT_TIME_NOT_FOUND' && <AppointmentTimeError />}
+      {error === 'APPOINTMENT_TIME_NOT_FOUND' && (
+        <CreateAppointmentTime
+          t={t}
+          oneDayPrice={11}
+          overnightPrice={25}
+          modalVisible={modalVisible}
+        />
+      )}
     </Modal>
   );
 }
@@ -36,8 +54,4 @@ function OwnerProfileError() {
       </h6>
     </>
   );
-}
-
-function AppointmentTimeError() {
-  return <h6>rhrher</h6>;
 }

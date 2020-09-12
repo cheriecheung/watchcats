@@ -18,6 +18,7 @@ import { getAppointmentTime, sendBookingRequest } from '../../_actions/bookingAc
 import GoogleMap from '../../components/GoogleMap';
 import moment from 'moment';
 import RequestModal from './RequestModal';
+import { useTranslation } from 'react-i18next';
 
 const allReviews = [];
 for (let i = 0; i < 23; i++) {
@@ -29,6 +30,8 @@ const allLocations = { id: 1, name: 'Cat Owner #1', lat: 52.3449, lng: 4.8766 };
 function CatSitter() {
   const { id } = useParams();
   const reviewListRef = useRef(null);
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const { data: sitterData } = useSelector((state) => state.account);
   const { error: errorType } = useSelector((state) => state.booking);
@@ -36,7 +39,7 @@ function CatSitter() {
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
   const [sitterInfo, setSitterInfo] = useState({});
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(true);
 
   useEffect(() => {
     console.log({ errorType });
@@ -182,14 +185,19 @@ function CatSitter() {
               <h5>€ {sitterInfo.priceOvernight}</h5> per night
             </span>
 
-            <ThemeButton onClick={handleSendMessage}>Send message</ThemeButton>
-            <ThemeButton onClick={() => setModalVisible(true)}>Send request</ThemeButton>
+            <ThemeButton onClick={handleSendMessage}>
+              {t('sitter_profile.send_message')}
+            </ThemeButton>
+            <ThemeButton onClick={() => setModalVisible(true)}>
+              {t('sitter_profile.request_appointment')}
+            </ThemeButton>
 
             <RequestModal
               modalVisible={modalVisible}
               closeModal={() => setModalVisible(false)}
               error={errorType}
               // appointmentTime={appointmentTime}
+              // location={location}
               handleSendRequest={handleSendRequest}
             />
           </SummaryCard>

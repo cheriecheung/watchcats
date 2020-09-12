@@ -6,6 +6,6 @@ const Label = styled.label`
   color: rgba(0, 0, 0, 0.7);
 `;
 
-export default function FieldLabel({ children }) {
-  return <Label>{children}</Label>;
+export default function FieldLabel({ children, customStyle }) {
+  return <Label style={customStyle}>{children}</Label>;
 }

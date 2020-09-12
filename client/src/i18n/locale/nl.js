@@ -73,7 +73,10 @@ export default {
 
   sitter_profile: {
     send_message: 'Stuur bericht',
-    send_request: 'Send request for sitting job',
+    request_appointment: 'Send request for sitting job',
+    appointment_type: 'Appointment type',
+    send_request: 'Send request',
+    appointment_fee: 'Appointment fee',
 
     location: 'Location',
     feedback: 'Feedback from cat owners',
