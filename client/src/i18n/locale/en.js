@@ -75,6 +75,8 @@ export default {
     send_message: 'Send message',
     request_appointment: 'Request an appointment',
     appointment_type: 'Appointment type',
+    one_day: 'One day',
+    overnight: 'Overnight',
     send_request: 'Send request',
     appointment_fee: 'Appointment fee',
 

@@ -22,16 +22,30 @@ module.exports = {
 
         if (!ownerIdObj) return res.status(404).json('OWNER_PROFILE_NOT_FOUND');
 
-        const allOneDays = await AppointmentOneDay.find({
+        const oneDayRecords = await AppointmentOneDay.find({
           owner: ownerIdObj,
         });
-        const allOvernight = await AppointmentOvernight.find({
+        const overnightRecords = await AppointmentOvernight.find({
           owner: ownerIdObj,
         });
 
-        if ((allOneDays.length === 0) & (allOvernight.length === 0)) {
+        if ((oneDayRecords.length === 0) & (overnightRecords.length === 0)) {
           return res.status(404).json('APPOINTMENT_TIME_NOT_FOUND');
         }
+
+        const allOneDays = oneDayRecords.map(({ id, date, startTime, endTime }) => ({
+          id,
+          date,
+          startTime,
+          endTime,
+        }));
+        const allOvernight = overnightRecords.map(({ id, startDate, endDate }) => ({
+          id,
+          startDate,
+          endDate,
+        }));
+
+        return res.status(200).json({ allOneDays, allOvernight });
       });
   },
 

@@ -4,6 +4,8 @@ export function booking(state = {}, action) {
       return { error: action.payload };
     case 'OWNER_PROFILE_NOT_FOUND':
       return { error: action.payload };
+    case 'GET_APPOINTMENT_TIME':
+      return { appointmentTime: action.payload };
     case 'GET_SITTING_JOB_BOOKINGS':
       return { data: action.payload };
     case 'DECLINE_BOOKING':

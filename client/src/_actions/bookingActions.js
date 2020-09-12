@@ -36,6 +36,8 @@ export function getAppointmentTime() {
         });
       })
       .catch((error) => {
+        console.log({ error });
+
         const errorType = error.response.data;
 
         if (errorType === 'OWNER_PROFILE_NOT_FOUND') {
@@ -45,8 +47,6 @@ export function getAppointmentTime() {
         if (errorType === 'APPOINTMENT_TIME_NOT_FOUND') {
           dispatch({ type: errorType, payload: errorType });
         }
-
-        console.log(error.response);
       });
   };
 }
