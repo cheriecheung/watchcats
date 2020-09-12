@@ -15,10 +15,7 @@ function RequestModal({
   handleSendRequest,
 }) {
   const { t } = useTranslation();
-
-  useEffect(() => {
-    console.log({ appointmentTime });
-  }, [appointmentTime]);
+  const [appointmentData, setAppointmentData] = useState({});
 
   const modalOkText = error === 'OWNER_PROFILE_NOT_FOUND' ? 'Ok' : t('sitter_profile.send_request');
   const modalCancelButton =
@@ -30,29 +27,32 @@ function RequestModal({
     <Modal
       //  title=""
       visible={modalVisible}
-      onOk={handleSendRequest}
+      onOk={() => handleSendRequest(appointmentData)}
       okText={modalOkText}
       onCancel={closeModal}
       cancelButtonProps={modalCancelButton}
       className="request-modal-style"
+      maskClosable={false}
     >
       <br />
 
-      {appointmentTime && (
+      {/* {appointmentTime && (
         <SelectAppointmentTime
           t={t}
           appointmentTime={appointmentTime}
           oneDayPrice={oneDayPrice}
           overnightPrice={overnightPrice}
+          setAppointmentData={setAppointmentData}
         />
-      )}
+      )} */}
 
-      {error === 'APPOINTMENT_TIME_NOT_FOUND' && (
+      {appointmentTime && (
         <CreateAppointmentTime
           t={t}
           oneDayPrice={oneDayPrice}
           overnightPrice={overnightPrice}
           modalVisible={modalVisible}
+          setAppointmentData={setAppointmentData}
         />
       )}
 

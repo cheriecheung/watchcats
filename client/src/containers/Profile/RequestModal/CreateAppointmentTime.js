@@ -14,6 +14,7 @@ const defaultButtonStyle = {
 };
 
 const clickedButtonStyle = {
+  ...defaultButtonStyle,
   fontWeight: 'bold',
   color: '#ffa195',
   borderBottom: '2px solid #ffa195',
@@ -23,61 +24,93 @@ const defaultValues = {
   type: 'oneDay',
   oneDay: { date: '', startTime: '', endTime: '' },
   overnight: { startDate: '', endDate: '' },
+  price: 'To be calculated',
 };
 
-function CreateAppointmentTime({ t, oneDayPrice, overnightPrice, modalVisible }) {
+function CreateAppointmentTime({
+  t,
+  oneDayPrice,
+  overnightPrice,
+  modalVisible,
+  setAppointmentData,
+}) {
   const methods = useForm({ defaultValues });
-  const { register, control, handleSubmit, reset, watch } = methods;
+  const { register, control, handleSubmit, setValue, reset, watch } = methods;
+  const type = watch('type');
+  const oneDayDate = watch('oneDay.date');
   const oneDayStartTime = watch('oneDay.startTime');
   const oneDayEndTime = watch('oneDay.endTime');
   const overnightStartDate = watch('overnight.startDate');
   const overnightEndDate = watch('overnight.endDate');
+  const price = watch('price');
 
-  const [appointmentType, setAppointmentType] = useState('oneDay');
   const [oneDayStyle, setOneDayStyle] = useState(defaultButtonStyle);
   const [overnightStyle, setOvernightStyle] = useState(defaultButtonStyle);
-  const [price, setPrice] = useState('To be calculated');
 
   const onSubmit = (data) => console.log(data);
 
   useEffect(() => {
-    if (oneDayStartTime && oneDayEndTime) {
-      const value = calculateOneDayPrice(oneDayStartTime, oneDayEndTime, oneDayPrice);
-      setPrice(value);
+    register({ name: 'price' });
+  }, [register]);
+
+  useEffect(() => {
+    if (oneDayDate && oneDayStartTime && oneDayEndTime) {
+      const priceValue = calculateOneDayPrice(oneDayStartTime, oneDayEndTime, oneDayPrice);
+
+      if (typeof priceValue === 'number') {
+        setValue('price', `€ ${priceValue}, 00`);
+      } else {
+        setValue('price', priceValue);
+      }
+
+      setAppointmentData({
+        type,
+        date: oneDayDate,
+        startTime: oneDayStartTime,
+        endTime: oneDayEndTime,
+        price: priceValue,
+      });
     }
   }, [oneDayStartTime, oneDayEndTime]);
 
   useEffect(() => {
     if (overnightStartDate && overnightEndDate) {
-      const value = calculateOvernightPrice(overnightStartDate, overnightEndDate, overnightPrice);
-      setPrice(value);
+      const priceValue = calculateOvernightPrice(
+        overnightStartDate,
+        overnightEndDate,
+        overnightPrice
+      );
+
+      if (typeof priceValue === 'number') {
+        setValue('price', `€ ${priceValue}, 00`);
+      } else {
+        setValue('price', priceValue);
+      }
+
+      setAppointmentData({
+        type,
+        startDate: overnightStartDate,
+        endDate: overnightEndDate,
+        price: priceValue,
+      });
     }
   }, [overnightStartDate, overnightEndDate]);
 
   useEffect(() => {
-    if (appointmentType === 'oneDay') {
-      setOneDayStyle({
-        ...defaultButtonStyle,
-        ...clickedButtonStyle,
-      });
+    if (type === 'oneDay') {
+      setOneDayStyle(clickedButtonStyle);
       setOvernightStyle(defaultButtonStyle);
-      setPrice('To be calculated');
     }
 
-    if (appointmentType === 'overnight') {
-      setOvernightStyle({
-        ...defaultButtonStyle,
-        ...clickedButtonStyle,
-      });
+    if (type === 'overnight') {
+      setOvernightStyle(clickedButtonStyle);
       setOneDayStyle(defaultButtonStyle);
-      setPrice('To be calculated');
     }
-  }, [appointmentType]);
+  }, [type]);
 
   useEffect(() => {
     if (!modalVisible) {
       reset(defaultValues);
-      setPrice('To be calculated');
     }
   }, [modalVisible]);
 
@@ -95,10 +128,10 @@ function CreateAppointmentTime({ t, oneDayPrice, overnightPrice, modalVisible })
           </b>
         </Col>
         <Col md={9} style={{ marginBottom: 25 }}>
-          <button style={oneDayStyle} onClick={() => setAppointmentType('oneDay')}>
+          <button style={oneDayStyle} onClick={() => reset({ type: 'oneDay' })}>
             One day
           </button>
-          <button style={overnightStyle} onClick={() => setAppointmentType('overnight')}>
+          <button style={overnightStyle} onClick={() => reset({ type: 'overnight' })}>
             Overnight
           </button>
         </Col>
@@ -106,7 +139,7 @@ function CreateAppointmentTime({ t, oneDayPrice, overnightPrice, modalVisible })
 
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {appointmentType === 'oneDay' ? (
+          {type === 'oneDay' ? (
             <Row>
               <Col md={6}>
                 <div className="d-flex flex-column date-picker">

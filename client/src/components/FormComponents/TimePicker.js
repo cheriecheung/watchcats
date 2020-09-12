@@ -21,7 +21,8 @@ export default function TimePicker({ name }) {
         name={name}
         render={() => (
           <AntTimePicker
-            defaultOpenValue={moment('00:00:00', 'HH:mm')}
+            //defaultOpenValue={moment('00:00:00', 'HH:mm')}
+            defaultValue={moment('00:00:00', 'HH:mm')}
             format="HH:mm"
             placeholder=""
             showNow={false}

@@ -39,7 +39,7 @@ function CatSitter() {
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
   const [sitterInfo, setSitterInfo] = useState({});
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -76,15 +76,24 @@ function CatSitter() {
     dispatch(getChatConversation);
   };
 
-  const handleSendRequest = () => {
-    const bookingDetails = {
+  const handleSendRequest = (data) => {
+    console.log({ data });
+
+    const body = {
+      ...data,
       sitterId: id,
-      location: 'Amsterdam Zuid',
-      time: { startDate: moment('12-12-2020'), endDate: moment('12-12-2020') },
-      price: 26,
     };
 
-    dispatch(sendBookingRequest(bookingDetails));
+    console.log({ body });
+
+    // const bookingDetails = {
+    //   sitterId: id,
+    //   location: 'Amsterdam Zuid',
+    //   time: { startDate: moment('12-12-2020'), endDate: moment('12-12-2020') },
+    //   price: 26,
+    // };
+
+    // dispatch(sendBookingRequest(bookingDetails));
   };
 
   return (

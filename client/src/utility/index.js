@@ -12,7 +12,7 @@ export function calculateOneDayPrice(startTime, endTime, pricePerHour) {
     return 'To be calculated';
   } else {
     const calculatePrice = roundUpTotalHours * pricePerHour;
-    return `€ ${calculatePrice}, 00`;
+    return calculatePrice;
   }
 }
 
@@ -27,6 +27,6 @@ export function calculateOvernightPrice(startDate, endDate, pricePerNight) {
     return 'To be calculated';
   } else {
     const calculatePrice = totalNights * pricePerNight;
-    return `€ ${calculatePrice}, 00`;
+    return calculatePrice;
   }
 }

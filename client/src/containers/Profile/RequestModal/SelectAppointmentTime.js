@@ -5,7 +5,13 @@ import { calculateOneDayPrice, calculateOvernightPrice } from '../../../utility'
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-function SelectAppointmentTime({ t, appointmentTime, oneDayPrice, overnightPrice }) {
+function SelectAppointmentTime({
+  t,
+  appointmentTime,
+  oneDayPrice,
+  overnightPrice,
+  setAppointmentData,
+}) {
   const { allOneDays = [], allOvernight = [] } = appointmentTime;
   const [price, setPrice] = useState('To be calculated');
 
@@ -16,16 +22,20 @@ function SelectAppointmentTime({ t, appointmentTime, oneDayPrice, overnightPrice
       const startTime = allOneDays[index].startTime;
       const endTime = allOneDays[index].endTime;
 
-      const value = calculateOneDayPrice(startTime, endTime, oneDayPrice);
-      setPrice(value);
+      const priceValue = calculateOneDayPrice(startTime, endTime, oneDayPrice);
+      setPrice(`€ ${priceValue}, 00`);
+
+      setAppointmentData({ type, startTime, endTime, price: priceValue });
     }
 
     if (type === 'overnight') {
       const startDate = allOvernight[index].startDate;
       const endDate = allOvernight[index].endDate;
 
-      const value = calculateOvernightPrice(startDate, endDate, overnightPrice);
-      setPrice(value);
+      const priceValue = calculateOvernightPrice(startDate, endDate, overnightPrice);
+      setPrice(`€ ${priceValue}, 00`);
+
+      setAppointmentData({ type, startDate, endDate, price: priceValue });
     }
   };
 
