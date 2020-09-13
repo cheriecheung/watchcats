@@ -31,6 +31,12 @@ const bookingSchema = new Schema({
   status: {
     type: String,
   },
+  hasPaid: {
+    type: Boolean,
+  },
+  hasWrittenReview: {
+    type: Boolean,
+  },
   createdAt: {
     type: Date,
     default: Date.now(),

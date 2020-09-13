@@ -49,15 +49,18 @@ module.exports = {
       });
   },
 
-  sendRequest: async (req, res) => {
-    const ownerId = req.headers['authorization'];
-    const { sitterId, type } = req.body;
+  sendBookingRequest: async (req, res) => {
+    const ownerUserId = req.headers['authorization'];
 
-    const sitterRecord = await User.findOne({ urlId: sitterId });
-    if (!sitterRecord) return res.status(404).json('Sitter not found');
+    const { sitterId: sitterShortId, type } = req.body;
 
-    const ownerObjId = mongoose.Types.ObjectId(ownerId);
-    const sitterObjId = sitterRecord._id;
+    const [{ owner: ownerObjId }, { sitter: sitterObjId }] = await Promise.all([
+      User.findById(ownerUserId),
+      User.findOne({ urlId: sitterShortId }),
+    ]);
+
+    if (!ownerObjId || !sitterObjId)
+      return res.status(404).json('Unable to identity sitter or owner profile.');
 
     //location
 
@@ -82,11 +85,24 @@ module.exports = {
       });
     }
 
-    // await newBooking.save((err) => {
-    //   if (err) {
-    //     console.log({ err });
-    //   }
-    //   return res.status(201).json('Booking request successfully created');
-    // });
+    if (type === 'overnight') {
+      const { startDate, endDate, price } = req.body;
+
+      const newBooking = new Booking({
+        owner: ownerObjId,
+        sitter: sitterObjId,
+        startDate,
+        endDate,
+        price,
+        status: 'requested',
+      });
+
+      await newBooking.save((err) => {
+        if (err) {
+          console.log({ err });
+        }
+        return res.status(201).json('Booking request successfully created');
+      });
+    }
   },
 };

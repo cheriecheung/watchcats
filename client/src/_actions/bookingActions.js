@@ -5,7 +5,7 @@ const cookies = new Cookies();
 const { REACT_APP_API_DOMAIN } = process.env;
 
 const appointmentTimeUrl = `${REACT_APP_API_DOMAIN}/booking/time`;
-const requestUrl = `${REACT_APP_API_DOMAIN}/booking/request`;
+const bookingRequestUrl = `${REACT_APP_API_DOMAIN}/booking/request`;
 
 const sittingJobBookingsURL = `${REACT_APP_API_DOMAIN}/booking/sitting-job`;
 const sittingServiceBookingsUrl = `${REACT_APP_API_DOMAIN}/booking/sitting-service`;
@@ -54,7 +54,7 @@ export function getAppointmentTime() {
 export function sendBookingRequest(data) {
   return (dispatch) => {
     axios
-      .post(requestUrl, data, config)
+      .post(bookingRequestUrl, data, config)
       .then((response) => {
         console.log(response);
         dispatch({
