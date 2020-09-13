@@ -17,7 +17,7 @@ import {
 import { themeColor } from '../../style/theme';
 import { catBreedOptions, personalityOptions, medicineOptions } from '../../constants';
 import styled from 'styled-components';
-import { getOwner, saveOwner } from '../../_actions/accountActions';
+import { getOwnerAccount, saveOwner } from '../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -58,7 +58,7 @@ const defaultValues = {
   catsDescription: '',
 };
 
-function OwnerProfile() {
+function OwnerProfile({ activeKey }) {
   const { t } = useTranslation();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -88,8 +88,10 @@ function OwnerProfile() {
   };
 
   useEffect(() => {
-    dispatch(getOwner());
-  }, [dispatch]);
+    if (activeKey === 'owner' && id) {
+      dispatch(getOwnerAccount(id));
+    }
+  }, [activeKey, dispatch]);
 
   const { data: ownerData } = useSelector((state) => state.account);
 
@@ -114,7 +116,7 @@ function OwnerProfile() {
     }
   }, [ownerData, reset]);
 
-  const onSubmit = (data) => dispatch(saveOwner(data));
+  const onSubmit = (data) => dispatch(saveOwner(id, data));
   // const onSubmit = (data) => console.log(data);
 
   const color = '#252525';

@@ -10,7 +10,8 @@ const sitterProfileURL = (id) => `${REACT_APP_API_DOMAIN}/sitter/profile/${id}`;
 const ownerAccountURL = (id) => `${REACT_APP_API_DOMAIN}/owner/account/${id}`;
 const ownerProfileURL = (id) => `${REACT_APP_API_DOMAIN}/owner/profile/${id}`;
 
-const ownerURL = `${process.env.REACT_APP_API_DOMAIN}/owner`;
+// const ownerURL = `${process.env.REACT_APP_API_DOMAIN}/owner`;
+
 const config = {
   withCredentials: true,
   headers: {
@@ -81,7 +82,7 @@ export function getSitterProfile(id) {
 export function getSitterAccount(id) {
   return (dispatch) => {
     axios
-      .get(sitterAccountURL(id))
+      .get(sitterAccountURL(id), config)
       .then((response) => {
         console.log(response);
         dispatch({
@@ -93,7 +94,7 @@ export function getSitterAccount(id) {
   };
 }
 
-export function saveSitterAccount(id, data) {
+export function saveSitter(id, data) {
   console.log({ data });
   return (dispatch) => {
     axios
@@ -110,10 +111,10 @@ export function saveSitterAccount(id, data) {
   };
 }
 
-export function getOwner() {
+export function getOwnerAccount(id) {
   return (dispatch) => {
     axios
-      .get(ownerURL, config)
+      .get(ownerAccountURL(id), config)
       .then(({ data }) => {
         dispatch({
           type: 'GET_PROFILE',
@@ -124,11 +125,11 @@ export function getOwner() {
   };
 }
 
-export function saveOwner(data) {
+export function saveOwner(id, data) {
   console.log({ data });
   return (dispatch) => {
     axios
-      .post(ownerURL, data, config)
+      .post(ownerAccountURL(id), data, config)
       .then((response) => {
         console.log(response);
         dispatch({

@@ -15,7 +15,7 @@ import {
 } from '../../components/FormComponents';
 import { themeColor } from '../../style/theme';
 import { priceOneDayOptions, priceOvernightOptions } from '../../constants';
-import { getSitterAccount, saveSitterAccount } from '../../_actions/accountActions';
+import { getSitterAccount, saveSitter } from '../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -38,7 +38,7 @@ const defaultValues = {
   emergencyNumber: '',
 };
 
-function SitterProfile() {
+function SitterProfile({ activeKey }) {
   const { t } = useTranslation();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -60,10 +60,10 @@ function SitterProfile() {
   };
 
   useEffect(() => {
-    if (id) {
+    if (activeKey === 'sitter' && id) {
       dispatch(getSitterAccount(id));
     }
-  }, [dispatch]);
+  }, [activeKey, dispatch]);
 
   const { data: sitterData } = useSelector((state) => state.account);
 
@@ -112,7 +112,7 @@ function SitterProfile() {
       priceOvernight: data.priceOvernight.value,
     };
 
-    dispatch(saveSitterAccount(id, cleanedData));
+    dispatch(saveSitter(id, cleanedData));
   };
   // const onSubmit = (data) => console.log(data);
 

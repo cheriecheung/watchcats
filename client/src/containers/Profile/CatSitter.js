@@ -77,23 +77,11 @@ function CatSitter() {
   };
 
   const handleSendRequest = (data) => {
-    console.log({ data });
-
     const body = {
       ...data,
       sitterId: id,
     };
-
-    console.log({ body });
-
-    // const bookingDetails = {
-    //   sitterId: id,
-    //   location: 'Amsterdam Zuid',
-    //   time: { startDate: moment('12-12-2020'), endDate: moment('12-12-2020') },
-    //   price: 26,
-    // };
-
-    // dispatch(sendBookingRequest(bookingDetails));
+    dispatch(sendBookingRequest(body));
   };
 
   return (

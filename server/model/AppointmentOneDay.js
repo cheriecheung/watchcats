@@ -8,15 +8,15 @@ const appointmentOneDaySchema = new Schema({
     required: false,
   },
   date: {
-    type: String,
+    type: Date,
     required: false,
   },
   startTime: {
-    type: String,
+    type: Date,
     required: false,
   },
   endTime: {
-    type: String,
+    type: Date,
     required: false,
   },
   createdAt: {

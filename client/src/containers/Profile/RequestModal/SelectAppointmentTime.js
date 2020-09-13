@@ -19,13 +19,14 @@ function SelectAppointmentTime({
     const [type, index] = e.target.value.split('.');
 
     if (type === 'oneDay') {
+      const date = allOneDays[index].date;
       const startTime = allOneDays[index].startTime;
       const endTime = allOneDays[index].endTime;
 
       const priceValue = calculateOneDayPrice(startTime, endTime, oneDayPrice);
       setPrice(`€ ${priceValue}, 00`);
 
-      setAppointmentData({ type, startTime, endTime, price: priceValue });
+      setAppointmentData({ type, date, startTime, endTime, price: priceValue });
     }
 
     if (type === 'overnight') {

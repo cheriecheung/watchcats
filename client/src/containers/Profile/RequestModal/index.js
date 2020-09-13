@@ -36,7 +36,7 @@ function RequestModal({
     >
       <br />
 
-      {/* {appointmentTime && (
+      {appointmentTime && (
         <SelectAppointmentTime
           t={t}
           appointmentTime={appointmentTime}
@@ -44,9 +44,9 @@ function RequestModal({
           overnightPrice={overnightPrice}
           setAppointmentData={setAppointmentData}
         />
-      )} */}
+      )}
 
-      {appointmentTime && (
+      {error === 'APPOINTMENT_TIME_NOT_FOUND' && (
         <CreateAppointmentTime
           t={t}
           oneDayPrice={oneDayPrice}

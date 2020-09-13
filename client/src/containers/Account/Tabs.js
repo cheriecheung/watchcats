@@ -15,16 +15,31 @@ const Container = styled.div`
   margin: 5% 3% 3% 3%;
 `;
 
+const defaultKey = 'general';
+
 function ProfileTabs() {
   const { t } = useTranslation();
   const { screenWidth } = ScreenWidthListener();
   const [tabPosition, setTabPosition] = useState('');
+  const [activeKey, setActiveKey] = useState(defaultKey);
 
   const accountTabs = [
-    { key: 'general', tab: t('account.general_info'), content: <GeneralInfo /> },
-    { key: 'sitter', tab: t('account.sitter_profile'), content: <SitterProfile /> },
-    { key: 'owner', tab: t('account.owner_profile'), content: <OwnerProfile /> },
-    { key: 'settings', tab: t('account.settings'), content: <Settings /> },
+    {
+      key: 'general',
+      tab: t('account.general_info'),
+      content: <GeneralInfo activeKey={activeKey} />,
+    },
+    {
+      key: 'sitter',
+      tab: t('account.sitter_profile'),
+      content: <SitterProfile activeKey={activeKey} />,
+    },
+    {
+      key: 'owner',
+      tab: t('account.owner_profile'),
+      content: <OwnerProfile activeKey={activeKey} />,
+    },
+    { key: 'settings', tab: t('account.settings'), content: <Settings activeKey={activeKey} /> },
   ];
 
   useEffect(() => {
@@ -36,7 +51,12 @@ function ProfileTabs() {
   }, [screenWidth]);
 
   return (
-    <Tabs defaultActiveKey="owner" tabPosition={tabPosition} className="vertical-tabs">
+    <Tabs
+      defaultActiveKey={defaultKey}
+      tabPosition={tabPosition}
+      className="vertical-tabs"
+      onChange={(key) => setActiveKey(key)}
+    >
       {accountTabs.map(({ key, tab, content }) => (
         <TabPane tab={tab} key={key}>
           <Container>{content}</Container>

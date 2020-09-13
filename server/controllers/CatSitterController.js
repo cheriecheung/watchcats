@@ -29,6 +29,8 @@ module.exports = {
   },
 
   getAccount: async (req, res) => {
+    // and get userId in header
+
     User.findOne({ urlId: req.params.id })
       .populate('sitter')
       .exec(async (err, user) => {
@@ -123,6 +125,7 @@ module.exports = {
 
             unavailableDatesData.forEach((date, index) => {
               if (!allDays.includes(date)) {
+                // CHANGE MOMENT DATE TO JS DATE
                 const newDate = new UnavailableDate({
                   sitter: sitterIdObj,
                   date,

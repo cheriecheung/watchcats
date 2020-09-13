@@ -36,7 +36,7 @@ const defaultValues = {
   profileOther: '',
 };
 
-function GeneralInfo() {
+function GeneralInfo({ activeKey }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { data: userData } = useSelector((state) => state.account);
@@ -45,8 +45,10 @@ function GeneralInfo() {
   const { register, handleSubmit, reset } = methods;
 
   useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
+    if (activeKey === 'general') {
+      dispatch(getUser());
+    }
+  }, [activeKey, dispatch]);
 
   useEffect(() => {
     if (userData) {

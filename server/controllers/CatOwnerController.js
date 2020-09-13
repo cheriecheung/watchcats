@@ -6,8 +6,14 @@ const AppointmentOneDay = require('../model/AppointmentOneDay');
 const AppointmentOvernight = require('../model/AppointmentOvernight');
 
 module.exports = {
-  get: async (req, res) => {
+  getProfile: async (req, res) => {
+    console.log('getting owner profile...');
+  },
+
+  getAccount: async (req, res) => {
     const userId = req.headers['authorization'];
+
+    console.log({ userId });
 
     // ---------------- if (user.owner)
 
@@ -18,6 +24,7 @@ module.exports = {
       .populate('owner')
       .exec(async (err, user) => {
         if (err) return err;
+        if (!user.owner) return res.status(404).json('No owner found');
 
         const {
           owner: { _id: ownerId, aboutMe, catsDescription },
@@ -88,7 +95,7 @@ module.exports = {
       });
   },
 
-  post: async (req, res) => {
+  postAccount: async (req, res) => {
     const userId = req.headers['authorization'];
     const user = await User.findById(userId);
     const {
@@ -108,11 +115,15 @@ module.exports = {
 
       if (oneDay.length > 0) {
         oneDay.forEach(async ({ date, startTime, endTime }) => {
+          const dateObj = new Date(date);
+          const startTimeObj = new Date(`${date} ${startTime}`);
+          const endTimeObj = new Date(`${date} ${endTime}`);
+
           const newOneDay = new AppointmentOneDay({
             owner: newOwner._id,
-            date,
-            startTime,
-            endTime,
+            date: dateObj,
+            startTime: startTimeObj,
+            endTime: endTimeObj,
           });
           await newOneDay.save();
         });
@@ -120,10 +131,13 @@ module.exports = {
 
       if (overnight.length > 0) {
         overnight.forEach(async ({ startDate, endDate }) => {
+          const startDateObj = new Date(startDate);
+          const endDateObj = new Date(endDate);
+
           const newOvernight = new AppointmentOvernight({
             owner: newOwner._id,
-            startDate,
-            endDate,
+            startDate: startDateObj,
+            endDate: endDateObj,
           });
           await newOvernight.save();
         });

@@ -8,11 +8,11 @@ const appointmentOvernightSchema = new Schema({
     required: false,
   },
   startDate: {
-    type: String,
+    type: Date,
     required: false,
   },
   endDate: {
-    type: String,
+    type: Date,
     required: false,
   },
   createdAt: {
@@ -22,7 +22,4 @@ const appointmentOvernightSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model(
-  'AppointmentOvernight',
-  appointmentOvernightSchema
-);
+module.exports = mongoose.model('AppointmentOvernight', appointmentOvernightSchema);

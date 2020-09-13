@@ -55,8 +55,8 @@ function App() {
             <Route path="/about" component={About} />
             <Route path="/login" component={Login} />
             <Route path="/activate/:token?" component={VerifyEmail} />
-            <Route path="/profile/catsitter/:id" component={CatSitter} />
-            <Route path="/profile/catowner/:id" component={CatOwner} />
+            <PrivateRoute path="/profile/catsitter/:id" component={CatSitter} />
+            <PrivateRoute path="/profile/catowner/:id" component={CatOwner} />
             <PrivateRoute path="/bookings" component={Bookings} />
             <PrivateRoute path="/writereivew/:id?" component={WriteReview} />
             <PrivateRoute path="/messages/:id?" component={Messages} />
