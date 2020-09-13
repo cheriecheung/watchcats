@@ -15,7 +15,7 @@ const Container = styled.div`
   margin: 5% 3% 3% 3%;
 `;
 
-const defaultKey = 'general';
+const defaultKey = 'owner';
 
 function ProfileTabs() {
   const { t } = useTranslation();
@@ -56,9 +56,10 @@ function ProfileTabs() {
       tabPosition={tabPosition}
       className="vertical-tabs"
       onChange={(key) => setActiveKey(key)}
+      style={{ marginTop: 10 }}
     >
       {accountTabs.map(({ key, tab, content }) => (
-        <TabPane tab={tab} key={key}>
+        <TabPane tab={tab} key={key} style={{ marginBottom: 50 }}>
           <Container>{content}</Container>
         </TabPane>
       ))}

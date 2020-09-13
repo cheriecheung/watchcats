@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'reactstrap';
 import moment from 'moment';
 import { calculateOneDayPrice, calculateOvernightPrice } from '../../../utility';
@@ -24,7 +24,11 @@ function SelectAppointmentTime({
       const endTime = allOneDays[index].endTime;
 
       const priceValue = calculateOneDayPrice(startTime, endTime, oneDayPrice);
-      setPrice(`€ ${priceValue}, 00`);
+      if (typeof priceValue === 'number') {
+        setPrice(`€ ${priceValue}, 00`);
+      } else {
+        setPrice(priceValue);
+      }
 
       setAppointmentData({ type, date, startTime, endTime, price: priceValue });
     }
@@ -34,7 +38,11 @@ function SelectAppointmentTime({
       const endDate = allOvernight[index].endDate;
 
       const priceValue = calculateOvernightPrice(startDate, endDate, overnightPrice);
-      setPrice(`€ ${priceValue}, 00`);
+      if (typeof priceValue === 'number') {
+        setPrice(`€ ${priceValue}, 00`);
+      } else {
+        setPrice(priceValue);
+      }
 
       setAppointmentData({ type, startDate, endDate, price: priceValue });
     }
@@ -55,7 +63,11 @@ function SelectAppointmentTime({
           </Col>
           <Col md={8}>
             {allOneDays.map(({ id, date, startTime, endTime }, index) => {
-              const dateConverted = moment(date, 'YYYY-MM-DD').format('DD MMM YYYY');
+              //const dateConverted = moment(date, 'YYYY-MM-DD').format('DD MMM YYYY');
+              //const startTimeObj = moment(new Date(startTime)).format('HH:mm');
+              const dateConverted = moment(date).format('DD MMM YYYY');
+              const startTimeObj = moment(startTime).format('HH:mm');
+              const endTimeObj = moment(endTime).format('HH:mm');
 
               return (
                 <div key={id} style={{ marginBottom: 5 }}>
@@ -67,7 +79,7 @@ function SelectAppointmentTime({
                       style={{ marginRight: 10 }}
                       onClick={handleSelectTime}
                     />
-                    {dateConverted}, {startTime} - {endTime}
+                    {dateConverted}, {startTimeObj} - {endTimeObj}
                   </label>
                 </div>
               );

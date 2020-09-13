@@ -15,6 +15,8 @@ export default function TimePicker({ name }) {
 
   const selectedTime = watch(name);
 
+  console.log({ selectedTime });
+
   return (
     <>
       <Controller
@@ -30,8 +32,8 @@ export default function TimePicker({ name }) {
             disabledHours={() => [0, 1, 2, 3, 4, 23]}
             disabledSeconds={() => allSeconds()}
             hideDisabledOptions={true}
-            onChange={(date, timeString) => setValue(name, timeString)}
-            value={selectedTime ? moment(selectedTime, 'hh:mm') : null}
+            onChange={(date, timeString) => setValue(name, new Date(`1970-01-01 ${timeString}`))}
+            value={selectedTime ? moment(new Date(selectedTime), 'hh:mm') : null}
           />
         )}
         control={control}

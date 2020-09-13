@@ -1,8 +1,8 @@
 import moment from 'moment';
 
 export function calculateOneDayPrice(startTime, endTime, pricePerHour) {
-  const startTimeObj = moment(startTime, 'HH:mm');
-  const endTimeObj = moment(endTime, 'HH:mm');
+  const startTimeObj = moment(startTime);
+  const endTimeObj = moment(endTime);
 
   const totalHours = moment.duration(endTimeObj.diff(startTimeObj)).asHours();
   const roundUpTotalHours = Math.ceil(totalHours);
@@ -12,13 +12,14 @@ export function calculateOneDayPrice(startTime, endTime, pricePerHour) {
     return 'To be calculated';
   } else {
     const calculatePrice = roundUpTotalHours * pricePerHour;
+    console.log({ calculatePrice });
     return calculatePrice;
   }
 }
 
 export function calculateOvernightPrice(startDate, endDate, pricePerNight) {
-  const startDateObj = moment(startDate, 'YYYY-MM-DD');
-  const endDateObj = moment(endDate, 'YYYY-MM-DD');
+  const startDateObj = moment(startDate);
+  const endDateObj = moment(endDate);
 
   const totalNights = moment.duration(endDateObj.diff(startDateObj)).asDays();
 
