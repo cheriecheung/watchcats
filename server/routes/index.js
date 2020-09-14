@@ -25,7 +25,8 @@ baseRouter.get('/findConvo', async (req, res) => {
 });
 
 baseRouter.use('/', require('./auth'));
-baseRouter.use('/', require('./booking'));
+baseRouter.use('/', require('./booking_action'));
+baseRouter.use('/', require('./booking_status'));
 baseRouter.use('/', require('./cat_sitter'));
 baseRouter.use('/', require('./cat_owner'));
 baseRouter.use('/', require('./chat'));

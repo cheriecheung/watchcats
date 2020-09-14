@@ -1,4 +1,4 @@
-export function booking(state = {}, action) {
+export function booking_actions(state = {}, action) {
   switch (action.type) {
     case 'APPOINTMENT_TIME_NOT_FOUND':
       return { error: action.payload };

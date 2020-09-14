@@ -7,9 +7,6 @@ const { REACT_APP_API_DOMAIN } = process.env;
 const appointmentTimeUrl = `${REACT_APP_API_DOMAIN}/booking/time`;
 const bookingRequestUrl = `${REACT_APP_API_DOMAIN}/booking/request`;
 
-const sittingJobBookingsURL = `${REACT_APP_API_DOMAIN}/booking/sitting-job`;
-const sittingServiceBookingsUrl = `${REACT_APP_API_DOMAIN}/booking/sitting-service`;
-
 const declineUrl = (id) => `${REACT_APP_API_DOMAIN}/booking/${id}/decline`;
 const scheduleMeetupUrl = (id) => `${REACT_APP_API_DOMAIN}/booking/${id}/schedule-meetup`;
 const acceptUrl = (id) => `${REACT_APP_API_DOMAIN}/booking/${id}/accept`;
@@ -59,36 +56,6 @@ export function sendBookingRequest(data) {
         console.log(response);
         dispatch({
           type: 'SEND_BOOKING_REQUEST',
-          payload: response.data,
-        });
-      })
-      .catch((error) => console.log(error.response));
-  };
-}
-
-export function getAllSittingJobBookings() {
-  return (dispatch) => {
-    axios
-      .get(sittingJobBookingsURL, config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'GET_SITTING_JOB_BOOKINGS',
-          payload: response.data,
-        });
-      })
-      .catch((error) => console.log(error.response));
-  };
-}
-
-export function getAllSittingServiceBookings() {
-  return (dispatch) => {
-    axios
-      .get(sittingServiceBookingsUrl, config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'GET_SITTING_JOB_BOOKINGS',
           payload: response.data,
         });
       })
