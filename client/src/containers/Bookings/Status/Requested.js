@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Item from '../Item';
 import { ActionButton } from '../../../components/Bookings';
 
@@ -52,6 +52,10 @@ function Requested({
       )}
     </div>
   );
+
+  useEffect(() => {
+    console.log({ bookingType });
+  }, [bookingType]);
 
   return (
     <>

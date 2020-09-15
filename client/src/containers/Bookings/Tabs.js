@@ -6,7 +6,8 @@ import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { decline } from '../../_actions/bookingActions';
-import { Cancelled, Completed, Confirmed, Requested } from './Type';
+import { SittingJobs, SittingService } from './Types';
+import { Cancelled, Completed, Confirmed, Requested } from './Status';
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
 
@@ -37,13 +38,14 @@ function BookingTabs() {
 
   const { request = [], confirmed = [], completed = [], cancelled = [] } = bookings;
 
-  const bookingStatus = [
+  const bookingStatusTabs = [
     {
       key: 'requested',
       tab: `${t('bookings.requested')} (${request.length})`,
       content: (
         <Requested
           bookingType={bookingTypeActiveKey}
+          bookingStatusActiveKey={bookingStatusActiveKey}
           bookings={request}
           openModal={() => setModalVisible(true)}
           setModalContent={(content) => setModalContent(content)}
@@ -59,6 +61,7 @@ function BookingTabs() {
       content: (
         <Confirmed
           bookingType={bookingTypeActiveKey}
+          bookingStatusActiveKey={bookingStatusActiveKey}
           bookings={confirmed}
           openModal={() => setModalVisible(true)}
           setModalContent={(content) => setModalContent(content)}
@@ -69,46 +72,69 @@ function BookingTabs() {
     {
       key: 'completed',
       tab: `${t('bookings.completed')} (${completed.length})`,
-      content: <Completed bookings={completed} t={t} />,
+      content: (
+        <Completed
+          bookingType={bookingTypeActiveKey}
+          bookingStatusActiveKey={bookingStatusActiveKey}
+          bookings={completed}
+          t={t}
+        />
+      ),
     },
     {
       key: 'reviews',
       tab: `${t('bookings.cancelled')} (${cancelled.length})`,
-      content: <Cancelled bookings={cancelled} />,
+      content: (
+        <Cancelled
+          bookingType={bookingTypeActiveKey}
+          bookingStatusActiveKey={bookingStatusActiveKey}
+          bookings={cancelled}
+        />
+      ),
     },
   ];
+
+  const changeBookingStatusTab = (activeKey) => {
+    setBookingStatusActiveKey(activeKey);
+  };
 
   const bookingTabs = [
     {
       key: 'sitting_jobs',
       tab: t('bookings.sitting_jobs'),
-      content: <SittingJobsBookings bookingStatus={bookingStatus} />,
+      content: (
+        <SittingJobs
+          bookingStatusTabs={bookingStatusTabs}
+          changeBookingStatusTab={changeBookingStatusTab}
+        />
+      ),
     },
     {
       key: 'sitting_service',
       tab: t('bookings.sitting_service'),
-      content: <SittingServiceBookings bookingStatus={bookingStatus} />,
+      content: (
+        <SittingService
+          bookingStatusTabs={bookingStatusTabs}
+          changeBookingStatusTab={changeBookingStatusTab}
+        />
+      ),
     },
   ];
 
-  const changeTab = (activeKey) => {
-    setBookingTypeActiveKey(activeKey);
-  };
+  // useEffect(() => {
+  //   if (bookingTypeActiveKey === 'sitting_jobs') {
+  //     setBookings(sitterBookings);
+  //   } else {
+  //     const ownerBookings = {
+  //       request: [{}, {}, {}],
+  //       confirmed: [{}],
+  //       completed: [{}],
+  //       cancelled: [{}],
+  //     };
 
-  useEffect(() => {
-    if (bookingTypeActiveKey === 'sitting_jobs') {
-      setBookings(sitterBookings);
-    } else {
-      const ownerBookings = {
-        request: [{}, {}, {}],
-        confirmed: [{}],
-        completed: [{}],
-        cancelled: [{}],
-      };
-
-      setBookings(ownerBookings);
-    }
-  }, [bookingTypeActiveKey]);
+  //     setBookings(ownerBookings);
+  //   }
+  // }, [bookingTypeActiveKey]);
 
   useEffect(() => {
     if (screenWidth <= 930) {
@@ -117,6 +143,10 @@ function BookingTabs() {
       setTabPosition('left');
     }
   }, [screenWidth]);
+
+  const changeBookingTypeTab = (activeKey) => {
+    setBookingTypeActiveKey(activeKey);
+  };
 
   const performBookingAction = () => {
     switch (confirmActionType) {
@@ -135,8 +165,8 @@ function BookingTabs() {
     <div style={{ display: 'flex', marginTop: 10 }}>
       <Tabs
         defaultActiveKey={defaultKeyBookingType}
+        onChange={changeBookingTypeTab}
         tabPosition={tabPosition}
-        onChange={changeTab}
         className="vertical-tabs"
       >
         {bookingTabs.map(({ key, tab, content }) => (
@@ -160,39 +190,3 @@ function BookingTabs() {
   );
 }
 export default BookingTabs;
-
-function SittingJobsBookings({ bookingStatus }) {
-  return (
-    <Container>
-      <Tabs
-        defaultActiveKey={defaultKeyBookingStatus}
-        tabPosition="top"
-        className="horizontal-tabs"
-      >
-        {bookingStatus.map(({ key, tab, content }) => (
-          <TabPane tab={tab} key={key}>
-            {content}
-          </TabPane>
-        ))}
-      </Tabs>
-    </Container>
-  );
-}
-
-function SittingServiceBookings({ bookingStatus }) {
-  return (
-    <Container>
-      <Tabs
-        defaultActiveKey={defaultKeyBookingStatus}
-        tabPosition="top"
-        className="horizontal-tabs"
-      >
-        {bookingStatus.map(({ key, tab, content }) => (
-          <TabPane tab={tab} key={key}>
-            {content}
-          </TabPane>
-        ))}
-      </Tabs>
-    </Container>
-  );
-}
