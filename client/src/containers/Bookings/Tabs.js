@@ -6,6 +6,16 @@ import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { decline } from '../../_actions/bookingActions';
+import {
+  getRequestedSittingJobs,
+  getRequestedSittingService,
+  getConfirmedSittingJobs,
+  getConfirmedSittingService,
+  getCompletedSittingJobs,
+  getCompletedSittingService,
+  getCancelledSittingJobs,
+  getCancelledSittingService,
+} from '../../_actions/bookingStatusActions';
 import { SittingJobs, SittingService } from './Types';
 import { Cancelled, Completed, Confirmed, Requested } from './Status';
 import { Tabs } from 'antd';
@@ -17,7 +27,7 @@ const Container = styled.div`
 `;
 
 const defaultKeyBookingType = 'sitting_jobs';
-const defaultKeyBookingStatus = 'request';
+const defaultKeyBookingStatus = 'requested';
 
 function BookingTabs() {
   const { t } = useTranslation();
@@ -36,17 +46,83 @@ function BookingTabs() {
   const [confirmActionType, setConfirmActionType] = useState('');
   const [bookingId, setBookingId] = useState('');
 
-  const { request = [], confirmed = [], completed = [], cancelled = [] } = bookings;
+  const { requested = [{}], confirmed = [{}], completed = [{}], cancelled = [] } = bookings;
+
+  const getRequestedBookings = () => {
+    if (bookingTypeActiveKey === 'sitting_jobs') {
+      dispatch(getRequestedSittingJobs());
+    } else {
+      dispatch(getRequestedSittingService());
+    }
+  };
+
+  const getConfirmedBookings = () => {
+    if (bookingTypeActiveKey === 'sitting_jobs') {
+      dispatch(getConfirmedSittingJobs());
+    } else {
+      dispatch(getConfirmedSittingService());
+    }
+  };
+
+  const getCompletedBookings = () => {
+    if (bookingTypeActiveKey === 'sitting_jobs') {
+      dispatch(getCompletedSittingJobs());
+    } else {
+      dispatch(getCompletedSittingService());
+    }
+  };
+
+  const getCancelledBookings = () => {
+    if (bookingTypeActiveKey === 'sitting_jobs') {
+      dispatch(getCancelledSittingJobs());
+    } else {
+      dispatch(getCancelledSittingService());
+    }
+  };
+
+  useEffect(() => {
+    if (bookingStatusActiveKey === 'requested') {
+      getRequestedBookings();
+      return;
+    }
+
+    if (bookingStatusActiveKey === 'confirmed') {
+      getConfirmedBookings();
+      return;
+    }
+
+    if (bookingStatusActiveKey === 'completed') {
+      getCompletedBookings();
+      return;
+    }
+
+    if (bookingStatusActiveKey === 'cancelled') {
+      getCancelledBookings();
+      return;
+    }
+  }, [bookingStatusActiveKey, dispatch]);
+
+  useEffect(() => {
+    getRequestedBookings();
+  }, [bookingTypeActiveKey]);
+
+  const changeBookingTypeTab = (key) => {
+    setBookingTypeActiveKey(key);
+    setBookingStatusActiveKey(defaultKeyBookingStatus);
+  };
+
+  const changeBookingStatusTab = (key) => {
+    setBookingStatusActiveKey(key);
+  };
 
   const bookingStatusTabs = [
     {
       key: 'requested',
-      tab: `${t('bookings.requested')} (${request.length})`,
+      tab: `${t('bookings.requested')} (${requested.length})`,
       content: (
         <Requested
           bookingType={bookingTypeActiveKey}
-          bookingStatusActiveKey={bookingStatusActiveKey}
-          bookings={request}
+          bookings={requested}
           openModal={() => setModalVisible(true)}
           setModalContent={(content) => setModalContent(content)}
           setConfirmActionType={(type) => setConfirmActionType(type)}
@@ -61,7 +137,6 @@ function BookingTabs() {
       content: (
         <Confirmed
           bookingType={bookingTypeActiveKey}
-          bookingStatusActiveKey={bookingStatusActiveKey}
           bookings={confirmed}
           openModal={() => setModalVisible(true)}
           setModalContent={(content) => setModalContent(content)}
@@ -72,31 +147,14 @@ function BookingTabs() {
     {
       key: 'completed',
       tab: `${t('bookings.completed')} (${completed.length})`,
-      content: (
-        <Completed
-          bookingType={bookingTypeActiveKey}
-          bookingStatusActiveKey={bookingStatusActiveKey}
-          bookings={completed}
-          t={t}
-        />
-      ),
+      content: <Completed bookings={completed} t={t} />,
     },
     {
-      key: 'reviews',
+      key: 'cancelled',
       tab: `${t('bookings.cancelled')} (${cancelled.length})`,
-      content: (
-        <Cancelled
-          bookingType={bookingTypeActiveKey}
-          bookingStatusActiveKey={bookingStatusActiveKey}
-          bookings={cancelled}
-        />
-      ),
+      content: <Cancelled bookings={cancelled} />,
     },
   ];
-
-  const changeBookingStatusTab = (activeKey) => {
-    setBookingStatusActiveKey(activeKey);
-  };
 
   const bookingTabs = [
     {
@@ -104,6 +162,7 @@ function BookingTabs() {
       tab: t('bookings.sitting_jobs'),
       content: (
         <SittingJobs
+          bookingStatusActiveKey={bookingStatusActiveKey}
           bookingStatusTabs={bookingStatusTabs}
           changeBookingStatusTab={changeBookingStatusTab}
         />
@@ -114,27 +173,13 @@ function BookingTabs() {
       tab: t('bookings.sitting_service'),
       content: (
         <SittingService
+          bookingStatusActiveKey={bookingStatusActiveKey}
           bookingStatusTabs={bookingStatusTabs}
           changeBookingStatusTab={changeBookingStatusTab}
         />
       ),
     },
   ];
-
-  // useEffect(() => {
-  //   if (bookingTypeActiveKey === 'sitting_jobs') {
-  //     setBookings(sitterBookings);
-  //   } else {
-  //     const ownerBookings = {
-  //       request: [{}, {}, {}],
-  //       confirmed: [{}],
-  //       completed: [{}],
-  //       cancelled: [{}],
-  //     };
-
-  //     setBookings(ownerBookings);
-  //   }
-  // }, [bookingTypeActiveKey]);
 
   useEffect(() => {
     if (screenWidth <= 930) {
@@ -144,10 +189,6 @@ function BookingTabs() {
     }
   }, [screenWidth]);
 
-  const changeBookingTypeTab = (activeKey) => {
-    setBookingTypeActiveKey(activeKey);
-  };
-
   const performBookingAction = () => {
     switch (confirmActionType) {
       case 'decline':
@@ -156,10 +197,6 @@ function BookingTabs() {
         break;
     }
   };
-
-  useEffect(() => {
-    console.log({ confirmActionType });
-  }, [confirmActionType]);
 
   return (
     <div style={{ display: 'flex', marginTop: 10 }}>

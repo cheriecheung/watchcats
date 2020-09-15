@@ -10,11 +10,12 @@ const Container = styled.div`
 
 const defaultKeyBookingStatus = 'request';
 
-function SittingJobs({ changeBookingStatusTab, bookingStatusTabs }) {
+function SittingJobs({ bookingStatusActiveKey, changeBookingStatusTab, bookingStatusTabs }) {
   return (
     <Container>
       <Tabs
         defaultActiveKey={defaultKeyBookingStatus}
+        activeKey={bookingStatusActiveKey}
         onChange={changeBookingStatusTab}
         tabPosition="top"
         className="horizontal-tabs"

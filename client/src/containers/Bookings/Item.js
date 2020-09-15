@@ -17,7 +17,7 @@ const Container = styled.div`
   overflow: visible;
 `;
 
-const Item = ({ data, renderActionButtons }) => {
+const Item = ({ data, renderSection }) => {
   const { t } = useTranslation();
 
   return (
@@ -75,7 +75,7 @@ const Item = ({ data, renderActionButtons }) => {
         </div>
       </div>
 
-      {renderActionButtons && renderActionButtons()}
+      {renderSection && renderSection()}
     </Container>
   );
 };

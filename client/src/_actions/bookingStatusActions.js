@@ -14,47 +14,138 @@ const confirmedSittingServiceUrl = `${REACT_APP_API_DOMAIN}/sitting-service/conf
 const completedSittingServiceUrl = `${REACT_APP_API_DOMAIN}/sitting-service/completed`;
 const cancelledSittingServiceUrl = `${REACT_APP_API_DOMAIN}/sitting-service/cancelled`;
 
-export function getRequestedSittingService() {
+const config = {
+  withCredentials: true,
+  headers: {
+    Authorization: cookies.get('userId'),
+  },
+};
+
+export function getRequestedSittingJobs() {
   return (dispatch) => {
-    axios
-      .get(requestedSittingServiceUrl, config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'GET_REQUESTED_SITTING_SERVICE',
-          payload: response.data,
-        });
-      })
-      .catch((error) => console.log(error.response));
+    console.log('you are getting REQUESTED sitting JOBS');
+
+    // axios
+    //   .get(requestedSittingServiceUrl, config)
+    //   .then((response) => {
+    //     console.log(response);
+    //     dispatch({
+    //       type: 'GET_REQUESTED_SITTING_SERVICE',
+    //       payload: response.data,
+    //     });
+    //   })
+    //   .catch((error) => console.log(error.response));
   };
 }
 
-// export function getAllSittingJobBookings() {
-//   return (dispatch) => {
-//     axios
-//       .get(sittingJobBookingsURL, config)
-//       .then((response) => {
-//         console.log(response);
-//         dispatch({
-//           type: 'GET_SITTING_JOB_BOOKINGS',
-//           payload: response.data,
-//         });
-//       })
-//       .catch((error) => console.log(error.response));
-//   };
-// }
+export function getRequestedSittingService() {
+  return (dispatch) => {
+    console.log('you are getting REQUESTED sitting SERVICE');
+    // axios
+    //   .get(requestedSittingServiceUrl, config)
+    //   .then((response) => {
+    //     console.log(response);
+    //     dispatch({
+    //       type: 'GET_REQUESTED_SITTING_SERVICE',
+    //       payload: response.data,
+    //     });
+    //   })
+    //   .catch((error) => console.log(error.response));
+  };
+}
 
-// export function getAllSittingServiceBookings() {
-//   return (dispatch) => {
-//     axios
-//       .get(sittingServiceBookingsUrl, config)
-//       .then((response) => {
-//         console.log(response);
-//         dispatch({
-//           type: 'GET_SITTING_JOB_BOOKINGS',
-//           payload: response.data,
-//         });
-//       })
-//       .catch((error) => console.log(error.response));
-//   };
-// }
+export function getConfirmedSittingJobs() {
+  return (dispatch) => {
+    console.log('you are getting CONFIRMED sitting JOBS');
+    // axios
+    //   .get(requestedSittingServiceUrl, config)
+    //   .then((response) => {
+    //     console.log(response);
+    //     dispatch({
+    //       type: 'GET_REQUESTED_SITTING_SERVICE',
+    //       payload: response.data,
+    //     });
+    //   })
+    //   .catch((error) => console.log(error.response));
+  };
+}
+
+export function getConfirmedSittingService() {
+  return (dispatch) => {
+    console.log('you are getting CONFIRMED sitting SERVICe');
+    // axios
+    //   .get(requestedSittingServiceUrl, config)
+    //   .then((response) => {
+    //     console.log(response);
+    //     dispatch({
+    //       type: 'GET_REQUESTED_SITTING_SERVICE',
+    //       payload: response.data,
+    //     });
+    //   })
+    //   .catch((error) => console.log(error.response));
+  };
+}
+
+export function getCompletedSittingJobs() {
+  return (dispatch) => {
+    console.log('you are getting COMPLETED sitting JOBS');
+    // axios
+    //   .get(requestedSittingServiceUrl, config)
+    //   .then((response) => {
+    //     console.log(response);
+    //     dispatch({
+    //       type: 'GET_REQUESTED_SITTING_SERVICE',
+    //       payload: response.data,
+    //     });
+    //   })
+    //   .catch((error) => console.log(error.response));
+  };
+}
+
+export function getCompletedSittingService() {
+  return (dispatch) => {
+    console.log('you are getting COMPLETED sitting SERVICe');
+    // axios
+    //   .get(requestedSittingServiceUrl, config)
+    //   .then((response) => {
+    //     console.log(response);
+    //     dispatch({
+    //       type: 'GET_REQUESTED_SITTING_SERVICE',
+    //       payload: response.data,
+    //     });
+    //   })
+    //   .catch((error) => console.log(error.response));
+  };
+}
+
+export function getCancelledSittingJobs() {
+  return (dispatch) => {
+    console.log('you are getting CANCELED sitting JOBS');
+    // axios
+    //   .get(requestedSittingServiceUrl, config)
+    //   .then((response) => {
+    //     console.log(response);
+    //     dispatch({
+    //       type: 'GET_REQUESTED_SITTING_SERVICE',
+    //       payload: response.data,
+    //     });
+    //   })
+    //   .catch((error) => console.log(error.response));
+  };
+}
+
+export function getCancelledSittingService() {
+  return (dispatch) => {
+    console.log('you are getting CANCELLED sitting SERVICE');
+    // axios
+    //   .get(requestedSittingServiceUrl, config)
+    //   .then((response) => {
+    //     console.log(response);
+    //     dispatch({
+    //       type: 'GET_REQUESTED_SITTING_SERVICE',
+    //       payload: response.data,
+    //     });
+    //   })
+    //   .catch((error) => console.log(error.response));
+  };
+}
