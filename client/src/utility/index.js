@@ -12,7 +12,8 @@ export function calculateOneDayPrice(startTime, endTime, pricePerHour) {
     return 'To be calculated';
   } else {
     const calculatePrice = roundUpTotalHours * pricePerHour;
-    console.log({ calculatePrice });
+
+    console.log({ calculatePrice, roundUpTotalHours, pricePerHour });
     return calculatePrice;
   }
 }

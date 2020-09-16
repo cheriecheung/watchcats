@@ -14,8 +14,6 @@ export function booking_actions(state = {}, action) {
       return 'You chose to schedule a meet-up';
     case 'ACCEPT_BOOKING':
       return 'Booking accepted';
-    case 'CANCEL_BOOKING':
-      return 'Booking cancelled';
     case 'COMPLETED_BOOKING':
       return 'Booking Completed';
     case 'SUBMIT_REVIEW':

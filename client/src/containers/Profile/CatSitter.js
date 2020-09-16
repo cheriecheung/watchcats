@@ -16,7 +16,6 @@ import { getSitterProfile } from '../../_actions/accountActions';
 import { getChatContacts, getChatConversation } from '../../_actions/chatActions';
 import { getAppointmentTime, sendBookingRequest } from '../../_actions/bookingActions';
 import GoogleMap from '../../components/GoogleMap';
-import moment from 'moment';
 import RequestModal from './RequestModal';
 import { useTranslation } from 'react-i18next';
 
@@ -34,7 +33,7 @@ function CatSitter() {
 
   const dispatch = useDispatch();
   const { data: sitterData } = useSelector((state) => state.account);
-  const { error: errorType, appointmentTime } = useSelector((state) => state.booking);
+  const { error: errorType, appointmentTime } = useSelector((state) => state.booking_actions);
 
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 

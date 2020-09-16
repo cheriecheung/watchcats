@@ -13,12 +13,12 @@ import {
   getConfirmedSittingService,
   getCompletedSittingJobs,
   getCompletedSittingService,
-  getCancelledSittingJobs,
-  getCancelledSittingService,
+  getDeclinedSittingJobs,
+  getDeclinedSittingService,
 } from '../../_actions/bookingStatusActions';
 import { SittingJobs, SittingService } from './Types';
-import { Cancelled, Completed, Confirmed, Requested } from './Status';
-import { Tabs } from 'antd';
+import { Requested, Confirmed, Completed, Declined } from './Status';
+import { Spin, Tabs } from 'antd';
 const { TabPane } = Tabs;
 
 const Container = styled.div`
@@ -32,13 +32,23 @@ const defaultKeyBookingStatus = 'requested';
 function BookingTabs() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { data: ownerData } = useSelector((state) => state.account);
+  const {
+    requested: requestedBookings,
+    confirmed: confirmedBookings,
+    completed: completedBookings,
+    declined: declinedBookings,
+  } = useSelector((state) => state.booking_status);
 
   const { screenWidth } = ScreenWidthListener();
   const [tabPosition, setTabPosition] = useState('');
 
   const [bookingTypeActiveKey, setBookingTypeActiveKey] = useState(defaultKeyBookingType);
   const [bookingStatusActiveKey, setBookingStatusActiveKey] = useState(defaultKeyBookingStatus);
-  const [bookings, setBookings] = useState({});
+  const [requested, setRequested] = useState([]);
+  const [confirmed, setConfirmed] = useState([]);
+  const [completed, setCompleted] = useState([]);
+  const [declined, setDeclined] = useState([]);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState('');
@@ -46,7 +56,24 @@ function BookingTabs() {
   const [confirmActionType, setConfirmActionType] = useState('');
   const [bookingId, setBookingId] = useState('');
 
-  const { requested = [{}], confirmed = [{}], completed = [{}], cancelled = [] } = bookings;
+  useEffect(() => {
+    if (requestedBookings) {
+      setRequested(requestedBookings);
+      return;
+    }
+    if (confirmedBookings) {
+      setConfirmed(confirmedBookings);
+      return;
+    }
+    if (completedBookings) {
+      setCompleted(completedBookings);
+      return;
+    }
+    if (declinedBookings) {
+      setDeclined(declinedBookings);
+      return;
+    }
+  }, [requestedBookings, confirmedBookings, completedBookings, declinedBookings]);
 
   const getRequestedBookings = () => {
     if (bookingTypeActiveKey === 'sitting_jobs') {
@@ -72,11 +99,11 @@ function BookingTabs() {
     }
   };
 
-  const getCancelledBookings = () => {
+  const getDeclinedBookings = () => {
     if (bookingTypeActiveKey === 'sitting_jobs') {
-      dispatch(getCancelledSittingJobs());
+      dispatch(getDeclinedSittingJobs());
     } else {
-      dispatch(getCancelledSittingService());
+      dispatch(getDeclinedSittingService());
     }
   };
 
@@ -96,8 +123,8 @@ function BookingTabs() {
       return;
     }
 
-    if (bookingStatusActiveKey === 'cancelled') {
-      getCancelledBookings();
+    if (bookingStatusActiveKey === 'declined') {
+      getDeclinedBookings();
       return;
     }
   }, [bookingStatusActiveKey, dispatch]);
@@ -147,12 +174,12 @@ function BookingTabs() {
     {
       key: 'completed',
       tab: `${t('bookings.completed')} (${completed.length})`,
-      content: <Completed bookings={completed} t={t} />,
+      content: <Completed bookingType={bookingTypeActiveKey} bookings={completed} t={t} />,
     },
     {
-      key: 'cancelled',
-      tab: `${t('bookings.cancelled')} (${cancelled.length})`,
-      content: <Cancelled bookings={cancelled} />,
+      key: 'declined',
+      tab: `${t('bookings.declined')} (${declined.length})`,
+      content: <Declined bookings={declined} />,
     },
   ];
 

@@ -1,6 +1,6 @@
-import Cancelled from './Cancelled';
-import Completed from './Completed';
-import Confirmed from './Confirmed';
 import Requested from './Requested';
+import Confirmed from './Confirmed';
+import Completed from './Completed';
+import Declined from './Declined';
 
-export { Cancelled, Completed, Confirmed, Requested };
+export { Requested, Confirmed, Declined, Completed };

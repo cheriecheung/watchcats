@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Row, Col } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
+import moment from 'moment';
 
 const cardHeight = 140;
 
@@ -17,8 +17,21 @@ const Container = styled.div`
   overflow: visible;
 `;
 
-const Item = ({ data, renderSection }) => {
+const Item = ({ data, renderSection, bookingType }) => {
   const { t } = useTranslation();
+
+  useEffect(() => {
+    console.log({ data });
+  }, [data]);
+
+  const { name, shortId, appointmentType, location, price } = data;
+  const profileUrl =
+    bookingType === 'sitting_jobs'
+      ? `/profile/catowner/${shortId}`
+      : `/profile/catsitter/${shortId}`;
+
+  const formattedDate = (date) => moment(date).format('DD MMM YYYY');
+  const formattedTime = (time) => moment(time).format('HH:mm');
 
   return (
     <Container>
@@ -48,30 +61,45 @@ const Item = ({ data, renderSection }) => {
           }}
         >
           <Row>
-            <Col md={3}>{t('bookings.owner')}:</Col>
-            <Col md={6}>Kaitlynn C</Col>
+            <Col md={3}>
+              {bookingType === 'sitting_jobs' ? t('bookings.owner') : t('bookings.sitter')}:
+            </Col>
+            <Col md={6}>{name}</Col>
           </Row>
           <Row>
             <Col md={3}>{t('bookings.location')}:</Col>
-            <Col md={6}>1025EE, Amsterdam Noord</Col>
+            <Col md={6}>{location}</Col>
           </Row>
           <Row>
             <Col md={3}>
               <span>{t('bookings.time')}:</span>
             </Col>
             <Col md={6}>
-              <span>25 AUG 2020, 11:00 - 13:00</span>
+              {appointmentType === 'oneDay' ? (
+                <span>
+                  {formattedDate(data.startDate)} - {formattedDate(data.endDate)}
+                </span>
+              ) : (
+                <span>
+                  {formattedDate(data.date)}, {formattedTime(data.startTime)} -
+                  {formattedTime(data.endTime)}
+                </span>
+              )}
             </Col>
           </Row>
           <Row>
             <Col md={3}>{t('bookings.price')}:</Col>
-            <Col md={6}>€ 26, 00</Col>
+            <Col md={6}>€ {price}, 00</Col>
           </Row>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'right' }}>
-          <Link to="/profile">{t('bookings.view_profile')}</Link>
-          <Link to="/messages">{t('bookings.view_conversation')}</Link>
+          <a href={profileUrl} target="_blank" style={{ float: 'right' }}>
+            {t('bookings.view_profile')}
+          </a>
+          <a href={`/messages/${shortId}`} target="_blank" style={{ float: 'right' }}>
+            {t('bookings.view_conversation')}
+          </a>
         </div>
       </div>
 

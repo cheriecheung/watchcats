@@ -54,7 +54,7 @@ module.exports = {
 
     const { sitterId: sitterShortId, type } = req.body;
 
-    const [{ owner: ownerObjId }, { sitter: sitterObjId }] = await Promise.all([
+    const [{ owner: ownerObjId, postcode }, { sitter: sitterObjId }] = await Promise.all([
       User.findById(ownerUserId),
       User.findOne({ urlId: sitterShortId }),
     ]);
@@ -70,9 +70,11 @@ module.exports = {
       const newBooking = new Booking({
         owner: ownerObjId,
         sitter: sitterObjId,
+        appointmentType: type,
         date,
         startTime,
         endTime,
+        location: postcode,
         price,
         status: 'requested',
       });
@@ -91,8 +93,10 @@ module.exports = {
       const newBooking = new Booking({
         owner: ownerObjId,
         sitter: sitterObjId,
+        appointmentType: type,
         startDate,
         endDate,
+        location: postcode,
         price,
         status: 'requested',
       });

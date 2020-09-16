@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Item from '../Item';
 import { ActionButton } from '../../../components/Bookings';
 
@@ -26,16 +27,25 @@ function Requested({
 
   return (
     <>
-      {bookings.map((data, index) => (
-        <Item data={data} renderSection={renderSection} />
-      ))}
+      {Array.isArray(bookings) &&
+        bookings.length > 0 &&
+        bookings.map((data, index) => (
+          <Item data={data} renderSection={renderSection} bookingType={bookingType} />
+        ))}
 
-      <br />
-      <p>
-        Remark: It is highly recommended to have a meet up session between you and cat owners before
-        accepting their requests. Directly accepting a request is meant for owners you have
-        previously completed bookings with.
-      </p>
+      {bookingType === 'sitting_jobs' && bookings.length === 0 && (
+        <span>
+          You have no requested sitting jobs at the moment. You will only receive sitting jobs
+          requests when a cat sitter sends you want.
+        </span>
+      )}
+
+      {bookingType === 'sitting_service' && bookings.length === 0 && (
+        <span>
+          You have no requested sitting service at the moment. Go to&nbsp;
+          <Link to="/find">Find a cat sitter</Link> page to start looking for a cat sitter now!
+        </span>
+      )}
     </>
   );
 }

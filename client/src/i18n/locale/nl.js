@@ -249,7 +249,7 @@ export default {
     completed: 'Voltooid',
     write_review: 'Schrijf een recensie',
 
-    cancelled: 'Geannuleerd',
+    declined: 'Geweigerd',
 
     view_profile: 'Bekijk profiel',
     view_conversation: 'Bekijk gesprek',

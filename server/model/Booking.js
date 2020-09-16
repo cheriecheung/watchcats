@@ -13,10 +13,16 @@ const bookingSchema = new Schema({
   location: {
     type: String,
   },
+  appointmentType: {
+    type: String,
+  },
   startDate: {
     type: Date,
   },
   endDate: {
+    type: Date,
+  },
+  date: {
     type: Date,
   },
   startTime: {

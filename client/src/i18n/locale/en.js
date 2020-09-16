@@ -253,7 +253,7 @@ export default {
     completed: 'Completed',
     write_review: 'Write a review',
 
-    cancelled: 'Cancelled',
+    declined: 'Declined',
 
     view_profile: 'View profile',
     view_conversation: 'View conversation',

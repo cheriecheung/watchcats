@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Item from '../Item';
 import { ActionButton } from '../../../components/Bookings';
 
@@ -30,11 +31,30 @@ function Confirmed({
       />
     );
 
-  return bookings.map((data, index) => {
-    // data.hasPaid
-    const hasPaid = false;
-    return <Item data={data} openModal={openModal} renderSection={() => renderSection(hasPaid)} />;
-  });
+  return (
+    <>
+      {Array.isArray(bookings) &&
+        bookings.length > 0 &&
+        bookings.map((data, index) => {
+          // data.hasPaid
+          const hasPaid = false;
+          return (
+            <Item data={data} openModal={openModal} renderSection={() => renderSection(hasPaid)} />
+          );
+        })}
+
+      {bookingType === 'sitting_jobs' && bookings.length === 0 && (
+        <span>You have no confirmed sitting jobs at the moment.</span>
+      )}
+
+      {bookingType === 'sitting_service' && bookings.length === 0 && (
+        <span>
+          You have no confirmed sitting service at the moment. Go to&nbsp;
+          <Link to="/find">Find a cat sitter</Link> page to start looking for a cat sitter now!
+        </span>
+      )}
+    </>
+  );
 }
 
 export default Confirmed;
