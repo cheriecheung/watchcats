@@ -38,7 +38,7 @@ function CatSitter() {
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
   const [sitterInfo, setSitterInfo] = useState({});
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     if (id) {

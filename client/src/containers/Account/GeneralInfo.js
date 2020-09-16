@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { Row, Col, Label, Input } from 'reactstrap';
 import {
   FieldLabel,
+  FileUploader,
   FormButtons,
   TextField,
   SectionContainer,
@@ -25,16 +26,21 @@ const SummarySection = styled.div`
 `;
 
 const defaultValues = {
+  profilePic: '',
   firstName: '',
   lastName: '',
   email: '',
   phone: '',
   address: '',
   postcode: '',
+  addressProof: '',
   profileFacebook: '',
   profileInstagram: '',
   profileOther: '',
 };
+
+const uploadProfilePicId = 'upload-profile-pic';
+const uploadAddressProofId = 'upload-address-proof';
 
 function GeneralInfo({ activeKey }) {
   const { t } = useTranslation();
@@ -42,7 +48,15 @@ function GeneralInfo({ activeKey }) {
   const { data: userData } = useSelector((state) => state.account);
 
   const methods = useForm();
-  const { register, handleSubmit, reset } = methods;
+  const { register, handleSubmit, reset, setValue } = methods;
+
+  const [profilePicFileName, setProfilePicFileName] = useState('');
+  const [profilePicPreview, setProfilePicPreview] = useState('');
+  const [addressProofFileName, setAddressProofFileName] = useState('');
+
+  useEffect(() => {
+    console.log({ profilePicFileName, addressProofFileName });
+  }, [profilePicFileName, addressProofFileName]);
 
   useEffect(() => {
     if (activeKey === 'general') {
@@ -79,10 +93,10 @@ function GeneralInfo({ activeKey }) {
     }
   }, [userData]);
 
-  const onSubmit = (data) => dispatch(sendUser(data));
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  // };
+  // const onSubmit = (data) => dispatch(sendUser(data));
+  const onSubmit = (data) => {
+    console.log({ data });
+  };
 
   const color = themeColor.green;
 
@@ -116,41 +130,13 @@ function GeneralInfo({ activeKey }) {
 
           <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>{t('general_info.profile_picture')}</h6>
-            <p style={{ marginBottom: 50 }}>
+            <p style={{ marginBottom: 30 }}>
               The personal data in the following section will be used for communication purpose when
               a cat sitting service is requested.
             </p>
-            <Row>
-              <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
-                <img
-                  style={{
-                    width: 200,
-                    height: 200,
-                    border: '1px solid #ced4da',
-                    borderRadius: '50%',
-                    position: 'absolute',
-                    zIndex: -1,
-                  }}
-                />
-                {/* <div style={{ position: 'absolute' }}>
-              <i className="fas fa-camera fa-3x"></i>
-              <p>Drop your image here or click to add one</p>
-            </div> */}
-                <Input
-                  type="file"
-                  style={{
-                    border: '1px solid #ced4da',
-                    borderRadius: '50%',
-                    width: 200,
-                    height: 200,
-                    opacity: 0,
-                    outline: 'none',
-                  }}
-                />
-              </Col>
-              <Col md={6}>
-                <Label>Profile picture</Label>
 
+            <Row>
+              <Col md={6}>
                 <div style={{ fontSize: '0.80rem' }}>
                   <span>Please choose a high quality picture of yourself:</span>
                   <ul style={{ padding: '0px 20px' }}>
@@ -163,6 +149,57 @@ function GeneralInfo({ activeKey }) {
                     </li>
                   </ul>
                 </div>
+              </Col>
+              <Col md={6}>
+                <div style={{ display: 'flex', flexDirection: 'column', wordWrap: 'break-word' }}>
+                  <label for={uploadProfilePicId} className="upload-file-input form-control">
+                    <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
+                    <span>{t('owner_form.upload')}</span>
+                  </label>
+                  <FileUploader
+                    name="profilePic"
+                    id={uploadProfilePicId}
+                    fileType="image/x-png,image/jpeg"
+                    setFileData={(data) => setValue('profilePic', data)}
+                    setDisplayFileName={(name) => setProfilePicFileName(name)}
+                    setDisplayPreview={(imgUrl) => setProfilePicPreview(imgUrl)}
+                  />
+                  {profilePicPreview && (
+                    <div style={{ overflow: 'hidden', width: 100, height: 100 }}>
+                      <img
+                        src={profilePicPreview}
+                        alt="profile_picture"
+                        style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                      />
+                    </div>
+                  )}
+                  {profilePicFileName !== '' && <p>{profilePicFileName}</p>}
+                </div>
+
+                {/* <img
+                  style={{
+                    width: 200,
+                    height: 200,
+                    border: '1px solid #ced4da',
+                    borderRadius: '50%',
+                    position: 'absolute',
+                    //zIndex: -1,
+                  }}
+                />
+                 <div style={{ position: 'absolute' }}>
+                  <i className="fas fa-camera fa-3x"></i>
+                  <p>Drop your image here or click to add one</p>
+                </div> 
+                <input
+                  type="file"
+                  style={{
+                    border: '1px solid #ced4da',
+                    borderRadius: '50%',
+                    width: 200,
+                    height: 200,
+                    outline: 'none',
+                  }}
+                /> */}
               </Col>
             </Row>
           </SectionContainer>
@@ -199,6 +236,34 @@ function GeneralInfo({ activeKey }) {
           </SectionContainer>
 
           <SectionContainer>
+            <h6 style={{ color, fontWeight: 800 }}>{t('general_info.proof_address')}</h6>
+            <Row>
+              <Col md={6} className="mb-3">
+                <p>
+                  {t('general_info.proof_address_description1')}
+                  {t('general_info.proof_address_description2')}
+                </p>
+              </Col>
+              <Col md={6} className="mb-3">
+                <div style={{ display: 'flex', flexDirection: 'column', wordWrap: 'break-word' }}>
+                  <label for={uploadAddressProofId} className="upload-file-input form-control">
+                    <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
+                    <span>{t('owner_form.upload')}</span>
+                  </label>
+                  <FileUploader
+                    name="addressProof"
+                    id={uploadAddressProofId}
+                    fileType="image/x-png,image/jpeg"
+                    setFileData={(data) => setValue('addressProof', data)}
+                    setDisplayFileName={(name) => setAddressProofFileName(name)}
+                  />
+                  {addressProofFileName !== '' && <p>{addressProofFileName}</p>}
+                </div>
+              </Col>
+            </Row>
+          </SectionContainer>
+
+          <SectionContainer>
             <h6 style={{ color, fontWeight: 800 }}>{t('general_info.social_media')}</h6>
             <Row className="social-media-input">
               <Col md={4} className="mb-3">
@@ -218,54 +283,6 @@ function GeneralInfo({ activeKey }) {
               <Col md={4}>
                 <FieldLabel>{t('general_info.other')}</FieldLabel>
                 <TextField name="profileOther" prefix={<i className="fas fa-user  mr-1" />} />
-              </Col>
-            </Row>
-          </SectionContainer>
-
-          <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>{t('general_info.proof_address')}</h6>
-            <Row>
-              <Col md={6} className="mb-3">
-                <p>
-                  {t('general_info.proof_address_description1')}
-                  {t('general_info.proof_address_description2')}
-                </p>
-              </Col>
-              <Col md={6} className="mb-3">
-                <Input
-                  type="file"
-                  style={{
-                    border: '1px solid #ced4da',
-                    padding: 5,
-                    borderRadius: '4px',
-                    marginBottom: 10,
-                  }}
-                />
-              </Col>
-            </Row>
-
-            <h6 style={{ color, fontWeight: 800 }}>Police check (optional)</h6>
-            <Row>
-              <Col md={6} className="mb-3">
-                <p>
-                  To increase legitimacy for your profile as a sitter and/or owner, you can upload a
-                  copy of your latest police check.
-                </p>
-                <p>
-                  After it has been approved, your sitter and/or owner profile will show that you
-                  have been police checked.
-                </p>
-              </Col>
-              <Col md={6} className="mb-3">
-                <Input
-                  type="file"
-                  style={{
-                    border: '1px solid #ced4da',
-                    padding: 5,
-                    borderRadius: '4px',
-                    marginBottom: 10,
-                  }}
-                />
               </Col>
             </Row>
           </SectionContainer>
