@@ -5,6 +5,9 @@ const cookies = new Cookies();
 const { REACT_APP_API_DOMAIN } = process.env;
 
 const userURL = `${REACT_APP_API_DOMAIN}/user`;
+const profilePicURL = `${REACT_APP_API_DOMAIN}/user/profile-picture`;
+const addressProofURL = `${REACT_APP_API_DOMAIN}/user/address-proof`;
+
 const sitterAccountURL = (id) => `${REACT_APP_API_DOMAIN}/sitter/account/${id}`;
 const sitterProfileURL = (id) => `${REACT_APP_API_DOMAIN}/sitter/profile/${id}`;
 const ownerAccountURL = (id) => `${REACT_APP_API_DOMAIN}/owner/account/${id}`;
@@ -42,6 +45,36 @@ export function sendUser(data) {
         console.log(response);
         dispatch({
           type: 'SAVE_USER',
+          payload: response.data,
+        });
+      })
+      .catch((error) => console.log(error.response));
+  };
+}
+
+export function sendProfilePic(formData) {
+  return (dispatch) => {
+    axios
+      .post(profilePicURL, formData, config)
+      .then((response) => {
+        console.log(response);
+        dispatch({
+          type: 'SAVE_PROFILE_PIC',
+          payload: response.data,
+        });
+      })
+      .catch((error) => console.log(error.response));
+  };
+}
+
+export function sendAddressProof(formData) {
+  return (dispatch) => {
+    axios
+      .post(addressProofURL, formData, config)
+      .then((response) => {
+        console.log(response);
+        dispatch({
+          type: 'SAVE_ADDRESS_PROOF',
           payload: response.data,
         });
       })

@@ -10,7 +10,7 @@ import {
 } from '../../components/FormComponents';
 import { themeColor } from '../../style/theme';
 import styled from 'styled-components';
-import { getUser, sendUser } from '../../_actions/accountActions';
+import { getUser, sendUser, sendProfilePic, sendAddressProof } from '../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -48,7 +48,7 @@ function GeneralInfo({ activeKey }) {
   const { data: userData } = useSelector((state) => state.account);
 
   const methods = useForm();
-  const { register, handleSubmit, reset, setValue } = methods;
+  const { register, handleSubmit, reset, setValue, watch } = methods;
 
   const [profilePicFileName, setProfilePicFileName] = useState('');
   const [profilePicPreview, setProfilePicPreview] = useState('');
@@ -93,9 +93,10 @@ function GeneralInfo({ activeKey }) {
     }
   }, [userData]);
 
-  // const onSubmit = (data) => dispatch(sendUser(data));
   const onSubmit = (data) => {
-    console.log({ data });
+    dispatch(sendUser(data));
+    dispatch(sendProfilePic(data.profilePic));
+    dispatch(sendAddressProof(data.addressProof));
   };
 
   const color = themeColor.green;

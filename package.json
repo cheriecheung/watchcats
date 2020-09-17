@@ -32,6 +32,7 @@
     "dotenv": "^8.2.0",
     "express": "latest",
     "express-session": "^1.17.1",
+    "gridfs-stream": "^1.1.1",
     "helmet": "^3.23.3",
     "js-base64": "^3.2.4",
     "js-sha1": "^0.6.0",

@@ -17,7 +17,9 @@ export default function FileUploader({
 
     if (files && files[0]) {
       const data = new FormData();
-      data.append('image', files[0], files[0].name);
+      // data.append('image', files[0], files[0].name);
+      // data.append('name', files[0].name);
+      data.append(name, files[0]);
 
       setDisplayFileName(files[0].name);
       setFileData(data);

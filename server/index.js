@@ -20,16 +20,13 @@ const socketio = require('socket.io');
 
 const { DB_CONNECT, SESS_NAME, SESS_SECRET, SESS_LIFETIME, PASSPHRASE } = process.env;
 
-mongoose.connect(
-  DB_CONNECT,
-  {
-    useNewUrlParser: true,
+mongoose
+  .connect(DB_CONNECT, {
     useUnifiedTopology: true,
-  },
-  () => {
-    console.log('connected to db yay');
-  }
-);
+    useNewUrlParser: true,
+  })
+  .then(() => console.log('connected to db yay'))
+  .catch((err) => console.log(err.message));
 
 app.use(
   cors({
