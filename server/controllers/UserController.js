@@ -71,6 +71,27 @@ module.exports = {
     });
   },
 
+  saveFileId: async (req, res) => {
+    const userId = req.headers['authorization'];
+
+    const userRecord = await User.findById(userId);
+    if (!userRecord) return res.status(404).json('User not found');
+
+    const { file } = req;
+    if (!file) return res.status(404).json('File is not properly uploaded');
+
+    if (file.fieldname === 'profilePic') {
+      userRecord.profilePictureId = file.id;
+    } else {
+      userRecord.addressProofId = file.id;
+    }
+
+    await userRecord.save((err) => {
+      if (err) return err;
+      return res.status(200).json('File successfully saved');
+    });
+  },
+
   register: async (req, res) => {
     const { error } = registerValidation(req.body);
     if (error) return res.status(400).json(error.details[0].message);

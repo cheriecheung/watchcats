@@ -5,6 +5,7 @@ const UserController = require('../controllers/UserController');
 const crypto = require('crypto');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
+const { referenceProfileImage } = require('../model/User');
 
 // Create storage engine
 const storage = new GridFsStorage({
@@ -15,6 +16,7 @@ const storage = new GridFsStorage({
         if (err) {
           return reject(err);
         }
+        // buf.toString('hex')
         const filename = file.originalname;
         const fileInfo = { filename: filename, bucketName: 'uploads' };
         resolve(fileInfo);
@@ -23,16 +25,11 @@ const storage = new GridFsStorage({
   },
 });
 const upload = multer({ storage });
-// const upload = multer();
 
 router.get('/user', UserController.get);
 router.post('/user', UserController.post);
-router.post('/user/profile-picture', upload.single('profilePic'), (req, res) => {
-  console.log({ files: req.files, file: req.file });
-});
-router.post('/user/address-proof', upload.single('addressProof'), (req, res) => {
-  console.log({ files: req.files, file: req.file });
-});
+router.post('/user/profile-picture', upload.single('profilePic'), UserController.saveFileId);
+router.post('/user/address-proof', upload.single('addressProof'), UserController.saveFileId);
 
 router.post('/register', UserController.register);
 

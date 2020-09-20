@@ -95,8 +95,13 @@ function GeneralInfo({ activeKey }) {
 
   const onSubmit = (data) => {
     dispatch(sendUser(data));
-    dispatch(sendProfilePic(data.profilePic));
-    dispatch(sendAddressProof(data.addressProof));
+
+    if (data.profilePic) {
+      dispatch(sendProfilePic(data.profilePic));
+    }
+    if (data.addressProof) {
+      dispatch(sendAddressProof(data.addressProof));
+    }
   };
 
   const color = themeColor.green;

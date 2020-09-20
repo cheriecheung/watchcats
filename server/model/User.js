@@ -28,9 +28,9 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
-  // profileImage: {
-  //   type: String,
-  // },
+  profilePictureId: {
+    type: Schema.Types.ObjectId,
+  },
   phone: {
     type: String,
     required: false,
@@ -43,9 +43,9 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
-  addressProof: {
+  addressProofId: {
     type: String,
-    required: false,
+    type: Schema.Types.ObjectId,
   },
   isAddressProofVerified: {
     type: String,
