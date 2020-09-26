@@ -47,9 +47,10 @@ function ProfileTabs() {
       tabPosition="top"
       onChange={(key) => setActiveKey(key)}
       style={{ marginTop: 10 }}
+      centered
     >
       {accountTabs.map(({ key, tab, content }) => (
-        <TabPane tab={tab} key={key} style={{ marginBottom: 50, maxWidth: 950 }}>
+        <TabPane tab={tab} key={key}>
           <Container>{content}</Container>
         </TabPane>
       ))}

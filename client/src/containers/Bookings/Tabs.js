@@ -217,11 +217,12 @@ function BookingTabs() {
   };
 
   return (
-    <div style={{ display: 'flex', marginTop: 10 }}>
+    <div>
       <Tabs
         defaultActiveKey={defaultKeyBookingType}
         onChange={changeBookingTypeTab}
         tabPosition="top"
+        centered
       >
         {bookingTabs.map(({ key, tab, content }) => (
           <TabPane tab={tab} key={key}>

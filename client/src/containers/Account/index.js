@@ -7,7 +7,7 @@ function Account() {
   const authenticated = useSelector((state) => state.authentication);
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <div style={{ maxWidth: 900, margin: '0 auto 50px auto' }}>
       <Tabs />
     </div>
   );
