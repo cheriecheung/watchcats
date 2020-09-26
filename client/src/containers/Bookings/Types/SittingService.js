@@ -18,7 +18,6 @@ function SittingService({ bookingStatusActiveKey, changeBookingStatusTab, bookin
         activeKey={bookingStatusActiveKey}
         onChange={changeBookingStatusTab}
         tabPosition="top"
-        className="horizontal-tabs"
       >
         {bookingStatusTabs.map(({ key, tab, content }) => (
           <TabPane tab={tab} key={key}>

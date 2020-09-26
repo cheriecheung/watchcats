@@ -110,55 +110,9 @@ li.ant-pagination-item:hover a,
 }
 
 /* ------------------- antd tabs ------------------- */
-.ant-tabs-tabpane.ant-tabs-tabpane-active {
-  padding-left: 0 !important;
+.ant-tabs-nav-wrap {
+  justify-content: center;
 }
-
-.horizontal-tabs .ant-tabs-nav {
-  width: 100vw !important;
-}
-
-.horizontal-tabs .ant-tabs-content-holder {
-  border-left: none !important;
-  /* padding-left: 0 !important; */
-  margin-top: 20px !important;
-}
-
-.ant-tabs.ant-tabs-top.horizontal-tabs {
-  max-width: 900px !important;
-}
-
-@media only screen and (min-width: 930px) {
-  .vertical-tabs .ant-tabs-nav {
-    margin-left: 20px;
-    width: 200px;
-  }
-
-  .ant-tabs-content-holder {
-    padding-left: 30px;
-    padding-right: 50px;
-    border-left: 1px solid var(--theme-color-grey) !important;
-  }
-  .ant-tabs-content-holder .horizontal-tabs {
-    margin-left: -20px;
-  }
-}
-
-@media only screen and (max-width: 930px) {
-  .ant-tabs-nav-wrap {
-    justify-content: center;
-  }
-
-  .ant-tabs-nav-list {
-    margin-right: -32px !important;
-  }
-}
-
-/* .ant-tabs-content-holder {
-      padding-left: 30px;
-      padding-right: 50px;
-      border-left: 1px solid rgba(50, 118, 93, 0.5) !important;
-    } */
 
 .ant-tabs-ink-bar {
   background-color: var(--theme-color-grey) !important;

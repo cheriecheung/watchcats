@@ -41,7 +41,6 @@ function BookingTabs() {
   } = useSelector((state) => state.booking_status);
 
   const { screenWidth } = ScreenWidthListener();
-  const [tabPosition, setTabPosition] = useState('');
 
   const [bookingTypeActiveKey, setBookingTypeActiveKey] = useState(defaultKeyBookingType);
   const [bookingStatusActiveKey, setBookingStatusActiveKey] = useState(defaultKeyBookingStatus);
@@ -208,14 +207,6 @@ function BookingTabs() {
     },
   ];
 
-  useEffect(() => {
-    if (screenWidth <= 930) {
-      setTabPosition('top');
-    } else {
-      setTabPosition('left');
-    }
-  }, [screenWidth]);
-
   const performBookingAction = () => {
     switch (confirmActionType) {
       case 'decline':
@@ -230,8 +221,7 @@ function BookingTabs() {
       <Tabs
         defaultActiveKey={defaultKeyBookingType}
         onChange={changeBookingTypeTab}
-        tabPosition={tabPosition}
-        className="vertical-tabs"
+        tabPosition="top"
       >
         {bookingTabs.map(({ key, tab, content }) => (
           <TabPane tab={tab} key={key}>

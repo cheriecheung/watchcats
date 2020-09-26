@@ -20,7 +20,6 @@ const defaultKey = 'general';
 function ProfileTabs() {
   const { t } = useTranslation();
   const { screenWidth } = ScreenWidthListener();
-  const [tabPosition, setTabPosition] = useState('');
   const [activeKey, setActiveKey] = useState(defaultKey);
 
   const accountTabs = [
@@ -42,19 +41,10 @@ function ProfileTabs() {
     { key: 'settings', tab: t('account.settings'), content: <Settings activeKey={activeKey} /> },
   ];
 
-  useEffect(() => {
-    if (screenWidth <= 930) {
-      setTabPosition('top');
-    } else {
-      setTabPosition('left');
-    }
-  }, [screenWidth]);
-
   return (
     <Tabs
       defaultActiveKey={defaultKey}
-      tabPosition={tabPosition}
-      className="vertical-tabs"
+      tabPosition="top"
       onChange={(key) => setActiveKey(key)}
       style={{ marginTop: 10 }}
     >
