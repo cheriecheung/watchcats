@@ -65,10 +65,12 @@ module.exports = {
     user.profileInstagram = profileInstagram;
     user.profileOther = profileOther;
 
-    await user.save((err) => {
-      if (err) return err;
+    try {
+      await user.save();
       return res.status(200).json('User general profile successful saved');
-    });
+    } catch (e) {
+      console.log({ e });
+    }
   },
 
   saveFileId: async (req, res) => {
@@ -86,10 +88,12 @@ module.exports = {
       userRecord.addressProofId = file.id;
     }
 
-    await userRecord.save((err) => {
-      if (err) return err;
+    try {
+      await userRecord.save();
       return res.status(200).json('File successfully saved');
-    });
+    } catch (e) {
+      console.log({ e });
+    }
   },
 
   register: async (req, res) => {

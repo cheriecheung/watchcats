@@ -22,30 +22,25 @@ module.exports = {
       },
     };
 
-    await axios
-      .get('https://openidconnect.googleapis.com/v1/userinfo', config)
-      .then(async ({ data: { sub: google_id, email, name } }) => {
-        const user = await User.findOne({ email });
+    try {
+      const {
+        data: { sub: google_id, name, email },
+      } = await axios.get('https://openidconnect.googleapis.com/v1/userinfo', config);
 
-        // if (!user) return res.status(404).json('User not found');
-        if (!user) {
-          const newUser = new User({
-            name,
-            email,
-          });
+      const user = await User.findOne({ email });
+      if (!user) {
+        const newUser = new User({ name, email });
 
-          await newUser.save();
-          req.session.userId = newUser._id;
-          return res.status(200).json({ userId: newUser._id, shortId: newUser.urlId });
-        }
+        await newUser.save();
+        req.session.userId = newUser._id;
+        return res.status(200).json({ userId: newUser._id, shortId: newUser.urlId });
+      }
 
-        req.session.userId = user._id;
-        return res.status(200).json({ userId: user._id, shortId: user.urlId });
-      })
-      .catch((error) => {
-        // redirect to certain page if failed
-        console.log('____________________cannot login', error);
-        return res.status(401).json('Incorrect credentials');
-      });
+      req.session.userId = user._id;
+      return res.status(200).json({ userId: user._id, shortId: user.urlId });
+    } catch (e) {
+      console.log('>>>>>>>>>>>> cannot unsuccessful', e);
+      return res.status(401).json('Incorrect credentials');
+    }
   },
 };

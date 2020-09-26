@@ -99,13 +99,15 @@ module.exports = {
         });
       }
 
-      await newSitter.save((err) => {
-        if (err) return err;
+      try {
+        await newSitter.save();
         user.sitter = newSitter._id;
         user.save();
 
         return res.status(201).json('Sitter profile successful created');
-      });
+      } catch (e) {
+        console.log({ e });
+      }
     }
 
     if (user.sitter) {

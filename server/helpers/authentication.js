@@ -8,11 +8,7 @@ let ssn = {};
 
 const generateCodes = async (req, res, next) => {
   const base64URLEncode = (str) => {
-    return str
-      .toString('base64')
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=/g, '');
+    return str.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
   };
   const codeVerifier = base64URLEncode(crypto.randomBytes(43));
 
@@ -58,24 +54,19 @@ const authenticateUser = async (req, res, next) => {
     },
   };
 
-  await axios
-    .post(
-      'https://oauth2.googleapis.com/token',
-      qs.stringify(requestBody),
-      config
-    )
-    .then(async ({ data: { access_token, refresh_token } }) => {
-      req.session.access_token = await access_token;
-      req.session.refresh_token = await refresh_token;
+  try {
+    const {
+      data: { access_token, refresh_token },
+    } = await axios.post('https://oauth2.googleapis.com/token', qs.stringify(requestBody), config);
 
-      return res.redirect('https://localhost:3000/loading');
+    req.session.access_token = await access_token;
+    req.session.refresh_token = await refresh_token;
 
-      // return next();
-    })
-    .catch((error) => {
-      console.log(error);
-      // redirect to certain page if failed
-    });
+    return res.redirect('https://localhost:3000/loading');
+  } catch (e) {
+    console.log(error);
+    // redirect to certain page if failed
+  }
 };
 
 module.exports = { generateCodes, authenticateUser };

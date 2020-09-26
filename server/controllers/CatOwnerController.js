@@ -173,13 +173,15 @@ module.exports = {
         );
       }
 
-      await newOwner.save((err) => {
-        if (err) return err;
+      try {
+        await newOwner.save();
         user.owner = newOwner._id;
         user.save();
 
         return res.status(201).json('Owner profile successful created');
-      });
+      } catch (e) {
+        console.log({ e });
+      }
     }
 
     if (user.owner) {

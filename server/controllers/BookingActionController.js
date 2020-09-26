@@ -79,12 +79,12 @@ module.exports = {
         status: 'requested',
       });
 
-      await newBooking.save((err) => {
-        if (err) {
-          console.log({ err });
-        }
+      try {
+        await newBooking.save();
         return res.status(201).json('Booking request successfully created');
-      });
+      } catch (e) {
+        console.log({ e });
+      }
     }
 
     if (type === 'overnight') {
@@ -101,12 +101,12 @@ module.exports = {
         status: 'requested',
       });
 
-      await newBooking.save((err) => {
-        if (err) {
-          console.log({ err });
-        }
+      try {
+        await newBooking.save();
         return res.status(201).json('Booking request successfully created');
-      });
+      } catch (e) {
+        console.log({ e });
+      }
     }
   },
 };
