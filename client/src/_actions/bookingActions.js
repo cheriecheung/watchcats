@@ -22,127 +22,96 @@ const config = {
 };
 
 export function getAppointmentTime() {
-  return (dispatch) => {
-    axios
-      .get(appointmentTimeUrl, config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'GET_APPOINTMENT_TIME',
-          payload: response.data,
-        });
-      })
-      .catch((error) => {
-        console.log({ error });
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(appointmentTimeUrl, config);
+      dispatch({ type: 'GET_APPOINTMENT_TIME', payload: data });
+    } catch (e) {
+      const errorType = e.response.data;
 
-        const errorType = error.response.data;
-
-        if (errorType === 'OWNER_PROFILE_NOT_FOUND') {
-          dispatch({ type: errorType, payload: errorType });
-        }
-
-        if (errorType === 'APPOINTMENT_TIME_NOT_FOUND') {
-          dispatch({ type: errorType, payload: errorType });
-        }
-      });
+      if (errorType === 'OWNER_PROFILE_NOT_FOUND') {
+        dispatch({ type: errorType, payload: errorType });
+      }
+      if (errorType === 'APPOINTMENT_TIME_NOT_FOUND') {
+        dispatch({ type: errorType, payload: errorType });
+      }
+    }
   };
 }
 
-export function sendBookingRequest(data) {
-  return (dispatch) => {
-    axios
-      .post(bookingRequestUrl, data, config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'SEND_BOOKING_REQUEST',
-          payload: response.data,
-        });
-      })
-      .catch((error) => console.log(error.response));
+export function sendBookingRequest(bookingData) {
+  return async (dispatch) => {
+    try {
+      const { data } = axios.post(bookingRequestUrl, bookingData, config);
+      dispatch({ type: 'SEND_BOOKING_REQUEST', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function decline(id) {
-  return (dispatch) => {
-    axios
-      .put(declineUrl(id), config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'DECLINE_BOOKING',
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      await axios.put(declineUrl(id), config);
+      dispatch({ type: 'DECLINE_BOOKING' });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function scheduleMeetup(id) {
-  return (dispatch) => {
-    axios
-      .put(scheduleMeetupUrl(id), config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'SCHEDULE_MEETUP',
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      await axios.put(scheduleMeetupUrl(id), config);
+      dispatch({ type: 'SCHEDULE_MEETUP' });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function accept(id) {
-  return (dispatch) => {
-    axios
-      .put(acceptUrl(id), config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'ACCEPT_BOOKING',
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      await axios.put(acceptUrl(id), config);
+      dispatch({ type: 'ACCEPT_BOOKING' });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function cancel(id) {
-  return (dispatch) => {
-    axios
-      .put(cancelUrl(id), config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'CANCEL_BOOKING',
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      await axios.put(cancelUrl(id), config);
+      dispatch({ type: 'CANCEL_BOOKING' });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function completed(id) {
-  return (dispatch) => {
-    axios
-      .put(completedUrl(id), config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'COMPLETED_BOOKING',
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      await axios.put(completedUrl(id), config);
+      dispatch({ type: 'COMPLETED_BOOKING' });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function submitReview(bookingId, reviewContent) {
-  return (dispatch) => {
-    axios
-      .post(reviewUrl, config, { bookingId, reviewContent })
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'SUBMIT_REVIEW',
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      await axios.post(reviewUrl, config, { bookingId, reviewContent });
+      dispatch({ type: 'SUBMIT_REVIEW' });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }

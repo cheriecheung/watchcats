@@ -5,7 +5,7 @@ import dutch from '../../assets/images/dutch.png';
 import english from '../../assets/images/english.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch } from 'react-redux';
-import { userlogout } from '../../_actions/userActions';
+import { logout } from '../../_actions/userActions';
 import styled from 'styled-components';
 import { themeColor } from '../../style/theme';
 import Cookies from 'universal-cookie';
@@ -115,7 +115,7 @@ function Header() {
   };
 
   const handleLogout = () => {
-    dispatch(userlogout());
+    dispatch(logout());
   };
 
   const menuItemStyle = {

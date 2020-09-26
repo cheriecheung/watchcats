@@ -12,12 +12,26 @@ import {
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
+const { REACT_APP_API_DOMAIN } = process.env;
+
+const checkLogginedInUrl = `${REACT_APP_API_DOMAIN}/checkloggedIn`;
+const googleLoginURL = `${REACT_APP_API_DOMAIN}/googlelogin`;
+const googleAuthURL = `${REACT_APP_API_DOMAIN}/getUser`;
+const registerURL = `${REACT_APP_API_DOMAIN}/register`;
+const activateURL = `${REACT_APP_API_DOMAIN}/activate-account`;
+const loginURL = `${REACT_APP_API_DOMAIN}/login`;
+const logoutURL = `${REACT_APP_API_DOMAIN}/logout`;
+
+const config = {
+  withCredentials: true,
+  headers: {
+    Authorization: cookies.get('userId'),
+  },
+};
+
 export async function checkLoggedIn() {
   axios
-    .get(`${process.env.REACT_APP_API_DOMAIN}/checkloggedIn`, {
-      withCredentials: true,
-      // credentials: 'include',
-    })
+    .get(checkLogginedInUrl, config)
     .then((response) => {
       console.log(response);
       const preloadedState = {
@@ -32,160 +46,113 @@ export async function checkLoggedIn() {
 }
 
 export function googleLogin() {
-  return (dispatch) => {
-    axios
-      .get(`${process.env.REACT_APP_API_DOMAIN}/googlelogin`)
-      .then(({ data: authenticationURI }) => {
-        dispatch({
-          type: 'GOOGLE_LOGIN',
-          payload: authenticationURI,
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(googleLoginURL);
+      dispatch({ type: 'GOOGLE_LOGIN', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function googleAuthenticate() {
-  return (dispatch) => {
-    axios
-      .get(`${process.env.REACT_APP_API_DOMAIN}/getUser`, {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(googleAuthURL, {
         withCredentials: true,
         // credentials: 'include',
-      })
-      .then(({ data: { userId, shortId } }) => {
-        console.log({ userId, shortId });
-        cookies.set('userId', userId);
-        cookies.set('shortId', shortId);
-
-        dispatch({ type: 'GOOGLE_LOGIN_SUCCESS', userId });
-        window.location = `/account/${shortId}`;
-      })
-      .catch((error) => {
-        window.location = '/';
-        console.log(error);
       });
+      const { userId, shortId } = data || {};
+
+      console.log({ userId, shortId });
+      cookies.set('userId', userId);
+      cookies.set('shortId', shortId);
+
+      dispatch({ type: 'GOOGLE_LOGIN_SUCCESS', userId });
+      window.location = `/account/${shortId}`;
+    } catch (e) {
+      window.location = '/';
+      console.log({ e });
+    }
   };
 }
 
 export function registration(firstName, lastName, email, password) {
-  return (dispatch) => {
-    axios
-      .post(`${process.env.REACT_APP_API_DOMAIN}/register`, {
+  return async (dispatch) => {
+    try {
+      await axios.post(registerURL, {
         name: `${firstName} ${lastName}`,
         email,
         password,
-      })
-      .then((data) => {
-        dispatch({
-          type: REGISTER_SUCCESS,
-          payload: 'Registration successful. Please log into your email to activate your account.',
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        dispatch({
-          type: REGISTER_FAIL,
-          payload: 'Registration fail. Please try again',
-        });
       });
+
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: 'Registration successful. Please log into your email to activate your account.',
+      });
+    } catch (e) {
+      console.log({ e });
+      dispatch({
+        type: REGISTER_FAIL,
+        payload: 'Registration fail. Please try again',
+      });
+    }
   };
 }
 
 export function verifyEmail(token) {
-  return (dispatch) => {
-    axios
-      .post(
-        `${process.env.REACT_APP_API_DOMAIN}/activate-account
-    `,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((data) => {
-        dispatch({
-          type: VERIFY_SUCCESS,
-          payload: 'Email verification successful! You can now log in',
-        });
-      })
-      .catch((err) => {
-        dispatch({
-          type: VERIFY_FAIL,
-          payload: err.response.data,
-          status: err.response.status,
-        });
+  return async (dispatch) => {
+    try {
+      await axios.post(activateURL, {}, { headers: { Authorization: `Bearer ${token}` } });
+
+      dispatch({
+        type: VERIFY_SUCCESS,
+        payload: 'Email verification successful! You can now log in',
       });
+    } catch (e) {
+      console.log({ e });
+      dispatch({
+        type: VERIFY_FAIL,
+        payload: e.response.data,
+        status: e.response.status,
+      });
+    }
   };
 }
 
 export function getVerificationLink() {}
 
 export function login(email, password) {
-  return (dispatch) => {
-    axios
-      .post(`${process.env.REACT_APP_API_DOMAIN}/login`, {
-        email,
-        password,
-      })
-      .then(({ data: { token, user } }) => {
-        localStorage.setItem('token', token);
-        localStorage.setItem('user', user);
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(loginURL, { email, password });
+      const { token, user } = data || {};
 
-        dispatch({ type: LOGIN_SUCCESS, user });
-        window.location = '/account';
-      })
-      .catch((err) => {
-        console.log(err.response);
-        dispatch({
-          type: LOGIN_FAIL,
-          payload: "Email and password combination isn't valid",
-        });
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', user);
+
+      dispatch({ type: LOGIN_SUCCESS, user });
+      window.location = '/account';
+    } catch (e) {
+      console.log({ e });
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: "Email and password combination isn't valid",
       });
+    }
   };
 }
 
-export function userlogout() {
-  return (dispatch) => {
-    axios
-      .delete(`${process.env.REACT_APP_API_DOMAIN}/userlogout`)
-      .then((data) => {
-        console.log(data);
-        // localStorage.clear();
-        dispatch({ type: LOGOUT_SUCCESS });
-        window.location = '/';
-      })
-      .catch((err) => {
-        console.log(err.response);
-        dispatch({ type: LOGOUT_FAIL, err });
-      });
+export function logout() {
+  return async (dispatch) => {
+    try {
+      await axios.delete(logoutURL, config);
+      dispatch({ type: LOGOUT_SUCCESS });
+      window.location = '/';
+    } catch (e) {
+      console.log({ e });
+      dispatch({ type: LOGOUT_FAIL, err: e });
+    }
   };
 }
-
-// export function logout() {
-//   const token = localStorage.getItem('token');
-
-//   return (dispatch) => {
-//     axios
-//       .post(
-//         `${process.env.REACT_APP_API_DOMAIN}/logout`,
-//         {},
-//         {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//           },
-//         }
-//       )
-//       .then((data) => {
-//         console.log(data);
-//         localStorage.clear();
-//         dispatch({ type: LOGOUT_SUCCESS });
-//         window.location = '/';
-//       })
-//       .catch((err) => {
-//         console.log(err.response);
-//         dispatch({ type: LOGOUT_FAIL, err });
-//       });
-//   };
-// }

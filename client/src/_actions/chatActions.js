@@ -15,29 +15,23 @@ const config = {
 };
 
 export function getChatContacts(id) {
-  return (dispatch) => {
-    axios
-      .get(contactsUrl(id), config)
-      .then((response) => {
-        dispatch({
-          type: 'GET_CHAT_CONTACTS',
-          payload: response.data,
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(contactsUrl(id), config);
+      dispatch({ type: 'GET_CHAT_CONTACTS', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function getChatConversation(id) {
-  return (dispatch) => {
-    axios
-      .get(conversationUrl(id), config)
-      .then((response) => {
-        dispatch({
-          type: 'GET_CHAT_CONVERSATION',
-          payload: response.data,
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(conversationUrl(id), config);
+      dispatch({ type: 'GET_CHAT_CONVERSATION', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }

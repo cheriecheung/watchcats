@@ -21,130 +21,102 @@ const config = {
   },
 };
 
-export function getRequestedSittingJobs() {
-  return (dispatch) => {
-    console.log('you are getting REQUESTED sitting JOBS');
-    axios
-      .get(requestedSittingJobUrl, config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'GET_REQUESTED_SITTING_JOBS',
-          payload: response.data,
-        });
-      })
-      .catch((error) => console.log(error.response));
-  };
-}
+// Sitting Jobs
 
-export function getRequestedSittingService() {
-  return (dispatch) => {
-    console.log('you are getting REQUESTED sitting SERVICE');
-    axios
-      .get(requestedSittingServiceUrl, config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'GET_REQUESTED_SITTING_SERVICE',
-          payload: response.data,
-        });
-      })
-      .catch((error) => console.log(error.response));
+export function getRequestedSittingJobs() {
+  return async (dispatch) => {
+    console.log('you are getting REQUESTED sitting JOBS');
+
+    try {
+      const { data } = await axios.get(requestedSittingJobUrl, config);
+      dispatch({ type: 'GET_REQUESTED_SITTING_JOBS', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function getConfirmedSittingJobs() {
-  return (dispatch) => {
+  return async (dispatch) => {
     console.log('you are getting CONFIRMED sitting JOBS');
-    // axios
-    //   .get(requestedSittingServiceUrl, config)
-    //   .then((response) => {
-    //     console.log(response);
-    //     dispatch({
-    //       type: 'GET_CONFIRMED_SITTING_JOBS',
-    //       payload: response.data,
-    //     });
-    //   })
-    //   .catch((error) => console.log(error.response));
+    try {
+      const { data } = await axios.get(confirmedSittingJobUrl, config);
+      dispatch({ type: 'GET_CONFIRMED_SITTING_JOBS', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
-
-export function getConfirmedSittingService() {
-  return (dispatch) => {
-    console.log('you are getting CONFIRMED sitting SERVICe');
-    // axios
-    //   .get(requestedSittingServiceUrl, config)
-    //   .then((response) => {
-    //     console.log(response);
-    //     dispatch({
-    //       type: 'GET_CONFIRMED_SITTING_SERVICE',
-    //       payload: response.data,
-    //     });
-    //   })
-    //   .catch((error) => console.log(error.response));
-  };
-}
-
 export function getCompletedSittingJobs() {
-  return (dispatch) => {
+  return async (dispatch) => {
     console.log('you are getting COMPLETED sitting JOBS');
-    // axios
-    //   .get(requestedSittingServiceUrl, config)
-    //   .then((response) => {
-    //     console.log(response);
-    //     dispatch({
-    //       type: 'GET_COMPLETED_SITTING_JOBS',
-    //       payload: response.data,
-    //     });
-    //   })
-    //   .catch((error) => console.log(error.response));
-  };
-}
-
-export function getCompletedSittingService() {
-  return (dispatch) => {
-    console.log('you are getting COMPLETED sitting SERVICe');
-    // axios
-    //   .get(requestedSittingServiceUrl, config)
-    //   .then((response) => {
-    //     console.log(response);
-    //     dispatch({
-    //       type: 'GET_COMPLETED_SITTING_SERVICE',
-    //       payload: response.data,
-    //     });
-    //   })
-    //   .catch((error) => console.log(error.response));
+    try {
+      const { data } = await axios.get(completedSittingJobUrl, config);
+      dispatch({ type: 'GET_COMPLETED_SITTING_JOBS', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function getDeclinedSittingJobs() {
-  return (dispatch) => {
+  return async (dispatch) => {
     console.log('you are getting DECLINED sitting JOBS');
-    // axios
-    //   .get(requestedSittingServiceUrl, config)
-    //   .then((response) => {
-    //     console.log(response);
-    //     dispatch({
-    //       type: 'GET_DECLINED_SITTING_JOBS',
-    //       payload: response.data,
-    //     });
-    //   })
-    //   .catch((error) => console.log(error.response));
+    try {
+      const { data } = await axios.get(declinedSittingJobUrl, config);
+      dispatch({ type: 'GET_DECLINED_SITTING_JOBS', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
+// Sitting Service
+
+export function getRequestedSittingService() {
+  return async (dispatch) => {
+    console.log('you are getting REQUESTED sitting SERVICE');
+    try {
+      const { data } = await axios.get(requestedSittingServiceUrl, config);
+      dispatch({ type: 'GET_REQUESTED_SITTING_SERVICE', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
+export function getConfirmedSittingService() {
+  return async (dispatch) => {
+    console.log('you are getting CONFIRMED sitting SERVICe');
+    try {
+      const { data } = await axios.get(confirmedSittingServiceUrl, config);
+      dispatch({ type: 'GET_CONFIRMED_SITTING_SERVICE', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
+export function getCompletedSittingService() {
+  return async (dispatch) => {
+    console.log('you are getting COMPLETED sitting SERVICe');
+    try {
+      const { data } = await axios.get(completedSittingServiceUrl, config);
+      dispatch({ type: 'GET_COMPLETED_SITTING_SERVICE', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function getDeclinedSittingService() {
-  return (dispatch) => {
+  return async (dispatch) => {
     console.log('you are getting DECLINED sitting SERVICE');
-    // axios
-    //   .get(requestedSittingServiceUrl, config)
-    //   .then((response) => {
-    //     console.log(response);
-    //     dispatch({
-    //       type: 'GET_DECLINED_SITTING_SERVICE',
-    //       payload: response.data,
-    //     });
-    //   })
-    //   .catch((error) => console.log(error.response));
+    try {
+      const { data } = axios.get(declinedSittingServiceUrl, config);
+      dispatch({ type: 'GET_DECLINED_SITTING_SERVICE', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }

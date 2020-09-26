@@ -23,153 +23,112 @@ const config = {
 };
 
 export function getUser() {
-  return (dispatch) => {
-    axios
-      .get(userURL, config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'GET_USER',
-          payload: response.data,
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(userURL, config);
+      dispatch({ type: 'GET_USER', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
-export function sendUser(data) {
-  return (dispatch) => {
-    axios
-      .post(userURL, data, config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'SAVE_USER',
-          payload: response.data,
-        });
-      })
-      .catch((error) => console.log(error.response));
+export function sendUser(userData) {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(userURL, userData, config);
+      dispatch({ type: 'SAVE_USER', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function sendProfilePic(formData) {
-  return (dispatch) => {
-    axios
-      .post(profilePicURL, formData, config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'SAVE_PROFILE_PIC',
-          payload: response.data,
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(profilePicURL, formData, config);
+      dispatch({ type: 'SAVE_PROFILE_PIC', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function sendAddressProof(formData) {
-  return (dispatch) => {
-    axios
-      .post(addressProofURL, formData, config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'SAVE_ADDRESS_PROOF',
-          payload: response.data,
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(addressProofURL, formData, config);
+      dispatch({ type: 'SAVE_ADDRESS_PROOF', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function getOwnerProfile(id) {
-  return (dispatch) => {
-    axios
-      .get(ownerProfileURL(id))
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'GET_PROFILE',
-          payload: response.data,
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(ownerProfileURL(id));
+      dispatch({ type: 'GET_PROFILE', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function getSitterProfile(id) {
-  return (dispatch) => {
-    axios
-      .get(sitterProfileURL(id))
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'GET_PROFILE',
-          payload: response.data,
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(sitterProfileURL(id));
+      dispatch({ type: 'GET_PROFILE', payload: data });
+      console.log({ data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function getSitterAccount(id) {
-  return (dispatch) => {
-    axios
-      .get(sitterAccountURL(id), config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'GET_PROFILE',
-          payload: response.data,
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(sitterAccountURL(id), config);
+      dispatch({ type: 'GET_PROFILE', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
-export function saveSitter(id, data) {
-  console.log({ data });
-  return (dispatch) => {
-    axios
-      .post(sitterAccountURL(id), data, config)
-      .then((response) => {
-        console.log(response);
-
-        dispatch({
-          type: 'SAVE_PROFILE',
-          payload: 'data',
-        });
-      })
-      .catch((error) => console.log(error.response));
+export function saveSitter(id, sitterData) {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(sitterAccountURL(id), sitterData, config);
+      dispatch({ type: 'SAVE_PROFILE', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
 export function getOwnerAccount(id) {
-  return (dispatch) => {
-    axios
-      .get(ownerAccountURL(id), config)
-      .then(({ data }) => {
-        dispatch({
-          type: 'GET_PROFILE',
-          payload: data,
-        });
-      })
-      .catch((error) => console.log(error.response));
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(ownerAccountURL(id), config);
+      dispatch({ type: 'GET_PROFILE', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
 
-export function saveOwner(id, data) {
-  console.log({ data });
-  return (dispatch) => {
-    axios
-      .post(ownerAccountURL(id), data, config)
-      .then((response) => {
-        console.log(response);
-        dispatch({
-          type: 'SAVE_PROFILE',
-          payload: 'done',
-        });
-      })
-      .catch((error) => console.log(error.response));
+export function saveOwner(id, ownerData) {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(ownerAccountURL(id), ownerData, config);
+      dispatch({ type: 'SAVE_PROFILE', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }

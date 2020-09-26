@@ -18,7 +18,7 @@ router.get('/checkloggedIn', async (req, res) => {
   return res.json(req.session.userId);
 });
 
-router.delete('/userlogout', (req, res) => {
+router.delete('/logout', (req, res) => {
   console.log({ REQsession: req.session });
 });
 
