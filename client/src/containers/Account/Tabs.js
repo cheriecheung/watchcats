@@ -49,7 +49,7 @@ function ProfileTabs() {
       style={{ marginTop: 10 }}
     >
       {accountTabs.map(({ key, tab, content }) => (
-        <TabPane tab={tab} key={key} style={{ marginBottom: 50 }}>
+        <TabPane tab={tab} key={key} style={{ marginBottom: 50, maxWidth: 950 }}>
           <Container>{content}</Container>
         </TabPane>
       ))}

@@ -7,9 +7,9 @@ function Account() {
   const authenticated = useSelector((state) => state.authentication);
 
   return (
-    <>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Tabs />
-    </>
+    </div>
   );
 }
 

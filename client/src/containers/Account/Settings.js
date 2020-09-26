@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Row, Col, Label, Input, Button } from 'reactstrap';
 import { Modal, Input as AntInput } from 'antd';
-import { TextField, SectionContainer } from '../../components/FormComponents';
+import { TextField, SectionContainer, SectionTitle } from '../../components/FormComponents';
 import valid from 'card-validator';
-import { themeColor } from '../../style/theme';
 import { useTranslation } from 'react-i18next';
 
 function Settings() {
@@ -105,12 +104,10 @@ function Settings() {
     );
   };
 
-  const color = themeColor.green;
-
   return (
     <>
       <SectionContainer>
-        <h6 style={{ color, fontWeight: 800 }}>{t('settings.payment_method')}</h6>
+        <SectionTitle>{t('settings.payment_method')}</SectionTitle>
         <Col style={{ paddingLeft: 0 }}>
           <button
             className="add-field-btn"
@@ -155,7 +152,7 @@ function Settings() {
       </SectionContainer>
 
       <SectionContainer>
-        <h6 style={{ color, fontWeight: 800 }}> {t('settings.change_password')}</h6>
+        <SectionTitle> {t('settings.change_password')}</SectionTitle>
         <Row>
           <Col md={4} className="mb-3">
             <Label> {t('settings.current_password')}</Label>
@@ -176,7 +173,7 @@ function Settings() {
       </SectionContainer>
 
       {/* <SectionContainer>
-        <h6 style={{ color, fontWeight: 800 }}>Change email</h6>
+        <SectionTitle>Change email</SectionTitle>
         <span style={{ marginBottom: 30 }}>
           Your email address will not change until you confirm it via email.
         </span>
@@ -200,7 +197,7 @@ function Settings() {
       </SectionContainer> */}
 
       <SectionContainer>
-        <h6 style={{ color, fontWeight: 800 }}> {t('settings.two_factor_auth')}</h6>
+        <SectionTitle> {t('settings.two_factor_auth')}</SectionTitle>
         <p>
           Protect your account with an extra layer of security. Once configured, you'll be required
           to enter both your password and an authentication code from your mobile phone in order to
@@ -209,7 +206,7 @@ function Settings() {
       </SectionContainer>
 
       <SectionContainer>
-        <h6 style={{ color: 'red', fontWeight: 800 }}>Delete account</h6>
+        <SectionTitle>Delete account</SectionTitle>
         <Button color="danger" size="sm" style={{ borderRadius: 10 }}>
           Delete account
         </Button>

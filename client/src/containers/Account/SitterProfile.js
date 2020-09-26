@@ -9,11 +9,11 @@ import {
   FieldLabel,
   FormButtons,
   SectionContainer,
+  SectionTitle,
   SelectField,
   TextArea,
   TextField,
 } from '../../components/FormComponents';
-import { themeColor } from '../../style/theme';
 import { priceOneDayOptions, priceOvernightOptions } from '../../constants';
 import { getSitterAccount, saveSitter } from '../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -116,8 +116,6 @@ function SitterProfile({ activeKey }) {
   };
   // const onSubmit = (data) => console.log(data);
 
-  const color = themeColor.grey;
-
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 20 }}>
@@ -129,7 +127,7 @@ function SitterProfile({ activeKey }) {
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>{t('sitter_form.about_me')}</h6>
+            <SectionTitle>{t('sitter_form.about_me')}</SectionTitle>
 
             <Row>
               <Col md={6}>
@@ -162,7 +160,7 @@ function SitterProfile({ activeKey }) {
           {/*  YEARS OF CAT CARE  */}
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>{t('sitter_form.experience_serivce')}</h6>
+            <SectionTitle>{t('sitter_form.experience_serivce')}</SectionTitle>
             <p style={{ margin: '20px 0 30px 0' }}>{t('sitter_form.experience_description')}</p>
             {/* <Row> */}
             <div className="sitter-skills">
@@ -196,7 +194,7 @@ function SitterProfile({ activeKey }) {
           </SectionContainer>
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>{t('sitter_form.pricing')}</h6>
+            <SectionTitle>{t('sitter_form.pricing')}</SectionTitle>
             <Row>
               <Col md={6}>
                 <FieldLabel>{t('sitter_form.one_day')}</FieldLabel>
@@ -212,7 +210,7 @@ function SitterProfile({ activeKey }) {
           </SectionContainer>
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>{t('sitter_form.availability')}</h6>
+            <SectionTitle>{t('sitter_form.availability')}</SectionTitle>
             <Row>
               <Col md={12}>
                 <p>{t('sitter_form.availability_description')}</p>

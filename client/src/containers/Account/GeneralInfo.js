@@ -7,8 +7,8 @@ import {
   FormButtons,
   TextField,
   SectionContainer,
+  SectionTitle,
 } from '../../components/FormComponents';
-import { themeColor } from '../../style/theme';
 import styled from 'styled-components';
 import { getUser, sendUser, sendProfilePic, sendAddressProof } from '../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -104,8 +104,6 @@ function GeneralInfo({ activeKey }) {
     }
   };
 
-  const color = themeColor.green;
-
   return (
     <>
       <FormProvider {...methods}>
@@ -135,7 +133,7 @@ function GeneralInfo({ activeKey }) {
           </SummarySection>
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>{t('general_info.profile_picture')}</h6>
+            <SectionTitle>{t('general_info.profile_picture')}</SectionTitle>
             <p style={{ marginBottom: 30 }}>
               The personal data in the following section will be used for communication purpose when
               a cat sitting service is requested.
@@ -211,7 +209,7 @@ function GeneralInfo({ activeKey }) {
           </SectionContainer>
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>{t('general_info.personal_info')}</h6>
+            <SectionTitle>{t('general_info.personal_info')}</SectionTitle>
 
             <Row>
               <Col md={6} className="mb-3">
@@ -242,7 +240,7 @@ function GeneralInfo({ activeKey }) {
           </SectionContainer>
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>{t('general_info.proof_address')}</h6>
+            <SectionTitle>{t('general_info.proof_address')}</SectionTitle>
             <Row>
               <Col md={6} className="mb-3">
                 <p>
@@ -270,7 +268,7 @@ function GeneralInfo({ activeKey }) {
           </SectionContainer>
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>{t('general_info.social_media')}</h6>
+            <SectionTitle>{t('general_info.social_media')}</SectionTitle>
             <Row className="social-media-input">
               <Col md={4} className="mb-3">
                 <FieldLabel>{t('general_info.facebook')}</FieldLabel>

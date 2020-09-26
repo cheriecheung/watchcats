@@ -9,6 +9,7 @@ import {
   RadioButton,
   RadioGroup,
   SectionContainer,
+  SectionTitle,
   SelectField,
   TextArea,
   TextField,
@@ -132,7 +133,7 @@ function OwnerProfile({ activeKey }) {
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}> {t('owner_form.about_me')}</h6>
+            <SectionTitle> {t('owner_form.about_me')}</SectionTitle>
 
             <Row>
               <Col md={6}>
@@ -157,7 +158,7 @@ function OwnerProfile({ activeKey }) {
           </SectionContainer>
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>{t('owner_form.appointment')}</h6>
+            <SectionTitle>{t('owner_form.appointment')}</SectionTitle>
 
             <h6 style={{ marginTop: 30 }}>{t('owner_form.one_day')}</h6>
 
@@ -306,7 +307,7 @@ function OwnerProfile({ activeKey }) {
           </SectionContainer>
 
           <CatInfoContainer>
-            <h6 style={{ color, fontWeight: 800, padding: 20 }}>{t('owner_form.about_cat')}</h6>
+            <SectionTitle>{t('owner_form.about_cat')}</SectionTitle>
 
             {catFields.map((item, index) => {
               return (
@@ -456,7 +457,7 @@ function OwnerProfile({ activeKey }) {
           </CatInfoContainer>
 
           <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>{t('owner_form.cat_description')}</h6>
+            <SectionTitle>{t('owner_form.cat_description')}</SectionTitle>
             <TextArea
               name="catsDescription"
               placeholder={t('owner_form.cat_description_text')}
