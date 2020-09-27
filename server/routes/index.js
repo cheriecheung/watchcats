@@ -30,6 +30,7 @@ baseRouter.use('/', require('./booking_status'));
 baseRouter.use('/', require('./cat_sitter'));
 baseRouter.use('/', require('./cat_owner'));
 baseRouter.use('/', require('./chat'));
+baseRouter.use('/', require('./payment'));
 baseRouter.use('/', require('./user'));
 
 module.exports = { baseRouter };

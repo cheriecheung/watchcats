@@ -57,6 +57,7 @@
     "redux-thunk": "^2.3.0",
     "shortid": "^2.2.15",
     "socket.io": "^2.3.0",
+    "stripe": "^8.102.0",
     "styled-components": "^5.1.1"
   },
   "devDependencies": {
