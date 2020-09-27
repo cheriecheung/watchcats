@@ -2,8 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Item from '../Item';
 import { ActionButton } from '../../../components/Bookings';
-import { useDispatch } from 'react-redux';
-import { getPaymentIntent } from '../../../_actions/paymentActions';
 
 function Confirmed({
   bookingType,
@@ -84,8 +82,6 @@ function ConfirmedJob({ hasPaid, openModal, setModalContent, t }) {
 }
 
 function ConfirmedService({ hasPaid, openModal, setModalContent, t }) {
-  const dispatch = useDispatch();
-
   return hasPaid ? (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
       <span>waiting for cat sitter to confirm completion of sitting appointment</span>
@@ -95,8 +91,7 @@ function ConfirmedService({ hasPaid, openModal, setModalContent, t }) {
       <ActionButton
         backgroundColor="#9ACD32"
         onClick={() => {
-          //alert('redirect to payment page');
-          dispatch(getPaymentIntent(3));
+          alert('redirect to payment page');
         }}
       >
         {t('bookings.pay_now')}

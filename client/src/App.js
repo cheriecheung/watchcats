@@ -13,8 +13,11 @@ import About from './containers/About';
 import VerifyEmail from './containers/VerifyEmail';
 import Login from './containers/Login';
 import Loading from './containers/Login/Loading';
+
 import Bookings from './containers/Bookings';
+import Payment from './containers/Payment';
 import WriteReview from './containers/WriteReview';
+
 import Messages from './containers/Messages';
 import Account from './containers/Account';
 import FindSitter from './containers/FindSitter';
@@ -58,6 +61,7 @@ function App() {
             <PrivateRoute path="/profile/catsitter/:id" component={CatSitter} />
             <PrivateRoute path="/profile/catowner/:id" component={CatOwner} />
             <PrivateRoute path="/bookings" component={Bookings} />
+            <PrivateRoute path="/payment" component={Payment} />
             <PrivateRoute path="/writereivew/:id?" component={WriteReview} />
             <PrivateRoute path="/messages/:id?" component={Messages} />
             <PrivateRoute path="/account/:id?" component={Account} />
