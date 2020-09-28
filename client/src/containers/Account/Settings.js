@@ -4,9 +4,12 @@ import { Modal, Input as AntInput } from 'antd';
 import { TextField, SectionContainer, SectionTitle } from '../../components/FormComponents';
 import valid from 'card-validator';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { onboardUser } from '../../_actions/paymentActions';
 
 function Settings() {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const [modal, setModal] = useState({
     show: false,
@@ -106,6 +109,13 @@ function Settings() {
 
   return (
     <>
+      <SectionContainer>
+        <SectionTitle>Stripe Account</SectionTitle>
+        <p>To send and / or receive payments, please set up payouts on Stripe</p>
+
+        <button onClick={() => dispatch(onboardUser())}>Set up payouts</button>
+      </SectionContainer>
+
       <SectionContainer>
         <SectionTitle>{t('settings.payment_method')}</SectionTitle>
         <Col style={{ paddingLeft: 0 }}>

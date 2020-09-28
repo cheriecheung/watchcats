@@ -15,7 +15,7 @@ const Container = styled.div`
   margin: 5% 3% 3% 3%;
 `;
 
-const defaultKey = 'general';
+const defaultKey = 'settings';
 
 function ProfileTabs() {
   const { t } = useTranslation();

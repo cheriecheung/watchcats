@@ -4,6 +4,7 @@ const cookies = new Cookies();
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
+const onboardURL = `${REACT_APP_API_DOMAIN}/onboard-user`;
 const paymentURL = `${REACT_APP_API_DOMAIN}/payment`;
 
 const config = {
@@ -12,6 +13,19 @@ const config = {
     Authorization: cookies.get('userId'),
   },
 };
+
+export function onboardUser() {
+  return async (dispatch) => {
+    try {
+      const {
+        data: { url },
+      } = await axios.get(onboardURL, config);
+      dispatch({ type: 'ONBOARD_USER', payload: url });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
 
 export function getPaymentIntent(bookingId) {
   return async (dispatch) => {
