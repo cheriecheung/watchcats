@@ -134,7 +134,6 @@ function BookingTabs() {
 
   const changeBookingTypeTab = (key) => {
     setBookingTypeActiveKey(key);
-    setBookingStatusActiveKey(defaultKeyBookingStatus);
   };
 
   const changeBookingStatusTab = (key) => {

@@ -77,12 +77,12 @@ const Item = ({ data, renderSection, bookingType }) => {
             <Col md={6}>
               {appointmentType === 'oneDay' ? (
                 <span>
-                  {formattedDate(data.startDate)} - {formattedDate(data.endDate)}
+                  {formattedDate(data.date)}, {formattedTime(data.startTime)} -
+                  {formattedTime(data.endTime)}
                 </span>
               ) : (
                 <span>
-                  {formattedDate(data.date)}, {formattedTime(data.startTime)} -
-                  {formattedTime(data.endTime)}
+                  {formattedDate(data.startDate)} - {formattedDate(data.endDate)}
                 </span>
               )}
             </Col>

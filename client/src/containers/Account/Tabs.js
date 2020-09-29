@@ -4,8 +4,10 @@ import GeneralInfo from './GeneralInfo';
 import SitterProfile from './SitterProfile';
 import OwnerProfile from './OwnerProfile';
 import Settings from './Settings';
+import ResponseModal from './ResponseModal';
 import ScreenWidthListener from '../../components/General/ScreenWidthListener';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
@@ -15,12 +17,24 @@ const Container = styled.div`
   margin: 5% 3% 3% 3%;
 `;
 
-const defaultKey = 'settings';
+// const defaultKey = 'sitter';
 
 function ProfileTabs() {
+  const history = useHistory();
   const { t } = useTranslation();
   const { screenWidth } = ScreenWidthListener();
-  const [activeKey, setActiveKey] = useState(defaultKey);
+
+  const [defaultKey, setDefaultKey] = useState();
+  const [activeKey, setActiveKey] = useState('');
+
+  useEffect(() => {
+    if (history.location.state.accountTab) {
+      console.log({ haha: history.location.state.accountTab });
+      setActiveKey(history.location.state.accountTab);
+    } else {
+      setDefaultKey('sitter');
+    }
+  }, [history]);
 
   const accountTabs = [
     {
@@ -54,6 +68,8 @@ function ProfileTabs() {
           <Container>{content}</Container>
         </TabPane>
       ))}
+
+      <ResponseModal />
     </Tabs>
   );
 }

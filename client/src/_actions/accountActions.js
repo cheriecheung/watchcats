@@ -37,7 +37,7 @@ export function sendUser(userData) {
   return async (dispatch) => {
     try {
       const { data } = await axios.post(userURL, userData, config);
-      dispatch({ type: 'SAVE_USER', payload: data });
+      dispatch({ type: 'GENERAL_INFO_SAVED', payload: data });
     } catch (e) {
       console.log({ e });
     }
