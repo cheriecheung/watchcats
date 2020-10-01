@@ -54,7 +54,7 @@ const sitterSchema = new Schema({
     type: Boolean,
     required: false,
   },
-  priceOneTime: {
+  priceOneDay: {
     type: Number,
     required: false,
   },
@@ -65,14 +65,6 @@ const sitterSchema = new Schema({
   unavailableDate: {
     type: Schema.Types.ObjectId,
     ref: 'UnavailableDate',
-  },
-  emergencyName: {
-    type: String,
-    required: false,
-  },
-  emergencyNumber: {
-    type: String,
-    required: false,
   },
   createdAt: {
     type: Date,

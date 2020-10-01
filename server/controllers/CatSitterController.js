@@ -29,143 +29,97 @@ module.exports = {
   },
 
   getAccount: async (req, res) => {
-    // and get userId in header
+    const userId = req.headers['authorization'];
+    if (!userId) return res.status(403).json('User id missing');
 
     try {
       const sitterRecord = await Sitter.findOne({ urlId: req.params.id });
       if (!sitterRecord) return res.status(404).json('No sitter account');
-    } catch (e) {
-      console.log({ e });
+
+      const unavailableDates = await getUnavailableDates(sitterRecord.id);
+      const sitterData = { ...sitterRecord._doc, unavailableDates };
+
+      return res.status(200).json(sitterData);
+    } catch (err) {
+      console.log({ err });
+      return res.status(500).json({ err });
     }
-
-    // User.findOne({ urlId: req.params.id })
-    //   .populate('sitter')
-    //   .exec(async (err, user) => {
-    //     if (err) return err;
-
-    //     const { sitter } = user;
-    //     const { id: sitterObjectId } = sitter;
-
-    //     const allUnavailableDates = await getUnavailableDates(sitterObjectId);
-
-    //     const sitterData = { ...sitter._doc, unavailableDates: allUnavailableDates };
-
-    //     console.log({ sitterData });
-
-    //     return res.status(200).json(sitterData);
-    //   });
   },
 
   postAccount: async (req, res) => {
     const userId = req.headers['authorization'];
-    const user = await User.findById(userId);
-    const {
-      aboutSitter,
-      experience,
-      hasCat,
-      hasMedicationSkills,
-      hasVolunteered,
-      hasInjectionSkills,
-      hasCertification,
-      hasGroomingSkills,
-      priceOneTime,
-      priceOvernight,
-      unavailableDates: unavailableDatesData,
-      emergencyName,
-      emergencyNumber,
-    } = req.body;
+    if (!userId) return res.status(403).json('User id missing');
 
-    // console.log({ unavailableDatesData });
+    const userRecord = await User.findById(userId);
+    if (!userRecord) return res.status(404).json('No user found');
 
-    if (!user.sitter) {
-      const newSitter = new Sitter({
-        _id: new mongoose.Types.ObjectId(),
-        urlId: user.urlId,
-        aboutSitter,
-        experience,
-        hasCat,
-        hasMedicationSkills,
-        hasVolunteered,
-        hasInjectionSkills,
-        hasCertification,
-        hasGroomingSkills,
-        priceOneTime,
-        priceOvernight,
-        emergencyName,
-        emergencyNumber,
-      });
+    const { unavailableDates: unavailableDatesArr, ...rest } = req.body;
 
-      if (unavailableDatesData.length > 0) {
-        unavailableDatesData.forEach((date) => {
-          const newDate = new UnavailableDate({
-            sitter: newSitter._id,
-            date,
-          });
-
-          newDate.save();
-        });
-      }
-
+    if (!userRecord.sitter) {
       try {
-        await newSitter.save();
-        user.sitter = newSitter._id;
-        user.save();
+        const newSitter = new Sitter({
+          _id: new mongoose.Types.ObjectId(),
+          urlId: userRecord.urlId,
+          ...rest,
+        });
 
-        return res.status(201).json('Sitter profile successful created');
-      } catch (e) {
-        console.log({ e });
+        await newSitter.save();
+        userRecord.sitter = newSitter._id;
+        await userRecord.save();
+
+        if (unavailableDatesArr.length > 0) {
+          unavailableDatesArr.forEach(async (date) => {
+            const newDate = new UnavailableDate({
+              sitter: newSitter._id,
+              date,
+            });
+            await newDate.save();
+          });
+        }
+
+        return res.status(201).json('Sitter profile successfully created');
+      } catch (err) {
+        console.log({ err });
+        return res.status(500).json({ err });
       }
     }
 
-    if (user.sitter) {
-      User.findById(userId)
-        .populate('sitter')
-        .exec(async (err, user) => {
-          if (err) return err;
+    try {
+      const sitterRecord = await Sitter.findOneAndUpdate(
+        { urlId: req.params.id },
+        { $set: { ...rest } },
+        { useFindAndModify: false }
+      );
+      if (!sitterRecord) return res.status(400).json('Fail to update');
 
-          const sitterIdObj = user.sitter;
+      const { id: sitterId } = sitterRecord;
 
-          if (unavailableDatesData.length > 0) {
-            const allDays = await UnavailableDate.find({
-              sitter: sitterIdObj,
-            });
-
-            // console.log({ allDays });
-
-            unavailableDatesData.forEach((date, index) => {
-              if (!allDays.includes(date)) {
-                // CHANGE MOMENT DATE TO JS DATE
-                const newDate = new UnavailableDate({
-                  sitter: sitterIdObj,
-                  date,
-                });
-                newDate.save();
-              }
-            });
-
-            allDays.length > 0 &&
-              allDays.forEach((item, index) => {
-                if (!unavailableDatesData.includes(item)) allDays[index].remove();
-              });
-          }
-
-          const { sitter } = user;
-          sitter.aboutSitter = aboutSitter;
-          sitter.experience = experience;
-          sitter.hasCat = hasCat;
-          sitter.hasMedicationSkills = hasMedicationSkills;
-          sitter.hasVolunteered = hasVolunteered;
-          sitter.hasInjectionSkills = hasInjectionSkills;
-          sitter.hasCertification = hasCertification;
-          sitter.hasGroomingSkills = hasGroomingSkills;
-          sitter.priceOneTime = priceOneTime;
-          sitter.priceOvernight = priceOvernight;
-          sitter.emergencyName = emergencyName;
-          sitter.emergencyNumber = emergencyNumber;
-          sitter.save();
-
-          return res.status(200).json('Sitter profile successful updated');
+      if (unavailableDatesArr.length > 0) {
+        const allDays = await UnavailableDate.find({
+          sitter: sitterId,
         });
+
+        unavailableDatesArr.forEach(async (date) => {
+          if (!allDays.includes(date)) {
+            // CHANGE MOMENT DATE TO JS DATE
+            const newDate = new UnavailableDate({
+              sitter: sitterId,
+              date,
+            });
+            await newDate.save();
+          }
+        });
+
+        allDays.length > 0 &&
+          allDays.forEach((item, index) => {
+            if (!unavailableDatesArr.includes(item)) allDays[index].remove();
+          });
+      }
+
+      return res.status(200).json('Successful save');
+    } catch (err) {
+      console.log({ err });
+      return res.status(500).json({ err });
     }
   },
 };

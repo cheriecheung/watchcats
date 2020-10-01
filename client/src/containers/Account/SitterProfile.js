@@ -31,7 +31,7 @@ const defaultValues = {
   hasInjectionSkills: false,
   hasCertification: false,
   hasGroomingSkills: false,
-  priceOneTime: priceOneDayOptions[0],
+  priceOneDay: priceOneDayOptions[0],
   priceOvernight: priceOvernightOptions[0],
   unavailableDates: [],
   emergencyName: '',
@@ -65,7 +65,7 @@ function SitterProfile({ activeKey }) {
     }
   }, [activeKey, dispatch]);
 
-  const { sitter: sitterData } = useSelector((state) => state.account);
+  const { sitterData } = useSelector((state) => state.account);
 
   useEffect(() => {
     console.log({ sitterData });
@@ -79,11 +79,9 @@ function SitterProfile({ activeKey }) {
         hasInjectionSkills = false,
         hasCertification = false,
         hasGroomingSkills = false,
-        priceOneTime = { value: '', label: '' },
-        priceOvernight = { value: '', label: '' },
+        priceOneDay,
+        priceOvernight,
         unavailableDates = [],
-        emergencyName,
-        emergencyNumber,
       } = sitterData;
 
       reset({
@@ -96,25 +94,26 @@ function SitterProfile({ activeKey }) {
         hasInjectionSkills,
         hasCertification,
         hasGroomingSkills,
-        priceOneTime: { value: priceOneTime, label: `€ ${priceOneTime},00` },
+        priceOneDay: { value: priceOneDay, label: `€ ${priceOneDay},00` },
         priceOvernight: { value: priceOvernight, label: `€ ${priceOvernight},00` },
         unavailableDates: unavailableDates.map((item) => new Date(item)),
-        emergencyName,
-        emergencyNumber,
       });
     }
   }, [reset, sitterData]);
 
   const onSubmit = (data) => {
+    const { priceOneDay, priceOvernight } = data;
+    const { value: priceOneDayValue } = priceOneDay || {};
+    const { value: priceOvernightValue } = priceOvernight || {};
+
     const cleanedData = {
       ...data,
-      priceOneTime: data.priceOneTime.value,
-      priceOvernight: data.priceOvernight.value,
+      priceOneDay: priceOneDayValue,
+      priceOvernight: priceOvernightValue,
     };
 
     dispatch(saveSitter(id, cleanedData));
   };
-  // const onSubmit = (data) => console.log(data);
 
   return (
     <>
@@ -198,7 +197,7 @@ function SitterProfile({ activeKey }) {
             <Row>
               <Col md={6}>
                 <FieldLabel>{t('sitter_form.one_day')}</FieldLabel>
-                <SelectField name="priceOneTime" options={priceOneDayOptions} />
+                <SelectField name="priceOneDay" options={priceOneDayOptions} />
                 <span>{t('sitter_form.per_hour')}</span>
               </Col>
               <Col md={6}>
@@ -252,21 +251,6 @@ function SitterProfile({ activeKey }) {
               </Col>
             </Row>
           </SectionContainer>
-
-          {/* <SectionContainer>
-            <h6 style={{ color, fontWeight: 800 }}>Emergency Contact</h6>
-            <p>In case of an emergency, cat owners can contact the following:</p>
-            <Row>
-              <Col md={6}>
-                <FieldLabel>Full name</FieldLabel>
-                <TextField name="emergencyName" />
-              </Col>
-              <Col md={6}>
-                <FieldLabel>Contact number</FieldLabel>
-                <TextField name="emergencyNumber" />
-              </Col>
-            </Row>
-          </SectionContainer> */}
 
           <FormButtons onClick={() => reset(defaultValues)} />
         </form>

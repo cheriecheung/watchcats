@@ -7,7 +7,7 @@ export function account(state = {}, action) {
     case 'OWNER_ACCOUNT_SAVED':
       return { owner: action.payload };
     case 'GET_SITTER_ACCOUNT':
-      return { sitter: action.payload };
+      return { sitterData: action.payload };
     case 'GET_USER':
       return { data: action.payload };
     default:
