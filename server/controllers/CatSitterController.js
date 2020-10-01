@@ -31,22 +31,29 @@ module.exports = {
   getAccount: async (req, res) => {
     // and get userId in header
 
-    User.findOne({ urlId: req.params.id })
-      .populate('sitter')
-      .exec(async (err, user) => {
-        if (err) return err;
+    try {
+      const sitterRecord = await Sitter.findOne({ urlId: req.params.id });
+      if (!sitterRecord) return res.status(404).json('No sitter account');
+    } catch (e) {
+      console.log({ e });
+    }
 
-        const { sitter } = user;
-        const { id: sitterObjectId } = sitter;
+    // User.findOne({ urlId: req.params.id })
+    //   .populate('sitter')
+    //   .exec(async (err, user) => {
+    //     if (err) return err;
 
-        const allUnavailableDates = await getUnavailableDates(sitterObjectId);
+    //     const { sitter } = user;
+    //     const { id: sitterObjectId } = sitter;
 
-        const sitterData = { ...sitter._doc, unavailableDates: allUnavailableDates };
+    //     const allUnavailableDates = await getUnavailableDates(sitterObjectId);
 
-        console.log({ sitterData });
+    //     const sitterData = { ...sitter._doc, unavailableDates: allUnavailableDates };
 
-        return res.status(200).json(sitterData);
-      });
+    //     console.log({ sitterData });
+
+    //     return res.status(200).json(sitterData);
+    //   });
   },
 
   postAccount: async (req, res) => {

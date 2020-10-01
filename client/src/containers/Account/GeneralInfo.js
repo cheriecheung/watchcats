@@ -55,11 +55,8 @@ function GeneralInfo({ activeKey }) {
   const [addressProofFileName, setAddressProofFileName] = useState('');
 
   useEffect(() => {
-    console.log({ profilePicFileName, addressProofFileName });
-  }, [profilePicFileName, addressProofFileName]);
-
-  useEffect(() => {
     if (activeKey === 'general') {
+      console.log({ activeKey });
       dispatch(getUser());
     }
   }, [activeKey, dispatch]);
@@ -156,7 +153,7 @@ function GeneralInfo({ activeKey }) {
               </Col>
               <Col md={6}>
                 <div style={{ display: 'flex', flexDirection: 'column', wordWrap: 'break-word' }}>
-                  <label for={uploadProfilePicId} className="upload-file-input form-control">
+                  <label htmlFor={uploadProfilePicId} className="upload-file-input form-control">
                     <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
                     <span>{t('owner_form.upload')}</span>
                   </label>
@@ -250,7 +247,7 @@ function GeneralInfo({ activeKey }) {
               </Col>
               <Col md={6} className="mb-3">
                 <div style={{ display: 'flex', flexDirection: 'column', wordWrap: 'break-word' }}>
-                  <label for={uploadAddressProofId} className="upload-file-input form-control">
+                  <label htmlFor={uploadAddressProofId} className="upload-file-input form-control">
                     <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
                     <span>{t('owner_form.upload')}</span>
                   </label>

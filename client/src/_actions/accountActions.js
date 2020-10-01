@@ -93,7 +93,8 @@ export function getSitterAccount(id) {
   return async (dispatch) => {
     try {
       const { data } = await axios.get(sitterAccountURL(id), config);
-      dispatch({ type: 'GET_PROFILE', payload: data });
+      console.log({ sitterAccountData: data });
+      dispatch({ type: 'GET_SITTER_ACCOUNT', payload: data });
     } catch (e) {
       console.log({ e });
     }
@@ -104,7 +105,7 @@ export function saveSitter(id, sitterData) {
   return async (dispatch) => {
     try {
       const { data } = await axios.post(sitterAccountURL(id), sitterData, config);
-      dispatch({ type: 'SAVE_PROFILE', payload: data });
+      dispatch({ type: 'SITTER_ACCOUNT_SAVED', payload: data });
     } catch (e) {
       console.log({ e });
     }
@@ -126,7 +127,7 @@ export function saveOwner(id, ownerData) {
   return async (dispatch) => {
     try {
       const { data } = await axios.post(ownerAccountURL(id), ownerData, config);
-      dispatch({ type: 'SAVE_PROFILE', payload: data });
+      dispatch({ type: 'OWNER_ACCOUNT_SAVED', payload: data });
     } catch (e) {
       console.log({ e });
     }

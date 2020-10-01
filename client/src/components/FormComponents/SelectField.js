@@ -23,8 +23,7 @@ const colourStyles = {
 
       ':active': {
         ...styles[':active'],
-        backgroundColor:
-          !isDisabled && (isSelected ? data.color : bgColor(0.3)),
+        backgroundColor: !isDisabled && (isSelected ? data.color : bgColor(0.3)),
       },
     };
   },
@@ -40,7 +39,7 @@ const colourStyles = {
       // border: '1px solid #d9d9d9',
       cursor: 'pointer',
       border: '1px solid rgba(255, 161, 149, 0.4)',
-      '-webkit-box-shadow': '0 0 0 2px rgba(255, 161, 149, 0.15) !important',
+      WebkitBoxShadow: '0 0 0 2px rgba(255, 161, 149, 0.15) !important',
       boxShadow: '0 0 0 2px rgba(255, 161, 149, 0.15) !important',
     },
   }),

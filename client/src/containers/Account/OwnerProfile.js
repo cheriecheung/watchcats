@@ -420,7 +420,7 @@ function OwnerProfile({ activeKey }) {
                     <Col md={6} className="mb-3">
                       <FieldLabel>{t('owner_form.pictures')} (max. 3)</FieldLabel>
                       <br />
-                      <label for="file-upload" className="upload-file-input form-control">
+                      <label htmlFor="file-upload" className="upload-file-input form-control">
                         <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
                         <span>{t('owner_form.upload')}</span>
                       </label>

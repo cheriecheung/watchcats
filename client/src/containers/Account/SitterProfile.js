@@ -31,8 +31,8 @@ const defaultValues = {
   hasInjectionSkills: false,
   hasCertification: false,
   hasGroomingSkills: false,
-  priceOneTime: { value: '', label: '' },
-  priceOvernight: { value: '', label: '' },
+  priceOneTime: priceOneDayOptions[0],
+  priceOvernight: priceOvernightOptions[0],
   unavailableDates: [],
   emergencyName: '',
   emergencyNumber: '',
@@ -65,7 +65,7 @@ function SitterProfile({ activeKey }) {
     }
   }, [activeKey, dispatch]);
 
-  const { data: sitterData } = useSelector((state) => state.account);
+  const { sitter: sitterData } = useSelector((state) => state.account);
 
   useEffect(() => {
     console.log({ sitterData });
