@@ -23,10 +23,10 @@ module.exports = {
       profileFacebook,
       profileInstagram,
       profileOther,
+      profilePictureFileName,
     } = user;
 
     return res.status(200).json({
-      profilePicURL: res.locals.profilePicFileName || null,
       firstName,
       lastName,
       email,
@@ -36,6 +36,7 @@ module.exports = {
       profileFacebook,
       profileInstagram,
       profileOther,
+      profilePictureFileName,
     });
   },
 
@@ -76,29 +77,29 @@ module.exports = {
     }
   },
 
-  saveFileId: async (req, res) => {
-    const userId = req.headers['authorization'];
-    if (!userId) return res.status(403).json('User id missing');
+  // saveFileId: async (req, res) => {
+  //   const userId = req.headers['authorization'];
+  //   if (!userId) return res.status(403).json('User id missing');
 
-    const userRecord = await User.findById(userId);
-    if (!userRecord) return res.status(404).json('User not found');
+  //   const userRecord = await User.findById(userId);
+  //   if (!userRecord) return res.status(404).json('User not found');
 
-    const { file } = req;
-    if (!file) return res.status(404).json('File is not properly uploaded');
+  //   const { file } = req;
+  //   if (!file) return res.status(404).json('File is not properly uploaded');
 
-    if (file.fieldname === 'profilePic') {
-      userRecord.profilePictureId = file.id;
-    } else {
-      userRecord.addressProofId = file.id;
-    }
+  //   if (file.fieldname === 'profilePic') {
+  //     userRecord.profilePictureId = file.id;
+  //   } else {
+  //     userRecord.addressProofId = file.id;
+  //   }
 
-    try {
-      await userRecord.save();
-      return res.status(200).json('File successfully saved');
-    } catch (e) {
-      console.log({ e });
-    }
-  },
+  //   try {
+  //     await userRecord.save();
+  //     return res.status(200).json('File successfully saved');
+  //   } catch (e) {
+  //     console.log({ e });
+  //   }
+  // },
 
   register: async (req, res) => {
     const { error } = registerValidation(req.body);

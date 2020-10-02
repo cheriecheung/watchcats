@@ -80,8 +80,10 @@ function GeneralInfo({ activeKey }) {
     console.log({ userData });
 
     if (userData) {
-      const { profilePicURL: profilePicURLValue } = userData;
-      setProfilePicURL(profilePicURLValue);
+      const { profilePictureFileName } = userData;
+      if (profilePictureFileName) {
+        setProfilePicURL(profilePictureFileName);
+      }
       reset(userData);
     }
   }, [userData]);
@@ -192,7 +194,7 @@ function GeneralInfo({ activeKey }) {
                     <>
                       <div style={{ overflow: 'hidden', width: 100, height: 100 }}>
                         <img
-                          src={`${REACT_APP_API_DOMAIN}/user/picture/${profilePicURL}`}
+                          src={`${REACT_APP_API_DOMAIN}/image/${profilePicURL}`}
                           alt="profile_picture"
                           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                         />

@@ -28,8 +28,8 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
-  profilePictureId: {
-    type: Schema.Types.ObjectId,
+  profilePictureFileName: {
+    type: String,
   },
   phone: {
     type: String,
@@ -43,9 +43,8 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
-  addressProofId: {
+  addressProofFileName: {
     type: String,
-    type: Schema.Types.ObjectId,
   },
   isAddressProofVerified: {
     type: String,
