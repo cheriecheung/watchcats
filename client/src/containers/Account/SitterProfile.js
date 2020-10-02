@@ -68,7 +68,6 @@ function SitterProfile({ activeKey }) {
   const { sitterData } = useSelector((state) => state.account);
 
   useEffect(() => {
-    console.log({ sitterData });
     if (sitterData) {
       const {
         aboutSitter,

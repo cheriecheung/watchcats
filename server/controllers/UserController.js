@@ -25,6 +25,7 @@ module.exports = {
     } = user;
 
     return res.status(200).json({
+      profilePicURL: res.locals.profilePicFileName || null,
       firstName,
       lastName,
       email,

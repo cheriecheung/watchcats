@@ -13,8 +13,6 @@ const sitterProfileURL = (id) => `${REACT_APP_API_DOMAIN}/sitter/profile/${id}`;
 const ownerAccountURL = (id) => `${REACT_APP_API_DOMAIN}/owner/account/${id}`;
 const ownerProfileURL = (id) => `${REACT_APP_API_DOMAIN}/owner/profile/${id}`;
 
-// const ownerURL = `${process.env.REACT_APP_API_DOMAIN}/owner`;
-
 const config = {
   withCredentials: true,
   headers: {
@@ -116,7 +114,7 @@ export function getOwnerAccount(id) {
   return async (dispatch) => {
     try {
       const { data } = await axios.get(ownerAccountURL(id), config);
-      dispatch({ type: 'GET_PROFILE', payload: data });
+      dispatch({ type: 'GET_OWNER_ACCOUNT', payload: data });
     } catch (e) {
       console.log({ e });
     }

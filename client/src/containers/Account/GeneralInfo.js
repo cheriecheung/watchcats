@@ -42,6 +42,8 @@ const defaultValues = {
 const uploadProfilePicId = 'upload-profile-pic';
 const uploadAddressProofId = 'upload-address-proof';
 
+const { REACT_APP_API_DOMAIN } = process.env;
+
 function GeneralInfo({ activeKey }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -49,6 +51,8 @@ function GeneralInfo({ activeKey }) {
 
   const methods = useForm();
   const { register, handleSubmit, reset, setValue, watch } = methods;
+
+  const [profilePicURL, setProfilePicURL] = useState('');
 
   const [profilePicFileName, setProfilePicFileName] = useState('');
   const [profilePicPreview, setProfilePicPreview] = useState('');
@@ -62,7 +66,12 @@ function GeneralInfo({ activeKey }) {
   }, [activeKey, dispatch]);
 
   useEffect(() => {
+    console.log({ userData });
+
     if (userData) {
+      const { profilePicURL: profilePicURLValue } = userData;
+      setProfilePicURL(profilePicURLValue);
+
       const {
         firstName,
         lastName,
@@ -173,6 +182,29 @@ function GeneralInfo({ activeKey }) {
                         style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                       />
                     </div>
+                  )}
+                  {profilePicURL && (
+                    <>
+                      <div style={{ overflow: 'hidden', width: 100, height: 100 }}>
+                        <img
+                          src={`${REACT_APP_API_DOMAIN}/user/profile-picture/${profilePicURL}`}
+                          alt="profile_picture"
+                          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        style={{
+                          color: 'red',
+                          background: 'none',
+                          border: 'none',
+                          outline: 'none',
+                        }}
+                        onClick={() => console.log('delete image')}
+                      >
+                        Remove
+                      </button>
+                    </>
                   )}
                   {profilePicFileName !== '' && <p>{profilePicFileName}</p>}
                 </div>

@@ -94,7 +94,7 @@ function OwnerProfile({ activeKey }) {
     }
   }, [activeKey, dispatch]);
 
-  const { data: ownerData } = useSelector((state) => state.account);
+  const { ownerData } = useSelector((state) => state.account);
 
   useEffect(() => {
     if (ownerData) {

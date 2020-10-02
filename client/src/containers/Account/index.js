@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import Tabs from './Tabs';
-import { Link } from 'react-router-dom';
 
 function Account() {
   const authenticated = useSelector((state) => state.authentication);
+  const pageRef = useRef(null);
+
+  useEffect(() => {
+    window.scrollTo(0, pageRef.current.offsetTop);
+  }, []);
 
   return (
-    <div style={{ maxWidth: 900, margin: '0 auto 50px auto' }}>
+    <div ref={pageRef} style={{ maxWidth: 900, margin: '0 auto 50px auto' }}>
       <Tabs />
     </div>
   );

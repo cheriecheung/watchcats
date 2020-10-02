@@ -15,8 +15,6 @@ export default function TimePicker({ name }) {
 
   const selectedTime = watch(name);
 
-  console.log({ selectedTime });
-
   return (
     <>
       <Controller

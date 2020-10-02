@@ -15,12 +15,10 @@ module.exports = {
     if (!userId) return res.status(403).json('User id missing');
 
     try {
-      const ownerRecord = await Owner.findOne({});
+      const ownerRecord = await Owner.findOne({ urlId: req.params.id });
       if (!ownerRecord) return res.status(404).json('No owner account');
 
       const { id: ownerId, aboutMe, catsDescription } = ownerRecord;
-
-      let bookingOneDay, bookingOvernight, cat;
 
       const [allOneDays, allOvernight, allCats] = await Promise.all([
         AppointmentOneDay.find({
@@ -36,6 +34,7 @@ module.exports = {
 
       // if selected appointment date is passed, delete it
 
+      let bookingOneDay;
       if (allOneDays.length > 0) {
         bookingOneDay = allOneDays.map(({ date, startTime, endTime }) => ({
           date,
@@ -44,6 +43,7 @@ module.exports = {
         }));
       }
 
+      let bookingOvernight;
       if (allOvernight.length > 0) {
         bookingOvernight = allOvernight.map(({ startDate, endDate }) => ({
           startDate,
@@ -51,8 +51,14 @@ module.exports = {
         }));
       }
 
+      let cat;
       if (allCats.length > 0) {
-        cat = allCats.map(({ id, createdAt, owner, ...rest }) => ({ ...rest }));
+        cat = allCats.map((item) => {
+          const { _doc } = item;
+          const { _id, createdAt, owner, ...rest } = _doc || {};
+
+          return rest;
+        });
       }
 
       return res.status(200).json({
@@ -248,6 +254,8 @@ module.exports = {
           if (!catArr[index]) allCats[index].remove();
         });
       }
+
+      return res.status(201).json('Owner profile successfully saved');
     } catch (err) {
       console.log({ err });
       return res.status(500).json({ err });

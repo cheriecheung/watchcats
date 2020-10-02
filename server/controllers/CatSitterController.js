@@ -55,8 +55,8 @@ module.exports = {
 
     const { unavailableDates: unavailableDatesArr, ...rest } = req.body;
 
-    if (!userRecord.sitter) {
-      try {
+    try {
+      if (!userRecord.sitter) {
         const newSitter = new Sitter({
           _id: new mongoose.Types.ObjectId(),
           urlId: userRecord.urlId,
@@ -78,13 +78,8 @@ module.exports = {
         }
 
         return res.status(201).json('Sitter profile successfully created');
-      } catch (err) {
-        console.log({ err });
-        return res.status(500).json({ err });
       }
-    }
 
-    try {
       const sitterRecord = await Sitter.findOneAndUpdate(
         { urlId: req.params.id },
         { $set: { ...rest } },
@@ -116,7 +111,7 @@ module.exports = {
           });
       }
 
-      return res.status(200).json('Successful save');
+      return res.status(200).json('Sitter profile successfully saved');
     } catch (err) {
       console.log({ err });
       return res.status(500).json({ err });
