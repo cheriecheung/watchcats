@@ -98,7 +98,7 @@ io.use((socket, next) => {
   // 2. throw err if wrong userId / no userId
 
   socket.userId = userId;
-  next();
+  return next();
 });
 
 io.on('connection', (socket) => {

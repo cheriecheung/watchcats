@@ -41,33 +41,47 @@ router.get(
   '/user',
   async (req, res, next) => {
     const userId = req.headers['authorization'];
+    if (!userId) return res.status(403).json('User id missing');
 
     const user = await User.findById(userId);
     if (!user) return res.status(404).json('User not found');
 
-    const profilePicId = user.profilePictureId;
-    if (!user.profilePictureId) next();
+    const { profilePictureId } = user || {};
+    if (!profilePictureId) return next();
 
-    const profilePic = await gfs.files.findOne({ _id: profilePicId });
-    const profilePicFileName = profilePic.filename;
-    if (!profilePic || profilePicFileName) next();
+    const profilePic = await gfs.files.findOne({ _id: profilePictureId });
+    const { filename } = profilePic || {};
+    if (!profilePic || !filename) return next();
 
     res.locals.profilePicFileName = profilePicFileName;
+    return next();
   },
   UserController.get
 );
 
-router.get('/user/profile-picture/:filename', async (req, res) => {
+router.get('/user/picture/:filename', async (req, res) => {
   const image = await gfs.files.findOne({ filename: req.params.filename });
   if (!image) return res.status(404).json('No image exists');
 
-  console.log({ image });
-
-  if (image.contentType === 'image/jpeg' || image.contentType === 'image/png') {
-    const readstream = gfs.createReadStream(image.filename);
+  const { contentType, filename } = image;
+  if (contentType === 'image/jpeg' || contentType === 'image/png') {
+    const readstream = gfs.createReadStream(filename);
     readstream.pipe(res);
   } else {
     return res.status(404).json('Not an image');
+  }
+});
+
+router.delete('/user/picture', async (req, res) => {
+  const userId = req.headers['authorization'];
+  if (!userId) return res.status(403).json('User id missing');
+
+  try {
+    await gfs.remove({ _id: '5f76dcbac2cba76a309372a1', root: 'uploads' });
+    return res.status(200).json('Picture successfully deleted');
+  } catch (err) {
+    console.log({ err });
+    return res.status(404).json('Picture does not exist');
   }
 });
 

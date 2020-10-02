@@ -26,7 +26,7 @@ const verifyAccessToken = (req, res, next) => {
     req.token = bearerToken;
 
     // Next middleware
-    next();
+    return next();
   } else {
     // Forbidden
     res.sendStatus(403);

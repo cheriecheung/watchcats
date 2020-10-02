@@ -5,6 +5,7 @@ const cookies = new Cookies();
 const { REACT_APP_API_DOMAIN } = process.env;
 
 const userURL = `${REACT_APP_API_DOMAIN}/user`;
+const pictureURL = `${REACT_APP_API_DOMAIN}/user/picture`;
 const profilePicURL = `${REACT_APP_API_DOMAIN}/user/profile-picture`;
 const addressProofURL = `${REACT_APP_API_DOMAIN}/user/address-proof`;
 
@@ -58,6 +59,17 @@ export function sendAddressProof(formData) {
     try {
       const { data } = await axios.post(addressProofURL, formData, config);
       dispatch({ type: 'SAVE_ADDRESS_PROOF', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
+export function deletePicture(fileName) {
+  return async (dispatch) => {
+    try {
+      await axios.delete(pictureURL, { ...config, data: { fileName } });
+      window.location.reload();
     } catch (e) {
       console.log({ e });
     }

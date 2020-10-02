@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { Row, Col, Label, Input } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
+import { Modal } from 'antd';
 import {
   FieldLabel,
   FileUploader,
@@ -10,9 +11,16 @@ import {
   SectionTitle,
 } from '../../components/FormComponents';
 import styled from 'styled-components';
-import { getUser, sendUser, sendProfilePic, sendAddressProof } from '../../_actions/accountActions';
+import {
+  getUser,
+  sendUser,
+  sendProfilePic,
+  sendAddressProof,
+  deletePicture,
+} from '../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
 const SummarySection = styled.div`
   display: flex;
@@ -45,6 +53,7 @@ const uploadAddressProofId = 'upload-address-proof';
 const { REACT_APP_API_DOMAIN } = process.env;
 
 function GeneralInfo({ activeKey }) {
+  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { data: userData } = useSelector((state) => state.account);
@@ -57,6 +66,8 @@ function GeneralInfo({ activeKey }) {
   const [profilePicFileName, setProfilePicFileName] = useState('');
   const [profilePicPreview, setProfilePicPreview] = useState('');
   const [addressProofFileName, setAddressProofFileName] = useState('');
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     if (activeKey === 'general') {
@@ -71,47 +82,41 @@ function GeneralInfo({ activeKey }) {
     if (userData) {
       const { profilePicURL: profilePicURLValue } = userData;
       setProfilePicURL(profilePicURLValue);
-
-      const {
-        firstName,
-        lastName,
-        email,
-        phone,
-        address,
-        postcode,
-        profileFacebook,
-        profileInstagram,
-        profileOther,
-      } = userData;
-
-      reset({
-        ...defaultValues,
-        firstName,
-        lastName,
-        email,
-        phone,
-        address,
-        postcode,
-        profileFacebook,
-        profileInstagram,
-        profileOther,
-      });
+      reset(userData);
     }
   }, [userData]);
+
+  const onConfirmDeletePic = (fileName) => {
+    dispatch(deletePicture(fileName));
+    history.push({ state: { accountTab: 'general' } });
+    // or in action page
+    // window.location.reload();
+  };
 
   const onSubmit = (data) => {
     dispatch(sendUser(data));
 
-    if (data.profilePic) {
-      dispatch(sendProfilePic(data.profilePic));
+    const { profilePic, addressProof } = data || {};
+
+    if (profilePic) {
+      dispatch(sendProfilePic(profilePic));
     }
-    if (data.addressProof) {
-      dispatch(sendAddressProof(data.addressProof));
+    if (addressProof) {
+      dispatch(sendAddressProof(addressProof));
     }
   };
 
   return (
     <>
+      <Modal
+        visible={modalVisible}
+        onOk={() => onConfirmDeletePic(profilePicURL)}
+        onCancel={() => setModalVisible(false)}
+        maskClosable={false}
+      >
+        Are you sure you want to remove your picture
+      </Modal>
+
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <SummarySection>
@@ -187,7 +192,7 @@ function GeneralInfo({ activeKey }) {
                     <>
                       <div style={{ overflow: 'hidden', width: 100, height: 100 }}>
                         <img
-                          src={`${REACT_APP_API_DOMAIN}/user/profile-picture/${profilePicURL}`}
+                          src={`${REACT_APP_API_DOMAIN}/user/picture/${profilePicURL}`}
                           alt="profile_picture"
                           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                         />
@@ -200,7 +205,7 @@ function GeneralInfo({ activeKey }) {
                           border: 'none',
                           outline: 'none',
                         }}
-                        onClick={() => console.log('delete image')}
+                        onClick={() => setModalVisible(true)}
                       >
                         Remove
                       </button>

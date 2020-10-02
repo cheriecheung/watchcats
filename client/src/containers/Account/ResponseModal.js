@@ -26,7 +26,7 @@ function ResponseModal() {
     }
 
     if (owner) {
-      setModalContent('You have successfully saved your owner account');
+      setModalContent('You have successfully saved your sitter account');
       setAccountTab('owner');
       setModalVisible(true);
     }

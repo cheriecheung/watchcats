@@ -8,6 +8,7 @@ const { verifyAccessToken, signAccessToken } = require('../helpers/token');
 module.exports = {
   get: async (req, res) => {
     const userId = req.headers['authorization'];
+    if (!userId) return res.status(403).json('User id missing');
 
     const user = await User.findById(userId);
     if (!user) return res.status(404).json('User not found');
@@ -40,6 +41,7 @@ module.exports = {
 
   post: async (req, res) => {
     const userId = req.headers['authorization'];
+    if (!userId) return res.status(403).json('User id missing');
 
     const user = await User.findById(userId);
     if (!user) return res.status(404).json('User not found');
@@ -76,6 +78,7 @@ module.exports = {
 
   saveFileId: async (req, res) => {
     const userId = req.headers['authorization'];
+    if (!userId) return res.status(403).json('User id missing');
 
     const userRecord = await User.findById(userId);
     if (!userRecord) return res.status(404).json('User not found');
