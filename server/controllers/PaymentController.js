@@ -1,5 +1,4 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const uuid = require('uuid/v4');
 const User = require('../model/User');
 
 function generateAccountLink(accountID, origin) {
