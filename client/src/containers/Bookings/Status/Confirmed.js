@@ -88,14 +88,15 @@ function ConfirmedService({ hasPaid, openModal, setModalContent, t }) {
     </div>
   ) : (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <ActionButton
+      <Link to="/payment">{t('bookings.pay_now')}</Link>
+      {/* <ActionButton
         backgroundColor="#9ACD32"
         onClick={() => {
           alert('redirect to payment page');
         }}
       >
         {t('bookings.pay_now')}
-      </ActionButton>
+      </ActionButton> */}
     </div>
   );
 }

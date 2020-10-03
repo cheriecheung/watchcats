@@ -110,6 +110,7 @@ function Settings() {
   return (
     <>
       <SectionContainer>
+        {/* give redirecting loading notice */}
         <SectionTitle>Stripe Account</SectionTitle>
         <p>To send and / or receive payments, please set up payouts on Stripe</p>
 

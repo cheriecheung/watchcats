@@ -16,56 +16,81 @@ module.exports = {
   onboardUser: async (req, res) => {
     try {
       const userId = req.headers['authorization'];
+      if (!userId) return res.status(403).json('User id missing');
 
-      const userRecord = await User.findById(userId);
+      const account = await stripe.accounts.create({
+        business_profile: {
+          // mcc: null,
+          // name: null,
+          product_description: 'Pet sitting',
+          // support_address: null,
+          // support_email: null,
+          // support_phone: null,
+          url: 'https://www.testURL.com/profile/catsitter/test_id_5X235934s',
+        },
+        business_type: 'individual',
+        individual: {
+          first_name: 'test first name',
+          last_name: 'test last name',
+          email: 'test@email.com',
+        },
+        country: 'NL',
+        default_currency: 'eur',
+        type: 'standard',
+      });
 
-      const account = await stripe.accounts.create({ type: 'standard' });
-      // req.session.accountID = account.id;
-      userRecord.stripeAccountId = account.id;
+      const userRecord = await User.findOneAndUpdate(
+        { _id: userId },
+        { $set: { stripeAccountId: account.id } },
+        { useFindAndModify: false }
+      );
+      if (!userRecord) return res.status(404).json('Fail to update user record');
 
       // const origin = `${req.headers.origin}`;
       const origin = `https://localhost:3000`;
-      const accountLinkURL = await generateAccountLink(account.id, origin);
-      return res.status(200).json({ url: accountLinkURL });
+      const accountLink = await generateAccountLink(account.id, origin);
+      return res.status(200).json({ url: accountLink });
     } catch (err) {
-      res.status(500).send({
-        error: err.message,
-      });
+      return res.status(500).send({ error: err.message });
     }
   },
 
   onboardRefresh: async (req, res) => {
-    if (!req.session.accountID) {
-      res.redirect('/');
-      return;
-    }
+    if (!req.session.accountID) return res.redirect('/');
+
     try {
       const { accountID } = req.session;
       const origin = `${req.secure ? 'https://' : 'https://'}${req.headers.host}`;
-
-      const accountLinkURL = await generateAccountLink(accountID, origin);
-      res.redirect(accountLinkURL);
+      const accountLink = await generateAccountLink(accountID, origin);
+      return res.redirect(accountLink);
     } catch (err) {
-      res.status(500).send({
-        error: err.message,
-      });
+      return res.status(500).send({ error: err.message });
     }
   },
 
   getClientSecret: async (req, res) => {
     try {
       const userId = req.headers['authorization'];
+      if (!userId) return res.status(403).json('User id missing');
+
       const { bookingId } = req.body;
 
-      console.log({ userId, bookingId: req.body });
+      console.log({ userId, bookingId });
 
-      const intent = await stripe.paymentIntents.create({
-        amount: 23,
-        currency: 'eur',
-        payment_method_types: ['ideal'],
-        confirm: true,
-        return_url: 'https://localhost:3000/test',
-      });
+      const intent = await stripe.paymentIntents.create(
+        {
+          // amount that user pays
+          amount: 24,
+          // amount from above that goes to WatchCats platform
+          application_fee_amount: 7,
+          currency: 'eur',
+          payment_method_types: ['ideal'],
+        },
+        {
+          // connected stripe account Id
+          stripeAccount: 'acct_1HYCiyART4JEToPd',
+        }
+      );
 
       const client_secret = intent.client_secret;
 
