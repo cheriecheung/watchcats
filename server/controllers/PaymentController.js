@@ -80,7 +80,7 @@ module.exports = {
       const intent = await stripe.paymentIntents.create(
         {
           // amount that user pays
-          amount: 24,
+          amount: 2400,
           // amount from above that goes to WatchCats platform
           application_fee_amount: 7,
           currency: 'eur',
@@ -94,7 +94,7 @@ module.exports = {
 
       const client_secret = intent.client_secret;
 
-      return res.status(200).json({ client_secret });
+      return res.status(200).json({ client_secret, stripeAccountId: 'acct_1HYCiyART4JEToPd' });
     } catch (e) {
       console.log({ e });
       return res.status(401).json('Unsuccessful');

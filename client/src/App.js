@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './App.css';
 import './style/formComponents.css';
@@ -22,7 +22,6 @@ import Messages from './containers/Messages';
 import Account from './containers/Account';
 import FindSitter from './containers/FindSitter';
 import { CatSitter, CatOwner } from './containers/Profile';
-import { useSelector } from 'react-redux';
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();

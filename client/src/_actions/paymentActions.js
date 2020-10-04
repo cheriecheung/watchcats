@@ -31,7 +31,6 @@ export function getPaymentIntent(bookingId) {
   return async (dispatch) => {
     try {
       const { data } = await axios.post(paymentURL, { bookingId }, config);
-      console.log({ data });
       dispatch({ type: 'GET_PAYMENT_INTENT', payload: data });
     } catch (e) {
       console.log({ e });
