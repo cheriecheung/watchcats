@@ -12,7 +12,7 @@ import ThemeButton from '../../components/General/ThemeButton';
 import DayPicker from 'react-day-picker';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSitterProfile } from '../../_actions/accountActions';
+import { getSitterProfile } from '../../_actions/profileActions';
 import { getChatContacts, getChatConversation } from '../../_actions/chatActions';
 import { getAppointmentTime, sendBookingRequest } from '../../_actions/bookingActions';
 import GoogleMap from '../../components/GoogleMap';
@@ -32,7 +32,7 @@ function CatSitter() {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
-  const { data: sitterData } = useSelector((state) => state.account);
+  const { data: sitterData } = useSelector((state) => state.profile);
   const { error: errorType, appointmentTime } = useSelector((state) => state.booking_actions);
 
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
@@ -41,15 +41,17 @@ function CatSitter() {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    if (id) {
+    if (id && dispatch) {
       dispatch(getSitterProfile(id));
 
       // show 'does not exist' message if no profile with such id
       console.log({ id });
     }
-  }, [id]);
+  }, [id, dispatch]);
 
   useEffect(() => {
+    console.log({ sitterData });
+
     if (sitterData) {
       console.log({ sitterData });
 
@@ -141,7 +143,7 @@ function CatSitter() {
               {/* <GoogleMap
                 mapHeight="45vh"
                 allLocations={allLocations}
-                defaultCenter={{ lat: 52.3667, lng: 4.8945 }}
+                defaultCenter={{ lat: allLocations.lat, lng: allLocations.lng }}
               /> */}
             </SectionContainer>
           </div>

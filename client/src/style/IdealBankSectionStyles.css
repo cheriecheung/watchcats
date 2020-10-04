@@ -6,7 +6,7 @@
 * https://stripe.com/docs/js/elements_object/create_element?type=idealBank#elements_create-options-classes
 */
 
-input,
+.IdealBankElement input,
 .StripeElement {
   width: 250px;
   height: 40px;

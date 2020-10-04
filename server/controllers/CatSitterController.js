@@ -6,26 +6,24 @@ const { getUnavailableDates } = require('../helpers/user');
 
 module.exports = {
   getProfile: async (req, res) => {
-    User.findOne({ urlId: req.params.id })
-      .populate('sitter')
-      .exec(async (err, user) => {
-        if (err) return err;
+    try {
+      const [userRecord, sitterRecord] = await Promise.all([
+        User.findOne({ urlId: req.params.id }),
+        Sitter.findOne({ urlId: req.params.id }),
+      ]);
 
-        const { sitter, firstName, lastName, postcode } = user;
-        const { id: sitterObjectId } = sitter;
+      if (!userRecord || !sitterRecord) return res.status(404).json('No account found');
 
-        const allUnavailableDates = await getUnavailableDates(sitterObjectId);
+      const { firstName, lastName, postcode } = userRecord;
 
-        const sitterData = {
-          ...sitter._doc,
-          unavailableDates: allUnavailableDates,
-          firstName,
-          lastName,
-          postcode,
-        };
+      const unavailableDates = await getUnavailableDates(sitterRecord.id);
+      const sitterData = { ...sitterRecord._doc, unavailableDates, firstName, lastName, postcode };
 
-        return res.status(200).json(sitterData);
-      });
+      return res.status(200).json(sitterData);
+    } catch (err) {
+      console.log({ err });
+      return res.status(500).json({ err });
+    }
   },
 
   getAccount: async (req, res) => {

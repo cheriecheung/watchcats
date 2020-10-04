@@ -13,8 +13,9 @@ import { List } from 'antd';
 import Review from './Review';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOwnerProfile } from '../../_actions/accountActions';
+import { getOwnerProfile } from '../../_actions/profileActions';
 import GoogleMap from '../../components/GoogleMap';
+import moment from 'moment';
 
 const allReviews = [];
 for (let i = 0; i < 7; i++) {
@@ -27,14 +28,14 @@ function CatOwner() {
   const { id } = useParams();
   const reviewListRef = useRef(null);
   const dispatch = useDispatch();
-  const { data: ownerData } = useSelector((state) => state.account);
+  const { data: ownerData } = useSelector((state) => state.profile);
 
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
   const [ownerInfo, setOwnerInfo] = useState({});
 
   useEffect(() => {
-    if (id) {
+    if (id && dispatch) {
       dispatch(getOwnerProfile(id));
 
       // show 'does not exist' message if no profile with such id
@@ -77,101 +78,32 @@ function CatOwner() {
 
             <SectionContainer>
               <h5>About</h5>
-              <p>about me</p>
+              <p>{ownerInfo.aboutMe}</p>
             </SectionContainer>
 
             <hr />
 
             <SectionContainer>
               <h5>About my cat</h5>
-
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <ImageContainer>
-                  <img
-                    src="https://i.pinimg.com/originals/f8/69/2b/f8692b4dde8249b26719f91e076aa8ab.jpg"
-                    alt="pic"
-                    style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                  />
-                </ImageContainer>
-
-                <div style={{ flexBasis: '70%', display: 'flex', flexWrap: 'wrap' }}>
-                  <InfoField>
-                    <FieldLabel>Name</FieldLabel>
-                    <span>Cat name here</span>
-                  </InfoField>
-                  <InfoField>
-                    <FieldLabel>Age</FieldLabel>
-                    <span>6</span>
-                  </InfoField>
-
-                  <InfoField>
-                    <FieldLabel>Gender</FieldLabel>
-                    <div>
-                      <i className="fas fa-mars fa-2x icon-gender" />
-                      <span>Male</span>
-                    </div>
-                  </InfoField>
-                  <InfoField>
-                    <FieldLabel>Medical needs</FieldLabel>
-                    <div>
-                      <i className="fas fa-times fa-2x icon-yes-no" />
-                      <span>None</span>
-                    </div>
-                  </InfoField>
-
-                  <InfoField>
-                    <FieldLabel>Vaccinated</FieldLabel>
-                    <div>
-                      <i className="fas fa-check fa-2x icon-yes-no" />
-                      <span>Yes</span>
-                    </div>
-                  </InfoField>
-                  <InfoField>
-                    <FieldLabel>Insured</FieldLabel>
-                    <div>
-                      <i className="fas fa-check fa-2x icon-yes-no" />
-                      <span>Yes</span>
-                    </div>
-                  </InfoField>
-
-                  <InfoField>
-                    <FieldLabel>Breed</FieldLabel>
-                    <span>British shorthair</span>
-                  </InfoField>
-                  <InfoField>
-                    <FieldLabel>Personality</FieldLabel>
-                    <span>Friendly and affectionate</span>
-                  </InfoField>
-
-                  <InfoField>
-                    <FieldLabel>Favorite treat</FieldLabel>
-                    <span>Shrimp</span>
-                  </InfoField>
-                </div>
-              </div>
+              <AboutMyCats allCats={ownerInfo.cat} />
             </SectionContainer>
 
             <hr />
 
             <SectionContainer>
               <h5>Responsibility</h5>
-              <p>take care of cats</p>
+              <p>{ownerInfo.catsDescription}</p>
             </SectionContainer>
 
             <hr />
 
             <SectionContainer>
               <h5>Location</h5>
-              <GoogleMap
+              {/* <GoogleMap
                 mapHeight="45vh"
                 allLocations={allLocations}
                 defaultCenter={{ lat: 52.3449, lng: 4.8766 }}
-              />
+              /> */}
             </SectionContainer>
           </div>
 
@@ -199,9 +131,10 @@ function CatOwner() {
             <hr />
 
             <h6>Sitter needed:</h6>
-            <span style={{ display: 'flex' }}>
-              <h5>11 Sep 2020, 11:00 ~ 12:45</h5>
-            </span>
+            <AppointmentTime
+              oneDay={ownerInfo.bookingOneDay}
+              overnight={ownerInfo.bookingOvernight}
+            />
           </SummaryCard>
         </ContentContainer>
       </div>
@@ -210,3 +143,168 @@ function CatOwner() {
 }
 
 export default CatOwner;
+
+function AboutMyCats({ allCats }) {
+  console.log({ allCats });
+  return (
+    Array.isArray(allCats) &&
+    allCats.length > 0 &&
+    allCats.map((cat) => {
+      const {
+        _id: id,
+        name,
+        age,
+        gender,
+        medicalNeeds,
+        isVaccinated,
+        isInsured,
+        breed,
+        personality,
+        favouriteTreat,
+      } = cat;
+
+      return (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+          key={id}
+        >
+          <ImageContainer>
+            <img
+              src="https://i.pinimg.com/originals/f8/69/2b/f8692b4dde8249b26719f91e076aa8ab.jpg"
+              alt="pic"
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+            />
+          </ImageContainer>
+
+          <div style={{ flexBasis: '70%', display: 'flex', flexWrap: 'wrap' }}>
+            <InfoField>
+              <FieldLabel>Name</FieldLabel>
+              <span>{name}</span>
+            </InfoField>
+            <InfoField>
+              <FieldLabel>Age</FieldLabel>
+              <span>{age}</span>
+            </InfoField>
+
+            <InfoField>
+              <FieldLabel>Gender</FieldLabel>
+              <div>
+                <i className="fas fa-mars fa-2x icon-gender" />
+                <span>{gender === 'F' ? 'Female' : 'Male'}</span>
+              </div>
+            </InfoField>
+            <InfoField>
+              <FieldLabel>Medical needs</FieldLabel>
+              <div>
+                {Array.isArray(medicalNeeds) && medicalNeeds.length > 0 ? (
+                  medicalNeeds.map((need) => (
+                    <div key={need}>
+                      <i className="fas fa-times fa-2x icon-yes-no" />
+                      <span>{need}</span>
+                    </div>
+                  ))
+                ) : (
+                  <>
+                    <i className="fas fa-times fa-2x icon-yes-no" />
+                    <span>None</span>
+                  </>
+                )}
+              </div>
+            </InfoField>
+
+            <InfoField>
+              <FieldLabel>Vaccinated</FieldLabel>
+              {isVaccinated ? (
+                <div>
+                  <i className="fas fa-check fa-2x icon-yes-no" />
+                  <span>Yes</span>
+                </div>
+              ) : (
+                <div>
+                  <i className="fas fa-times fa-2x icon-yes-no" />
+                  <span>No</span>
+                </div>
+              )}
+            </InfoField>
+            <InfoField>
+              <FieldLabel>Insured</FieldLabel>
+              {isInsured ? (
+                <div>
+                  <i className="fas fa-check fa-2x icon-yes-no" />
+                  <span>Yes</span>
+                </div>
+              ) : (
+                <div>
+                  <i className="fas fa-times fa-2x icon-yes-no" />
+                  <span>No</span>
+                </div>
+              )}
+            </InfoField>
+
+            <InfoField>
+              <FieldLabel>Breed</FieldLabel>
+              <span>{breed.label}</span>
+            </InfoField>
+            <InfoField>
+              <FieldLabel>Personality</FieldLabel>
+              <span>{personality.label}</span>
+            </InfoField>
+
+            <InfoField>
+              <FieldLabel>Favorite treat</FieldLabel>
+              <span>{favouriteTreat}</span>
+            </InfoField>
+          </div>
+        </div>
+      );
+    })
+  );
+}
+
+function AppointmentTime({ oneDay, overnight }) {
+  return (
+    <>
+      {Array.isArray(oneDay) && oneDay.length > 0 && (
+        <>
+          <h6>One-day appointment: </h6>
+
+          {oneDay.map(({ id, date, endTime, startTime }) => {
+            const dateConverted = moment(date).format('DD MMM YYYY');
+            const startTimeObj = moment(startTime).format('HH:mm');
+            const endTimeObj = moment(endTime).format('HH:mm');
+
+            return (
+              <span style={{ display: 'flex' }} key={id}>
+                <h5>
+                  {dateConverted}, {startTimeObj} - {endTimeObj}
+                </h5>
+              </span>
+            );
+          })}
+        </>
+      )}
+
+      {Array.isArray(overnight) && overnight.length > 0 && (
+        <>
+          <h6>Overnight appointment: </h6>
+
+          {overnight.map(({ id, startDate, endDate }) => {
+            const startDateConverted = moment(startDate, 'YYYY-MM-DD').format('DD MMM YYYY');
+            const endDateConverted = moment(endDate, 'YYYY-MM-DD').format('DD MMM YYYY');
+
+            return (
+              <span style={{ display: 'flex' }} key={id}>
+                <h5>
+                  {startDateConverted} - {endDateConverted}
+                </h5>
+              </span>
+            );
+          })}
+        </>
+      )}
+    </>
+  );
+}

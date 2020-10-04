@@ -7,7 +7,72 @@ const AppointmentOvernight = require('../model/AppointmentOvernight');
 
 module.exports = {
   getProfile: async (req, res) => {
-    console.log('getting owner profile...');
+    try {
+      const [userRecord, ownerRecord] = await Promise.all([
+        User.findOne({ urlId: req.params.id }),
+        Owner.findOne({ urlId: req.params.id }),
+      ]);
+
+      if (!userRecord || !ownerRecord) return res.status(404).json('No account found');
+
+      const { firstName, lastName, postcode } = userRecord;
+
+      const [allOneDays, allOvernight, allCats] = await Promise.all([
+        AppointmentOneDay.find({
+          owner: mongoose.Types.ObjectId(ownerRecord.id),
+        }),
+        AppointmentOvernight.find({
+          owner: mongoose.Types.ObjectId(ownerRecord.id),
+        }),
+        Cat.find({
+          owner: mongoose.Types.ObjectId(ownerRecord.id),
+        }),
+      ]);
+
+      let bookingOneDay;
+      if (allOneDays.length > 0) {
+        bookingOneDay = allOneDays.map(({ id, date, startTime, endTime }) => ({
+          id,
+          date,
+          startTime,
+          endTime,
+        }));
+      }
+
+      let bookingOvernight;
+      if (allOvernight.length > 0) {
+        bookingOvernight = allOvernight.map(({ id, startDate, endDate }) => ({
+          id,
+          startDate,
+          endDate,
+        }));
+      }
+
+      let cat;
+      if (allCats.length > 0) {
+        cat = allCats.map((item) => {
+          const { _doc } = item;
+          const { createdAt, owner, ...rest } = _doc || {};
+
+          return rest;
+        });
+      }
+
+      const ownerData = {
+        ...ownerRecord._doc,
+        firstName,
+        lastName,
+        postcode,
+        bookingOneDay,
+        bookingOvernight,
+        cat,
+      };
+
+      return res.status(200).json(ownerData);
+    } catch (err) {
+      console.log({ err });
+      return res.status(500).json({ err });
+    }
   },
 
   getAccount: async (req, res) => {

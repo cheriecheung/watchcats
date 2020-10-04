@@ -6,6 +6,7 @@ import { booking_actions } from './booking_actions';
 import { booking_status } from './booking_status';
 import { chat } from './chat';
 import { payment } from './payment';
+import { profile } from './profile';
 import { registration } from './registration';
 import { session } from './session';
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   booking_status,
   chat,
   payment,
+  profile,
   registration,
   session,
 });

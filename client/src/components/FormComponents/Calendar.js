@@ -14,6 +14,7 @@ export default function Calendar({ name, selectedDays, handleDayClick }) {
           disabledDays={{ before: new Date() }}
           selectedDays={selectedDays}
           onDayClick={handleDayClick}
+          className="form-component"
         />
       }
       control={control}

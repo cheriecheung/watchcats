@@ -10,9 +10,7 @@ const profilePicURL = `${REACT_APP_API_DOMAIN}/image/profile-picture`;
 const addressProofURL = `${REACT_APP_API_DOMAIN}/image/address-proof`;
 
 const sitterAccountURL = (id) => `${REACT_APP_API_DOMAIN}/sitter/account/${id}`;
-const sitterProfileURL = (id) => `${REACT_APP_API_DOMAIN}/sitter/profile/${id}`;
 const ownerAccountURL = (id) => `${REACT_APP_API_DOMAIN}/owner/account/${id}`;
-const ownerProfileURL = (id) => `${REACT_APP_API_DOMAIN}/owner/profile/${id}`;
 
 const config = {
   withCredentials: true,
@@ -70,29 +68,6 @@ export function deletePicture(filename) {
     try {
       await axios.delete(pictureURL, { ...config, data: { filename } });
       window.location.reload();
-    } catch (e) {
-      console.log({ e });
-    }
-  };
-}
-
-export function getOwnerProfile(id) {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.get(ownerProfileURL(id));
-      dispatch({ type: 'GET_PROFILE', payload: data });
-    } catch (e) {
-      console.log({ e });
-    }
-  };
-}
-
-export function getSitterProfile(id) {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.get(sitterProfileURL(id));
-      dispatch({ type: 'GET_PROFILE', payload: data });
-      console.log({ data });
     } catch (e) {
       console.log({ e });
     }

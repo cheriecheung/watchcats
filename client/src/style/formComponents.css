@@ -440,7 +440,7 @@ select:-webkit-autofill:focus {
   background: rgb(250, 250, 249) !important;
 }
 
-.DayPicker-Day:hover {
+.form-component .DayPicker-wrapper .DayPicker-Day:hover {
   background: rgb(255, 161, 149, 0.2) !important;
 }
 
