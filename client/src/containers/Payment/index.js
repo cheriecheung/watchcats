@@ -4,45 +4,28 @@ import IdealBankForm from './IdealBankForm';
 import { getPaymentIntent } from '../../_actions/paymentActions';
 import { useStripe, useElements, IdealBankElement } from '@stripe/react-stripe-js';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = (accountId) =>
-  loadStripe(process.env.REACT_APP_STRIPE_API_KEY, {
-    stripeAccount: accountId,
-  });
-
-function Payment() {
+function CheckoutForm() {
+  const stripe = useStripe();
+  const elements = useElements();
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.payment);
-
   const [clientSecret, setClientSecret] = useState('');
 
   useEffect(() => {
     if (data) {
-      const { client_secret, stripeAccountId } = data || {};
+      const { client_secret } = data || {};
       setClientSecret(client_secret);
-      console.log({ stripeAccountId });
     }
   }, [data]);
 
   useEffect(() => {
     dispatch(getPaymentIntent(3));
   }, [dispatch]);
-
-  return (
-    <Elements stripe={stripePromise('acct_1HYCiyART4JEToPd')}>
-      <CheckoutForm clientSecret={clientSecret} />
-    </Elements>
-  );
-}
-
-export default Payment;
-
-function CheckoutForm({ clientSecret }) {
-  const stripe = useStripe();
-  const elements = useElements();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,3 +73,22 @@ function CheckoutForm({ clientSecret }) {
     </div>
   );
 }
+
+const stripePromise = (accountId) =>
+  loadStripe(process.env.REACT_APP_STRIPE_API_KEY, { stripeAccount: accountId });
+
+function Payment() {
+  const { stripeAccountId } = useLocation().state || {};
+
+  useEffect(() => {
+    console.log({ stripeAccountId });
+  }, [stripeAccountId]);
+
+  return (
+    <Elements stripe={stripePromise(stripeAccountId)}>
+      <CheckoutForm />
+    </Elements>
+  );
+}
+
+export default Payment;

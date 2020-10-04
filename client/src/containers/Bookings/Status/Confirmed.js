@@ -88,7 +88,11 @@ function ConfirmedService({ hasPaid, openModal, setModalContent, t }) {
     </div>
   ) : (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <Link to="/payment">{t('bookings.pay_now')}</Link>
+      {/* <Link to="/payment" >{t('bookings.pay_now')}</Link> */}
+      <Link to={{ pathname: '/payment', state: { stripeAccountId: 'acct_1HYCiyART4JEToPd' } }}>
+        {t('bookings.pay_now')}
+      </Link>
+
       {/* <ActionButton
         backgroundColor="#9ACD32"
         onClick={() => {
