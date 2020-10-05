@@ -10,7 +10,7 @@ import {
 } from '../../components/ProfileComponents';
 import ThemeButton from '../../components/General/ThemeButton';
 import { List } from 'antd';
-import Review from './Review';
+import Review from './ReviewTemplate';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOwnerProfile } from '../../_actions/profileActions';

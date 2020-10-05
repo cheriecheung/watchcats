@@ -1,0 +1,92 @@
+import React, { useState, useEffect } from 'react';
+import { getChatContacts, getChatConversation } from '../../../_actions/chatActions';
+import { getAppointmentTime, sendBookingRequest } from '../../../_actions/bookingActions';
+import ThemeButton from '../../../components/General/ThemeButton';
+import { ImageContainer, SummaryCard } from '../../../components/ProfileComponents';
+import RequestModal from '../RequestModal';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+
+const { REACT_APP_API_DOMAIN } = process.env;
+
+function Summary({ id, sitterInfo }) {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+
+  const { error: errorType, appointmentTime } = useSelector((state) => state.booking_actions);
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleSendMessage = () => {
+    dispatch(getChatContacts);
+    dispatch(getChatConversation);
+  };
+
+  const handleSendRequest = (data) => {
+    const body = {
+      ...data,
+      sitterId: id,
+    };
+    dispatch(sendBookingRequest(body));
+  };
+
+  useEffect(() => {
+    if (modalVisible) {
+      dispatch(getAppointmentTime());
+    }
+  }, [modalVisible]);
+
+  return (
+    <SummaryCard
+      style={{
+        flexBasis: '35%',
+        maxHeight: 400,
+        position: 'sticky',
+        top: 20,
+      }}
+    >
+      <h4>
+        {sitterInfo.firstName} {sitterInfo.lastName}
+      </h4>
+      <ImageContainer>
+        <img
+          src={`${REACT_APP_API_DOMAIN}/image/${sitterInfo.profilePictureFileName}`}
+          alt="pic"
+          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+        />
+      </ImageContainer>
+
+      <hr />
+      <h6>Verified</h6>
+      <hr />
+
+      <span style={{ display: 'flex' }}>
+        <h5>€ {sitterInfo.priceOneDay} </h5>per day
+        {/* you will receive ___  */}
+      </span>
+
+      <span style={{ display: 'flex' }}>
+        <h5>€ {sitterInfo.priceOvernight}</h5> per night
+        {/* you will receive ___  */}
+      </span>
+
+      <ThemeButton onClick={handleSendMessage}>{t('sitter_profile.send_message')}</ThemeButton>
+      <ThemeButton onClick={() => setModalVisible(true)}>
+        {t('sitter_profile.request_appointment')}
+      </ThemeButton>
+
+      <RequestModal
+        modalVisible={modalVisible}
+        closeModal={() => setModalVisible(false)}
+        error={errorType}
+        appointmentTime={appointmentTime}
+        oneDayPrice={sitterInfo.priceOneDay}
+        overnightPrice={sitterInfo.priceOvernight}
+        // location={location}
+        handleSendRequest={handleSendRequest}
+      />
+    </SummaryCard>
+  );
+}
+
+export default Summary;

@@ -14,10 +14,17 @@ module.exports = {
 
       if (!userRecord || !sitterRecord) return res.status(404).json('No account found');
 
-      const { firstName, lastName, postcode } = userRecord;
+      const { firstName, lastName, postcode, profilePictureFileName } = userRecord;
 
       const unavailableDates = await getUnavailableDates(sitterRecord.id);
-      const sitterData = { ...sitterRecord._doc, unavailableDates, firstName, lastName, postcode };
+      const sitterData = {
+        ...sitterRecord._doc,
+        unavailableDates,
+        firstName,
+        lastName,
+        postcode,
+        profilePictureFileName,
+      };
 
       return res.status(200).json(sitterData);
     } catch (err) {
