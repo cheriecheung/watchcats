@@ -15,7 +15,7 @@ module.exports = {
 
       if (!userRecord || !ownerRecord) return res.status(404).json('No account found');
 
-      const { firstName, lastName, postcode } = userRecord;
+      const { firstName, lastName, postcode, profilePictureFileName } = userRecord;
 
       const [allOneDays, allOvernight, allCats] = await Promise.all([
         AppointmentOneDay.find({
@@ -63,6 +63,7 @@ module.exports = {
         firstName,
         lastName,
         postcode,
+        profilePictureFileName,
         bookingOneDay,
         bookingOvernight,
         cat,

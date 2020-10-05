@@ -1,60 +1,57 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Carousel from 'react-bootstrap/Carousel';
+import { ContentContainer, SectionContainer } from '../../../components/ProfileComponents';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { ContentContainer, SectionContainer } from '../../../components/ProfileComponents';
-import { getSitterProfile } from '../../../_actions/profileActions';
+import { getOwnerProfile } from '../../../_actions/profileActions';
 
 import Summary from './Summary';
-import ImageSlider from './ImageSlider';
 import Reviews from './Reviews';
 import AboutMe from './AboutMe';
-import Experience from './Experience';
-import AvailabilityCalendar from './AvailabilityCalendar';
+import AboutCat from './AboutCat';
 import Location from './Location';
+import Responsibilities from './Responsibilities';
 
-function CatSitter() {
+const allReviews = [];
+for (let i = 0; i < 7; i++) {
+  allReviews.push({ id: i, name: `User ${i}` });
+}
+
+const allLocations = { id: 1, name: 'Cat Owner #1', lat: 52.3449, lng: 4.8766 };
+
+function CatOwner() {
   const { id } = useParams();
   const reviewListRef = useRef(null);
+  const dispatch = useDispatch();
+  const { data: ownerData } = useSelector((state) => state.profile);
 
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
-  const dispatch = useDispatch();
-  const { data: sitterData } = useSelector((state) => state.profile);
-
-  const [sitterInfo, setSitterInfo] = useState({});
+  const [ownerInfo, setOwnerInfo] = useState({});
 
   useEffect(() => {
     if (id && dispatch) {
-      dispatch(getSitterProfile(id));
+      dispatch(getOwnerProfile(id));
 
       // show 'does not exist' message if no profile with such id
       console.log({ id });
     }
-  }, [id, dispatch]);
+  }, [id]);
 
   useEffect(() => {
-    console.log({ sitterData });
+    if (ownerData) {
+      console.log({ ownerData });
 
-    if (sitterData) {
-      console.log({ sitterData });
-
-      const allUnavailableDates = sitterData.unavailableDates
-        ? sitterData.unavailableDates.map((item) => new Date(item))
-        : [];
-
-      setSitterInfo({
-        ...sitterData,
-        unavailableDates: allUnavailableDates,
-      });
+      setOwnerInfo(ownerData);
     }
-  }, [sitterData]);
+  }, [ownerData]);
 
   return (
     <div style={{ padding: '30px 60px' }}>
       <div style={{ textAlign: 'left' }}>
         <ContentContainer>
           <div style={{ flexBasis: '60%', marginBottom: 100 }}>
-            <ImageSlider />
+            {/* <ImageSlider /> */}
 
             <SectionContainer>
               <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
@@ -67,21 +64,21 @@ function CatSitter() {
 
             <SectionContainer>
               <h5>About</h5>
-              <AboutMe aboutMe={sitterInfo.aboutSitter} />
+              <AboutMe aboutMe={ownerInfo.aboutMe} />
             </SectionContainer>
 
             <hr />
 
             <SectionContainer>
-              <h5>Experience</h5>
-              <Experience sitterInfo={sitterInfo} />
+              <h5>About my cat</h5>
+              <AboutCat allCats={ownerInfo.cat} />
             </SectionContainer>
 
             <hr />
 
             <SectionContainer>
-              <h5>Availability</h5>
-              <AvailabilityCalendar unavailableDates={sitterInfo.unavailableDates} />
+              <h5>Responsibility</h5>
+              <Responsibilities descriptions={ownerInfo.catsDescription} />
             </SectionContainer>
 
             <hr />
@@ -92,11 +89,11 @@ function CatSitter() {
             </SectionContainer>
           </div>
 
-          <Summary id={id} sitterInfo={sitterInfo} />
+          <Summary ownerInfo={ownerInfo} />
         </ContentContainer>
       </div>
     </div>
   );
 }
 
-export default CatSitter;
+export default CatOwner;

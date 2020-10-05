@@ -2,8 +2,8 @@ import React from 'react';
 
 // line height, font size
 
-function About({ aboutMe }) {
+function AboutMe({ aboutMe }) {
   return <p>{aboutMe}</p>;
 }
 
-export default About;
+export default AboutMe;

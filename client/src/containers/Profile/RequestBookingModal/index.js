@@ -5,7 +5,7 @@ import CreateAppointmentTime from './CreateAppointmentTime';
 import CreateOwnerProfile from './CreateOwnerProfile';
 import SelectAppointmentTime from './SelectAppointmentTime';
 
-function RequestModal({
+function RequestBookingModal({
   modalVisible,
   closeModal,
   error,
@@ -61,4 +61,4 @@ function RequestModal({
   );
 }
 
-export default RequestModal;
+export default RequestBookingModal;
