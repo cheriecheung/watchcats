@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { Row, Col } from 'reactstrap';
-import { DatePicker, FieldLabel, TimePicker } from '../../../components/FormComponents';
-import { calculateOneDayPrice, calculateOvernightPrice } from '../../../utility';
+import { DatePicker, FieldLabel, TimePicker } from '../../../../components/FormComponents';
+import { calculateOneDayPrice, calculateOvernightPrice } from '../../../../utility';
 
 const defaultButtonStyle = {
   marginRight: 15,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { List } from 'antd';
-import ReviewTemplate from '../ReviewTemplate';
+import ReviewTemplate from './ReviewTemplate';
 
 const allReviews = [];
 for (let i = 0; i < 23; i++) {

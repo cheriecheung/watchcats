@@ -3,7 +3,7 @@ import { getChatContacts, getChatConversation } from '../../../_actions/chatActi
 import { getAppointmentTime, sendBookingRequest } from '../../../_actions/bookingActions';
 import ThemeButton from '../../../components/General/ThemeButton';
 import { ImageContainer, SummaryCard } from '../../../components/ProfileComponents';
-import RequestBookingModal from '../RequestBookingModal';
+import RequestBookingModal from './RequestBookingModal';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 

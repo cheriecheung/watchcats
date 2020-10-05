@@ -7,10 +7,10 @@ function Location() {
   return (
     <>
       {/* <GoogleMap
-                mapHeight="45vh"
-                allLocations={allLocations}
-                defaultCenter={{ lat: 52.3449, lng: 4.8766 }}
-              /> */}
+        mapHeight="45vh"
+        allLocations={allLocations}
+        defaultCenter={{ lat: 52.3449, lng: 4.8766 }}
+      /> */}
     </>
   );
 }

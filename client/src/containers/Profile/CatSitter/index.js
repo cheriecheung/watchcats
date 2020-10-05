@@ -6,11 +6,11 @@ import { getSitterProfile } from '../../../_actions/profileActions';
 
 import Summary from './Summary';
 import ImageSlider from './ImageSlider';
-import Reviews from './Reviews';
-import AboutMe from './AboutMe';
+import Reviews from '../Common/Reviews';
+import AboutMe from '../Common/AboutMe';
 import Experience from './Experience';
 import AvailabilityCalendar from './AvailabilityCalendar';
-import Location from './Location';
+import Location from '../Common/Location';
 
 function CatSitter() {
   const { id } = useParams();

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'reactstrap';
 import moment from 'moment';
-import { calculateOneDayPrice, calculateOvernightPrice } from '../../../utility';
+import { calculateOneDayPrice, calculateOvernightPrice } from '../../../../utility';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Review({ name }) {
+function ReviewTemplate({ name }) {
   return (
     <div style={{ margin: '20px 0' }}>
       <div
@@ -38,4 +38,4 @@ function Review({ name }) {
   );
 }
 
-export default Review;
+export default ReviewTemplate;

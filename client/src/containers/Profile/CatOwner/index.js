@@ -6,10 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getOwnerProfile } from '../../../_actions/profileActions';
 
 import Summary from './Summary';
-import Reviews from './Reviews';
-import AboutMe from './AboutMe';
+import Reviews from '../Common/Reviews';
+import AboutMe from '../Common/AboutMe';
 import AboutCat from './AboutCat';
-import Location from './Location';
+import Location from '../Common/Location';
 import Responsibilities from './Responsibilities';
 
 const allReviews = [];
