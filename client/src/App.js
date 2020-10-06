@@ -21,7 +21,7 @@ import WriteReview from './containers/WriteReview';
 import Messages from './containers/Messages';
 import Account from './containers/Account';
 import FindSitter from './containers/FindSitter';
-import { CatSitter, CatOwner } from './containers/Profile';
+import { CatSitter, CatOwner } from './containers/PublicProfile';
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
