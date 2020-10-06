@@ -6,7 +6,17 @@ function Responsibilities() {
   const { t } = useTranslation();
 
   return (
-    <TextArea name="catsDescription" placeholder={t('owner_form.cat_description_text')} rows="5" />
+    <>
+      <p>
+        Explain the responsibilities of the cat sitter, e.g. what is expected of him / her when
+        taking care of your cat(s)? What are some things to pay attention to?
+      </p>
+      <TextArea
+        name="catsDescription"
+        placeholder={t('owner_form.cat_description_text')}
+        rows="5"
+      />
+    </>
   );
 }
 

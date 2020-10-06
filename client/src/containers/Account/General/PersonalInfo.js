@@ -27,7 +27,7 @@ function PersonalInfo() {
         </Col>
         <Col md={6} className="mb-3">
           <FieldLabel>{t('general_info.email')}</FieldLabel>
-          <TextField name="email" />
+          <TextField name="email" disabled />
         </Col>
         <Col md={6} className="mb-3">
           <FieldLabel>{t('general_info.address')}</FieldLabel>

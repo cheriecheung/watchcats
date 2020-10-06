@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import General from './General';
-import SitterProfile from './SitterProfile';
+import CatSitterInfo from './CatSitterInfo';
 import CatOwnerInfo from './CatOwnerInfo';
 import Settings from './Settings';
 import ResponseModal from './ResponseModal';
@@ -35,7 +35,7 @@ function ProfileTabs() {
     {
       key: 'sitter',
       tab: t('account.sitter_profile'),
-      content: <SitterProfile activeKey={activeKey} />,
+      content: <CatSitterInfo activeKey={activeKey} />,
     },
     {
       key: 'owner',
