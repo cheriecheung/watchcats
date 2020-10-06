@@ -31,7 +31,7 @@ const allLocations = [
   { id: 2, name: 'Cat Owner #2', lat: 52.364, lng: 4.939 },
 ];
 
-function FindSitter() {
+function FindCatSitter() {
   const { t, i18n } = useTranslation();
   const resultsRef = useRef(null);
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
@@ -82,4 +82,4 @@ function FindSitter() {
   );
 }
 
-export default FindSitter;
+export default FindCatSitter;

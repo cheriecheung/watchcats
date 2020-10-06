@@ -20,7 +20,7 @@ import WriteReview from './containers/WriteReview';
 
 import Messages from './containers/Messages';
 import Account from './containers/Account';
-import FindSitter from './containers/FindSitter';
+import FindCatSitter from './containers/FindCatSitter';
 import { CatSitter, CatOwner } from './containers/PublicProfile';
 
 import Cookies from 'universal-cookie';
@@ -53,7 +53,7 @@ function App() {
         <Layout>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/find" component={FindSitter} />
+            <Route path="/find" component={FindCatSitter} />
             <Route path="/about" component={About} />
             <Route path="/login" component={Login} />
             <Route path="/activate/:token?" component={VerifyEmail} />
