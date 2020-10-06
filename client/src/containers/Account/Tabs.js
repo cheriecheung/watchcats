@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import GeneralInfo from './GeneralInfo';
+import General from './General';
 import SitterProfile from './SitterProfile';
 import OwnerProfile from './OwnerProfile';
 import Settings from './Settings';
@@ -30,7 +30,7 @@ function ProfileTabs() {
     {
       key: 'general',
       tab: t('account.general_info'),
-      content: <GeneralInfo activeKey={activeKey} />,
+      content: <General activeKey={activeKey} />,
     },
     {
       key: 'sitter',
