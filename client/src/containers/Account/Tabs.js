@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import General from './General';
 import SitterProfile from './SitterProfile';
-import OwnerProfile from './OwnerProfile';
+import CatOwnerInfo from './CatOwnerInfo';
 import Settings from './Settings';
 import ResponseModal from './ResponseModal';
 import ScreenWidthListener from '../../components/General/ScreenWidthListener';
@@ -40,7 +40,7 @@ function ProfileTabs() {
     {
       key: 'owner',
       tab: t('account.owner_profile'),
-      content: <OwnerProfile activeKey={activeKey} />,
+      content: <CatOwnerInfo activeKey={activeKey} />,
     },
     { key: 'settings', tab: t('account.settings'), content: <Settings activeKey={activeKey} /> },
   ];
