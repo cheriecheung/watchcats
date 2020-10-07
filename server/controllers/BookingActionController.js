@@ -109,4 +109,16 @@ module.exports = {
       }
     }
   },
+
+  acceptBooking: async (req, res) => {
+    console.log('accept booking');
+  },
+
+  declineBooking: async (req, res) => {
+    console.log('decline booking');
+  },
+
+  completeBooking: async (req, res) => {
+    console.log('complete booking');
+  },
 };
