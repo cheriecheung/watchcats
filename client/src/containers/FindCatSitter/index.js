@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Row, Col } from 'reactstrap';
 import GoogleMap from '../../components/GoogleMap';
@@ -6,6 +6,8 @@ import Search from './Search';
 import Result from './Result';
 import styled from 'styled-components';
 import { List } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllSitters } from '../../_actions/findCatSitterActions';
 
 let resultsFound = [];
 for (let i = 0; i < 23; i++) {
@@ -32,11 +34,22 @@ const allLocations = [
 ];
 
 function FindCatSitter() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const { sitters } = useSelector((state) => state.account);
+
   const resultsRef = useRef(null);
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
   const [selectedMarker, setSelectedMarker] = useState({ id: '' });
+
+  useEffect(() => {
+    dispatch(getAllSitters());
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log({ sitters });
+  }, [sitters]);
 
   return (
     <div style={{ padding: '0 40px' }}>

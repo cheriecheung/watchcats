@@ -31,6 +31,7 @@ baseRouter.use('/', require('./cat_sitter'));
 baseRouter.use('/', require('./cat_owner'));
 baseRouter.use('/', require('./chat'));
 baseRouter.use('/', require('./file'));
+baseRouter.use('/', require('./find_cat_sitter'));
 baseRouter.use('/', require('./payment'));
 baseRouter.use('/', require('./user'));
 
