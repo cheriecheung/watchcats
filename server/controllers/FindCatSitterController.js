@@ -60,7 +60,7 @@ module.exports = {
       currentPage = 2,
       nPerPage = 2,
       startDate = '2020-10-10',
-      endDate = '2020-10-14',
+      endDate = '2020-10-15',
     } = req.body;
 
     const startDateObj = new Date(startDate);
@@ -71,26 +71,32 @@ module.exports = {
         .skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
         .limit(nPerPage);
 
-      const recordsByDate = await Promise.all(
-        // filter
+      const recordsAvailable = await Promise.all(
         recordsInPage.map(async ({ id, ...rest }) => {
           const sitterObjId = ObjectId(id);
           const { _doc } = rest;
 
           const unavailability = await UnavailableDate.find({ sitter: sitterObjId });
 
-          unavailability.map(({ date }) => {
-            // console.log({ urlId, unavailability })
-            const dateObj = new Date(date);
-
-            if (startDateObj <= dateObj && dateObj <= endDateObj) {
-              console.log(date + 'is AVAILABLE');
+          const arr = unavailability.map(({ date }) => {
+            if (startDateObj <= date && endDateObj >= date) {
+              return 'unavailable';
             } else {
-              console.log(date + 'is UNAVAILABLE');
+              return 'available';
             }
           });
+
+          if (arr.includes('unavailable')) {
+            return;
+          } else {
+            return _doc;
+          }
         })
       );
+
+      const filteredRecords = recordsAvailable.filter((item) => !!item);
+
+      return res.status(200).json(filteredRecords);
     } catch (err) {
       console.log({ err });
       return res.status(404).json('No records found');
