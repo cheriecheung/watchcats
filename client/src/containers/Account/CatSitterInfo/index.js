@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import 'react-day-picker/lib/style.css';
+import moment from 'moment';
 
 import AboutMe from './AboutMe';
 import Experience from './Experience';
@@ -78,14 +79,21 @@ function SitterProfile({ activeKey }) {
   }, [reset, sitterData]);
 
   const onSubmit = (data) => {
-    const { priceOneDay, priceOvernight } = data;
+    const { priceOneDay, priceOvernight, unavailableDates, ...rest } = data;
     const { value: priceOneDayValue } = priceOneDay || {};
     const { value: priceOvernightValue } = priceOvernight || {};
 
+    const parsedDates = unavailableDates.map((date) => {
+      const parsed = moment(date).format('YYYY-MM-DD');
+
+      return parsed;
+    });
+
     const cleanedData = {
-      ...data,
       priceOneDay: priceOneDayValue,
       priceOvernight: priceOvernightValue,
+      unavailableDates: parsedDates,
+      ...rest,
     };
 
     dispatch(saveSitter(id, cleanedData));

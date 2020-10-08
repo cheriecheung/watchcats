@@ -74,9 +74,11 @@ module.exports = {
 
         if (unavailableDatesArr.length > 0) {
           unavailableDatesArr.forEach(async (date) => {
+            const dateObj = new Date(date);
+
             const newDate = new UnavailableDate({
               sitter: newSitter._id,
-              date,
+              date: dateObj,
             });
             await newDate.save();
           });
@@ -101,10 +103,11 @@ module.exports = {
 
         unavailableDatesArr.forEach(async (date) => {
           if (!allDays.includes(date)) {
-            // CHANGE MOMENT DATE TO JS DATE
+            const dateObj = new Date(date);
+
             const newDate = new UnavailableDate({
               sitter: sitterId,
-              date,
+              date: dateObj,
             });
             await newDate.save();
           }
