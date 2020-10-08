@@ -3,6 +3,8 @@ const User = require('../model/User');
 const Sitter = require('../model/Sitter');
 const Booking = require('../model/Booking');
 const Review = require('../model/Review');
+const UnavailableDate = require('../model/UnavailableDate');
+
 const ObjectId = require('mongodb').ObjectID;
 
 module.exports = {
@@ -47,6 +49,48 @@ module.exports = {
       console.log({ updatedRecords });
 
       return res.status(200).json('Returning records in page');
+    } catch (err) {
+      console.log({ err });
+      return res.status(404).json('No records found');
+    }
+  },
+
+  searchByDate: async (req, res) => {
+    const {
+      currentPage = 2,
+      nPerPage = 2,
+      startDate = '2020-10-10',
+      endDate = '2020-10-14',
+    } = req.body;
+
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
+
+    try {
+      const recordsInPage = await Sitter.find()
+        .skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
+        .limit(nPerPage);
+
+      const recordsByDate = await Promise.all(
+        // filter
+        recordsInPage.map(async ({ id, ...rest }) => {
+          const sitterObjId = ObjectId(id);
+          const { _doc } = rest;
+
+          const unavailability = await UnavailableDate.find({ sitter: sitterObjId });
+
+          unavailability.map(({ date }) => {
+            // console.log({ urlId, unavailability })
+            const dateObj = new Date(date);
+
+            if (startDateObj <= dateObj && dateObj <= endDateObj) {
+              console.log(date + 'is AVAILABLE');
+            } else {
+              console.log(date + 'is UNAVAILABLE');
+            }
+          });
+        })
+      );
     } catch (err) {
       console.log({ err });
       return res.status(404).json('No records found');
