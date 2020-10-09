@@ -108,9 +108,9 @@ export const priceOvernightOptions = [
 ];
 
 export const sortingTypeOptions = [
-  { value: 'reviews', label: 'Reviews' },
-  { value: 'completedBookings', label: 'Completed bookings' },
-  { value: 'repeatedCustomers', label: 'Repeated customers' },
+  { value: 'totalReviews', label: 'Reviews' },
+  { value: 'totalCompletedBookings', label: 'Completed bookings' },
+  { value: 'totalRepeatedCustomers', label: 'Repeated customers' },
   { value: 'hourlyRate', label: 'Hourly rate' },
   { value: 'nightlyRate', label: 'Nightly rate' },
 ];

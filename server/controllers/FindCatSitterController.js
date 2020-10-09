@@ -7,9 +7,9 @@ const UnavailableDate = require('../model/UnavailableDate');
 
 const ObjectId = require('mongodb').ObjectID;
 
-async function getCompleteInfoRecord(records) {
+async function getInfo(records) {
   return await Promise.all(
-    records.map(async ({ id, urlId, aboutSitter, priceOneDay, priceOvernight }) => {
+    records.map(async ({ id, urlId, aboutSitter, hourlyRate, priceOvernight }) => {
       const sitterObjId = ObjectId(id);
 
       const userRecord = await User.findOne({ sitter: sitterObjId })
@@ -25,7 +25,7 @@ async function getCompleteInfoRecord(records) {
       const customers = await Booking.aggregate([
         { $match: { sitter: sitterObjId, status: 'completed' } },
         { $unwind: '$owner' },
-        { $group: { _id: '$owner', TotalBookingsFromCustomer: { $sum: 1 } } },
+        { $group: { _id: '$owner', TotalBookingsFromCustomer: { $sum: 1 }, } },
         { $match: { TotalBookingsFromCustomer: { $gt: 1 } } },
       ]);
 
@@ -34,17 +34,21 @@ async function getCompleteInfoRecord(records) {
       return {
         firstName, lastName, profilePictureFileName,
         totalReviews, totalCompletedBookings, totalRepeatedCustomers,
-        urlId, aboutSitter, priceOneDay, priceOvernight
+        urlId, aboutSitter, hourlyRate, priceOvernight
       };
     })
   );
 }
 
+function paginateRecords(records, currentPage, nPerPage) {
+  const start = nPerPage * (currentPage - 1)
+  return records.slice(start, start + nPerPage)
+}
+
 module.exports = {
   getAllSitters: async (req, res) => {
     const { sort: sortType } = req.query;
-    const { currentPage = 1, nPerPage = 3 } = req.body;
-    console.log({ sortType })
+    const { currentPage = 2, nPerPage = 3 } = req.body;
 
     try {
       // 1. sort all records first
@@ -52,20 +56,40 @@ module.exports = {
       // 2. display records in specific page
 
       let paginatedRecords = [];
+      let completeRecords = []
+
+      // totalReviews / totalCompletedBookings / totalRepeatedCustomers
+      if (sortType.includes('total')) {
+        const allSitterRecords = await Sitter.find()
+        completeRecords = await getInfo(allSitterRecords)
+
+        completeRecords = await completeRecords
+          .sort((a, b) => a[sortType] - b[sortType])
+
+        completeRecords = paginateRecords(completeRecords, currentPage, nPerPage)
+      }
 
       if (sortType === 'hourlyRate') {
-        paginatedRecords = await Sitter.find().sort({ priceOneDay: 1 }).skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
+        paginatedRecords = await Sitter.find()
+          .sort({ hourlyRate: 1 })
+          .skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
           .limit(nPerPage);
+
+        completeRecords = await getInfo(paginatedRecords)
       }
 
       if (sortType === 'nightlyRate') {
-        paginatedRecords = await Sitter.find().sort({ priceOvernight: 1 }).skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
+        paginatedRecords = await Sitter.find()
+          .sort({ priceOvernight: 1 })
+          .skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
           .limit(nPerPage);
+
+        completeRecords = await getInfo(paginatedRecords)
       }
 
-      const completeDataRecords = await getCompleteInfoRecord(paginatedRecords)
+      console.log({ sortType, completeRecords })
 
-      return res.status(200).json(completeDataRecords);
+      return res.status(200).json(completeRecords);
     } catch (err) {
       console.log({ err });
       return res.status(404).json('No records found');
