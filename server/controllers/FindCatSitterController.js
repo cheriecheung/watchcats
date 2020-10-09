@@ -7,54 +7,65 @@ const UnavailableDate = require('../model/UnavailableDate');
 
 const ObjectId = require('mongodb').ObjectID;
 
+async function getCompleteInfoRecord(records) {
+  return await Promise.all(
+    records.map(async ({ id, urlId, aboutSitter, priceOneDay, priceOvernight }) => {
+      const sitterObjId = ObjectId(id);
+
+      const userRecord = await User.findOne({ sitter: sitterObjId })
+      const { firstName, lastName, profilePictureFileName } = userRecord;
+
+      const [totalReviews, totalCompletedBookings] = await Promise.all([
+        Review.countDocuments({ reviewee: id }),
+        Booking.countDocuments({ sitter: id, status: 'completed' }),
+      ]);
+
+      // if (!totalReviews || !totalCompletedBookings)
+
+      const customers = await Booking.aggregate([
+        { $match: { sitter: sitterObjId, status: 'completed' } },
+        { $unwind: '$owner' },
+        { $group: { _id: '$owner', TotalBookingsFromCustomer: { $sum: 1 } } },
+        { $match: { TotalBookingsFromCustomer: { $gt: 1 } } },
+      ]);
+
+      const totalRepeatedCustomers = customers.length;
+
+      return {
+        firstName, lastName, profilePictureFileName,
+        totalReviews, totalCompletedBookings, totalRepeatedCustomers,
+        urlId, aboutSitter, priceOneDay, priceOvernight
+      };
+    })
+  );
+}
+
 module.exports = {
   getAllSitters: async (req, res) => {
-    const { sort } = req.query;
-    const { currentPage = 2, nPerPage = 2 } = req.body;
+    const { sort: sortType } = req.query;
+    const { currentPage = 1, nPerPage = 3 } = req.body;
+    console.log({ sortType })
 
     try {
       // 1. sort all records first
-      const testSorting = await Sitter.find().sort({ priceOvernight: -1 });
-      console.log({ testSorting });
 
       // 2. display records in specific page
-      const recordsInPage = await Sitter.find()
-        .skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
-        .limit(nPerPage);
 
-      const updatedRecords = await Promise.all(
-        recordsInPage.map(async ({ id, ...rest }) => {
-          const sitterObjId = ObjectId(id);
-          const { _doc } = rest;
+      let paginatedRecords = [];
 
-          const [bookings, reviews] = await Promise.all([
-            Booking.find({ sitter: sitterObjId, status: 'completed' }),
-            Review.find({ reviewee: sitterObjId }),
-          ]);
+      if (sortType === 'hourlyRate') {
+        paginatedRecords = await Sitter.find().sort({ priceOneDay: 1 }).skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
+          .limit(nPerPage);
+      }
 
-          const customers = await Booking.aggregate([
-            { $match: { sitter: sitterObjId, status: 'completed' } },
-            { $unwind: '$owner' },
-            { $group: { _id: '$owner', TotalBookingsFromCustomer: { $sum: 1 } } },
-            { $match: { TotalBookingsFromCustomer: { $gt: 1 } } },
-          ]);
+      if (sortType === 'nightlyRate') {
+        paginatedRecords = await Sitter.find().sort({ priceOvernight: 1 }).skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
+          .limit(nPerPage);
+      }
 
-          const totalCompletedBookings = bookings.length;
-          const totalReviews = reviews.length;
-          const totalRepeatedCustomers = customers.length;
+      const completeDataRecords = await getCompleteInfoRecord(paginatedRecords)
 
-          return {
-            totalCompletedBookings,
-            totalReviews,
-            totalRepeatedCustomers,
-            ..._doc,
-          };
-        })
-      );
-
-      console.log({ updatedRecords });
-
-      return res.status(200).json('Returning records in page');
+      return res.status(200).json(completeDataRecords);
     } catch (err) {
       console.log({ err });
       return res.status(404).json('No records found');
