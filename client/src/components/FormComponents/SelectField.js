@@ -49,6 +49,7 @@ export default function SelectField({
   name,
   options,
   onChange = ([selected]) => selected,
+  placeholder,
   // defaultValue = { value: '', label: '' },
 }) {
   const { control, errors } = useFormContext();
@@ -63,6 +64,7 @@ export default function SelectField({
       isSearchable={false}
       //defaultValue={defaultValue}
       styles={colourStyles}
+      placeholder={placeholder}
     />
   );
 }

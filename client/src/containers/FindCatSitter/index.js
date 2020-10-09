@@ -7,7 +7,7 @@ import Result from './Result';
 import styled from 'styled-components';
 import { List } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllSitters, searchByDate } from '../../_actions/findCatSitterActions';
+import { getAllSitters } from '../../_actions/findCatSitterActions';
 
 let resultsFound = [];
 for (let i = 0; i < 23; i++) {
@@ -44,7 +44,7 @@ function FindCatSitter() {
   const [selectedMarker, setSelectedMarker] = useState({ id: '' });
 
   useEffect(() => {
-    dispatch(searchByDate());
+    dispatch(getAllSitters());
   }, [dispatch]);
 
   useEffect(() => {

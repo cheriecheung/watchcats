@@ -9,9 +9,15 @@ const ObjectId = require('mongodb').ObjectID;
 
 module.exports = {
   getAllSitters: async (req, res) => {
+    const { sort } = req.query;
     const { currentPage = 2, nPerPage = 2 } = req.body;
 
     try {
+      // 1. sort all records first
+      const testSorting = await Sitter.find().sort({ priceOvernight: -1 });
+      console.log({ testSorting });
+
+      // 2. display records in specific page
       const recordsInPage = await Sitter.find()
         .skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
         .limit(nPerPage);
@@ -55,7 +61,11 @@ module.exports = {
     }
   },
 
-  searchByDate: async (req, res) => {
+  filterByAddress: async (req, res) => {
+    console.log('filtering by address');
+  },
+
+  filterByDate: async (req, res) => {
     const {
       currentPage = 2,
       nPerPage = 2,
@@ -101,5 +111,9 @@ module.exports = {
       console.log({ err });
       return res.status(404).json('No records found');
     }
+  },
+
+  sortByHourlyRate: async (req, res) => {
+    console.log('Sorting now by hourly rate');
   },
 };

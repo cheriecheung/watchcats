@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { useForm, FormProvider } from 'react-hook-form';
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { filterByDate, sortSitters } from '../../../_actions/findCatSitterActions';
 
 import GooglePlaceAutocomplete from './GooglePlaceAutocomplete';
 import AppointmentPeriodPicker from './AppointmentPeriodPicker';
@@ -16,7 +18,7 @@ const SearchContainer = styled.div`
   border-radius: 10px;
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.05), 0 1px 6px rgba(0, 0, 0, 0.05);
   background: rgba(255, 255, 255, 1);
-  overflow: hidden;
+
   display: flex;
   padding: 2px 0;
 `;
@@ -29,6 +31,8 @@ const defaultValues = {
 
 function Search({ setCenter }) {
   const { t, i18n } = useTranslation();
+  const dispatch = useDispatch();
+
   const methods = useForm({ defaultValues });
   const { register, control, handleSubmit, reset, watch, setValue } = methods;
   const startDateValue = watch('startDate');
@@ -42,10 +46,20 @@ function Search({ setCenter }) {
   };
 
   useEffect(() => {
-    if (sortByValue !== '') {
+    if ((startDateValue !== '', endDateValue !== '')) {
+      dispatch(filterByDate());
+    }
+  }, [startDateValue, endDateValue]);
+
+  useEffect(() => {
+    const { value } = sortByValue || {};
+
+    if (value !== '') {
       setValue('startDate', '');
       setValue('endDate', '');
       setAddress('');
+
+      dispatch(sortSitters(value));
     }
   }, [sortByValue]);
 

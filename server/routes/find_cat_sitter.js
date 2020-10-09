@@ -3,6 +3,6 @@ const FindCatSitterController = require('../controllers/FindCatSitterController'
 
 router.get('/sitter', FindCatSitterController.getAllSitters);
 
-router.get('/sitter/available', FindCatSitterController.searchByDate);
+router.get('/sitter/availability', FindCatSitterController.filterByDate);
 
 module.exports = router;

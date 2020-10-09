@@ -106,3 +106,11 @@ export const priceOvernightOptions = [
   { value: 45, label: '€ 45,00' },
   { value: 50, label: '€ 50,00' },
 ];
+
+export const sortingTypeOptions = [
+  { value: 'reviews', label: 'Reviews' },
+  { value: 'completedBookings', label: 'Completed bookings' },
+  { value: 'repeatedCustomers', label: 'Repeated customers' },
+  { value: 'hourlyRate', label: 'Hourly rate' },
+  { value: 'nightlyRate', label: 'Nightly rate' },
+];
