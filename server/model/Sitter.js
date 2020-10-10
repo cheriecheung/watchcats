@@ -54,11 +54,11 @@ const sitterSchema = new Schema({
     type: Boolean,
     required: false,
   },
-  priceOneDay: {
+  hourlyRate: {
     type: Number,
     required: false,
   },
-  priceOvernight: {
+  nightlyRate: {
     type: Number,
     required: false,
   },

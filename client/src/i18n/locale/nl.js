@@ -136,9 +136,9 @@ export default {
 
     pricing: 'Prijsstelling',
     one_day: 'Eendaags bezoek',
-    per_hour: 'per uur',
+    per_hour: '/ uur',
     overnight: 'Overnachting',
-    per_night: 'per nacht',
+    per_night: '/ nacht',
 
     availability: 'Beschikbaarheid',
     availability_description:

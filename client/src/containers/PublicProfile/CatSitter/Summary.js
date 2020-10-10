@@ -61,12 +61,12 @@ function Summary({ id, sitterInfo }) {
       <hr />
 
       <span style={{ display: 'flex' }}>
-        <h5>€ {sitterInfo.priceOneDay} </h5>per day
+        <h5>€ {sitterInfo.hourlyRate} </h5>per day
         {/* you will receive ___  */}
       </span>
 
       <span style={{ display: 'flex' }}>
-        <h5>€ {sitterInfo.priceOvernight}</h5> per night
+        <h5>€ {sitterInfo.nightlyRate}</h5> per night
         {/* you will receive ___  */}
       </span>
 
@@ -80,8 +80,8 @@ function Summary({ id, sitterInfo }) {
         closeModal={() => setModalVisible(false)}
         error={errorType}
         appointmentTime={appointmentTime}
-        oneDayPrice={sitterInfo.priceOneDay}
-        overnightPrice={sitterInfo.priceOvernight}
+        oneDayPrice={sitterInfo.hourlyRate}
+        overnightPrice={sitterInfo.nightlyRate}
         // location={location}
         handleSendRequest={handleSendRequest}
       />

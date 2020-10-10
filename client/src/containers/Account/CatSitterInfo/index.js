@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
-import { priceOneDayOptions, priceOvernightOptions } from '../../../constants';
+import { hourlyRateOptions, nightlyRateOptions } from '../../../constants';
 import { getSitterAccount, saveSitter } from '../../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -23,8 +23,8 @@ const defaultValues = {
   hasInjectionSkills: false,
   hasCertification: false,
   hasGroomingSkills: false,
-  priceOneDay: priceOneDayOptions[0],
-  priceOvernight: priceOvernightOptions[0],
+  hourlyRate: hourlyRateOptions[0],
+  nightlyRate: nightlyRateOptions[0],
   unavailableDates: [],
   emergencyName: '',
   emergencyNumber: '',
@@ -56,8 +56,8 @@ function SitterProfile({ activeKey }) {
         hasInjectionSkills = false,
         hasCertification = false,
         hasGroomingSkills = false,
-        priceOneDay,
-        priceOvernight,
+        hourlyRate,
+        nightlyRate,
         unavailableDates = [],
       } = sitterData;
 
@@ -71,17 +71,17 @@ function SitterProfile({ activeKey }) {
         hasInjectionSkills,
         hasCertification,
         hasGroomingSkills,
-        priceOneDay: { value: priceOneDay, label: `€ ${priceOneDay},00` },
-        priceOvernight: { value: priceOvernight, label: `€ ${priceOvernight},00` },
+        hourlyRate: { value: hourlyRate, label: `€ ${hourlyRate},00` },
+        nightlyRate: { value: nightlyRate, label: `€ ${nightlyRate},00` },
         unavailableDates: unavailableDates.map((item) => new Date(item)),
       });
     }
   }, [reset, sitterData]);
 
   const onSubmit = (data) => {
-    const { priceOneDay, priceOvernight, unavailableDates, ...rest } = data;
-    const { value: priceOneDayValue } = priceOneDay || {};
-    const { value: priceOvernightValue } = priceOvernight || {};
+    const { hourlyRate, nightlyRate, unavailableDates, ...rest } = data;
+    const { value: hourlyRateOptions } = hourlyRate || {};
+    const { value: nightlyRateOptions } = nightlyRate || {};
 
     const parsedDates = unavailableDates.map((date) => {
       const parsed = moment(date).format('YYYY-MM-DD');
@@ -90,8 +90,8 @@ function SitterProfile({ activeKey }) {
     });
 
     const cleanedData = {
-      priceOneDay: priceOneDayValue,
-      priceOvernight: priceOvernightValue,
+      hourlyRate: hourlyRateOptions,
+      nightlyRate: nightlyRateOptions,
       unavailableDates: parsedDates,
       ...rest,
     };

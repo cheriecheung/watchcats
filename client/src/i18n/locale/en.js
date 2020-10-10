@@ -139,9 +139,9 @@ export default {
 
     pricing: 'Pricing',
     one_day: 'One day visit',
-    per_hour: 'per hour',
+    per_hour: '/ hour',
     overnight: 'Overnight visit',
-    per_night: 'per night',
+    per_night: '/ night',
 
     availability: 'Availability',
     availability_description:

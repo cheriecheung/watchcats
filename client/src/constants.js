@@ -72,7 +72,7 @@ export const personalityOptions = [
   { value: 5, label: 'Solitary and calm' },
 ];
 
-export const priceOneDayOptions = [
+export const hourlyRateOptions = [
   { value: 6, label: '€ 6,00' },
   { value: 7, label: '€ 7,00' },
   { value: 8, label: '€ 8,00' },
@@ -95,7 +95,7 @@ export const priceOneDayOptions = [
   { value: 25, label: '€ 25,00' },
 ];
 
-export const priceOvernightOptions = [
+export const nightlyRateOptions = [
   { value: 10, label: '€ 10,00' },
   { value: 15, label: '€ 15,00' },
   { value: 20, label: '€ 20,00' },

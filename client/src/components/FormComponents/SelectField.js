@@ -7,6 +7,12 @@ const bgColor = (opacity) => `rgba(255, 161, 149, ${opacity})`;
 const bordercolor = (opacity) => `1px solid rgb(255, 161, 149, ${opacity})`;
 
 const colourStyles = {
+  container: base => ({
+    ...base,
+    flex: 1,
+  }),
+
+
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     // console.log({ data, isDisabled, isFocused, isSelected });
 
@@ -15,10 +21,10 @@ const colourStyles = {
       backgroundColor: isDisabled
         ? null
         : isSelected
-        ? bgColor(0.5)
-        : isFocused
-        ? bgColor(0.2)
-        : null,
+          ? bgColor(0.5)
+          : isFocused
+            ? bgColor(0.2)
+            : null,
       color: '#494442',
 
       ':active': {
