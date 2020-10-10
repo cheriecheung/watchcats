@@ -63,11 +63,12 @@ input[type='file'] {
   display: none;
 }
 
-.ant-input {
+/* .ant-input {
+  margin-bottom: 5px !important;
   padding: 7px 15px !important;
   border: var(--theme-field-border);
   border-radius: var(--theme-border-radius) !important;
-}
+} */
 
 .ant-input:hover,
 .ant-input:focus,
@@ -153,11 +154,10 @@ select:-webkit-autofill:focus {
 .credit-card-input .ant-input-affix-wrapper:hover .ant-input,
 .ant-input-password.ant-input-affix-wrapper .ant-input,
 .ant-input-password.ant-input-affix-wrapper:hover .ant-input {
-  padding: 0 !important;
+  padding: 0 0 15px 0!important;
   border: none !important;
   box-shadow: none !important;
   height: var(--theme-field-height) !important;
-  margin-top: -2% !important;
 }
 
 /* ------------------- antd radio ------------------- */

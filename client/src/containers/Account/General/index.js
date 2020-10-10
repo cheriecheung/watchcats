@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
-import {
-  getUser,
-  sendUser,
-  sendProfilePic,
-  sendAddressProof,
-} from '../../../_actions/accountActions';
+import { getUser, sendUser, sendProfilePic, sendAddressProof } from '../../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -19,7 +16,7 @@ const defaultValues = {
   profilePic: '',
   firstName: '',
   lastName: '',
-  email: '',
+  // email: '',
   phone: '',
   address: '',
   postcode: '',
@@ -29,13 +26,27 @@ const defaultValues = {
   profileOther: '',
 };
 
+const validationSchema = yup.object().shape({
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
+  // matches() for phone
+  phone: yup.string().required(),
+  address: yup.string().required(),
+  postcode: yup.string().required().matches(/^\d{4}[a-z]{2}$/i),
+})
+
+const resolver = yupResolver(validationSchema)
+
 function GeneralInfo({ activeKey }) {
+  const personalInfoRef = useRef(null);
+
   const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const { data: userData } = useSelector((state) => state.account);
 
-  const methods = useForm();
-  const { register, handleSubmit, reset, setValue, watch } = methods;
+  const methods = useForm({ defaultValues, resolver });
+  const { handleSubmit, reset, setValue, errors } = methods;
 
   const [profilePicURL, setProfilePicURL] = useState('');
 
@@ -57,6 +68,12 @@ function GeneralInfo({ activeKey }) {
       reset(userData);
     }
   }, [userData]);
+
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      window.scrollTo(0, personalInfoRef.current.offsetTop - 20);
+    }
+  }, [errors])
 
   const onSubmit = (data) => {
     dispatch(sendUser(data));
@@ -81,7 +98,7 @@ function GeneralInfo({ activeKey }) {
             <ProfilePicture setValue={setValue} profilePicURL={profilePicURL} />
           </SectionContainer>
 
-          <SectionContainer>
+          <SectionContainer ref={personalInfoRef}>
             <SectionTitle>{t('general_info.personal_info')}</SectionTitle>
 
             <PersonalInfo />
