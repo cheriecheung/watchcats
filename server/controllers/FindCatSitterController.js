@@ -56,10 +56,7 @@ module.exports = {
       if (sortType.includes('total')) {
         const allSitterRecords = await Sitter.find()
         const cleaned = await getInfo(allSitterRecords)
-
-        const sorted = await cleaned.sort((a, b) =>
-          sortType.includes('Reviews') ? b[sortType] - a[sortType] : a[sortType] - b[sortType]
-        )
+        const sorted = await cleaned.sort((a, b) => b[sortType] - a[sortType])
 
         completeRecords = paginateRecords(sorted, currentPage, nPerPage)
       }
@@ -133,9 +130,5 @@ module.exports = {
       console.log({ err });
       return res.status(404).json('No records found');
     }
-  },
-
-  sortByHourlyRate: async (req, res) => {
-    console.log('Sorting now by hourly rate');
   },
 };

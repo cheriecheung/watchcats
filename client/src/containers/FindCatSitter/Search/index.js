@@ -7,6 +7,7 @@ import 'antd/dist/antd.css';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { filterByDate, sortSitters } from '../../../_actions/findCatSitterActions';
+import { sortingTypeOptions } from '../../../constants';
 
 import GooglePlaceAutocomplete from './GooglePlaceAutocomplete';
 import AppointmentPeriodPicker from './AppointmentPeriodPicker';
@@ -23,13 +24,19 @@ const SearchContainer = styled.div`
   padding: 2px 0;
 `;
 
+const ResetButton = styled.div`
+background: 'none',
+outline: 'none',
+border: 'none',
+`
+
 const defaultValues = {
   startDate: '',
   endDate: '',
-  sortBy: '',
+  sortBy: sortingTypeOptions[0],
 };
 
-function Search({ setCenter }) {
+function Search({ setMapCenter }) {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
 
@@ -55,8 +62,8 @@ function Search({ setCenter }) {
     const { value } = sortByValue || {};
 
     if (value !== '') {
-      setValue('startDate', '');
-      setValue('endDate', '');
+      // setValue('startDate', '');
+      // setValue('endDate', '');
       setAddress('');
 
       dispatch(sortSitters(value));
@@ -65,7 +72,7 @@ function Search({ setCenter }) {
 
   useEffect(() => {
     if (startDateValue !== '' || endDateValue !== '') {
-      setValue('sortBy', '');
+      // setValue('sortBy', '');
       setAddress('');
     }
 
@@ -97,7 +104,7 @@ function Search({ setCenter }) {
             <Row style={{ width: '100%', margin: '0 5px' }}>
               <Col md={3}>
                 <GooglePlaceAutocomplete
-                  setCenter={setCenter}
+                  setMapCenter={setMapCenter}
                   address={address}
                   setAddress={setAddress}
                   emptyOtherFilters={() => reset(defaultValues)}
@@ -114,20 +121,15 @@ function Search({ setCenter }) {
               </Col>
 
               <Col md={1} style={{ alignSelf: 'center' }}>
-                <button
-                  style={{
-                    background: 'none',
-                    outline: 'none',
-                    border: 'none',
-                  }}
-                  // type="submit"
+                <ResetButton
+                  type="button"
                   onClick={() => {
                     reset(defaultValues);
                     setAddress('');
                   }}
                 >
                   {t('find_sitter.reset')}
-                </button>
+                </ResetButton>
               </Col>
             </Row>
           </form>

@@ -6,7 +6,7 @@ import { sortingTypeOptions } from '../../../constants';
 function Sorting() {
   const { t } = useTranslation();
 
-  return <SelectField name="sortBy" placeholder="Sort by" options={sortingTypeOptions} />;
+  return <SelectField name="sortBy" options={sortingTypeOptions} />;
 }
 
 export default Sorting;

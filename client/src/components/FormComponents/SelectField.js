@@ -56,7 +56,7 @@ export default function SelectField({
   options,
   onChange = ([selected]) => selected,
   placeholder,
-  // defaultValue = { value: '', label: '' },
+  //defaultValue = { value: '', label: 'Select' },
 }) {
   const { control, errors } = useFormContext();
 
@@ -64,13 +64,13 @@ export default function SelectField({
     <Controller
       control={control}
       as={Select}
+      styles={colourStyles}
       name={name}
+      placeholder={placeholder}
       options={options}
       onChange={onChange}
       isSearchable={false}
-      //defaultValue={defaultValue}
-      styles={colourStyles}
-      placeholder={placeholder}
+    //defaultValue={defaultValue}
     />
   );
 }

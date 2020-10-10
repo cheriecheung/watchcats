@@ -33,6 +33,8 @@ const allLocations = [
   { id: 2, name: 'Cat Owner #2', lat: 52.364, lng: 4.939 },
 ];
 
+const defaultMapCenter = { lat: 52.3676, lng: 4.9041 }
+
 function FindCatSitter() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -41,6 +43,8 @@ function FindCatSitter() {
   const resultsRef = useRef(null);
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
+  const [mapZoom, setMapZoom] = useState(12);
+  const [mapCenter, setMapCenter] = useState(defaultMapCenter)
   const [selectedMarker, setSelectedMarker] = useState({ id: '' });
 
   useEffect(() => {
@@ -53,7 +57,7 @@ function FindCatSitter() {
 
   return (
     <div style={{ padding: '0 40px' }}>
-      <Search />
+      <Search setMapCenter={setMapCenter} />
       <Row>
         <Col md={5}>
           <div
@@ -67,11 +71,16 @@ function FindCatSitter() {
             }}
           >
             {/* <GoogleMap
-              mapHeight={mapHeight}
-              defaultCenter={{ lat: 52.3667, lng: 4.8945 }}
-              allLocations={allLocations}
+              defaultCenter={defaultMapCenter}
+              zoom={mapZoom}
+              center={mapCenter}
+              markers={allLocations}
+              onMarkerClick={setSelectedMarker}
               selectedMarker={selectedMarker}
-              setSelectedMarker={setSelectedMarker}
+              googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${process.env.REACT_APP_GOOGLE_KEY}`}
+              loadingElement={<div style={{ height: '100%' }} />}
+              containerElement={<div style={{ width: '100%', height: mapHeight }} />}
+              mapElement={<div style={{ height: '100%' }} />}
             /> */}
           </div>
         </Col>
