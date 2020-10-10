@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
-function GooglePlaceAutocomplete({ setMapCenter, address, setAddress, emptyOtherFilters, t }) {
+function GooglePlaceAutocomplete({ setZoom, setCenter, address, setAddress, sitterRecords, setSittersByAddress, emptyOtherFilters, radius }) {
+  const { t } = useTranslation();
+
   let autoComplete;
-  // const { google } = window;
+  const { google } = window;
   // const google = (window.google = window.google ? window.google : {});
 
   const autoCompleteRef = useRef(null);
@@ -14,12 +17,30 @@ function GooglePlaceAutocomplete({ setMapCenter, address, setAddress, emptyOther
     const newAddress = addressObject.formatted_address;
     udpateAddress(newAddress);
 
-    const lat = addressObject.geometry.location.lat();
-    const lng = addressObject.geometry.location.lng();
+    const addressLat = addressObject.geometry.location.lat();
+    const addressLng = addressObject.geometry.location.lng();
 
-    console.log({ lat, lng })
+    const filtered = sitterRecords.filter(
+      ({ coordinates }) => {
+        const { lat, lng } = coordinates;
 
-    setMapCenter({ lat, lng });
+        const distance =
+          google.maps.geometry.spherical.computeDistanceBetween(
+            // filled-in address in auto-complete
+            new google.maps.LatLng(addressLat, addressLng),
+            // existing car park
+            new google.maps.LatLng(parseFloat(lat), parseFloat(lng))
+          ) <= radius;
+
+        return distance === true;
+      }
+    );
+
+    console.log({ addressLat, addressLng })
+
+    setZoom(14)
+    setCenter({ lat: addressLat, lng: addressLng });
+    setSittersByAddress(filtered)
   };
 
   const handleScriptLoad = (updateAddress, ref) => {

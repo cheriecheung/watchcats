@@ -36,7 +36,7 @@ const defaultValues = {
   sortBy: sortingTypeOptions[0],
 };
 
-function Search({ setMapCenter }) {
+function Search({ setZoom, setCenter, sitterRecords, setSittersByAddress, radius }) {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
 
@@ -51,6 +51,7 @@ function Search({ setMapCenter }) {
   const fetchSitters = () => {
     console.log('fetch sitters here');
   };
+
 
   useEffect(() => {
     if ((startDateValue !== '', endDateValue !== '')) {
@@ -104,11 +105,14 @@ function Search({ setMapCenter }) {
             <Row style={{ width: '100%', margin: '0 5px' }}>
               <Col md={3}>
                 <GooglePlaceAutocomplete
-                  setMapCenter={setMapCenter}
+                  setZoom={setZoom}
+                  setCenter={setCenter}
                   address={address}
                   setAddress={setAddress}
+                  sitterRecords={sitterRecords}
+                  setSittersByAddress={setSittersByAddress}
                   emptyOtherFilters={() => reset(defaultValues)}
-                  t={t}
+                  radius={radius}
                 />
               </Col>
 
@@ -125,6 +129,7 @@ function Search({ setMapCenter }) {
                   type="button"
                   onClick={() => {
                     reset(defaultValues);
+                    setZoom(12)
                     setAddress('');
                   }}
                 >

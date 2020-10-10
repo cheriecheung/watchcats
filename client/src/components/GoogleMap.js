@@ -6,6 +6,7 @@ import {
   GoogleMap as ReactGoogleMap,
   Marker,
   InfoWindow,
+  Circle
 } from 'react-google-maps';
 import location_marker from '../assets/images/location_marker.png';
 import { Link } from 'react-router-dom';
@@ -25,51 +26,69 @@ const BrowseButton = styled(Link)`
 const GoogleMap = compose(
   withScriptjs,
   withGoogleMap
-)(({ zoom, center, markers, onMarkerClick, selectedMarker }) => (
-  <ReactGoogleMap
-    defaultZoom={zoom}
-    defaultCenter={center}
-    zoom={zoom}
-    center={center}
-  >
+)(({ zoom, center, radius, markers, onMarkerClick, selectedMarker }) => {
+  console.log({ zoom, center })
 
-    {markers.map((marker) => {
-      const { id, name, lat, lng } = marker;
+  return (
+    <ReactGoogleMap
+      defaultZoom={zoom}
+      defaultCenter={center}
+      zoom={zoom}
+      center={center}
+    >
 
-      return (<Marker
-        key={id}
-        onClick={() => {
-          onMarkerClick(marker);
-        }}
-        position={{ lat, lng }}
-        icon={{
-          url: location_marker,
-          scaledSize: {
-            width: 28,
-            height: 34,
-            widthUnit: 'px',
-            heightUnit: 'px',
-          },
-        }}
-      >
-        {selectedMarker.id === marker.id && (
-          <InfoWindow style={{ padding: 0 }}>
-            <div style={{ width: 200 }}>
-              <img src="https://i.imgur.com/I86rTVl.jpg" alt={NamedNodeMap} width="100%" />
+      {zoom === 14 && (
+        <Marker position={center}>
+          <Circle
+            center={center}
+            radius={radius}
+            options={{
+              fillColor: '#A0A0A0',
+              strokeColor: 'transparent',
+            }}
+          />
+        </Marker>
+      )}
 
-              <div style={{ textAlign: 'left', width: '100%' }}>
-                <h5 style={{ color: '#a0dfcf', fontSize: '1.1rem' }}>{name}</h5>
-                <p>Amsterdam keizergracht</p>
-                <BrowseButton to="/profile/catsitter/123">
-                  <h6 style={{ margin: 0 }}>Check profile</h6>
-                </BrowseButton>
+
+      {markers.map((marker) => {
+        const { id, name, coordinates } = marker;
+        const { lat, lng } = coordinates;
+
+        return (<Marker
+          key={id}
+          onClick={() => {
+            onMarkerClick(marker);
+          }}
+          position={{ lat, lng }}
+          icon={{
+            url: location_marker,
+            scaledSize: {
+              width: 28,
+              height: 34,
+              widthUnit: 'px',
+              heightUnit: 'px',
+            },
+          }}
+        >
+          {selectedMarker.id === marker.id && (
+            <InfoWindow style={{ padding: 0 }}>
+              <div style={{ width: 200 }}>
+                <img src="https://i.imgur.com/I86rTVl.jpg" alt={NamedNodeMap} width="100%" />
+
+                <div style={{ textAlign: 'left', width: '100%' }}>
+                  <h5 style={{ color: '#a0dfcf', fontSize: '1.1rem' }}>{name}</h5>
+                  <p>Amsterdam keizergracht</p>
+                  <BrowseButton to="/profile/catsitter/123">
+                    <h6 style={{ margin: 0 }}>Check profile</h6>
+                  </BrowseButton>
+                </div>
               </div>
-            </div>
-          </InfoWindow>
-        )}
-      </Marker>)
-    })}
-    {/* {Array.isArray(markers) && markers.length > 0 ? (
+            </InfoWindow>
+          )}
+        </Marker>)
+      })}
+      {/* {Array.isArray(markers) && markers.length > 0 ? (
       <AllMarkers markers={markers} onMarkerClick={onMarkerClick} selectedMarker={selectedMarker} />
     ) : (
         <Marker
@@ -85,8 +104,9 @@ const GoogleMap = compose(
           position={{ lat: markers.lat, lng: markers.lng }}
         />
       )} */}
-  </ReactGoogleMap>
-));
+    </ReactGoogleMap>
+  )
+});
 
 export default GoogleMap
 
