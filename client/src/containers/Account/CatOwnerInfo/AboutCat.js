@@ -10,22 +10,23 @@ import {
 } from '../../../components/FormComponents';
 import { useTranslation } from 'react-i18next';
 import { catBreedOptions, personalityOptions, medicineOptions } from '../../../constants';
+import { catObj } from '../_defaultValues'
 
 const color = '#252525';
 
-function AboutCat({ watch, catObj, catFieldArray }) {
+function AboutCat({ watch, catFieldArray }) {
   const { t } = useTranslation();
-  const { catFields, catAppend, catRemove } = catFieldArray;
+  const { fields, append, remove } = catFieldArray;
 
   const handleRemoveCat = (index) => {
     if (window.confirm('Click Ok to confirm to remove cat record')) {
-      catRemove(index);
+      remove(index);
     }
   };
 
   return (
     <>
-      {catFields.map((item, index) => {
+      {fields.map((item, index) => {
         return (
           <div
             key={item.id}
@@ -39,8 +40,8 @@ function AboutCat({ watch, catObj, catFieldArray }) {
                 And my #{index + 1} cat
               </h6>
               <button
-                hidden={index === 0}
                 type="button"
+                hidden={index === 0}
                 onClick={() => handleRemoveCat(index)}
                 style={{
                   marginBottom: 10,
@@ -144,9 +145,10 @@ function AboutCat({ watch, catObj, catFieldArray }) {
       })}
 
       <button
+        type="button"
         hidden={watch('cat').length > 4}
         className="add-field-btn"
-        onClick={() => catAppend(catObj)}
+        onClick={() => append(catObj)}
         style={{
           // background: '#ffecea',
           color: '#ffa195',

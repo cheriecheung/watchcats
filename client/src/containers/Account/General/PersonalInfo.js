@@ -35,7 +35,7 @@ function PersonalInfo() {
         </Col>
         <Col md={6}>
           <FieldLabel>{t('general_info.postcode')}</FieldLabel>
-          <TextField name="postcode" errorLabel="Invalid Dutch postcode" />
+          <TextField name="postcode" errorMessage="Invalid Dutch postcode" />
         </Col>
       </Row>
     </>

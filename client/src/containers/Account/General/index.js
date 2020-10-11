@@ -1,41 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
 import { getUser, sendUser, sendProfilePic, sendAddressProof } from '../../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+
+import { useForm, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { general_default_values as defaultValues } from '../_defaultValues'
+import { general_schema } from '../_validationSchema'
 
 import ProfilePicture from './ProfilePicture';
 import PersonalInfo from './PersonalInfo';
 import AddressProof from './AddressProof';
 import SocialMedia from './SocialMedia';
 
-const defaultValues = {
-  profilePic: '',
-  firstName: '',
-  lastName: '',
-  // email: '',
-  phone: '',
-  address: '',
-  postcode: '',
-  addressProof: '',
-  profileFacebook: '',
-  profileInstagram: '',
-  profileOther: '',
-};
-
-const validationSchema = yup.object().shape({
-  firstName: yup.string().required(),
-  lastName: yup.string().required(),
-  // matches() for phone
-  phone: yup.string().required(),
-  address: yup.string().required(),
-  postcode: yup.string().required().matches(/^\d{4}[a-z]{2}$/i),
-})
-
-const resolver = yupResolver(validationSchema)
+const resolver = yupResolver(general_schema)
 
 function GeneralInfo({ activeKey }) {
   const personalInfoRef = useRef(null);

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
-import { hourlyRateOptions, nightlyRateOptions } from '../../../constants';
 import { getSitterAccount, saveSitter } from '../../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -9,26 +8,12 @@ import { useTranslation } from 'react-i18next';
 import 'react-day-picker/lib/style.css';
 import moment from 'moment';
 
+import { cat_sitter_default_values as defaultValues } from '../_defaultValues'
+
 import AboutMe from './AboutMe';
 import Experience from './Experience';
 import Pricing from './Pricing';
 import Availability from './Availability';
-
-const defaultValues = {
-  aboutSitter: '',
-  //photos: [],
-  experience: '',
-  hasCat: false,
-  hasMedicationSkills: false,
-  hasInjectionSkills: false,
-  hasCertification: false,
-  hasGroomingSkills: false,
-  hourlyRate: hourlyRateOptions[0],
-  nightlyRate: nightlyRateOptions[0],
-  unavailableDates: [],
-  emergencyName: '',
-  emergencyNumber: '',
-};
 
 function SitterProfile({ activeKey }) {
   const { t } = useTranslation();

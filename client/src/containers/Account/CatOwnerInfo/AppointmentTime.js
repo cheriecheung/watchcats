@@ -3,19 +3,14 @@ import { Row, Col } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import { themeColor } from '../../../style/theme';
 import { DatePicker, TimePicker, FieldLabel } from '../../../components/FormComponents';
+import { oneDayObj, overnightObj } from '../_defaultValues'
 
 const color = '#252525';
 
-function AppointmentTime({
-  watch,
-  oneDayObj,
-  overnightObj,
-  oneDayFieldArray,
-  overnightFieldArray,
-}) {
+function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
   const { t } = useTranslation();
-  const { oneDayFields, oneDayRemove, oneDayAppend } = oneDayFieldArray;
-  const { overnightFields, overnightRemove, overnightAppend } = overnightFieldArray;
+  const { fields: oneDayFields, remove: oneDayRemove, append: oneDayAppend } = oneDayFieldArray;
+  const { fields: overnightFields, remove: overnightRemove, append: overnightAppend } = overnightFieldArray;
 
   return (
     <>
@@ -27,8 +22,8 @@ function AppointmentTime({
                 {t('owner_form.one_day')} #{index + 1}
               </h6>
               <button
-                hidden={index === 0}
                 type="button"
+                hidden={index === 0}
                 onClick={() => oneDayRemove(index)}
                 style={{
                   alignSelf: 'flex-end',
@@ -75,6 +70,7 @@ function AppointmentTime({
         );
       })}
       <button
+        type="button"
         hidden={watch('bookingOneDay').length >= 2}
         className="add-field-btn"
         onClick={() => oneDayAppend(oneDayObj)}
@@ -103,8 +99,8 @@ function AppointmentTime({
                 {t('owner_form.overnight')} visit #{index + 1}
               </h6>
               <button
-                hidden={index === 0}
                 type="button"
+                hidden={index === 0}
                 onClick={() => overnightRemove(index)}
                 style={{
                   alignSelf: 'flex-end',
@@ -141,6 +137,7 @@ function AppointmentTime({
       })}
 
       <button
+        type="button"
         hidden={watch('bookingOvernight').length >= 2}
         className="add-field-btn"
         onClick={() => overnightAppend(overnightObj)}

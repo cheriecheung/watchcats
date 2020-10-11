@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+import { cat_owner_default_values as defaultValues } from '../_defaultValues'
+
 import AboutMe from './AboutMe';
 import AppointmentTime from './AppointmentTime';
 import AboutCat from './AboutCat';
@@ -20,56 +22,17 @@ const CatInfoContainer = styled.div`
   background: rgba(255, 255, 255, 1);
 `;
 
-const oneDayObj = {
-  date: '',
-  startTime: '',
-  endTime: '',
-};
-const overnightObj = { startDate: '', endDate: '' };
-const catObj = {
-  name: '',
-  age: '',
-  gender: '',
-  isVaccinated: '',
-  isInsured: '',
-  breed: '',
-  medicalNeeds: '',
-  persionality: '',
-  favouriteTreat: '',
-  pictures: [],
-};
-
-const defaultValues = {
-  aboutMe: '',
-  // photos: [],
-  bookingOneDay: [oneDayObj],
-  bookingOvernight: [overnightObj],
-  cat: [catObj],
-  catsDescription: '',
-};
-
 function CatOwnerInfo({ activeKey }) {
   const { t } = useTranslation();
   const { id } = useParams();
   const dispatch = useDispatch();
+
   const methods = useForm({ defaultValues });
   const { register, control, handleSubmit, reset, watch } = methods;
-  const { fields: oneDayFields, append: oneDayAppend, remove: oneDayRemove } = useFieldArray({
-    control,
-    name: 'bookingOneDay',
-  });
-  const {
-    fields: overnightFields,
-    append: overnightAppend,
-    remove: overnightRemove,
-  } = useFieldArray({
-    control,
-    name: 'bookingOvernight',
-  });
-  const { fields: catFields, append: catAppend, remove: catRemove } = useFieldArray({
-    control,
-    name: 'cat',
-  });
+
+  const oneDayFieldArray = useFieldArray({ control, name: 'bookingOneDay' });
+  const overnightFieldArray = useFieldArray({ control, name: 'bookingOvernight' });
+  const catFieldArray = useFieldArray({ control, name: 'cat' });
 
   useEffect(() => {
     if (activeKey === 'owner' && id) {
@@ -83,9 +46,9 @@ function CatOwnerInfo({ activeKey }) {
     if (ownerData) {
       const {
         aboutMe,
-        bookingOneDay = [oneDayObj],
-        bookingOvernight = [overnightObj],
-        cat = [catObj],
+        bookingOneDay = [],
+        bookingOvernight = [],
+        cat = [],
         catsDescription,
       } = ownerData;
 
@@ -125,10 +88,8 @@ function CatOwnerInfo({ activeKey }) {
             <h6 style={{ marginTop: 30 }}>{t('owner_form.one_day')}</h6>
             <AppointmentTime
               watch={watch}
-              oneDayObj={oneDayObj}
-              overnightObj={overnightObj}
-              oneDayFieldArray={{ oneDayFields, oneDayRemove, oneDayAppend }}
-              overnightFieldArray={{ overnightFields, overnightRemove, overnightAppend }}
+              oneDayFieldArray={oneDayFieldArray}
+              overnightFieldArray={overnightFieldArray}
             />
           </SectionContainer>
 
@@ -136,8 +97,7 @@ function CatOwnerInfo({ activeKey }) {
             <SectionTitle>{t('owner_form.about_cat')}</SectionTitle>
             <AboutCat
               watch={watch}
-              catObj={catObj}
-              catFieldArray={{ catFields, catAppend, catRemove }}
+              catFieldArray={catFieldArray}
             />
           </CatInfoContainer>
 
