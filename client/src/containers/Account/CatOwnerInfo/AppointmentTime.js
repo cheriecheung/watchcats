@@ -42,9 +42,15 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
               <Col md={6}>
                 <div className="d-flex flex-column date-picker">
                   <FieldLabel> {t('owner_form.date')}</FieldLabel>
-                  <DatePicker name={`bookingOneDay[${index}].date`} />
+                  <DatePicker
+                    name={`bookingOneDay[${index}].date`}
+                    index={index}
+                    arrayName="bookingOneDay"
+                    fieldName="date"
+                  />
                 </div>
               </Col>
+
               <Col md={6}>
                 <div
                   style={{
@@ -54,12 +60,24 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
                 >
                   <div className="d-flex flex-column time-picker">
                     <FieldLabel> {t('owner_form.start_time')}</FieldLabel>
-                    <TimePicker name={`bookingOneDay[${index}].startTime`} />
+                    <TimePicker
+                      name={`bookingOneDay[${index}].startTime`}
+                      index={index}
+                      arrayName="bookingOneDay"
+                      fieldName="startTime"
+                    />
                   </div>
+
                   <i className="fas fa-arrow-right align-self-center mt-4" />
+
                   <div className="d-flex flex-column time-picker">
                     <FieldLabel> {t('owner_form.end_time')}</FieldLabel>
-                    <TimePicker name={`bookingOneDay[${index}].endTime`} />
+                    <TimePicker
+                      name={`bookingOneDay[${index}].endTime`}
+                      index={index}
+                      arrayName="bookingOneDay"
+                      fieldName="endTime"
+                    />
                   </div>
                 </div>
               </Col>
@@ -123,12 +141,24 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
             >
               <div className="d-flex flex-column date-picker overnight-visit-date-picker">
                 <FieldLabel>{t('owner_form.start_date')}</FieldLabel>
-                <DatePicker name={`bookingOvernight[${index}].startDate`} />
+                <DatePicker
+                  name={`bookingOvernight[${index}].startDate`}
+                  index={index}
+                  arrayName="bookingOvernight"
+                  fieldName="startDate"
+                />
               </div>
+
               <i className="fas fa-arrow-right align-self-center mt-4" />
+
               <div className="d-flex flex-column date-picker overnight-visit-date-picker">
                 <FieldLabel>{t('owner_form.end_date')}</FieldLabel>
-                <DatePicker name={`bookingOvernight[${index}].endDate`} />
+                <DatePicker
+                  name={`bookingOvernight[${index}].endDate`}
+                  index={index}
+                  arrayName="bookingOvernight"
+                  fieldName="endDate"
+                />
               </div>
             </div>
             <hr hidden={watch('bookingOvernight').length === 1} style={{ margin: '30px 0' }} />

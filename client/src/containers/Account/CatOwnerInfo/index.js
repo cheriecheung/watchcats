@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
 import styled from 'styled-components';
 import { getOwnerAccount, saveOwner } from '../../../_actions/accountActions';
@@ -7,12 +6,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { cat_owner_schema } from '../_validationSchema';
 import { cat_owner_default_values as defaultValues } from '../_defaultValues'
 
 import AboutMe from './AboutMe';
 import AppointmentTime from './AppointmentTime';
 import AboutCat from './AboutCat';
 import Responsibilities from './Responsibilities';
+
+const resolver = yupResolver(cat_owner_schema)
 
 const CatInfoContainer = styled.div`
   text-align: left;
@@ -27,8 +31,8 @@ function CatOwnerInfo({ activeKey }) {
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  const methods = useForm({ defaultValues });
-  const { register, control, handleSubmit, reset, watch } = methods;
+  const methods = useForm({ defaultValues, resolver });
+  const { register, control, handleSubmit, reset, watch, errors } = methods;
 
   const oneDayFieldArray = useFieldArray({ control, name: 'bookingOneDay' });
   const overnightFieldArray = useFieldArray({ control, name: 'bookingOvernight' });

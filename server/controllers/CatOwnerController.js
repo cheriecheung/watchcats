@@ -29,6 +29,7 @@ module.exports = {
         }),
       ]);
 
+      // if date is passed, delete document
       let bookingOneDay;
       if (allOneDays.length > 0) {
         bookingOneDay = allOneDays.map(({ id, date, startTime, endTime }) => ({
@@ -39,6 +40,7 @@ module.exports = {
         }));
       }
 
+      // if date is passed, delete document
       let bookingOvernight;
       if (allOvernight.length > 0) {
         bookingOvernight = allOvernight.map(({ id, startDate, endDate }) => ({

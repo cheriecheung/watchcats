@@ -14,14 +14,15 @@ const Input = styled(AntInput)`
   border-radius: 10px;
 `
 
-const ErrorMessage = styled.span`
+const ErrorDisplay = styled.span`
   color: #E56E5A;
   float: right;
 `
 
-export default function TextField({ name, prefix, placeholder, disabled, errorLabel = 'Required field' }) {
+export default function TextField({ name, prefix, placeholder, disabled }) {
   const { control, errors } = useFormContext();
   const error = errors[name]
+  const message = error && error.message || 'Required field'
 
   return (
     <Container>
@@ -37,7 +38,7 @@ export default function TextField({ name, prefix, placeholder, disabled, errorLa
         }
         control={control}
       />
-      <ErrorMessage hidden={!error}>{errorLabel}</ErrorMessage>
+      <ErrorDisplay hidden={!error}>{message}</ErrorDisplay>
     </Container>
   );
 }

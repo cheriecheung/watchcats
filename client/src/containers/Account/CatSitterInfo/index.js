@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import React, { useEffect, useRef } from 'react';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
 import { getSitterAccount, saveSitter } from '../../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +7,9 @@ import { useTranslation } from 'react-i18next';
 import 'react-day-picker/lib/style.css';
 import moment from 'moment';
 
+import { useForm, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { cat_sitter_schema } from '../_validationSchema';
 import { cat_sitter_default_values as defaultValues } from '../_defaultValues'
 
 import AboutMe from './AboutMe';
@@ -15,12 +17,17 @@ import Experience from './Experience';
 import Pricing from './Pricing';
 import Availability from './Availability';
 
+const resolver = yupResolver(cat_sitter_schema)
+
 function SitterProfile({ activeKey }) {
+  const aboutSitterRef = useRef(null);
+  const experienceRef = useRef(null);
+
   const { t } = useTranslation();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const methods = useForm();
-  const { register, handleSubmit, watch, reset } = methods;
+  const methods = useForm({ defaultValues, resolver });
+  const { register, handleSubmit, watch, reset, errors } = methods;
 
   useEffect(() => {
     if (activeKey === 'sitter' && id) {
@@ -28,55 +35,64 @@ function SitterProfile({ activeKey }) {
     }
   }, [activeKey, dispatch]);
 
+  useEffect(() => {
+    const errorsArr = Object.keys(errors);
+
+    if (errorsArr.length > 0) {
+      if (errorsArr[0] === 'aboutSitter') {
+        window.scrollTo(0, aboutSitterRef.current.offsetTop - 20);
+      }
+      if (errorsArr[0] === 'experience') {
+        window.scrollTo(0, experienceRef.current.offsetTop - 20);
+      }
+    }
+  }, [errors])
+
   const { sitterData } = useSelector((state) => state.account);
 
   useEffect(() => {
     if (sitterData) {
       const {
-        aboutSitter,
-        experience,
-        hasCat = false,
-        hasVolunteered = false,
-        hasMedicationSkills = false,
-        hasInjectionSkills = false,
-        hasCertification = false,
-        hasGroomingSkills = false,
         hourlyRate,
         nightlyRate,
         unavailableDates = [],
+        ...rest
       } = sitterData;
 
-      reset({
-        ...defaultValues,
-        aboutSitter,
-        experience,
-        hasCat,
-        hasVolunteered,
-        hasMedicationSkills,
-        hasInjectionSkills,
-        hasCertification,
-        hasGroomingSkills,
-        hourlyRate: { value: hourlyRate, label: `€ ${hourlyRate},00` },
-        nightlyRate: { value: nightlyRate, label: `€ ${nightlyRate},00` },
-        unavailableDates: unavailableDates.map((item) => new Date(item)),
-      });
+      const formData = { ...rest }
+
+      if (hourlyRate) {
+        const hourlyRateOption = { value: hourlyRate, label: `€ ${hourlyRate},00` };
+        formData.hourlyRate = hourlyRateOption;
+      }
+
+      if (nightlyRate) {
+        const nightlyRateOption = { value: nightlyRate, label: `€ ${nightlyRate},00` };
+        formData.nightlyRate = nightlyRateOption;
+      }
+
+      if (unavailableDates.length > 0) {
+        const formattedDates = unavailableDates.map((item) => new Date(item));
+        formData.unavailableDates = formattedDates;
+      }
+
+      reset(formData);
     }
   }, [reset, sitterData]);
 
   const onSubmit = (data) => {
     const { hourlyRate, nightlyRate, unavailableDates, ...rest } = data;
-    const { value: hourlyRateOptions } = hourlyRate || {};
-    const { value: nightlyRateOptions } = nightlyRate || {};
+    const { value: hourlyRateValue } = hourlyRate || {};
+    const { value: nightlyRateValue } = nightlyRate || {};
 
     const parsedDates = unavailableDates.map((date) => {
       const parsed = moment(date).format('YYYY-MM-DD');
-
       return parsed;
     });
 
     const cleanedData = {
-      hourlyRate: hourlyRateOptions,
-      nightlyRate: nightlyRateOptions,
+      hourlyRate: hourlyRateValue,
+      nightlyRate: nightlyRateValue,
       unavailableDates: parsedDates,
       ...rest,
     };
@@ -94,7 +110,7 @@ function SitterProfile({ activeKey }) {
 
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <SectionContainer>
+          <SectionContainer ref={aboutSitterRef}>
             <SectionTitle>{t('sitter_form.about_me')}</SectionTitle>
 
             <AboutMe />
@@ -102,7 +118,7 @@ function SitterProfile({ activeKey }) {
 
           {/*  YEARS OF CAT CARE  */}
 
-          <SectionContainer>
+          <SectionContainer ref={experienceRef}>
             <SectionTitle>{t('sitter_form.experience_serivce')}</SectionTitle>
 
             <Experience />

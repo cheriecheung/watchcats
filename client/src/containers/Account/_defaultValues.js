@@ -26,8 +26,8 @@ export const cat_sitter_default_values = {
     hourlyRate: hourlyRateOptions[0],
     nightlyRate: nightlyRateOptions[0],
     unavailableDates: [],
-    emergencyName: '',
-    emergencyNumber: '',
+    // emergencyName: '',
+    // emergencyNumber: '',
 };
 
 // Cat owner field array data

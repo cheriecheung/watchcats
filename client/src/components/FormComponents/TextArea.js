@@ -1,30 +1,41 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { themeColor } from '../../style/theme';
+import styled from 'styled-components';
+
+const Input = styled.textarea`
+  padding: 7px 15px;
+  border: 1px solid ${props => props.error ? '#E56E5A' : '#d9d9d9'};
+  border-radius: 10px;
+  resize: none;
+  font-size: 0.9rem;
+  border-radius: 20px;
+`
+
+const ErrorDisplay = styled.span`
+  color: #E56E5A;
+  float: right;
+`
 
 export default function TextArea({ name, placeholder, rows = 10, customStyle }) {
   const { control, errors } = useFormContext();
+  const error = errors[name]
+  const message = error && error.message || 'Required field'
 
   return (
-    // no Controller needed for uncontrolled component
-
-    <Controller
-      name={name}
-      as={
-        <textarea
-          placeholder={placeholder}
-          rows={rows}
-          className="form-control"
-          style={{
-            resize: 'none',
-            fontSize: '0.9rem',
-            borderRadius: 20,
-            ...customStyle,
-            // background: 'rgba(15,126,107, 0.08)',
-          }}
-        />
-      }
-      control={control}
-    />
+    <>
+      <Controller
+        name={name}
+        as={
+          <Input
+            rows={rows}
+            placeholder={placeholder}
+            className="form-control"
+            style={customStyle}
+          />
+        }
+        control={control}
+      />
+      <ErrorDisplay hidden={!error}>{message}</ErrorDisplay>
+    </>
   );
 }
