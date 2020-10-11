@@ -28,6 +28,14 @@ export default function TimePicker({ name, index, arrayName, fieldName }) {
 
   const selectedTime = watch(name);
 
+  const handleOnChange = (date, timeString) => {
+    if (!date) {
+      setValue(name, null);
+    } else {
+      setValue(name, new Date(`1970-01-01 ${timeString}`));
+    }
+  }
+
   return (
     <>
       <Controller
@@ -36,15 +44,17 @@ export default function TimePicker({ name, index, arrayName, fieldName }) {
           <AntTimePicker
             // placeholder=""
             //defaultValue={moment('00:00:00', 'HH:mm')}
-            defaultOpenValue={moment('00:00', 'HH:mm')}
+            defaultOpenValue={moment('05:00', 'HH:mm')}
             format="HH:mm"
             showNow={false}
             minuteStep={15}
             disabledHours={() => [0, 1, 2, 3, 4, 23]}
             disabledSeconds={() => allSeconds()}
             hideDisabledOptions={true}
-            onChange={(date, timeString) => setValue(name, timeString)}
-            value={selectedTime ? moment(selectedTime, 'hh:mm') : null}
+            onChange={handleOnChange}
+            value={selectedTime ? moment(new Date(selectedTime), 'hh:mm') : null}
+          //onChange={(date, timeString) => setValue(name, timeString)}
+          //value={selectedTime ? moment(selectedTime, 'hh:mm') : null}
           />
         )}
         control={control}

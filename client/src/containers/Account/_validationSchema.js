@@ -1,6 +1,11 @@
 import * as yup from 'yup';
+import { isDate } from "date-fns";
 
 const defaultError = () => "Required field";
+
+// ----- General Schema ----- //
+
+const postcodeError = () => "Invalid Dutch postcode"
 
 export const general_schema = yup.object().shape({
     firstName: yup.string().required(defaultError),
@@ -8,10 +13,11 @@ export const general_schema = yup.object().shape({
     // matches() for phone
     phone: yup.string().required(defaultError),
     address: yup.string().required(defaultError),
-    postcode: yup.string().required("Invalid dutch passport").matches(/^\d{4}[a-z]{2}$/i),
+    postcode: yup.string().required(postcodeError).matches(/^\d{4}[a-z]{2}$/i),
 })
 
-// check shape object format
+// ----- Cat Owner Schema ----- //
+
 const rateObjSchema = { label: yup.string(), value: yup.string() }
 
 export const cat_sitter_schema = yup.object().shape({
@@ -28,36 +34,69 @@ export const cat_sitter_schema = yup.object().shape({
     unavailableDates: yup.array(),
 })
 
-// startTime and startDate cant be after endTime and endDate
+// ----- Cat Owner Schema ----- //
+
+const startEndTimeError = () => "End time must be after start time"
+
+function parseDateString(value, originalValue) {
+    if (!originalValue) return null;
+
+    const parsedDate = isDate(originalValue)
+        ? originalValue
+        : new Date(originalValue);
+
+    console.log({ value, originalValue, isDate: isDate(originalValue) })
+
+    return parsedDate;
+}
 
 const oneDayObjSchema = yup.object().shape({
-    // date: yup.string().required(defaultError),
-    // startTime: yup.string().required(defaultError),
-    // endTime: yup.string().required(defaultError)
-
-    date: yup.string().when(['startTime', 'endTime'], {
+    date: yup.mixed().nullable().when(['startTime', 'endTime'], {
         is: (startTime, endTime) => startTime || endTime,
+        // change to date type
         then: yup.string().min(1, defaultError)
     }),
-    startTime: yup.string().when(['date', 'endTime'], {
+    startTime: yup.mixed().nullable().when(['date', 'endTime'], {
         is: (date, endTime) => date || endTime,
-        then: yup.string().required(defaultError)
+        then: yup.date()
+            .transform(parseDateString)
+            .required(defaultError)
+            .typeError()
+        // type error with start time when date is not filled in
     }),
-    endTime: yup.string().when(['date', 'startTime'], {
+    endTime: yup.mixed().nullable().when(['date', 'startTime'], {
         is: (date, startTime) => date || startTime,
-        then: yup.string().required(defaultError)
+        then: yup.date()
+            .transform(parseDateString)
+            .min(yup.ref('startTime'), startEndTimeError)
+            .required(defaultError)
     }),
 }, [['startTime', 'endTime'], ['date', 'endTime'], ['date', 'startTime']])
 
+
 const overnightObjSchema = yup.object().shape({
-    startDate: yup.string().when('endDate', {
-        is: endDate => endDate,
-        then: yup.string().min(1, defaultError)
-    }),
-    endDate: yup.string().when('startDate', {
-        is: startDate => startDate,
-        then: yup.string().min(1, defaultError)
-    })
+    // is now comparing dates, validate fine when only one is filled.
+    // able to save date properly when all fields filled
+    // but error is thrown at two emptied fields when should be allowed
+    // startDate: yup.date().transform(parseDateString).when('endDate', {
+    //     is: endDate => endDate,
+    //     then: yup.date().transform(parseDateString),
+    // }),
+    // endDate: yup.date().transform(parseDateString).when('startDate', {
+    //     is: startDate => startDate,
+    //     then: yup.date().transform(parseDateString),
+    // })
+
+    // validation and save all work
+    // but is comparing date string, thus cannot compare dates
+    // startDate: yup.string().when('endDate', {
+    //     is: endDate => endDate,
+    //     then: yup.string().min(1, defaultError)
+    // }),
+    // endDate: yup.string().when('startDate', {
+    //     is: startDate => startDate,
+    //     then: yup.string().min(1, defaultError)
+    // })
 }, [['startDate', 'endDate']])
 
 export const cat_owner_schema = yup.object().shape({

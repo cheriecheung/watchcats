@@ -227,19 +227,30 @@ module.exports = {
 
         oneDayArr.forEach(async ({ date, startTime, endTime }, index) => {
           if (allOneDays[index]) {
+
+            // not working
+            if (!date && !startTime && !endTime) {
+              allOneDays[index].remove();
+              return;
+            }
+
             allOneDays[index].date = date;
             allOneDays[index].startTime = startTime;
             allOneDays[index].endTime = endTime;
             await allOneDays[index].save();
-          } else {
-            const newOneDay = new AppointmentOneDay({
-              owner: ownerId,
-              date,
-              startTime,
-              endTime,
-            });
-            await newOneDay.save();
+            return;
           }
+
+          if (!date && !startTime && !endTime) return;
+
+          const newOneDay = new AppointmentOneDay({
+            owner: ownerId,
+            date,
+            startTime,
+            endTime,
+          });
+          await newOneDay.save();
+          return;
         });
 
         allOneDays.forEach((item, index) => {
@@ -253,18 +264,22 @@ module.exports = {
         });
 
         overnightArr.forEach(async ({ startDate, endDate }, index) => {
+          if (!startDate || !endDate) return;
+
           if (allOvernight[index]) {
             allOvernight[index].startDate = startDate;
             allOvernight[index].endDate = endDate;
             await allOvernight[index].save();
-          } else {
-            const newOvernight = new AppointmentOvernight({
-              owner: ownerId,
-              startDate,
-              endDate,
-            });
-            await newOvernight.save();
+            return;
           }
+
+          const newOvernight = new AppointmentOvernight({
+            owner: ownerId,
+            startDate,
+            endDate,
+          });
+          await newOvernight.save();
+          return;
         });
 
         allOvernight.forEach((item, index) => {

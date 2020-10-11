@@ -20,6 +20,10 @@ export default function DatePicker({ name, index, arrayName, fieldName, placehol
     error[index][fieldName] &&
     error[index][fieldName].message
 
+  useEffect(() => {
+    console.log({ error })
+  }, [error])
+
   const selectedDate = watch(name);
 
   return (
