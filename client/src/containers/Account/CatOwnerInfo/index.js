@@ -39,6 +39,10 @@ function CatOwnerInfo({ activeKey }) {
   const catFieldArray = useFieldArray({ control, name: 'cat' });
 
   useEffect(() => {
+    console.log({ errors })
+  }, [errors])
+
+  useEffect(() => {
     if (activeKey === 'owner' && id) {
       dispatch(getOwnerAccount(id));
     }

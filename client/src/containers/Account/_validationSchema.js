@@ -1,7 +1,15 @@
 import * as yup from 'yup';
 import { isDate } from "date-fns";
 
+// wording limit
+
 const defaultError = () => "Required field";
+
+// React Select schema
+const reactSelectSchema = {
+    value: yup.string().required(),
+    label: yup.string().required()
+}
 
 // ----- General Schema ----- //
 
@@ -36,7 +44,9 @@ export const cat_sitter_schema = yup.object().shape({
 
 // ----- Cat Owner Schema ----- //
 
-const startEndTimeError = () => "End time must be after start time"
+const timeOrderError = () => "End time must be after start time"
+const dateOrderError = () => "End date must be after start date"
+const genderSelectError = () => "Select a gender"
 
 function parseDateString(value, originalValue) {
     if (!originalValue) return null;
@@ -44,8 +54,6 @@ function parseDateString(value, originalValue) {
     const parsedDate = isDate(originalValue)
         ? originalValue
         : new Date(originalValue);
-
-    console.log({ value, originalValue, isDate: isDate(originalValue) })
 
     return parsedDate;
 }
@@ -68,39 +76,44 @@ const oneDayObjSchema = yup.object().shape({
         is: (date, startTime) => date || startTime,
         then: yup.date()
             .transform(parseDateString)
-            .min(yup.ref('startTime'), startEndTimeError)
+            .min(yup.ref('startTime'), timeOrderError)
             .required(defaultError)
     }),
 }, [['startTime', 'endTime'], ['date', 'endTime'], ['date', 'startTime']])
 
 
 const overnightObjSchema = yup.object().shape({
-    // is now comparing dates, validate fine when only one is filled.
-    // able to save date properly when all fields filled
-    // but error is thrown at two emptied fields when should be allowed
-    // startDate: yup.date().transform(parseDateString).when('endDate', {
-    //     is: endDate => endDate,
-    //     then: yup.date().transform(parseDateString),
-    // }),
-    // endDate: yup.date().transform(parseDateString).when('startDate', {
-    //     is: startDate => startDate,
-    //     then: yup.date().transform(parseDateString),
-    // })
+    startDate: yup.mixed().transform(parseDateString).nullable().when('endDate', {
+        is: endDate => endDate,
+        then: yup.date()
+            .transform(parseDateString)
+            .required(defaultError)
 
-    // validation and save all work
-    // but is comparing date string, thus cannot compare dates
-    // startDate: yup.string().when('endDate', {
-    //     is: endDate => endDate,
-    //     then: yup.string().min(1, defaultError)
-    // }),
-    // endDate: yup.string().when('startDate', {
-    //     is: startDate => startDate,
-    //     then: yup.string().min(1, defaultError)
-    // })
+    }),
+    endDate: yup.mixed().nullable().when('startDate', {
+        is: startDate => startDate,
+        then: yup.date()
+            .transform(parseDateString)
+            .min(yup.ref('startDate'), dateOrderError)
+            .required(defaultError)
+    })
 }, [['startDate', 'endDate']])
+
+const catObjSchema = yup.object().shape({
+    name: yup.string().required(defaultError),
+    age: yup.number().positive().integer().required(defaultError),
+    gender: yup.string().required(genderSelectError),
+    isVaccinated: yup.boolean().required(defaultError),
+    isInsured: yup.boolean().required(defaultError),
+    breed: yup.object().shape(reactSelectSchema).required(defaultError),
+    medicalNeeds: yup.array().of(yup.string()),
+    persionality: yup.object().shape(reactSelectSchema).required(defaultError),
+    favouriteTreat: yup.string().required(defaultError),
+})
 
 export const cat_owner_schema = yup.object().shape({
     aboutMe: yup.string().required(defaultError),
     bookingOneDay: yup.array().of(oneDayObjSchema),
     bookingOvernight: yup.array().of(overnightObjSchema),
+    cat: yup.array().of(catObjSchema)
 })

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Input as AntInput } from 'antd';
 import styled from 'styled-components';
@@ -23,6 +23,10 @@ export default function TextField({ name, prefix, placeholder, disabled }) {
   const { control, errors } = useFormContext();
   const error = errors[name]
   const message = error && error.message || 'Required field'
+
+  useEffect(() => {
+    console.log({ errors, error })
+  }, [errors, error])
 
   return (
     <Container>
