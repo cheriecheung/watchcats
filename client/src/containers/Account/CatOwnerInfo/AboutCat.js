@@ -117,16 +117,16 @@ function AboutCat({ watch, catFieldArray }) {
 
               <Col md={6} className="mb-4">
                 <FieldLabel>{t('owner_form.breed')}</FieldLabel>
-                <SelectField name={`cat[${index}].breed`} options={catBreedOptions} />
+                <SelectField name={`cat[${index}].breed`} index={index} options={catBreedOptions} />
               </Col>
               <Col md={6} className="mb-4">
                 <FieldLabel>Personality that fits your cat the best</FieldLabel>
-                <SelectField name={`cat[${index}].personality`} options={personalityOptions} />
+                <SelectField name={`cat[${index}].personality`} index={index} options={personalityOptions} />
               </Col>
 
               <Col md={6} className="mb-3">
                 <FieldLabel>{t('owner_form.favourite_treat')}</FieldLabel>
-                <TextField name={`cat[${index}].favouriteTreat`} />
+                <TextField name={`cat[${index}].favouriteTreat`} index={index} />
               </Col>
               <Col md={6} className="mb-3">
                 <FieldLabel>{t('owner_form.pictures')} (max. 3)</FieldLabel>

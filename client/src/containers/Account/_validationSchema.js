@@ -49,6 +49,8 @@ const dateOrderError = () => "End date must be after start date"
 const genderSelectError = () => "Select a gender"
 
 function parseDateString(value, originalValue) {
+    console.log({ value, originalValue })
+
     if (!originalValue) return null;
 
     const parsedDate = isDate(originalValue)
@@ -64,7 +66,8 @@ const oneDayObjSchema = yup.object().shape({
         // change to date type
         then: yup.string().min(1, defaultError)
     }),
-    startTime: yup.mixed().nullable().when(['date', 'endTime'], {
+
+    startTime: yup.mixed().transform(parseDateString).nullable().when(['date', 'endTime'], {
         is: (date, endTime) => date || endTime,
         then: yup.date()
             .transform(parseDateString)
@@ -76,8 +79,9 @@ const oneDayObjSchema = yup.object().shape({
         is: (date, startTime) => date || startTime,
         then: yup.date()
             .transform(parseDateString)
-            .min(yup.ref('startTime'), timeOrderError)
             .required(defaultError)
+            // when startTime comes back from db, it is no longer a date form, hence .min type error happens
+            .min(yup.ref('startTime'), timeOrderError)
     }),
 }, [['startTime', 'endTime'], ['date', 'endTime'], ['date', 'startTime']])
 
@@ -94,6 +98,7 @@ const overnightObjSchema = yup.object().shape({
         is: startDate => startDate,
         then: yup.date()
             .transform(parseDateString)
+            // cannot be the same date
             .min(yup.ref('startDate'), dateOrderError)
             .required(defaultError)
     })
@@ -115,5 +120,6 @@ export const cat_owner_schema = yup.object().shape({
     aboutMe: yup.string().required(defaultError),
     bookingOneDay: yup.array().of(oneDayObjSchema),
     bookingOvernight: yup.array().of(overnightObjSchema),
-    cat: yup.array().of(catObjSchema)
+    cat: yup.array().of(catObjSchema),
+    catsDescription: yup.string().required(defaultError)
 })

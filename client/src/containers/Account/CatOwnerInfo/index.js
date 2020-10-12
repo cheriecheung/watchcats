@@ -39,9 +39,9 @@ function CatOwnerInfo({ activeKey }) {
   const overnightFieldArray = useFieldArray({ control, name: 'bookingOvernight' });
   const catFieldArray = useFieldArray({ control, name: 'cat' });
 
-  // useEffect(() => {
-  //   console.log({ errors })
-  // }, [errors])
+  useEffect(() => {
+    console.log({ errors })
+  }, [errors])
 
   useEffect(() => {
     if (activeKey === 'owner' && id) {

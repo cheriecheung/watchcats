@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Input as AntInput } from 'antd';
 import styled from 'styled-components';
+import { getErrorProperties } from '../../utility'
 
 const Container = styled.div`
   margin-bottom: 20px;
@@ -10,7 +11,7 @@ const Container = styled.div`
 const Input = styled(AntInput)`
   margin-bottom: 5px;
   padding: 7px 15px;
-  border: 1px solid ${props => props.error ? '#E56E5A' : '#d9d9d9'};
+  border: 1px solid ${props => props.hasError ? '#E56E5A' : '#d9d9d9'};
   border-radius: 10px;
 `
 
@@ -21,29 +22,7 @@ const ErrorDisplay = styled.span`
 
 export default function TextField({ name, index, prefix, placeholder, disabled }) {
   const { control, errors } = useFormContext();
-  let error, hasError, message;
-
-  if (typeof index === 'number') {
-    const arrayName = name.substr(0, name.indexOf('['));
-    const fieldName = name.substr(name.indexOf(".") + 1);
-
-    error = errors[arrayName]
-    hasError = error && error[index] && error[index].hasOwnProperty(fieldName)
-    message =
-      error &&
-      error[index] &&
-      error[index][fieldName] &&
-      error[index][fieldName].message
-  } else {
-    error = errors[name]
-    hasError = error
-    message = error && error.message || 'Required field'
-  }
-
-  useEffect(() => {
-    console.log({ errors, error, name })
-
-  }, [errors, error])
+  const { error, hasError, message } = getErrorProperties(name, index, errors)
 
   return (
     <Container>
@@ -53,13 +32,13 @@ export default function TextField({ name, index, prefix, placeholder, disabled }
           <Input
             prefix={prefix}
             placeholder={placeholder}
-            error={hasError}
+            hasError={hasError}
             disabled={disabled}
           />
         }
         control={control}
       />
-      <ErrorDisplay hidden={!error}>{message}</ErrorDisplay>
+      <ErrorDisplay hidden={!hasError}>{message}</ErrorDisplay>
     </Container>
   );
 }

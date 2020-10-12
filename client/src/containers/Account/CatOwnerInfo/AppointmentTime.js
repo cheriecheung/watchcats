@@ -45,8 +45,6 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
                   <DatePicker
                     name={`bookingOneDay[${index}].date`}
                     index={index}
-                    arrayName="bookingOneDay"
-                    fieldName="date"
                   />
                 </div>
               </Col>
@@ -63,8 +61,6 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
                     <TimePicker
                       name={`bookingOneDay[${index}].startTime`}
                       index={index}
-                      arrayName="bookingOneDay"
-                      fieldName="startTime"
                     />
                   </div>
 
@@ -75,8 +71,6 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
                     <TimePicker
                       name={`bookingOneDay[${index}].endTime`}
                       index={index}
-                      arrayName="bookingOneDay"
-                      fieldName="endTime"
                     />
                   </div>
                 </div>
@@ -144,8 +138,6 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
                 <DatePicker
                   name={`bookingOvernight[${index}].startDate`}
                   index={index}
-                  arrayName="bookingOvernight"
-                  fieldName="startDate"
                 />
               </div>
 
@@ -156,8 +148,6 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
                 <DatePicker
                   name={`bookingOvernight[${index}].endDate`}
                   index={index}
-                  arrayName="bookingOvernight"
-                  fieldName="endDate"
                 />
               </div>
             </div>

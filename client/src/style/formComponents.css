@@ -274,6 +274,8 @@ select:-webkit-autofill:focus {
   justify-content: center !important;
   padding-top: 7px !important;
   transition: 0.1s all 0.1s;
+
+  background-color: #fff;
 }
 
 .ant-checkbox-wrapper:hover,
@@ -320,6 +322,8 @@ select:-webkit-autofill:focus {
 .custom-checkbox-group {
   display: flex !important;
 }
+
+/* .ant-checkbox-group-item.ant-checkbox-wrapper */
 
 /* ------------------- antd datepicker ------------------- */
 .ant-picker-cell-selected .ant-picker-cell-inner {

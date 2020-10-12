@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { TimePicker as AntTimePicker } from 'antd';
 import moment from 'moment';
 import styled from 'styled-components';
+import { getErrorProperties } from '../../utility'
 
-const allSeconds = () => {
-  const arr = Array.apply(null, Array(60));
-  const allSeconds = arr.map((item, index) => index);
-  return allSeconds;
-};
+const Field = styled(AntTimePicker)`
+border: 1px solid ${props => props.hasError ? '#E56E5A' : '#d9d9d9'};
+`
 
 const ErrorDisplay = styled.span`
   display: inline-block;
@@ -17,15 +16,15 @@ const ErrorDisplay = styled.span`
   margin-top: 5px;
 `
 
-export default function TimePicker({ name, index, arrayName, fieldName }) {
-  const { control, watch, setValue, errors } = useFormContext();
-  const error = errors[arrayName]
-  const message =
-    error &&
-    error[index] &&
-    error[index][fieldName] &&
-    error[index][fieldName].message
+const allSeconds = () => {
+  const arr = Array.apply(null, Array(60));
+  const allSeconds = arr.map((item, index) => index);
+  return allSeconds;
+};
 
+export default function TimePicker({ name, index }) {
+  const { control, watch, setValue, errors } = useFormContext();
+  const { error, hasError, message } = getErrorProperties(name, index, errors)
   const selectedTime = watch(name);
 
   const handleOnChange = (date, timeString) => {
@@ -36,12 +35,17 @@ export default function TimePicker({ name, index, arrayName, fieldName }) {
     }
   }
 
+  useEffect(() => {
+    console.log({ error, name })
+  }, [error])
+
   return (
     <>
       <Controller
         name={name}
         render={() => (
-          <AntTimePicker
+          <Field
+            hasError={hasError}
             // placeholder=""
             //defaultOpenValue={moment('05:00', 'HH:mm')}
             defaultValue={moment('05:00', 'HH:mm')}
@@ -59,7 +63,7 @@ export default function TimePicker({ name, index, arrayName, fieldName }) {
         )}
         control={control}
       />
-      <ErrorDisplay hidden={!error}>{message}</ErrorDisplay>
+      <ErrorDisplay hidden={!hasError}>{message}</ErrorDisplay>
     </>
   );
 }

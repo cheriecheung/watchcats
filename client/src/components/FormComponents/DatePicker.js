@@ -3,6 +3,11 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { DatePicker as AntDatePicker } from 'antd';
 import moment from 'moment';
 import styled from 'styled-components';
+import { getErrorProperties } from '../../utility'
+
+const Field = styled(AntDatePicker)`
+  border: 1px solid ${props => props.hasError ? '#E56E5A' : '#d9d9d9'};
+`
 
 const ErrorDisplay = styled.span`
   display: inline-block;
@@ -11,18 +16,9 @@ const ErrorDisplay = styled.span`
   text-align: right;
 `
 
-export default function DatePicker({ name, index, arrayName, fieldName, placeholder }) {
+export default function DatePicker({ name, index, placeholder }) {
   const { control, watch, setValue, errors } = useFormContext();
-  const error = errors[arrayName]
-  const message =
-    error &&
-    error[index] &&
-    error[index][fieldName] &&
-    error[index][fieldName].message
-
-  useEffect(() => {
-    console.log({ error })
-  }, [error])
+  const { error, hasError, message } = getErrorProperties(name, index, errors)
 
   const selectedDate = watch(name);
 
@@ -32,7 +28,8 @@ export default function DatePicker({ name, index, arrayName, fieldName, placehol
         control={control}
         name={name}
         render={() => (
-          <AntDatePicker
+          <Field
+            hasError={hasError}
             placeholder={placeholder}
             disabledDate={(current) => {
               return current && current < moment();
@@ -42,7 +39,7 @@ export default function DatePicker({ name, index, arrayName, fieldName, placehol
           />
         )}
       />
-      <ErrorDisplay hidden={!error}>{message}</ErrorDisplay>
+      <ErrorDisplay hidden={!hasError}>{message}</ErrorDisplay>
     </>
   );
 }

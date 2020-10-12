@@ -2,6 +2,12 @@ import React, { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import Select from 'react-select';
+import { getErrorProperties } from '../../utility'
+
+const ErrorDisplay = styled.span`
+  color: #E56E5A;
+  float: right;
+`
 
 const bgColor = (opacity) => `rgba(255, 161, 149, ${opacity})`;
 const bordercolor = (opacity) => `1px solid rgb(255, 161, 149, ${opacity})`;
@@ -34,10 +40,11 @@ const colourStyles = {
     };
   },
 
-  control: (base, state) => ({
+  control: (base, { selectProps: { hasError } }) => ({
     ...base,
     // border: state.isFocused ? bordercolor(0.3) : bordercolor(0.4),
-    border: '1px solid #d9d9d9',
+    //border: '1px solid #d9d9d9',
+    border: `1px solid ${hasError ? '#E56E5A' : '#d9d9d9'}`,
     borderRadius: '10px',
     boxShadow: 'none',
     '&:hover': {
@@ -53,24 +60,34 @@ const colourStyles = {
 
 export default function SelectField({
   name,
+  index,
   options,
   onChange = ([selected]) => selected,
   placeholder,
   //defaultValue = { value: '', label: 'Select' },
 }) {
   const { control, errors } = useFormContext();
+  const { error, hasError, message } = getErrorProperties(name, index, errors)
+
+  useEffect(() => {
+    console.log({ error, message })
+  }, [error])
 
   return (
-    <Controller
-      control={control}
-      as={Select}
-      styles={colourStyles}
-      name={name}
-      placeholder={placeholder}
-      options={options}
-      onChange={onChange}
-      isSearchable={false}
-    //defaultValue={defaultValue}
-    />
+    <>
+      <Controller
+        hasError={hasError}
+        control={control}
+        as={Select}
+        styles={colourStyles}
+        name={name}
+        placeholder={placeholder}
+        options={options}
+        onChange={onChange}
+        isSearchable={false}
+      //defaultValue={defaultValue}
+      />
+      <ErrorDisplay hidden={!hasError}>{message}</ErrorDisplay>
+    </>
   );
 }

@@ -77,6 +77,7 @@ function Search({ setZoom, setCenter, sitterRecords, setSittersByAddress, radius
       setAddress('');
     }
 
+    // use yup
     if (startDateValue !== '' && endDateValue !== '') {
       if (new Date(startDateValue) > new Date(endDateValue)) {
         console.log('hey make sure your end date is after or equal to start date');
