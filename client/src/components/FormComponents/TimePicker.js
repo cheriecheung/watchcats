@@ -43,8 +43,8 @@ export default function TimePicker({ name, index, arrayName, fieldName }) {
         render={() => (
           <AntTimePicker
             // placeholder=""
-            //defaultValue={moment('00:00:00', 'HH:mm')}
-            defaultOpenValue={moment('05:00', 'HH:mm')}
+            //defaultOpenValue={moment('05:00', 'HH:mm')}
+            defaultValue={moment('05:00', 'HH:mm')}
             format="HH:mm"
             showNow={false}
             minuteStep={15}

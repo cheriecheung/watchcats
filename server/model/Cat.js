@@ -31,11 +31,11 @@ const catSchema = new Schema({
     required: false,
   },
   breed: {
-    type: Object,
+    type: Number,
     required: false,
   },
   personality: {
-    type: Object,
+    type: Number,
     required: false,
   },
   favouriteTreat: {

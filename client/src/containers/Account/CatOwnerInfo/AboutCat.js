@@ -59,11 +59,11 @@ function AboutCat({ watch, catFieldArray }) {
             <Row>
               <Col md={6} className="mb-4">
                 <FieldLabel>{t('owner_form.name')}</FieldLabel>
-                <TextField name={`cat[${index}].name`} />
+                <TextField name={`cat[${index}].name`} index={index} />
               </Col>
               <Col md={6} className="mb-4" style={{ marginBottom: 30 }}>
                 <FieldLabel>{t('owner_form.age')}</FieldLabel>
-                <TextField name={`cat[${index}].age`} />
+                <TextField name={`cat[${index}].age`} index={index} type="number" />
               </Col>
 
               <Col md={6} className="mb-4">

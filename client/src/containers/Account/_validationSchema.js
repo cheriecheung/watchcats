@@ -101,13 +101,13 @@ const overnightObjSchema = yup.object().shape({
 
 const catObjSchema = yup.object().shape({
     name: yup.string().required(defaultError),
-    age: yup.number().positive().integer().required(defaultError),
+    age: yup.number().positive().integer().required(defaultError).typeError('Must be a number'),
     gender: yup.string().required(genderSelectError),
     isVaccinated: yup.boolean().required(defaultError),
     isInsured: yup.boolean().required(defaultError),
     breed: yup.object().shape(reactSelectSchema).required(defaultError),
     medicalNeeds: yup.array().of(yup.string()),
-    persionality: yup.object().shape(reactSelectSchema).required(defaultError),
+    personality: yup.object().shape(reactSelectSchema).required(defaultError),
     favouriteTreat: yup.string().required(defaultError),
 })
 

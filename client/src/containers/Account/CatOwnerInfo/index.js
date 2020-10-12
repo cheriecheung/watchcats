@@ -5,6 +5,7 @@ import { getOwnerAccount, saveOwner } from '../../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { catBreedOptions, personalityOptions } from '../../../constants';
 
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -38,9 +39,9 @@ function CatOwnerInfo({ activeKey }) {
   const overnightFieldArray = useFieldArray({ control, name: 'bookingOvernight' });
   const catFieldArray = useFieldArray({ control, name: 'cat' });
 
-  useEffect(() => {
-    console.log({ errors })
-  }, [errors])
+  // useEffect(() => {
+  //   console.log({ errors })
+  // }, [errors])
 
   useEffect(() => {
     if (activeKey === 'owner' && id) {
@@ -52,26 +53,55 @@ function CatOwnerInfo({ activeKey }) {
 
   useEffect(() => {
     if (ownerData) {
+      console.log({ ownerData })
       const {
         aboutMe,
         bookingOneDay = [],
         bookingOvernight = [],
-        cat = [],
+        cat,
         catsDescription,
       } = ownerData;
+
+      const catUpdated = cat.map(({ breed, personality, ...rest }) => {
+        const breedName = catBreedOptions.filter(({ value }) => value === breed)[0].label
+        const personalityName = personalityOptions.filter(({ value }) => value === personality)[0].label
+
+        return {
+          breed: { value: breed, label: breedName },
+          personality: { value: personality, label: personalityName },
+          ...rest
+        }
+      })
 
       reset({
         ...defaultValues,
         aboutMe,
         bookingOneDay,
         bookingOvernight,
-        cat,
+        cat: catUpdated,
         catsDescription,
       });
     }
   }, [ownerData, reset]);
 
-  const onSubmit = (data) => dispatch(saveOwner(id, data));
+  const onSubmit = (data) => {
+    const { cat, ...rest } = data;
+
+    const cleanedCat = cat.map(({ breed, personality, ...restCat }) => {
+      const { value: breedValue } = breed || {};
+      const { value: personalityValue } = personality || {};
+
+      return {
+        breed: parseInt(breedValue),
+        personality: parseInt(personalityValue),
+        ...restCat
+      }
+    })
+
+    const cleanedData = { cat: cleanedCat, ...rest }
+
+    dispatch(saveOwner(id, cleanedData))
+  };
   // const onSubmit = (data) => console.log(data);
 
   return (

@@ -19,13 +19,30 @@ const ErrorDisplay = styled.span`
   float: right;
 `
 
-export default function TextField({ name, prefix, placeholder, disabled }) {
+export default function TextField({ name, index, prefix, placeholder, disabled }) {
   const { control, errors } = useFormContext();
-  const error = errors[name]
-  const message = error && error.message || 'Required field'
+  let error, hasError, message;
+
+  if (typeof index === 'number') {
+    const arrayName = name.substr(0, name.indexOf('['));
+    const fieldName = name.substr(name.indexOf(".") + 1);
+
+    error = errors[arrayName]
+    hasError = error && error[index] && error[index].hasOwnProperty(fieldName)
+    message =
+      error &&
+      error[index] &&
+      error[index][fieldName] &&
+      error[index][fieldName].message
+  } else {
+    error = errors[name]
+    hasError = error
+    message = error && error.message || 'Required field'
+  }
 
   useEffect(() => {
-    console.log({ errors, error })
+    console.log({ errors, error, name })
+
   }, [errors, error])
 
   return (
@@ -36,7 +53,7 @@ export default function TextField({ name, prefix, placeholder, disabled }) {
           <Input
             prefix={prefix}
             placeholder={placeholder}
-            error={error}
+            error={hasError}
             disabled={disabled}
           />
         }
