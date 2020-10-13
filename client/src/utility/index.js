@@ -1,26 +1,34 @@
 import moment from 'moment';
 
-export function getErrorProperties(name, index, errors) {
-  let error, hasError, message;
+export function getErrorProperties(name, errors) {
+  let hasError, message;
 
-  if (typeof index === 'number') {
+  // in field array, name = arrayName[index].fieldName
+  // in single field, name = name
+
+  if (name.includes('[') && name.includes(']')) {
+    const regex = /[\d]/g;
+    const index = name.match(regex);
     const arrayName = name.substr(0, name.indexOf('['));
     const fieldName = name.substr(name.indexOf(".") + 1);
 
-    error = errors[arrayName]
-    hasError = error && error[index] && error[index].hasOwnProperty(fieldName)
+    const error = errors[arrayName]
+    hasError =
+      error &&
+      error[index] &&
+      error[index].hasOwnProperty(fieldName)
     message =
       error &&
       error[index] &&
       error[index][fieldName] &&
       error[index][fieldName].message || 'Required field'
   } else {
-    error = errors[name]
+    const error = errors[name]
     hasError = error
     message = error && error.message || 'Required field'
   }
 
-  return { error, hasError, message }
+  return { hasError, message }
 }
 
 export function calculateOneDayPrice(startTime, endTime, pricePerHour) {

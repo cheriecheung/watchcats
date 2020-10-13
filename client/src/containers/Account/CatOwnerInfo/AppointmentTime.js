@@ -42,10 +42,7 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
               <Col md={6}>
                 <div className="d-flex flex-column date-picker">
                   <FieldLabel> {t('owner_form.date')}</FieldLabel>
-                  <DatePicker
-                    name={`bookingOneDay[${index}].date`}
-                    index={index}
-                  />
+                  <DatePicker name={`bookingOneDay[${index}].date`} />
                 </div>
               </Col>
 
@@ -60,7 +57,7 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
                     <FieldLabel> {t('owner_form.start_time')}</FieldLabel>
                     <TimePicker
                       name={`bookingOneDay[${index}].startTime`}
-                      index={index}
+
                     />
                   </div>
 
@@ -68,10 +65,7 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
 
                   <div className="d-flex flex-column time-picker">
                     <FieldLabel> {t('owner_form.end_time')}</FieldLabel>
-                    <TimePicker
-                      name={`bookingOneDay[${index}].endTime`}
-                      index={index}
-                    />
+                    <TimePicker name={`bookingOneDay[${index}].endTime`} />
                   </div>
                 </div>
               </Col>
@@ -88,7 +82,7 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
         onClick={() => oneDayAppend(oneDayObj)}
         style={{
           // background: '#ffecea',
-          color: '#ffa195',
+          color: '#5FBB96',
           outline: 'none',
           border: 'none',
           borderRadius: 15,
@@ -135,20 +129,14 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
             >
               <div className="d-flex flex-column date-picker overnight-visit-date-picker">
                 <FieldLabel>{t('owner_form.start_date')}</FieldLabel>
-                <DatePicker
-                  name={`bookingOvernight[${index}].startDate`}
-                  index={index}
-                />
+                <DatePicker name={`bookingOvernight[${index}].startDate`} />
               </div>
 
               <i className="fas fa-arrow-right align-self-center mt-4" />
 
               <div className="d-flex flex-column date-picker overnight-visit-date-picker">
                 <FieldLabel>{t('owner_form.end_date')}</FieldLabel>
-                <DatePicker
-                  name={`bookingOvernight[${index}].endDate`}
-                  index={index}
-                />
+                <DatePicker name={`bookingOvernight[${index}].endDate`} />
               </div>
             </div>
             <hr hidden={watch('bookingOvernight').length === 1} style={{ margin: '30px 0' }} />
@@ -163,7 +151,7 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
         onClick={() => overnightAppend(overnightObj)}
         style={{
           //  background: '#ffecea',
-          color: '#ffa195',
+          color: '#5FBB96',
           outline: 'none',
           border: 'none',
           borderRadius: 15,

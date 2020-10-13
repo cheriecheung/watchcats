@@ -72,8 +72,8 @@ function Settings() {
     return cardType === '' ? (
       <i className="far fa-credit-card mr-1" />
     ) : (
-      <img src={require(`../../assets/images/paymentMethods/${cardType}.png`)} width={20} />
-    );
+        <img src={require(`../../assets/images/paymentMethods/${cardType}.png`)} width={20} />
+      );
   };
 
   const renderModalContent = () => {
@@ -103,8 +103,8 @@ function Settings() {
         </div>
       </div>
     ) : (
-      <h4>helo bank account</h4>
-    );
+        <h4>helo bank account</h4>
+      );
   };
 
   return (
@@ -214,13 +214,6 @@ function Settings() {
           to enter both your password and an authentication code from your mobile phone in order to
           sign in
         </p>
-      </SectionContainer>
-
-      <SectionContainer>
-        <SectionTitle>Delete account</SectionTitle>
-        <Button color="danger" size="sm" style={{ borderRadius: 10 }}>
-          Delete account
-        </Button>
       </SectionContainer>
     </>
   );

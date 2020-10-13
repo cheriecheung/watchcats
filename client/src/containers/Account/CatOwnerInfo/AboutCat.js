@@ -3,6 +3,7 @@ import { Row, Col } from 'reactstrap';
 import {
   CheckboxGroup,
   FieldLabel,
+  FileUploader,
   RadioButton,
   RadioGroup,
   SelectField,
@@ -14,7 +15,7 @@ import { catObj } from '../_defaultValues'
 
 const color = '#252525';
 
-function AboutCat({ watch, catFieldArray }) {
+function AboutCat({ setValue, watch, catFieldArray }) {
   const { t } = useTranslation();
   const { fields, append, remove } = catFieldArray;
 
@@ -59,11 +60,11 @@ function AboutCat({ watch, catFieldArray }) {
             <Row>
               <Col md={6} className="mb-4">
                 <FieldLabel>{t('owner_form.name')}</FieldLabel>
-                <TextField name={`cat[${index}].name`} index={index} />
+                <TextField name={`cat[${index}].name`} />
               </Col>
               <Col md={6} className="mb-4" style={{ marginBottom: 30 }}>
                 <FieldLabel>{t('owner_form.age')}</FieldLabel>
-                <TextField name={`cat[${index}].age`} index={index} type="number" />
+                <TextField name={`cat[${index}].age`} type="number" />
               </Col>
 
               <Col md={6} className="mb-4">
@@ -117,25 +118,32 @@ function AboutCat({ watch, catFieldArray }) {
 
               <Col md={6} className="mb-4">
                 <FieldLabel>{t('owner_form.breed')}</FieldLabel>
-                <SelectField name={`cat[${index}].breed`} index={index} options={catBreedOptions} />
+                <SelectField name={`cat[${index}].breed`} options={catBreedOptions} />
               </Col>
               <Col md={6} className="mb-4">
                 <FieldLabel>Personality that fits your cat the best</FieldLabel>
-                <SelectField name={`cat[${index}].personality`} index={index} options={personalityOptions} />
+                <SelectField name={`cat[${index}].personality`} options={personalityOptions} />
               </Col>
 
               <Col md={6} className="mb-3">
                 <FieldLabel>{t('owner_form.favourite_treat')}</FieldLabel>
-                <TextField name={`cat[${index}].favouriteTreat`} index={index} />
+                <TextField name={`cat[${index}].favouriteTreat`} />
               </Col>
+
               <Col md={6} className="mb-3">
                 <FieldLabel>{t('owner_form.pictures')} (max. 3)</FieldLabel>
                 <br />
-                <label htmlFor="file-upload" className="upload-file-input form-control">
+                <label htmlFor={`cat[${index}].photo`} className="upload-file-input form-control">
                   <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
                   <span>{t('owner_form.upload')}</span>
                 </label>
-                <input id="file-upload" type="file" />
+                <FileUploader
+                  name={`cat[${index}].photo`}
+                  id={`cat[${index}].photo`}
+                  fileType="image/x-png,image/jpeg"
+                  setFileData={(data) => setValue(`cat[${index}].photo`, data)}
+                />
+                {/* <input id="file-upload" type="file" /> */}
               </Col>
             </Row>
 
@@ -151,7 +159,7 @@ function AboutCat({ watch, catFieldArray }) {
         onClick={() => append(catObj)}
         style={{
           // background: '#ffecea',
-          color: '#ffa195',
+          color: '#5FBB96',
           outline: 'none',
           border: 'none',
           borderRadius: 15,

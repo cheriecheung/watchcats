@@ -47,6 +47,7 @@ export const cat_sitter_schema = yup.object().shape({
 const timeOrderError = () => "End time must be after start time"
 const dateOrderError = () => "End date must be after start date"
 const genderSelectError = () => "Select a gender"
+const selectError = () => "Select an option"
 
 function parseDateString(value, originalValue) {
     console.log({ value, originalValue })
@@ -106,10 +107,10 @@ const overnightObjSchema = yup.object().shape({
 
 const catObjSchema = yup.object().shape({
     name: yup.string().required(defaultError),
-    age: yup.number().positive().integer().required(defaultError).typeError('Must be a number'),
+    age: yup.number().positive().integer().required(defaultError).typeError(defaultError),
     gender: yup.string().required(genderSelectError),
-    isVaccinated: yup.boolean().required(defaultError),
-    isInsured: yup.boolean().required(defaultError),
+    isVaccinated: yup.boolean().required(selectError),
+    isInsured: yup.boolean().required(selectError),
     breed: yup.object().shape(reactSelectSchema).required(defaultError),
     medicalNeeds: yup.array().of(yup.string()),
     personality: yup.object().shape(reactSelectSchema).required(defaultError),

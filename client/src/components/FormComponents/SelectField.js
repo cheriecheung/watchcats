@@ -60,18 +60,13 @@ const colourStyles = {
 
 export default function SelectField({
   name,
-  index,
   options,
   onChange = ([selected]) => selected,
   placeholder,
   //defaultValue = { value: '', label: 'Select' },
 }) {
   const { control, errors } = useFormContext();
-  const { error, hasError, message } = getErrorProperties(name, index, errors)
-
-  useEffect(() => {
-    console.log({ error, message })
-  }, [error])
+  const { hasError, message } = getErrorProperties(name, errors)
 
   return (
     <>

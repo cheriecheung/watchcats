@@ -33,7 +33,7 @@ function CatOwnerInfo({ activeKey }) {
   const dispatch = useDispatch();
 
   const methods = useForm({ defaultValues, resolver });
-  const { register, control, handleSubmit, reset, watch, errors } = methods;
+  const { register, control, handleSubmit, reset, watch, errors, setValue } = methods;
 
   const oneDayFieldArray = useFieldArray({ control, name: 'bookingOneDay' });
   const overnightFieldArray = useFieldArray({ control, name: 'bookingOvernight' });
@@ -134,6 +134,7 @@ function CatOwnerInfo({ activeKey }) {
           <CatInfoContainer>
             <SectionTitle>{t('owner_form.about_cat')}</SectionTitle>
             <AboutCat
+              setValue={setValue}
               watch={watch}
               catFieldArray={catFieldArray}
             />

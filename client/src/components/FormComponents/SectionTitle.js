@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { themeColor } from '../../style/theme';
 
-const color = themeColor.green;
+const color = '#487364';
 
 const SectionTitle = styled.div`
   font-size: 1.1rem;

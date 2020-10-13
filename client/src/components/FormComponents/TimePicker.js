@@ -22,9 +22,9 @@ const allSeconds = () => {
   return allSeconds;
 };
 
-export default function TimePicker({ name, index }) {
+export default function TimePicker({ name }) {
   const { control, watch, setValue, errors } = useFormContext();
-  const { error, hasError, message } = getErrorProperties(name, index, errors)
+  const { hasError, message } = getErrorProperties(name, errors)
   const selectedTime = watch(name);
 
   const handleOnChange = (date, timeString) => {
@@ -34,10 +34,6 @@ export default function TimePicker({ name, index }) {
       setValue(name, new Date(`1970-01-01 ${timeString}`));
     }
   }
-
-  useEffect(() => {
-    console.log({ error, name })
-  }, [error])
 
   return (
     <>

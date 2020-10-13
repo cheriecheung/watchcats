@@ -20,9 +20,9 @@ const ErrorDisplay = styled.span`
   float: right;
 `
 
-export default function TextField({ name, index, prefix, placeholder, disabled }) {
+export default function TextField({ name, prefix, placeholder, disabled, type = "text" }) {
   const { control, errors } = useFormContext();
-  const { error, hasError, message } = getErrorProperties(name, index, errors)
+  const { hasError, message } = getErrorProperties(name, errors)
 
   return (
     <Container>
@@ -34,6 +34,7 @@ export default function TextField({ name, index, prefix, placeholder, disabled }
             placeholder={placeholder}
             hasError={hasError}
             disabled={disabled}
+            type={type}
           />
         }
         control={control}

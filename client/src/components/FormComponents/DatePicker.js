@@ -16,9 +16,9 @@ const ErrorDisplay = styled.span`
   text-align: right;
 `
 
-export default function DatePicker({ name, index, placeholder }) {
+export default function DatePicker({ name, placeholder }) {
   const { control, watch, setValue, errors } = useFormContext();
-  const { error, hasError, message } = getErrorProperties(name, index, errors)
+  const { hasError, message } = getErrorProperties(name, errors)
 
   const selectedDate = watch(name);
 
