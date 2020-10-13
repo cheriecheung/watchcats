@@ -12,11 +12,17 @@ import {
 import { useTranslation } from 'react-i18next';
 import { catBreedOptions, personalityOptions, medicineOptions } from '../../../constants';
 import { catObj } from '../_defaultValues'
+import { useDispatch, useSelector } from 'react-redux';
+import { removeCatPhoto } from '../../../_actions/accountActions';
 
 const color = '#252525';
+const { REACT_APP_API_DOMAIN } = process.env;
+
 
 function AboutCat({ setValue, watch, catFieldArray }) {
   const { t } = useTranslation();
+  const { catPhotoRemoved } = useSelector((state) => state.account);
+
   const { fields, append, remove } = catFieldArray;
 
   const handleRemoveCat = (index) => {
@@ -25,12 +31,26 @@ function AboutCat({ setValue, watch, catFieldArray }) {
     }
   };
 
+  useEffect(() => {
+    if (catPhotoRemoved) {
+      alert('reset cat field array photo field')
+      console.log({ watchCats: fields })
+    }
+  }, [catPhotoRemoved])
+
+  useEffect(() => {
+    console.log({ fields, watch: watch('cat') })
+  }, [fields, watch])
+
+
   return (
     <>
       {fields.map((item, index) => {
+        const { id, photo } = item;
+
         return (
           <div
-            key={item.id}
+            key={id}
             style={{
               background: index % 2 !== 0 ? 'rgba(168, 165, 165, 0.05)' : 'none',
               padding: '20px 20px 0 20px',
@@ -133,17 +153,17 @@ function AboutCat({ setValue, watch, catFieldArray }) {
               <Col md={6} className="mb-3">
                 <FieldLabel>{t('owner_form.pictures')} (max. 3)</FieldLabel>
                 <br />
-                {/* <label htmlFor={`cat[${index}].photo`} className="upload-file-input form-control">
-                  <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
-                  <span>{t('owner_form.upload')}</span>
-                </label> */}
-                <ArrayFileUploader
-                  name={`cat[${index}].photo`}
-                  id={`cat[${index}].photo`}
-                  fileType="image/x-png,image/jpeg"
-                  setFileData={(data) => setValue(`cat[${index}].photo`, data)}
-                />
-                {/* <input id="file-upload" type="file" /> */}
+                {photo ?
+                  <PictureDisplay fileName={photo} />
+                  :
+                  <ArrayFileUploader
+                    name={`cat[${index}].photo`}
+                    id={`cat[${index}].photo`}
+                    fileType="image/x-png,image/jpeg"
+                    setFileData={(data) => setValue(`cat[${index}].photo`, data)}
+                  />
+                }
+
               </Col>
             </Row>
 
@@ -179,3 +199,35 @@ function AboutCat({ setValue, watch, catFieldArray }) {
 }
 
 export default AboutCat;
+
+function PictureDisplay({ fileName }) {
+  const dispatch = useDispatch();
+
+  const handleRemovePhoto = (fileName) => {
+    dispatch(removeCatPhoto(fileName))
+  }
+
+  return (
+    <>
+      <div style={{ overflow: 'hidden', width: 100, height: 100 }}>
+        <img
+          src={`${REACT_APP_API_DOMAIN}/image/${fileName}`}
+          alt="profile_picture"
+          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+        />
+      </div>
+      <button
+        type="button"
+        style={{
+          color: 'red',
+          background: 'none',
+          border: 'none',
+          outline: 'none',
+        }}
+        onClick={() => handleRemovePhoto(fileName)}
+      >
+        Remove
+       </button>
+    </>
+  )
+}

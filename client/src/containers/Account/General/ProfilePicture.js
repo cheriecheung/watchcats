@@ -55,7 +55,7 @@ function ProfilePicture({ setValue, profilePicURL }) {
         <Col md={6}>
           <div style={{ display: 'flex', flexDirection: 'column', wordWrap: 'break-word' }}>
             {profilePicURL ? (
-              <PictureDisplay url={profilePicURL} showModal={() => setModalVisible(true)} />
+              <PictureDisplay fileName={profilePicURL} showModal={() => setModalVisible(true)} />
             ) : (
                 <UploadPicture
                   sendFileData={(data) => setValue('profilePic', data)}
@@ -98,12 +98,12 @@ function ProfilePicture({ setValue, profilePicURL }) {
 
 export default ProfilePicture;
 
-function PictureDisplay({ url, showModal }) {
+function PictureDisplay({ fileName, showModal }) {
   return (
     <>
       <div style={{ overflow: 'hidden', width: 100, height: 100 }}>
         <img
-          src={`${REACT_APP_API_DOMAIN}/image/${url}`}
+          src={`${REACT_APP_API_DOMAIN}/image/${fileName}`}
           alt="profile_picture"
           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
         />

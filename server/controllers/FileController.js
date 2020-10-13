@@ -98,23 +98,26 @@ module.exports = {
     }
   },
 
-  saveCatPhotos: async (req, res) => {
+  saveCatPhoto: async (req, res) => {
     const userId = req.headers['authorization'];
     if (!userId) return res.status(403).json('User id missing');
+    const userObjid = ObjectId(userId)
 
     try {
-      const allPhotos = req.files;
+      const { file } = req;
+      const { filename } = file || {};
+      const { fieldArrayIndex } = req.body;
+      const photo = req.file;
 
-      const userObjid = ObjectId(userId)
+      console.log({ photo, fieldArrayIndex })
+
       const { owner } = await User.findById(userObjid)
-
       const ownerObjId = ObjectId(owner)
-      const catRecords = await Cat.find({ owner: ownerObjId });
 
-      catRecords.forEach(async (item, index) => {
-        catRecords[index].photoFileName = allPhotos[index].filename;
-        await catRecords[index].save();
-      })
+      const catRecords = await Cat.find({ owner: ownerObjId });
+      catRecords[fieldArrayIndex].photo = filename;
+
+      await catRecords[fieldArrayIndex].save();
 
       return res.status(200).json('Cat photos saved in respective cat records');
 
@@ -124,8 +127,8 @@ module.exports = {
       //     $lookup: {
       //       from: "cat",
       //       localField: "cat",
-      //       foreignField: "photoFileName",
-      //       as: 'photoFileName'
+      //       foreignField: "photo",
+      //       as: 'photo'
       //     }
       //   },
       // ])
@@ -133,6 +136,24 @@ module.exports = {
     } catch (err) {
       console.log({ err })
       return res.status(400).json('Unable to save images');
+    }
+  },
+
+  deleteCatPhoto: async (req, res) => {
+    const userId = req.headers['authorization'];
+    if (!userId) return res.status(403).json('User id missing');
+
+    try {
+      const { filename } = req.body;
+
+      const updatedRecord = await Cat.findOneAndUpdate({ photo: filename }, { $unset: { photo: '' } })
+      if (!updatedRecord) return res.status(404).json('Fail to update cat record');
+
+      await gfs.remove({ filename, root: 'uploads' });
+      return res.status(200).json('Picture successfully deleted');
+    } catch (err) {
+      console.log({ err })
+      return res.status(404).json('Picture does not exist');
     }
   }
 };

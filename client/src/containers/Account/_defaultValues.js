@@ -45,7 +45,7 @@ export const catObj = {
     medicalNeeds: '',
     persionality: '',
     favouriteTreat: '',
-    pictures: [],
+    photo: '',
 };
 
 export const cat_owner_default_values = {

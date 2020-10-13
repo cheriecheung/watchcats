@@ -39,7 +39,7 @@ function CatOwnerInfo({ activeKey }) {
   const overnightFieldArray = useFieldArray({ control, name: 'bookingOvernight' });
   const catFieldArray = useFieldArray({ control, name: 'cat' });
 
-  const { ownerData, ownerSaved } = useSelector((state) => state.account);
+  const { ownerData, ownerSaved, ownerCompleteSave } = useSelector((state) => state.account);
 
   // useEffect(() => {
   //   console.log({ errors })
@@ -63,12 +63,16 @@ function CatOwnerInfo({ activeKey }) {
       } = ownerData;
 
       const catUpdated = cat.map(({ breed, personality, ...rest }) => {
+        console.log({ rest })
+
         const breedName = catBreedOptions.filter(({ value }) => value === breed)[0].label
         const personalityName = personalityOptions.filter(({ value }) => value === personality)[0].label
 
         return {
           breed: { value: breed, label: breedName },
           personality: { value: personality, label: personalityName },
+          test: 'hello',
+          // photo, doesn't work
           ...rest
         }
       })
@@ -107,14 +111,23 @@ function CatOwnerInfo({ activeKey }) {
   useEffect(() => {
     if (ownerSaved) {
       const cat = watch('cat');
-      const formData = new FormData();
+      // const formData = new FormData();
+
+      // cat.forEach(({ photo: { file } }, index) => {
+      //   formData.append('catPhotos', file);
+
+      //   if (cat.length === index + 1) {
+      //     dispatch(saveCatPhotos(formData))
+      //   }
+      // })
+
 
       cat.forEach(({ photo: { file } }, index) => {
-        formData.append('catPhotos', file);
+        const formData = new FormData();
+        formData.append('catPhoto', file);
+        formData.append('fieldArrayIndex', index)
 
-        if (cat.length === index + 1) {
-          dispatch(saveCatPhotos(formData))
-        }
+        dispatch(saveCatPhotos(formData))
       })
     }
   }, [ownerSaved])

@@ -8,7 +8,7 @@ const userURL = `${REACT_APP_API_DOMAIN}/user`;
 const pictureURL = `${REACT_APP_API_DOMAIN}/image`;
 const profilePicURL = `${REACT_APP_API_DOMAIN}/image/profile-picture`;
 const addressProofURL = `${REACT_APP_API_DOMAIN}/image/address-proof`;
-const catPhotoURL = `${REACT_APP_API_DOMAIN}/image/cat-photo`;
+const catPhotoURL = `${REACT_APP_API_DOMAIN}/image/cat`;
 
 const sitterAccountURL = (id) => `${REACT_APP_API_DOMAIN}/sitter/account/${id}`;
 const ownerAccountURL = (id) => `${REACT_APP_API_DOMAIN}/owner/account/${id}`;
@@ -133,6 +133,17 @@ export function saveCatPhotos(formData) {
     try {
       const { data } = await axios.post(catPhotoURL, formData, catPhotoConfig);
       dispatch({ type: 'SAVE_CAT_PIC', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
+export function removeCatPhoto(filename) {
+  return async (dispatch) => {
+    try {
+      await axios.delete(catPhotoURL, { ...config, data: { filename } });
+      dispatch({ type: 'CAT_PIC_REMOVED' });
     } catch (e) {
       console.log({ e });
     }

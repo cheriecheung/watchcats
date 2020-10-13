@@ -42,7 +42,7 @@ const catSchema = new Schema({
     type: String,
     required: false,
   },
-  photoFileName: {
+  photo: {
     type: String,
     required: false,
   },
