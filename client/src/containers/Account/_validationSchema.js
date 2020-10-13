@@ -50,8 +50,6 @@ const genderSelectError = () => "Select a gender"
 const selectError = () => "Select an option"
 
 function parseDateString(value, originalValue) {
-    console.log({ value, originalValue })
-
     if (!originalValue) return null;
 
     const parsedDate = isDate(originalValue)
@@ -105,6 +103,7 @@ const overnightObjSchema = yup.object().shape({
     })
 }, [['startDate', 'endDate']])
 
+
 const catObjSchema = yup.object().shape({
     name: yup.string().required(defaultError),
     age: yup.number().positive().integer().required(defaultError).typeError(defaultError),
@@ -115,6 +114,13 @@ const catObjSchema = yup.object().shape({
     medicalNeeds: yup.array().of(yup.string()),
     personality: yup.object().shape(reactSelectSchema).required(defaultError),
     favouriteTreat: yup.string().required(defaultError),
+    photo: yup.object().nullable().shape({
+        name: yup.string().required(),
+        file: yup.object().nullable()
+        // file: yup.object().shape({
+        //     name: yup.string().required()
+        // }).label('File').required(),
+    }).required(defaultError)
 })
 
 export const cat_owner_schema = yup.object().shape({

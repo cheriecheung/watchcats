@@ -5,6 +5,8 @@ const Cat = require('../model/Cat');
 const AppointmentOneDay = require('../model/AppointmentOneDay');
 const AppointmentOvernight = require('../model/AppointmentOvernight');
 
+const ObjectId = require('mongodb').ObjectID;
+
 module.exports = {
   getProfile: async (req, res) => {
     try {
@@ -86,18 +88,13 @@ module.exports = {
       const ownerRecord = await Owner.findOne({ urlId: req.params.id });
       if (!ownerRecord) return res.status(404).json('No owner account');
 
-      const { id: ownerId, aboutMe, catsDescription } = ownerRecord;
+      const { id, aboutMe, catsDescription } = ownerRecord;
+      const ownerId = ObjectId(id)
 
       const [allOneDays, allOvernight, allCats] = await Promise.all([
-        AppointmentOneDay.find({
-          owner: mongoose.Types.ObjectId(ownerId),
-        }),
-        AppointmentOvernight.find({
-          owner: mongoose.Types.ObjectId(ownerId),
-        }),
-        Cat.find({
-          owner: mongoose.Types.ObjectId(ownerId),
-        }),
+        AppointmentOneDay.find({ owner: ownerId }),
+        AppointmentOvernight.find({ owner: ownerId }),
+        Cat.find({ owner: ownerId }),
       ]);
 
       // if selected appointment date is passed, delete it

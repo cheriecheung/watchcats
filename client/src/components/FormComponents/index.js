@@ -2,7 +2,7 @@ import Calendar from './Calendar';
 import { Checkbox, CheckboxGroup } from './Checkbox';
 import DatePicker from './DatePicker';
 import FieldLabel from './FieldLabel';
-import FileUploader from './FileUploader';
+import FileUploader, { ArrayFileUploader } from './FileUploader';
 import FormButtons from './FormButtons';
 import { RadioGroup, RadioButton } from './Radio';
 import SectionContainer from './SectionContainer';
@@ -18,6 +18,7 @@ export {
   CheckboxGroup,
   DatePicker,
   FieldLabel,
+  ArrayFileUploader,
   FileUploader,
   FormButtons,
   RadioGroup,

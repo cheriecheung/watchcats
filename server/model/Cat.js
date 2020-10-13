@@ -42,8 +42,10 @@ const catSchema = new Schema({
     type: String,
     required: false,
   },
-  // photos: {
-  // },
+  photoFileName: {
+    type: String,
+    required: false,
+  },
 
   createdAt: {
     type: Date,

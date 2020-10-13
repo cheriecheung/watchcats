@@ -11,4 +11,6 @@ router.delete('/image', FileController.deleteImage);
 router.post('/image/profile-picture', upload.single('profilePic'), FileController.saveFileName);
 router.post('/image/address-proof', upload.single('addressProof'), FileController.saveFileName);
 
+router.post('/image/cat-photo', upload.array('catPhotos'), FileController.saveCatPhotos)
+
 module.exports = router;

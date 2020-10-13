@@ -46,7 +46,7 @@
 /* ------------------- Form element: Text type ------------------- */
 .upload-file-input,
 .form-control {
-  border: var(--theme-field-border) !important;
+  /* border: var(--theme-field-border) !important; */
   border-radius: var(--theme-border-radius) !important;
   outline: none;
 }

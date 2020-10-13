@@ -7,12 +7,13 @@ export function account(state = {}, action) {
     case 'SITTER_ACCOUNT_SAVED':
       return { sitter: action.payload };
     case 'OWNER_ACCOUNT_SAVED':
-      return { owner: action.payload };
+      return { ownerSaved: action.payload };
     case 'GET_SITTER_ACCOUNT':
       return { sitterData: action.payload };
     case 'GET_OWNER_ACCOUNT':
       return { ownerData: action.payload };
-
+    case 'SAVE_CAT_PIC':
+      return { ownerCompleteSave: action.payload }
     default:
       return state;
   }

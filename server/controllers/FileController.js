@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
+const Cat = require('../model/Cat')
+const Owner = require('../model/Owner')
 const User = require('../model/User');
 
 const crypto = require('crypto');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const path = require('path');
+
+const ObjectId = require('mongodb').ObjectID;
 
 const conn = mongoose.createConnection(process.env.DB_CONNECT);
 let gfs;
@@ -90,6 +94,45 @@ module.exports = {
       return res.status(200).json('File successfully saved');
     } catch (e) {
       console.log({ e });
+      return res.status(400).json('Unable to save image');
     }
   },
+
+  saveCatPhotos: async (req, res) => {
+    const userId = req.headers['authorization'];
+    if (!userId) return res.status(403).json('User id missing');
+
+    try {
+      const allPhotos = req.files;
+
+      const userObjid = ObjectId(userId)
+      const { owner } = await User.findById(userObjid)
+
+      const ownerObjId = ObjectId(owner)
+      const catRecords = await Cat.find({ owner: ownerObjId });
+
+      catRecords.forEach(async (item, index) => {
+        catRecords[index].photoFileName = allPhotos[index].filename;
+        await catRecords[index].save();
+      })
+
+      return res.status(200).json('Cat photos saved in respective cat records');
+
+      // const catRecords = await Owner.aggregate([
+      //   { $match: { urlId: req.params.id } },
+      //   {
+      //     $lookup: {
+      //       from: "cat",
+      //       localField: "cat",
+      //       foreignField: "photoFileName",
+      //       as: 'photoFileName'
+      //     }
+      //   },
+      // ])
+
+    } catch (err) {
+      console.log({ err })
+      return res.status(400).json('Unable to save images');
+    }
+  }
 };

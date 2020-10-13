@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
 import styled from 'styled-components';
-import { getOwnerAccount, saveOwner } from '../../../_actions/accountActions';
+import { getOwnerAccount, saveOwner, saveCatPhotos } from '../../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -39,17 +39,17 @@ function CatOwnerInfo({ activeKey }) {
   const overnightFieldArray = useFieldArray({ control, name: 'bookingOvernight' });
   const catFieldArray = useFieldArray({ control, name: 'cat' });
 
-  useEffect(() => {
-    console.log({ errors })
-  }, [errors])
+  const { ownerData, ownerSaved } = useSelector((state) => state.account);
+
+  // useEffect(() => {
+  //   console.log({ errors })
+  // }, [errors])
 
   useEffect(() => {
     if (activeKey === 'owner' && id) {
       dispatch(getOwnerAccount(id));
     }
   }, [activeKey, dispatch]);
-
-  const { ownerData } = useSelector((state) => state.account);
 
   useEffect(() => {
     if (ownerData) {
@@ -87,7 +87,7 @@ function CatOwnerInfo({ activeKey }) {
   const onSubmit = (data) => {
     const { cat, ...rest } = data;
 
-    const cleanedCat = cat.map(({ breed, personality, ...restCat }) => {
+    const cleanedCat = cat.map(({ breed, personality, photo, ...restCat }) => {
       const { value: breedValue } = breed || {};
       const { value: personalityValue } = personality || {};
 
@@ -103,6 +103,21 @@ function CatOwnerInfo({ activeKey }) {
     dispatch(saveOwner(id, cleanedData))
   };
   // const onSubmit = (data) => console.log(data);
+
+  useEffect(() => {
+    if (ownerSaved) {
+      const cat = watch('cat');
+      const formData = new FormData();
+
+      cat.forEach(({ photo: { file } }, index) => {
+        formData.append('catPhotos', file);
+
+        if (cat.length === index + 1) {
+          dispatch(saveCatPhotos(formData))
+        }
+      })
+    }
+  }, [ownerSaved])
 
   return (
     <>

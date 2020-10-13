@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
 import {
   CheckboxGroup,
   FieldLabel,
-  FileUploader,
+  ArrayFileUploader,
   RadioButton,
   RadioGroup,
   SelectField,
@@ -133,11 +133,11 @@ function AboutCat({ setValue, watch, catFieldArray }) {
               <Col md={6} className="mb-3">
                 <FieldLabel>{t('owner_form.pictures')} (max. 3)</FieldLabel>
                 <br />
-                <label htmlFor={`cat[${index}].photo`} className="upload-file-input form-control">
+                {/* <label htmlFor={`cat[${index}].photo`} className="upload-file-input form-control">
                   <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
                   <span>{t('owner_form.upload')}</span>
-                </label>
-                <FileUploader
+                </label> */}
+                <ArrayFileUploader
                   name={`cat[${index}].photo`}
                   id={`cat[${index}].photo`}
                   fileType="image/x-png,image/jpeg"

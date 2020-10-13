@@ -10,7 +10,7 @@ function ResponseModal() {
   const [modalContent, setModalContent] = useState('');
   const [accountTab, setAccountTab] = useState('');
 
-  const { generalInfo, sitter, owner } = useSelector((state) => state.account);
+  const { generalInfo, sitter, ownerCompleteSave } = useSelector((state) => state.account);
 
   useEffect(() => {
     if (generalInfo) {
@@ -25,12 +25,12 @@ function ResponseModal() {
       setModalVisible(true);
     }
 
-    if (owner) {
-      setModalContent('You have successfully saved your sitter account');
+    if (ownerCompleteSave) {
+      setModalContent('You have successfully saved your owner account');
       setAccountTab('owner');
       setModalVisible(true);
     }
-  }, [generalInfo, sitter, owner]);
+  }, [generalInfo, sitter, ownerCompleteSave]);
 
   return (
     <Modal
