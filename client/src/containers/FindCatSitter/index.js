@@ -63,13 +63,15 @@ function FindCatSitter() {
 
   const [sittersByAddress, setSittersByAddress] = useState([])
 
+  const [hoveredMarkerId, setHoveredMarkerId] = useState('')
+
   useEffect(() => {
     dispatch(getAllSitters());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   console.log({ sitters });
-  // }, [sitters]);
+  useEffect(() => {
+    console.log({ hoveredMarkerId });
+  }, [hoveredMarkerId]);
 
   return (
     <div style={{ padding: '0 40px' }}>
@@ -79,7 +81,8 @@ function FindCatSitter() {
         sitterRecords={sitterRecords}
         // setSitterRecords={setSitterRecords}
         setSittersByAddress={setSittersByAddress}
-        radius={radius} />
+        radius={radius}
+      />
       <Row>
         <Col md={5}>
           {/* <GoogleMap
@@ -88,6 +91,7 @@ function FindCatSitter() {
             center={center}
             radius={radius}
             markers={sitterRecords}
+            hoveredMarkerId={hoveredMarkerId}
             onMarkerClick={setSelectedMarker}
             selectedMarker={selectedMarker}
             googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${process.env.REACT_APP_GOOGLE_KEY}`}
@@ -95,8 +99,8 @@ function FindCatSitter() {
             containerElement={<MapContainer />}
             mapElement={<div style={{ height: '100%' }} />}
           /> */}
-
         </Col>
+
         <Col md={7}>
           <p ref={resultsRef} style={{ textAlign: 'left', marginBottom: 20 }}>
             Showing {resultsFound.length} cat sitters
@@ -109,7 +113,12 @@ function FindCatSitter() {
               pageSize: 10,
             }}
             dataSource={resultsFound}
-            renderItem={(item) => <Result item={item} />}
+            renderItem={(item) =>
+              <Result
+                item={item}
+                setHoveredMarkerId={setHoveredMarkerId}
+              />
+            }
           />
         </Col>
       </Row>
