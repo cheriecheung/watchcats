@@ -114,13 +114,17 @@ const catObjSchema = yup.object().shape({
     medicalNeeds: yup.array().of(yup.string()),
     personality: yup.object().shape(reactSelectSchema).required(defaultError),
     favouriteTreat: yup.string().required(defaultError),
-    photo: yup.object().nullable().shape({
-        name: yup.string().required(),
-        file: yup.object().nullable()
-        // file: yup.object().shape({
-        //     name: yup.string().required()
-        // }).label('File').required(),
-    }).required(defaultError)
+    photo: yup.mixed()
+        .required(defaultError)
+
+
+    // photo: yup.object().nullable().shape({
+    //     name: yup.string().required(),
+    //     file: yup.object().nullable()
+    //     // file: yup.object().shape({
+    //     //     name: yup.string().required()
+    //     // }).label('File').required(),
+    // }).required(defaultError)
 })
 
 export const cat_owner_schema = yup.object().shape({

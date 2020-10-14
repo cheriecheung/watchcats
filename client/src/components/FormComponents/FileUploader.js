@@ -66,7 +66,8 @@ export function ArrayFileUploader({ name,
   id,
   fileType,
   setFileData,
-  setDisplayPreview }) {
+  setDisplayPreview
+}) {
   const { t } = useTranslation();
 
   const { register, control, watch, errors } = useFormContext();

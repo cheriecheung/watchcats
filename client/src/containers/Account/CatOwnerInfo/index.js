@@ -33,17 +33,29 @@ function CatOwnerInfo({ activeKey }) {
   const dispatch = useDispatch();
 
   const methods = useForm({ defaultValues, resolver });
-  const { register, control, handleSubmit, reset, watch, errors, setValue } = methods;
+  const { register, control, handleSubmit, reset, watch, errors, getValues, setValue } = methods;
 
   const oneDayFieldArray = useFieldArray({ control, name: 'bookingOneDay' });
   const overnightFieldArray = useFieldArray({ control, name: 'bookingOvernight' });
   const catFieldArray = useFieldArray({ control, name: 'cat' });
 
-  const { ownerData, ownerSaved, ownerCompleteSave } = useSelector((state) => state.account);
+  const { ownerData, ownerSaved, ownerCompleteSave, catPhotoRemoved } = useSelector((state) => state.account);
+
+  useEffect(() => {
+    console.log({ errors })
+  }, [errors])
+
+  useEffect(() => {
+    console.log({ watchCats: watch('cat') })
+  }, [watch('cat')])
 
   // useEffect(() => {
-  //   console.log({ errors })
-  // }, [errors])
+  //   if (catPhotoRemoved) {
+  //     const { index } = catPhotoRemoved
+  //     setValue(`cat${[index]}.photo`, '')
+  //   }
+  // }, [catPhotoRemoved])
+
 
   useEffect(() => {
     if (activeKey === 'owner' && id) {
@@ -53,7 +65,6 @@ function CatOwnerInfo({ activeKey }) {
 
   useEffect(() => {
     if (ownerData) {
-      console.log({ ownerData })
       const {
         aboutMe,
         bookingOneDay = [],
@@ -62,23 +73,24 @@ function CatOwnerInfo({ activeKey }) {
         catsDescription,
       } = ownerData;
 
-      const catUpdated = cat.map(({ breed, personality, ...rest }) => {
-        console.log({ rest })
+      const catUpdated = cat.map(({ breed, personality, photo = '', ...rest }, index) => {
 
         const breedName = catBreedOptions.filter(({ value }) => value === breed)[0].label
         const personalityName = personalityOptions.filter(({ value }) => value === personality)[0].label
 
         return {
+          ...rest,
           breed: { value: breed, label: breedName },
           personality: { value: personality, label: personalityName },
-          test: 'hello',
-          // photo, doesn't work
-          ...rest
+          photo,
         }
       })
 
+      // photo field included
+      // console.log({ catUpdated })
+
       reset({
-        ...defaultValues,
+        // ...defaultValues,
         aboutMe,
         bookingOneDay,
         bookingOvernight,
@@ -91,7 +103,7 @@ function CatOwnerInfo({ activeKey }) {
   const onSubmit = (data) => {
     const { cat, ...rest } = data;
 
-    const cleanedCat = cat.map(({ breed, personality, photo, ...restCat }) => {
+    const cleanedCat = cat.map(({ breed, personality, ...restCat }) => {
       const { value: breedValue } = breed || {};
       const { value: personalityValue } = personality || {};
 
@@ -104,33 +116,28 @@ function CatOwnerInfo({ activeKey }) {
 
     const cleanedData = { cat: cleanedCat, ...rest }
 
-    dispatch(saveOwner(id, cleanedData))
+    const photos = watch('cat').map(({ photo }) => photo || {})
+
+    dispatch(saveOwner(id, cleanedData, photos))
   };
   // const onSubmit = (data) => console.log(data);
 
-  useEffect(() => {
-    if (ownerSaved) {
-      const cat = watch('cat');
-      // const formData = new FormData();
+  // useEffect(() => {
+  //   console.log({ cat: watch('cat') })
+  //   if (ownerSaved) {
+  //     const cat = watch('cat');
 
-      // cat.forEach(({ photo: { file } }, index) => {
-      //   formData.append('catPhotos', file);
+  //     console.log({ cat })
 
-      //   if (cat.length === index + 1) {
-      //     dispatch(saveCatPhotos(formData))
-      //   }
-      // })
+  //     // cat.forEach(({ photo: { file } }, index) => {
+  //     //   const formData = new FormData();
+  //     //   formData.append('catPhoto', file);
+  //     //   formData.append('fieldArrayIndex', index)
 
-
-      cat.forEach(({ photo: { file } }, index) => {
-        const formData = new FormData();
-        formData.append('catPhoto', file);
-        formData.append('fieldArrayIndex', index)
-
-        dispatch(saveCatPhotos(formData))
-      })
-    }
-  }, [ownerSaved])
+  //     //   dispatch(saveCatPhotos(formData))
+  //     // })
+  //   }
+  // }, [ownerSaved])
 
   return (
     <>
@@ -162,6 +169,7 @@ function CatOwnerInfo({ activeKey }) {
           <CatInfoContainer>
             <SectionTitle>{t('owner_form.about_cat')}</SectionTitle>
             <AboutCat
+              getValues={getValues}
               setValue={setValue}
               watch={watch}
               catFieldArray={catFieldArray}

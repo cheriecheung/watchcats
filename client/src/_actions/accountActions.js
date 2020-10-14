@@ -109,11 +109,26 @@ export function getOwnerAccount(id) {
   };
 }
 
-export function saveOwner(id, ownerData) {
+export function saveOwner(id, ownerData, photos) {
   return async (dispatch) => {
+    console.log({ ownerData })
     try {
-      const { data } = await axios.post(ownerAccountURL(id), ownerData, config);
-      dispatch({ type: 'OWNER_ACCOUNT_SAVED', payload: data });
+      // const { data } = await axios.post(ownerAccountURL(id), ownerData, config);
+      // dispatch({ type: 'OWNER_ACCOUNT_SAVED', payload: data });
+
+      console.log({ photos })
+
+      photos.forEach(async ({ file }, index) => {
+        if (file) {
+          const formData = new FormData();
+          formData.append('catPhoto', file);
+          formData.append('fieldArrayIndex', index)
+
+          await axios.post(catPhotoURL, formData, catPhotoConfig);
+        }
+      })
+
+      dispatch({ type: 'OWNER_ACCOUNT_SAVED', payload: 'done' });
     } catch (e) {
       console.log({ e });
     }
@@ -139,11 +154,11 @@ export function saveCatPhotos(formData) {
   };
 }
 
-export function removeCatPhoto(filename) {
+export function removeCatPhoto(filename, index) {
   return async (dispatch) => {
     try {
       await axios.delete(catPhotoURL, { ...config, data: { filename } });
-      dispatch({ type: 'CAT_PIC_REMOVED' });
+      dispatch({ type: 'CAT_PIC_REMOVED', payload: index });
     } catch (e) {
       console.log({ e });
     }

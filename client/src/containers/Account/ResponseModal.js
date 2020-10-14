@@ -10,7 +10,7 @@ function ResponseModal() {
   const [modalContent, setModalContent] = useState('');
   const [accountTab, setAccountTab] = useState('');
 
-  const { generalInfo, sitter, ownerCompleteSave } = useSelector((state) => state.account);
+  const { generalInfo, sitter, ownerCompleteSave, catPhotoRemoved } = useSelector((state) => state.account);
 
   useEffect(() => {
     if (generalInfo) {
@@ -30,7 +30,13 @@ function ResponseModal() {
       setAccountTab('owner');
       setModalVisible(true);
     }
-  }, [generalInfo, sitter, ownerCompleteSave]);
+
+    if (catPhotoRemoved) {
+      setModalContent('Photo successfully deleted');
+      setAccountTab('owner');
+      setModalVisible(true);
+    }
+  }, [generalInfo, sitter, ownerCompleteSave, catPhotoRemoved]);
 
   return (
     <Modal

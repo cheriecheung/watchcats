@@ -43,14 +43,13 @@ export const catObj = {
     isInsured: '',
     breed: '',
     medicalNeeds: '',
-    persionality: '',
+    personality: '',
     favouriteTreat: '',
     photo: '',
 };
 
 export const cat_owner_default_values = {
     aboutMe: '',
-    // photos: [],
     bookingOneDay: [oneDayObj],
     bookingOvernight: [overnightObj],
     cat: [catObj],

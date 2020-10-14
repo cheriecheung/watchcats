@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'reactstrap';
 import {
   CheckboxGroup,
@@ -14,16 +14,39 @@ import { catBreedOptions, personalityOptions, medicineOptions } from '../../../c
 import { catObj } from '../_defaultValues'
 import { useDispatch, useSelector } from 'react-redux';
 import { removeCatPhoto } from '../../../_actions/accountActions';
+import { set } from 'date-fns/fp';
 
 const color = '#252525';
 const { REACT_APP_API_DOMAIN } = process.env;
 
 
-function AboutCat({ setValue, watch, catFieldArray }) {
+function AboutCat({ setValue, watch, catFieldArray, getValues }) {
   const { t } = useTranslation();
-  const { catPhotoRemoved } = useSelector((state) => state.account);
+  const { catPhotoRemoved, ownerData } = useSelector((state) => state.account);
 
   const { fields, append, remove } = catFieldArray;
+
+  const [photoFields, setPhotoFields] = useState([])
+
+  useEffect(() => {
+    if (ownerData) {
+      console.log({ watch: fields })
+
+      const { cat } = ownerData
+      const allPhotoFields = cat.map(({ photo }, index) => {
+
+        if (photo) {
+          setValue(`cat[${index}].photo`, { name: photo })
+        }
+
+        return photo
+      });
+
+      console.log({ allPhotoFields })
+      setPhotoFields(allPhotoFields);
+    }
+  }, [ownerData]);
+
 
   const handleRemoveCat = (index) => {
     if (window.confirm('Click Ok to confirm to remove cat record')) {
@@ -34,13 +57,11 @@ function AboutCat({ setValue, watch, catFieldArray }) {
   useEffect(() => {
     if (catPhotoRemoved) {
       alert('reset cat field array photo field')
-      console.log({ watchCats: fields })
+      // 1. pass index to payload in successcallback
+      // 2. get index from successcallback. set value of cat[index] to empty string
+      setValue('cat[0].photo', '')
     }
   }, [catPhotoRemoved])
-
-  useEffect(() => {
-    console.log({ fields, watch: watch('cat') })
-  }, [fields, watch])
 
 
   return (
@@ -153,14 +174,21 @@ function AboutCat({ setValue, watch, catFieldArray }) {
               <Col md={6} className="mb-3">
                 <FieldLabel>{t('owner_form.pictures')} (max. 3)</FieldLabel>
                 <br />
-                {photo ?
-                  <PictureDisplay fileName={photo} />
+                {/* {photo ? */}
+
+                {photoFields[index] ?
+                  <PictureDisplay fileName={photoFields[index]} index={index} photoFields={photoFields} setPhotoFields={setPhotoFields} setValue={setValue} name={`cat[${index}].photo`} />
                   :
                   <ArrayFileUploader
                     name={`cat[${index}].photo`}
                     id={`cat[${index}].photo`}
                     fileType="image/x-png,image/jpeg"
                     setFileData={(data) => setValue(`cat[${index}].photo`, data)}
+                    setDisplayPreview={(previewData) => {
+                      let updateFields = [...photoFields];
+                      updateFields[index] = previewData
+                      setPhotoFields(updateFields)
+                    }}
                   />
                 }
 
@@ -200,18 +228,28 @@ function AboutCat({ setValue, watch, catFieldArray }) {
 
 export default AboutCat;
 
-function PictureDisplay({ fileName }) {
+function PictureDisplay({ fileName = '', index, photoFields, setPhotoFields, setValue }) {
   const dispatch = useDispatch();
 
-  const handleRemovePhoto = (fileName) => {
-    dispatch(removeCatPhoto(fileName))
+  const handleRemovePhoto = () => {
+    if (fileName.includes('base64')) {
+      setValue(`cat[${index}].photo`, null)
+
+      let updateFields = [...photoFields];
+      updateFields[index] = null
+      setPhotoFields(updateFields)
+    } else {
+      dispatch(removeCatPhoto(fileName, index))
+    }
   }
+
+  const photoURL = fileName.includes('base64') ? fileName : `${REACT_APP_API_DOMAIN}/image/${fileName}`
 
   return (
     <>
       <div style={{ overflow: 'hidden', width: 100, height: 100 }}>
         <img
-          src={`${REACT_APP_API_DOMAIN}/image/${fileName}`}
+          src={photoURL}
           alt="profile_picture"
           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
         />
@@ -224,7 +262,7 @@ function PictureDisplay({ fileName }) {
           border: 'none',
           outline: 'none',
         }}
-        onClick={() => handleRemovePhoto(fileName)}
+        onClick={handleRemovePhoto}
       >
         Remove
        </button>

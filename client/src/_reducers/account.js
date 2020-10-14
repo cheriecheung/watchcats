@@ -15,7 +15,7 @@ export function account(state = {}, action) {
     case 'SAVE_CAT_PIC':
       return { ownerCompleteSave: action.payload }
     case 'CAT_PIC_REMOVED':
-      return { catPhotoRemoved: 'success' }
+      return { catPhotoRemoved: { index: action.payload } }
     default:
       return state;
   }
