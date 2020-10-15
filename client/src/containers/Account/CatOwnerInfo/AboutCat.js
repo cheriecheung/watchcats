@@ -3,6 +3,7 @@ import { Row, Col } from 'reactstrap';
 import {
   CheckboxGroup,
   FieldLabel,
+  FileDisplayField,
   ArrayFileUploader,
   RadioButton,
   RadioGroup,
@@ -14,39 +15,28 @@ import { catBreedOptions, personalityOptions, medicineOptions } from '../../../c
 import { catObj } from '../_defaultValues'
 import { useDispatch, useSelector } from 'react-redux';
 import { removeCatPhoto } from '../../../_actions/accountActions';
-import { set } from 'date-fns/fp';
 
 const color = '#252525';
-const { REACT_APP_API_DOMAIN } = process.env;
 
-
-function AboutCat({ setValue, watch, catFieldArray, getValues }) {
+function AboutCat({ setValue, watch, catFieldArray }) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   const { catPhotoRemoved, ownerData } = useSelector((state) => state.account);
 
   const { fields, append, remove } = catFieldArray;
 
   const [photoFields, setPhotoFields] = useState([])
+  const [removePhotoIndex, setRemovePhotoIndex] = useState('')
 
   useEffect(() => {
     if (ownerData) {
-      console.log({ watch: fields })
-
       const { cat } = ownerData
-      const allPhotoFields = cat.map(({ photo }, index) => {
+      const allPhotoFields = cat.map(({ photo }, index) => photo);
 
-        if (photo) {
-          setValue(`cat[${index}].photo`, { name: photo })
-        }
-
-        return photo
-      });
-
-      console.log({ allPhotoFields })
       setPhotoFields(allPhotoFields);
     }
   }, [ownerData]);
-
 
   const handleRemoveCat = (index) => {
     if (window.confirm('Click Ok to confirm to remove cat record')) {
@@ -54,21 +44,40 @@ function AboutCat({ setValue, watch, catFieldArray, getValues }) {
     }
   };
 
+  const handlePreview = (data, index) => {
+    let updateFields = [...photoFields];
+    updateFields[index] = data
+    setPhotoFields(updateFields)
+  }
+
   useEffect(() => {
+    // provide fail response
     if (catPhotoRemoved) {
-      alert('reset cat field array photo field')
-      // 1. pass index to payload in successcallback
-      // 2. get index from successcallback. set value of cat[index] to empty string
-      setValue('cat[0].photo', '')
+      setValue(`cat[${removePhotoIndex}].photo`, null)
+
+      let updateFields = [...photoFields];
+      updateFields[removePhotoIndex] = null;
+      setPhotoFields(updateFields)
     }
   }, [catPhotoRemoved])
 
+  const handleRemovePhoto = (fileName, index) => {
+    setRemovePhotoIndex(index);
+
+    if (fileName.includes('base64')) {
+      setValue(`cat[${index}].photo`, null)
+
+      let updateFields = [...photoFields];
+      updateFields[index] = null
+      setPhotoFields(updateFields)
+    } else {
+      dispatch(removeCatPhoto(fileName, index))
+    }
+  }
 
   return (
     <>
-      {fields.map((item, index) => {
-        const { id, photo } = item;
-
+      {fields.map(({ id }, index) => {
         return (
           <div
             key={id}
@@ -172,26 +181,23 @@ function AboutCat({ setValue, watch, catFieldArray, getValues }) {
               </Col>
 
               <Col md={6} className="mb-3">
-                <FieldLabel>{t('owner_form.pictures')} (max. 3)</FieldLabel>
+                <FieldLabel>{t('owner_form.pictures')}</FieldLabel>
                 <br />
-                {/* {photo ? */}
-
                 {photoFields[index] ?
-                  <PictureDisplay fileName={photoFields[index]} index={index} photoFields={photoFields} setPhotoFields={setPhotoFields} setValue={setValue} name={`cat[${index}].photo`} />
+                  <FileDisplayField
+                    name={`cat[${index}].photo`}
+                    fileName={photoFields[index]}
+                    handleRemovePhoto={() => handleRemovePhoto(photoFields[index], index)}
+                  />
                   :
                   <ArrayFileUploader
                     name={`cat[${index}].photo`}
-                    id={`cat[${index}].photo`}
+                    //id={`cat[${index}].photo`}
                     fileType="image/x-png,image/jpeg"
                     setFileData={(data) => setValue(`cat[${index}].photo`, data)}
-                    setDisplayPreview={(previewData) => {
-                      let updateFields = [...photoFields];
-                      updateFields[index] = previewData
-                      setPhotoFields(updateFields)
-                    }}
+                    setDisplayPreview={(data) => handlePreview(data, index)}
                   />
                 }
-
               </Col>
             </Row>
 
@@ -227,45 +233,3 @@ function AboutCat({ setValue, watch, catFieldArray, getValues }) {
 }
 
 export default AboutCat;
-
-function PictureDisplay({ fileName = '', index, photoFields, setPhotoFields, setValue }) {
-  const dispatch = useDispatch();
-
-  const handleRemovePhoto = () => {
-    if (fileName.includes('base64')) {
-      setValue(`cat[${index}].photo`, null)
-
-      let updateFields = [...photoFields];
-      updateFields[index] = null
-      setPhotoFields(updateFields)
-    } else {
-      dispatch(removeCatPhoto(fileName, index))
-    }
-  }
-
-  const photoURL = fileName.includes('base64') ? fileName : `${REACT_APP_API_DOMAIN}/image/${fileName}`
-
-  return (
-    <>
-      <div style={{ overflow: 'hidden', width: 100, height: 100 }}>
-        <img
-          src={photoURL}
-          alt="profile_picture"
-          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-        />
-      </div>
-      <button
-        type="button"
-        style={{
-          color: 'red',
-          background: 'none',
-          border: 'none',
-          outline: 'none',
-        }}
-        onClick={handleRemovePhoto}
-      >
-        Remove
-       </button>
-    </>
-  )
-}
