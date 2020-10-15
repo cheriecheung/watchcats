@@ -23,10 +23,6 @@ function AddressProof({ setValue }) {
       </Col>
       <Col md={6} className="mb-3">
         <div style={{ display: 'flex', flexDirection: 'column', wordWrap: 'break-word' }}>
-          <label htmlFor={uploadAddressProofId} className="upload-file-input form-control">
-            <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
-            <span>{t('owner_form.upload')}</span>
-          </label>
           <FileUploader
             name="addressProof"
             id={uploadAddressProofId}

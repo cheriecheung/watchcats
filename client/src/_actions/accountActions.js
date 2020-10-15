@@ -31,22 +31,16 @@ export function getUser() {
   };
 }
 
-export function sendUser(userData) {
+export function sendUser(userData, profilePicture) {
   return async (dispatch) => {
     try {
       const { data } = await axios.post(userURL, userData, config);
-      dispatch({ type: 'GENERAL_INFO_SAVED', payload: data });
-    } catch (e) {
-      console.log({ e });
-    }
-  };
-}
 
-export function sendProfilePic(formData) {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.post(profilePicURL, formData, config);
-      dispatch({ type: 'SAVE_PROFILE_PIC', payload: data });
+      const formData = new FormData();
+      formData.append('profilePic', profilePicture);
+      await axios.post(profilePicURL, formData, config);
+
+      dispatch({ type: 'GENERAL_INFO_SAVED', payload: data });
     } catch (e) {
       console.log({ e });
     }
@@ -68,7 +62,7 @@ export function deletePicture(filename) {
   return async (dispatch) => {
     try {
       await axios.delete(pictureURL, { ...config, data: { filename } });
-      window.location.reload();
+      dispatch({ type: 'PROFILE_PIC_REMOVED', payload: 'removed' });
     } catch (e) {
       console.log({ e });
     }

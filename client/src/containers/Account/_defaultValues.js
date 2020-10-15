@@ -1,7 +1,7 @@
 import { hourlyRateOptions, nightlyRateOptions } from '../../constants';
 
 export const general_default_values = {
-    profilePic: '',
+    profilePictureFileName: '',
     firstName: '',
     lastName: '',
     // email: '',

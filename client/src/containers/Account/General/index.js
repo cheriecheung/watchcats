@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
-import { getUser, sendUser, sendProfilePic, sendAddressProof } from '../../../_actions/accountActions';
+import { getUser, sendUser, sendAddressProof } from '../../../_actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -18,32 +18,23 @@ const resolver = yupResolver(general_schema)
 
 function GeneralInfo({ activeKey }) {
   const personalInfoRef = useRef(null);
-
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const { data: userData } = useSelector((state) => state.account);
 
   const methods = useForm({ defaultValues, resolver });
-  const { handleSubmit, reset, setValue, errors } = methods;
+  const { handleSubmit, reset, setValue, errors, watch } = methods;
 
-  const [profilePicURL, setProfilePicURL] = useState('');
 
   useEffect(() => {
     if (activeKey === 'general') {
-      console.log({ activeKey });
       dispatch(getUser());
     }
   }, [activeKey, dispatch]);
 
   useEffect(() => {
-    console.log({ userData });
-
     if (userData) {
-      const { profilePictureFileName } = userData;
-      if (profilePictureFileName) {
-        setProfilePicURL(profilePictureFileName);
-      }
       reset(userData);
     }
   }, [userData]);
@@ -55,16 +46,10 @@ function GeneralInfo({ activeKey }) {
   }, [errors])
 
   const onSubmit = (data) => {
-    dispatch(sendUser(data));
+    const { profilePictureFileName, ...rest } = data;
 
-    const { profilePic, addressProof } = data || {};
-
-    if (profilePic) {
-      dispatch(sendProfilePic(profilePic));
-    }
-    if (addressProof) {
-      dispatch(sendAddressProof(addressProof));
-    }
+    //  add address proof field as third param
+    dispatch(sendUser(rest, profilePictureFileName.file));
   };
 
   return (
@@ -74,7 +59,7 @@ function GeneralInfo({ activeKey }) {
           <SectionContainer>
             <SectionTitle>{t('general_info.profile_picture')}</SectionTitle>
 
-            <ProfilePicture setValue={setValue} profilePicURL={profilePicURL} />
+            <ProfilePicture setValue={setValue} reset={reset} watch={watch} />
           </SectionContainer>
 
           <SectionContainer ref={personalInfoRef}>

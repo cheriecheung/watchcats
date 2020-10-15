@@ -33,7 +33,7 @@ function CatOwnerInfo({ activeKey }) {
   const dispatch = useDispatch();
 
   const methods = useForm({ defaultValues, resolver });
-  const { register, control, handleSubmit, reset, watch, errors, getValues, setValue } = methods;
+  const { register, control, handleSubmit, reset, watch, errors, setValue } = methods;
 
   const oneDayFieldArray = useFieldArray({ control, name: 'bookingOneDay' });
   const overnightFieldArray = useFieldArray({ control, name: 'bookingOvernight' });
@@ -41,13 +41,13 @@ function CatOwnerInfo({ activeKey }) {
 
   const { ownerData, ownerSaved, ownerCompleteSave, catPhotoRemoved } = useSelector((state) => state.account);
 
-  useEffect(() => {
-    console.log({ errors })
-  }, [errors])
+  // useEffect(() => {
+  //   console.log({ errors })
+  // }, [errors])
 
-  useEffect(() => {
-    console.log({ watchCats: watch('cat') })
-  }, [watch('cat')])
+  // useEffect(() => {
+  //   console.log({ watchCats: watch('cat') })
+  // }, [watch('cat')])
 
   // useEffect(() => {
   //   if (catPhotoRemoved) {
@@ -73,7 +73,7 @@ function CatOwnerInfo({ activeKey }) {
         catsDescription,
       } = ownerData;
 
-      const catUpdated = cat.map(({ breed, personality, photo = '', ...rest }, index) => {
+      const catUpdated = cat.map(({ breed, personality, ...rest }, index) => {
 
         const breedName = catBreedOptions.filter(({ value }) => value === breed)[0].label
         const personalityName = personalityOptions.filter(({ value }) => value === personality)[0].label
@@ -82,12 +82,8 @@ function CatOwnerInfo({ activeKey }) {
           ...rest,
           breed: { value: breed, label: breedName },
           personality: { value: personality, label: personalityName },
-          photo,
         }
       })
-
-      // photo field included
-      // console.log({ catUpdated })
 
       reset({
         // ...defaultValues,
@@ -169,7 +165,6 @@ function CatOwnerInfo({ activeKey }) {
           <CatInfoContainer>
             <SectionTitle>{t('owner_form.about_cat')}</SectionTitle>
             <AboutCat
-              getValues={getValues}
               setValue={setValue}
               watch={watch}
               catFieldArray={catFieldArray}

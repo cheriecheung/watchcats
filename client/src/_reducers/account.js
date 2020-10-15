@@ -12,8 +12,10 @@ export function account(state = {}, action) {
       return { sitterData: action.payload };
     case 'GET_OWNER_ACCOUNT':
       return { ownerData: action.payload };
-    case 'SAVE_CAT_PIC':
-      return { ownerCompleteSave: action.payload }
+    // case 'SAVE_CAT_PIC':
+    //   return { ownerCompleteSave: action.payload }
+    case 'PROFILE_PIC_REMOVED':
+      return { profilePicRemoved: action.payload }
     case 'CAT_PIC_REMOVED':
       return { catPhotoRemoved: { index: action.payload } }
     default:

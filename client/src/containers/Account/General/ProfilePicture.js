@@ -1,72 +1,85 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'reactstrap';
 import { deletePicture } from '../../../_actions/accountActions';
-import { Modal } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { FileUploader } from '../../../components/FormComponents';
+import { FileDisplayField, FileUploader } from '../../../components/FormComponents';
 
-const uploadProfilePicId = 'upload-profile-pic';
-const { REACT_APP_API_DOMAIN } = process.env;
-
-function ProfilePicture({ setValue, profilePicURL }) {
-  const history = useHistory();
-  const dispatch = useDispatch();
+function ProfilePicture({ setValue, reset }) {
   const { t } = useTranslation();
 
-  const [profilePicPreview, setProfilePicPreview] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useDispatch();
+  const { data: userData, profilePicRemoved } = useSelector((state) => state.account);
 
-  const onConfirmDeletePic = (fileName) => {
-    dispatch(deletePicture(fileName));
-    history.push({ state: { accountTab: 'general' } });
-    // or in action page
-    // window.location.reload();
+  const [photoField, setPhotoField] = useState()
+
+  useEffect(() => {
+    if (userData) {
+      const { profilePictureFileName } = userData;
+      if (profilePictureFileName) {
+        setPhotoField(profilePictureFileName);
+      }
+    }
+  }, [userData]);
+
+  const handlePreview = (data) => {
+    setPhotoField(data)
+  }
+
+  const handleRemovePhoto = (fileName) => {
+    if (fileName.includes('base64')) {
+      setValue("profilePictureFileName", null)
+      setPhotoField(null)
+    } else {
+      dispatch(deletePicture(fileName));
+    }
   };
 
+  useEffect(() => {
+    if (profilePicRemoved) {
+      setValue(`profilePictureFileName`, null)
+      setPhotoField(null)
+    }
+  }, [profilePicRemoved])
+
   return (
-    <>
-      <Modal
-        visible={modalVisible}
-        onOk={() => onConfirmDeletePic(profilePicURL)}
-        onCancel={() => setModalVisible(false)}
-        maskClosable={false}
-      >
-        Are you sure you want to remove your picture
-      </Modal>
-
-      <Row>
-        <Col md={6}>
-          <div style={{ fontSize: '0.80rem' }}>
-            <span>Please choose a high quality picture of yourself:</span>
-            <ul style={{ padding: '0px 20px' }}>
-              <li>A well-lit photo with your face fully visible, and in focus</li>
-              <li>No filters, effects or stickers applied to the image</li>
-              <li>You’re alone in the picture</li>
-              <li>A colour photo</li>
-              <li>
-                Best image format JPG, JPEG, PNG. <br /> Minimum size 360 x 254 pixels
+    <Row>
+      <Col md={6}>
+        <div style={{ fontSize: '0.80rem' }}>
+          <span>Please choose a high quality picture of yourself:</span>
+          <ul style={{ padding: '0px 20px' }}>
+            <li>A well-lit photo with your face fully visible, and in focus</li>
+            <li>No filters, effects or stickers applied to the image</li>
+            <li>You’re alone in the picture</li>
+            <li>A colour photo</li>
+            <li>
+              Best image format JPG, JPEG, PNG. <br /> Minimum size 360 x 254 pixels
               </li>
-            </ul>
-          </div>
-        </Col>
+          </ul>
+        </div>
+      </Col>
 
-        <Col md={6}>
-          <div style={{ display: 'flex', flexDirection: 'column', wordWrap: 'break-word' }}>
-            {profilePicURL ? (
-              <PictureDisplay fileName={profilePicURL} showModal={() => setModalVisible(true)} />
-            ) : (
-                <UploadPicture
-                  sendFileData={(data) => setValue('profilePic', data)}
-                  setDisplayPreview={setProfilePicPreview}
-                  profilePicPreview={profilePicPreview}
-                />
-              )
-            }
-          </div>
+      <Col md={6}>
+        <div style={{ display: 'flex', flexDirection: 'column', wordWrap: 'break-word' }}>
+          {photoField ? (
+            <FileDisplayField
+              name="profilePictureFileName"
+              fileName={photoField}
+              handleRemovePhoto={() => handleRemovePhoto(photoField)}
+            />
+          ) : (
+              <FileUploader
+                name="profilePictureFileName"
+                id="profilePictureFileName"
+                fileType="image/x-png,image/jpeg"
+                setFileData={(data) => reset({ profilePictureFileName: data })}
+                setDisplayPreview={handlePreview}
+              />
+            )
+          }
+        </div>
 
-          {/* <img
+        {/* <img
                   style={{
                     width: 200,
                     height: 200,
@@ -90,66 +103,9 @@ function ProfilePicture({ setValue, profilePicURL }) {
                     outline: 'none',
                   }}
                 /> */}
-        </Col>
-      </Row>
-    </>
+      </Col>
+    </Row>
   );
 }
 
 export default ProfilePicture;
-
-function PictureDisplay({ fileName, showModal }) {
-  return (
-    <>
-      <div style={{ overflow: 'hidden', width: 100, height: 100 }}>
-        <img
-          src={`${REACT_APP_API_DOMAIN}/image/${fileName}`}
-          alt="profile_picture"
-          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-        />
-      </div>
-      <button
-        type="button"
-        style={{
-          color: 'red',
-          background: 'none',
-          border: 'none',
-          outline: 'none',
-        }}
-        onClick={() => showModal && showModal()}
-      >
-        Remove
-       </button>
-    </>
-  )
-}
-
-function UploadPicture({ sendFileData, setDisplayPreview, profilePicPreview }) {
-  const { t } = useTranslation();
-
-  return (
-    <>
-      <label htmlFor={uploadProfilePicId} className="upload-file-input form-control">
-        <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
-        <span>{t('owner_form.upload')}</span>
-      </label>
-      <FileUploader
-        name="profilePic"
-        id={uploadProfilePicId}
-        fileType="image/x-png,image/jpeg"
-        setFileData={sendFileData}
-        setDisplayPreview={setDisplayPreview}
-      />
-
-      {profilePicPreview && (
-        <div style={{ overflow: 'hidden', width: 100, height: 100 }}>
-          <img
-            src={profilePicPreview}
-            alt="profile_picture"
-            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-          />
-        </div>
-      )}
-    </>
-  )
-}
