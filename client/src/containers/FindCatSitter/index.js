@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { List } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSitters } from '../../_actions/findCatSitterActions';
+// import { useLocation } from 'react-router-dom';
 
 const mapHeight = '80vh';
 
@@ -49,6 +50,8 @@ const defaultMapCenter = { lat: 52.3676, lng: 4.9041 }
 const radius = 500
 
 function FindCatSitter() {
+  // const { googlePlaceAddress, startDate, endDate } = useLocation().state || {};
+
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { sitters } = useSelector((state) => state.account);
@@ -65,13 +68,20 @@ function FindCatSitter() {
 
   const [hoveredMarkerId, setHoveredMarkerId] = useState('')
 
+  // useEffect(() => {
+  //   if (googlePlaceAddress && startDate && endDate) {
+  //     reset({googlePlaceAddress })
+  //   }
+  //   console.log({googlePlaceAddress, startDate, endDate})
+  // }, [googlePlaceAddress, startDate, endDate])
+
   useEffect(() => {
     dispatch(getAllSitters());
   }, [dispatch]);
 
   useEffect(() => {
-    console.log({ hoveredMarkerId });
-  }, [hoveredMarkerId]);
+    console.log({ hoveredMarkerId, sittersByAddress });
+  }, [hoveredMarkerId, sittersByAddress]);
 
   return (
     <div style={{ padding: '0 40px' }}>
@@ -85,7 +95,7 @@ function FindCatSitter() {
       />
       <Row>
         <Col md={5}>
-          {/* <GoogleMap
+          <GoogleMap
             //defaultCenter={defaultMapCenter}
             zoom={zoom}
             center={center}
@@ -98,7 +108,7 @@ function FindCatSitter() {
             loadingElement={<div style={{ height: '100%' }} />}
             containerElement={<MapContainer />}
             mapElement={<div style={{ height: '100%' }} />}
-          /> */}
+          />
         </Col>
 
         <Col md={7}>

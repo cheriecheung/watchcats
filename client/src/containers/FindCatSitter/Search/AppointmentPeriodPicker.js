@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { DatePicker } from '../../../components/FormComponents';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-
 
 function AppointmentPeriodPicker() {
   const { t } = useTranslation();
 
   return (
-
     <div style={{ display: 'flex' }}>
       <div className="d-flex flex-column date-picker" style={{ flexBasis: '50%' }}>
         <DatePicker name="startDate" placeholder={t('find_sitter.start_date')} />

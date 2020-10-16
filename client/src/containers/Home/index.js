@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 // import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
-import GooglePlaceAutocomplete from '../FindCatSitter/Search/GooglePlaceAutocomplete'
+import { GooglePlaceAutocomplete } from '../../components/FormComponents'
 import AppointmentPeriodPicker from '../FindCatSitter/Search/AppointmentPeriodPicker';
 import { appointmentTypeOptions } from '../../constants'
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -35,10 +35,16 @@ const Form = styled.form`
 
 const resolver = yupResolver(homeSearchSchema)
 
-
+const defaultValues = {
+  googlePlaceAddress: '',
+  startDate: '',
+  endDate: ''
+}
 
 function Home() {
-  const methods = useForm({ resolver });
+  const history = useHistory();
+
+  const methods = useForm({ defaultValues, resolver });
   const { handleSubmit, errors } = methods;
 
   useEffect(() => {
@@ -46,7 +52,8 @@ function Home() {
   }, [errors])
 
   const sendData = (data) => {
-    console.log(data);
+    const { googlePlaceAddress, startDate, endDate } = data
+    history.push({ pathname: "/find", state: { googlePlaceAddress, startDate, endDate } });
   };
 
   return (
@@ -56,11 +63,11 @@ function Home() {
 
         <FormProvider {...methods}>
           <Form onSubmit={handleSubmit(sendData)}>
-            {/* <GooglePlaceAutocomplete /> */}
+            <GooglePlaceAutocomplete name="googlePlaceAddress" />
             <AppointmentPeriodPicker />
 
             <button type="submit">
-              <i class="fas fa-search" />
+              <i className="fas fa-search" />
             </button>
           </Form>
         </FormProvider>

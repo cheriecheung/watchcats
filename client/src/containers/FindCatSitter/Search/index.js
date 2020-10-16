@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import 'antd/dist/antd.css';
@@ -9,7 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { filterByDate, sortSitters } from '../../../_actions/findCatSitterActions';
 import { sortingTypeOptions } from '../../../constants';
 
-import GooglePlaceAutocomplete from './GooglePlaceAutocomplete';
+// import GooglePlaceAutocomplete from './GooglePlaceAutocomplete';
+import { GooglePlaceAutocomplete } from '../../../components/FormComponents'
 import AppointmentPeriodPicker from './AppointmentPeriodPicker';
 import Sorting from './Sorting';
 
@@ -51,12 +53,15 @@ const ResetButton = styled.div`
 `
 
 const defaultValues = {
+  googlePlaceAddress: '',
   startDate: '',
   endDate: '',
   sortBy: sortingTypeOptions[0],
 };
 
 function Search({ setZoom, setCenter, sitterRecords, setSittersByAddress, radius }) {
+  const { googlePlaceAddress, startDate, endDate } = useLocation().state || {};
+
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
 
@@ -66,11 +71,19 @@ function Search({ setZoom, setCenter, sitterRecords, setSittersByAddress, radius
   const endDateValue = watch('endDate');
   const sortByValue = watch('sortBy');
 
-  const [address, setAddress] = useState('');
-
   const fetchSitters = () => {
     console.log('fetch sitters here');
   };
+
+  // const { google } = window;
+
+  useEffect(() => {
+    if (googlePlaceAddress && startDate && endDate) {
+      reset({ googlePlaceAddress })
+      // google.maps.event.trigger(autocomplete, 'place_changed');
+    }
+    console.log({ googlePlaceAddress, startDate, endDate })
+  }, [googlePlaceAddress, startDate, endDate])
 
 
   useEffect(() => {
@@ -85,7 +98,7 @@ function Search({ setZoom, setCenter, sitterRecords, setSittersByAddress, radius
     if (value !== '') {
       // setValue('startDate', '');
       // setValue('endDate', '');
-      setAddress('');
+      // setAddress('');
 
       dispatch(sortSitters(value));
     }
@@ -94,7 +107,7 @@ function Search({ setZoom, setCenter, sitterRecords, setSittersByAddress, radius
   useEffect(() => {
     if (startDateValue !== '' || endDateValue !== '') {
       // setValue('sortBy', '');
-      setAddress('');
+      // setAddress('');
     }
 
     // use yup
@@ -122,10 +135,9 @@ function Search({ setZoom, setCenter, sitterRecords, setSittersByAddress, radius
             }}>
               <FieldContainer flex="10%">
                 <GooglePlaceAutocomplete
+                  name="googlePlaceAddress"
                   setZoom={setZoom}
                   setCenter={setCenter}
-                  address={address}
-                  setAddress={setAddress}
                   sitterRecords={sitterRecords}
                   setSittersByAddress={setSittersByAddress}
                   emptyOtherFilters={() => reset(defaultValues)}
@@ -147,48 +159,13 @@ function Search({ setZoom, setCenter, sitterRecords, setSittersByAddress, radius
                   onClick={() => {
                     reset(defaultValues);
                     setZoom(12)
-                    setAddress('');
+                    //setAddress('');
                   }}
                 >
                   {t('find_sitter.reset')}
                 </ResetButton>
               </FieldContainer>
             </div>
-            {/* <Row style={{ width: '100%', margin: '0 5px' }}>
-              <Col md={3}>
-                <GooglePlaceAutocomplete
-                  setZoom={setZoom}
-                  setCenter={setCenter}
-                  address={address}
-                  setAddress={setAddress}
-                  sitterRecords={sitterRecords}
-                  setSittersByAddress={setSittersByAddress}
-                  emptyOtherFilters={() => reset(defaultValues)}
-                  radius={radius}
-                />
-              </Col>
-
-              <Col md={6}>
-                <AppointmentPeriodPicker />
-              </Col>
-
-              <Col md={3} className="icon-group-sort">
-                <Sorting />
-              </Col>
-
-              <Col md={1} style={{ alignSelf: 'center' }}>
-                <ResetButton
-                  type="button"
-                  onClick={() => {
-                    reset(defaultValues);
-                    setZoom(12)
-                    setAddress('');
-                  }}
-                >
-                  {t('find_sitter.reset')}
-                </ResetButton>
-              </Col>
-            </Row> */}
           </SearchForm>
         </FormProvider>
       </SearchContainer>

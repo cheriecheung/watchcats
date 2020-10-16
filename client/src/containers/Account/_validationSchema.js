@@ -29,7 +29,7 @@ function parseDateString(value, originalValue) {
 
 // ----- Home Search Schema ----- //
 export const homeSearchSchema = yup.object().shape({
-    address: yup.string().required('Fill in an address or postcode'),
+    googlePlaceAddress: yup.string().required('Fill in an address or postcode'),
     startDate: yup.date().transform(parseDateString)
         .required(defaultError)
         .typeError(defaultError),
