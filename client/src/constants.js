@@ -1,3 +1,9 @@
+export const appointmentTypeOptions = [
+  { value: 'oneDay', label: 'One-day appointment' },
+  { value: 'overnight', label: 'Overnight appointment' }
+]
+
+
 export const sitterBookings = {
   request: [
     {

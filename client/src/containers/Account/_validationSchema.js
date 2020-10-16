@@ -3,17 +3,43 @@ import { isDate } from "date-fns";
 
 // wording limit
 
+const postcodeError = () => "Invalid Dutch postcode"
 const defaultError = () => "Required field";
+const dateOrderError = () => "End date must be after start date"
+const timeOrderError = () => "End time must be after start time"
+const genderSelectError = () => "Select a gender"
+const selectError = () => "Select an option"
 
 // React Select schema
 const reactSelectSchema = {
     value: yup.string().required(),
     label: yup.string().required()
 }
+const rateObjSchema = { label: yup.string(), value: yup.string() }
+
+function parseDateString(value, originalValue) {
+    if (!originalValue) return null;
+
+    const parsedDate = isDate(originalValue)
+        ? originalValue
+        : new Date(originalValue);
+
+    return parsedDate;
+}
+
+// ----- Home Search Schema ----- //
+export const homeSearchSchema = yup.object().shape({
+    address: yup.string().required('Fill in an address or postcode'),
+    startDate: yup.date().transform(parseDateString)
+        .required(defaultError)
+        .typeError(defaultError),
+    endDate: yup.date().transform(parseDateString)
+        .min(yup.ref('startDate'), dateOrderError)
+        .required(defaultError)
+        .typeError(defaultError)
+})
 
 // ----- General Schema ----- //
-
-const postcodeError = () => "Invalid Dutch postcode"
 
 export const general_schema = yup.object().shape({
     firstName: yup.string().required(defaultError),
@@ -25,8 +51,6 @@ export const general_schema = yup.object().shape({
 })
 
 // ----- Cat Owner Schema ----- //
-
-const rateObjSchema = { label: yup.string(), value: yup.string() }
 
 export const cat_sitter_schema = yup.object().shape({
     aboutSitter: yup.string().required(defaultError),
@@ -43,21 +67,6 @@ export const cat_sitter_schema = yup.object().shape({
 })
 
 // ----- Cat Owner Schema ----- //
-
-const timeOrderError = () => "End time must be after start time"
-const dateOrderError = () => "End date must be after start date"
-const genderSelectError = () => "Select a gender"
-const selectError = () => "Select an option"
-
-function parseDateString(value, originalValue) {
-    if (!originalValue) return null;
-
-    const parsedDate = isDate(originalValue)
-        ? originalValue
-        : new Date(originalValue);
-
-    return parsedDate;
-}
 
 const oneDayObjSchema = yup.object().shape({
     date: yup.mixed().nullable().when(['startTime', 'endTime'], {
@@ -84,7 +93,6 @@ const oneDayObjSchema = yup.object().shape({
     }),
 }, [['startTime', 'endTime'], ['date', 'endTime'], ['date', 'startTime']])
 
-
 const overnightObjSchema = yup.object().shape({
     startDate: yup.mixed().transform(parseDateString).nullable().when('endDate', {
         is: endDate => endDate,
@@ -102,7 +110,6 @@ const overnightObjSchema = yup.object().shape({
             .required(defaultError)
     })
 }, [['startDate', 'endDate']])
-
 
 const catObjSchema = yup.object().shape({
     name: yup.string().required(defaultError),

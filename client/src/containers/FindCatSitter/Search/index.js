@@ -24,10 +24,30 @@ const SearchContainer = styled.div`
   padding: 2px 0;
 `;
 
+const SearchForm = styled.form`
+  width: 100%;
+  min-height: 100px;
+  align-items: center;
+  padding: 15px 15px;
+`
+
+const FieldContainer = styled.div`
+  flex: ${props => props.flex};
+  padding: 0 15px;
+  align-self: center;
+
+  @media (max-width: 770px) {
+    flex: 100%;
+    margin-bottom: 20px;
+    padding: 0;
+  }
+`
+
 const ResetButton = styled.div`
-background: 'none',
-outline: 'none',
-border: 'none',
+  background: none;
+  outline: none;
+  border: none;
+  align-self: center;
 `
 
 const defaultValues = {
@@ -95,15 +115,46 @@ function Search({ setZoom, setCenter, sitterRecords, setSittersByAddress, radius
     <div style={{ paddingTop: 25 }}>
       <SearchContainer>
         <FormProvider {...methods}>
-          <form
-            onSubmit={handleSubmit(sendData)}
-            style={{
-              minHeight: 80,
+          <SearchForm onSubmit={handleSubmit(sendData)}>
+            <div style={{
               display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <Row style={{ width: '100%', margin: '0 5px' }}>
+              flexWrap: 'wrap'
+            }}>
+              <FieldContainer flex="10%">
+                <GooglePlaceAutocomplete
+                  setZoom={setZoom}
+                  setCenter={setCenter}
+                  address={address}
+                  setAddress={setAddress}
+                  sitterRecords={sitterRecords}
+                  setSittersByAddress={setSittersByAddress}
+                  emptyOtherFilters={() => reset(defaultValues)}
+                  radius={radius}
+                />
+              </FieldContainer>
+
+              <FieldContainer flex="30%">
+                <AppointmentPeriodPicker />
+              </FieldContainer>
+
+              <FieldContainer flex="10%">
+                <Sorting />
+              </FieldContainer>
+
+              <FieldContainer>
+                <ResetButton
+                  type="button"
+                  onClick={() => {
+                    reset(defaultValues);
+                    setZoom(12)
+                    setAddress('');
+                  }}
+                >
+                  {t('find_sitter.reset')}
+                </ResetButton>
+              </FieldContainer>
+            </div>
+            {/* <Row style={{ width: '100%', margin: '0 5px' }}>
               <Col md={3}>
                 <GooglePlaceAutocomplete
                   setZoom={setZoom}
@@ -117,11 +168,11 @@ function Search({ setZoom, setCenter, sitterRecords, setSittersByAddress, radius
                 />
               </Col>
 
-              <Col md={4}>
+              <Col md={6}>
                 <AppointmentPeriodPicker />
               </Col>
 
-              <Col md={4} className="icon-group-sort">
+              <Col md={3} className="icon-group-sort">
                 <Sorting />
               </Col>
 
@@ -137,8 +188,8 @@ function Search({ setZoom, setCenter, sitterRecords, setSittersByAddress, radius
                   {t('find_sitter.reset')}
                 </ResetButton>
               </Col>
-            </Row>
-          </form>
+            </Row> */}
+          </SearchForm>
         </FormProvider>
       </SearchContainer>
     </div>
