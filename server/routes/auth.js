@@ -1,11 +1,10 @@
 const router = require('express').Router();
-const JWT = require('jsonwebtoken');
 const { loginValidation } = require('../helpers/validation');
-const passport = require('passport');
 const User = require('../model/User');
 const { verifyAccessToken, signAccessToken } = require('../helpers/token');
 const { generateCodes, authenticateUser } = require('../helpers/authentication');
 const { googleLogin, googleUser } = require('../controllers/AuthController');
+const bcrypt = require('bcryptjs');
 
 router.get('/googlelogin', generateCodes, googleLogin);
 
@@ -35,40 +34,40 @@ router.delete('/logout', (req, res) => {
 //   });
 // });
 
-router.post(
-  '/login',
-  passport.authenticate('local', { session: false }),
-  async (req, res, next) => {
-    const { error } = loginValidation(req.body);
-    //if (error) return res.status(400).json(error.details[0].message);
-    if (error) return res.status(400).json('Login failed; Invalid user ID or password.');
+router.post('/login', async (req, res) => {
+  const { error } = loginValidation(req.body);
+  if (error) return res.status(400).json(error.details[0].message);
 
-    const token = signAccessToken(req.user, process.env.JWT_SECRET);
-    const user = req.user.name;
+  const { email, password } = req.body;
 
-    return res.status(200).json({ token, user });
-  }
+  const user = await User.findOne({ email });
+  if (!user) return res.status(400).json({ error: 'Invalid email / password combination' });
+
+  const validPass = await bcrypt.compare(password, user.password)
+  if (!validPass) return res.status(400).json({ error: 'Invalid email / password combination' });
+
+  const token = signAccessToken(user, process.env.JWT_SECRET);
+
+  // return res.status(200).json({ token })
+  return res.header('auth-token', token).json('login success')
+}
 );
 
-router.post('/activate-account', verifyAccessToken, (req, res) => {
-  JWT.verify(req.token, process.env.JWT_VERIFY_SECRET, async (err, authData) => {
-    if (err) {
-      console.log(err);
-      return res.status(403).json('Unable to activate account');
-    } else {
-      const user = await User.findById(authData.sub);
-      if (!user) return res.status(404).json('User not found');
+router.post('/activate-account', verifyAccessToken, async (req, res) => {
+  const { sub } = req.verifiedData;
 
-      if (user.isVerified) return res.status(400).json('Account has already been activated');
+  const user = await User.findById(sub);
+  if (!user) return res.status(404).json('User not found');
+  if (user.isVerified) return res.status(200).json('Account has previously been activated');
 
-      if (Date.now() >= authData.exp) return res.status(401).json('Token is expired!');
+  try {
+    user.isVerified = true;
+    await user.save();
 
-      user.isVerified = true;
-      await user.save();
-
-      return res.status(200).json('Account activate verified');
-    }
-  });
+    return res.status(200).json('Account activate is now activated');
+  } catch (err) {
+    return res.status(400).json('Unable to update the status of your account');
+  }
 });
 
 module.exports = router;

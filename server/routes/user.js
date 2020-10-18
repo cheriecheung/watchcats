@@ -6,6 +6,7 @@ router.get('/user', UserController.get);
 router.post('/user', UserController.post);
 
 router.post('/register', UserController.register);
+router.post('/activate-account-email', UserController.requestActivationEmail)
 
 // router.post('/send-verify-email', async (req, res) => {
 //   // const {}

@@ -5,6 +5,8 @@ const JWT = require('jsonwebtoken');
 const { sendActivateMail, sendResetPwMail } = require('../helpers/mailer');
 const { verifyAccessToken, signAccessToken } = require('../helpers/token');
 
+const { JWT_VERIFY_SECRET } = process.env
+
 module.exports = {
   get: async (req, res) => {
     const userId = req.headers['authorization'];
@@ -77,57 +79,48 @@ module.exports = {
     }
   },
 
-  // saveFileId: async (req, res) => {
-  //   const userId = req.headers['authorization'];
-  //   if (!userId) return res.status(403).json('User id missing');
-
-  //   const userRecord = await User.findById(userId);
-  //   if (!userRecord) return res.status(404).json('User not found');
-
-  //   const { file } = req;
-  //   if (!file) return res.status(404).json('File is not properly uploaded');
-
-  //   if (file.fieldname === 'profilePic') {
-  //     userRecord.profilePictureId = file.id;
-  //   } else {
-  //     userRecord.addressProofId = file.id;
-  //   }
-
-  //   try {
-  //     await userRecord.save();
-  //     return res.status(200).json('File successfully saved');
-  //   } catch (e) {
-  //     console.log({ e });
-  //   }
-  // },
-
   register: async (req, res) => {
     const { error } = registerValidation(req.body);
     if (error) return res.status(400).json(error.details[0].message);
 
-    const user = await User.findOne({ email: req.body.email });
-    if (user) return res.status(403).json({ error: 'Email already exists' });
+    const emailExists = await User.findOne({ email: req.body.email });
+    if (emailExists) return res.status(400).json({ error: 'Email already exists' });
+
+    const { name, email, password } = req.body;
 
     const salt = await bcrypt.genSalt(12);
-    const hashPassword = await bcrypt.hash(req.body.password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = new User({
-      name: req.body.name,
-      email: req.body.email,
-      password: hashPassword,
-    });
+    const newUser = new User({ name, email, password: hashedPassword });
 
-    const secretToken = signAccessToken(newUser, process.env.JWT_VERIFY_SECRET);
-    sendActivateMail(req.body.email, secretToken);
+    const secretToken = signAccessToken(newUser, JWT_VERIFY_SECRET);
+    sendActivateMail(email, secretToken);
 
     try {
       await newUser.save();
       return res
         .status(201)
-        .json('A link to activate your account has been emailed to the address provided.');
+        .json('A link to activate your account has been sent to the email provided. Be sure to check the spam / junk mailbox if the email is not found in the main inbox.');
     } catch (error) {
       console.log(error.message);
       return res.status(400).json({ error });
+    }
+  },
+
+  requestActivationEmail: async (req, res) => {
+    const { email } = req.body;
+
+    try {
+      const user = await User.findOne({ email });
+      if (!user) return res.status(400).json({ error: 'Invalid email' });
+      if (user.isVerified) return res.status(200).json('Account has previously been activated');
+
+      const secretToken = signAccessToken(user, JWT_VERIFY_SECRET);
+      sendActivateMail(email, secretToken);
+
+      return res.status(200).json('success');
+    } catch (err) {
+      return res.status(400).json('error');
     }
   },
 

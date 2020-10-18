@@ -19,6 +19,8 @@ const googleLoginURL = `${REACT_APP_API_DOMAIN}/googlelogin`;
 const googleAuthURL = `${REACT_APP_API_DOMAIN}/getUser`;
 const registerURL = `${REACT_APP_API_DOMAIN}/register`;
 const activateURL = `${REACT_APP_API_DOMAIN}/activate-account`;
+const activateEmailURL = `${REACT_APP_API_DOMAIN}/activate-account-email`;
+
 const loginURL = `${REACT_APP_API_DOMAIN}/login`;
 const logoutURL = `${REACT_APP_API_DOMAIN}/logout`;
 
@@ -81,11 +83,13 @@ export function googleAuthenticate() {
 export function registration(firstName, lastName, email, password) {
   return async (dispatch) => {
     try {
-      await axios.post(registerURL, {
+      const { data } = await axios.post(registerURL, {
         name: `${firstName} ${lastName}`,
         email,
         password,
       });
+
+      console.log({ data })
 
       dispatch({
         type: REGISTER_SUCCESS,
@@ -106,22 +110,27 @@ export function verifyEmail(token) {
     try {
       await axios.post(activateURL, {}, { headers: { Authorization: `Bearer ${token}` } });
 
-      dispatch({
-        type: VERIFY_SUCCESS,
-        payload: 'Email verification successful! You can now log in',
-      });
+      dispatch({ type: VERIFY_SUCCESS, payload: 'Activation successful' });
     } catch (e) {
       console.log({ e });
-      dispatch({
-        type: VERIFY_FAIL,
-        payload: e.response.data,
-        status: e.response.status,
-      });
+      dispatch({ type: VERIFY_FAIL, payload: 'Activation failed' });
     }
   };
 }
 
-export function getVerificationLink() {}
+export function getActivationEmail(email) {
+  console.log({ email })
+  return async (dispatch) => {
+    try {
+      await axios.post(activateEmailURL, { email });
+
+      dispatch({ type: 'ACTIVATE_EMAIL_REQUESTED', payload: 'Email requested' });
+    } catch (e) {
+      console.log({ e });
+      dispatch({ type: 'ACTIVATE_EMAIL_REQUESTED', payload: 'Email requested' });
+    }
+  };
+}
 
 export function login(email, password) {
   return async (dispatch) => {
@@ -130,7 +139,7 @@ export function login(email, password) {
       const { token, user } = data || {};
 
       localStorage.setItem('token', token);
-      localStorage.setItem('user', user);
+      // localStorage.setItem('user', user);
 
       dispatch({ type: LOGIN_SUCCESS, user });
       window.location = '/account';

@@ -1,35 +1,37 @@
+const JWT = require('jsonwebtoken');
+
+const { JWT_VERIFY_SECRET } = process.env
+
 const signAccessToken = (user, secret) => {
+  const now = Math.floor(Date.now() / 1000);
+
   return JWT.sign(
     {
       iss: 'FindPetSitter',
       sub: user.id,
-      iat: new Date().getTime(), // current time
+      iat: now,
 
-      // exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day ahead
-      exp: new Date().setDate(new Date().getMinutes() + 15), // current time + 1 day ahead
+      // for activating account
+      exp: now + 60 * 60 * 24
     },
     secret
   );
 };
 
 const verifyAccessToken = (req, res, next) => {
-  // Get auth header value
   const bearerHeader = req.headers['authorization'];
+  if (!bearerHeader) return res.status(401).json('Access deined');
 
-  // Check if bearer is undefined
-  if (typeof bearerHeader !== 'undefined') {
-    // Split at the space
+  try {
     const bearer = bearerHeader.split(' ');
-    // Get token from array
     const bearerToken = bearer[1].toString();
-    // Set the token
-    req.token = bearerToken;
+    const verifiedData = JWT.verify(bearerToken, JWT_VERIFY_SECRET)
+    req.verifiedData = verifiedData;
 
-    // Next middleware
     return next();
-  } else {
-    // Forbidden
-    res.sendStatus(403);
+  } catch (err) {
+    console.log({ err })
+    return res.status(400).json('Invalid token')
   }
 };
 

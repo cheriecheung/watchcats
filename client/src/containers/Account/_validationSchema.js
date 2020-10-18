@@ -27,8 +27,16 @@ function parseDateString(value, originalValue) {
     return parsedDate;
 }
 
+// ----- Send Activation Email Schema ----- //
+export const send_activation_email_schema = yup.object().shape({
+    email: yup.string()
+        .required(defaultError)
+        .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Invalid email format')
+})
+
+
 // ----- Home Search Schema ----- //
-export const homeSearchSchema = yup.object().shape({
+export const home_search_schema = yup.object().shape({
     googlePlaceAddress: yup.string().required('Fill in an address or postcode'),
     startDate: yup.date().transform(parseDateString)
         .required(defaultError)

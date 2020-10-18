@@ -23,12 +23,9 @@ export function authentication(state = {}, action) {
     case LOGOUT_SUCCESS:
       return {};
     case VERIFY_SUCCESS:
-      return { payload: action.payload };
     case VERIFY_FAIL:
-      return {
-        payload: action.payload,
-        status: action.status,
-      };
+    case 'ACTIVATE_EMAIL_REQUESTED':
+      return { payload: action.payload };
     default:
       return state;
   }

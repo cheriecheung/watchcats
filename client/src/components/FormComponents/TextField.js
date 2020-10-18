@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { getErrorProperties } from '../../utility'
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-bottom: 20px;
 `
 
@@ -17,10 +19,11 @@ const Input = styled(AntInput)`
 
 const ErrorDisplay = styled.span`
   color: #E56E5A;
+  align-self: flex-end;
   float: right;
 `
 
-export default function TextField({ name, prefix, placeholder, disabled, type = "text" }) {
+export default function TextField({ name, prefix, placeholder, disabled, type = "text", style }) {
   const { control, errors } = useFormContext();
   const { hasError, message } = getErrorProperties(name, errors)
 
@@ -35,6 +38,7 @@ export default function TextField({ name, prefix, placeholder, disabled, type = 
             hasError={hasError}
             disabled={disabled}
             type={type}
+            style={style}
           />
         }
         control={control}

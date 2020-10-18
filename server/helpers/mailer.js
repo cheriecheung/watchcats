@@ -16,10 +16,10 @@ const send = (data) => {
 };
 
 const sendActivateMail = (to, token) => {
-  const link = `http://${process.env.CLIENT_URL}/activate/${token}`;
+  const link = `https://${process.env.CLIENT_URL}/activate/${token}`;
 
   const data = {
-    from: 'noreply@purryful.com',
+    from: 'noreply@watchcats.com',
     to,
     subject: 'Please verify your email',
     html: `
@@ -35,10 +35,10 @@ const sendActivateMail = (to, token) => {
 };
 
 const sendResetPwMail = (to, token) => {
-  const link = `http://${process.env.CLIENT_URL}/resetpassword/${token}`;
+  const link = `https://${process.env.CLIENT_URL}/resetpassword/${token}`;
 
   const data = {
-    from: 'noreply@purryful.com',
+    from: 'noreply@watchcats.com',
     to,
     subject: 'Reset password',
     html: `
