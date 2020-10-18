@@ -26,6 +26,8 @@ export function authentication(state = {}, action) {
     case VERIFY_FAIL:
     case 'ACTIVATE_EMAIL_REQUESTED':
       return { payload: action.payload };
+    case 'PASSWORD_RESET_EMAIL_REQUESTED':
+      return { passwordResetRequested: action.payload }
     default:
       return state;
   }

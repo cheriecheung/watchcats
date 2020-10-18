@@ -28,6 +28,7 @@ function parseDateString(value, originalValue) {
 }
 
 // ----- Login Schema ----- // 
+
 export const login_schema = yup.object().shape({
     email: yup.string()
         .required(defaultError)
@@ -36,6 +37,7 @@ export const login_schema = yup.object().shape({
 })
 
 // ----- Register Schema ----- // 
+
 export const register_schema = yup.object().shape({
     firstName: yup.string().required(defaultError),
     lastName: yup.string().required(defaultError),
@@ -47,13 +49,23 @@ export const register_schema = yup.object().shape({
 })
 
 // ----- Send Email Schema (For forgot password, or request activation link again) ----- //
+
 export const send_email_schema = yup.object().shape({
     email: yup.string()
         .required(defaultError)
         .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Invalid email format')
 })
 
+// ----- Reset Password Schema ----- //
+
+export const reset_password_schema = yup.object().shape({
+    // passwords must match, and fulfill password requirements
+    newPassword: yup.string().required(defaultError),
+    newPasswordRepeat: yup.string().required(defaultError)
+})
+
 // ----- Home Search Schema ----- //
+
 export const home_search_schema = yup.object().shape({
     googlePlaceAddress: yup.string().required('Fill in an address or postcode'),
     startDate: yup.date().transform(parseDateString)

@@ -19,10 +19,13 @@ const googleLoginURL = `${REACT_APP_API_DOMAIN}/googlelogin`;
 const googleAuthURL = `${REACT_APP_API_DOMAIN}/getUser`;
 const registerURL = `${REACT_APP_API_DOMAIN}/register`;
 const activateURL = `${REACT_APP_API_DOMAIN}/activate-account`;
-const activateEmailURL = `${REACT_APP_API_DOMAIN}/activate-account-email`;
+const activationEmailURL = `${REACT_APP_API_DOMAIN}/activate-account-email`;
 
 const loginURL = `${REACT_APP_API_DOMAIN}/login`;
 const logoutURL = `${REACT_APP_API_DOMAIN}/logout`;
+const resetPasswordEmailURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
+const resetPasswordURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
+
 
 const config = {
   withCredentials: true,
@@ -119,15 +122,40 @@ export function verifyEmail(token) {
 }
 
 export function getActivationEmail(email) {
-  console.log({ email })
   return async (dispatch) => {
     try {
-      await axios.post(activateEmailURL, { email });
+      await axios.post(activationEmailURL, { email });
 
       dispatch({ type: 'ACTIVATE_EMAIL_REQUESTED', payload: 'Email requested' });
     } catch (e) {
       console.log({ e });
       dispatch({ type: 'ACTIVATE_EMAIL_REQUESTED', payload: 'Email requested' });
+    }
+  };
+}
+
+export function getPasswordResetEmail(email) {
+  return async (dispatch) => {
+    try {
+      await axios.post(resetPasswordEmailURL, { email });
+
+      dispatch({ type: 'PASSWORD_RESET_EMAIL_REQUESTED', payload: 'Email requested' });
+    } catch (e) {
+      console.log({ e });
+      dispatch({ type: 'PASSWORD_RESET_EMAIL_REQUESTED', payload: 'Email requested' });
+    }
+  };
+}
+
+export function resetPassword(password) {
+  return async (dispatch) => {
+    try {
+      await axios.post(resetPasswordURL, { password });
+
+      dispatch({ type: 'PASSWORD_RESET', payload: 'Password reset' });
+    } catch (e) {
+      console.log({ e });
+      dispatch({ type: 'PASSWORD_RESET', payload: 'Password reset' });
     }
   };
 }

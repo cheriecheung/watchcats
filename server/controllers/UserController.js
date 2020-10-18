@@ -5,7 +5,7 @@ const JWT = require('jsonwebtoken');
 const { sendActivateMail, sendResetPwMail } = require('../helpers/mailer');
 const { verifyAccessToken, signAccessToken } = require('../helpers/token');
 
-const { JWT_VERIFY_SECRET } = process.env
+const { JWT_VERIFY_SECRET, JWT_RESET_PW_SECRET } = process.env
 
 module.exports = {
   get: async (req, res) => {
@@ -107,7 +107,7 @@ module.exports = {
     }
   },
 
-  requestActivationEmail: async (req, res) => {
+  getActivationEmail: async (req, res) => {
     const { email } = req.body;
 
     try {
@@ -124,36 +124,38 @@ module.exports = {
     }
   },
 
-  forgotPassword: async (req, res) => {
-    const user = await User.findOne({ email: req.body.email });
-    const responseMsg =
-      'If that email address is in our database, we will send you an email to reset your password.';
+  getPasswordResetEmail: async (req, res) => {
+    const { email } = req.body;
 
-    if (!user) return res.status(403).json(responseMsg);
+    console.log({ email })
 
-    const secretToken = signAccessToken(user, process.env.JWT_RESET_PW_SECRET);
-    sendResetPwMail(req.body.email, secretToken);
+    // const user = await User.findOne({ email });
+    // if (!user) return res.status(403).json('Error');
 
-    return res.status(200).json(responseMsg);
+    // const secretToken = signAccessToken(user, JWT_RESET_PW_SECRET);
+    // sendResetPwMail(email, secretToken);
+
+    // return res.status(200).json('Email requested');
   },
 
-  passwordReset: async (req, res) => {
-    JWT.verify(req.token, process.env.JWT_RESET_PW_SECRET, async (err, authData) => {
-      if (err) {
-        console.log(err);
-        return res.status(401).json('Incorrect or expired token.');
-      } else {
-        const user = await User.findById(authData.sub);
-        if (!user) return res.status(404).json('User not found');
+  resetPassword: async (req, res) => {
+    console.log({ email: req.body.email })
+    // JWT.verify(req.token, JWT_RESET_PW_SECRET, async (err, authData) => {
+    //   if (err) {
+    //     console.log(err);
+    //     return res.status(401).json('Incorrect or expired token.');
+    //   } else {
+    //     const user = await User.findById(authData.sub);
+    //     if (!user) return res.status(404).json('User not found');
 
-        const salt = await bcrypt.genSalt(12);
-        const hashPassword = await bcrypt.hash(req.body.password, salt);
+    //     const salt = await bcrypt.genSalt(12);
+    //     const hashPassword = await bcrypt.hash(req.body.password, salt);
 
-        user.password = hashPassword;
-        await user.save();
+    //     user.password = hashPassword;
+    //     await user.save();
 
-        return res.status(200).json('You have successfully changed your password.');
-      }
-    });
+    //     return res.status(200).json('You have successfully changed your password.');
+    //   }
+    // });
   },
 };

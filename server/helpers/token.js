@@ -11,7 +11,7 @@ const signAccessToken = (user, secret) => {
       sub: user.id,
       iat: now,
 
-      // for activating account
+      // for activating account and reset password
       exp: now + 60 * 60 * 24
     },
     secret

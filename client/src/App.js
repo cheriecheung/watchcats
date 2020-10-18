@@ -13,7 +13,8 @@ import About from './containers/About';
 import VerifyEmail from './containers/VerifyEmail';
 import Login from './containers/Login';
 import Register from './containers/Login/Register';
-import ForgotPassword from './containers/Login/ForgotPassword'
+import ForgotPassword from './containers/ForgotPassword'
+import ResetPassword from './containers/ForgotPassword/ResetPassword';
 import Loading from './containers/Login/Loading';
 
 import Bookings from './containers/Bookings';
@@ -60,6 +61,7 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <Route path="/forgot_password" component={ForgotPassword} />
+            <Route path="/reset_password/:token" component={ResetPassword} />
             <Route path="/activate/:token?" component={VerifyEmail} />
             <PrivateRoute path="/profile/catsitter/:id" component={CatSitter} />
             <PrivateRoute path="/profile/catowner/:id" component={CatOwner} />
