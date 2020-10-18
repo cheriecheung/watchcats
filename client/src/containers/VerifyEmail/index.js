@@ -7,7 +7,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { TextField } from '../../components/FormComponents'
-import { send_activation_email_schema } from '../Account/_validationSchema'
+import { send_email_schema } from '../Account/_validationSchema'
 import { verifyEmail, getActivationEmail } from '../../_actions/userActions';
 
 const SubmitButton = styled.button`
@@ -69,7 +69,7 @@ export default Home;
 function SendActivationEmail() {
   const dispatch = useDispatch();
 
-  const resolver = yupResolver(send_activation_email_schema);
+  const resolver = yupResolver(send_email_schema);
   const methods = useForm({ defaultValues: { email: '' }, resolver });
   const { handleSubmit } = methods;
 

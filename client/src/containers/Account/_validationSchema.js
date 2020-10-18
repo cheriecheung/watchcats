@@ -27,13 +27,31 @@ function parseDateString(value, originalValue) {
     return parsedDate;
 }
 
-// ----- Send Activation Email Schema ----- //
-export const send_activation_email_schema = yup.object().shape({
+// ----- Login Schema ----- // 
+export const login_schema = yup.object().shape({
+    email: yup.string()
+        .required(defaultError)
+        .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Invalid email format'),
+    password: yup.string().required(defaultError)
+})
+
+// ----- Register Schema ----- // 
+export const register_schema = yup.object().shape({
+    firstName: yup.string().required(defaultError),
+    lastName: yup.string().required(defaultError),
+    email: yup.string()
+        .required(defaultError)
+        .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Invalid email format'),
+    // matches() for password
+    password: yup.string().required(defaultError)
+})
+
+// ----- Send Email Schema (For forgot password, or request activation link again) ----- //
+export const send_email_schema = yup.object().shape({
     email: yup.string()
         .required(defaultError)
         .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Invalid email format')
 })
-
 
 // ----- Home Search Schema ----- //
 export const home_search_schema = yup.object().shape({

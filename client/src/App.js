@@ -12,6 +12,8 @@ import Home from './containers/Home';
 import About from './containers/About';
 import VerifyEmail from './containers/VerifyEmail';
 import Login from './containers/Login';
+import Register from './containers/Login/Register';
+import ForgotPassword from './containers/Login/ForgotPassword'
 import Loading from './containers/Login/Loading';
 
 import Bookings from './containers/Bookings';
@@ -34,8 +36,8 @@ function PrivateRoute({ component: Component, ...rest }) {
         cookies.get('userId') ? (
           <Component {...props} />
         ) : (
-          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-        )
+            <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+          )
       }
     />
   );
@@ -56,6 +58,8 @@ function App() {
             <Route path="/find" component={FindCatSitter} />
             <Route path="/about" component={About} />
             <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="/forgot_password" component={ForgotPassword} />
             <Route path="/activate/:token?" component={VerifyEmail} />
             <PrivateRoute path="/profile/catsitter/:id" component={CatSitter} />
             <PrivateRoute path="/profile/catowner/:id" component={CatOwner} />

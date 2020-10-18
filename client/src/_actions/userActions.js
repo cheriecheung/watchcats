@@ -142,6 +142,8 @@ export function login(email, password) {
       // localStorage.setItem('user', user);
 
       dispatch({ type: LOGIN_SUCCESS, user });
+
+      // window.location = '/account/{shortId}';
       window.location = '/account';
     } catch (e) {
       console.log({ e });
