@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import General from './General';
-import CatSitterInfo from './CatSitterInfo';
-import CatOwnerInfo from './CatOwnerInfo';
-import Settings from './Settings';
 import ResponseModal from './ResponseModal';
 import ScreenWidthListener from '../../components/General/ScreenWidthListener';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+
+import Settings from './Settings';
+import General from './General';
+import CatSitterInfo from './CatSitterInfo';
+import CatOwnerInfo from './CatOwnerInfo';
 
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
@@ -19,7 +20,7 @@ const Container = styled.div`
 
 function ProfileTabs() {
   const { accountTab } = useLocation().state || {};
-  const defaultKey = accountTab || 'general';
+  const defaultKey = accountTab || 'settings';
 
   const { t } = useTranslation();
   const { screenWidth } = ScreenWidthListener();
@@ -27,6 +28,7 @@ function ProfileTabs() {
   const [activeKey, setActiveKey] = useState(defaultKey);
 
   const accountTabs = [
+    { key: 'settings', tab: t('account.settings'), content: <Settings activeKey={activeKey} /> },
     {
       key: 'general',
       tab: t('account.general_info'),
@@ -42,7 +44,6 @@ function ProfileTabs() {
       tab: t('account.owner_profile'),
       content: <CatOwnerInfo activeKey={activeKey} />,
     },
-    { key: 'settings', tab: t('account.settings'), content: <Settings activeKey={activeKey} /> },
   ];
 
   return (

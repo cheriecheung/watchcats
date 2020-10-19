@@ -141,6 +141,10 @@ ant-tabs-tab-remove:active {
   outline: none !important;
 }
 
+.ant-modal-header{
+  padding-bottom: 0 !important;
+}
+
 .ant-modal-header,
 .ant-modal-content {
   border-radius: var(--theme-border-radius) !important;
