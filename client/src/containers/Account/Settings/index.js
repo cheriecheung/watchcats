@@ -9,23 +9,26 @@ import ContactDetails from './ContactDetails'
 import PaymentSetup from './PaymentSetup'
 import PasswordAndAuthentication from './PasswordAndAuthentication';
 
+const defaultModal = {
+    show: false,
+    loading: false,
+    title: '',
+    content: '',
+}
+
 function Settings() {
     const { t } = useTranslation();
 
-    const [modal, setModal] = useState({
-        show: false,
-        loading: false,
-        title: '',
-        content: '',
-    });
+    const [modal, setModal] = useState(defaultModal);
+
     const [cardType, setCardType] = useState('');
 
-    const handleOk = () => {
-        setModal({ ...modal, loading: true });
-        setTimeout(() => {
-            setModal({ ...modal, show: false, loading: false });
-        }, 2000);
-    };
+    // const handleOk = () => {
+    //     setModal({ ...modal, loading: true });
+    //     setTimeout(() => {
+    //         setModal({ ...modal, show: false, loading: false });
+    //     }, 2000);
+    // };
 
     const handleCardNumber = (e) => {
         const numberValidation = valid.number(e.target.value);
@@ -110,9 +113,22 @@ function Settings() {
 
     return (
         <>
+            <Modal
+                title={modal.title}
+                visible={modal.show}
+                okText="Confirm"
+                onOk={() => setModal({ show: false })}
+                onCancel={() => setModal({ show: false })}
+            //footer={""}
+            >
+                {modal.content}
+            </Modal>
+
             <SectionContainer>
                 <SectionTitle>Contact Details</SectionTitle>
-                <ContactDetails />
+                <ContactDetails
+                    setModal={(title, content) => setModal({ show: true, title, content })}
+                />
             </SectionContainer>
 
             <SectionContainer>
@@ -168,7 +184,9 @@ function Settings() {
 
             <SectionContainer>
                 <SectionTitle>Password and Authentication</SectionTitle>
-                <PasswordAndAuthentication />
+                <PasswordAndAuthentication
+                    setModal={(title, content) => setModal({ show: true, title, content })}
+                />
             </SectionContainer>
         </>
     );

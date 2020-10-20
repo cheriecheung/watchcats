@@ -3,14 +3,19 @@ const { loginValidation } = require('../helpers/validation');
 const User = require('../model/User');
 const { verifyAccessToken, signAccessToken } = require('../helpers/token');
 const { generateCodes, authenticateUser } = require('../helpers/authentication');
-const { googleLogin, googleUser } = require('../controllers/AuthController');
+// const { googleLogin, googleUser } = require('../controllers/AuthController');
+const AuthController = require('../controllers/AuthController');
+
 const bcrypt = require('bcryptjs');
 
-router.get('/googlelogin', generateCodes, googleLogin);
+router.get('/google-authenticator-qrcode', AuthController.getGoogleAuthenticatorQrCode)
+router.post('/google-authenticator-verify-code', AuthController.verifyGoogleAuthenticatorCode)
+
+router.get('/googlelogin', generateCodes, AuthController.googleLogin);
 
 router.get('/oauth2callback', authenticateUser);
 
-router.get('/getUser', googleUser);
+router.get('/getUser', AuthController.googleUser);
 
 router.get('/checkloggedIn', async (req, res) => {
   console.log({ checkloggedIn: req.session.userId });

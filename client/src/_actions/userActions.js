@@ -26,6 +26,8 @@ const logoutURL = `${REACT_APP_API_DOMAIN}/logout`;
 const resetPasswordEmailURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
 const resetPasswordURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
 
+const googleAuthenticatorQrCodeURL = `${REACT_APP_API_DOMAIN}/google-authenticator-qrcode`
+const googleAuthenticatorVerifyCodeURL = `${REACT_APP_API_DOMAIN}/google-authenticator-verify-code`
 
 const config = {
   withCredentials: true,
@@ -33,6 +35,30 @@ const config = {
     Authorization: cookies.get('userId'),
   },
 };
+
+export function getGoogleAuthenticatorQrCode() {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(googleAuthenticatorQrCodeURL);
+      dispatch({ type: 'QR_CODE_RETURNED', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
+export function verifyGoogleAuthenticatorCode(code) {
+  return async (dispatch) => {
+    try {
+      // pass token too?
+      const { data } = await axios.post(googleAuthenticatorVerifyCodeURL, { code });
+      dispatch({ type: 'QR_CODE_RETURNED', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
 
 export async function checkLoggedIn() {
   axios

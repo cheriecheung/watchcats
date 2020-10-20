@@ -28,6 +28,8 @@ export function authentication(state = {}, action) {
       return { payload: action.payload };
     case 'PASSWORD_RESET_EMAIL_REQUESTED':
       return { passwordResetRequested: action.payload }
+    case 'QR_CODE_RETURNED':
+      return { qrCode: action.payload }
     default:
       return state;
   }

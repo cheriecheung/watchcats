@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { FieldLabel, TextField, SectionContainer, SectionTitle } from '../../../components/FormComponents';
+import PhoneInput from 'react-phone-number-input'
 
 const originalEmail = 'testing@gmail.com'
 const originalPhone = '+85268615357'
 
-function ContactDetails() {
+function ContactDetails({ setModal }) {
     const [email, setEmail] = useState();
     const [asteriskedEmail, setAsteriskedEmail] = useState('')
     const [revealEmail, setRevealEmail] = useState(false);
@@ -12,8 +13,6 @@ function ContactDetails() {
     const [phone, setPhone] = useState()
     const [asteriskedPhone, setAsteriskedPhone] = useState('')
     const [revealPhone, setRevealPhone] = useState(false);
-
-
 
     useEffect(() => {
         setEmail(originalEmail);
@@ -46,6 +45,7 @@ function ContactDetails() {
                 }
             </div>
 
+
             <br />
 
             <FieldLabel>Phone number</FieldLabel>
@@ -60,9 +60,28 @@ function ContactDetails() {
                         <span>{asteriskedPhone}</span>
                         <button onClick={() => setRevealPhone(true)}>Reveal</button>
                     </>}
+                <button style={{ float: 'right' }} onClick={() => setModal('Enter a Phone Number', <EnterPhoneNumber />)}>Edit</button>
             </div>
         </div>
     )
 }
 
 export default ContactDetails;
+
+function EnterPhoneNumber() {
+    const [phoneNumber, setPhoneNumber] = useState()
+
+    return (
+        <>
+            <i class="fas fa-mobile-alt fa-4x mb-3" />
+
+            <p>You will receive a text message with a verification code.</p>
+            <p>Your phone number is only used for verification and will not be shared to anyone on this application.</p>
+
+            <PhoneInput
+                value={phoneNumber}
+                onChange={setPhoneNumber}
+            />
+        </>
+    )
+}

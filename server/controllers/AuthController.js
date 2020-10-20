@@ -1,7 +1,44 @@
 const axios = require('axios');
 const User = require('../model/User');
+const speakeasy = require('speakeasy');
+const qrcode = require('qrcode')
+
+let ascii_secret;
 
 module.exports = {
+  getGoogleAuthenticatorQrCode: async (req, res) => {
+    const secret = speakeasy.generateSecret({ name: 'WatchCats' })
+    const { ascii, otpauth_url } = secret;
+    ascii_secret = ascii
+
+    try {
+      const qrcodeImage = await qrcode.toDataURL(otpauth_url)
+      console.log({ qrcodeImage })
+      return res.status(200).json(qrcodeImage)
+    } catch (err) {
+      console.log({ err })
+      return res.status(400).json('Error')
+    }
+  },
+
+  verifyGoogleAuthenticatorCode: async (req, res) => {
+    const { code } = req.body
+    console.log({ ascii_secret, code })
+
+    try {
+      const verified = await speakeasy.totp.verify({
+        secret: ascii_secret,
+        encoding: 'ascii',
+        token: code
+      })
+      console.log({ verified })
+      return res.status(200).json('verification successful')
+    } catch (err) {
+      console.log({ err })
+      return res.status(200).json('verification failed')
+    }
+  },
+
   googleLogin: async (req, res) => {
     const authenticationURI = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${process.env.GOOGLE_OAUTH_CLIENT_ID}&scope=openid%20profile%20email&redirect_uri=${process.env.GOOGLE_OAUTH_CALLBACK_URL}&state=${req.state}&code_challenge=${req.code_challenge}&code_challenge_method=S256&access_type=offline`;
     // add nonce parameter
