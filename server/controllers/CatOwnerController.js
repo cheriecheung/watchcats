@@ -153,6 +153,8 @@ module.exports = {
       ...rest
     } = req.body;
 
+    console.log({ oneDayArr, overnightArr })
+
     try {
       if (!userRecord.owner) {
         const newOwner = new Owner({
@@ -165,7 +167,7 @@ module.exports = {
         userRecord.owner = newOwner._id;
         await userRecord.save();
 
-        if (oneDayArr.length > 0) {
+        if (Array.isArray(oneDayArr) && oneDayArr.length > 0) {
           oneDayArr.forEach(async ({ date, startTime, endTime }) => {
             const dateObj = new Date(date);
             const startTimeObj = new Date(`${date} ${startTime}`);
@@ -181,7 +183,7 @@ module.exports = {
           });
         }
 
-        if (overnightArr.length > 0) {
+        if (Array.isArray(overnightArr) && overnightArr.length > 0) {
           overnightArr.forEach(async ({ startDate, endDate }) => {
             const startDateObj = new Date(startDate);
             const endDateObj = new Date(endDate);
@@ -195,7 +197,7 @@ module.exports = {
           });
         }
 
-        if (catArr.length > 0) {
+        if (Array.isArray(catArr) && catArr.length > 0) {
           catArr.forEach(async ({ ...rest }) => {
             const newCat = new Cat({
               owner: newOwner._id,
@@ -217,7 +219,7 @@ module.exports = {
 
       const { id: ownerId } = ownerRecord;
 
-      if (oneDayArr.length > 0) {
+      if (Array.isArray(oneDayArr) && oneDayArr.length > 0) {
         const allOneDays = await AppointmentOneDay.find({
           owner: ownerId,
         });
@@ -255,7 +257,7 @@ module.exports = {
         });
       }
 
-      if (overnightArr.length > 0) {
+      if (Array.isArray(overnightArr) && overnightArr.length > 0) {
         const allOvernight = await AppointmentOvernight.find({
           owner: ownerId,
         });
@@ -284,7 +286,7 @@ module.exports = {
         });
       }
 
-      if (catArr.length > 0) {
+      if (Array.isArray(catArr) && catArr.length > 0) {
         const allCats = await Cat.find({
           owner: ownerId,
         });

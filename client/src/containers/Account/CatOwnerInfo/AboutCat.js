@@ -107,6 +107,28 @@ function AboutCat({ setValue, watch, catFieldArray }) {
               </button>
             </div>
 
+            <div>
+              {/* <FieldLabel>{t('owner_form.pictures')}</FieldLabel> */}
+              <br />
+              {photoFields[index] ?
+                <FileDisplayField
+                  name={`cat[${index}].photo`}
+                  fileName={photoFields[index]}
+                  handleRemovePhoto={() => handleRemovePhoto(photoFields[index], index)}
+                />
+                :
+                <ArrayFileUploader
+                  name={`cat[${index}].photo`}
+                  //id={`cat[${index}].photo`}
+                  fileType="image/x-png,image/jpeg"
+                  setFileData={(data) => setValue(`cat[${index}].photo`, data)}
+                  setDisplayPreview={(data) => handlePreview(data, index)}
+                />
+              }
+            </div>
+
+            <br />
+
             <Row>
               <Col md={6} className="mb-4">
                 <FieldLabel>{t('owner_form.name')}</FieldLabel>
@@ -178,26 +200,6 @@ function AboutCat({ setValue, watch, catFieldArray }) {
               <Col md={6} className="mb-3">
                 <FieldLabel>{t('owner_form.favourite_treat')}</FieldLabel>
                 <TextField name={`cat[${index}].favouriteTreat`} />
-              </Col>
-
-              <Col md={6} className="mb-3">
-                <FieldLabel>{t('owner_form.pictures')}</FieldLabel>
-                <br />
-                {photoFields[index] ?
-                  <FileDisplayField
-                    name={`cat[${index}].photo`}
-                    fileName={photoFields[index]}
-                    handleRemovePhoto={() => handleRemovePhoto(photoFields[index], index)}
-                  />
-                  :
-                  <ArrayFileUploader
-                    name={`cat[${index}].photo`}
-                    //id={`cat[${index}].photo`}
-                    fileType="image/x-png,image/jpeg"
-                    setFileData={(data) => setValue(`cat[${index}].photo`, data)}
-                    setDisplayPreview={(data) => handlePreview(data, index)}
-                  />
-                }
               </Col>
             </Row>
 

@@ -6,9 +6,10 @@ import { useTranslation } from 'react-i18next';
 const { REACT_APP_API_DOMAIN } = process.env;
 
 const ImageContainer = styled.div`
+    width: 120px; 
+    height: 120px;
+    border-radius: 10px;
     overflow: hidden; 
-    width: 100px; 
-    height: 100px;
 `
 
 const Image = styled.img`
@@ -47,7 +48,7 @@ function Display({ fileName, handleRemovePhoto }) {
     const photoURL = fileName.includes('base64') ? fileName : `${REACT_APP_API_DOMAIN}/image/${fileName}`
 
     return (
-        <>
+        <div style={{ display: 'flex' }}>
             <ImageContainer>
                 <Image src={photoURL} alt="profile_picture" />
             </ImageContainer>
@@ -55,6 +56,6 @@ function Display({ fileName, handleRemovePhoto }) {
             <RemoveButton type="button" onClick={handleRemovePhoto}>
                 Remove
             </RemoveButton>
-        </>
+        </div>
     )
 }

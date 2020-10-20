@@ -21,11 +21,11 @@ const ownerSchema = new Schema({
     type: String,
     required: true,
   },
-  photo: {
-    type: Schema.Types.ObjectId,
-    ref: 'Photo',
-    required: false,
-  },
+  // photo: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Photo',
+  //   required: false,
+  // },
   appointmentOneDay: {
     type: Schema.Types.ObjectId,
     ref: 'AppointmentOneDay',

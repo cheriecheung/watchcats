@@ -86,8 +86,8 @@ const userSchema = new Schema({
     type: Boolean,
     defaultValue: false,
   },
-  isEnabled2FA: {
-    type: Boolean,
+  twoFactorAuthSecret: {
+    type: String,
     defaultValue: false,
   },
   google_id: {

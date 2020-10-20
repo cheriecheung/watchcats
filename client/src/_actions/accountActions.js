@@ -107,7 +107,7 @@ export function saveOwner(id, ownerData, photos) {
   return async (dispatch) => {
     console.log({ ownerData })
     try {
-      // const { data } = await axios.post(ownerAccountURL(id), ownerData, config);
+      const { data } = await axios.post(ownerAccountURL(id), ownerData, config);
       // dispatch({ type: 'OWNER_ACCOUNT_SAVED', payload: data });
 
       console.log({ photos })
@@ -122,7 +122,7 @@ export function saveOwner(id, ownerData, photos) {
         }
       })
 
-      dispatch({ type: 'OWNER_ACCOUNT_SAVED', payload: 'done' });
+      dispatch({ type: 'OWNER_ACCOUNT_SAVED', payload: data });
     } catch (e) {
       console.log({ e });
     }

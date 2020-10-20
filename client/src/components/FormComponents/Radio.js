@@ -16,7 +16,7 @@ export function RadioGroup({ name, children }) {
   const { hasError, message } = getErrorProperties(name, errors)
 
   return (
-    <>
+    <div style={{ marginBottom: 20 }}>
       <Controller
         name={name}
         control={control}
@@ -32,7 +32,7 @@ export function RadioGroup({ name, children }) {
         )}
       />
       <ErrorDisplay hidden={!hasError}>{message}</ErrorDisplay>
-    </>
+    </div>
   );
 }
 

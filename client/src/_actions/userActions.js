@@ -52,7 +52,7 @@ export function verifyGoogleAuthenticatorCode(code) {
     try {
       // pass token too?
       const { data } = await axios.post(googleAuthenticatorVerifyCodeURL, { code });
-      dispatch({ type: 'QR_CODE_RETURNED', payload: data });
+      dispatch({ type: 'CODE_VALID', payload: data });
     } catch (e) {
       console.log({ e });
     }
