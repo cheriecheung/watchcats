@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const cookie = require('cookie');
-// const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
@@ -38,6 +38,8 @@ app.use(
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(cookieParser('secretcode'));
+app.use(cookieParser());
+
 
 app.use(
   session({

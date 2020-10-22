@@ -8,7 +8,10 @@ import { GooglePlaceAutocomplete } from '../../components/FormComponents'
 import AppointmentPeriodPicker from '../FindCatSitter/Search/AppointmentPeriodPicker';
 import { appointmentTypeOptions } from '../../constants'
 import { yupResolver } from '@hookform/resolvers/yup';
-import { homeSearchSchema } from '../Account/_validationSchema'
+import { home_search_schema } from '../Account/_validationSchema'
+import { checkToken } from '../../_actions/userActions'
+import { useDispatch } from 'react-redux';
+import { getAccessToken, setAccessToken } from '../../accessToken'
 
 const SearchContainer = styled.div`
   text-align: left;
@@ -33,7 +36,7 @@ const Form = styled.form`
 
 `
 
-const resolver = yupResolver(homeSearchSchema)
+const resolver = yupResolver(home_search_schema)
 
 const defaultValues = {
   googlePlaceAddress: '',
@@ -42,6 +45,7 @@ const defaultValues = {
 }
 
 function Home() {
+  const dispatch = useDispatch()
   const history = useHistory();
 
   const methods = useForm({ defaultValues, resolver });
@@ -56,14 +60,22 @@ function Home() {
     history.push({ pathname: "/find", state: { googlePlaceAddress, startDate, endDate } });
   };
 
+
+
   return (
     <div style={{ padding: '80px 40px 25px 40px' }}>
+      <button
+        type="button"
+        onClick={() => dispatch(checkToken())}
+      >
+        test API
+        </button>
       <SearchContainer>
         <h5>Find a cat sitter in your area</h5>
 
         <FormProvider {...methods}>
           <Form onSubmit={handleSubmit(sendData)}>
-            <GooglePlaceAutocomplete name="googlePlaceAddress" />
+            {/* <GooglePlaceAutocomplete name="googlePlaceAddress" /> */}
             <AppointmentPeriodPicker />
 
             <button type="submit">

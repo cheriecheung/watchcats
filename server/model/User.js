@@ -74,9 +74,11 @@ const userSchema = new Schema({
     max: 1024,
     min: 6,
   },
-  refreshToken: {
-    type: String,
+  tokenVersion: {
+    type: Number,
+    default: 0,
     required: false,
+
   },
   stripeAccountId: {
     type: String,

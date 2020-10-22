@@ -10,6 +10,7 @@ import {
   VERIFY_FAIL,
 } from './types';
 import Cookies from 'universal-cookie';
+import { getAccessToken, setAccessToken } from '../accessToken';
 const cookies = new Cookies();
 
 const { REACT_APP_API_DOMAIN } = process.env;
@@ -29,12 +30,35 @@ const resetPasswordURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
 const googleAuthenticatorQrCodeURL = `${REACT_APP_API_DOMAIN}/google-authenticator-qrcode`
 const googleAuthenticatorVerifyCodeURL = `${REACT_APP_API_DOMAIN}/google-authenticator-verify-code`
 
-const config = {
+const accessToken = getAccessToken()
+
+// const config = {
+//   withCredentials: true,
+//   headers: {
+//     Authorization: accessToken ? `bearer ${accessToken}` : ""
+//     // Authorization: cookies.get('userId'),
+//   },
+// };
+
+const config = accessToken ? {
   withCredentials: true,
   headers: {
-    Authorization: cookies.get('userId'),
+    Authorization: `bearer ${accessToken}`
   },
-};
+} : { withCredentials: true };
+
+export function checkToken() {
+  return async (dispatch) => {
+    console.log({ accessToken })
+    try {
+      const { data } = await axios.post(`/refresh_token`);
+
+      console.log({ data })
+    } catch (err) {
+      console.log({ err });
+    }
+  };
+}
 
 export function getGoogleAuthenticatorQrCode() {
   return async (dispatch) => {
@@ -80,6 +104,8 @@ export function googleLogin() {
   return async (dispatch) => {
     try {
       const { data } = await axios.get(googleLoginURL);
+
+      console.log({ data })
       dispatch({ type: 'GOOGLE_LOGIN', payload: data });
     } catch (e) {
       console.log({ e });
@@ -189,16 +215,18 @@ export function resetPassword(password) {
 export function login(email, password) {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(loginURL, { email, password });
-      const { token, user } = data || {};
+      const { data } = await axios.post(loginURL, { email, password }, {
+        withCredentials: true,
+        // credentials: 'include',
+      });
+      const { shortId, id, accessToken } = data || {};
 
-      localStorage.setItem('token', token);
-      // localStorage.setItem('user', user);
+      setAccessToken(accessToken)
+      cookies.set('userId', id);
 
-      dispatch({ type: LOGIN_SUCCESS, user });
+      // dispatch({ type: LOGIN_SUCCESS, user });
 
-      // window.location = '/account/{shortId}';
-      window.location = '/account';
+      // window.location = `/account/${shortId}`;
     } catch (e) {
       console.log({ e });
       dispatch({

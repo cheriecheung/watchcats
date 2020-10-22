@@ -87,12 +87,12 @@ const OverlayMenu = styled.ul`
   left: 50%;
   top: 45%;
   transform: translate(-50%, -50%);
+  display: ${(props) => (props.open ? 'block' : 'none')};
+  transition: opacity 0.4s ease-in-out;
 
   li {
-    opacity: ${(props) => (props.open ? 1 : 0)};
     font-size: 25px;
     margin: 50px 0px;
-    transition: opacity 0.4s ease-in-out;
   }
 
   li:nth-child(2) {
@@ -118,12 +118,55 @@ function Header() {
     dispatch(logout());
   };
 
+
+
+  // const menuItems = () => (
+
+  // );
+
+  return (
+    <>
+      <Nav>
+        <Link to="/" style={{ display: 'flex' }}>
+          <h4
+            style={{
+              color: '#fff',
+              fontFamily: 'Alata, sans-serif',
+              marginBottom: 0,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Watch Cats
+          </h4>
+        </Link>
+
+        <Menu className="testing"> <MenuContent setLanguage={setLanguage} /></Menu>
+        <NavIcon onClick={() => toggleNav(!toggle)}>
+          <Line open={toggle} />
+          <Line open={toggle} />
+          <Line open={toggle} />
+        </NavIcon>
+      </Nav>
+      <Overlay open={toggle}>
+        <OverlayMenu open={toggle}>
+          <MenuContent setLanguage={setLanguage} />
+        </OverlayMenu>
+      </Overlay>
+    </>
+  );
+}
+
+export default Header;
+
+function MenuContent({ setLanguage }) {
+  const { t, i18n } = useTranslation();
+
   const menuItemStyle = {
     color: '#fff',
     fontWeight: 400,
   };
 
-  const menuItems = () => (
+  return (
     <>
       <div style={{ display: 'flex' }}>
         <Item>
@@ -163,12 +206,12 @@ function Header() {
             </Item>
           </>
         ) : (
-          <Item>
-            <Link to="/login" style={menuItemStyle}>
-              {t('header.login')}
-            </Link>
-          </Item>
-        )}
+            <Item>
+              <Link to="/login" style={menuItemStyle}>
+                {t('header.login')}
+              </Link>
+            </Item>
+          )}
         <Item>
           <button
             onClick={() => setLanguage('en')}
@@ -198,36 +241,5 @@ function Header() {
         </Item>
       </div>
     </>
-  );
-
-  return (
-    <>
-      <Nav>
-        <Link to="/" style={{ display: 'flex' }}>
-          <h4
-            style={{
-              color: '#fff',
-              fontFamily: 'Alata, sans-serif',
-              marginBottom: 0,
-              whiteSpace: 'nowrap',
-            }}
-          >
-            Watch Cats
-          </h4>
-        </Link>
-
-        <Menu>{menuItems()}</Menu>
-        <NavIcon onClick={() => toggleNav(!toggle)}>
-          <Line open={toggle} />
-          <Line open={toggle} />
-          <Line open={toggle} />
-        </NavIcon>
-      </Nav>
-      <Overlay open={toggle}>
-        <OverlayMenu open={toggle}>{menuItems()}</OverlayMenu>
-      </Overlay>
-    </>
-  );
+  )
 }
-
-export default Header;

@@ -8,6 +8,7 @@ router.post('/user', UserController.post);
 router.post('/register', UserController.register);
 router.post('/activate-account-email', UserController.getActivationEmail)
 
+// revoke token when forgot password
 router.post('/forgot-password-email', UserController.getPasswordResetEmail);
 router.post('/password-reset', verifyAccessToken, UserController.resetPassword);
 

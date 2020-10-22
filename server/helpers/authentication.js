@@ -55,13 +55,15 @@ const authenticateUser = async (req, res, next) => {
   };
 
   try {
-    const {
-      data: { access_token, refresh_token },
-    } = await axios.post('https://oauth2.googleapis.com/token', qs.stringify(requestBody), config);
+    const { data } = await axios.post('https://oauth2.googleapis.com/token', qs.stringify(requestBody), config);
+    const { access_token, refresh_token } = data || {};
+
+    console.log({ data })
 
     req.session.access_token = await access_token;
     req.session.refresh_token = await refresh_token;
 
+    res.cookie('token', 'token_value_TESTING', { httpOnly: true });
     return res.redirect('https://localhost:3000/loading');
   } catch (e) {
     console.log(error);

@@ -95,7 +95,7 @@ function FindCatSitter() {
       />
       <Row>
         <Col md={5}>
-          <GoogleMap
+          {/* <GoogleMap
             //defaultCenter={defaultMapCenter}
             zoom={zoom}
             center={center}
@@ -108,7 +108,7 @@ function FindCatSitter() {
             loadingElement={<div style={{ height: '100%' }} />}
             containerElement={<MapContainer />}
             mapElement={<div style={{ height: '100%' }} />}
-          />
+          /> */}
         </Col>
 
         <Col md={7}>

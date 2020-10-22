@@ -83,7 +83,7 @@ export const general_schema = yup.object().shape({
     firstName: yup.string().required(defaultError),
     lastName: yup.string().required(defaultError),
     // matches() for phone
-    phone: yup.string().required(defaultError),
+    // phone: yup.string().required(defaultError),
     address: yup.string().required(defaultError),
     postcode: yup.string().required(postcodeError).matches(/^\d{4}[a-z]{2}$/i),
 })

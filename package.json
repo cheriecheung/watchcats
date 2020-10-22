@@ -32,6 +32,8 @@
     "dotenv": "^8.2.0",
     "express": "latest",
     "express-session": "^1.17.1",
+    "google-auth-library": "^6.1.2",
+    "googleapis": "^61.0.0",
     "gridfs-stream": "^1.1.1",
     "helmet": "^3.23.3",
     "js-base64": "^3.2.4",

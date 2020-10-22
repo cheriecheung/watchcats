@@ -132,7 +132,7 @@ select:-webkit-autofill:focus {
 }
 ::-moz-placeholder {
   opacity: 0.75 !important;
-}
+} 
 :-ms-input-placeholder {
   opacity: 0.75 !important;
 }
