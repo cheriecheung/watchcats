@@ -26,15 +26,17 @@ import Account from './containers/Account';
 import FindCatSitter from './containers/FindCatSitter';
 import { CatSitter, CatOwner } from './containers/PublicProfile';
 
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+import { useDispatch, useSelector } from 'react-redux';
+
 
 function PrivateRoute({ component: Component, ...rest }) {
+  const { isLoggedIn } = useSelector(state => state.authentication);
+
   return (
     <Route
       {...rest}
       render={(props) =>
-        cookies.get('userId') ? (
+        isLoggedIn ? (
           <Component {...props} />
         ) : (
             <Redirect to={{ pathname: '/login', state: { from: props.location } }} />

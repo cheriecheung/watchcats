@@ -8,9 +8,9 @@ const User = require('../model/User');
 // specifically designed to handle refreshing jwt
 router.post('/refresh_token', async (req, res) => {
   const { refresh_token } = req.cookies;
-  if (!refresh_token) return res.send({ ok: false, accessToken: '' });
+  if (!refresh_token) return res.status(400).json({ ok: false });
 
-  console.log({ header: req.headers['Authorization'] })
+  console.log({ header: req.headers['authorization'], cookies: req.cookies })
 
   let payload = null;
 
@@ -18,11 +18,11 @@ router.post('/refresh_token', async (req, res) => {
     payload = verify(refresh_token, process.env.REFRESH_TOKEN_SECRET)
   } catch (err) {
     console.log({ err })
-    return res.send({ ok: false, accessToken: '' });
+    return res.status(400).json({ ok: false });
   }
 
   const user = await User.findById(payload.userId)
-  if (!user) return res.send({ ok: false, accessToken: '' });
+  if (!user) return res.status(400).json({ ok: false });
 
   // To revoke token, change the token version
   // if (user.tokenVersion !== payload.tokenVersion) return res.send({ ok: false, accessToken: '' });

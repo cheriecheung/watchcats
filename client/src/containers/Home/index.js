@@ -11,7 +11,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { home_search_schema } from '../Account/_validationSchema'
 import { checkToken } from '../../_actions/userActions'
 import { useDispatch } from 'react-redux';
-import { getAccessToken, setAccessToken } from '../../accessToken'
 
 const SearchContainer = styled.div`
   text-align: left;

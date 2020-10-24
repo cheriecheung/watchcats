@@ -30,6 +30,8 @@ export function authentication(state = {}, action) {
       return { passwordResetRequested: action.payload }
     case 'QR_CODE_RETURNED':
       return { qrCode: action.payload }
+    case 'ACCESS_TOKEN_ATTAINED':
+      return { isLoggedIn: true }
     default:
       return state;
   }

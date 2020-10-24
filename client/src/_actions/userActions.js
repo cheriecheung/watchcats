@@ -15,7 +15,6 @@ const cookies = new Cookies();
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
-const checkLogginedInUrl = `${REACT_APP_API_DOMAIN}/checkloggedIn`;
 const googleLoginURL = `${REACT_APP_API_DOMAIN}/googlelogin`;
 const googleAuthURL = `${REACT_APP_API_DOMAIN}/getUser`;
 const registerURL = `${REACT_APP_API_DOMAIN}/register`;
@@ -30,30 +29,40 @@ const resetPasswordURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
 const googleAuthenticatorQrCodeURL = `${REACT_APP_API_DOMAIN}/google-authenticator-qrcode`
 const googleAuthenticatorVerifyCodeURL = `${REACT_APP_API_DOMAIN}/google-authenticator-verify-code`
 
-const accessToken = getAccessToken()
+// const accessToken = getAccessToken()
 
-// const config = {
-//   withCredentials: true,
-//   headers: {
-//     Authorization: accessToken ? `bearer ${accessToken}` : ""
-//     // Authorization: cookies.get('userId'),
-//   },
-// };
-
-const config = accessToken ? {
+const config = {
   withCredentials: true,
+  // credentials: 'include',
   headers: {
-    Authorization: `bearer ${accessToken}`
+    Authorization: cookies.get('userId'),
   },
-} : { withCredentials: true };
+};
+
+const getConfig = () => {
+  const accessTokenValue = getAccessToken()
+  console.log({ accessTokenValue })
+  return {
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${accessTokenValue}`
+    }
+  }
+}
 
 export function checkToken() {
   return async (dispatch) => {
-    console.log({ accessToken })
     try {
-      const { data } = await axios.post(`/refresh_token`);
+      // const { data } = await axios.post(`/refresh_token`, {}, { headers: { Authorization: `Bearer ${accessTokenValue}` } });
+
+      const { data } = await axios.post(`/refresh_token`)
 
       console.log({ data })
+
+      const { accessToken } = data;
+      setAccessToken(accessToken)
+
+      dispatch({ type: 'ACCESS_TOKEN_ATTAINED' });
     } catch (err) {
       console.log({ err });
     }
@@ -81,23 +90,6 @@ export function verifyGoogleAuthenticatorCode(code) {
       console.log({ e });
     }
   };
-}
-
-
-export async function checkLoggedIn() {
-  axios
-    .get(checkLogginedInUrl, config)
-    .then((response) => {
-      console.log(response);
-      const preloadedState = {
-        session: response.data,
-      };
-      return preloadedState;
-    })
-    .catch((error) => {
-      // window.location = '/';
-      console.log(error);
-    });
 }
 
 export function googleLogin() {
@@ -221,12 +213,12 @@ export function login(email, password) {
       });
       const { shortId, id, accessToken } = data || {};
 
-      setAccessToken(accessToken)
+      await setAccessToken(accessToken)
       cookies.set('userId', id);
 
       // dispatch({ type: LOGIN_SUCCESS, user });
 
-      // window.location = `/account/${shortId}`;
+      window.location = `/account/${shortId}`;
     } catch (e) {
       console.log({ e });
       dispatch({
