@@ -11,6 +11,7 @@ import {
 } from './types';
 import Cookies from 'universal-cookie';
 import { getAccessToken, setAccessToken } from '../accessToken';
+import axiosInstance from '../_helpers/axiosInstance';
 const cookies = new Cookies();
 
 const { REACT_APP_API_DOMAIN } = process.env;
@@ -39,15 +40,16 @@ const config = {
   },
 };
 
-const getConfig = () => {
-  const accessTokenValue = getAccessToken()
-  console.log({ accessTokenValue })
-  return {
-    withCredentials: true,
-    headers: {
-      Authorization: `Bearer ${accessTokenValue}`
+export function testAxiosInstance() {
+  return async (dispatch) => {
+    try {
+      const data = await axiosInstance().get(`/test_axios`)
+
+      console.log({ data })
+    } catch (err) {
+      console.log({ err });
     }
-  }
+  };
 }
 
 export function checkToken() {
