@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Row, Col } from 'reactstrap';
-import GoogleMap from '../../components/GoogleMap';
+import { Map } from '../../components/Google';
 import Search from './Search';
 import Result from './Result';
 import styled from 'styled-components';
 import { List } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllSitters } from '../../_actions/findCatSitterActions';
+import { getAllSitters } from '../../redux/actions/findCatSitterActions';
 // import { useLocation } from 'react-router-dom';
 
 const mapHeight = '80vh';
@@ -56,6 +56,7 @@ function FindCatSitter() {
   const dispatch = useDispatch();
   const { sitters } = useSelector((state) => state.account);
 
+  const mapRef = useRef(null);
   const resultsRef = useRef(null);
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
@@ -95,8 +96,16 @@ function FindCatSitter() {
       />
       <Row>
         <Col md={5}>
-          {/* <GoogleMap
+          <Map
             //defaultCenter={defaultMapCenter}
+            onMapIdle={(value) => {
+              console.log({ value })
+              {/* let ne = mapRef.getBounds().getNorthEast();
+              let sw = mapRef.getBounds().getSouthWest(); */}
+              {/* console.log(ne.lat() + ";" + ne.lng());
+              console.log(sw.lat() + ";" + sw.lng()); */}
+            }}
+            mapRef={mapRef}
             zoom={zoom}
             center={center}
             radius={radius}
@@ -104,11 +113,11 @@ function FindCatSitter() {
             hoveredMarkerId={hoveredMarkerId}
             onMarkerClick={setSelectedMarker}
             selectedMarker={selectedMarker}
-            googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${process.env.REACT_APP_GOOGLE_KEY}`}
-            loadingElement={<div style={{ height: '100%' }} />}
+            //  googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${process.env.REACT_APP_GOOGLE_KEY}`}
+            //   loadingElement={<div style={{ height: '100%' }} />}
             containerElement={<MapContainer />}
             mapElement={<div style={{ height: '100%' }} />}
-          /> */}
+          />
         </Col>
 
         <Col md={7}>

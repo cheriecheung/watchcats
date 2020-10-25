@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
-import { getUser, sendUser, sendAddressProof } from '../../../_actions/accountActions';
+import { getUser, sendUser, sendAddressProof } from '../../../redux/actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 

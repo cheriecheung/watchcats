@@ -3,12 +3,12 @@ import { compose } from 'recompose';
 import {
   withScriptjs,
   withGoogleMap,
-  GoogleMap as ReactGoogleMap,
+  GoogleMap,
   Marker,
   InfoWindow,
   Circle
 } from 'react-google-maps';
-import location_marker from '../assets/images/location_marker.png';
+import location_marker from '../../assets/images/location_marker.png';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -23,14 +23,16 @@ const BrowseButton = styled(Link)`
   outline: none;
 `
 
-const GoogleMap = compose(
-  withScriptjs,
+const Map = compose(
+  //withScriptjs,
   withGoogleMap
-)(({ zoom, center, radius, markers, onMarkerClick, selectedMarker, hoveredMarkerId }) => {
+)(({ zoom, center, radius, markers, onMarkerClick, selectedMarker, hoveredMarkerId, mapRef }) => {
   console.log({ zoom, center })
 
   return (
-    <ReactGoogleMap
+    <GoogleMap
+      ref={(map) => mapRef = map}
+      onIdle={(map) => console.log({ onIdle: mapRef.getBounds() })}
       defaultZoom={zoom}
       defaultCenter={center}
       zoom={zoom}
@@ -55,44 +57,47 @@ const GoogleMap = compose(
       )}
 
 
-      {markers.map((marker) => {
-        const { id, name, coordinates } = marker;
-        const { lat, lng } = coordinates;
+      {Array.isArray(markers) &&
+        markers.length > 0 &&
+        markers.map((marker) => {
+          const { id, name, coordinates } = marker;
+          const { lat, lng } = coordinates;
 
-        return (
-          <Marker
-            key={id}
-            onClick={() => {
-              onMarkerClick(marker);
-            }}
-            position={{ lat, lng }}
-            icon={{
-              url: location_marker,
-              scaledSize: {
-                width: hoveredMarkerId === id ? 35 : 28,
-                height: hoveredMarkerId === id ? 40 : 34,
-                widthUnit: 'px',
-                heightUnit: 'px',
-              },
-            }}
-          >
-            {selectedMarker.id === marker.id && (
-              <InfoWindow style={{ padding: 0 }}>
-                <div style={{ width: 200 }}>
-                  <img src="https://i.imgur.com/I86rTVl.jpg" alt={NamedNodeMap} width="100%" />
+          return (
+            <Marker
+              key={id}
+              onClick={() => {
+                onMarkerClick(marker);
+              }}
+              position={{ lat, lng }}
+              icon={{
+                url: location_marker,
+                scaledSize: {
+                  width: hoveredMarkerId && hoveredMarkerId === id ? 35 : 28,
+                  height: hoveredMarkerId && hoveredMarkerId === id ? 40 : 34,
+                  widthUnit: 'px',
+                  heightUnit: 'px',
+                },
+              }}
+            >
+              {selectedMarker &&
+                selectedMarker.id === marker.id && (
+                  <InfoWindow style={{ padding: 0 }}>
+                    <div style={{ width: 200 }}>
+                      <img src="https://i.imgur.com/I86rTVl.jpg" alt={NamedNodeMap} width="100%" />
 
-                  <div style={{ textAlign: 'left', width: '100%' }}>
-                    <h5 style={{ color: '#a0dfcf', fontSize: '1.1rem' }}>{name}</h5>
-                    <p>Amsterdam keizergracht</p>
-                    <BrowseButton to="/profile/catsitter/123">
-                      <h6 style={{ margin: 0 }}>Check profile</h6>
-                    </BrowseButton>
-                  </div>
-                </div>
-              </InfoWindow>
-            )}
-          </Marker>)
-      })}
+                      <div style={{ textAlign: 'left', width: '100%' }}>
+                        <h5 style={{ color: '#a0dfcf', fontSize: '1.1rem' }}>{name}</h5>
+                        <p>Amsterdam keizergracht</p>
+                        <BrowseButton to="/profile/catsitter/123">
+                          <h6 style={{ margin: 0 }}>Check profile</h6>
+                        </BrowseButton>
+                      </div>
+                    </div>
+                  </InfoWindow>
+                )}
+            </Marker>)
+        })}
       {/* {Array.isArray(markers) && markers.length > 0 ? (
       <AllMarkers markers={markers} onMarkerClick={onMarkerClick} selectedMarker={selectedMarker} />
     ) : (
@@ -109,11 +114,11 @@ const GoogleMap = compose(
           position={{ lat: markers.lat, lng: markers.lng }}
         />
       )} */}
-    </ReactGoogleMap>
+    </GoogleMap>
   )
 });
 
-export default GoogleMap
+export default Map
 
 // const AllMarkers = ({ markers, onMarkerClick, selectedMarker }) => {
 //   return markers.map((marker) => {

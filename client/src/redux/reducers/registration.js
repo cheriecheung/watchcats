@@ -1,4 +1,4 @@
-import { REGISTER_SUCCESS, REGISTER_FAIL } from '../_actions/types';
+import { REGISTER_SUCCESS, REGISTER_FAIL } from '../actions/types';
 
 export function registration(state = {}, action) {
   switch (action.type) {

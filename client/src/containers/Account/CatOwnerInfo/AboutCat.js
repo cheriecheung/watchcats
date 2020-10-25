@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { catBreedOptions, personalityOptions, medicineOptions } from '../../../constants';
 import { catObj } from '../_defaultValues'
 import { useDispatch, useSelector } from 'react-redux';
-import { removeCatPhoto } from '../../../_actions/accountActions';
+import { removeCatPhoto } from '../../../redux/actions/accountActions';
 
 const color = '#252525';
 

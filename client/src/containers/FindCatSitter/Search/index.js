@@ -7,11 +7,10 @@ import { useForm, FormProvider } from 'react-hook-form';
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { filterByDate, sortSitters } from '../../../_actions/findCatSitterActions';
+import { filterByDate, sortSitters } from '../../../redux/actions/findCatSitterActions';
 import { sortingTypeOptions } from '../../../constants';
 
-// import GooglePlaceAutocomplete from './GooglePlaceAutocomplete';
-import { GooglePlaceAutocomplete } from '../../../components/FormComponents'
+import { PlaceAutocomplete } from '../../../components/Google'
 import AppointmentPeriodPicker from './AppointmentPeriodPicker';
 import Sorting from './Sorting';
 
@@ -134,7 +133,7 @@ function Search({ setZoom, setCenter, sitterRecords, setSittersByAddress, radius
               flexWrap: 'wrap'
             }}>
               <FieldContainer flex="10%">
-                <GooglePlaceAutocomplete
+                <PlaceAutocomplete
                   name="googlePlaceAddress"
                   setZoom={setZoom}
                   setCenter={setCenter}

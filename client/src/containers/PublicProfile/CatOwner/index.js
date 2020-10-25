@@ -3,7 +3,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import { ContentContainer, SectionContainer } from '../../../components/ProfileComponents';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOwnerProfile } from '../../../_actions/profileActions';
+import { getOwnerProfile } from '../../../redux/actions/profileActions';
 
 import Summary from './Summary';
 import Reviews from '../Common/Reviews';

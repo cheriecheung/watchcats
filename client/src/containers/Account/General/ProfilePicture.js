@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'reactstrap';
-import { deletePicture } from '../../../_actions/accountActions';
+import { deletePicture } from '../../../redux/actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { FileDisplayField, FileUploader } from '../../../components/FormComponents';

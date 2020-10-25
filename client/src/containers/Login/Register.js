@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useForm, FormProvider } from 'react-hook-form';
-import { registration } from '../../_actions/userActions';
+import { registration } from '../../redux/actions/userActions';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { register_schema } from '../Account/_validationSchema'
 import { Link } from 'react-router-dom';

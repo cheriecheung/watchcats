@@ -4,12 +4,12 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 // import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
-import { GooglePlaceAutocomplete } from '../../components/FormComponents'
+import { PlaceAutocomplete } from '../../components/Google'
 import AppointmentPeriodPicker from '../FindCatSitter/Search/AppointmentPeriodPicker';
 import { appointmentTypeOptions } from '../../constants'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { home_search_schema } from '../Account/_validationSchema'
-import { checkToken, testAxiosInstance } from '../../_actions/userActions'
+import { checkToken, testAxiosInstance } from '../../redux/actions/userActions'
 import { useDispatch } from 'react-redux';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -82,7 +82,7 @@ function Home() {
 
         <FormProvider {...methods}>
           <Form onSubmit={handleSubmit(sendData)}>
-            {/* <GooglePlaceAutocomplete name="googlePlaceAddress" /> */}
+            {/* <PlaceAutocomplete name="googlePlaceAddress" /> */}
             <AppointmentPeriodPicker />
 
             <button type="submit">

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
 import styled from 'styled-components';
-import { getOwnerAccount, saveOwner, saveCatPhotos } from '../../../_actions/accountActions';
+import { getOwnerAccount, saveOwner, saveCatPhotos } from '../../../redux/actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

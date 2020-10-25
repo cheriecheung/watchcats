@@ -5,8 +5,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import axios from 'axios'
 import { Provider } from 'react-redux';
-import configureStore from './_helpers/store';
-import { setAccessToken } from './accessToken'
+import configureStore from './redux/store';
+import { setAccessToken } from './utility/accessToken'
 
 import i18n from './i18n/i18n';
 import { I18nextProvider } from 'react-i18next';

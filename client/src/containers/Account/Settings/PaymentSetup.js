@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { onboardUser } from '../../../_actions/paymentActions';
+import { onboardUser } from '../../../redux/actions/paymentActions';
 import { useDispatch } from 'react-redux';
 
 function PaymentSetup() {

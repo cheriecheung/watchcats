@@ -6,7 +6,7 @@ import 'react-phone-number-input/style.css'
 import { useTranslation } from 'react-i18next';
 import { Input } from 'antd';
 import styled from 'styled-components'
-import { getGoogleAuthenticatorQrCode, verifyGoogleAuthenticatorCode } from '../../../_actions/userActions'
+import { getGoogleAuthenticatorQrCode, verifyGoogleAuthenticatorCode } from '../../../redux/actions/userActions'
 import { useDispatch, useSelector } from 'react-redux';
 
 const Container = styled.div`

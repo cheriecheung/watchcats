@@ -9,7 +9,7 @@ const ErrorDisplay = styled.span`
   float: right;
 `
 
-function GooglePlaceAutocomplete({
+function PlaceAutocomplete({
     name,
     setZoom,
     setCenter,
@@ -96,4 +96,4 @@ function GooglePlaceAutocomplete({
     )
 }
 
-export default GooglePlaceAutocomplete
+export default PlaceAutocomplete

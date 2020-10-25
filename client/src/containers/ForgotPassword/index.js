@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { send_email_schema } from '../Account/_validationSchema'
 import styled from 'styled-components';
 import { TextField } from '../../components/FormComponents'
-import { getPasswordResetEmail } from '../../_actions'
+import { getPasswordResetEmail } from '../../redux/actions'
 import { Alert } from 'antd';
 
 const SubmitButton = styled.button`

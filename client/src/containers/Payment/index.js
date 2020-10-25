@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Item from './Item';
 import IdealBankForm from './IdealBankForm';
-import { getPaymentIntent } from '../../_actions/paymentActions';
+import { getPaymentIntent } from '../../redux/actions/paymentActions';
 import { useStripe, useElements, IdealBankElement } from '@stripe/react-stripe-js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';

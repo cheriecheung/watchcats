@@ -5,7 +5,7 @@ import { sitterBookings } from '../../constants';
 import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { decline } from '../../_actions/bookingActions';
+import { decline } from '../../redux/actions/bookingActions';
 import {
   getRequestedSittingJobs,
   getRequestedSittingService,
@@ -15,7 +15,7 @@ import {
   getCompletedSittingService,
   getDeclinedSittingJobs,
   getDeclinedSittingService,
-} from '../../_actions/bookingStatusActions';
+} from '../../redux/actions/bookingStatusActions';
 import { SittingJobs, SittingService } from './Types';
 import { Requested, Confirmed, Completed, Declined } from './Status';
 import { Spin, Tabs } from 'antd';

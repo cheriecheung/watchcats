@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getAccessToken } from '../accessToken';
+import { getAccessToken } from './accessToken';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
@@ -58,6 +58,36 @@ export default (history = null) => {
             });
         }
     )
+
+
+    // axiosInstance.interceptors.response.use(
+    //     (response) =>
+    //         new Promise((resolve, reject) => {
+    //             resolve(response);
+    //         }),
+    //     (error) => {
+    //         if (!error.response) {
+    //             return new Promise((resolve, reject) => {
+    //                 reject(error);
+    //             })
+    //         }
+
+    //         console.log({ errorResponse: error.response })
+
+    //         if (error.response.status === 403) {
+
+    //             if (history) {
+    //                 history.push('/login');
+    //             } else {
+    //                 window.location = '/login'
+    //             }
+    //         } else {
+    //             return new Promise((resolve, reject) => {
+    //                 reject(error);
+    //             })
+    //         }
+    //     }
+    // )
 
     return axiosInstance;
 }

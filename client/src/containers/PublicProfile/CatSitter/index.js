@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ContentContainer, SectionContainer } from '../../../components/ProfileComponents';
-import { getSitterProfile } from '../../../_actions/profileActions';
+import { getSitterProfile } from '../../../redux/actions/profileActions';
 
 import Summary from './Summary';
 import ImageSlider from './ImageSlider';

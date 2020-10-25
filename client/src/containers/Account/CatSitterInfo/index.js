@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
-import { getSitterAccount, saveSitter } from '../../../_actions/accountActions';
+import { getSitterAccount, saveSitter } from '../../../redux/actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

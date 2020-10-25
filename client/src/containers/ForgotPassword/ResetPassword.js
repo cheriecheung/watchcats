@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { reset_password_schema } from '../Account/_validationSchema'
 import { FieldLabel, TextField } from '../../components/FormComponents'
-import { resetPassword } from '../../_actions'
+import { resetPassword } from '../../redux/actions'
 import styled from 'styled-components';
 
 const SubmitButton = styled.button`

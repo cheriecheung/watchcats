@@ -10,8 +10,8 @@ import {
   VERIFY_FAIL,
 } from './types';
 import Cookies from 'universal-cookie';
-import { getAccessToken, setAccessToken } from '../accessToken';
-import axiosInstance from '../_helpers/axiosInstance';
+import { getAccessToken, setAccessToken } from '../../utility/accessToken';
+import axiosInstance from '../../utility/axiosInstance';
 const cookies = new Cookies();
 
 const { REACT_APP_API_DOMAIN } = process.env;

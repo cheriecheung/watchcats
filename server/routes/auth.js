@@ -6,8 +6,10 @@ const { verify } = require('jsonwebtoken')
 const User = require('../model/User');
 
 router.get('/test_axios', async (req, res) => {
-  res.clearCookie('refresh_token');
-  return res.status(403).json('logging out')
+  // res.clearCookie('refresh_token');
+  return res.status(401).json('logging out')
+
+  // return res.status(403).json('logging out')
 })
 
 // specifically designed to handle refreshing jwt

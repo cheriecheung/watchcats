@@ -5,7 +5,6 @@ import FieldLabel from './FieldLabel';
 import FileDisplayField from './FileDisplayField';
 import FileUploader, { ArrayFileUploader } from './FileUploader';
 import FormButtons from './FormButtons';
-import GooglePlaceAutocomplete from './GooglePlaceAutocomplete'
 import { RadioGroup, RadioButton } from './Radio';
 import SectionContainer from './SectionContainer';
 import SectionTitle from './SectionTitle';
@@ -24,7 +23,6 @@ export {
   FileDisplayField,
   FileUploader,
   FormButtons,
-  GooglePlaceAutocomplete,
   RadioGroup,
   RadioButton,
   SectionContainer,

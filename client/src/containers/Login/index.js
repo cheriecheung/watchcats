@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { googleLogin, login } from '../../_actions/userActions';
+import { googleLogin, login } from '../../redux/actions/userActions';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { login_schema } from '../Account/_validationSchema'
 

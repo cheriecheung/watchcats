@@ -5,7 +5,7 @@ import dutch from '../../assets/images/dutch.png';
 import english from '../../assets/images/english.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch } from 'react-redux';
-import { logout } from '../../_actions/userActions';
+import { logout } from '../../redux/actions/userActions';
 import styled from 'styled-components';
 import { themeColor } from '../../style/theme';
 import Cookies from 'universal-cookie';

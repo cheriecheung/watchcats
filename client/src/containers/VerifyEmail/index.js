@@ -8,7 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { TextField } from '../../components/FormComponents'
 import { send_email_schema } from '../Account/_validationSchema'
-import { verifyEmail, getActivationEmail } from '../../_actions/userActions';
+import { verifyEmail, getActivationEmail } from '../../redux/actions/userActions';
 
 const SubmitButton = styled.button`
   background: #ffa195;

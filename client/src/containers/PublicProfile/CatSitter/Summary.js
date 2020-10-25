@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { getChatContacts, getChatConversation } from '../../../_actions/chatActions';
-import { getAppointmentTime, sendBookingRequest } from '../../../_actions/bookingActions';
+import { getChatContacts, getChatConversation } from '../../../redux/actions/chatActions';
+import { getAppointmentTime, sendBookingRequest } from '../../../redux/actions/bookingActions';
 import ThemeButton from '../../../components/General/ThemeButton';
 import { ImageContainer, SummaryCard } from '../../../components/ProfileComponents';
 import RequestBookingModal from './RequestBookingModal';

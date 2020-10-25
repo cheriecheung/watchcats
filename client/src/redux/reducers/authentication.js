@@ -4,7 +4,7 @@ import {
   LOGOUT_SUCCESS,
   VERIFY_SUCCESS,
   VERIFY_FAIL,
-} from '../_actions/types';
+} from '../actions/types';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 

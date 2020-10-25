@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
-import { deletePicture } from '../../../_actions/accountActions';
+import { deletePicture } from '../../../redux/actions/accountActions';
 import { Modal } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
