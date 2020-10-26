@@ -1,3 +1,5 @@
+/* global google */
+
 import React, { useState } from 'react';
 import { compose } from 'recompose';
 import {
@@ -23,16 +25,85 @@ const BrowseButton = styled(Link)`
   outline: none;
 `
 
+const Markers = ({ markers, onMarkerClick, selectedMarker, hoveredMarkerId, }) => {
+  return markers.map((marker) => {
+    console.log({ marker })
+    const { id, name, coordinates } = marker;
+    const { lat, lng } = coordinates;
+
+    const iconWidth = hoveredMarkerId && hoveredMarkerId === id ? 35 : 28;
+    const iconHeight = hoveredMarkerId && hoveredMarkerId === id ? 35 : 28;
+
+    return (
+      <>
+        <Marker key={id} position={{ lat, lng }} />
+        {/* <Marker
+        key={id}
+        onClick={() => {
+          onMarkerClick(marker);
+        }}
+        position={{ lat, lng }}
+        icon={{
+          url: location_marker,
+          scaledSize: {
+            width: iconWidth,
+            height: iconHeight,
+            widthUnit: 'px',
+            heightUnit: 'px',
+          }
+        }}
+      >
+        {selectedMarker &&
+          selectedMarker.id === marker.id && (
+            <InfoWindow style={{ padding: 0 }}>
+              <div style={{ width: 200 }}>
+                <img src="https://i.imgur.com/I86rTVl.jpg" alt={NamedNodeMap} width="100%" />
+
+                <div style={{ textAlign: 'left', width: '100%' }}>
+                  <h5 style={{ color: '#a0dfcf', fontSize: '1.1rem' }}>{name}</h5>
+                  <p>Amsterdam keizergracht</p>
+                  <BrowseButton to="/profile/catsitter/123">
+                    <h6 style={{ margin: 0 }}>Check profile</h6>
+                  </BrowseButton>
+                </div>
+              </div>
+            </InfoWindow>
+          )}
+      </Marker> */}
+      </>
+    )
+  })
+}
+
 const Map = compose(
   //withScriptjs,
   withGoogleMap
-)(({ zoom, center, radius, markers, onMarkerClick, selectedMarker, hoveredMarkerId, mapRef }) => {
-  console.log({ zoom, center })
+)(({ zoom, center, radius, markers, onMarkerClick, selectedMarker, hoveredMarkerId, mapRef, setBounds, setSitterRecords }) => {
+
+  console.log({ markers })
+
+  const setBoundsCoordinates = () => {
+    const bounds = mapRef.getBounds()
+    const neLat = bounds.getNorthEast().lat();
+    const neLng = bounds.getNorthEast().lng();
+    const swLat = bounds.getSouthWest().lat();
+    const swLng = bounds.getSouthWest().lng();
+
+    setBounds({
+      northEast: { lat: neLat, lng: neLng },
+      southWest: { lat: swLat, lng: swLng }
+    })
+
+    setSitterRecords([
+      { id: 1, name: 'Cat Sitter #1', coordinates: { lat: 52.3080, lng: 4.9715 } },
+    ])
+  }
 
   return (
     <GoogleMap
-      ref={(map) => mapRef = map}
-      onIdle={(map) => console.log({ onIdle: mapRef.getBounds() })}
+      ref={(map) => mapRef ? mapRef = map : null}
+      onIdle={() => setBounds ? setBoundsCoordinates() : null}
+      onLoad={() => console.log('>>>>>>>>>>>>>>>>onload')}
       defaultZoom={zoom}
       defaultCenter={center}
       zoom={zoom}
@@ -43,7 +114,7 @@ const Map = compose(
       }}
     >
 
-      {zoom === 14 && (
+      {/* {zoom === 14 && (
         <Marker position={center}>
           <Circle
             center={center}
@@ -54,112 +125,16 @@ const Map = compose(
             }}
           />
         </Marker>
-      )}
-
-
-      {Array.isArray(markers) &&
-        markers.length > 0 &&
-        markers.map((marker) => {
-          const { id, name, coordinates } = marker;
-          const { lat, lng } = coordinates;
-
-          return (
-            <Marker
-              key={id}
-              onClick={() => {
-                onMarkerClick(marker);
-              }}
-              position={{ lat, lng }}
-              icon={{
-                url: location_marker,
-                scaledSize: {
-                  width: hoveredMarkerId && hoveredMarkerId === id ? 35 : 28,
-                  height: hoveredMarkerId && hoveredMarkerId === id ? 40 : 34,
-                  widthUnit: 'px',
-                  heightUnit: 'px',
-                },
-              }}
-            >
-              {selectedMarker &&
-                selectedMarker.id === marker.id && (
-                  <InfoWindow style={{ padding: 0 }}>
-                    <div style={{ width: 200 }}>
-                      <img src="https://i.imgur.com/I86rTVl.jpg" alt={NamedNodeMap} width="100%" />
-
-                      <div style={{ textAlign: 'left', width: '100%' }}>
-                        <h5 style={{ color: '#a0dfcf', fontSize: '1.1rem' }}>{name}</h5>
-                        <p>Amsterdam keizergracht</p>
-                        <BrowseButton to="/profile/catsitter/123">
-                          <h6 style={{ margin: 0 }}>Check profile</h6>
-                        </BrowseButton>
-                      </div>
-                    </div>
-                  </InfoWindow>
-                )}
-            </Marker>)
-        })}
-      {/* {Array.isArray(markers) && markers.length > 0 ? (
-      <AllMarkers markers={markers} onMarkerClick={onMarkerClick} selectedMarker={selectedMarker} />
-    ) : (
-        <Marker
-          icon={{
-            url: location_marker,
-            scaledSize: {
-              width: 28,
-              height: 34,
-              widthUnit: 'px',
-              heightUnit: 'px',
-            },
-          }}
-          position={{ lat: markers.lat, lng: markers.lng }}
-        />
       )} */}
-    </GoogleMap>
+
+      < Markers
+        markers={markers}
+        onMarkerClick={onMarkerClick}
+        selectedMarker={selectedMarker}
+        hoveredMarkerId={hoveredMarkerId}
+      />
+    </GoogleMap >
   )
 });
 
-export default Map
-
-// const AllMarkers = ({ markers, onMarkerClick, selectedMarker }) => {
-//   return markers.map((marker) => {
-//     const { id, name, lat, lng } = marker;
-
-//     return (
-//       <Marker
-//         key={id}
-//         onClick={() => {
-//           onMarkerClick(marker);
-//         }}
-//         position={{ lat, lng }}
-//       >
-//         {selectedMarker.id === marker.id && (
-//           <InfoWindow style={{ padding: 0 }}>
-//             <div style={{ width: 200 }}>
-//               <img src="https://i.imgur.com/I86rTVl.jpg" alt={NamedNodeMap} width="100%" />
-//               <div style={{ textAlign: 'left', width: '100%' }}>
-//                 <h5 style={{ color: '#a0dfcf', fontSize: '1.1rem' }}>{name}</h5>
-//                 <p>Amsterdam keizergracht</p>
-//                 <button
-//                   type="button"
-//                   style={{
-//                     marginTop: 10,
-//                     background: 'none',
-//                     border: '2px solid #a0dfcf',
-//                     color: '#fd980f',
-//                     borderRadius: 5,
-//                     width: '100%',
-//                     paddingTop: 3,
-//                     paddingBottom: 3,
-//                     outline: 'none',
-//                   }}
-//                 >
-//                   <h6 style={{ margin: 0 }}>Check profile</h6>
-//                 </button>
-//               </div>
-//             </div>
-//           </InfoWindow>
-//         )}
-//       </Marker>
-//     );
-//   });
-// };
+export default Map;

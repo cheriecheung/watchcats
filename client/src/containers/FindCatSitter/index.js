@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Row, Col } from 'reactstrap';
-import { Map } from '../../components/Google';
+import { Map, MapDisplay } from '../../components/Google';
+import GoogleMap from '../../components/Google/GoogleMap'
 import Search from './Search';
 import Result from './Result';
 import styled from 'styled-components';
@@ -9,6 +10,7 @@ import { List } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSitters } from '../../redux/actions/findCatSitterActions';
 // import { useLocation } from 'react-router-dom';
+import { Spin } from 'antd';
 
 const mapHeight = '80vh';
 
@@ -18,6 +20,20 @@ const MapContainer = styled.div`
   top: 20px;
   bottom: 20px;
   position: sticky;
+`
+
+const MapLoadingDisplay = styled.div`
+  display: flex;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.7); 
+  position: absolute; 
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+`
+
+const LoadingSpin = styled(Spin)`
+  align-self: center;
 `
 
 // let resultsFound = [];
@@ -37,92 +53,92 @@ const MapContainer = styled.div`
 //   });
 // }
 
-const resultsFound = [
-  { id: 1, name: 'Cat Sitter #1', coordinates: { lat: 52.3640, lng: 4.9390 } },
-  { id: 2, name: 'Cat Sitter #2', coordinates: { lat: 52.3599, lng: 4.7891 } },
-  { id: 3, name: 'Cat Sitter #3', coordinates: { lat: 52.3310, lng: 4.8774 } },
-  { id: 4, name: 'Cat Sitter #4', coordinates: { lat: 52.3757, lng: 4.9082 } },
-  { id: 5, name: 'Cat Sitter #5', coordinates: { lat: 52.363708, lng: 4.882023 } },
-  { id: 6, name: 'Cat Sitter #6', coordinates: { lat: 52.3843, lng: 4.9013 } },
+const places = [
+  { id: 1, name: "Cat Sitter #1", lat: 52.364, lng: 4.939 },
+  { id: 2, name: "Cat Sitter #2", lat: 52.3599, lng: 4.7891 },
+  { id: 3, name: "Cat Sitter #3", lat: 52.331, lng: 4.8774 },
+  { id: 4, name: "Cat Sitter #4", lat: 52.3757, lng: 4.9082 },
+  { id: 5, name: "Cat Sitter #5", lat: 52.363708, lng: 4.882023 },
+  { id: 6, name: "Cat Sitter #6", lat: 52.3843, lng: 4.9013 }
 ];
 
-const defaultMapCenter = { lat: 52.3676, lng: 4.9041 }
-const radius = 500
+const defaultMapCenter = { lat: 52.3640, lng: 4.9390 }
+const radius = 1000
 
 function FindCatSitter() {
   // const { googlePlaceAddress, startDate, endDate } = useLocation().state || {};
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { sitters } = useSelector((state) => state.account);
+  // const { sitters } = useSelector((state) => state.account);
+  const { sitter_in_bounds } = useSelector((state) => state.find_cat_sitters);
 
-  const mapRef = useRef(null);
+
   const resultsRef = useRef(null);
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
   const [zoom, setZoom] = useState(12);
   const [center, setCenter] = useState(defaultMapCenter)
+  const [results, setResults] = useState([])
+  const [loading, setLoading] = useState(false)
+
   const [selectedMarker, setSelectedMarker] = useState({ id: '' });
-  const [sitterRecords, setSitterRecords] = useState(resultsFound)
-
   const [sittersByAddress, setSittersByAddress] = useState([])
-
   const [hoveredMarkerId, setHoveredMarkerId] = useState('')
-
-  // useEffect(() => {
-  //   if (googlePlaceAddress && startDate && endDate) {
-  //     reset({googlePlaceAddress })
-  //   }
-  //   console.log({googlePlaceAddress, startDate, endDate})
-  // }, [googlePlaceAddress, startDate, endDate])
 
   useEffect(() => {
     dispatch(getAllSitters());
+    setResults(places)
+
   }, [dispatch]);
 
   useEffect(() => {
-    console.log({ hoveredMarkerId, sittersByAddress });
-  }, [hoveredMarkerId, sittersByAddress]);
+    console.log({ hoveredMarkerId });
+  }, [hoveredMarkerId]);
+
+  useEffect(() => {
+    console.log({ results })
+  }, [results])
+
+  useEffect(() => {
+    if (sitter_in_bounds) {
+      setLoading(false)
+      setResults(sitter_in_bounds)
+    }
+  }, [sitter_in_bounds])
 
   return (
     <div style={{ padding: '0 40px' }}>
-      <Search
+      <br />
+      <br />
+      {/* <Search
         setZoom={setZoom}
         setCenter={setCenter}
-        sitterRecords={sitterRecords}
-        // setSitterRecords={setSitterRecords}
+        results={results}
+        // setResults={setResults}
         setSittersByAddress={setSittersByAddress}
         radius={radius}
-      />
+      /> */}
       <Row>
         <Col md={5}>
-          <Map
-            //defaultCenter={defaultMapCenter}
-            onMapIdle={(value) => {
-              console.log({ value })
-              {/* let ne = mapRef.getBounds().getNorthEast();
-              let sw = mapRef.getBounds().getSouthWest(); */}
-              {/* console.log(ne.lat() + ";" + ne.lng());
-              console.log(sw.lat() + ";" + sw.lng()); */}
-            }}
-            mapRef={mapRef}
-            zoom={zoom}
-            center={center}
-            radius={radius}
-            markers={sitterRecords}
-            hoveredMarkerId={hoveredMarkerId}
-            onMarkerClick={setSelectedMarker}
-            selectedMarker={selectedMarker}
-            //  googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${process.env.REACT_APP_GOOGLE_KEY}`}
-            //   loadingElement={<div style={{ height: '100%' }} />}
-            containerElement={<MapContainer />}
-            mapElement={<div style={{ height: '100%' }} />}
-          />
+          <MapContainer>
+            <MapLoadingDisplay hidden={loading} >
+              <LoadingSpin size="large" />
+            </MapLoadingDisplay>
+            <GoogleMap
+              zoom={zoom}
+              center={center}
+              setCenter={setCenter}
+              results={results}
+              setLoading={() => setLoading(true)}
+              hoveredMarkerId={hoveredMarkerId}
+            />
+          </MapContainer>
         </Col>
 
         <Col md={7}>
           <p ref={resultsRef} style={{ textAlign: 'left', marginBottom: 20 }}>
-            Showing {resultsFound.length} cat sitters
+            Showing {results.length} cat sitters
           </p>
           <List
             itemLayout="vertical"
@@ -131,7 +147,7 @@ function FindCatSitter() {
               onChange: () => scrollToRef(resultsRef),
               pageSize: 10,
             }}
-            dataSource={resultsFound}
+            dataSource={results}
             renderItem={(item) =>
               <Result
                 item={item}
@@ -146,3 +162,28 @@ function FindCatSitter() {
 }
 
 export default FindCatSitter;
+
+
+{/* <MapDisplay
+  center={center}
+  zoom={zoom}
+  results={results}
+  setResults={setResults}
+/> */}
+{/* <Map
+  //defaultCenter={defaultMapCenter}
+  setResults={setResults}
+  setBounds={setBounds}
+  mapRef={mapRef}
+  zoom={zoom}
+  center={center}
+  radius={radius}
+  results={results}
+  hoveredMarkerId={hoveredMarkerId}
+  onMarkerClick={setSelectedMarker}
+  selectedMarker={selectedMarker}
+  //  googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${process.env.REACT_APP_GOOGLE_KEY}`}
+  //   loadingElement={<div style={{ height: '100%' }} />}
+  containerElement={<MapContainer />}
+  mapElement={<div style={{ height: '100%' }} />}
+/> */}

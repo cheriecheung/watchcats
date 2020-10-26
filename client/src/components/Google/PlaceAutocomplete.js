@@ -14,7 +14,7 @@ function PlaceAutocomplete({
     setZoom,
     setCenter,
     emptyOtherFilters,
-    sitterRecords,
+    results,
     setSittersByAddress,
     radius
 }) {
@@ -39,8 +39,8 @@ function PlaceAutocomplete({
         const addressLat = addressObject.geometry.location.lat();
         const addressLng = addressObject.geometry.location.lng();
 
-        if (sitterRecords && setSittersByAddress && radius) {
-            const filtered = sitterRecords.filter(
+        if (results && setSittersByAddress && radius) {
+            const filtered = results.filter(
                 ({ coordinates }) => {
                     const { lat, lng } = coordinates;
 

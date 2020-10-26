@@ -44,36 +44,82 @@ function paginateRecords(records, currentPage, nPerPage) {
   return records.slice(start, start + nPerPage)
 }
 
+// function inBounds(point, bounds) {
+//   console.log({ point, bounds })
+//   const eastBound = point.lng < bounds.neLng;
+//   const westBound = point.lng > bounds.swLng;
+
+//   let inLong;
+
+//   if (bounds.neLng < bounds.swLng) {
+//     inLong = eastBound || westBound;
+//   } else {  
+//     inLong = eastBound && westBound;
+//   }
+
+//   const inLat = point.lat > bounds.swLat && point.lat < bounds.neLat;
+//   return inLat && inLong;
+// }
+
+function inBounds(point, bounds) {
+  console.log({ point, bounds })
+
+  var lng = (point.lng - bounds.neLng) * (point.lng - bounds.swLng) < 0;
+  var lat = (point.lat - bounds.neLat) * (point.lat - bounds.swLat) < 0;
+  return lng && lat;
+}
+
 module.exports = {
   getAllSitters: async (req, res) => {
     const { sort: sortType = 'totalReviews' } = req.query;
     const { currentPage = 1, nPerPage = 3 } = req.body;
 
     try {
-      let completeRecords = []
+      console.log({ query: req.query })
 
-      // totalReviews / totalCompletedBookings / totalRepeatedCustomers
-      if (sortType.includes('total')) {
-        const allSitterRecords = await Sitter.find()
-        const cleaned = await getInfo(allSitterRecords)
-        const sorted = await cleaned.sort((a, b) => b[sortType] - a[sortType])
 
-        completeRecords = paginateRecords(sorted, currentPage, nPerPage)
-      }
+      const point = { lng: 52.365051, lat: 4.884429 }
 
-      // hourlyRate / nightly
-      if (sortType.includes('Rate')) {
-        const sortedAndPaginated = await Sitter.find()
-          .sort({ [sortType]: 1 })
-          .skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
-          .limit(nPerPage);
+      const neLat = parseFloat(req.query.neLat);
+      const neLng = parseFloat(req.query.neLng);
+      const swLat = parseFloat(req.query.swLat);
+      const swLng = parseFloat(req.query.swLng);
 
-        completeRecords = await getInfo(sortedAndPaginated)
-      }
+      const bounds = { neLat, neLng, swLat, swLng }
 
-      console.log({ completeRecords })
+      const isInBound = inBounds(point, bounds);
 
-      return res.status(200).json(completeRecords);
+      console.log({ isInBound })
+
+      return res.status(200).json([
+        { lat: 52.3752899891, lng: 4.90782887337 },
+        { lat: 52.4045, lng: 4.9385 }
+      ]);
+
+      // let completeRecords = []
+
+      // // totalReviews / totalCompletedBookings / totalRepeatedCustomers
+      // if (sortType.includes('total')) {
+      //   const allSitterRecords = await Sitter.find()
+      //   const cleaned = await getInfo(allSitterRecords)
+      //   const sorted = await cleaned.sort((a, b) => b[sortType] - a[sortType])
+
+      //   completeRecords = paginateRecords(sorted, currentPage, nPerPage)
+      // }
+
+      // // hourlyRate / nightly
+      // if (sortType.includes('Rate')) {
+      //   const sortedAndPaginated = await Sitter.find()
+      //     .sort({ [sortType]: 1 })
+      //     .skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
+      //     .limit(nPerPage);
+
+      //   completeRecords = await getInfo(sortedAndPaginated)
+      // }
+
+      // console.log({ completeRecords })
+
+      // return res.status(200).json(completeRecords);
     } catch (err) {
       console.log({ err });
       return res.status(404).json('No records found');
