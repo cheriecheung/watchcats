@@ -20,6 +20,11 @@ const Nav = styled.nav`
   justify-content: space-between;
   align-items: center;
   background: ${themeColor.peach};
+
+  @media (max-width: 768px) {
+    padding: 0 5px;
+    justify-content: center;
+  }
 `;
 
 const Menu = styled.ul`
@@ -43,6 +48,8 @@ const Item = styled.li`
 `;
 
 const NavIcon = styled.button`
+  position: absolute;
+  left: 0;
   outline: none !important;
   background: none;
   cursor: pointer;
@@ -91,19 +98,19 @@ const OverlayMenu = styled.ul`
   transition: opacity 0.4s ease-in-out;
 
   li {
-    font-size: 25px;
-    margin: 50px 0px;
+    font-size: 15px;
+    margin: 10px 0px;
   }
 
   li:nth-child(2) {
-    margin: 50px 0px;
+    margin: 10px 0px;
   }
 `;
 
 function Header() {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
-  const [toggle, toggleNav] = useState(false);
+  const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
     i18n.changeLanguage(localStorage.getItem('lang') || 'en');
@@ -127,7 +134,13 @@ function Header() {
   return (
     <>
       <Nav>
-        <Link to="/" style={{ display: 'flex' }}>
+        <NavIcon onClick={() => setToggle(!toggle)}>
+          <Line open={toggle} />
+          <Line open={toggle} />
+          <Line open={toggle} />
+        </NavIcon>
+
+        <Link to="/" style={{ display: 'flex' }} onClick={() => setToggle(false)}>
           <h4
             style={{
               color: '#fff',
@@ -140,16 +153,13 @@ function Header() {
           </h4>
         </Link>
 
-        <Menu className="testing"> <MenuContent setLanguage={setLanguage} /></Menu>
-        <NavIcon onClick={() => toggleNav(!toggle)}>
-          <Line open={toggle} />
-          <Line open={toggle} />
-          <Line open={toggle} />
-        </NavIcon>
+        <Menu className="testing">
+          <MenuContent setLanguage={setLanguage} />
+        </Menu>
       </Nav>
       <Overlay open={toggle}>
         <OverlayMenu open={toggle}>
-          <MenuContent setLanguage={setLanguage} />
+          <MenuContent setLanguage={setLanguage} closeMenu={() => setToggle(false)} />
         </OverlayMenu>
       </Overlay>
     </>
@@ -158,63 +168,81 @@ function Header() {
 
 export default Header;
 
-function MenuContent({ setLanguage }) {
-  const { t, i18n } = useTranslation();
+const ItemContainer = styled.div`
+  display: flex;
+  flex-direction: row;
 
-  const menuItemStyle = {
-    color: '#fff',
-    fontWeight: 400,
-  };
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+  }
+`
+
+const LinkButton = styled(Link)`
+  color: #fff;
+  font-weight: 400;
+
+  @media (max-width: 768px) {
+    color: grey;
+  }
+`
+
+function MenuContent({ setLanguage, closeMenu }) {
+  const { t, i18n } = useTranslation();
 
   return (
     <>
-      <div style={{ display: 'flex' }}>
+      <ItemContainer>
         <Item>
-          <Link to="/find" style={menuItemStyle}>
+          <LinkButton to="/find" onClick={() => closeMenu && closeMenu()}>
             {t('header.find_sitter')}
-          </Link>
+          </LinkButton>
         </Item>
         <Item>
-          <Link to="/about" style={menuItemStyle}>
+          <LinkButton to="/about" onClick={() => closeMenu && closeMenu()}>
             {t('header.about')}
-          </Link>
+          </LinkButton>
         </Item>
-      </div>
+      </ItemContainer>
 
-      <div style={{ display: 'flex' }}>
+      <ItemContainer>
         {cookies.get('userId') ? (
           <>
             <Item>
-              <Link to="/bookings" style={menuItemStyle}>
+              <LinkButton to="/bookings" onClick={() => closeMenu && closeMenu()}>
                 {t('header.bookings')}
-              </Link>
+              </LinkButton>
             </Item>
             <Item>
-              <Link to="/messages" style={menuItemStyle}>
+              <LinkButton to="/messages" onClick={() => closeMenu && closeMenu()}>
                 <i className="far fa-envelope" />
-              </Link>
+              </LinkButton>
             </Item>
             <Item>
-              <Link to={`/account/${cookies.get('shortId')}`} style={menuItemStyle}>
+              <LinkButton to={`/account/${cookies.get('shortId')}`} onClick={() => closeMenu && closeMenu()}>
                 <i className="fas fa-user-circle" />
-              </Link>
+              </LinkButton>
             </Item>
             <Item>
-              <Link to="/login" style={menuItemStyle}>
+              <LinkButton to="/login" onClick={() => closeMenu && closeMenu()}>
                 <i className="fas fa-sign-out-alt" />
-              </Link>
+              </LinkButton>
             </Item>
           </>
         ) : (
             <Item>
-              <Link to="/login" style={menuItemStyle}>
+              <LinkButton to="/login" onClick={() => closeMenu && closeMenu()}>
                 {t('header.login')}
-              </Link>
+              </LinkButton>
             </Item>
           )}
+
         <Item>
           <button
-            onClick={() => setLanguage('en')}
+            onClick={() => {
+              closeMenu && closeMenu()
+              setLanguage('en')
+            }}
             style={{
               border: 'none',
               background: 'none',
@@ -226,8 +254,14 @@ function MenuContent({ setLanguage }) {
           >
             <img src={english} width={20} />
           </button>
+        </Item>
+
+        <Item>
           <button
-            onClick={() => setLanguage('nl')}
+            onClick={() => {
+              closeMenu && closeMenu()
+              setLanguage('nl')
+            }}
             style={{
               border: 'none',
               background: 'none',
@@ -239,7 +273,7 @@ function MenuContent({ setLanguage }) {
             <img src={dutch} width={20} />
           </button>
         </Item>
-      </div>
+      </ItemContainer>
     </>
   )
 }

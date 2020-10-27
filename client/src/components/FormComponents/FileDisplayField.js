@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -10,19 +10,22 @@ const ImageContainer = styled.div`
     height: 120px;
     border-radius: 10px;
     overflow: hidden; 
+    background: url(${props => props.image}) no-repeat center center / cover;
 `
 
-const Image = styled.img`
-    object-fit: cover; 
-    width: 100%; 
-    height: 100%;
-`
+const RemoveButton = styled.div`
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease-out;
+  opacity: ${(props) => (props.opacity ? 0 : 1)};
+  display: flex;
+  justify-content: center;
+`;
 
-const RemoveButton = styled.button`
-    color: red;
-    background: none;
-    border: none;
-    outline: none !important;
+const RemoveText = styled.span`
+    color: #fff;
+    align-self: center;
 `
 
 export default function FileDisplayField({ name, fileName, handleRemovePhoto }) {
@@ -45,17 +48,21 @@ export default function FileDisplayField({ name, fileName, handleRemovePhoto }) 
 function Display({ fileName, handleRemovePhoto }) {
     const { t } = useTranslation();
 
+    const [hideRemove, setHideRemove] = useState(true);
+
     const photoURL = fileName.includes('base64') ? fileName : `${REACT_APP_API_DOMAIN}/image/${fileName}`
 
     return (
         <div style={{ display: 'flex' }}>
-            <ImageContainer>
-                <Image src={photoURL} alt="profile_picture" />
+            <ImageContainer
+                onMouseOver={() => setHideRemove(false)}
+                onMouseLeave={() => setHideRemove(true)}
+                image={photoURL}
+            >
+                <RemoveButton type="button" onClick={handleRemovePhoto} opacity={hideRemove}>
+                    <RemoveText>Remove</RemoveText>
+                </RemoveButton>
             </ImageContainer>
-
-            <RemoveButton type="button" onClick={handleRemovePhoto}>
-                Remove
-            </RemoveButton>
         </div>
     )
 }

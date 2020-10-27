@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 const Label = styled.label`
   display:flex;
+  justify-content: center;
   border: 1px solid ${props => props.hasError ? '#E56E5A' : '#d9d9d9'} !important;
   width: 120px; 
   height: 120px;
@@ -59,8 +60,10 @@ export default function FileUploader({
   return (
     <>
       <Label htmlFor={name} className="upload-file-input form-control" hasError={hasError}>
-        <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
-        <span>{t('owner_form.upload')}</span>
+        <div style={{ alignSelf: 'center' }}>
+          <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
+          <span>{t('owner_form.upload')}</span>
+        </div>
       </Label>
 
       <Controller
