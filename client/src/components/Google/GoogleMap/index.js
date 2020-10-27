@@ -1,15 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { render } from "react-dom";
 import MainMap from "./MainMap";
 import InfoWindow from "./InfoWindow";
 import { useDispatch } from 'react-redux';
 import { getSittersInBounds } from '../../../redux/actions/findCatSitterActions'
+import location_marker from '../../../assets/images/location_marker.png'
 
-function GoogleMap({ zoom, center, setCenter, results, setLoading, hoveredMarkerId }) {
+function GoogleMap({ zoom, setZoom, center, setCenter, results, setLoading, hoveredResultId }) {
     const dispatch = useDispatch();
-    let map;
     let infoWindow;
-    // let markers = []
+
+    const [map, setMap] = useState(null)
+    const [markersArray, setMarkersArray] = useState([]);
+
+    useEffect(() => {
+        if (hoveredResultId) {
+            markersArray.forEach((marker) => {
+                if (marker.id === hoveredResultId) {
+                    marker.setAnimation(window.google.maps.Animation.BOUNCE);
+                }
+
+                if (marker.getAnimation() !== null) {
+                    marker.setAnimation(null);
+                }
+            })
+        }
+    }, [hoveredResultId])
 
     const createInfoWindow = () => {
         infoWindow = new window.google.maps.InfoWindow({
@@ -17,44 +33,62 @@ function GoogleMap({ zoom, center, setCenter, results, setLoading, hoveredMarker
         });
     }
 
-    const createMarkers = (map) => {
-        console.log('creating markers>>>>')
-        console.log({ results })
+    const createMarkers = () => {
+        if (markersArray.length > 0) {
+            markersArray.forEach((marker) => marker.setMap(null))
+        }
 
-        results.map(({ lat, lng }) => {
-            const markers = new window.google.maps.Marker({
+        const allMarkers = results.map(({ id, lat, lng }) => {
+            const marker = new window.google.maps.Marker({
+                id,
                 position: { lat, lng },
                 map: map
             });
 
-            markers.addListener("click", () => {
+            marker.setIcon({
+                url: location_marker,
+                scaledSize: new window.google.maps.Size(35, 48)
+            });
+
+            marker.addListener("click", () => {
                 infoWindow.addListener("domready", () => {
                     render(<InfoWindow />, document.getElementById("infoWindow"));
                 });
-                infoWindow.open(map, markers);
+                infoWindow.open(map, marker);
             });
+
+            marker.setMap(map);
+
+            return marker
         });
+
+        setMarkersArray(allMarkers)
     }
 
-    const getBoundsAfterEvent = (map) => {
+    const getBoundsAfterEvent = () => {
         const bounds = map.getBounds();
         const neLat = bounds.getNorthEast().lat();
         const neLng = bounds.getNorthEast().lng();
         const swLat = bounds.getSouthWest().lat();
         const swLng = bounds.getSouthWest().lng();
 
-        // dispatch(getSittersInBounds({ neLat, neLng, swLat, swLng }))
+        console.log({ neLat, neLng, swLat, swLng })
+
+        setLoading(true);
+        dispatch(getSittersInBounds({ neLat, neLng, swLat, swLng }))
     }
 
-    const setCenterAfterEvent = (map) => {
+    const setCenterAfterEvent = () => {
         const center = map.getCenter();
         const lat = center.lat();
         const lng = center.lng();
-
         setCenter({ lat, lng });
+
+        const zoom = map.getZoom();
+        setZoom(zoom)
     }
 
-    const addMapEventListeners = (map) => {
+    const addMapEventListeners = () => {
         new window.google.maps.event.addListener(map, 'dragend', () => {
             getBoundsAfterEvent(map);
             setCenterAfterEvent(map);
@@ -63,22 +97,48 @@ function GoogleMap({ zoom, center, setCenter, results, setLoading, hoveredMarker
             getBoundsAfterEvent(map);
             setCenterAfterEvent(map);
         });
-
-        setLoading();
     }
 
+    useEffect(() => {
+        if (map && center) {
+            map.setCenter(center)
+        }
+    }, [map, center])
+
+    useEffect(() => {
+        if (results) {
+            createMarkers();
+        }
+    }, [results])
+
+    useEffect(() => {
+        if (map) {
+            createInfoWindow();
+            addMapEventListeners();
+        }
+    }, [map])
+
     return (
-        <MainMap
+        <>
+            <MainMap
+                id="myMap"
+                options={{ center, zoom }}
+                results={results}
+                setMap={data => setMap(data)}
+            />
+
+            {/* <MainMap
             id="myMap"
             options={{ center, zoom }}
-            onMapLoad={(googleMap) => {
-                map = googleMap
+            onMapLoad={(map) => {
                 createInfoWindow();
                 createMarkers(map);
                 addMapEventListeners(map)
             }}
             results={results}
-        />
+            setMap={data => setMap(data)}
+        /> */}
+        </>
     );
 }
 

@@ -21,7 +21,7 @@ function PlaceAutocomplete({
     const { t } = useTranslation();
     const autoCompleteRef = useRef(null);
 
-    const { control, errors, reset } = useFormContext();
+    const { control, errors, reset, watch } = useFormContext();
     const { hasError, message } = getErrorProperties(name, errors)
 
     let autoComplete;

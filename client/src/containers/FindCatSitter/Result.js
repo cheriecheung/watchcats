@@ -39,7 +39,7 @@ const fiveStarDisplay = (number) => {
   );
 };
 
-function Result({ item, setHoveredMarkerId }) {
+function Result({ item, setHoveredResultId }) {
   const { t } = useTranslation();
 
   const {
@@ -56,8 +56,8 @@ function Result({ item, setHoveredMarkerId }) {
 
   return (
     <ResultContainer
-      onMouseOver={() => setHoveredMarkerId(id)}
-      onMouseLeave={() => setHoveredMarkerId('')}
+      onMouseOver={() => setHoveredResultId(id)}
+      onMouseLeave={() => setHoveredResultId('')}
     >
       <div
         style={{

@@ -84,7 +84,7 @@ function FindCatSitter() {
 
   const [selectedMarker, setSelectedMarker] = useState({ id: '' });
   const [sittersByAddress, setSittersByAddress] = useState([])
-  const [hoveredMarkerId, setHoveredMarkerId] = useState('')
+  const [hoveredResultId, setHoveredResultId] = useState('')
 
   useEffect(() => {
     dispatch(getAllSitters());
@@ -93,17 +93,11 @@ function FindCatSitter() {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log({ hoveredMarkerId });
-  }, [hoveredMarkerId]);
-
-  useEffect(() => {
-    console.log({ results })
-  }, [results])
-
-  useEffect(() => {
     if (sitter_in_bounds) {
-      setLoading(false)
-      setResults(sitter_in_bounds)
+      setTimeout(() => {
+        setLoading(false)
+        setResults(sitter_in_bounds)
+      }, 1000)
     }
   }, [sitter_in_bounds])
 
@@ -122,16 +116,17 @@ function FindCatSitter() {
       <Row>
         <Col md={5}>
           <MapContainer>
-            <MapLoadingDisplay hidden={loading} >
+            <MapLoadingDisplay style={{ visibility: loading ? 'visible' : 'hidden' }}>
               <LoadingSpin size="large" />
             </MapLoadingDisplay>
             <GoogleMap
               zoom={zoom}
+              setZoom={setZoom}
               center={center}
               setCenter={setCenter}
               results={results}
-              setLoading={() => setLoading(true)}
-              hoveredMarkerId={hoveredMarkerId}
+              setLoading={setLoading}
+              hoveredResultId={hoveredResultId}
             />
           </MapContainer>
         </Col>
@@ -151,7 +146,7 @@ function FindCatSitter() {
             renderItem={(item) =>
               <Result
                 item={item}
-                setHoveredMarkerId={setHoveredMarkerId}
+                setHoveredResultId={setHoveredResultId}
               />
             }
           />
@@ -179,7 +174,7 @@ export default FindCatSitter;
   center={center}
   radius={radius}
   results={results}
-  hoveredMarkerId={hoveredMarkerId}
+  hoveredResultId={hoveredResultId}
   onMarkerClick={setSelectedMarker}
   selectedMarker={selectedMarker}
   //  googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${process.env.REACT_APP_GOOGLE_KEY}`}
