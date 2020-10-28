@@ -89,19 +89,23 @@ function GoogleMap({ zoom, setZoom, center, setCenter, results, setLoading, hove
     }
 
     const addMapEventListeners = () => {
-        new window.google.maps.event.addListener(map, 'dragend', () => {
+        // new window.google.maps.event.addListener(map, 'dragend', () => {
+        //     getBoundsAfterEvent(map);
+        //     setCenterAfterEvent(map);
+        // });
+        // new window.google.maps.event.addListener(map, 'zoom_changed', () => {
+        //     getBoundsAfterEvent(map);
+        //     setCenterAfterEvent(map);
+        // });
+        new window.google.maps.event.addListener(map, 'idle', () => {
             getBoundsAfterEvent(map);
-            setCenterAfterEvent(map);
-        });
-        new window.google.maps.event.addListener(map, 'zoom_changed', () => {
-            getBoundsAfterEvent(map);
-            setCenterAfterEvent(map);
         });
     }
 
     useEffect(() => {
         if (map && center) {
             map.setCenter(center)
+
         }
     }, [map, center])
 

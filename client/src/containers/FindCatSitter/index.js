@@ -97,7 +97,7 @@ function FindCatSitter() {
       setTimeout(() => {
         setLoading(false)
         setResults(sitter_in_bounds)
-      }, 1000)
+      }, 800)
     }
   }, [sitter_in_bounds])
 

@@ -20,7 +20,7 @@ const Container = styled.div`
 
 function ProfileTabs() {
   const { accountTab } = useLocation().state || {};
-  const defaultKey = accountTab || 'settings';
+  const defaultKey = accountTab || 'owner';
 
   const { t } = useTranslation();
   const { screenWidth } = ScreenWidthListener();

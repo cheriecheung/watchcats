@@ -71,16 +71,19 @@ export function deletePicture(filename) {
   };
 }
 
+const getConfig = () => {
+  return {
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${getAccessToken()}`,
+    },
+  }
+}
+
 export function getSitterAccount(id) {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().get(`/sitter/account/${id}`, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${getAccessToken()}`,
-        },
-      });
-      console.log({ sitterAccountData: data });
+      const { data } = await axiosInstance().get(`/sitter/account/${id}`, getConfig());
       dispatch({ type: 'GET_SITTER_ACCOUNT', payload: data });
     } catch (e) {
       console.log({ e });
@@ -88,21 +91,11 @@ export function getSitterAccount(id) {
   };
 }
 
-
-
 export function saveSitter(id, sitterData) {
   return async (dispatch) => {
     try {
-      // const { data } = await axiosInstance().post(sitterAccountURL(id), sitterData, config);
-      // dispatch({ type: 'SITTER_ACCOUNT_SAVED', payload: data });
-
-      const data = await axiosInstance().post(sitterAccountURL(id), sitterData, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${getAccessToken()}`,
-        },
-      });
-      console.log({ data })
+      const data = await axiosInstance().post(`/sitter/account/${id}`, sitterData, getConfig());
+      dispatch({ type: 'SITTER_ACCOUNT_SAVED', payload: data });
     } catch (e) {
       console.log({ e });
     }
@@ -112,7 +105,7 @@ export function saveSitter(id, sitterData) {
 export function getOwnerAccount(id) {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().get(ownerAccountURL(id), config);
+      const { data } = await axiosInstance().get(`/owner/account/${id}`, getConfig());
       dispatch({ type: 'GET_OWNER_ACCOUNT', payload: data });
     } catch (e) {
       console.log({ e });
@@ -120,31 +113,65 @@ export function getOwnerAccount(id) {
   };
 }
 
+const getCatConfig = () => {
+  return {
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${getAccessToken()}`,
+      'content-ype': undefined
+    },
+  }
+}
+
+
 export function saveOwner(id, ownerData, photos) {
   return async (dispatch) => {
-    console.log({ ownerData })
     try {
-      const { data } = await axios.post(ownerAccountURL(id), ownerData, config);
-      // dispatch({ type: 'OWNER_ACCOUNT_SAVED', payload: data });
+      const { data } = await axiosInstance().post(`/owner/account/${id}`, ownerData, getConfig());
 
-      console.log({ photos })
+      try {
+        photos.forEach(async ({ file }, index) => {
+          if (file) {
+            const formData = new FormData();
+            formData.append('catPhoto', file);
+            formData.append('fieldArrayIndex', index)
 
-      photos.forEach(async ({ file }, index) => {
-        if (file) {
-          const formData = new FormData();
-          formData.append('catPhoto', file);
-          formData.append('fieldArrayIndex', index)
-
-          await axios.post(catPhotoURL, formData, catPhotoConfig);
-        }
-      })
+            await axiosInstance().post(`/image/cat`, formData, getCatConfig());
+          }
+        })
+      } catch (e) {
+        console.log({ e });
+      }
+      console.log({ data })
 
       dispatch({ type: 'OWNER_ACCOUNT_SAVED', payload: data });
     } catch (e) {
-      console.log({ e });
+      console.log({ eSaveOwner: e.response });
     }
   };
 }
+
+// export function saveOwner(id, ownerData, photos) {
+//   return async (dispatch) => {
+//     try {
+//       const { data } = await axiosInstance().post(`/owner/account/${id}`, ownerData, getConfig());
+
+//       photos.forEach(async ({ file }, index) => {
+//         if (file) {
+//           const formData = new FormData();
+//           formData.append('catPhoto', file);
+//           formData.append('fieldArrayIndex', index)
+
+//           await axiosInstance().post(`/image/cat`, formData, getCatConfig());
+//         }
+//       })
+
+//       dispatch({ type: 'OWNER_ACCOUNT_SAVED', payload: data });
+//     } catch (e) {
+//       console.log({ e });
+//     }
+//   };
+// }
 
 const catPhotoConfig = {
   withCredentials: true,

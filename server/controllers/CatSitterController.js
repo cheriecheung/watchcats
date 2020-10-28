@@ -34,6 +34,7 @@ module.exports = {
   },
 
   getAccount: async (req, res) => {
+    // get by user id from verified token
     try {
       const sitterRecord = await Sitter.findOne({ urlId: req.params.id });
       if (!sitterRecord) return res.status(204).json('No sitter account');
@@ -49,77 +50,74 @@ module.exports = {
   },
 
   postAccount: async (req, res) => {
-    // get user id from access token
-    // const userId = req.headers['authorization'];
-    // if (!userId) return res.status(403).json('User id missing');
+    const { userId } = req.verifiedData
+    if (!userId) return res.status(404).json('No user found');
 
-    console.log({ accessTokenHere: req.verifiedData })
+    const userRecord = await User.findById(userId);
+    if (!userRecord) return res.status(404).json('No user found');
 
-    // const userRecord = await User.findById(userId);
-    // if (!userRecord) return res.status(404).json('No user found');
-
-    // const { unavailableDates: unavailableDatesArr, ...rest } = req.body;
+    const { unavailableDates: unavailableDatesArr, ...rest } = req.body;
 
     try {
-      // if (!userRecord.sitter) {
-      //   const newSitter = new Sitter({
-      //     _id: new mongoose.Types.ObjectId(),
-      //     urlId: userRecord.urlId,
-      //     ...rest,
-      //   });
+      if (!userRecord.sitter) {
+        const newSitter = new Sitter({
+          _id: new mongoose.Types.ObjectId(),
+          urlId: userRecord.urlId,
+          ...rest,
+        });
 
-      //   await newSitter.save();
-      //   userRecord.sitter = newSitter._id;
-      //   await userRecord.save();
+        await newSitter.save();
+        userRecord.sitter = newSitter._id;
+        await userRecord.save();
 
-      //   if (unavailableDatesArr.length > 0) {
-      //     unavailableDatesArr.forEach(async (date) => {
-      //       const dateObj = new Date(date);
+        if (unavailableDatesArr.length > 0) {
+          unavailableDatesArr.forEach(async (date) => {
+            const dateObj = new Date(date);
 
-      //       const newDate = new UnavailableDate({
-      //         sitter: newSitter._id,
-      //         date: dateObj,
-      //       });
-      //       await newDate.save();
-      //     });
-      //   }
+            const newDate = new UnavailableDate({
+              sitter: newSitter._id,
+              date: dateObj,
+            });
+            await newDate.save();
+          });
+        }
 
-      //   return res.status(201).json('Sitter profile successfully created');
-      // }
+        return res.status(201).json('Sitter profile successfully created');
+      }
 
-      // const sitterRecord = await Sitter.findOneAndUpdate(
-      //   { urlId: req.params.id },
-      //   { $set: { ...rest } },
-      //   { useFindAndModify: false }
-      // );
-      // if (!sitterRecord) return res.status(400).json('Fail to update');
+      const sitterRecord = await Sitter.findOneAndUpdate(
+        { urlId: req.params.id },
+        { $set: { ...rest } },
+        { useFindAndModify: false }
+      );
+      if (!sitterRecord) return res.status(400).json('Fail to update');
 
-      // const { id: sitterId } = sitterRecord;
+      const { id: sitterId } = sitterRecord;
 
-      // if (unavailableDatesArr.length > 0) {
-      //   const allDays = await UnavailableDate.find({
-      //     sitter: sitterId,
-      //   });
+      if (unavailableDatesArr.length > 0) {
+        const allDays = await UnavailableDate.find({
+          sitter: sitterId,
+        });
 
-      //   unavailableDatesArr.forEach(async (date) => {
-      //     if (!allDays.includes(date)) {
-      //       const dateObj = new Date(date);
+        unavailableDatesArr.forEach(async (date) => {
+          if (!allDays.includes(date)) {
+            const dateObj = new Date(date);
 
-      //       const newDate = new UnavailableDate({
-      //         sitter: sitterId,
-      //         date: dateObj,
-      //       });
-      //       await newDate.save();
-      //     }
-      //   });
+            const newDate = new UnavailableDate({
+              sitter: sitterId,
+              date: dateObj,
+            });
+            await newDate.save();
+          }
+        });
 
-      //   allDays.length > 0 &&
-      //     allDays.forEach((item, index) => {
-      //       if (!unavailableDatesArr.includes(item)) allDays[index].remove();
-      //     });
-      // }
+        allDays.length > 0 &&
+          allDays.forEach((item, index) => {
+            if (!unavailableDatesArr.includes(item)) allDays[index].remove();
+          });
+      }
 
-      // return res.status(200).json('Sitter profile successfully saved');
+      return res.status(200).json('Sitter profile successfully saved');
     } catch (err) {
       console.log({ err });
       return res.status(500).json({ err });

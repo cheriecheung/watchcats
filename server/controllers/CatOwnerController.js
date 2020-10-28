@@ -81,12 +81,9 @@ module.exports = {
   },
 
   getAccount: async (req, res) => {
-    const userId = req.headers['authorization'];
-    if (!userId) return res.status(403).json('User id missing');
-
     try {
       const ownerRecord = await Owner.findOne({ urlId: req.params.id });
-      if (!ownerRecord) return res.status(404).json('No owner account');
+      if (!ownerRecord) return res.status(204).json('No owner account');
 
       const { id, aboutMe, catsDescription } = ownerRecord;
       const ownerId = ObjectId(id)
@@ -140,8 +137,8 @@ module.exports = {
   },
 
   postAccount: async (req, res) => {
-    const userId = req.headers['authorization'];
-    if (!userId) return res.status(403).json('User id missing');
+    const { userId } = req.verifiedData
+    if (!userId) return res.status(404).json('No user found');
 
     const userRecord = await User.findById(userId);
     if (!userRecord) return res.status(404).json('No user found');
@@ -198,7 +195,7 @@ module.exports = {
         }
 
         if (Array.isArray(catArr) && catArr.length > 0) {
-          catArr.forEach(async ({ ...rest }) => {
+          catArr.forEach(async ({ photo, ...rest }) => {
             const newCat = new Cat({
               owner: newOwner._id,
               ...rest,

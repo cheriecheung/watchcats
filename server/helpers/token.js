@@ -1,10 +1,11 @@
 const JWT = require('jsonwebtoken');
+const { verify } = require('jsonwebtoken')
 
 const { JWT_VERIFY_SECRET, ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env
 
 const createAccessToken = (user) => {
   const { id: userId, tokenVersion } = user;
-  return JWT.sign({ userId, tokenVersion }, ACCESS_TOKEN_SECRET, { expiresIn: "15m" })
+  return JWT.sign({ userId, tokenVersion }, ACCESS_TOKEN_SECRET, { expiresIn: "1m" })
 }
 
 const createRefreshToken = (user) => {
@@ -44,6 +45,24 @@ const signAccessToken = (user, secret) => {
   );
 };
 
+const verifyAccessTokenUpdate = (req, res, next) => {
+  const bearerHeader = req.headers['authorization'];
+  if (!bearerHeader) return res.status(401).json('Access deined');
+
+  try {
+    const bearer = bearerHeader.split(' ');
+    const accessToken = bearer[1].toString();
+
+    const verifiedData = verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+    req.verifiedData = verifiedData;
+
+    return next();
+  } catch (err) {
+    console.log({ err })
+    return res.status(401).json('Invalid token')
+  }
+}
+
 const verifyAccessToken = (req, res, next) => {
   const bearerHeader = req.headers['authorization'];
   if (!bearerHeader) return res.status(401).json('Access deined');
@@ -73,4 +92,4 @@ const signRefreshToken = (user, secret) => {
   );
 };
 
-module.exports = { createAccessToken, createRefreshToken, signAccessTokenLogin, signAccessToken, verifyAccessToken, signRefreshToken };
+module.exports = { createAccessToken, createRefreshToken, signAccessTokenLogin, signAccessToken, verifyAccessToken, verifyAccessTokenUpdate, signRefreshToken };
