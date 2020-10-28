@@ -1,4 +1,6 @@
 import axios from 'axios';
+import axiosInstance from '../../utility/axiosInstance';
+import { getAccessToken } from '../../utility/accessToken'
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
@@ -72,7 +74,12 @@ export function deletePicture(filename) {
 export function getSitterAccount(id) {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(sitterAccountURL(id), config);
+      const { data } = await axiosInstance().get(`/sitter/account/${id}`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      });
       console.log({ sitterAccountData: data });
       dispatch({ type: 'GET_SITTER_ACCOUNT', payload: data });
     } catch (e) {
@@ -81,11 +88,21 @@ export function getSitterAccount(id) {
   };
 }
 
+
+
 export function saveSitter(id, sitterData) {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(sitterAccountURL(id), sitterData, config);
-      dispatch({ type: 'SITTER_ACCOUNT_SAVED', payload: data });
+      // const { data } = await axiosInstance().post(sitterAccountURL(id), sitterData, config);
+      // dispatch({ type: 'SITTER_ACCOUNT_SAVED', payload: data });
+
+      const data = await axiosInstance().post(sitterAccountURL(id), sitterData, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      });
+      console.log({ data })
     } catch (e) {
       console.log({ e });
     }
@@ -95,7 +112,7 @@ export function saveSitter(id, sitterData) {
 export function getOwnerAccount(id) {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(ownerAccountURL(id), config);
+      const { data } = await axiosInstance().get(ownerAccountURL(id), config);
       dispatch({ type: 'GET_OWNER_ACCOUNT', payload: data });
     } catch (e) {
       console.log({ e });

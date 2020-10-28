@@ -7,17 +7,17 @@ const User = require('../model/User');
 
 router.get('/test_axios', async (req, res) => {
   // res.clearCookie('refresh_token');
-  return res.status(401).json('logging out')
+  // return res.status(401).json('logging out')
 
-  // return res.status(403).json('logging out')
+  return res.status(403).json('logging out')
 })
 
 // specifically designed to handle refreshing jwt
 router.post('/refresh_token', async (req, res) => {
   const { refresh_token } = req.cookies;
-  if (!refresh_token) return res.status(400).json({ ok: false });
+  if (!refresh_token) return res.status(400).json({ ok: false, message: 'message' });
 
-  console.log({ header: req.headers['authorization'], cookies: req.cookies })
+  // console.log({ header: req.headers['authorization'], cookies: req.cookies })
 
   let payload = null;
 
@@ -25,11 +25,11 @@ router.post('/refresh_token', async (req, res) => {
     payload = verify(refresh_token, process.env.REFRESH_TOKEN_SECRET)
   } catch (err) {
     console.log({ err })
-    return res.status(400).json({ ok: false });
+    return res.status(400).json({ ok: false, message: 'message' });
   }
 
   const user = await User.findById(payload.userId)
-  if (!user) return res.status(400).json({ ok: false });
+  if (!user) return res.status(400).json({ ok: false, message: 'message' });
 
   // To revoke token, change the token version
   // if (user.tokenVersion !== payload.tokenVersion) return res.send({ ok: false, accessToken: '' });

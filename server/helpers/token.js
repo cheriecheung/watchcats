@@ -57,7 +57,7 @@ const verifyAccessToken = (req, res, next) => {
     return next();
   } catch (err) {
     console.log({ err })
-    return res.status(400).json('Invalid token')
+    return res.status(401).json('Invalid token')
   }
 };
 

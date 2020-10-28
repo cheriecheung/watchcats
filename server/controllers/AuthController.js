@@ -189,26 +189,35 @@ module.exports = {
       },
     };
 
+    let userId;
+
     try {
       const {
         data: { sub: google_id, name, email },
       } = await axios.get('https://openidconnect.googleapis.com/v1/userinfo', config);
 
       const user = await User.findOne({ email });
+
       if (!user) {
         const newUser = new User({ name, email });
 
         await newUser.save();
         req.session.userId = newUser._id;
-        return res.status(200).json({ userId: newUser._id, shortId: newUser.urlId });
+        userId = newUser._id;
       }
 
-      console.log({ access_token, refresh_token })
+      userId = user._id;
 
-      req.session.userId = user._id;
-      return res.status(200).json({ userId: user._id, shortId: user.urlId });
+      // const accessToken = createAccessToken(user);
+      const refreshToken = createRefreshToken(user);
+      res.cookie('refresh_token', refreshToken, {
+        httpOnly: true,
+        // domain
+      })
+
+      return res.status(200).json({ userId, shortId: user.urlId });
     } catch (e) {
-      console.log('>>>>>>>>>>>> cannot unsuccessful');
+      console.log('>>>>>>>>>>>> unsuccessful');
       return res.status(401).json('Incorrect credentials');
     }
   },
