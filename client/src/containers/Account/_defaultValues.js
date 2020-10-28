@@ -42,10 +42,10 @@ export const catObj = {
     isVaccinated: '',
     isInsured: '',
     breed: '',
-    medicalNeeds: '',
+    medicalNeeds: [],
     personality: '',
     favouriteTreat: '',
-    photo: '',
+    photo: null,
 };
 
 export const cat_owner_default_values = {

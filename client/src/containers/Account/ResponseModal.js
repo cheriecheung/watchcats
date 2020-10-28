@@ -13,6 +13,7 @@ function ResponseModal() {
   const { generalInfo, sitter, ownerSaved } = useSelector((state) => state.account);
 
   useEffect(() => {
+    console.log({ generalInfo, sitter, ownerSaved })
     if (generalInfo) {
       setModalContent('You have successfully saved your general information');
       setAccountTab('general');

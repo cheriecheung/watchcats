@@ -41,9 +41,9 @@ function CatOwnerInfo({ activeKey }) {
 
   const { ownerData, ownerSaved, ownerCompleteSave, catPhotoRemoved } = useSelector((state) => state.account);
 
-  // useEffect(() => {
-  //   console.log({ errors })
-  // }, [errors])
+  useEffect(() => {
+    console.log({ errors })
+  }, [errors])
 
   // useEffect(() => {
   //   console.log({ watchCats: watch('cat') })
@@ -67,8 +67,8 @@ function CatOwnerInfo({ activeKey }) {
     if (ownerData) {
       const {
         aboutMe,
-        bookingOneDay = [],
-        bookingOvernight = [],
+        bookingOneDay = [{ date: '', startTime: null, endTime: '' }],
+        bookingOvernight = [{ startDAte: null, endDate: '' }],
         cat,
         catsDescription,
       } = ownerData;
@@ -97,7 +97,7 @@ function CatOwnerInfo({ activeKey }) {
   }, [ownerData, reset]);
 
   const onSubmit = (data) => {
-    const { cat, ...rest } = data;
+    const { cat, bookingOneDay, bookingOvernight, ...rest } = data;
 
     const cleanedCat = cat.map(({ breed, personality, ...restCat }) => {
       const { value: breedValue } = breed || {};
@@ -110,7 +110,27 @@ function CatOwnerInfo({ activeKey }) {
       }
     })
 
-    const cleanedData = { cat: cleanedCat, ...rest }
+    let cleanedBookingOneDay;
+    let cleanedBookingOvernight;
+
+    if (bookingOneDay.length === 1 && (bookingOneDay[0].date === '' || bookingOneDay[0].endTime === '' || bookingOneDay.startTime === null)) {
+      cleanedBookingOneDay = []
+    } else {
+      cleanedBookingOneDay = bookingOneDay;
+    }
+
+    if (bookingOvernight.length === 1 && (bookingOvernight[0].endDate === '' || bookingOvernight.startDate === null)) {
+      cleanedBookingOvernight = []
+    } else {
+      cleanedBookingOvernight = bookingOvernight;
+    }
+
+    const cleanedData = {
+      cat: cleanedCat,
+      bookingOneDay: cleanedBookingOneDay,
+      bookingOvernight: cleanedBookingOvernight,
+      ...rest
+    }
 
     const photos = watch('cat').map(({ photo }) => photo || {})
 
