@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
 import styled from 'styled-components';
-import { getOwnerAccount, saveOwner, saveCatPhotos } from '../../../redux/actions/accountActions';
+import { getOwnerAccount, saveOwner } from '../../../redux/actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -137,23 +137,6 @@ function CatOwnerInfo({ activeKey }) {
     dispatch(saveOwner(id, cleanedData, photos))
   };
   // const onSubmit = (data) => console.log(data);
-
-  // useEffect(() => {
-  //   console.log({ cat: watch('cat') })
-  //   if (ownerSaved) {
-  //     const cat = watch('cat');
-
-  //     console.log({ cat })
-
-  //     // cat.forEach(({ photo: { file } }, index) => {
-  //     //   const formData = new FormData();
-  //     //   formData.append('catPhoto', file);
-  //     //   formData.append('fieldArrayIndex', index)
-
-  //     //   dispatch(saveCatPhotos(formData))
-  //     // })
-  //   }
-  // }, [ownerSaved])
 
   return (
     <>

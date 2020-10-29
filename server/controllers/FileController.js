@@ -50,7 +50,7 @@ module.exports = {
   },
 
   deleteImage: async (req, res) => {
-    const userId = req.headers['authorization'];
+    const { userId } = req.verifiedData
     if (!userId) return res.status(403).json('User id missing');
 
     const userRecord = await User.findById(userId);
@@ -70,7 +70,7 @@ module.exports = {
   },
 
   saveFileName: async (req, res) => {
-    const userId = req.headers['authorization'];
+    const { userId } = req.verifiedData
     if (!userId) return res.status(403).json('User id missing');
 
     const userRecord = await User.findById(userId);
@@ -99,8 +99,9 @@ module.exports = {
   },
 
   saveCatPhoto: async (req, res) => {
-    const userId = req.headers['authorization'];
-    if (!userId) return res.status(403).json('User id missing');
+    const { userId } = req.verifiedData
+    if (!userId) return res.status(404).json('No user found');
+
     const userObjid = ObjectId(userId)
 
     try {
@@ -140,9 +141,6 @@ module.exports = {
   },
 
   deleteCatPhoto: async (req, res) => {
-    const userId = req.headers['authorization'];
-    if (!userId) return res.status(403).json('User id missing');
-
     try {
       const { filename } = req.body;
 

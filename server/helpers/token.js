@@ -1,95 +1,76 @@
 const JWT = require('jsonwebtoken');
 const { verify } = require('jsonwebtoken')
+const { JWT_VERIFY_SECRET, ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET, VERIFY_EMAIL_TOKEN_SECRET, RESET_PASSWORD_TOKEN_SECRET } = process.env
 
-const { JWT_VERIFY_SECRET, ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env
+module.exports = {
+  createAccessToken: (user) => {
+    const { id: userId, tokenVersion } = user;
+    return JWT.sign({ userId, tokenVersion }, ACCESS_TOKEN_SECRET, { expiresIn: "10m" })
+  },
 
-const createAccessToken = (user) => {
-  const { id: userId, tokenVersion } = user;
-  return JWT.sign({ userId, tokenVersion }, ACCESS_TOKEN_SECRET, { expiresIn: "1m" })
-}
+  createRefreshToken: (user) => {
+    const { id: userId, tokenVersion } = user;
+    return JWT.sign({ userId, tokenVersion }, REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
+  },
 
-const createRefreshToken = (user) => {
-  const { id: userId, tokenVersion } = user;
-  return JWT.sign({ userId, tokenVersion }, REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
-}
+  createVerifyEmailToken: userId => {
+    return JWT.sign({ userId }, VERIFY_EMAIL_TOKEN_SECRET, { expiresIn: "60m" })
+  },
 
-const signAccessTokenLogin = (user, secret) => {
-  const now = Math.floor(Date.now() / 1000);
+  createResetPasswordToken: userId => {
+    return JWT.sign({ userId }, RESET_PASSWORD_TOKEN_SECRET, { expiresIn: "30m" })
+  },
 
-  return JWT.sign(
-    {
-      iss: 'FindPetSitter',
-      sub: user.id,
-      iat: now,
+  // 24 hours, for verify email and reset password
+  verifyAccessToken: (req, res, next) => {
+    const bearerHeader = req.headers['authorization'];
+    if (!bearerHeader) return res.status(401).json('Access deined');
 
-      // 10 minutes
-      exp: now + 60 * 10
-    },
-    secret
-  );
-};
+    try {
+      const bearer = bearerHeader.split(' ');
+      const bearerToken = bearer[1].toString();
+      const verifiedData = JWT.verify(bearerToken, JWT_VERIFY_SECRET)
+      req.verifiedData = verifiedData;
 
-const signAccessToken = (user, secret) => {
-  const now = Math.floor(Date.now() / 1000);
+      return next();
+    } catch (err) {
+      console.log({ err })
+      return res.status(401).json('Invalid token')
+    }
+  },
 
-  return JWT.sign(
-    {
-      iss: 'FindPetSitter',
-      sub: user.id,
-      iat: now,
+  verifyAccessTokenUpdate: (req, res, next) => {
+    const bearerHeader = req.headers['authorization'];
+    if (!bearerHeader) return res.status(401).json('Access deined');
 
-      // for activating account and reset password
-      exp: now + 60 * 60 * 24
-    },
-    secret
-  );
-};
+    try {
+      const bearer = bearerHeader.split(' ');
+      const accessToken = bearer[1].toString();
 
-const verifyAccessTokenUpdate = (req, res, next) => {
-  const bearerHeader = req.headers['authorization'];
-  if (!bearerHeader) return res.status(401).json('Access deined');
+      const verifiedData = verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+      req.verifiedData = verifiedData;
 
-  try {
-    const bearer = bearerHeader.split(' ');
-    const accessToken = bearer[1].toString();
+      return next();
+    } catch (err) {
+      console.log({ err })
+      return res.status(401).json('Invalid token')
+    }
+  },
 
-    const verifiedData = verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
-    req.verifiedData = verifiedData;
+  // register
+  signAccessToken: (user, secret) => {
+    const now = Math.floor(Date.now() / 1000);
 
-    return next();
-  } catch (err) {
-    console.log({ err })
-    return res.status(401).json('Invalid token')
-  }
-}
+    return JWT.sign(
+      {
+        iss: 'FindPetSitter',
+        sub: user.id,
+        iat: now,
 
-const verifyAccessToken = (req, res, next) => {
-  const bearerHeader = req.headers['authorization'];
-  if (!bearerHeader) return res.status(401).json('Access deined');
-
-  try {
-    const bearer = bearerHeader.split(' ');
-    const bearerToken = bearer[1].toString();
-    const verifiedData = JWT.verify(bearerToken, JWT_VERIFY_SECRET)
-    req.verifiedData = verifiedData;
-
-    return next();
-  } catch (err) {
-    console.log({ err })
-    return res.status(401).json('Invalid token')
+        // for activating account and reset password
+        exp: now + 60 * 60 * 24
+      },
+      secret
+    );
   }
 };
-
-const signRefreshToken = (user, secret) => {
-  return JWT.sign(
-    {
-      iss: 'FindPetSitter',
-      sub: user.id,
-      iat: new Date().getTime(), // current time
-      exp: new Date().setDate(new Date().getDate() + 15), // current time + 30 day ahead
-    },
-    secret
-  );
-};
-
-module.exports = { createAccessToken, createRefreshToken, signAccessTokenLogin, signAccessToken, verifyAccessToken, verifyAccessTokenUpdate, signRefreshToken };

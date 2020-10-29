@@ -9,7 +9,7 @@ import AppointmentPeriodPicker from '../FindCatSitter/Search/AppointmentPeriodPi
 import { appointmentTypeOptions } from '../../constants'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { home_search_schema } from '../Account/_validationSchema'
-import { checkToken, testAxiosInstance } from '../../redux/actions/userActions'
+import { checkToken } from '../../redux/actions/userActions'
 import { useDispatch } from 'react-redux';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -65,12 +65,6 @@ function Home() {
 
   return (
     <div style={{ padding: '80px 40px 25px 40px' }}>
-      <button
-        type="button"
-        onClick={() => dispatch(testAxiosInstance())}
-      >
-        test axios instance
-        </button>
       <button
         type="button"
         onClick={() => dispatch(checkToken())}

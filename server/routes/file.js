@@ -7,14 +7,13 @@ const { storage } = FileController;
 const upload = multer({ storage });
 
 router.get('/image/:filename', FileController.displayImage);
-router.delete('/image', FileController.deleteImage);
+router.delete('/image', verifyAccessTokenUpdate, FileController.deleteImage);
 
-router.post('/image/profile-picture', upload.single('profilePic'), FileController.saveFileName);
+router.post('/image/profile-picture', verifyAccessTokenUpdate, upload.single('profilePic'), FileController.saveFileName);
 router.post('/image/address-proof', upload.single('addressProof'), FileController.saveFileName);
 
-// router.post('/image/cat', upload.array('catPhotos'), FileController.saveCatPhotos)
 router.post('/image/cat', verifyAccessTokenUpdate, upload.single('catPhoto'), FileController.saveCatPhoto)
-router.delete('/image/cat', FileController.deleteCatPhoto)
+router.delete('/image/cat', verifyAccessTokenUpdate, FileController.deleteCatPhoto)
 
 
 module.exports = router;

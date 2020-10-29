@@ -3,13 +3,13 @@ const bcrypt = require('bcryptjs');
 const User = require('../model/User');
 const JWT = require('jsonwebtoken');
 const { sendActivateMail, sendResetPwMail } = require('../helpers/mailer');
-const { verifyAccessToken, signAccessToken } = require('../helpers/token');
+const { signAccessToken, createVerifyEmailToken, createResetPasswordToken } = require('../helpers/token');
 
 const { JWT_VERIFY_SECRET, JWT_RESET_PW_SECRET } = process.env
 
 module.exports = {
   get: async (req, res) => {
-    const userId = req.headers['authorization'];
+    const { userId } = req.verifiedData
     if (!userId) return res.status(403).json('User id missing');
 
     const user = await User.findById(userId);
@@ -43,7 +43,7 @@ module.exports = {
   },
 
   post: async (req, res) => {
-    const userId = req.headers['authorization'];
+    const { userId } = req.verifiedData
     if (!userId) return res.status(403).json('User id missing');
 
     const user = await User.findById(userId);
@@ -93,8 +93,11 @@ module.exports = {
 
     const newUser = new User({ name, email, password: hashedPassword });
 
-    const secretToken = signAccessToken(newUser, JWT_VERIFY_SECRET);
-    sendActivateMail(email, secretToken);
+    // const secretToken = signAccessToken(newUser, JWT_VERIFY_SECRET);
+    // sendActivateMail(email, secretToken);
+
+    const token = createVerifyEmailToken(user.id);
+    sendActivateMail(token)
 
     try {
       await newUser.save();
@@ -115,8 +118,11 @@ module.exports = {
       if (!user) return res.status(400).json({ error: 'Invalid email' });
       if (user.isVerified) return res.status(200).json('Account has previously been activated');
 
-      const secretToken = signAccessToken(user, JWT_VERIFY_SECRET);
-      sendActivateMail(email, secretToken);
+      // const secretToken = signAccessToken(user, JWT_VERIFY_SECRET);
+      // sendActivateMail(email, secretToken);
+
+      const token = createVerifyEmailToken(user.id);
+      sendActivateMail(token)
 
       return res.status(200).json('success');
     } catch (err) {

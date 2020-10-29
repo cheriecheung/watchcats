@@ -5,14 +5,6 @@ const AuthController = require('../controllers/AuthController');
 const { verify } = require('jsonwebtoken')
 const User = require('../model/User');
 
-router.get('/test_axios', async (req, res) => {
-  // res.clearCookie('refresh_token');
-  // return res.status(401).json('logging out')
-
-  return res.status(403).json('logging out')
-})
-
-// specifically designed to handle refreshing jwt
 router.post('/refresh_token', async (req, res) => {
   const { refresh_token } = req.cookies;
   if (!refresh_token) return res.status(400).json({ ok: false, message: 'message' });
@@ -40,12 +32,6 @@ router.post('/refresh_token', async (req, res) => {
 
   return res.status(200).json({ ok: true, accessToken })
 })
-
-// router.get('/check_token', async (req, res) => {
-//   console.log({ cookies: req.cookies })
-
-//   return res.status(200).json('heres your response')
-// })
 
 router.post('/login', AuthController.login)
 router.post('/activate-account', verifyAccessToken, AuthController.activateAccount);

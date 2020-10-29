@@ -30,8 +30,6 @@ const resetPasswordURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
 const googleAuthenticatorQrCodeURL = `${REACT_APP_API_DOMAIN}/google-authenticator-qrcode`
 const googleAuthenticatorVerifyCodeURL = `${REACT_APP_API_DOMAIN}/google-authenticator-verify-code`
 
-// const accessToken = getAccessToken()
-
 const config = {
   withCredentials: true,
   // credentials: 'include',
@@ -40,26 +38,10 @@ const config = {
   },
 };
 
-export function testAxiosInstance() {
-  return async (dispatch) => {
-    try {
-      const data = await axiosInstance().get(`/test_axios`)
-
-      console.log({ data })
-    } catch (err) {
-      console.log({ err });
-    }
-  };
-}
-
 export function checkToken() {
   return async (dispatch) => {
     try {
-      // const { data } = await axios.post(`/refresh_token`, {}, { headers: { Authorization: `Bearer ${accessTokenValue}` } });
-
       const { data } = await axios.post(`/refresh_token`)
-
-      console.log({ data })
 
       const { accessToken } = data;
       setAccessToken(accessToken)
