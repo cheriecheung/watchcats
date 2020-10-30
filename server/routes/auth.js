@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { verifyAccessToken, createAccessToken, createRefreshToken } = require('../helpers/token');
+const { verifyAccessToken, verifyAccessTokenUpdate, createAccessToken, createRefreshToken } = require('../helpers/token');
 const { generateCodes, authenticateUser } = require('../helpers/authentication');
 const AuthController = require('../controllers/AuthController');
 const { verify } = require('jsonwebtoken')
@@ -7,9 +7,7 @@ const User = require('../model/User');
 
 router.post('/refresh_token', async (req, res) => {
   const { refresh_token } = req.cookies;
-  if (!refresh_token) return res.status(400).json({ ok: false, message: 'message' });
-
-  // console.log({ header: req.headers['authorization'], cookies: req.cookies })
+  if (!refresh_token) return res.status(401).json({ ok: false, message: 'message' });
 
   let payload = null;
 
@@ -17,11 +15,11 @@ router.post('/refresh_token', async (req, res) => {
     payload = verify(refresh_token, process.env.REFRESH_TOKEN_SECRET)
   } catch (err) {
     console.log({ err })
-    return res.status(400).json({ ok: false, message: 'message' });
+    return res.status(402).json({ ok: false, message: 'message' });
   }
 
   const user = await User.findById(payload.userId)
-  if (!user) return res.status(400).json({ ok: false, message: 'message' });
+  if (!user) return res.status(403).json({ ok: false, message: 'message' });
 
   // To revoke token, change the token version
   // if (user.tokenVersion !== payload.tokenVersion) return res.send({ ok: false, accessToken: '' });
@@ -43,17 +41,18 @@ router.get('/googlelogin', generateCodes, AuthController.googleLogin);
 router.get('/oauth2callback', authenticateUser);
 router.get('/getUser', AuthController.googleUser);
 
-// router.get('/googlelogin', AuthController.googleLogin);
-// router.get('/oauth2callback', AuthController.getAccessToken);
+router.delete('/logout', verifyAccessTokenUpdate, async (req, res) => {
+  const { userId } = req.verifiedData;
 
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json('User not found');
 
-router.get('/checkloggedIn', async (req, res) => {
-  console.log({ checkloggedIn: req.session.userId });
-  return res.json(req.session.userId);
-});
-
-router.delete('/logout', (req, res) => {
-  console.log({ REQsession: req.session });
+    return res.status(200).json('Logging out...');
+  } catch (err) {
+    console.log({ err })
+    return res.status(400).json('Cannot logout');
+  }
 });
 
 // router.post('/logout', verifyAccessToken, (req, res) => {
