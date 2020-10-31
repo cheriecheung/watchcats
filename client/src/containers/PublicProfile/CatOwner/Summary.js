@@ -8,8 +8,9 @@ function Summary({ ownerInfo }) {
   return (
     <SummaryCard
       style={{
+        display: 'inline-table',
         flexBasis: '35%',
-        maxHeight: 400,
+        // maxHeight: 400,
         position: 'sticky',
         top: 20,
       }}

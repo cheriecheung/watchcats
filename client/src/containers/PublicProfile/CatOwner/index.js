@@ -12,12 +12,21 @@ import AboutCat from './AboutCat';
 import Location from '../Common/Location';
 import Responsibilities from './Responsibilities';
 
+import styled from 'styled-components'
+
 const allReviews = [];
 for (let i = 0; i < 7; i++) {
   allReviews.push({ id: i, name: `User ${i}` });
 }
 
 const allLocations = { id: 1, name: 'Cat Owner #1', lat: 52.3449, lng: 4.8766 };
+
+const DetailsContainer = styled.div`
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 20px;
+`;
 
 function CatOwner() {
   const { id } = useParams();
@@ -53,40 +62,44 @@ function CatOwner() {
           <div style={{ flexBasis: '60%', marginBottom: 100 }}>
             {/* <ImageSlider /> */}
 
-            <SectionContainer>
-              <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
-                Reviews(10)
+            <DetailsContainer>
+
+              <SectionContainer style={{ marginTop: 0 }}>
+                <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
+                  Reviews(10)
               </h5>
-              <Reviews scrollToRef={scrollToRef} reviewListRef={reviewListRef} />
-            </SectionContainer>
+                <Reviews scrollToRef={scrollToRef} reviewListRef={reviewListRef} />
+              </SectionContainer>
 
-            <hr />
+              <hr />
 
-            <SectionContainer>
-              <h5>About</h5>
-              <AboutMe aboutMe={ownerInfo.aboutMe} />
-            </SectionContainer>
+              <SectionContainer>
+                <h5>About</h5>
+                <AboutMe aboutMe={ownerInfo.aboutMe} />
+              </SectionContainer>
 
-            <hr />
+              <hr />
 
-            <SectionContainer>
-              <h5>About my cat</h5>
-              <AboutCat allCats={ownerInfo.cat} />
-            </SectionContainer>
+              <SectionContainer>
+                <h5>About my cat</h5>
+                <AboutCat allCats={ownerInfo.cat} />
+              </SectionContainer>
 
-            <hr />
+              <hr />
 
-            <SectionContainer>
-              <h5>Responsibility</h5>
-              <Responsibilities descriptions={ownerInfo.catsDescription} />
-            </SectionContainer>
+              <SectionContainer>
+                <h5>Responsibility</h5>
+                <Responsibilities descriptions={ownerInfo.catsDescription} />
+              </SectionContainer>
 
-            <hr />
+              <hr />
 
-            <SectionContainer>
-              <h5>Location</h5>
-              <Location />
-            </SectionContainer>
+              <SectionContainer>
+                <h5>Location</h5>
+                <Location />
+              </SectionContainer>
+
+            </DetailsContainer>
           </div>
 
           <Summary ownerInfo={ownerInfo} />

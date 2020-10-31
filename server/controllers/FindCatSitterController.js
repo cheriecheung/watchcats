@@ -44,28 +44,10 @@ function paginateRecords(records, currentPage, nPerPage) {
   return records.slice(start, start + nPerPage)
 }
 
-// function inBounds(point, bounds) {
-//   console.log({ point, bounds })
-//   const eastBound = point.lng < bounds.neLng;
-//   const westBound = point.lng > bounds.swLng;
-
-//   let inLong;
-
-//   if (bounds.neLng < bounds.swLng) {
-//     inLong = eastBound || westBound;
-//   } else {  
-//     inLong = eastBound && westBound;
-//   }
-
-//   const inLat = point.lat > bounds.swLat && point.lat < bounds.neLat;
-//   return inLat && inLong;
-// }
-
 function inBounds(point, bounds) {
-  console.log({ point, bounds })
-
   var lng = (point.lng - bounds.neLng) * (point.lng - bounds.swLng) < 0;
   var lat = (point.lat - bounds.neLat) * (point.lat - bounds.swLat) < 0;
+
   return lng && lat;
 }
 
@@ -78,7 +60,7 @@ module.exports = {
       console.log({ query: req.query })
 
 
-      const point = { lng: 52.365051, lat: 4.884429 }
+      const point = { lat: 52.33, lng: 4.87 }
 
       const neLat = parseFloat(req.query.neLat);
       const neLng = parseFloat(req.query.neLng);
