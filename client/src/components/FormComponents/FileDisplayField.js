@@ -18,7 +18,7 @@ const RemoveButton = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease-out;
-  opacity: ${(props) => (props.opacity ? 0 : 1)};
+  opacity: ${(props) => (props.hide ? 0 : 1)};
   display: flex;
   justify-content: center;
 `;
@@ -59,7 +59,7 @@ function Display({ fileName, handleRemovePhoto }) {
                 onMouseLeave={() => setHideRemove(true)}
                 image={photoURL}
             >
-                <RemoveButton type="button" onClick={handleRemovePhoto} opacity={hideRemove}>
+                <RemoveButton type="button" onClick={handleRemovePhoto} hide={hideRemove}>
                     <RemoveText>Remove</RemoveText>
                 </RemoveButton>
             </ImageContainer>

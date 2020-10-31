@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { getErrorProperties } from '../../utility'
 
 const Field = styled(AntDatePicker)`
-  border: 1px solid ${props => props.hasError ? '#E56E5A' : '#d9d9d9'};
+  border: 1px solid ${props => props.error ? '#E56E5A' : '#d9d9d9'};
 `
 
 const ErrorDisplay = styled.span`
@@ -29,7 +29,7 @@ export default function DatePicker({ name, placeholder }) {
         name={name}
         render={() => (
           <Field
-            hasError={hasError}
+            error={hasError}
             placeholder={placeholder}
             disabledDate={(current) => {
               return current && current < moment();

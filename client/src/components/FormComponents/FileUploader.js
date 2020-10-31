@@ -4,14 +4,10 @@ import styled from 'styled-components';
 import { getErrorProperties } from '../../utility'
 import { useTranslation } from 'react-i18next';
 
-// const Label = styled.label`
-//   border: 1px solid ${props => props.hasError ? '#E56E5A' : '#d9d9d9'} !important;
-// `
-
 const Label = styled.label`
   display:flex;
   justify-content: center;
-  border: 1px solid ${props => props.hasError ? '#E56E5A' : '#d9d9d9'} !important;
+  border: 1px solid ${props => props.error ? '#E56E5A' : '#d9d9d9'} !important;
   width: 120px; 
   height: 120px;
   border-radius: 10px;
@@ -59,7 +55,7 @@ export default function FileUploader({
 
   return (
     <>
-      <Label htmlFor={name} className="upload-file-input form-control" hasError={hasError}>
+      <Label htmlFor={name} className="upload-file-input form-control" error={hasError}>
         <div style={{ alignSelf: 'center' }}>
           <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
           <span>{t('owner_form.upload')}</span>
@@ -121,7 +117,7 @@ export function ArrayFileUploader({
 
   return (
     <>
-      <Label htmlFor={name} className="upload-file-input form-control" hasError={hasError}>
+      <Label htmlFor={name} className="upload-file-input form-control" error={hasError}>
         <div style={{ alignSelf: 'center' }}>
           <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
           <span>{t('owner_form.upload')}</span>
