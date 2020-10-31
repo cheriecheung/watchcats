@@ -1,6 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { FieldLabel, TextField, SectionContainer, SectionTitle } from '../../../components/FormComponents';
 import PhoneInput from 'react-phone-number-input'
+import styled from 'styled-components';
+
+const Button = styled.button`
+    background: none;
+    border: none;
+    outline: none !important;
+    
+    &:hover{
+        color: pink
+    }
+    
+`
+
+const BreakLine = styled.div`
+    width: 1px;
+    height: 20px;
+    background: #929292;
+    margin: 0 20px;
+
+    @media (max-width: 769px) {
+        display: none;
+    }
+`
+
+const ContentBox = styled.div`
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @media (min-width: 769px) {
+        flex-direction: row;
+    }
+`
 
 const originalEmail = 'testing@gmail.com'
 const originalPhone = '+85268615357'
@@ -29,40 +62,43 @@ function ContactDetails({ setModal }) {
     }, [])
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <FieldLabel>Email</FieldLabel>
-            <div>
-                {revealEmail ?
-                    <>
-                        <span>{email}</span>
-                        <button onClick={() => setRevealEmail(false)}>Hide</button>
-                    </>
-                    :
-                    <>
-                        <span>{asteriskedEmail}</span>
-                        <button onClick={() => setRevealEmail(true)}>Reveal</button>
-                    </>
-                }
+        <ContentBox>
+            <div style={{ flexBasis: '45%' }}>
+                <FieldLabel>Email</FieldLabel>
+
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    {revealEmail ? <span>{email}</span> : <span>{asteriskedEmail}</span>}
+
+                    <div style={{ display: 'flex' }}>
+                        {revealEmail ?
+                            <Button onClick={() => setRevealEmail(false)}>Hide</Button>
+                            :
+                            <Button onClick={() => setRevealEmail(true)}>Reveal</Button>
+                        }
+                        <Button style={{ float: 'right' }}>Edit</Button>
+                    </div>
+                </div>
             </div>
 
+            <BreakLine style={{ height: 50 }} />
 
-            <br />
+            <div style={{ flexBasis: '45%' }}>
+                <FieldLabel>Phone number</FieldLabel>
 
-            <FieldLabel>Phone number</FieldLabel>
-            <div>
-                {revealPhone ?
-                    <>
-                        <span>{phone}</span>
-                        <button onClick={() => setRevealPhone(false)}>Hide</button>
-                    </>
-                    :
-                    <>
-                        <span>{asteriskedPhone}</span>
-                        <button onClick={() => setRevealPhone(true)}>Reveal</button>
-                    </>}
-                <button style={{ float: 'right' }} onClick={() => setModal('Enter a Phone Number', <EnterPhoneNumber />)}>Edit</button>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    {revealPhone ? <span>{phone}</span> : <span>{asteriskedPhone}</span>}
+
+                    <div style={{ display: 'flex' }}>
+                        {revealPhone ?
+                            <Button onClick={() => setRevealPhone(false)}>Hide</Button>
+                            :
+                            <Button onClick={() => setRevealPhone(true)}>Reveal</Button>
+                        }
+                        <Button style={{ float: 'right' }} onClick={() => setModal('Enter a Phone Number', <EnterPhoneNumber />)}>Edit</Button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </ContentBox>
     )
 }
 

@@ -60,8 +60,12 @@ function PasswordAndAuthentication({ setModal }) {
                 sign in
             </p>
 
-            <Button color="info" size="sm"
-                onClick={onEnable2FA}>
+            <Button
+                color="info"
+                size="sm"
+                type="button"
+                onClick={onEnable2FA}
+            >
                 Enable Two-Factor Auth
             </Button>
 
@@ -107,7 +111,7 @@ function ChangePassword() {
 
 function Enable2FA() {
     const dispatch = useDispatch();
-    const { qrCode } = useSelector((state) => state.authentication);
+    const { qrCode } = useSelector((state) => state.two_factor_auth);
 
     const methods = useForm({ defaultValues });
     const { handleSubmit, watch } = methods;
@@ -174,7 +178,7 @@ function Enable2FA() {
 
                 <Container>
                     <Picture>
-                        <i class="fas fa-mobile-alt fa-4x mb-3" />
+                        <i className="fas fa-mobile-alt fa-4x mb-3" />
 
                     </Picture>
                     <Description>
