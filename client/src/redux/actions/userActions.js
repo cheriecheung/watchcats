@@ -23,7 +23,7 @@ const activateURL = `${REACT_APP_API_DOMAIN}/activate-account`;
 const activationEmailURL = `${REACT_APP_API_DOMAIN}/activate-account-email`;
 
 const loginURL = `${REACT_APP_API_DOMAIN}/login`;
-const logoutURL = `${REACT_APP_API_DOMAIN}/logout`;
+const logoutURL = '/logout';
 const resetPasswordEmailURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
 const resetPasswordURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
 
@@ -96,13 +96,10 @@ export function googleAuthenticate() {
         withCredentials: true,
         // credentials: 'include',
       });
-      const { userId, shortId } = data || {};
-
-      console.log({ userId, shortId });
-      cookies.set('userId', userId);
+      const { shortId } = data || {};
       cookies.set('shortId', shortId);
 
-      dispatch({ type: 'GOOGLE_LOGIN_SUCCESS', userId });
+      dispatch({ type: 'GOOGLE_LOGIN_SUCCESS' });
       window.location = `/account/${shortId}`;
     } catch (e) {
       window.location = '/';
@@ -195,11 +192,9 @@ export function login(email, password) {
         withCredentials: true,
         // credentials: 'include',
       });
-      const { shortId, id, accessToken } = data || {};
+      const { shortId, accessToken } = data || {};
 
       await setAccessToken(accessToken)
-      cookies.set('userId', id);
-
       // dispatch({ type: LOGIN_SUCCESS, user });
 
       window.location = `/account/${shortId}`;
@@ -213,12 +208,22 @@ export function login(email, password) {
   };
 }
 
+const getConfig = () => {
+  return {
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${getAccessToken()}`,
+    },
+  }
+}
+
 export function logout() {
   return async (dispatch) => {
     try {
-      await axios.delete(logoutURL, config);
+      await axiosInstance().delete(logoutURL, getConfig());
       dispatch({ type: LOGOUT_SUCCESS });
-      window.location = '/';
+      // window.location = '/';
+      cookies.remove('shortId', { path: "/" })
     } catch (e) {
       console.log({ e });
       dispatch({ type: LOGOUT_FAIL, err: e });

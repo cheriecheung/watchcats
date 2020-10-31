@@ -32,6 +32,8 @@ router.post('/refresh_token', async (req, res) => {
 })
 
 router.post('/login', AuthController.login)
+router.delete('/logout', verifyAccessTokenUpdate, AuthController.logout);
+
 router.post('/activate-account', verifyAccessToken, AuthController.activateAccount);
 
 router.get('/google-authenticator-qrcode', AuthController.getGoogleAuthenticatorQrCode)
@@ -41,31 +43,5 @@ router.get('/googlelogin', generateCodes, AuthController.googleLogin);
 router.get('/oauth2callback', authenticateUser);
 router.get('/getUser', AuthController.googleUser);
 
-router.delete('/logout', verifyAccessTokenUpdate, async (req, res) => {
-  const { userId } = req.verifiedData;
-
-  try {
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).json('User not found');
-
-    return res.status(200).json('Logging out...');
-  } catch (err) {
-    console.log({ err })
-    return res.status(400).json('Cannot logout');
-  }
-});
-
-// router.post('/logout', verifyAccessToken, (req, res) => {
-//   JWT.verify(req.token, process.env.JWT_SECRET, async (err, authData) => {
-//     if (err) {
-//       res.sendStatus(403);
-//     } else {
-//       const user = await User.findById(authData.sub);
-//       if (!user) return res.status(404).json('User not found');
-
-//       res.sendStatus(204);
-//     }
-//   });
-// });
 
 module.exports = router;

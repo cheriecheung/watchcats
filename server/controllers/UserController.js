@@ -96,7 +96,7 @@ module.exports = {
     // const secretToken = signAccessToken(newUser, JWT_VERIFY_SECRET);
     // sendActivateMail(email, secretToken);
 
-    const token = createVerifyEmailToken(user.id);
+    const token = createVerifyEmailToken(newUser.id);
     sendActivateMail(token)
 
     try {

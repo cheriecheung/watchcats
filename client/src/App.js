@@ -26,11 +26,11 @@ import Account from './containers/Account';
 import FindCatSitter from './containers/FindCatSitter';
 import { CatSitter, CatOwner } from './containers/PublicProfile';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 function PrivateRoute({ component: Component, ...rest }) {
-  const { isLoggedIn } = useSelector(state => state.authentication);
+  const { isLoggedIn } = useSelector(state => state.is_logged_in);
 
   return (
     <Route

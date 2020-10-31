@@ -17,18 +17,18 @@ async function checkLoggedIn() {
 
   try {
     const { data } = await axios.post(`/refresh_token`)
-    console.log({ data });
+    console.log({ data_____: data });
 
     const { accessToken } = data;
     setAccessToken(accessToken)
 
-    preloadedState = { authentication: { isLoggedIn: true } };
+    preloadedState = { is_logged_in: { isLoggedIn: true } };
     return preloadedState;
 
   } catch (err) {
-    console.log({ err })
+    console.log({ err_____: err })
 
-    preloadedState = { authentication: { isLoggedIn: false } };
+    preloadedState = { is_logged_in: { isLoggedIn: false } };
     return preloadedState;
   }
 }

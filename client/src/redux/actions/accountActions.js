@@ -30,7 +30,6 @@ export function sendAddressProof(formData) {
   };
 }
 
-
 const getConfig = () => {
   return {
     withCredentials: true,
@@ -39,7 +38,6 @@ const getConfig = () => {
     },
   }
 }
-
 
 export function getUser() {
   return async (dispatch) => {

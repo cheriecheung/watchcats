@@ -17,7 +17,9 @@ module.exports = {
 
     try {
       const user = await User.findOne({ email });
-      if (!user) return res.status(400).json({ error: 'Invalid email / password combination' });
+      // dev purpose: error remains "no user found"
+      // for production: error as Invalid email / password combination
+      if (!user) return res.status(400).json({ error: 'No user found' });
 
       const validPass = await bcrypt.compare(password, user.password)
       if (!validPass) return res.status(400).json({ error: 'Invalid email / password combination' });
@@ -35,6 +37,22 @@ module.exports = {
     } catch (err) {
       console.log({ err })
       return res.status(400).json('Login unsuccessful')
+    }
+  },
+
+  logout: async (req, res) => {
+    const { userId } = req.verifiedData;
+
+    try {
+      const user = await User.findById(userId);
+      if (!user) return res.status(404).json('User not found');
+
+      res.clearCookie("refresh_token", { path: "/" });
+
+      return res.status(204).json('Logging out...');
+    } catch (err) {
+      console.log({ err })
+      return res.status(400).json('Cannot logout');
     }
   },
 

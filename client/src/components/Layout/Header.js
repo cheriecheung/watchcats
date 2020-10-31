@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import dutch from '../../assets/images/dutch.png';
 import english from '../../assets/images/english.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/actions/userActions';
 import styled from 'styled-components';
 import { themeColor } from '../../style/theme';
@@ -109,7 +109,6 @@ const OverlayMenu = styled.ul`
 
 function Header() {
   const { t, i18n } = useTranslation();
-  const dispatch = useDispatch();
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
@@ -120,16 +119,6 @@ function Header() {
     localStorage.setItem('lang', language);
     i18n.changeLanguage(language);
   };
-
-  const handleLogout = () => {
-    dispatch(logout());
-  };
-
-
-
-  // const menuItems = () => (
-
-  // );
 
   return (
     <>
@@ -187,8 +176,27 @@ const LinkButton = styled(Link)`
   }
 `
 
+const LogoutButton = styled.button`
+  color: #fff;
+  font-weight: 400;
+  outline: none;
+  border: none;
+  background: none;
+
+  @media (max-width: 768px) {
+    color: grey;
+  }
+`
+
 function MenuContent({ setLanguage, closeMenu }) {
   const { t, i18n } = useTranslation();
+  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector(state => state.is_logged_in);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    closeMenu && closeMenu()
+  };
 
   return (
     <>
@@ -206,7 +214,7 @@ function MenuContent({ setLanguage, closeMenu }) {
       </ItemContainer>
 
       <ItemContainer>
-        {cookies.get('userId') ? (
+        {isLoggedIn ? (
           <>
             <Item>
               <LinkButton to="/bookings" onClick={() => closeMenu && closeMenu()}>
@@ -224,9 +232,9 @@ function MenuContent({ setLanguage, closeMenu }) {
               </LinkButton>
             </Item>
             <Item>
-              <LinkButton to="/login" onClick={() => closeMenu && closeMenu()}>
+              <LogoutButton type="button" onClick={handleLogout}>
                 <i className="fas fa-sign-out-alt" />
-              </LinkButton>
+              </LogoutButton>
             </Item>
           </>
         ) : (
