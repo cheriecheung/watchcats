@@ -91,8 +91,8 @@ function SitterProfile({ activeKey }) {
     });
 
     const cleanedData = {
-      hourlyRate: hourlyRateValue,
-      nightlyRate: nightlyRateValue,
+      hourlyRate: parseInt(hourlyRateValue),
+      nightlyRate: parseInt(nightlyRateValue),
       unavailableDates: parsedDates,
       ...rest,
     };

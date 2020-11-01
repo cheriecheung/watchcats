@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
 import styled from 'styled-components';
+import moment from 'moment';
 import { getOwnerAccount, saveOwner } from '../../../redux/actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -116,13 +117,31 @@ function CatOwnerInfo({ activeKey }) {
     if (bookingOneDay.length === 1 && (bookingOneDay[0].date === '' || bookingOneDay[0].endTime === '' || bookingOneDay.startTime === null)) {
       cleanedBookingOneDay = []
     } else {
-      cleanedBookingOneDay = bookingOneDay;
+      cleanedBookingOneDay = bookingOneDay.map(({ date, startTime, endTime }) => {
+        const formattedDate = moment(date).format('YYYY-MM-DD');
+        const formattedStartTime = moment(startTime).format('HH:mm');
+        const formattedEndTime = moment(endTime).format('HH:mm');
+
+        return {
+          date: formattedDate,
+          startTime: formattedStartTime,
+          endTime: formattedEndTime
+        }
+      });
     }
 
     if (bookingOvernight.length === 1 && (bookingOvernight[0].endDate === '' || bookingOvernight.startDate === null)) {
       cleanedBookingOvernight = []
     } else {
-      cleanedBookingOvernight = bookingOvernight;
+      cleanedBookingOvernight = bookingOvernight.map(({ startDate, endDate }) => {
+        const formattedStartDate = moment(startDate).format('YYYY-MM-DD');
+        const formattedEndDate = moment(endDate).format('YYYY-MM-DD');
+
+        return {
+          startDate: formattedStartDate,
+          endDate: formattedEndDate
+        }
+      });
     }
 
     const cleanedData = {

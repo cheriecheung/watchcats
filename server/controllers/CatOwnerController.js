@@ -4,6 +4,7 @@ const Owner = require('../model/Owner');
 const Cat = require('../model/Cat');
 const AppointmentOneDay = require('../model/AppointmentOneDay');
 const AppointmentOvernight = require('../model/AppointmentOvernight');
+const { catOwnerValidation } = require('../helpers/validation')
 
 const ObjectId = require('mongodb').ObjectID;
 
@@ -150,7 +151,8 @@ module.exports = {
       ...rest
     } = req.body;
 
-    console.log({ oneDayArr, overnightArr })
+    const { error } = catOwnerValidation(req.body);
+    if (error) return res.status(401).json(error.details[0].message);
 
     try {
       if (!userRecord.owner) {
@@ -216,23 +218,24 @@ module.exports = {
 
       const { id: ownerId } = ownerRecord;
 
+      const allOneDays = await AppointmentOneDay.find({ owner: ownerId });
+
       if (Array.isArray(oneDayArr) && oneDayArr.length > 0) {
-        const allOneDays = await AppointmentOneDay.find({
-          owner: ownerId,
-        });
-
         oneDayArr.forEach(async ({ date, startTime, endTime }, index) => {
-          if (allOneDays[index]) {
+          const dateObj = new Date(date);
+          const startTimeObj = new Date(`${date} ${startTime}`);
+          const endTimeObj = new Date(`${date} ${endTime}`);
 
+          if (allOneDays[index]) {
             // not working
             if (!date && !startTime && !endTime) {
               allOneDays[index].remove();
               return;
             }
 
-            allOneDays[index].date = date;
-            allOneDays[index].startTime = startTime;
-            allOneDays[index].endTime = endTime;
+            allOneDays[index].date = dateObj;
+            allOneDays[index].startTime = startTimeObj;
+            allOneDays[index].endTime = endTimeObj;
             await allOneDays[index].save();
             return;
           }
@@ -241,9 +244,9 @@ module.exports = {
 
           const newOneDay = new AppointmentOneDay({
             owner: ownerId,
-            date,
-            startTime,
-            endTime,
+            date: dateObj,
+            startTime: startTimeObj,
+            endTime: endTimeObj,
           });
           await newOneDay.save();
           return;
@@ -254,10 +257,13 @@ module.exports = {
         });
       }
 
+      if (Array.isArray(oneDayArr) && oneDayArr.length === 0 && allOneDays.length > 0) {
+        allOneDays.forEach((item, index) => allOneDays[index].remove());
+      }
+
+      const allOvernight = await AppointmentOvernight.find({ owner: ownerId });
+
       if (Array.isArray(overnightArr) && overnightArr.length > 0) {
-        const allOvernight = await AppointmentOvernight.find({
-          owner: ownerId,
-        });
 
         overnightArr.forEach(async ({ startDate, endDate }, index) => {
           if (!startDate || !endDate) return;
@@ -281,6 +287,10 @@ module.exports = {
         allOvernight.forEach((item, index) => {
           if (!overnightArr[index]) allOvernight[index].remove();
         });
+      }
+
+      if (Array.isArray(overnightArr) && overnightArr.length === 0 && allOvernight.length > 0) {
+        allOvernight.forEach((item, index) => allOvernight[index].remove());
       }
 
       if (Array.isArray(catArr) && catArr.length > 0) {

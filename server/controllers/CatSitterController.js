@@ -3,6 +3,7 @@ const User = require('../model/User');
 const Sitter = require('../model/Sitter');
 const UnavailableDate = require('../model/UnavailableDate');
 const { getUnavailableDates } = require('../helpers/user');
+const { catSitterValidation } = require('../helpers/validation')
 
 module.exports = {
   getProfile: async (req, res) => {
@@ -57,6 +58,9 @@ module.exports = {
     if (!userRecord) return res.status(404).json('No user found');
 
     const { unavailableDates: unavailableDatesArr, ...rest } = req.body;
+
+    const { error } = catSitterValidation(req.body);
+    if (error) return res.status(401).json(error.details[0].message);
 
     try {
       if (!userRecord.sitter) {
