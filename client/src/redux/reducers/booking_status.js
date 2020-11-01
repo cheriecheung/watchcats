@@ -1,17 +1,12 @@
 export function booking_status(state = {}, action) {
+  const { payload } = action || {};
+  const { data, status } = payload || {}
+
   switch (action.type) {
-    case 'GET_REQUESTED_SITTING_JOBS':
-    case 'GET_REQUESTED_SITTING_SERVICE':
-      return { requested: action.payload };
-    case 'GET_CONFIRMED_SITTING_JOBS':
-    case 'GET_CONFIRMED_SITTING_SERVICE':
-      return { confirmed: action.payload };
-    case 'GET_COMPLETED_SITTING_JOBS':
-    case 'GET_COMPLETED_SITTING_SERVICE':
-      return { completed: action.payload };
-    case 'GET_DECLINED_SITTING_JOBS':
-    case 'GET_DECLINED_SITTING_SERVICE':
-      return { declined: action.payload };
+    case 'SITTING_JOBS_RETURNED':
+      return { jobs: data, status };
+    case 'SITTING_SERCVICE_RETURNED':
+      return { service: data, status };
     default:
       return state;
   }

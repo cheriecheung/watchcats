@@ -35,49 +35,67 @@ const cleanRecordData = async (item, bookingType) => {
 };
 
 module.exports = {
-  getRequestedSittingJobs: async (req, res) => {
-    const userId = req.headers['authorization'];
+  getSittingJobs: async (req, res) => {
+    const { userId } = req.verifiedData
+    if (!userId) return res.status(403).json('User id missing');
 
-    const { sitter: sitterObjId } = await User.findById(userId);
-    if (!sitterObjId) return res.status(200).json([]);
+    try {
+      const userRecord = await User.findById(userId);
+      if (!userRecord) return res.status(403).json('User not found');
 
-    const bookingRecords = await Booking.find({ sitter: sitterObjId, status: 'requested' });
-    let response = [];
+      if (!userRecord.sitter) return res.status(200).json([]);
 
-    if (bookingRecords.length > 0) {
-      response = await Promise.all(
-        bookingRecords.map(async (item) => {
-          return cleanRecordData(item, 'sitting_jobs');
-        })
-      );
+      const sitterObjId = userRecord.sitter
+      const { status } = req.query;
+
+      const bookingRecords = await Booking.find({ sitter: sitterObjId, status });
+
+      let response = [];
+
+      if (bookingRecords.length > 0) {
+        response = await Promise.all(
+          bookingRecords.map(async (item) => {
+            return cleanRecordData(item, 'sitting_jobs');
+          })
+        );
+      }
+
+      return res.status(200).json(response);
+    } catch (err) {
+      console.log({ err })
+      return res.status(401).json('Cannot get records');
     }
-
-    return res.status(200).json(response);
   },
-  getConfirmedSittingJobs: async (req, res) => {},
-  getCompletedSittingJobs: async (req, res) => {},
-  getDeclinedSittingJobs: async (req, res) => {},
 
-  getRequestedSittingService: async (req, res) => {
-    const userId = req.headers['authorization'];
+  getSittingService: async (req, res) => {
+    const { userId } = req.verifiedData
+    if (!userId) return res.status(403).json('User id missing');
 
-    const { owner: ownerObjId } = await User.findById(userId);
-    if (!ownerObjId) return res.status(204).json([]);
+    try {
+      const userRecord = await User.findById(userId);
+      if (!userRecord) return res.status(403).json('User not found');
 
-    const bookingRecords = await Booking.find({ owner: ownerObjId, status: 'requested' });
-    let response = [];
+      if (!userRecord.owner) return res.status(200).json([]);
 
-    if (bookingRecords.length > 0) {
-      response = await Promise.all(
-        bookingRecords.map(async (item) => {
-          return cleanRecordData(item, 'sitting_service');
-        })
-      );
+      const ownerObjId = userRecord.owner
+      const { status } = req.query;
+
+      const bookingRecords = await Booking.find({ owner: ownerObjId, status });
+
+      let response = [];
+
+      if (bookingRecords.length > 0) {
+        response = await Promise.all(
+          bookingRecords.map(async (item) => {
+            return cleanRecordData(item, 'sitting_service');
+          })
+        );
+      }
+
+      return res.status(200).json(response);
+    } catch (err) {
+      console.log({ err })
+      return res.status(401).json('Cannot get records');
     }
-
-    return res.status(200).json(response);
   },
-  getConfirmedSittingService: async (req, res) => {},
-  getCompletedSittingService: async (req, res) => {},
-  getDeclinedSittingService: async (req, res) => {},
-};
+}

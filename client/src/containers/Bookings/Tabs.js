@@ -6,16 +6,7 @@ import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { decline } from '../../redux/actions/bookingActions';
-import {
-  getRequestedSittingJobs,
-  getRequestedSittingService,
-  getConfirmedSittingJobs,
-  getConfirmedSittingService,
-  getCompletedSittingJobs,
-  getCompletedSittingService,
-  getDeclinedSittingJobs,
-  getDeclinedSittingService,
-} from '../../redux/actions/bookingStatusActions';
+import { getSittingJobs, getSittingService } from '../../redux/actions/bookingStatusActions';
 import { SittingJobs, SittingService } from './Types';
 import { Requested, Confirmed, Completed, Declined } from './Status';
 import { Spin, Tabs } from 'antd';
@@ -76,33 +67,33 @@ function BookingTabs() {
 
   const getRequestedBookings = () => {
     if (bookingTypeActiveKey === 'sitting_jobs') {
-      dispatch(getRequestedSittingJobs());
+      dispatch(getSittingJobs('requested'));
     } else {
-      dispatch(getRequestedSittingService());
+      dispatch(getSittingService('requested'));
     }
   };
 
   const getConfirmedBookings = () => {
     if (bookingTypeActiveKey === 'sitting_jobs') {
-      dispatch(getConfirmedSittingJobs());
+      dispatch(getSittingJobs('confirmed'));
     } else {
-      dispatch(getConfirmedSittingService());
+      dispatch(getSittingService('confirmed'));
     }
   };
 
   const getCompletedBookings = () => {
     if (bookingTypeActiveKey === 'sitting_jobs') {
-      dispatch(getCompletedSittingJobs());
+      dispatch(getSittingJobs('completed'));
     } else {
-      dispatch(getCompletedSittingService());
+      dispatch(getSittingService('completed'));
     }
   };
 
   const getDeclinedBookings = () => {
     if (bookingTypeActiveKey === 'sitting_jobs') {
-      dispatch(getDeclinedSittingJobs());
+      dispatch(getSittingJobs('declined'));
     } else {
-      dispatch(getDeclinedSittingService());
+      dispatch(getSittingService('declined'));
     }
   };
 

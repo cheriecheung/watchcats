@@ -23,13 +23,13 @@ function Confirmed({
         t={t}
       />
     ) : (
-      <ConfirmedService
-        hasPaid={hasPaid}
-        openModal={openModal}
-        setModalContent={setModalContent}
-        t={t}
-      />
-    );
+        <ConfirmedService
+          hasPaid={hasPaid}
+          openModal={openModal}
+          setModalContent={setModalContent}
+          t={t}
+        />
+      );
 
   const bookings = [{}];
 
@@ -41,7 +41,7 @@ function Confirmed({
           // data.hasPaid
           const hasPaid = false;
           return (
-            <Item data={data} openModal={openModal} renderSection={() => renderSection(hasPaid)} />
+            <Item key={index} data={data} openModal={openModal} renderSection={() => renderSection(hasPaid)} />
           );
         })}
 
@@ -75,10 +75,10 @@ function ConfirmedJob({ hasPaid, openModal, setModalContent, t }) {
       </ActionButton>
     </div>
   ) : (
-    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <span>waiting for cat owner to pay</span>
-    </div>
-  );
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <span>waiting for cat owner to pay</span>
+      </div>
+    );
 }
 
 function ConfirmedService({ hasPaid, openModal, setModalContent, t }) {
@@ -87,13 +87,13 @@ function ConfirmedService({ hasPaid, openModal, setModalContent, t }) {
       <span>waiting for cat sitter to confirm completion of sitting appointment</span>
     </div>
   ) : (
-    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      {/* <Link to="/payment" >{t('bookings.pay_now')}</Link> */}
-      <Link to={{ pathname: '/payment', state: { stripeAccountId: 'acct_1HYCiyART4JEToPd' } }}>
-        {t('bookings.pay_now')}
-      </Link>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        {/* <Link to="/payment" >{t('bookings.pay_now')}</Link> */}
+        <Link to={{ pathname: '/payment', state: { stripeAccountId: 'acct_1HYCiyART4JEToPd' } }}>
+          {t('bookings.pay_now')}
+        </Link>
 
-      {/* <ActionButton
+        {/* <ActionButton
         backgroundColor="#9ACD32"
         onClick={() => {
           alert('redirect to payment page');
@@ -101,6 +101,6 @@ function ConfirmedService({ hasPaid, openModal, setModalContent, t }) {
       >
         {t('bookings.pay_now')}
       </ActionButton> */}
-    </div>
-  );
+      </div>
+    );
 }
