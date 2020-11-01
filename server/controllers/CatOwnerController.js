@@ -214,7 +214,7 @@ module.exports = {
         { $set: { ...rest } },
         { useFindAndModify: false }
       );
-      if (!ownerRecord) return res.status(400).json('Fail to update');
+      if (!ownerRecord) return res.status(401).json('Fail to update');
 
       const { id: ownerId } = ownerRecord;
 
@@ -347,7 +347,7 @@ module.exports = {
       return res.status(201).json('Owner profile successfully saved');
     } catch (err) {
       console.log({ err });
-      return res.status(500).json({ err });
+      return res.status(401).json({ err });
     }
   },
 };

@@ -8,7 +8,7 @@ export const general_default_values = {
     phone: '',
     address: '',
     postcode: '',
-    addressProof: '',
+    addressProof: {},
     profileFacebook: '',
     profileInstagram: '',
     profileOther: '',

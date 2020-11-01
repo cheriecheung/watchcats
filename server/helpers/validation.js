@@ -1,9 +1,10 @@
 const Joi = require('@hapi/joi');
 const JoiDate = require('@hapi/joi-date')
 
-const nameType = Joi.string().alphanum().max(30).required();
+const nameType = Joi.string().max(30).required();
 const textAreaType = Joi.string().max(2500).required(); // characters, not words
-const textType = Joi.string().alphanum().max(100).required();
+const textType = Joi.string().max(100).required();
+const optionalTextType = Joi.string().optional().allow('').max(100);
 
 module.exports = {
   registerValidation: (data) => {
@@ -20,6 +21,38 @@ module.exports = {
       email: Joi.string().min(6).required().email(),
       password: Joi.string().min(6).required(),
     });
+    return schema.validate(data);
+  },
+
+  // settings
+  phoneNumberValidation: (data) => {
+    const schema = Joi.object({
+      phone: Joi.string().required(), // regex for phone number
+    })
+    return schema.validate(data);
+  },
+
+  changePasswordValidation: (data) => {
+    const schema = Joi.object({
+      currentPassword: Joi.string().min(8).required(),
+      newPassword: Joi.string().min(8).disallow(Joi.ref('currentPassword')).required(),
+      newPasswordRepeat: Joi.any().valid(Joi.ref('newPassword')).required(),
+    })
+    return schema.validate(data);
+  },
+
+  // personal info
+  personalDataValidation: (data) => {
+    const schema = Joi.object({
+      address: textType,
+      addressProof: Joi.object(),
+      firstName: nameType,
+      lastName: nameType,
+      postcode: Joi.string().required().regex(/^\d{4}[a-z]{2}$/i),
+      profileFacebook: optionalTextType,
+      profileInstagram: optionalTextType,
+      profileOther: optionalTextType
+    })
     return schema.validate(data);
   },
 
