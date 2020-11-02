@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getChatContacts, getChatConversation } from '../../../redux/actions/chatActions';
-import { getAppointmentTime, sendBookingRequest } from '../../../redux/actions/bookingActions';
+import { getAppointmentTime, sendRequest } from '../../../redux/actions/bookingActions';
 import ThemeButton from '../../../components/General/ThemeButton';
 import { ImageContainer, SummaryCard } from '../../../components/ProfileComponents';
 import RequestBookingModal from './RequestBookingModal';
@@ -13,7 +13,7 @@ function Summary({ id, sitterInfo }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const { error: errorType, appointmentTime } = useSelector((state) => state.booking_actions);
+  const { error: errorType, appointmentTime } = useSelector((state) => state.bookings);
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -27,7 +27,7 @@ function Summary({ id, sitterInfo }) {
       ...data,
       sitterId: id,
     };
-    dispatch(sendBookingRequest(body));
+    dispatch(sendRequest(body));
   };
 
   useEffect(() => {

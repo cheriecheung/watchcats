@@ -22,8 +22,8 @@ function Requested({
         t={t}
       />
     ) : (
-      <RequestedService />
-    );
+        <RequestedService />
+      );
 
   return (
     <>
@@ -66,7 +66,7 @@ function RequestedJob({ openModal, setModalContent, setConfirmActionType, setBoo
       >
         {t('bookings.decline')}
       </ActionButton>
-      <ActionButton
+      {/* <ActionButton
         backgroundColor="#FFAE42"
         onClick={() => {
           openModal();
@@ -75,7 +75,7 @@ function RequestedJob({ openModal, setModalContent, setConfirmActionType, setBoo
         }}
       >
         {t('bookings.schedule_meetup')}
-      </ActionButton>
+      </ActionButton> */}
       <ActionButton
         backgroundColor="#9ACD32"
         onClick={() => {

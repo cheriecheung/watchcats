@@ -5,8 +5,7 @@ import { sitterBookings } from '../../constants';
 import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { decline } from '../../redux/actions/bookingActions';
-import { getBookingRecords } from '../../redux/actions/bookingStatusActions';
+import { getRecords, fulfillAction } from '../../redux/actions/bookingActions';
 import { SittingJobs, SittingService } from './Types';
 import { Requested, Confirmed, Completed, Declined } from './Status';
 import { Spin, Tabs } from 'antd';
@@ -24,7 +23,7 @@ function BookingTabs() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { data: ownerData } = useSelector((state) => state.account);
-  const { bookings: returnedBookings } = useSelector((state) => state.booking_status);
+  const { bookings: returnedBookings } = useSelector((state) => state.bookings);
 
   const { screenWidth } = ScreenWidthListener();
 
@@ -50,9 +49,9 @@ function BookingTabs() {
     setLoading(true)
 
     if (bookingTypeActiveKey === 'sitting_jobs') {
-      dispatch(getBookingRecords('jobs'));
+      dispatch(getRecords('jobs'));
     } else {
-      dispatch(getBookingRecords('services'));
+      dispatch(getRecords('services'));
     }
   }, [bookingTypeActiveKey]);
 
@@ -132,15 +131,6 @@ function BookingTabs() {
     },
   ];
 
-  const performBookingAction = () => {
-    switch (confirmActionType) {
-      case 'decline':
-        dispatch(decline(bookingId));
-      default:
-        break;
-    }
-  };
-
   return (
     <div>
       <Tabs
@@ -159,7 +149,7 @@ function BookingTabs() {
       <Modal
         //  title=""
         visible={modalVisible}
-        onOk={() => performBookingAction()}
+        onOk={() => dispatch(fulfillAction())}
         onCancel={() => setModalVisible(false)}
         maskClosable={false}
       >
