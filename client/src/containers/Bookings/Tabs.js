@@ -24,21 +24,17 @@ function BookingTabs() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { data: ownerData } = useSelector((state) => state.account);
-  const {
-    requested: requestedBookings,
-    confirmed: confirmedBookings,
-    completed: completedBookings,
-    declined: declinedBookings,
-  } = useSelector((state) => state.booking_status);
+  const { bookings: returnedBookings } = useSelector((state) => state.booking_status);
 
   const { screenWidth } = ScreenWidthListener();
 
   const [bookingTypeActiveKey, setBookingTypeActiveKey] = useState(defaultKeyBookingType);
   const [bookingStatusActiveKey, setBookingStatusActiveKey] = useState(defaultKeyBookingStatus);
-  const [requested, setRequested] = useState([]);
-  const [confirmed, setConfirmed] = useState([]);
-  const [completed, setCompleted] = useState([]);
-  const [declined, setDeclined] = useState([]);
+  // const [requested, setRequested] = useState([]);
+  // const [confirmed, setConfirmed] = useState([]);
+  // const [completed, setCompleted] = useState([]);
+  // const [declined, setDeclined] = useState([]);
+  const [bookings, setBookings] = useState({ requested: [], confirmed: [], completed: [], declined: [] })
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState('');
@@ -47,23 +43,10 @@ function BookingTabs() {
   const [bookingId, setBookingId] = useState('');
 
   useEffect(() => {
-    if (requestedBookings) {
-      setRequested(requestedBookings);
-      return;
+    if (returnedBookings) {
+      setBookings(returnedBookings)
     }
-    if (confirmedBookings) {
-      setConfirmed(confirmedBookings);
-      return;
-    }
-    if (completedBookings) {
-      setCompleted(completedBookings);
-      return;
-    }
-    if (declinedBookings) {
-      setDeclined(declinedBookings);
-      return;
-    }
-  }, [requestedBookings, confirmedBookings, completedBookings, declinedBookings]);
+  }, [returnedBookings]);
 
   const getRequestedBookings = () => {
     if (bookingTypeActiveKey === 'sitting_jobs') {
@@ -130,6 +113,8 @@ function BookingTabs() {
   const changeBookingStatusTab = (key) => {
     setBookingStatusActiveKey(key);
   };
+
+  const { requested, confirmed, completed, declined } = bookings || {}
 
   const bookingStatusTabs = [
     {
