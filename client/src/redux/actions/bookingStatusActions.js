@@ -1,8 +1,7 @@
 import axiosInstance from '../../utility/axiosInstance';
 import { getAccessToken } from '../../utility/accessToken'
 
-const sittingJobURL = status => `/sitting-job?status=${status}`
-const sittingServiceURL = status => `/sitting-service?status=${status}`
+const bookingsURL = type => `/bookings?type=${type}`
 
 const getConfig = () => {
   return {
@@ -13,23 +12,12 @@ const getConfig = () => {
   }
 }
 
-export function getSittingJobs(status) {
+export function getBookingRecords(type) {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().get(sittingJobURL(status), getConfig());
+      const { data } = await axiosInstance().get(bookingsURL(type), getConfig());
 
-      dispatch({ type: 'SITTING_JOBS_RETURNED', payload: { data, status } });
-    } catch (e) {
-      console.log({ e });
-    }
-  };
-}
-
-export function getSittingService(status) {
-  return async (dispatch) => {
-    try {
-      const { data } = await axiosInstance().get(sittingServiceURL(status), getConfig());
-      dispatch({ type: 'SITTING_SERCVICE_RETURNED', payload: { data, status } });
+      dispatch({ type: 'BOOKING_RECORDS_RETURNED', payload: data });
     } catch (e) {
       console.log({ e });
     }

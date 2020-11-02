@@ -5,7 +5,7 @@ import { ActionButton } from '../../../components/Bookings';
 
 function Confirmed({
   bookingType,
-  // bookings,
+  bookings,
   openModal,
   setModalContent,
   setConfirmActionType,
@@ -30,8 +30,6 @@ function Confirmed({
           t={t}
         />
       );
-
-  const bookings = [{}];
 
   return (
     <>

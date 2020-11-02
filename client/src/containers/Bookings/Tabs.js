@@ -6,13 +6,13 @@ import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { decline } from '../../redux/actions/bookingActions';
-import { getSittingJobs, getSittingService } from '../../redux/actions/bookingStatusActions';
+import { getBookingRecords } from '../../redux/actions/bookingStatusActions';
 import { SittingJobs, SittingService } from './Types';
 import { Requested, Confirmed, Completed, Declined } from './Status';
 import { Spin, Tabs } from 'antd';
 const { TabPane } = Tabs;
 
-const Container = styled.div`
+const Container = styled.div` 
   text-align: left;
   margin: 0px 5%;
 `;
@@ -30,12 +30,9 @@ function BookingTabs() {
 
   const [bookingTypeActiveKey, setBookingTypeActiveKey] = useState(defaultKeyBookingType);
   const [bookingStatusActiveKey, setBookingStatusActiveKey] = useState(defaultKeyBookingStatus);
-  // const [requested, setRequested] = useState([]);
-  // const [confirmed, setConfirmed] = useState([]);
-  // const [completed, setCompleted] = useState([]);
-  // const [declined, setDeclined] = useState([]);
   const [bookings, setBookings] = useState({ requested: [], confirmed: [], completed: [], declined: [] })
 
+  const [loading, setLoading] = useState(false)
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState('');
 
@@ -43,67 +40,20 @@ function BookingTabs() {
   const [bookingId, setBookingId] = useState('');
 
   useEffect(() => {
+    setLoading(false)
     if (returnedBookings) {
       setBookings(returnedBookings)
     }
   }, [returnedBookings]);
 
-  const getRequestedBookings = () => {
-    if (bookingTypeActiveKey === 'sitting_jobs') {
-      dispatch(getSittingJobs('requested'));
-    } else {
-      dispatch(getSittingService('requested'));
-    }
-  };
-
-  const getConfirmedBookings = () => {
-    if (bookingTypeActiveKey === 'sitting_jobs') {
-      dispatch(getSittingJobs('confirmed'));
-    } else {
-      dispatch(getSittingService('confirmed'));
-    }
-  };
-
-  const getCompletedBookings = () => {
-    if (bookingTypeActiveKey === 'sitting_jobs') {
-      dispatch(getSittingJobs('completed'));
-    } else {
-      dispatch(getSittingService('completed'));
-    }
-  };
-
-  const getDeclinedBookings = () => {
-    if (bookingTypeActiveKey === 'sitting_jobs') {
-      dispatch(getSittingJobs('declined'));
-    } else {
-      dispatch(getSittingService('declined'));
-    }
-  };
-
   useEffect(() => {
-    if (bookingStatusActiveKey === 'requested') {
-      getRequestedBookings();
-      return;
-    }
+    setLoading(true)
 
-    if (bookingStatusActiveKey === 'confirmed') {
-      getConfirmedBookings();
-      return;
+    if (bookingTypeActiveKey === 'sitting_jobs') {
+      dispatch(getBookingRecords('jobs'));
+    } else {
+      dispatch(getBookingRecords('services'));
     }
-
-    if (bookingStatusActiveKey === 'completed') {
-      getCompletedBookings();
-      return;
-    }
-
-    if (bookingStatusActiveKey === 'declined') {
-      getDeclinedBookings();
-      return;
-    }
-  }, [bookingStatusActiveKey, dispatch]);
-
-  useEffect(() => {
-    getRequestedBookings();
   }, [bookingTypeActiveKey]);
 
   const changeBookingTypeTab = (key) => {
@@ -216,6 +166,7 @@ function BookingTabs() {
         <br />
         {modalContent}
       </Modal>
+
     </div>
   );
 }
