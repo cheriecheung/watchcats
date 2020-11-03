@@ -5,10 +5,15 @@ function Declined({ bookings }) {
   return (
     <>
       {Array.isArray(bookings) && bookings.length > 0 ? (
-        bookings.map((data, index) => <Item data={data} />)
+        bookings.map((data, index) =>
+          <Item
+            key={index} // data.id
+            data={data}
+          />
+        )
       ) : (
-        <span>You have no declined bookings at the moment</span>
-      )}
+          <span>You have no declined bookings at the moment</span>
+        )}
     </>
   );
 }

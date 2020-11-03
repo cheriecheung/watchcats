@@ -56,7 +56,7 @@ export function getRecords(type) {
   };
 }
 
-export function fulfillAction(id, action = 'decline') {
+export function fulfillAction(id, action) {
   return async (dispatch) => {
     try {
       const { data } = await axiosInstance().patch(bookingUrl, { id, action }, getConfig());

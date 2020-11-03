@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/actions/userActions';
 import styled from 'styled-components';
 import { themeColor } from '../../style/theme';
+import { Badge } from 'antd';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
@@ -217,9 +218,11 @@ function MenuContent({ setLanguage, closeMenu }) {
         {isLoggedIn ? (
           <>
             <Item>
-              <LinkButton to="/bookings" onClick={() => closeMenu && closeMenu()}>
-                {t('header.bookings')}
-              </LinkButton>
+              <Badge size="small" count={5} offset={[10, 0]} overflowCount={10}>
+                <LinkButton to="/bookings" onClick={() => closeMenu && closeMenu()}>
+                  {t('header.bookings')}
+                </LinkButton>
+              </Badge>
             </Item>
             <Item>
               <LinkButton to="/messages" onClick={() => closeMenu && closeMenu()}>

@@ -38,7 +38,7 @@ function Confirmed({
           const hasPaid = false;
           return (
             <Item
-              key={index}
+              key={index} // data.id
               data={data}
               openModal={openModal}
               renderSection={() => renderSection(hasPaid)}

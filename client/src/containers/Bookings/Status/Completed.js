@@ -34,6 +34,7 @@ function Completed({ bookingType, bookings }) {
           const hasWrittenReview = false;
           return (
             <Item
+              key={index} // data.id
               data={data}
               // renderActionButtons={() => renderActionButtons(hasWrittenReview, 123)}
               renderActionButtons={(id) => renderActionButtons(id)}

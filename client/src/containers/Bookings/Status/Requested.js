@@ -30,8 +30,9 @@ function Requested({
         bookings.length > 0 &&
         bookings.map((data, index) => (
           <Item
+            key={index} // data.id
             data={data}
-            renderSection={(id) => renderSection(id)}
+            renderActionButtons={(id) => renderSection(id)}
             bookingType={bookingType}
             status='requested'
           />

@@ -2,6 +2,7 @@ const AppointmentOneDay = require('../model/AppointmentOneDay');
 const AppointmentOvernight = require('../model/AppointmentOvernight');
 const Booking = require('../model/Booking');
 const User = require('../model/User');
+const { sendSMS } = require('../helpers/sms')
 
 const cleanRecordData = async (item, bookingType) => {
   const { id, appointmentType, owner, sitter, location, price, status } = item;
@@ -29,9 +30,23 @@ const cleanRecordData = async (item, bookingType) => {
   }
 };
 
+const getNewBookingStatus = (action) => {
+  switch (action) {
+    case 'decline':
+      return { status: 'declined', description: 'BOOKING_DECLINED' }
+    case 'accept':
+      return { status: 'confirmed', description: 'BOOKING_ACCEPTED' }
+    case 'complete':
+      return { status: 'completed', description: 'BOOKING_COMPLETED' }
+    default:
+      throw new Error("Unable to get new booking status");
+  }
+}
+
 module.exports = {
   getAppointmentTime: async (req, res) => {
-    const userId = req.headers['authorization'];
+    const { userId } = req.verifiedData
+    if (!userId) return res.status(403).json('User id missing');
 
     // const userRecord = await User.findById(userId);
     // const {owner} = userRecord
@@ -74,63 +89,65 @@ module.exports = {
   },
 
   sendRequest: async (req, res) => {
-    const ownerUserId = req.headers['authorization'];
-
+    const { userId: ownerUserId } = req.verifiedData
+    if (!ownerUserId) return res.status(403).json('User id missing');
     const { sitterId: sitterShortId, type } = req.body;
-
-    const [{ owner: ownerObjId, postcode }, { sitter: sitterObjId }] = await Promise.all([
-      User.findById(ownerUserId),
-      User.findOne({ urlId: sitterShortId }),
-    ]);
-
-    if (!ownerObjId || !sitterObjId)
-      return res.status(404).json('Unable to identity sitter or owner profile.');
 
     //location
 
-    if (type === 'oneDay') {
-      const { date, startTime, endTime, price } = req.body;
+    try {
+      const [{ owner: ownerObjId, postcode }, { sitter: sitterObjId }] = await Promise.all([
+        User.findById(ownerUserId),
+        User.findOne({ urlId: sitterShortId }),
+      ]);
 
-      const newBooking = new Booking({
-        owner: ownerObjId,
-        sitter: sitterObjId,
-        appointmentType: type,
-        date,
-        startTime,
-        endTime,
-        location: postcode,
-        price,
-        status: 'requested',
-      });
+      if (!ownerObjId || !sitterObjId)
+        return res.status(401).json('Unable to identity sitter or owner profile.');
 
-      try {
-        await newBooking.save();
-        return res.status(201).json('Booking request successfully created');
-      } catch (e) {
-        console.log({ e });
+      let newBooking;
+
+      if (type === 'oneDay') {
+        const { date, startTime, endTime, price } = req.body;
+
+        newBooking = new Booking({
+          owner: ownerObjId,
+          sitter: sitterObjId,
+          appointmentType: type,
+          date,
+          startTime,
+          endTime,
+          location: postcode,
+          price,
+          status: 'requested',
+        });
       }
-    }
 
-    if (type === 'overnight') {
-      const { startDate, endDate, price } = req.body;
+      if (type === 'overnight') {
+        const { startDate, endDate, price } = req.body;
 
-      const newBooking = new Booking({
-        owner: ownerObjId,
-        sitter: sitterObjId,
-        appointmentType: type,
-        startDate,
-        endDate,
-        location: postcode,
-        price,
-        status: 'requested',
-      });
-
-      try {
-        await newBooking.save();
-        return res.status(201).json('Booking request successfully created');
-      } catch (e) {
-        console.log({ e });
+        newBooking = new Booking({
+          owner: ownerObjId,
+          sitter: sitterObjId,
+          appointmentType: type,
+          startDate,
+          endDate,
+          location: postcode,
+          price,
+          status: 'requested',
+        });
       }
+
+      await newBooking.save();
+
+      // find sitter phone by sitter id.
+      sendSMS('phone', 'BOOKING_REQUESTED', { name: 'sitterName' })
+
+      // +1 booking notification to sitter's notification document
+
+      return res.status(201).json('Booking request successfully created');
+    } catch (e) {
+      console.log({ e });
+      return res.status(401).json('Unable to create booking request');
     }
   },
 
@@ -187,6 +204,8 @@ module.exports = {
       }
       // console.log({ response })
 
+      // set bookings notification = 0
+
       return res.status(200).json(response);
     } catch (err) {
       console.log({ err })
@@ -195,10 +214,27 @@ module.exports = {
   },
 
   fulfillAction: async (req, res) => {
-    const { action } = req.body
+    const { id, action } = req.body
 
-    console.log({ action })
+    const { status, description } = getNewBookingStatus(action)
 
-    return res.status(200).json('success')
+    console.log({ id, action, status })
+
+    try {
+      const bookingRecord = await Booking.findOneAndUpdate(
+        { _id: id },
+        { $set: { status } },
+        { useFindAndModify: false }
+      );
+      if (!bookingRecord) return res.status(401).json('No booking record to update')
+
+      // change notification of owner notification document
+      sendSMS('phone', description, { name: 'sitterName' })
+
+      return res.status(200).json('success')
+    } catch (err) {
+      console.log({ err })
+      return res.status(401).json('Unable to update')
+    }
   }
 };
