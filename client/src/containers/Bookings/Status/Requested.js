@@ -2,24 +2,23 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Item from '../Item';
 import { ActionButton } from '../../../components/Bookings';
+import { useTranslation } from 'react-i18next';
 
 function Requested({
   bookingType,
   bookings,
   openModal,
   setModalContent,
-  setConfirmActionType,
+  setActionType,
   setBookingId,
-  t,
 }) {
-  const renderSection = () =>
+  const renderSection = (id) =>
     bookingType === 'sitting_jobs' ? (
       <RequestedJob
         openModal={openModal}
         setModalContent={setModalContent}
-        setConfirmActionType={setConfirmActionType}
-        setBookingId={setBookingId}
-        t={t}
+        setActionType={setActionType}
+        setBookingId={() => setBookingId(id)}
       />
     ) : (
         <RequestedService />
@@ -30,7 +29,12 @@ function Requested({
       {Array.isArray(bookings) &&
         bookings.length > 0 &&
         bookings.map((data, index) => (
-          <Item data={data} renderSection={renderSection} bookingType={bookingType} />
+          <Item
+            data={data}
+            renderSection={(id) => renderSection(id)}
+            bookingType={bookingType}
+            status='requested'
+          />
         ))}
 
       {bookingType === 'sitting_jobs' && bookings.length === 0 && (
@@ -52,7 +56,9 @@ function Requested({
 
 export default Requested;
 
-function RequestedJob({ openModal, setModalContent, setConfirmActionType, setBookingId, t }) {
+function RequestedJob({ openModal, setModalContent, setActionType, setBookingId }) {
+  const { t } = useTranslation();
+
   return (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
       <ActionButton
@@ -60,28 +66,19 @@ function RequestedJob({ openModal, setModalContent, setConfirmActionType, setBoo
         onClick={() => {
           openModal();
           setModalContent(t('bookings.decline_confirm'));
-          setConfirmActionType('decline');
-          setBookingId(2353);
+          setActionType('decline');
+          setBookingId();
         }}
       >
         {t('bookings.decline')}
       </ActionButton>
-      {/* <ActionButton
-        backgroundColor="#FFAE42"
-        onClick={() => {
-          openModal();
-          setModalContent(t('bookings.schedule_meetup_confirm'));
-          setConfirmActionType('scheduleMeetup');
-        }}
-      >
-        {t('bookings.schedule_meetup')}
-      </ActionButton> */}
       <ActionButton
         backgroundColor="#9ACD32"
         onClick={() => {
           openModal();
           setModalContent(t('bookings.accept_confirm'));
-          setConfirmActionType('accept');
+          setActionType('accept');
+          setBookingId();
         }}
       >
         {t('bookings.accept')}
@@ -91,6 +88,8 @@ function RequestedJob({ openModal, setModalContent, setConfirmActionType, setBoo
 }
 
 function RequestedService() {
+  const { t } = useTranslation();
+
   return (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
       <span>Currently waiting on reply from cat sitter</span>

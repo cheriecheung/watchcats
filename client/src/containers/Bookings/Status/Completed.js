@@ -2,23 +2,26 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Item from '../Item';
 import { ActionButton } from '../../../components/Bookings';
+import { useTranslation } from 'react-i18next';
 
-function Completed({ bookingType, bookings, t }) {
+function Completed({ bookingType, bookings }) {
+  const { t } = useTranslation();
+
   const renderActionButtons = (hasWrittenReview, bookingId) => (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
       {!hasWrittenReview ? (
         <h5>Show review here</h5>
       ) : (
-        <ActionButton
-          backgroundColor="#FF5C4E"
-          // use <Link> instead
-          onClick={() => {
-            window.location = `/writereivew/${bookingId}`;
-          }}
-        >
-          {t('bookings.write_review')}
-        </ActionButton>
-      )}
+          <ActionButton
+            backgroundColor="#FF5C4E"
+            // use <Link> instead
+            onClick={() => {
+              window.location = `/writereivew/${bookingId}`;
+            }}
+          >
+            {t('bookings.write_review')}
+          </ActionButton>
+        )}
     </div>
   );
 
@@ -32,7 +35,9 @@ function Completed({ bookingType, bookings, t }) {
           return (
             <Item
               data={data}
-              renderActionButtons={() => renderActionButtons(hasWrittenReview, 123)}
+              // renderActionButtons={() => renderActionButtons(hasWrittenReview, 123)}
+              renderActionButtons={(id) => renderActionButtons(id)}
+              status="completed"
             />
           );
         })}

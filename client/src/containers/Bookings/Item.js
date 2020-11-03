@@ -17,14 +17,14 @@ const Container = styled.div`
   overflow: visible;
 `;
 
-const Item = ({ data, renderSection, bookingType }) => {
+const Item = ({ data, bookingType, renderActionButtons, status }) => {
   const { t } = useTranslation();
 
   useEffect(() => {
     console.log({ data });
   }, [data]);
 
-  const { name, shortId, appointmentType, location, price } = data;
+  const { id, name, shortId, appointmentType, location, price } = data;
   const profileUrl =
     bookingType === 'sitting_jobs'
       ? `/profile/catowner/${shortId}`
@@ -81,10 +81,10 @@ const Item = ({ data, renderSection, bookingType }) => {
                   {formattedTime(data.endTime)}
                 </span>
               ) : (
-                <span>
-                  {formattedDate(data.startDate)} - {formattedDate(data.endDate)}
-                </span>
-              )}
+                  <span>
+                    {formattedDate(data.startDate)} - {formattedDate(data.endDate)}
+                  </span>
+                )}
             </Col>
           </Row>
           <Row>
@@ -103,7 +103,9 @@ const Item = ({ data, renderSection, bookingType }) => {
         </div>
       </div>
 
-      {renderSection && renderSection()}
+      {status === 'requested' && renderActionButtons && renderActionButtons(id)}
+      {status === 'confirmed' && renderActionButtons && renderActionButtons(id, data.hasPaid)}
+      {status === 'completed' && renderActionButtons && renderActionButtons(id, data.hasWrittenReview)}
     </Container>
   );
 };

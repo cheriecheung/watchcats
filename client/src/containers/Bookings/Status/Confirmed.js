@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Item from '../Item';
 import { ActionButton } from '../../../components/Bookings';
+import { useTranslation } from 'react-i18next';
 
 function Confirmed({
   bookingType,
@@ -10,7 +11,6 @@ function Confirmed({
   setModalContent,
   setConfirmActionType,
   setBookingId,
-  t,
 }) {
   const renderSection = (hasPaid) =>
     bookingType === 'sitting_jobs' ? (
@@ -20,14 +20,12 @@ function Confirmed({
         setModalContent={setModalContent}
         setConfirmActionType={setConfirmActionType}
         setBookingId={setBookingId}
-        t={t}
       />
     ) : (
         <ConfirmedService
           hasPaid={hasPaid}
           openModal={openModal}
           setModalContent={setModalContent}
-          t={t}
         />
       );
 
@@ -39,7 +37,13 @@ function Confirmed({
           // data.hasPaid
           const hasPaid = false;
           return (
-            <Item key={index} data={data} openModal={openModal} renderSection={() => renderSection(hasPaid)} />
+            <Item
+              key={index}
+              data={data}
+              openModal={openModal}
+              renderSection={() => renderSection(hasPaid)}
+              status="confirmed"
+            />
           );
         })}
 
@@ -59,7 +63,9 @@ function Confirmed({
 
 export default Confirmed;
 
-function ConfirmedJob({ hasPaid, openModal, setModalContent, t }) {
+function ConfirmedJob({ hasPaid, openModal, setModalContent, }) {
+  const { t } = useTranslation();
+
   return hasPaid ? (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
       <ActionButton
@@ -79,7 +85,9 @@ function ConfirmedJob({ hasPaid, openModal, setModalContent, t }) {
     );
 }
 
-function ConfirmedService({ hasPaid, openModal, setModalContent, t }) {
+function ConfirmedService({ hasPaid, openModal, setModalContent }) {
+  const { t } = useTranslation();
+
   return hasPaid ? (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
       <span>waiting for cat sitter to confirm completion of sitting appointment</span>

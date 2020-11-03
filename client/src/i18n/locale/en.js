@@ -231,9 +231,6 @@ export default {
     sitting_service: 'Sitting service for my cat',
 
     requested: 'Requested',
-    //schedule_meetup: 'Schedule meet-up',
-    // schedule_meetup_confirm:
-    //   'You just scheduled to meet up with the cat owner first. This booking will remain as "Request" status until you decide to accept or reject it after your meet up.',
     decline: 'Decline',
     decline_confirm:
       'Click "OK" to confirm the booking decline. It is recommended that you write the cat owner about the reason you reject the booking',

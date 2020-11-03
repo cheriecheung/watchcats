@@ -35,7 +35,7 @@ function BookingTabs() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState('');
 
-  const [confirmActionType, setConfirmActionType] = useState('');
+  const [actionType, setActionType] = useState('');
   const [bookingId, setBookingId] = useState('');
 
   useEffect(() => {
@@ -75,9 +75,8 @@ function BookingTabs() {
           bookings={requested}
           openModal={() => setModalVisible(true)}
           setModalContent={(content) => setModalContent(content)}
-          setConfirmActionType={(type) => setConfirmActionType(type)}
           setBookingId={(id) => setBookingId(id)}
-          t={t}
+          setActionType={(type) => setActionType(type)}
         />
       ),
     },
@@ -90,19 +89,29 @@ function BookingTabs() {
           bookings={confirmed}
           openModal={() => setModalVisible(true)}
           setModalContent={(content) => setModalContent(content)}
-          t={t}
+          setBookingId={(id) => setBookingId(id)}
+          setActionType={(type) => setActionType(type)}
         />
       ),
     },
     {
       key: 'completed',
       tab: `${t('bookings.completed')} (${completed.length})`,
-      content: <Completed bookingType={bookingTypeActiveKey} bookings={completed} t={t} />,
+      content: (
+        <Completed
+          bookingType={bookingTypeActiveKey}
+          bookings={completed}
+        />
+      ),
     },
     {
       key: 'declined',
       tab: `${t('bookings.declined')} (${declined.length})`,
-      content: <Declined bookings={declined} />,
+      content: (
+        <Declined
+          bookings={declined}
+        />
+      ),
     },
   ];
 
@@ -149,7 +158,7 @@ function BookingTabs() {
       <Modal
         //  title=""
         visible={modalVisible}
-        onOk={() => dispatch(fulfillAction())}
+        onOk={() => dispatch(fulfillAction(bookingId, actionType))}
         onCancel={() => setModalVisible(false)}
         maskClosable={false}
       >
