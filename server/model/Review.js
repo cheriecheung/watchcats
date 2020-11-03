@@ -10,10 +10,6 @@ const reviewSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: false,
   },
-  date: {
-    type: String,
-    required: false,
-  },
   content: {
     type: String,
     required: true,
