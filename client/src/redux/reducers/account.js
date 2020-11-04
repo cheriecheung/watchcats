@@ -1,5 +1,7 @@
 export function account(state = {}, action) {
   switch (action.type) {
+    case 'CONTACT_DETAILS_RETURNED':
+      return { contactDetails: action.payload };
     case 'GET_USER':
       return { data: action.payload };
     case 'GENERAL_INFO_SAVED':

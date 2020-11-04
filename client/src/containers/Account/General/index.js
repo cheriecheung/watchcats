@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
-import { getUser, sendUser, sendAddressProof } from '../../../redux/actions/accountActions';
+import { getPersonalInfo, postPersonalInfo, sendAddressProof } from '../../../redux/actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -29,7 +29,7 @@ function GeneralInfo({ activeKey }) {
 
   useEffect(() => {
     if (activeKey === 'general') {
-      dispatch(getUser());
+      dispatch(getPersonalInfo());
     }
   }, [activeKey, dispatch]);
 
@@ -49,7 +49,7 @@ function GeneralInfo({ activeKey }) {
     const { profilePictureFileName, ...rest } = data;
 
     //  add address proof field as third param
-    dispatch(sendUser(rest, profilePictureFileName.file));
+    dispatch(postPersonalInfo(rest, profilePictureFileName.file));
   };
 
   return (

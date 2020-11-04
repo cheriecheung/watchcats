@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { Col, Label, Input } from 'reactstrap';
-import { Modal, Input as AntInput } from 'antd';
-import { SectionContainer, SectionTitle } from '../../../components/FormComponents';
-import valid from 'card-validator';
 import { useTranslation } from 'react-i18next';
+import { Modal } from 'antd';
+import { SectionContainer, SectionTitle } from '../../../components/FormComponents';
 
 import ContactDetails from './ContactDetails'
 import PaymentSetup from './PaymentSetup'
@@ -47,51 +45,6 @@ function Settings() {
                 <SectionTitle>Stripe Account</SectionTitle>
                 <PaymentSetup />
             </SectionContainer>
-
-            {/* <SectionContainer>
-                <SectionTitle>{t('settings.payment_method')}</SectionTitle>
-                <Col style={{ paddingLeft: 0 }}>
-                    <button
-                        className="add-field-btn"
-                        style={{ width: 200 }}
-                        onClick={() =>
-                            setModal({
-                                ...modal,
-                                show: true,
-                                title: t('settings.add_card'),
-                            })
-                        }
-                    >
-                        <i className="fas fa-plus mr-1" />
-                        {t('settings.add_card')}
-                    </button>
-                </Col>
-                <Col style={{ paddingLeft: 0, marginTop: 10 }}>
-                    <button
-                        className="add-field-btn"
-                        style={{ width: 200 }}
-                        onClick={() =>
-                            setModal({
-                                ...modal,
-                                show: true,
-                                title: 'Add bank account',
-                            })
-                        }
-                    >
-                        <i className="fas fa-plus mr-1" />
-                        {t('settings.add_bank_account')}
-                    </button>
-                </Col>
-                <Modal
-                    title={modal.title}
-                    visible={modal.show}
-                    onOk={handleOk}
-                    confirmLoading={modal.loading}
-                    onCancel={() => setModal({ ...modal, show: false })}
-                >
-                    {modal.loading ? <h4>loading...</h4> : renderModalContent()}
-                </Modal>
-            </SectionContainer> */}
 
             <SectionContainer>
                 <SectionTitle>Password and Authentication</SectionTitle>

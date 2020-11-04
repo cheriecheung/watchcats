@@ -24,6 +24,7 @@ baseRouter.get('/findConvo', async (req, res) => {
   console.log({ conversation });
 });
 
+baseRouter.use('/', require('./account'));
 baseRouter.use('/', require('./auth'));
 baseRouter.use('/', require('./booking'));
 baseRouter.use('/', require('./cat_sitter'));

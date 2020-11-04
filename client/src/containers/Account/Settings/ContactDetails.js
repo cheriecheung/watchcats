@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { FieldLabel, TextField, SectionContainer, SectionTitle } from '../../../components/FormComponents';
-import PhoneInput from 'react-phone-number-input'
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 import styled from 'styled-components';
+import { FieldLabel, TextField, SectionContainer, SectionTitle } from '../../../components/FormComponents';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { getContactDetails } from '../../../redux/actions/accountActions'
 
 const Button = styled.button`
     background: none;
@@ -11,7 +15,6 @@ const Button = styled.button`
     &:hover{
         color: pink
     }
-    
 `
 
 const BreakLine = styled.div`
@@ -35,10 +38,10 @@ const ContentBox = styled.div`
     }
 `
 
-const originalEmail = 'testing@gmail.com'
-const originalPhone = '+85268615357'
-
 function ContactDetails({ setModal }) {
+    const dispatch = useDispatch();
+    const { contactDetails } = useSelector((state) => state.account);
+
     const [email, setEmail] = useState();
     const [asteriskedEmail, setAsteriskedEmail] = useState('')
     const [revealEmail, setRevealEmail] = useState(false);
@@ -48,18 +51,28 @@ function ContactDetails({ setModal }) {
     const [revealPhone, setRevealPhone] = useState(false);
 
     useEffect(() => {
-        setEmail(originalEmail);
+        if (contactDetails) {
+            const { email, phone } = contactDetails;
 
-        const asteriskedEmailName = originalEmail.substr(0, originalEmail.indexOf('@')).replace(/./g, '*');
-        const emailDomain = originalEmail.substr(originalEmail.indexOf("@") + 1);
-        setAsteriskedEmail(`${asteriskedEmailName}@${emailDomain}`)
+            setEmail(email);
 
-        setPhone(originalPhone)
+            const asteriskedEmailName = email.substr(0, email.indexOf('@')).replace(/./g, '*');
+            const emailDomain = email.substr(email.indexOf("@") + 1);
+            setAsteriskedEmail(`${asteriskedEmailName}@${emailDomain}`)
 
-        const withoutLastFourDigits = originalPhone.slice(0, -4).replace(/./g, '*')
-        const lastFourDigits = originalPhone.substr(originalPhone.length - 4);
-        setAsteriskedPhone(`${withoutLastFourDigits}${lastFourDigits}`)
-    }, [])
+            if (phone) {
+                setPhone(phone)
+
+                const withoutLastFourDigits = phone.slice(0, -4).replace(/./g, '*')
+                const lastFourDigits = phone.substr(phone.length - 4);
+                setAsteriskedPhone(`${withoutLastFourDigits}${lastFourDigits}`)
+            }
+        }
+    }, [contactDetails])
+
+    useEffect(() => {
+        dispatch(getContactDetails())
+    }, [dispatch])
 
     return (
         <ContentBox>
@@ -115,9 +128,17 @@ function EnterPhoneNumber() {
             <p>Your phone number is only used for verification and will not be shared to anyone on this application.</p>
 
             <PhoneInput
+                country={'nl'}
                 value={phoneNumber}
-                onChange={setPhoneNumber}
+                onChange={phone => setPhoneNumber(phone)}
+                placeholder=""
             />
+
+            <br />
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <button>Submit</button>
+            </div>
         </>
     )
 }

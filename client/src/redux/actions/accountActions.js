@@ -1,7 +1,8 @@
 import axiosInstance from '../../utility/axiosInstance';
 import { getAccessToken } from '../../utility/accessToken'
 
-const userURL = `/user`;
+const contactDetailsURL = `/contact-details`;
+const personalInfoURL = `/personal-info`;
 const imageURL = `/image`;
 const profilePicURL = `/image/profile-picture`;
 const addressProofURL = `/image/address-proof`;
@@ -18,6 +19,17 @@ const getConfig = () => {
   }
 }
 
+export function getContactDetails() {
+  return async (dispatch) => {
+    try {
+      const { data } = await axiosInstance().get(contactDetailsURL, getConfig());
+      dispatch({ type: 'CONTACT_DETAILS_RETURNED', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
 export function sendAddressProof(formData) {
   return async (dispatch) => {
     try {
@@ -29,10 +41,10 @@ export function sendAddressProof(formData) {
   };
 }
 
-export function getUser() {
+export function getPersonalInfo() {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().get(userURL, getConfig());
+      const { data } = await axiosInstance().get(personalInfoURL, getConfig());
       dispatch({ type: 'GET_USER', payload: data });
     } catch (e) {
       console.log({ e });
@@ -40,11 +52,11 @@ export function getUser() {
   };
 }
 
-export function sendUser(userData, profilePicture) {
+export function postPersonalInfo(userData, profilePicture) {
   console.log({ userData })
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().post(userURL, userData, getConfig());
+      const { data } = await axiosInstance().post(personalInfoURL, userData, getConfig());
 
       // const formData = new FormData();
       // formData.append('profilePic', profilePicture);
