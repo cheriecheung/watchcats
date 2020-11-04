@@ -21,105 +21,16 @@ function Settings() {
 
     const [modal, setModal] = useState(defaultModal);
 
-    const [cardType, setCardType] = useState('');
-
-    // const handleOk = () => {
-    //     setModal({ ...modal, loading: true });
-    //     setTimeout(() => {
-    //         setModal({ ...modal, show: false, loading: false });
-    //     }, 2000);
-    // };
-
-    const handleCardNumber = (e) => {
-        const numberValidation = valid.number(e.target.value);
-        if (!numberValidation.isPotentiallyValid) {
-            console.log('its incorrect');
-        }
-
-        if (numberValidation.card) {
-            console.log({ numberValidation });
-            setCardType(numberValidation.card.type);
-        }
-
-        if (e.target.value === '') {
-            setCardType('');
-        }
-    };
-
-    const handleCardExpiryMonth = (e) => {
-        const monthValidation = valid.expirationMonth(e.target.value);
-
-        console.log({ monthValidation });
-        // if (!dateValidation.isPotentiallyValid) {
-        //   console.log('its incorrect');
-        // }
-
-        // if (numberValidation.card) {
-        //   console.log({ numberValidation });
-        //   setCardType(numberValidation.card.type);
-        // }
-    };
-
-    const handleCardExpiryYear = (e) => {
-        const yearValidation = valid.expirationYear(e.target.value);
-
-        console.log({ yearValidation });
-    };
-
-    const handleCardCvv = (e) => {
-        const cvvValidation = valid.cvv(e.target.value);
-
-        console.log({ cvvValidation });
-    };
-
-    // const renderCardIcon = () => {
-    //     return cardType === '' ? (
-    //         <i className="far fa-credit-card mr-1" />
-    //     ) : (
-    //             <img src={require(`../../../assets/images/paymentMethods/${cardType}.png`)} width={20} />
-    //         );
-    // };
-
-    // const renderModalContent = () => {
-    //     return modal.title === 'Add credit / debit card' ? (
-    //         <div style={{ textAlign: 'left' }} className="credit-card-input">
-    //             <Label>{t('settings.card_number')}</Label>
-    //             <AntInput type="text" onChange={handleCardNumber} prefix={renderCardIcon()} />
-    //             <div
-    //                 style={{
-    //                     display: 'flex',
-    //                     justifyContent: 'space-between',
-    //                     marginTop: 20,
-    //                 }}
-    //             >
-    //                 <div style={{ width: '30%' }}>
-    //                     <Label>{t('settings.expiry_date')}</Label>
-    //                     <Input type="text" placeholder="MM" onChange={handleCardExpiryMonth} />
-    //                 </div>
-    //                 <div style={{ width: '30%' }}>
-    //                     <Label style={{ visibility: 'hidden' }}>Expiry date</Label>
-    //                     <Input type="text" placeholder="YY" onChange={handleCardExpiryYear} />
-    //                 </div>
-    //                 <div style={{ width: '30%' }}>
-    //                     <Label>CVV</Label>
-    //                     <Input type="text" onChange={handleCardCvv} />
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     ) : (
-    //             <h4>helo bank account</h4>
-    //         );
-    // };
-
     return (
         <>
             <Modal
+                centered
                 title={modal.title}
                 visible={modal.show}
-                okText="Confirm"
-                onOk={() => setModal({ show: false })}
+                // okText="Confirm"
+                //  onOk={() => setModal({ show: false })}
                 onCancel={() => setModal({ show: false })}
-            //footer={""}
+                footer={null}
             >
                 {modal.content}
             </Modal>
@@ -186,6 +97,7 @@ function Settings() {
                 <SectionTitle>Password and Authentication</SectionTitle>
                 <PasswordAndAuthentication
                     setModal={(title, content) => setModal({ show: true, title, content })}
+                    closeModal={() => setModal({ show: false })}
                 />
             </SectionContainer>
         </>

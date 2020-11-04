@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
-import { FieldLabel, TextField, SectionContainer, SectionTitle } from '../../../components/FormComponents';
-import { Row, Col, Button } from 'reactstrap';
-import 'react-phone-number-input/style.css'
-import { useTranslation } from 'react-i18next';
-import { Input } from 'antd';
-import styled from 'styled-components'
-import { getGoogleAuthenticatorQrCode, verifyGoogleAuthenticatorCode } from '../../../redux/actions/userActions'
 import { useDispatch, useSelector } from 'react-redux';
+import { getGoogleAuthenticatorQrCode, verifyGoogleAuthenticatorCode } from '../../../redux/actions/userActions'
+import { useTranslation } from 'react-i18next';
+
+import styled from 'styled-components'
+import { Row, Col, Button } from 'reactstrap';
+import { Input } from 'antd';
+import { FieldLabel, PasswordField, SectionContainer, SectionTitle, TextField } from '../../../components/FormComponents';
+
+import { useForm, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { reset_password_default_values as defaultValues } from '../_defaultValues'
+import { reset_password_schema } from '../_validationSchema'
 
 const Container = styled.div`
      display: flex;
@@ -28,16 +32,11 @@ const Description = styled.div`
   flex: 50%;
 `;
 
-
-const defaultValues = {
-    password: ''
-}
-
 const AntInput = styled(Input.Password)`
     margin-bottom: 20px;
 `
 
-function PasswordAndAuthentication({ setModal }) {
+function PasswordAndAuthentication({ setModal, closeModal }) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
@@ -49,7 +48,12 @@ function PasswordAndAuthentication({ setModal }) {
     return (
         <>
             {/* disable if registered / signed in by google */}
-            <Button color="info" size="sm" onClick={() => setModal(<h5>Change your password</h5>, <ChangePassword />)}>
+            <Button
+                color="info"
+                size="sm"
+                onClick={() =>
+                    setModal(<h5>Change your password</h5>, <ChangePassword closeModal={closeModal} />)}
+            >
                 {t('settings.change_password')}
             </Button>
 
@@ -82,10 +86,12 @@ function PasswordAndAuthentication({ setModal }) {
 
 export default PasswordAndAuthentication
 
-function ChangePassword() {
+const resolver = yupResolver(reset_password_schema)
+
+function ChangePassword({ closeModal }) {
     const { t } = useTranslation();
 
-    const methods = useForm({ defaultValues });
+    const methods = useForm({ defaultValues, resolver });
     const { handleSubmit } = methods;
 
     const onSubmit = (data) => {
@@ -97,13 +103,17 @@ function ChangePassword() {
             <form onSubmit={handleSubmit(onSubmit)} style={{ textAlign: 'left' }}>
 
                 <FieldLabel> {t('settings.current_password')}</FieldLabel>
-                <AntInput />
+                <PasswordField name="currentPassword" />
 
                 <FieldLabel> {t('settings.new_password')}</FieldLabel>
-                <AntInput />
+                <PasswordField name="newPassword" />
 
                 <FieldLabel> {t('settings.repeat_new_password')}</FieldLabel>
-                <AntInput />
+                <PasswordField name="newPasswordRepeat" />
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <button type="submit">Submit</button>
+                </div>
             </form>
         </FormProvider>
     )
