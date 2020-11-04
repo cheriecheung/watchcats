@@ -27,16 +27,17 @@ const logoutURL = '/logout';
 const resetPasswordEmailURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
 const resetPasswordURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
 
-const googleAuthenticatorQrCodeURL = `${REACT_APP_API_DOMAIN}/google-authenticator-qrcode`
-const googleAuthenticatorVerifyCodeURL = `${REACT_APP_API_DOMAIN}/google-authenticator-verify-code`
+const googleAuthenticatorQrCodeURL = `google-authenticator-qrcode`
+const googleAuthenticatorVerifyCodeURL = `google-authenticator-verify-code`
 
-const config = {
-  withCredentials: true,
-  // credentials: 'include',
-  headers: {
-    Authorization: cookies.get('userId'),
-  },
-};
+const getConfig = () => {
+  return {
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${getAccessToken()}`,
+    },
+  }
+}
 
 export function checkToken() {
   return async (dispatch) => {
@@ -56,7 +57,7 @@ export function checkToken() {
 export function getGoogleAuthenticatorQrCode() {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(googleAuthenticatorQrCodeURL);
+      const { data } = await axiosInstance().get(googleAuthenticatorQrCodeURL, getConfig());
       dispatch({ type: 'QR_CODE_RETURNED', payload: data });
     } catch (e) {
       console.log({ e });
@@ -68,7 +69,7 @@ export function verifyGoogleAuthenticatorCode(code) {
   return async (dispatch) => {
     try {
       // pass token too?
-      const { data } = await axios.post(googleAuthenticatorVerifyCodeURL, { code });
+      const { data } = await axiosInstance().post(googleAuthenticatorVerifyCodeURL, { code }, getConfig());
       dispatch({ type: 'CODE_VALID', payload: data });
     } catch (e) {
       console.log({ e });
@@ -206,15 +207,6 @@ export function login(email, password) {
       });
     }
   };
-}
-
-const getConfig = () => {
-  return {
-    withCredentials: true,
-    headers: {
-      Authorization: `Bearer ${getAccessToken()}`,
-    },
-  }
 }
 
 export function logout() {

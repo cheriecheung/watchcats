@@ -32,6 +32,7 @@ baseRouter.use('/', require('./chat'));
 baseRouter.use('/', require('./file'));
 baseRouter.use('/', require('./find_cat_sitter'));
 baseRouter.use('/', require('./payment'));
+baseRouter.use('/', require('./two_factor_auth'));
 baseRouter.use('/', require('./user'));
 
 module.exports = { baseRouter };

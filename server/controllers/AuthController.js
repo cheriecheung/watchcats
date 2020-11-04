@@ -1,14 +1,38 @@
 const axios = require('axios');
 const User = require('../model/User');
-const speakeasy = require('speakeasy');
-const qrcode = require('qrcode')
 const bcrypt = require('bcryptjs');
 const { loginValidation } = require('../helpers/validation');
 const { createAccessToken, createRefreshToken } = require('../helpers/token');
-
-let ascii_secret;
+const { verify } = require('jsonwebtoken')
 
 module.exports = {
+  getNewAccessToken: async (req, res) => {
+    const { refresh_token } = req.cookies;
+    if (!refresh_token) return res.status(401).json({ ok: false, message: 'message' });
+
+    try {
+      let payload = null;
+
+      payload = verify(refresh_token, process.env.REFRESH_TOKEN_SECRET)
+      if (!payload) return res.status(402).json({ ok: false, message: 'message' });
+
+      const user = await User.findById(payload.userId)
+      if (!user) return res.status(403).json({ ok: false, message: 'message' });
+
+      // To revoke token, change the token version
+      // if (user.tokenVersion !== payload.tokenVersion) return res.send({ ok: false, accessToken: '' });
+
+      const accessToken = createAccessToken(user)
+      // const refreshToken = createRefreshToken(user)
+      // res.cookie('refresh_token', refreshToken, {httpOnly:true})
+
+      return res.status(200).json({ ok: true, accessToken })
+    } catch (err) {
+      console.log({ err })
+      return res.status(402).json('Unable to get access token')
+    }
+  },
+
   login: async (req, res) => {
     const { error } = loginValidation(req.body);
     if (error) return res.status(400).json(error.details[0].message);
@@ -70,43 +94,6 @@ module.exports = {
       return res.status(200).json('Account activate is now activated');
     } catch (err) {
       return res.status(400).json('Unable to update the status of your account');
-    }
-  },
-
-  getGoogleAuthenticatorQrCode: async (req, res) => {
-    const secret = speakeasy.generateSecret({ name: 'WatchCats' })
-    const { ascii, otpauth_url } = secret;
-    ascii_secret = ascii
-
-    console.log({ ascii_secret_code: ascii_secret })
-
-    try {
-      const qrcodeImage = await qrcode.toDataURL(otpauth_url)
-      return res.status(200).json(qrcodeImage)
-    } catch (err) {
-      console.log({ err })
-      return res.status(400).json('Error')
-    }
-  },
-
-  verifyGoogleAuthenticatorCode: async (req, res) => {
-    const { code } = req.body
-    console.log({ ascii_secret, code })
-
-    try {
-      const verified = await speakeasy.totp.verify({
-        secret: ascii_secret,
-        encoding: 'ascii',
-        token: code
-      })
-      console.log({ verified })
-
-      // hash secret, save to user
-
-      return res.status(200).json('verification successful')
-    } catch (err) {
-      console.log({ err })
-      return res.status(200).json('verification failed')
     }
   },
 
