@@ -137,12 +137,18 @@ ant-tabs-tab-remove:active {
 }
 
 /* antd modal */
+.ant-modal-wrap {
+  overflow: hidden !important;
+}
+
 .ant-modal-close {
   outline: none !important;
 }
 
 .ant-modal-header{
+  text-align: center !important;
   padding-bottom: 0 !important;
+  border-bottom: none !important;
 }
 
 .ant-modal-header,

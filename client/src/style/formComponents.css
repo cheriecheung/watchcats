@@ -9,6 +9,34 @@
   --theme-select-button-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15), 0 1px 6px rgba(0, 0, 0, 0.05) !important;
 }
 
+/* ------------------- React Phone input ------------------- */
+
+.react-tel-input {
+  text-align: left;
+}
+
+.react-tel-input .form-control {
+  width: 100% !important;
+  padding-left: 60px !important;
+}
+
+.react-tel-input .selected-flag{
+  width: 50px !important;
+  padding-left: 15px !important;
+}
+
+/* 
+.PhoneInputInput{  
+  border-color: var(--theme-field-border) !important;
+  border-radius: var(--theme-border-radius);
+  outline: none;
+  transition: all 0.2s;
+}
+
+.PhoneInputInput:hover, .PhoneInputInput:focus{
+  border-color: var(--theme-field-border-hover) !important;
+} */
+
 /* ------------------- Form ------------------- */
 @media only screen and (max-width: 930px) {
   .overnight-visit-date-picker {

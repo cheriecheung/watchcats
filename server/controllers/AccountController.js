@@ -39,15 +39,47 @@ module.exports = {
     const { userId } = req.verifiedData;
     if (!userId) return res.status(404).json('No user id');
 
-    const userRecord = await User.findById(userId);
-    if (!userRecord) return res.status(404).json('User not found');
+    try {
+      const userRecord = await User.findById(userId);
+      if (!userRecord) return res.status(404).json('User not found');
 
-    const { email, phone } = userRecord;
+      const { email, phone } = userRecord;
 
-    console.log({ email, phone })
+      console.log({ email, phone })
+
+      return res.status(200).json({ email, phone })
+    } catch (err) {
+      console.log({ err })
+      return res.status(403).json('Unable to retrieve user contact details')
+    }
+  },
+
+  submitPhoneNumber: async (req, res) => {
+    try {
+      return res.status(200).json('')
+    } catch (err) {
+      console.log({ err })
+      return res.status(403).json('Unable to retrieve user contact details')
+    }
+  },
+
+  verifyPhoneNumber: async (req, res) => {
+    const { userId } = req.verifiedData;
+    if (!userId) return res.status(404).json('No user id');
+
+    const { code } = req.body;
+    // verify code
+    // if (!verified) return res.status(401).json('Wrong verification code')
 
     try {
-      return res.status(200).json({ email, phone })
+      // const userRecord = await User.findOneAndUpdate(
+      //   { _id: userId },
+      //   { $set: { phone: 'phone value here' } },
+      //   { useFindAndModify: false }
+      // );
+      // if (!userRecord) return res.status(401).json('Fail to update');
+
+      return res.status(200).json(1253259348)
     } catch (err) {
       console.log({ err })
       return res.status(403).json('Unable to retrieve user contact details')

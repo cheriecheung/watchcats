@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import styled from 'styled-components';
 import { FieldLabel, TextField, SectionContainer, SectionTitle } from '../../../components/FormComponents';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getContactDetails } from '../../../redux/actions/accountActions'
+import { getContactDetails, submitPhoneNumber, verifyPhoneNumber } from '../../../redux/actions/accountActions'
 
 const Button = styled.button`
     background: none;
@@ -42,11 +42,11 @@ function ContactDetails({ setModal }) {
     const dispatch = useDispatch();
     const { contactDetails } = useSelector((state) => state.account);
 
-    const [email, setEmail] = useState();
+    const [email, setEmail] = useState(null);
     const [asteriskedEmail, setAsteriskedEmail] = useState('')
     const [revealEmail, setRevealEmail] = useState(false);
 
-    const [phone, setPhone] = useState()
+    const [phone, setPhone] = useState(null)
     const [asteriskedPhone, setAsteriskedPhone] = useState('')
     const [revealPhone, setRevealPhone] = useState(false);
 
@@ -98,18 +98,31 @@ function ContactDetails({ setModal }) {
             <div style={{ flexBasis: '45%' }}>
                 <FieldLabel>Phone number</FieldLabel>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    {revealPhone ? <span>{phone}</span> : <span>{asteriskedPhone}</span>}
+                {phone ?
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        {revealPhone ? <span>{phone}</span> : <span>{asteriskedPhone}</span>}
 
-                    <div style={{ display: 'flex' }}>
-                        {revealPhone ?
-                            <Button onClick={() => setRevealPhone(false)}>Hide</Button>
-                            :
-                            <Button onClick={() => setRevealPhone(true)}>Reveal</Button>
-                        }
-                        <Button style={{ float: 'right' }} onClick={() => setModal('Enter a Phone Number', <EnterPhoneNumber />)}>Edit</Button>
+                        <div style={{ display: 'flex' }}>
+                            {revealPhone ?
+                                <Button onClick={() => setRevealPhone(false)}>Hide</Button>
+                                :
+                                <Button onClick={() => setRevealPhone(true)}>Reveal</Button>
+                            }
+                            <Button style={{ float: 'right' }}>Remove</Button>
+                            <Button
+                                style={{ float: 'right' }}
+                                onClick={() => setModal('Enter a Phone Number', <EnterPhoneNumber setModal={setModal} />)}
+                            >
+                                Edit
+                            </Button>
+                        </div>
                     </div>
-                </div>
+                    :
+                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <Button onClick={() => setModal('Enter a Phone Number', <EnterPhoneNumber setModal={setModal} />)}>Add</Button>
+                    </div>
+                }
+
             </div>
         </ContentBox>
     )
@@ -117,12 +130,31 @@ function ContactDetails({ setModal }) {
 
 export default ContactDetails;
 
-function EnterPhoneNumber() {
+function EnterPhoneNumber({ setModal }) {
+    const dispatch = useDispatch();
+    const { verifyPhone, phoneVerified } = useSelector((state) => state.account);
+
     const [phoneNumber, setPhoneNumber] = useState()
 
+    useEffect(() => {
+        console.log({ _verifyPhone: verifyPhone })
+
+        if (verifyPhone) {
+            setModal('Verify Phone Number', <VerifyNumber />)
+        }
+    }, [verifyPhone])
+
+    useEffect(() => {
+        console.log({ _phoneVerified: phoneVerified })
+
+        if (phoneVerified) {
+            // setModal({ show: false })
+        }
+    }, [phoneVerified])
+
     return (
-        <>
-            <i class="fas fa-mobile-alt fa-4x mb-3" />
+        <div style={{ textAlign: 'center' }}>
+            <i className="fas fa-mobile-alt fa-4x mb-3" />
 
             <p>You will receive a text message with a verification code.</p>
             <p>Your phone number is only used for verification and will not be shared to anyone on this application.</p>
@@ -130,15 +162,95 @@ function EnterPhoneNumber() {
             <PhoneInput
                 country={'nl'}
                 value={phoneNumber}
-                onChange={phone => setPhoneNumber(phone)}
+                onChange={phone => {
+                    console.log({ phoneNumber })
+                    setPhoneNumber(phone)
+                }}
                 placeholder=""
+                className="phone-input"
             />
 
             <br />
 
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <button>Submit</button>
+                <button onClick={() => dispatch(submitPhoneNumber())}>Submit</button>
             </div>
-        </>
+        </div>
+    )
+}
+
+const CodeInput = styled.input`
+    margin: 0 4px;
+    padding: 0;
+    width: 40px;
+    height: 60px;
+    border: 2px solid #D3D3D3;
+    border-radius: 10px;
+    font-size: 25px;
+    text-align: center;
+    outline: none;
+`
+
+function VerifyNumber() {
+    const dispatch = useDispatch();
+
+    const codeLength = 6
+    const [code, setCode] = useState([...Array(codeLength)].map(() => ""));
+    const inputs = useRef([]);
+
+    const processInput = (e, slot) => {
+        const num = e.target.value;
+        if (/[^0-9]/.test(num)) return;
+
+        const newCode = [...code];
+        newCode[slot] = num;
+        setCode(newCode);
+
+        if (slot !== codeLength - 1) {
+            inputs.current[slot + 1].focus();
+        }
+        if (newCode.every(num => num !== "")) {
+            setTimeout(() => {
+                const filledInCode = newCode.join('')
+                dispatch(verifyPhoneNumber(filledInCode))
+            }, 500)
+        }
+    };
+
+    const onKeyUp = (e, slot) => {
+        if (e.keyCode === 8 && !code[slot] && slot !== 0) {
+            const newCode = [...code];
+            newCode[slot - 1] = "";
+            setCode(newCode);
+            inputs.current[slot - 1].focus();
+        }
+    };
+
+    return (
+        <div style={{ textAlign: 'center' }}>
+            <p>Enter the 6-digit code we sent to your phone.</p>
+
+            {code.map((num, idx) => {
+                return (
+                    <CodeInput
+                        key={idx}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={num}
+                        autoFocus={!code[0].length && idx === 0}
+                        // readOnly={loading}
+                        onChange={e => processInput(e, idx)}
+                        onKeyUp={e => onKeyUp(e, idx)}
+                        ref={ref => inputs.current.push(ref)}
+                    />
+                );
+            })}
+
+            <br />
+            <br />
+
+            <button>Resend Code</button>
+        </div >
     )
 }
