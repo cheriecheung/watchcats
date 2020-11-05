@@ -132,7 +132,7 @@ export default ContactDetails;
 
 function EnterPhoneNumber({ setModal }) {
     const dispatch = useDispatch();
-    const { verifyPhone, phoneVerified } = useSelector((state) => state.account);
+    const { verifyPhone } = useSelector((state) => state.account);
 
     const [phoneNumber, setPhoneNumber] = useState()
 
@@ -143,14 +143,6 @@ function EnterPhoneNumber({ setModal }) {
             setModal('Verify Phone Number', <VerifyNumber />)
         }
     }, [verifyPhone])
-
-    useEffect(() => {
-        console.log({ _phoneVerified: phoneVerified })
-
-        if (phoneVerified) {
-            // setModal({ show: false })
-        }
-    }, [phoneVerified])
 
     return (
         <div style={{ textAlign: 'center' }}>
@@ -173,7 +165,9 @@ function EnterPhoneNumber({ setModal }) {
             <br />
 
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <button onClick={() => dispatch(submitPhoneNumber())}>Submit</button>
+                <button onClick={() => {
+                    dispatch(submitPhoneNumber('2352323'))
+                }}>Submit</button>
             </div>
         </div>
     )
@@ -193,10 +187,19 @@ const CodeInput = styled.input`
 
 function VerifyNumber() {
     const dispatch = useDispatch();
+    const { phoneVerified } = useSelector((state) => state.account);
 
     const codeLength = 6
     const [code, setCode] = useState([...Array(codeLength)].map(() => ""));
     const inputs = useRef([]);
+
+    useEffect(() => {
+        console.log({ _phoneVerified: phoneVerified })
+
+        if (phoneVerified) {
+            // setModal({ show: false })
+        }
+    }, [phoneVerified])
 
     const processInput = (e, slot) => {
         const num = e.target.value;
@@ -212,7 +215,7 @@ function VerifyNumber() {
         if (newCode.every(num => num !== "")) {
             setTimeout(() => {
                 const filledInCode = newCode.join('')
-                dispatch(verifyPhoneNumber(filledInCode))
+                dispatch(verifyPhoneNumber('345346'))
             }, 500)
         }
     };

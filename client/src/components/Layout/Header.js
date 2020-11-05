@@ -192,7 +192,7 @@ const LogoutButton = styled.button`
 function MenuContent({ setLanguage, closeMenu }) {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector(state => state.is_logged_in);
+  const { isLoggedIn } = useSelector(state => state.isLoggedIn);
 
   const handleLogout = () => {
     dispatch(logout());

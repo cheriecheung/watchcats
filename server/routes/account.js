@@ -7,5 +7,7 @@ router.post('/personal-info', verifyAccessTokenUpdate, verifyAccessTokenUpdate, 
 
 router.get('/contact-details', verifyAccessTokenUpdate, AccountController.getContactDetails)
 
+router.post('/phone-number', verifyAccessTokenUpdate, AccountController.submitPhoneNumber)
+router.patch('/phone-number', verifyAccessTokenUpdate, AccountController.verifyPhoneNumber)
 
 module.exports = router;

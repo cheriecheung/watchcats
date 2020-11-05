@@ -2,42 +2,28 @@ import { combineReducers } from 'redux';
 
 import accountReducer from './account';
 import authenticationReducer from './authentication';
+import bookingsReducer from './bookings';
+import chatReducer from './chat';
+import findCatSittersReducer from './find_cat_sitters';
 import isLoggedInReducer from './is_logged_in'
+import paymentReducer from './payment';
+import profileReducer from './profile';
+import registrationReducer from './registration';
+import twoFactorAuthenticationReducer from './two_factor_auth';
 
 const rootReducer = combineReducers(
   Object.assign(
     accountReducer,
     authenticationReducer,
-    isLoggedInReducer
+    bookingsReducer,
+    chatReducer,
+    findCatSittersReducer,
+    isLoggedInReducer,
+    paymentReducer,
+    profileReducer,
+    registrationReducer,
+    twoFactorAuthenticationReducer
   ),
 );
 
 export default rootReducer;
-
-// import { combineReducers } from 'redux';
-
-// import { account } from './account';
-// import { authentication } from './authentication';
-// import { bookings } from './bookings';
-// import { chat } from './chat';
-// import { find_cat_sitters } from './find_cat_sitters';
-// import { is_logged_in } from './is_logged_in'
-// import { payment } from './payment';
-// import { profile } from './profile';
-// import { registration } from './registration';
-// import { two_factor_auth } from './two_factor_auth';
-
-// const rootReducer = combineReducers({
-//   account,
-//   authentication,
-//   bookings,
-//   chat,
-//   find_cat_sitters,
-//   is_logged_in,
-//   payment,
-//   profile,
-//   registration,
-//   two_factor_auth
-// });
-
-// export default rootReducer;

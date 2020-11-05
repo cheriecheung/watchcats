@@ -30,7 +30,7 @@ import { useSelector } from 'react-redux';
 
 
 function PrivateRoute({ component: Component, ...rest }) {
-  const { isLoggedIn } = useSelector(state => state.is_logged_in);
+  const { isLoggedIn } = useSelector(state => state.isLoggedIn);
 
   return (
     <Route

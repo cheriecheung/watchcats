@@ -54,6 +54,7 @@
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "seamless-immutable": "^7.1.4",
     "shortid": "^2.2.15",
     "socket.io": "^2.3.0",
     "speakeasy": "^2.0.0",

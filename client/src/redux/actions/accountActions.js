@@ -2,6 +2,7 @@ import axiosInstance from '../../utility/axiosInstance';
 import { getAccessToken } from '../../utility/accessToken'
 
 const contactDetailsURL = `/contact-details`;
+const phoneNumberURL = `/phone-number`;
 const personalInfoURL = `/personal-info`;
 const imageURL = `/image`;
 const profilePicURL = `/image/profile-picture`;
@@ -24,6 +25,28 @@ export function getContactDetails() {
     try {
       const { data } = await axiosInstance().get(contactDetailsURL, getConfig());
       dispatch({ type: 'CONTACT_DETAILS_RETURNED', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
+export function submitPhoneNumber(phone) {
+  return async (dispatch) => {
+    try {
+      const { data } = await axiosInstance().post(phoneNumberURL, { phone }, getConfig());
+      dispatch({ type: 'PHONE_NUMBER_SUBMITTED', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
+export function verifyPhoneNumber(code) {
+  return async (dispatch) => {
+    try {
+      const { data } = await axiosInstance().patch(phoneNumberURL, { code }, getConfig());
+      dispatch({ type: 'PHONE_NUMBER_VERIFY_SUCCESS', payload: data });
     } catch (e) {
       console.log({ e });
     }

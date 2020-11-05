@@ -22,13 +22,16 @@ async function checkLoggedIn() {
     const { accessToken } = data;
     setAccessToken(accessToken)
 
-    preloadedState = { is_logged_in: { isLoggedIn: true } };
+    preloadedState = { isLoggedIn: { isLoggedIn: true } };
+
+    // history push
+
     return preloadedState;
 
   } catch (err) {
     console.log({ err_____: err })
 
-    preloadedState = { is_logged_in: { isLoggedIn: false } };
+    preloadedState = { isLoggedIn: { isLoggedIn: false } };
     return preloadedState;
   }
 }
