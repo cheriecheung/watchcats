@@ -14,5 +14,7 @@ router.get('/googlelogin', generateCodes, AuthController.googleLogin);
 router.get('/oauth2callback', authenticateUser);
 router.get('/getUser', AuthController.googleUser);
 
+router.put('/password', AuthController.resetPassword)
+
 
 module.exports = router;

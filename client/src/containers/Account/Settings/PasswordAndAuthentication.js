@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getGoogleAuthenticatorQrCode, verifyGoogleAuthenticatorCode } from '../../../redux/actions/userActions'
+import { getGoogleAuthenticatorQrCode, resetPassword, verifyGoogleAuthenticatorCode } from '../../../redux/actions/userActions'
 import { useTranslation } from 'react-i18next';
 
 import styled from 'styled-components'
@@ -36,13 +36,15 @@ const AntInput = styled(Input.Password)`
     margin-bottom: 20px;
 `
 
-function PasswordAndAuthentication({ setModal, closeModal }) {
+function PasswordAndAuthentication({ setModalTitle, setModalContent, closeModal }) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
     const onEnable2FA = () => {
-        setModal(<h6>Enable Two Factor Authnetication</h6>, <Enable2FA />)
         dispatch(getGoogleAuthenticatorQrCode())
+
+        setModalTitle('Enable Two Factor Authnetication')
+        setModalContent(<Enable2FA />)
     }
 
     return (
@@ -51,8 +53,10 @@ function PasswordAndAuthentication({ setModal, closeModal }) {
             <Button
                 color="info"
                 size="sm"
-                onClick={() =>
-                    setModal(<h5>Change your password</h5>, <ChangePassword closeModal={closeModal} />)}
+                onClick={() => {
+                    setModalTitle('Change your password')
+                    setModalContent(<ChangePassword closeModal={closeModal} />)
+                }}
             >
                 {t('settings.change_password')}
             </Button>
@@ -90,6 +94,7 @@ const resolver = yupResolver(reset_password_schema)
 
 function ChangePassword({ closeModal }) {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
 
     const methods = useForm({ defaultValues, resolver });
     const { handleSubmit } = methods;
@@ -112,7 +117,7 @@ function ChangePassword({ closeModal }) {
                 <PasswordField name="newPasswordRepeat" />
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <button type="submit">Submit</button>
+                    <button type="submit" onClick={() => dispatch(resetPassword())}>Submit</button>
                 </div>
             </form>
         </FormProvider>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal } from 'antd';
 import { SectionContainer, SectionTitle } from '../../../components/FormComponents';
@@ -7,36 +7,40 @@ import ContactDetails from './ContactDetails'
 import PaymentSetup from './PaymentSetup'
 import PasswordAndAuthentication from './PasswordAndAuthentication';
 
-const defaultModal = {
-    show: false,
-    loading: false,
-    title: '',
-    content: '',
-}
-
 function Settings() {
     const { t } = useTranslation();
 
-    const [modal, setModal] = useState(defaultModal);
+    const [showModal, setShowModal] = useState(false)
+    const [modalTitle, setModalTitle] = useState('')
+    const [modalContent, setModalContent] = useState('')
+
+    useEffect(() => {
+        console.log({ modalTitle, modalContent })
+        if (modalTitle && modalContent) {
+            setShowModal(true)
+        }
+    }, [modalTitle, modalContent])
 
     return (
         <>
             <Modal
                 centered
-                title={modal.title}
-                visible={modal.show}
+                title={modalTitle}
+                visible={showModal}
                 // okText="Confirm"
                 //  onOk={() => setModal({ show: false })}
-                onCancel={() => setModal({ show: false })}
+                onCancel={() => setShowModal(false)}
                 footer={null}
             >
-                {modal.content}
+                {modalContent}
             </Modal>
 
             <SectionContainer>
                 <SectionTitle>Contact Details</SectionTitle>
                 <ContactDetails
-                    setModal={(title, content) => setModal({ show: true, title, content })}
+                    setModalTitle={setModalTitle}
+                    setModalContent={setModalContent}
+                    closeModal={() => setShowModal(false)}
                 />
             </SectionContainer>
 
@@ -49,8 +53,9 @@ function Settings() {
             <SectionContainer>
                 <SectionTitle>Password and Authentication</SectionTitle>
                 <PasswordAndAuthentication
-                    setModal={(title, content) => setModal({ show: true, title, content })}
-                    closeModal={() => setModal({ show: false })}
+                    setModalTitle={setModalTitle}
+                    setModalContent={setModalContent}
+                    closeModal={() => setShowModal(false)}
                 />
             </SectionContainer>
         </>

@@ -27,6 +27,8 @@ const logoutURL = '/logout';
 const resetPasswordEmailURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
 const resetPasswordURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
 
+const passwordURL = `/password`
+
 const googleAuthenticatorQrCodeURL = `google-authenticator-qrcode`
 const googleAuthenticatorVerifyCodeURL = `google-authenticator-verify-code`
 
@@ -176,7 +178,7 @@ export function getPasswordResetEmail(email) {
 export function resetPassword(password) {
   return async (dispatch) => {
     try {
-      await axios.post(resetPasswordURL, { password });
+      await axiosInstance().put(passwordURL, { password }, getConfig());
 
       dispatch({ type: 'PASSWORD_RESET', payload: 'Password reset' });
     } catch (e) {

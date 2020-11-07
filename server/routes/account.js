@@ -9,5 +9,6 @@ router.get('/contact-details', verifyAccessTokenUpdate, AccountController.getCon
 
 router.post('/phone-number', verifyAccessTokenUpdate, AccountController.submitPhoneNumber)
 router.patch('/phone-number', verifyAccessTokenUpdate, AccountController.verifyPhoneNumber)
+router.delete('/phone-number', verifyAccessTokenUpdate, AccountController.deletePhoneNumber)
 
 module.exports = router;

@@ -14,6 +14,8 @@ const accountReducer = {
         return { ...state, verifyPhone: true }
       case 'PHONE_NUMBER_VERIFY_SUCCESS':
         return { ...state, phoneVerified: 'et3523353' }
+      case 'PHONE_NUMBER_REMOVED':
+        return state;
       case 'GET_USER':
         return { ...state, data: action.payload };
       case 'GENERAL_INFO_SAVED':

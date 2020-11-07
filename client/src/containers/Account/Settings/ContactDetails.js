@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { FieldLabel, TextField, SectionContainer, SectionTitle } from '../../../components/FormComponents';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getContactDetails, submitPhoneNumber, verifyPhoneNumber } from '../../../redux/actions/accountActions'
+import { getContactDetails, submitPhoneNumber, verifyPhoneNumber, deletePhoneNumber } from '../../../redux/actions/accountActions'
 
 const Button = styled.button`
     background: none;
@@ -38,7 +38,8 @@ const ContentBox = styled.div`
     }
 `
 
-function ContactDetails({ setModal }) {
+// function ContactDetails({ setModal, closeModal }) {
+function ContactDetails({ setModalTitle, setModalContent, closeModal }) {
     const dispatch = useDispatch();
     const { contactDetails } = useSelector((state) => state.account);
 
@@ -69,6 +70,16 @@ function ContactDetails({ setModal }) {
             }
         }
     }, [contactDetails])
+
+    useEffect(() => {
+        if (phone) {
+            setPhone(phone)
+
+            const withoutLastFourDigits = phone.slice(0, -4).replace(/./g, '*')
+            const lastFourDigits = phone.substr(phone.length - 4);
+            setAsteriskedPhone(`${withoutLastFourDigits}${lastFourDigits}`)
+        }
+    }, [phone])
 
     useEffect(() => {
         dispatch(getContactDetails())
@@ -108,10 +119,25 @@ function ContactDetails({ setModal }) {
                                 :
                                 <Button onClick={() => setRevealPhone(true)}>Reveal</Button>
                             }
-                            <Button style={{ float: 'right' }}>Remove</Button>
                             <Button
                                 style={{ float: 'right' }}
-                                onClick={() => setModal('Enter a Phone Number', <EnterPhoneNumber setModal={setModal} />)}
+                                onClick={() => dispatch(deletePhoneNumber())}
+                            >
+                                Remove
+                            </Button>
+                            <Button
+                                style={{ float: 'right' }}
+                                onClick={() => {
+                                    setModalTitle('Enter a Phone Number')
+                                    setModalContent(
+                                        <EnterPhoneNumber
+                                            setPhone={setPhone}
+                                            setModalTitle={setModalTitle}
+                                            setModalContent={setModalContent}
+                                            closeModal={closeModal}
+                                        />
+                                    )
+                                }}
                             >
                                 Edit
                             </Button>
@@ -119,7 +145,20 @@ function ContactDetails({ setModal }) {
                     </div>
                     :
                     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        <Button onClick={() => setModal('Enter a Phone Number', <EnterPhoneNumber setModal={setModal} />)}>Add</Button>
+                        <Button onClick={() => {
+                            setModalTitle('Enter a Phone Number')
+                            setModalContent(
+                                <EnterPhoneNumber
+                                    setPhone={setPhone}
+                                    setModalTitle={setModalTitle}
+                                    setModalContent={setModalContent}
+                                    closeModal={closeModal}
+                                />
+                            )
+                        }}
+                        >
+                            Add
+                        </Button>
                     </div>
                 }
 
@@ -130,17 +169,20 @@ function ContactDetails({ setModal }) {
 
 export default ContactDetails;
 
-function EnterPhoneNumber({ setModal }) {
+function EnterPhoneNumber({ setModalTitle, setModalContent, setPhone, closeModal }) {
     const dispatch = useDispatch();
     const { verifyPhone } = useSelector((state) => state.account);
 
     const [phoneNumber, setPhoneNumber] = useState()
 
     useEffect(() => {
-        console.log({ _verifyPhone: verifyPhone })
-
         if (verifyPhone) {
-            setModal('Verify Phone Number', <VerifyNumber />)
+            setModalTitle('Verify Phone Number')
+            setModalContent(
+                <VerifyNumber
+                    closeModal={closeModal}
+                    setPhone={() => setPhone(phoneNumber)}
+                />)
         }
     }, [verifyPhone])
 
@@ -154,10 +196,7 @@ function EnterPhoneNumber({ setModal }) {
             <PhoneInput
                 country={'nl'}
                 value={phoneNumber}
-                onChange={phone => {
-                    console.log({ phoneNumber })
-                    setPhoneNumber(phone)
-                }}
+                onChange={phone => setPhoneNumber(phone)}
                 placeholder=""
                 className="phone-input"
             />
@@ -185,19 +224,20 @@ const CodeInput = styled.input`
     outline: none;
 `
 
-function VerifyNumber() {
+function VerifyNumber({ setPhone, closeModal }) {
     const dispatch = useDispatch();
     const { phoneVerified } = useSelector((state) => state.account);
 
     const codeLength = 6
     const [code, setCode] = useState([...Array(codeLength)].map(() => ""));
+    const [isVerified, setIsVerified] = useState(false);
     const inputs = useRef([]);
 
     useEffect(() => {
-        console.log({ _phoneVerified: phoneVerified })
-
+        // if phoneVerified && prevState.phoneVerified !== phoneVerified
         if (phoneVerified) {
-            // setModal({ show: false })
+            setIsVerified(true)
+            setPhone && setPhone();
         }
     }, [phoneVerified])
 
@@ -231,29 +271,41 @@ function VerifyNumber() {
 
     return (
         <div style={{ textAlign: 'center' }}>
-            <p>Enter the 6-digit code we sent to your phone.</p>
+            {isVerified ?
+                <>
+                    <i className="far fa-check-circle fa-3x" />
+                    <br />
+                    <br />
+                    <p>You have successfully verified your phone</p>
+                    <button onClick={() => closeModal && closeModal()}>OK</button>
+                </>
+                :
+                <>
+                    <p>Enter the 6-digit code we sent to your phone.</p>
 
-            {code.map((num, idx) => {
-                return (
-                    <CodeInput
-                        key={idx}
-                        type="text"
-                        inputMode="numeric"
-                        maxLength={1}
-                        value={num}
-                        autoFocus={!code[0].length && idx === 0}
-                        // readOnly={loading}
-                        onChange={e => processInput(e, idx)}
-                        onKeyUp={e => onKeyUp(e, idx)}
-                        ref={ref => inputs.current.push(ref)}
-                    />
-                );
-            })}
+                    {code.map((num, idx) => {
+                        return (
+                            <CodeInput
+                                key={idx}
+                                type="text"
+                                inputMode="numeric"
+                                maxLength={1}
+                                value={num}
+                                autoFocus={!code[0].length && idx === 0}
+                                // readOnly={loading}
+                                onChange={e => processInput(e, idx)}
+                                onKeyUp={e => onKeyUp(e, idx)}
+                                ref={ref => inputs.current.push(ref)}
+                            />
+                        );
+                    })}
 
-            <br />
-            <br />
+                    <br />
+                    <br />
 
-            <button>Resend Code</button>
-        </div >
+                    <button>Resend Code</button>
+                </>
+            }
+        </div>
     )
 }

@@ -53,6 +53,17 @@ export function verifyPhoneNumber(code) {
   };
 }
 
+export function deletePhoneNumber() {
+  return async (dispatch) => {
+    try {
+      const { data } = await axiosInstance().delete(phoneNumberURL, getConfig());
+      dispatch({ type: 'PHONE_NUMBER_DELETED', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
 export function sendAddressProof(formData) {
   return async (dispatch) => {
     try {

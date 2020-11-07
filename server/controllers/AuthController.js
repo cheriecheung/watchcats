@@ -153,4 +153,26 @@ module.exports = {
       return res.status(401).json('Incorrect credentials');
     }
   },
+
+  resetPassword: async (req, res) => {
+    const { userId } = req.verifiedData;
+    if (!userId) return res.status(404).json('No user id');
+
+    const { password } = req.body;
+    // hash password
+
+    try {
+      const userRecord = await User.findOneAndUpdate(
+        { _id: userId },
+        { $set: { password: 'hasedPassword' } },
+        { useFindAndModify: false }
+      );
+      if (!userRecord) return res.status(401).json('Fail to update');
+
+      return res.status(200).json('Phone deleted')
+    } catch (err) {
+      console.log({ err })
+      return res.status(403).json('Unable to delete phone')
+    }
+  }
 };
