@@ -8,6 +8,7 @@ router.post('/personal-info', verifyAccessTokenUpdate, verifyAccessTokenUpdate, 
 router.get('/contact-details', verifyAccessTokenUpdate, AccountController.getContactDetails)
 
 router.post('/phone-number', verifyAccessTokenUpdate, AccountController.submitPhoneNumber)
+router.get('/verification-code', verifyAccessTokenUpdate, AccountController.resendVerficationCode)
 router.patch('/phone-number', verifyAccessTokenUpdate, AccountController.verifyPhoneNumber)
 router.delete('/phone-number', verifyAccessTokenUpdate, AccountController.deletePhoneNumber)
 

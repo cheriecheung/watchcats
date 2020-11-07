@@ -3,6 +3,7 @@ import { getAccessToken } from '../../utility/accessToken'
 
 const contactDetailsURL = `/contact-details`;
 const phoneNumberURL = `/phone-number`;
+const verificationCodeURL = `/verification-code`;
 const personalInfoURL = `/personal-info`;
 const imageURL = `/image`;
 const profilePicURL = `/image/profile-picture`;
@@ -36,6 +37,17 @@ export function submitPhoneNumber(phone) {
     try {
       const { data } = await axiosInstance().post(phoneNumberURL, { phone }, getConfig());
       dispatch({ type: 'PHONE_NUMBER_SUBMITTED', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
+export function resendVerficationCode() {
+  return async (dispatch) => {
+    try {
+      const { data } = await axiosInstance().get(verificationCodeURL, getConfig());
+      dispatch({ type: 'VERIFICATION_CODE_SENT', payload: '' });
     } catch (e) {
       console.log({ e });
     }

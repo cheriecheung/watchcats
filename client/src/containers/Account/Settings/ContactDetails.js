@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { FieldLabel, TextField, SectionContainer, SectionTitle } from '../../../components/FormComponents';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getContactDetails, submitPhoneNumber, verifyPhoneNumber, deletePhoneNumber } from '../../../redux/actions/accountActions'
+import { getContactDetails, resendVerficationCode, submitPhoneNumber, verifyPhoneNumber, deletePhoneNumber } from '../../../redux/actions/accountActions'
 
 const Button = styled.button`
     background: none;
@@ -52,6 +52,8 @@ function ContactDetails({ setModalTitle, setModalContent, closeModal }) {
     const [revealPhone, setRevealPhone] = useState(false);
 
     useEffect(() => {
+        console.log({ contactDetails })
+
         if (contactDetails) {
             const { email, phone } = contactDetails;
 
@@ -72,6 +74,7 @@ function ContactDetails({ setModalTitle, setModalContent, closeModal }) {
     }, [contactDetails])
 
     useEffect(() => {
+        console.log({ phone })
         if (phone) {
             setPhone(phone)
 
@@ -205,7 +208,7 @@ function EnterPhoneNumber({ setModalTitle, setModalContent, setPhone, closeModal
 
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <button onClick={() => {
-                    dispatch(submitPhoneNumber('2352323'))
+                    dispatch(submitPhoneNumber(phoneNumber))
                 }}>Submit</button>
             </div>
         </div>
@@ -255,7 +258,7 @@ function VerifyNumber({ setPhone, closeModal }) {
         if (newCode.every(num => num !== "")) {
             setTimeout(() => {
                 const filledInCode = newCode.join('')
-                dispatch(verifyPhoneNumber('345346'))
+                dispatch(verifyPhoneNumber(filledInCode))
             }, 500)
         }
     };
@@ -303,7 +306,7 @@ function VerifyNumber({ setPhone, closeModal }) {
                     <br />
                     <br />
 
-                    <button>Resend Code</button>
+                    <button onClick={() => dispatch(resendVerficationCode())}>Resend Code</button>
                 </>
             }
         </div>

@@ -1,4 +1,7 @@
-var AWS = require('aws-sdk');
+const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } = process.env;
+
+const twilio = require('twilio');
+const client = new twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 const generateMessage = (type, data) => {
   switch (type) {
@@ -21,29 +24,14 @@ const generateMessage = (type, data) => {
   }
 }
 
-const sendSMS = (phone, type, data) => {
-  const params = {
-    Message: generateMessage(type, data),
-    PhoneNumber: '+' + phone,
-    MessageAttributes: {
-      'AWS.SNS.SMS.SenderID': {
-        DataType: 'String',
-        StringValue: 'Watch Cat',
-      },
-    },
-  };
-
-  const publishTextPromise = new AWS.SNS({ apiVersion: '2010-03-31' })
-    .publish(params)
-    .promise();
-
-  publishTextPromise
-    .then((data) => {
-      return res.end(JSON.stringify({ MessageID: data.MessageId }));
+module.exports = {
+  sendTwilioSMS: (phone, code) => {
+    client.messages.create({
+      body: `Hello from WatchCats app developed by Cherie. Your verification code is ${code}`,
+      to: `+${phone}`,  // Text this number
+      from: '+18332774431' // From a valid Twilio number
     })
-    .catch((err) => {
-      return res.end(JSON.stringify({ Error: err }));
-    });
+      .then((message) => console.log({ message: message.sid }))
+      .catch(err => console.log({ err }))
+  }
 };
-
-module.exports = { sendSMS };
