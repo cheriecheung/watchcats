@@ -7,9 +7,9 @@ import { useTranslation } from 'react-i18next';
 function Completed({ bookingType, bookings }) {
   const { t } = useTranslation();
 
-  const renderActionButtons = (hasWrittenReview, bookingId) => (
+  const renderActionButtons = (bookingId, hasWrittenReview) => (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      {!hasWrittenReview ? (
+      {hasWrittenReview ? (
         <h5>Show review here</h5>
       ) : (
           <ActionButton
@@ -37,7 +37,7 @@ function Completed({ bookingType, bookings }) {
               key={index} // data.id
               data={data}
               // renderActionButtons={() => renderActionButtons(hasWrittenReview, 123)}
-              renderActionButtons={(id) => renderActionButtons(id)}
+              renderActionButtons={renderActionButtons}
               status="completed"
             />
           );

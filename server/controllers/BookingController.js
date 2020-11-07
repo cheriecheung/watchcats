@@ -2,10 +2,10 @@ const AppointmentOneDay = require('../model/AppointmentOneDay');
 const AppointmentOvernight = require('../model/AppointmentOvernight');
 const Booking = require('../model/Booking');
 const User = require('../model/User');
-const { sendSMS } = require('../helpers/sms')
+const { sendTwilioSMS } = require('../helpers/sms')
 
 const cleanRecordData = async (item, bookingType) => {
-  const { id, appointmentType, owner, sitter, location, price, status } = item;
+  const { id, appointmentType, owner, sitter, location, price, status, hasPaid } = item;
   const query = bookingType === 'jobs' ? { owner } : { sitter };
   const { firstName, lastName, urlId } = await User.findOne(query);
 
@@ -16,7 +16,8 @@ const cleanRecordData = async (item, bookingType) => {
     appointmentType,
     location,
     price,
-    status
+    status,
+    hasPaid
   }
 
   if (appointmentType === 'oneDay') {
@@ -59,7 +60,7 @@ module.exports = {
 
         const ownerIdObj = user.owner;
 
-        if (!ownerIdObj) return res.status(404).json('OWNER_PROFILE_NOT_FOUND');
+        if (!ownerIdObj) return res.status(200).json('OWNER_PROFILE_NOT_FOUND');
 
         const oneDayRecords = await AppointmentOneDay.find({
           owner: ownerIdObj,
@@ -69,7 +70,7 @@ module.exports = {
         });
 
         if ((oneDayRecords.length === 0) & (overnightRecords.length === 0)) {
-          return res.status(404).json('APPOINTMENT_TIME_NOT_FOUND');
+          return res.status(200).json('APPOINTMENT_TIME_NOT_FOUND');
         }
 
         const allOneDays = oneDayRecords.map(({ id, date, startTime, endTime }) => ({
@@ -91,12 +92,11 @@ module.exports = {
   sendRequest: async (req, res) => {
     const { userId: ownerUserId } = req.verifiedData
     if (!ownerUserId) return res.status(403).json('User id missing');
+
     const { sitterId: sitterShortId, type } = req.body;
 
-    //location
-
     try {
-      const [{ owner: ownerObjId, postcode }, { sitter: sitterObjId }] = await Promise.all([
+      const [{ owner: ownerObjId, postcode, firstName, lastName }, { sitter: sitterObjId, phone }] = await Promise.all([
         User.findById(ownerUserId),
         User.findOne({ urlId: sitterShortId }),
       ]);
@@ -139,8 +139,7 @@ module.exports = {
 
       await newBooking.save();
 
-      // find sitter phone by sitter id.
-      sendSMS('phone', 'BOOKING_REQUESTED', { name: 'sitterName' })
+      sendTwilioSMS(phone, 'BOOKING_REQUESTED', { name: `${firstName} ${lastName}` })
 
       // +1 booking notification to sitter's notification document
 
@@ -216,11 +215,9 @@ module.exports = {
   fulfillAction: async (req, res) => {
     const { id, action } = req.body
 
-    const { status, description } = getNewBookingStatus(action)
-
-    console.log({ id, action, status })
-
     try {
+      const { status, description } = getNewBookingStatus(action)
+
       const bookingRecord = await Booking.findOneAndUpdate(
         { _id: id },
         { $set: { status } },
@@ -228,8 +225,18 @@ module.exports = {
       );
       if (!bookingRecord) return res.status(401).json('No booking record to update')
 
+      const [{ phone }, { firstName, lastName }] = await Promise.all([
+        User.findOne({ owner: bookingRecord.owner }),
+        User.findOne({ sitter: bookingRecord.sitter })
+      ]);
+
+      if (!phone || !firstName || !lastName) {
+        return res.status(401).json('Unable to find owner or sitter')
+      }
+
+      sendTwilioSMS(phone, description, { name: `${firstName} ${lastName}` })
+
       // change notification of owner notification document
-      sendSMS('phone', description, { name: 'sitterName' })
 
       return res.status(200).json('success')
     } catch (err) {

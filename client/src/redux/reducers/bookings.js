@@ -8,7 +8,7 @@ const bookingsReducer = {
       case 'APPOINTMENT_TIME_RETURNED':
         return { appointmentTime: action.payload };
       case 'BOOKING_REQUEST_SENT':
-        return null;
+        return state;
       case 'BOOKING_RECORDS_RETURNED':
         return { bookings: action.payload };
       case 'ACTION_FULFILLED':

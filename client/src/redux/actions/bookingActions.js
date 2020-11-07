@@ -19,16 +19,14 @@ export function getAppointmentTime() {
   return async (dispatch) => {
     try {
       const { data } = await axiosInstance().get(appointmentTimeUrl, getConfig());
-      dispatch({ type: 'APPOINTMENT_TIME_RETURNED', payload: data });
-    } catch (e) {
-      const errorType = e.response.data;
 
-      if (errorType === 'OWNER_PROFILE_NOT_FOUND') {
-        dispatch({ type: errorType, payload: errorType });
+      if (data === 'OWNER_PROFILE_NOT_FOUND' || data === 'APPOINTMENT_TIME_NOT_FOUND') {
+        dispatch({ type: data, payload: data });
+      } else {
+        dispatch({ type: 'APPOINTMENT_TIME_RETURNED', payload: data });
       }
-      if (errorType === 'APPOINTMENT_TIME_NOT_FOUND') {
-        dispatch({ type: errorType, payload: errorType });
-      }
+    } catch (e) {
+      console.log({ e });
     }
   };
 }

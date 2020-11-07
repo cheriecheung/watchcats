@@ -9,17 +9,18 @@ function Confirmed({
   bookings,
   openModal,
   setModalContent,
-  setConfirmActionType,
+  setActionType,
   setBookingId,
 }) {
-  const renderSection = (hasPaid) =>
+  const renderActionButtons = (id, hasPaid) =>
     bookingType === 'sitting_jobs' ? (
       <ConfirmedJob
+        id={id}
         hasPaid={hasPaid}
         openModal={openModal}
         setModalContent={setModalContent}
-        setConfirmActionType={setConfirmActionType}
-        setBookingId={setBookingId}
+        setActionType={setActionType}
+        setBookingId={() => setBookingId(id)}
       />
     ) : (
         <ConfirmedService
@@ -34,14 +35,12 @@ function Confirmed({
       {Array.isArray(bookings) &&
         bookings.length > 0 &&
         bookings.map((data, index) => {
-          // data.hasPaid
-          const hasPaid = false;
           return (
             <Item
               key={index} // data.id
               data={data}
               openModal={openModal}
-              renderSection={() => renderSection(hasPaid)}
+              renderActionButtons={renderActionButtons}
               status="confirmed"
             />
           );
@@ -63,8 +62,9 @@ function Confirmed({
 
 export default Confirmed;
 
-function ConfirmedJob({ hasPaid, openModal, setModalContent, }) {
+function ConfirmedJob({ hasPaid, openModal, setModalContent, setActionType, setBookingId }) {
   const { t } = useTranslation();
+  console.log({ hasPaid })
 
   return hasPaid ? (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -73,6 +73,8 @@ function ConfirmedJob({ hasPaid, openModal, setModalContent, }) {
         onClick={() => {
           openModal();
           setModalContent(t('bookings.complete_confirm'));
+          setActionType('complete');
+          setBookingId();
         }}
       >
         {t('bookings.complete')}
@@ -87,6 +89,8 @@ function ConfirmedJob({ hasPaid, openModal, setModalContent, }) {
 
 function ConfirmedService({ hasPaid, openModal, setModalContent }) {
   const { t } = useTranslation();
+
+  console.log({ hasPaid___________: hasPaid })
 
   return hasPaid ? (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>

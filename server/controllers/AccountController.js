@@ -74,7 +74,7 @@ module.exports = {
       req.session.phone = phone;
       req.session.otp = otp;
 
-      // sendTwilioSMS(phone, otp)
+      sendTwilioSMS(phone, 'VERIFY_PHONE_NUMBER', { code: otp })
       console.log({ phone, otp })
 
       return res.status(200).json('Phone number submitted')
@@ -96,7 +96,7 @@ module.exports = {
 
       console.log({ session__resend: req.session })
 
-      // sendTwilioSMS(phone, otp)
+      sendTwilioSMS(phone, 'VERIFY_PHONE_NUMBER', { code: otp })
 
       return res.status(200).json('Code sent')
     } catch (err) {
