@@ -43,10 +43,10 @@ module.exports = {
       const user = await User.findOne({ email });
       // dev purpose: error remains "no user found"
       // for production: error as Invalid email / password combination
-      if (!user) return res.status(400).json({ error: 'No user found' });
+      if (!user) return res.status(400).json("Email and password combination isn't valid");
 
       const validPass = await bcrypt.compare(password, user.password)
-      if (!validPass) return res.status(400).json({ error: 'Invalid email / password combination' });
+      if (!validPass) return res.status(400).json("Email and password combination isn't valid");
 
       const accessToken = createAccessToken(user);
       const refreshToken = createRefreshToken(user);
@@ -60,7 +60,7 @@ module.exports = {
       return res.status(200).json({ shortId: user.urlId, accessToken })
     } catch (err) {
       console.log({ err })
-      return res.status(400).json('Login unsuccessful')
+      return res.status(400).json("Email and password combination isn't valid")
     }
   },
 

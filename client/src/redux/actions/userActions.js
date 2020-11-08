@@ -202,10 +202,12 @@ export function login(email, password) {
 
       window.location = `/account/${shortId}`;
     } catch (e) {
+      const { response: { data } } = e
       console.log({ e });
+
       dispatch({
         type: LOGIN_FAIL,
-        payload: "Email and password combination isn't valid",
+        payload: data || "Email and password combination isn't valid",
       });
     }
   };
