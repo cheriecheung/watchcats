@@ -71,6 +71,7 @@ module.exports = {
       const user = await User.findById(userId);
       if (!user) return res.status(404).json('User not found');
 
+      req.session.destroy();
       res.clearCookie("refresh_token", { path: "/" });
 
       return res.status(204).json('Logging out...');

@@ -48,5 +48,70 @@ module.exports = {
     };
 
     send(data);
+  },
+
+  sendNewBookingMail: ({ email, name }) => {
+    const data = {
+      from: 'noreply@watchcats.com',
+      to: email,
+      subject: 'You have a new booking request',
+      html: `
+      <html>
+        <h3>Hi there!</h3>
+        <p>You have received a booking request from ${name}. You can now log into your account to accept or decline the request.</p>
+      </html>
+    `,
+    };
+
+    send(data);
+  },
+
+  sendUpdatedBookingMail: ({ email, action, name }) => {
+    const data = {
+      from: 'noreply@watchcats.com',
+      to: email,
+      subject: 'You have a new booking request',
+      html: `
+      <html>
+        <h3>Hi there!</h3>
+        <p>Your booking has been updated as ${action} by ${name}. The booking status is changed accordingly.</p>
+      </html>
+    `,
+    };
+
+    send(data);
+  },
+
+
+  sendNewMessageMail: ({ email, name }) => {
+    const data = {
+      from: 'noreply@watchcats.com',
+      to: email,
+      subject: 'You have a new message',
+      html: `
+      <html>
+        <h3>Hi there!</h3>
+        <p>You have received a new message by ${name}. Log into your account to reply in your conversation.</p>
+      </html>
+    `,
+    };
+
+    send(data);
+  },
+
+  sendNewReviewMail: ({ email, name }) => {
+    const data = {
+      from: 'noreply@watchcats.com',
+      to: email,
+      subject: 'You have a new message',
+      html: `
+      <html>
+        <h3>Hi there!</h3>
+        <p>You have received a review by ${name}. Log into your account to check the review.</p>
+      </html>
+    `,
+    };
+
+    send(data);
   }
 };

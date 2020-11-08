@@ -2,6 +2,7 @@ const Booking = require('../model/Booking')
 const Review = require('../model/Review');
 const User = require('../model/User');
 const { sendTwilioSMS } = require('../helpers/sms')
+const { sendNewReviewMail } = require('../helpers/mailer')
 const ObjectId = require('mongodb').ObjectID;
 
 module.exports = {
@@ -41,9 +42,12 @@ module.exports = {
       if (!revieweeUserRecord) return res.status(401).json('User record not found');
 
       const { firstName, lastName } = reviewerUserRecord;
-      const { phone } = revieweeUserRecord;
+      const { phone, email } = revieweeUserRecord;
 
-      sendTwilioSMS(phone, 'REVIEW_RECEIEVED', { name: `${firstName} ${lastName}` })
+      const reviewerName = `${firstName} ${lastName}`
+
+      sendTwilioSMS(phone, 'REVIEW_RECEIEVED', { name: reviewerName })
+      sendNewReviewMail({ email, name: reviewerName })
 
       return res.status(200).json('Successful submitted review')
     } catch (err) {

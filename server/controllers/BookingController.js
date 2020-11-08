@@ -3,6 +3,7 @@ const AppointmentOvernight = require('../model/AppointmentOvernight');
 const Booking = require('../model/Booking');
 const User = require('../model/User');
 const { sendTwilioSMS } = require('../helpers/sms')
+const { sendNewBookingMail, sendUpdatedBookingMail } = require('../helpers/mailer')
 
 const cleanRecordData = async (item, bookingType) => {
   const { id, appointmentType, owner, sitter, location, price, status, hasPaid } = item;
@@ -96,7 +97,7 @@ module.exports = {
     const { sitterId: sitterShortId, type } = req.body;
 
     try {
-      const [{ owner: ownerObjId, postcode, firstName, lastName }, { sitter: sitterObjId, phone }] = await Promise.all([
+      const [{ owner: ownerObjId, postcode, firstName, lastName }, { sitter: sitterObjId, phone, email }] = await Promise.all([
         User.findById(ownerUserId),
         User.findOne({ urlId: sitterShortId }),
       ]);
@@ -139,7 +140,10 @@ module.exports = {
 
       await newBooking.save();
 
-      sendTwilioSMS(phone, 'BOOKING_REQUESTED', { name: `${firstName} ${lastName}` })
+      const ownerName = `${firstName} ${lastName}`
+
+      sendTwilioSMS(phone, 'BOOKING_REQUESTED', { name: ownerName })
+      sendNewBookingMail({ email, name: ownerName })
 
       // +1 booking notification to sitter's notification document
 
@@ -225,7 +229,7 @@ module.exports = {
       );
       if (!bookingRecord) return res.status(401).json('No booking record to update')
 
-      const [{ phone }, { firstName, lastName }] = await Promise.all([
+      const [{ phone, email }, { firstName, lastName }] = await Promise.all([
         User.findOne({ owner: bookingRecord.owner }),
         User.findOne({ sitter: bookingRecord.sitter })
       ]);
@@ -234,7 +238,10 @@ module.exports = {
         return res.status(401).json('Unable to find owner or sitter')
       }
 
-      sendTwilioSMS(phone, description, { name: `${firstName} ${lastName}` })
+      const sitterName = `${firstName} ${lastName}`
+
+      sendTwilioSMS(phone, description, { name: sitterName })
+      sendUpdatedBookingMail({ email, action, name: sitterName })
 
       // change notification of owner notification document
 

@@ -43,6 +43,10 @@ const bookingSchema = new Schema({
   hasWrittenReview: {
     type: Boolean,
   },
+  isRead: {
+    type: Boolean,
+    default: false
+  },
   createdAt: {
     type: Date,
     default: Date.now(),
