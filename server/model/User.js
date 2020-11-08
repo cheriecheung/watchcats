@@ -92,16 +92,20 @@ const userSchema = new Schema({
     type: String,
     defaultValue: false,
   },
+  otp: {
+    type: String,
+    required: false
+  },
+  otpExpiryTime: {
+    type: Date,
+    required: false
+  },
   google_id: {
     type: String,
     required: false,
   },
   facebook_id: {
     type: String,
-    required: false,
-  },
-  isDeleted: {
-    type: Boolean,
     required: false,
   },
   createdAt: {

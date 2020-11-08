@@ -56,7 +56,7 @@ module.exports = {
     const userRecord = await User.findById(userId);
     if (!userRecord) return res.status(404).json('User not found');
 
-    await userRecord.update({ $unset: { profilePictureFileName: '' } });
+    await userRecord.updateOne({ $unset: { profilePictureFileName: '' } });
 
     try {
       const { filename } = req.body;

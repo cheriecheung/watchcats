@@ -1,13 +1,30 @@
 const User = require('../model/User');
 const { changePasswordValidation, phoneNumberValidation, personalDataValidation } = require('../helpers/validation')
 const { sendTwilioSMS } = require('../helpers/sms')
+const bcrypt = require('bcryptjs');
 
-function generateOTP() {
-  let otp = Math.random();
-  otp = otp * 1000000;
-  otp = parseInt(otp);
+async function generateOTP(userId) {
+  let otp = Math.floor(100000 + Math.random() * 900000)
+  otp = parseInt(otp).toString();
 
-  return otp
+  const salt = await bcrypt.genSalt(12);
+  const hashedOtp = await bcrypt.hash(otp, salt);
+
+  const currentTime = new Date();
+  const expiryTime = new Date(currentTime.getTime() + (1 * 60 * 1000))
+
+  await User.findOneAndUpdate(
+    { _id: userId },
+    {
+      $set: {
+        otp: hashedOtp,
+        otpExpiryTime: expiryTime
+      }
+    },
+    { useFindAndModify: false }
+  );
+
+  return { otp }
 }
 
 module.exports = {
@@ -67,15 +84,11 @@ module.exports = {
     if (!userId) return res.status(404).json('No user id');
 
     const { phone } = req.body;
+    req.session.phone = phone;
 
     try {
-      const otp = generateOTP();
-
-      req.session.phone = phone;
-      req.session.otp = otp;
-
+      const { otp } = await generateOTP(userId);
       sendTwilioSMS(phone, 'VERIFY_PHONE_NUMBER', { code: otp })
-      console.log({ phone, otp })
 
       return res.status(200).json('Phone number submitted')
     } catch (err) {
@@ -91,11 +104,7 @@ module.exports = {
     const { phone } = req.session
 
     try {
-      const otp = generateOTP();
-      req.session.otp = otp;
-
-      console.log({ session__resend: req.session })
-
+      const { otp } = await generateOTP(userId);
       sendTwilioSMS(phone, 'VERIFY_PHONE_NUMBER', { code: otp })
 
       return res.status(200).json('Code sent')
@@ -110,15 +119,24 @@ module.exports = {
     if (!userId) return res.status(404).json('No user id');
 
     const { code } = req.body;
-    const { otp, phone } = req.session
-    console.log({ code, session: req.session })
+    const { phone } = req.session
 
     try {
-      if (parseInt(code) !== otp) return res.status(401).json('Invalid code')
+      const { otp, otpExpiryTime } = await User.findById(userId)
+      if (!otp || !otpExpiryTime) return res.status(401).json('Code not found');
+
+      const validOtp = await bcrypt.compare(code, otp)
+      const unexpired = new Date() < otpExpiryTime
+
+      if (!validOtp) return res.status(401).json('Invalid code')
+      if (!unexpired) return res.status(401).json('Code expired, click resend')
 
       const userRecord = await User.findOneAndUpdate(
         { _id: userId },
-        { $set: { phone } },
+        {
+          $set: { phone },
+          $unset: { otp: '', otpExpiryTime: '' }
+        },
         { useFindAndModify: false }
       );
       if (!userRecord) return res.status(401).json('Fail to update');
@@ -135,12 +153,10 @@ module.exports = {
     if (!userId) return res.status(404).json('No user id');
 
     try {
-      const userRecord = await User.findOneAndUpdate(
-        { _id: userId },
-        { $set: { phone: null } },
-        { useFindAndModify: false }
-      );
+      const userRecord = await User.findById(userId);
       if (!userRecord) return res.status(401).json('Fail to update');
+
+      await userRecord.updateOne({ $unset: { phone: '' } });
 
       return res.status(200).json('Phone deleted')
     } catch (err) {
