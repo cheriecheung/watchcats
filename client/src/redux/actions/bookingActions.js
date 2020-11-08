@@ -4,7 +4,7 @@ import { getAccessToken } from '../../utility/accessToken'
 const appointmentTimeUrl = `/booking-time`;
 const bookingUrl = `/booking`;
 const bookingsURL = type => `/bookings?type=${type}`
-const reviewUrl = `review`;
+const reviewURL = bookingId => `/review/${bookingId}`;
 
 const getConfig = () => {
   return {
@@ -66,11 +66,11 @@ export function fulfillAction(id, action) {
   };
 }
 
-export function submitReview(bookingId, reviewContent) {
+export function submitReview(bookingId, data) {
   return async (dispatch) => {
     try {
-      await axiosInstance().post(reviewUrl, getConfig(), { bookingId, reviewContent });
-      dispatch({ type: 'REVIEW_SUBMITTED' });
+      await axiosInstance().post(reviewURL(bookingId), data, getConfig());
+      dispatch({ type: 'REVIEW_SUBMITTED', payload: '' });
     } catch (e) {
       console.log({ e });
     }

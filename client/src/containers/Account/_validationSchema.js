@@ -27,6 +27,13 @@ function parseDateString(value, originalValue) {
     return parsedDate;
 }
 
+// ----- Review Schema ----- //
+export const review_schema = yup.object().shape({
+    // min and max word count
+    review: yup.string().required(defaultError).min(10, 'too short'),
+    rating: yup.number().positive('Rating required').integer('Rating required').required(defaultError)
+})
+
 // ----- Login Schema ----- // 
 
 export const login_schema = yup.object().shape({

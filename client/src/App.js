@@ -69,7 +69,7 @@ function App() {
             <PrivateRoute path="/profile/catowner/:id" component={CatOwner} />
             <PrivateRoute path="/bookings" component={Bookings} />
             <PrivateRoute path="/payment" component={Payment} />
-            <PrivateRoute path="/writereivew/:id?" component={WriteReview} />
+            <PrivateRoute path="/writereivew/:bookingId?" component={WriteReview} />
             <PrivateRoute path="/messages/:id?" component={Messages} />
             <PrivateRoute path="/account/:id?" component={Account} />
             <Route path="/loading" component={Loading} />

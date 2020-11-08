@@ -7,6 +7,7 @@ import FileUploader, { ArrayFileUploader } from './FileUploader';
 import FormButtons from './FormButtons';
 import PasswordField from './PasswordField'
 import { RadioGroup, RadioButton } from './Radio';
+import RateField from './RateField'
 import SectionContainer from './SectionContainer';
 import SectionTitle from './SectionTitle';
 import SelectField from './SelectField';
@@ -27,6 +28,7 @@ export {
   PasswordField,
   RadioGroup,
   RadioButton,
+  RateField,
   SectionContainer,
   SectionTitle,
   SelectField,

@@ -1,9 +1,15 @@
 import React from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
-import { Rate } from 'antd';
+import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
 import { Row, Col } from 'reactstrap';
+import { RateField, SectionContainer, TextArea } from '../../components/FormComponents';
 import styled from 'styled-components';
-import { SectionContainer, TextArea } from '../../components/FormComponents';
+
+import { useForm, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { review_schema } from '../Account/_validationSchema';
+import { submitReview } from '../../redux/actions/bookingActions';
 
 const Label = styled.label`
   font-size: 1.2rem;
@@ -11,17 +17,25 @@ const Label = styled.label`
 `;
 
 const defaultValues = {
-  profileAccuracy: 0,
-  communication: 0,
-  treatmentOfAnimals: 0,
+  // profileAccuracy: 0,
+  // communication: 0,
+  // treatmentOfAnimals: 0,
   review: '',
+  rating: 0
 };
 
+const resolver = yupResolver(review_schema)
+
 function WriteReview() {
-  const methods = useForm({ defaultValues });
+  const dispatch = useDispatch()
+  const { bookingId } = useParams();
+
+  const methods = useForm({ defaultValues, resolver });
   const { register, handleSubmit, watch, reset } = methods;
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    dispatch(submitReview(bookingId, data))
+  };
 
   return (
     <div style={{ width: '70vw', margin: '20px auto 0 auto' }}>
@@ -40,7 +54,7 @@ function WriteReview() {
 
             <div>
               <h6>Give your rating</h6>
-              <Rate onChange={(value) => console.log({ value })} />
+              <RateField name="rating" />
             </div>
             {/* <div style={{ display: 'flex', flexDirection: 'column' }}>
           <Label>Profile accuracy</Label>
@@ -63,6 +77,10 @@ function WriteReview() {
           <span>How well did the cat sitter take care of your cat(s)?</span>
           <Rate />
         </div> */}
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <button type="submit">Submit</button>
+            </div>
           </form>
         </FormProvider>
       </SectionContainer>
