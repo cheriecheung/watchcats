@@ -8,7 +8,6 @@ import findCatSittersReducer from './find_cat_sitters';
 import isLoggedInReducer from './is_logged_in'
 import paymentReducer from './payment';
 import profileReducer from './profile';
-import registrationReducer from './registration';
 import twoFactorAuthenticationReducer from './two_factor_auth';
 
 const rootReducer = combineReducers(
@@ -21,7 +20,6 @@ const rootReducer = combineReducers(
     isLoggedInReducer,
     paymentReducer,
     profileReducer,
-    registrationReducer,
     twoFactorAuthenticationReducer
   ),
 );

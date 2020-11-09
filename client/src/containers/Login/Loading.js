@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
-import { googleAuthenticate } from '../../redux/actions/userActions';
+import { googleAuthenticate } from '../../redux/actions/authenticationActions';
 import axios from 'axios';
 
 function Loading() {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getGoogleAuthenticatorQrCode, resetPassword, verifyGoogleAuthenticatorCode } from '../../../redux/actions/userActions'
+import { getGoogleAuthenticatorQrCode, resetPassword, verifyGoogleAuthenticatorCode } from '../../../redux/actions/authenticationActions'
 import { useTranslation } from 'react-i18next';
 
 import styled from 'styled-components'
@@ -69,6 +69,7 @@ function PasswordAndAuthentication({ setModalTitle, setModalContent, closeModal 
                 sign in
             </p>
 
+            {/* disable button if register via google */}
             <Button
                 color="info"
                 size="sm"
@@ -77,14 +78,6 @@ function PasswordAndAuthentication({ setModalTitle, setModalContent, closeModal 
             >
                 Enable Two-Factor Auth
             </Button>
-
-            {/* <Button color="info" size="sm">
-                        Enable Two-Factor Auth
-                    </Button> */}
-
-            {/* <FieldLabel>Password</FieldLabel>
-            <TextField name="password"></TextField> */}
-
         </>
     )
 }

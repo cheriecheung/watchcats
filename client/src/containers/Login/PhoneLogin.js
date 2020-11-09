@@ -2,7 +2,7 @@ import React from 'react'
 import { SectionContainer } from '../../components/FormComponents'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { phoneLogin } from '../../redux/actions/userActions';
+import { phoneLogin } from '../../redux/actions/authenticationActions';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { FieldLabel, TextField } from '../../components/FormComponents'

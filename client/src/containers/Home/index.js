@@ -9,7 +9,7 @@ import AppointmentPeriodPicker from '../FindCatSitter/Search/AppointmentPeriodPi
 import { appointmentTypeOptions } from '../../constants'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { home_search_schema } from '../Account/_validationSchema'
-import { checkToken } from '../../redux/actions/userActions'
+import { checkToken } from '../../redux/actions/authenticationActions'
 import { useDispatch } from 'react-redux';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();

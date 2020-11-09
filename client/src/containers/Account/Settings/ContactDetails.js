@@ -102,7 +102,7 @@ function ContactDetails({ setModalTitle, setModalContent, closeModal }) {
                             :
                             <Button onClick={() => setRevealEmail(true)}>Reveal</Button>
                         }
-                        <Button style={{ float: 'right' }}>Edit</Button>
+                        {/* <Button style={{ float: 'right' }}>Edit</Button> */}
                     </div>
                 </div>
             </div>
