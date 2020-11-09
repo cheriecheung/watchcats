@@ -5,7 +5,7 @@ import dutch from '../../assets/images/dutch.png';
 import english from '../../assets/images/english.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../redux/actions/userActions';
+import { logout } from '../../redux/actions/authenticationActions';
 import styled from 'styled-components';
 import { themeColor } from '../../style/theme';
 import { Badge } from 'antd';

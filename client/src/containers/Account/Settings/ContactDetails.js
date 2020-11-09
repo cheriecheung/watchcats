@@ -38,10 +38,9 @@ const ContentBox = styled.div`
     }
 `
 
-// function ContactDetails({ setModal, closeModal }) {
 function ContactDetails({ setModalTitle, setModalContent, closeModal }) {
     const dispatch = useDispatch();
-    const { contactDetails } = useSelector((state) => state.account);
+    const { contactDetails, changePhoneNumberStep } = useSelector((state) => state.account);
 
     const [email, setEmail] = useState(null);
     const [asteriskedEmail, setAsteriskedEmail] = useState('')
@@ -50,6 +49,13 @@ function ContactDetails({ setModalTitle, setModalContent, closeModal }) {
     const [phone, setPhone] = useState(null)
     const [asteriskedPhone, setAsteriskedPhone] = useState('')
     const [revealPhone, setRevealPhone] = useState(false);
+
+    useEffect(() => {
+        if (changePhoneNumberStep === 'removed') {
+            dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
+            setPhone('')
+        }
+    }, [changePhoneNumberStep])
 
     useEffect(() => {
         console.log({ contactDetails })
@@ -74,8 +80,9 @@ function ContactDetails({ setModalTitle, setModalContent, closeModal }) {
     }, [contactDetails])
 
     useEffect(() => {
-        console.log({ phone })
         if (phone) {
+            dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
+
             setPhone(phone)
 
             const withoutLastFourDigits = phone.slice(0, -4).replace(/./g, '*')
@@ -131,6 +138,8 @@ function ContactDetails({ setModalTitle, setModalContent, closeModal }) {
                             <Button
                                 style={{ float: 'right' }}
                                 onClick={() => {
+                                    dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
+
                                     setModalTitle('Enter a Phone Number')
                                     setModalContent(
                                         <EnterPhoneNumber
@@ -149,6 +158,8 @@ function ContactDetails({ setModalTitle, setModalContent, closeModal }) {
                     :
                     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                         <Button onClick={() => {
+                            dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
+
                             setModalTitle('Enter a Phone Number')
                             setModalContent(
                                 <EnterPhoneNumber
@@ -174,12 +185,12 @@ export default ContactDetails;
 
 function EnterPhoneNumber({ setModalTitle, setModalContent, setPhone, closeModal }) {
     const dispatch = useDispatch();
-    const { verifyPhone } = useSelector((state) => state.account);
+    const { changePhoneNumberStep } = useSelector((state) => state.account);
 
     const [phoneNumber, setPhoneNumber] = useState()
 
     useEffect(() => {
-        if (verifyPhone) {
+        if (changePhoneNumberStep === 'submitted') {
             setModalTitle('Verify Phone Number')
             setModalContent(
                 <VerifyNumber
@@ -187,7 +198,7 @@ function EnterPhoneNumber({ setModalTitle, setModalContent, setPhone, closeModal
                     setPhone={() => setPhone(phoneNumber)}
                 />)
         }
-    }, [verifyPhone])
+    }, [changePhoneNumberStep])
 
     return (
         <div style={{ textAlign: 'center' }}>
@@ -229,7 +240,7 @@ const CodeInput = styled.input`
 
 function VerifyNumber({ setPhone, closeModal }) {
     const dispatch = useDispatch();
-    const { phoneVerified } = useSelector((state) => state.account);
+    const { changePhoneNumberStep } = useSelector((state) => state.account);
 
     const codeLength = 6
     const [code, setCode] = useState([...Array(codeLength)].map(() => ""));
@@ -237,12 +248,11 @@ function VerifyNumber({ setPhone, closeModal }) {
     const inputs = useRef([]);
 
     useEffect(() => {
-        // if phoneVerified && prevState.phoneVerified !== phoneVerified
-        if (phoneVerified) {
+        if (changePhoneNumberStep === 'verified') {
             setIsVerified(true)
             setPhone && setPhone();
         }
-    }, [phoneVerified])
+    }, [changePhoneNumberStep])
 
     const processInput = (e, slot) => {
         const num = e.target.value;
@@ -280,7 +290,10 @@ function VerifyNumber({ setPhone, closeModal }) {
                     <br />
                     <br />
                     <p>You have successfully verified your phone</p>
-                    <button onClick={() => closeModal && closeModal()}>OK</button>
+                    <button onClick={() => {
+                        dispatch({ type: 'PHONE_NUMBER_SUBMITTED', changePhoneNumberStep: 'fillInPhone' })
+                        closeModal && closeModal()
+                    }}>OK</button>
                 </>
                 :
                 <>
@@ -305,7 +318,9 @@ function VerifyNumber({ setPhone, closeModal }) {
 
                     <br />
                     <br />
-
+                    {changePhoneNumberStep === 'verificationFailed' &&
+                        <span>code invalid. please try again</span>
+                    }
                     <button onClick={() => dispatch(resendVerficationCode())}>Resend Code</button>
                 </>
             }

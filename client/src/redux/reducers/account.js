@@ -1,8 +1,7 @@
 import Immutable from 'seamless-immutable';
 
 const initialState = Immutable({
-  verifyPhone: false,
-  phoneVerified: null
+  changePhoneNumberStep: 'input',
 });
 
 const accountReducer = {
@@ -11,11 +10,11 @@ const accountReducer = {
       case 'CONTACT_DETAILS_RETURNED':
         return { ...state, contactDetails: action.payload };
       case 'PHONE_NUMBER_SUBMITTED':
-        return { ...state, verifyPhone: true }
-      case 'PHONE_NUMBER_VERIFY_SUCCESS':
-        return { ...state, phoneVerified: 'et3523353' }
-      case 'PHONE_NUMBER_REMOVED':
-        return state;
+        return { ...state, changePhoneNumberStep: action.payload }
+      case 'VERIFY_PHONE_NUMBER':
+        return { ...state, changePhoneNumberStep: action.payload }
+      case 'PHONE_NUMBER_DELETED':
+        return { ...state, changePhoneNumberStep: action.payload };
       case 'GET_USER':
         return { ...state, data: action.payload };
       case 'GENERAL_INFO_SAVED':

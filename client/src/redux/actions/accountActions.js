@@ -35,7 +35,7 @@ export function submitPhoneNumber(phone) {
   return async (dispatch) => {
     try {
       const { data } = await axiosInstance().post(phoneNumberURL, { phone }, getConfig());
-      dispatch({ type: 'PHONE_NUMBER_SUBMITTED', payload: data });
+      dispatch({ type: 'PHONE_NUMBER_SUBMITTED', payload: 'submitted' });
     } catch (e) {
       console.log({ e });
     }
@@ -57,9 +57,10 @@ export function verifyPhoneNumber(code) {
   return async (dispatch) => {
     try {
       const { data } = await axiosInstance().patch(phoneNumberURL, { code }, getConfig());
-      dispatch({ type: 'PHONE_NUMBER_VERIFY_SUCCESS', payload: data });
+      dispatch({ type: 'VERIFY_PHONE_NUMBER', payload: 'verified' });
     } catch (e) {
       console.log({ e });
+      dispatch({ type: 'VERIFY_PHONE_NUMBER', payload: 'verificationFailed' });
     }
   };
 }
@@ -68,7 +69,7 @@ export function deletePhoneNumber() {
   return async (dispatch) => {
     try {
       const { data } = await axiosInstance().delete(phoneNumberURL, getConfig());
-      dispatch({ type: 'PHONE_NUMBER_DELETED', payload: data });
+      dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'removed' });
     } catch (e) {
       console.log({ e });
     }
