@@ -43,13 +43,6 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
-  addressProofFileName: {
-    type: String,
-  },
-  isAddressProofVerified: {
-    type: String,
-    required: false,
-  },
   profileFacebook: {
     type: String,
     required: false,

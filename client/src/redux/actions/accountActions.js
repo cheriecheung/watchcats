@@ -7,7 +7,6 @@ const verificationCodeURL = `/verification-code`;
 const personalInfoURL = `/personal-info`;
 const imageURL = `/image`;
 const profilePicURL = `/image/profile-picture`;
-const addressProofURL = `/image/address-proof`;
 const sitterURL = id => `/sitter/account/${id}`
 const ownerURL = id => `/owner/account/${id}`
 const catImageURL = `/image/cat`
@@ -70,17 +69,6 @@ export function deletePhoneNumber() {
     try {
       const { data } = await axiosInstance().delete(phoneNumberURL, getConfig());
       dispatch({ type: 'PHONE_NUMBER_DELETED', payload: data });
-    } catch (e) {
-      console.log({ e });
-    }
-  };
-}
-
-export function sendAddressProof(formData) {
-  return async (dispatch) => {
-    try {
-      const { data } = await axiosInstance().post(addressProofURL, formData, getConfig());
-      dispatch({ type: 'SAVE_ADDRESS_PROOF', payload: data });
     } catch (e) {
       console.log({ e });
     }

@@ -110,11 +110,6 @@ export default {
     facebook: 'Facebook profiel',
     instagram: 'Instagram profiel',
     other: 'Andere profiel',
-
-    proof_address: 'Proof of address',
-    proof_address_description1:
-      'Before we can make your profile live we need proof of your address. We accept photo/scan of a physical letter or PDF copies of your digital statements within the past year.',
-    proof_address_description2: 'Read more on the documents we accept',
   },
 
   sitter_form: {

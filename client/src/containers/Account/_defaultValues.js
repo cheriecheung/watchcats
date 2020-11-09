@@ -14,7 +14,6 @@ export const general_default_values = {
     phone: '',
     address: '',
     postcode: '',
-    addressProof: {},
     profileFacebook: '',
     profileInstagram: '',
     profileOther: '',

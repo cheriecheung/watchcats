@@ -45,7 +45,6 @@ module.exports = {
   personalDataValidation: (data) => {
     const schema = Joi.object({
       address: textType,
-      addressProof: Joi.object(),
       firstName: nameType,
       lastName: nameType,
       postcode: Joi.string().required().regex(/^\d{4}[a-z]{2}$/i),

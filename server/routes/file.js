@@ -13,8 +13,6 @@ router.delete('/image', formLimiter, speedLimiter(5), verifyAccessTokenUpdate, F
 
 router.post('/image/profile-picture', formLimiter, speedLimiter(5), verifyAccessTokenUpdate, upload.single('profilePic'), FileController.saveFileName);
 
-router.post('/image/address-proof', upload.single('addressProof'), FileController.saveFileName);
-
 router.post('/image/cat', fileLimiter, speedLimiter(5), verifyAccessTokenUpdate, upload.single('catPhoto'), FileController.saveCatPhoto)
 
 router.delete('/image/cat', formLimiter, speedLimiter(5), verifyAccessTokenUpdate, FileController.deleteCatPhoto)

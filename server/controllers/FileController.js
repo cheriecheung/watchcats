@@ -86,8 +86,6 @@ module.exports = {
 
       if (fieldname === 'profilePic') {
         userRecord.profilePictureFileName = filename;
-      } else {
-        userRecord.addressProofFileName = filename;
       }
 
       await userRecord.save();

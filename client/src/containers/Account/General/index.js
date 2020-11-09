@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
-import { getPersonalInfo, postPersonalInfo, sendAddressProof } from '../../../redux/actions/accountActions';
+import { getPersonalInfo, postPersonalInfo } from '../../../redux/actions/accountActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -11,7 +11,6 @@ import { general_schema } from '../_validationSchema'
 
 import ProfilePicture from './ProfilePicture';
 import PersonalInfo from './PersonalInfo';
-import AddressProof from './AddressProof';
 import SocialMedia from './SocialMedia';
 
 const resolver = yupResolver(general_schema)
@@ -47,8 +46,6 @@ function GeneralInfo({ activeKey }) {
 
   const onSubmit = (data) => {
     const { profilePictureFileName, ...rest } = data;
-
-    //  add address proof field as third param
     dispatch(postPersonalInfo(rest, profilePictureFileName.file));
   };
 
@@ -66,11 +63,6 @@ function GeneralInfo({ activeKey }) {
             <SectionTitle>{t('general_info.personal_info')}</SectionTitle>
 
             <PersonalInfo />
-          </SectionContainer>
-
-          <SectionContainer>
-            <SectionTitle>{t('general_info.proof_address')}</SectionTitle>
-            <AddressProof setValue={setValue} />
           </SectionContainer>
 
           <SectionContainer>
