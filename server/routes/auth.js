@@ -3,6 +3,12 @@ const { verifyAccessToken, verifyAccessTokenUpdate } = require('../helpers/token
 const { generateCodes, authenticateUser } = require('../helpers/authentication');
 const AuthController = require('../controllers/AuthController');
 const { authenticationLimiter, speedLimiter } = require('../helpers/limiter')
+const logger = require('../helpers/logger')
+
+// router.get('/test_logger', (req, res) => {
+//   logger.info('I am an info log', { name: 'George', tutorial: 'Logging tutorial' });
+//   return res.json({ logged: true });
+// })
 
 // rate limit
 router.post('/refresh_token', AuthController.getNewAccessToken)

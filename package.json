@@ -61,7 +61,8 @@
     "speakeasy": "^2.0.0",
     "stripe": "^8.102.0",
     "styled-components": "^5.1.1",
-    "twilio": "^3.51.0"
+    "twilio": "^3.51.0",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^18.2.0",
