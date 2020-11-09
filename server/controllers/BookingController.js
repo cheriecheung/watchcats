@@ -163,17 +163,20 @@ module.exports = {
       if (!userRecord) return res.status(403).json('User not found');
 
       const { type } = req.query;
-      let bookingRecords;
+      const { sitter: sitterObjId, owner: ownerObjId } = userRecord
+      let bookingRecords, filter;
 
       if (type === 'jobs') {
-        if (!userRecord.sitter) return res.status(200).json([]);
-        const sitterObjId = userRecord.sitter
-        bookingRecords = await Booking.find({ sitter: sitterObjId });
+        if (!sitterObjId) return res.status(200).json([]);
+        filter = { sitter: sitterObjId }
       } else {
-        if (!userRecord.owner) return res.status(200).json([]);
-        const ownerObjId = userRecord.owner
-        bookingRecords = await Booking.find({ owner: ownerObjId });
+        if (!ownerObjId) return res.status(200).json([]);
+        filter = { owner: ownerObjId }
       }
+
+      await Booking.update(filter, { $set: { isRead: true } }, { multi: true })
+
+      bookingRecords = await Booking.find(filter);
 
       let response = { requested: [], confirmed: [], completed: [], declined: [] };
 
@@ -203,12 +206,7 @@ module.exports = {
 
           return output
         }, { requested: [], confirmed: [], completed: [], declined: [] });
-
       }
-      // console.log({ response })
-
-      // set bookings notification = 0
-
       return res.status(200).json(response);
     } catch (err) {
       console.log({ err })

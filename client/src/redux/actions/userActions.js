@@ -22,6 +22,7 @@ const registerURL = `${REACT_APP_API_DOMAIN}/register`;
 const activateURL = `${REACT_APP_API_DOMAIN}/activate-account`;
 const activationEmailURL = `${REACT_APP_API_DOMAIN}/activate-account-email`;
 
+const phoneLoginURL = `${REACT_APP_API_DOMAIN}/phone-login`;
 const loginURL = `${REACT_APP_API_DOMAIN}/login`;
 const logoutURL = '/logout';
 const resetPasswordEmailURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
@@ -188,10 +189,10 @@ export function resetPassword(password) {
   };
 }
 
-export function login(email, password) {
+export function phoneLogin(code) {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(loginURL, { email, password }, {
+      const { data } = await axios.post(phoneLoginURL, { code }, {
         withCredentials: true,
         // credentials: 'include',
       });
@@ -201,6 +202,28 @@ export function login(email, password) {
       // dispatch({ type: LOGIN_SUCCESS, user });
 
       window.location = `/account/${shortId}`;
+    } catch (e) {
+      console.log({ e });
+      dispatch({ type: LOGIN_FAIL, err: e });
+    }
+  }
+}
+
+export function login(email, password) {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(loginURL, { email, password }, {
+        withCredentials: true,
+        // credentials: 'include',
+      });
+      const { shortId, accessToken } = data || {};
+
+      if (shortId, accessToken) {
+        await setAccessToken(accessToken)
+        window.location = `/account/${shortId}`;
+      } else {
+        dispatch({ type: 'PHONE_LOGIN', payload: true });
+      }
     } catch (e) {
       const { response: { data } } = e
       console.log({ e });

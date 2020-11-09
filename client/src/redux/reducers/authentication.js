@@ -1,3 +1,4 @@
+import Immutable from 'seamless-immutable';
 import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -6,8 +7,12 @@ import {
   VERIFY_FAIL,
 } from '../actions/types';
 
+const initialState = Immutable({
+  loginByPhone: false,
+});
+
 const authenticationReducer = {
-  authentication: (state = {}, action) => {
+  authentication: (state = initialState, action) => {
     switch (action.type) {
       case 'GOOGLE_LOGIN':
         return (window.location = action.payload);
@@ -15,6 +20,8 @@ const authenticationReducer = {
         return 'login success';
       case LOGIN_SUCCESS:
         return { loggedIn: true };
+      case 'PHONE_LOGIN':
+        return { loginByPhone: action.payload }
       case LOGIN_FAIL:
         return { errorMessage: action.payload };
       case LOGOUT_SUCCESS:

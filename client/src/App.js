@@ -12,7 +12,7 @@ import Home from './containers/Home';
 import About from './containers/About';
 import VerifyEmail from './containers/VerifyEmail';
 import Login from './containers/Login';
-import Register from './containers/Login/Register';
+import Register from './containers/Register';
 import ForgotPassword from './containers/ForgotPassword'
 import ResetPassword from './containers/ForgotPassword/ResetPassword';
 import Loading from './containers/Login/Loading';
@@ -27,7 +27,6 @@ import FindCatSitter from './containers/FindCatSitter';
 import { CatSitter, CatOwner } from './containers/PublicProfile';
 
 import { useSelector } from 'react-redux';
-
 
 function PrivateRoute({ component: Component, ...rest }) {
   const { isLoggedIn } = useSelector(state => state.isLoggedIn);

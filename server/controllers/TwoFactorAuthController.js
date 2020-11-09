@@ -2,17 +2,18 @@ const User = require('../model/User');
 const speakeasy = require('speakeasy');
 const qrcode = require('qrcode')
 
+// assign to req.session
 let ascii_secret;
 
 module.exports = {
   getGoogleAuthenticatorQrCode: async (req, res) => {
-    const secret = speakeasy.generateSecret({ name: 'WatchCats' })
-    const { ascii, otpauth_url } = secret;
-    ascii_secret = ascii
-
-    console.log({ ascii_secret_code: ascii_secret })
-
     try {
+      const secret = speakeasy.generateSecret({ name: 'WatchCats' })
+      const { ascii, otpauth_url } = secret;
+      ascii_secret = ascii
+
+      console.log({ ascii_secret_code: ascii_secret })
+
       const qrcodeImage = await qrcode.toDataURL(otpauth_url)
       return res.status(200).json(qrcodeImage)
     } catch (err) {
@@ -21,7 +22,10 @@ module.exports = {
     }
   },
 
-  verifyGoogleAuthenticatorCode: async (req, res) => {
+  activateTwoFactorAuthentication: async (req, res) => {
+    const { userId } = req.verifiedData
+    if (!userId) return res.status(403).json('User id missing');
+
     const { code } = req.body
     console.log({ ascii_secret, code })
 
@@ -31,14 +35,49 @@ module.exports = {
         encoding: 'ascii',
         token: code
       })
-      console.log({ verified })
+      if (!verified) return res.status(401).json('verification failed')
 
-      // hash secret, save to user
+      const updated = await User.findOneAndUpdate(
+        { _id: userId },
+        { $set: { twoFactorAuthSecret: ascii_secret } },  // hash secret ??
+        { useFindAndModify: false }
+      );
+      if (!updated) return res.status(401).json('unable to enable 2fa')
 
       return res.status(200).json('verification successful')
     } catch (err) {
       console.log({ err })
-      return res.status(200).json('verification failed')
+      return res.status(401).json('verification failed')
     }
   },
+
+  phoneLogin: async (req, res) => {
+    const { email } = req.session;
+
+    try {
+      const user = await User.findOne({ email });
+      if (!user) return res.status(400).json("Fail to process with 2fa");
+
+      const verified = await speakeasy.totp.verify({
+        secret: user.twoFactorAuthSecret,
+        encoding: 'ascii',
+        token: code
+      })
+      if (!verified) return res.status(401).json('verification failed')
+
+      const accessToken = createAccessToken(user);
+      const refreshToken = createRefreshToken(user);
+
+      res.cookie('refresh_token', refreshToken, {
+        httpOnly: true,
+        // domain
+      })
+      res.cookie('shortId', user.urlId);
+
+      return res.status(200).json({ shortId: user.urlId, accessToken })
+    } catch (err) {
+      console.log({ err })
+      return res.status(400).json("2fa failed")
+    }
+  }
 }

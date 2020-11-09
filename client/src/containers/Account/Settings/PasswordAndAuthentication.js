@@ -62,6 +62,7 @@ function PasswordAndAuthentication({ setModalTitle, setModalContent, closeModal 
             </Button>
 
             <h6 style={{ marginTop: 40 }}>Two-Factor Authentication</h6>
+            (Only for accounts registered by email and password)
             <p>
                 Protect your account with an extra layer of security. Once configured, you'll be required
                 to enter both your password and an authentication code from your mobile phone in order to
