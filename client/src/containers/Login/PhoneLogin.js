@@ -26,7 +26,9 @@ function PhoneLogin() {
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(handleLogin)}>
           <FieldLabel>Code</FieldLabel>
-          <TextField name="name" />
+          <TextField name="code" />
+
+          <button type="submit">submit</button>
         </form>
       </FormProvider>
     </SectionContainer>

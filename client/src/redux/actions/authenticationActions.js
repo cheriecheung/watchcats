@@ -192,7 +192,7 @@ export function resetPassword(password) {
 export function phoneLogin(code) {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(phoneLoginURL, { code }, {
+      const { data } = await axios.post(phoneLoginURL, code, {
         withCredentials: true,
         // credentials: 'include',
       });

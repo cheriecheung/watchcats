@@ -85,7 +85,7 @@ function Login() {
                 <TextField name="email" />
 
                 <FieldLabel>{t('form.password')}</FieldLabel>
-                <TextField name="password" />
+                <TextField name="password" type="password" />
 
                 <Link
                   to="/forgot_password"
