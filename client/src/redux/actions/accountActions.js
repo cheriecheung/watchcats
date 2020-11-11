@@ -93,9 +93,9 @@ export function postPersonalInfo(userData, profilePicture) {
     try {
       const { data } = await axiosInstance().post(personalInfoURL, userData, getConfig());
 
-      // const formData = new FormData();
-      // formData.append('profilePic', profilePicture);
-      // await axiosInstance().post(profilePicURL, formData, getConfig());
+      const formData = new FormData();
+      formData.append('profilePic', profilePicture);
+      await axiosInstance().post(profilePicURL, formData, getConfig());
 
       dispatch({ type: 'GENERAL_INFO_SAVED', payload: data });
     } catch (e) {

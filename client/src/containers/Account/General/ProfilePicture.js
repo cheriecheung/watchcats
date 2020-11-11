@@ -1,44 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
-import { deletePicture } from '../../../redux/actions/accountActions';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { FileDisplayField, FileUploader } from '../../../components/FormComponents';
 
-function ProfilePicture({ setValue, reset }) {
+function ProfilePicture({ setValue, reset, photoField, handlePreview, handleRemovePhoto, profilePicRemoved }) {
   const { t } = useTranslation();
-
-  const dispatch = useDispatch();
-  const { data: userData, profilePicRemoved } = useSelector((state) => state.account);
-
-  const [photoField, setPhotoField] = useState()
-
-  useEffect(() => {
-    if (userData) {
-      const { profilePictureFileName } = userData;
-      if (profilePictureFileName) {
-        setPhotoField(profilePictureFileName);
-      }
-    }
-  }, [userData]);
-
-  const handlePreview = (data) => {
-    setPhotoField(data)
-  }
-
-  const handleRemovePhoto = (fileName) => {
-    if (fileName.includes('base64')) {
-      setValue("profilePictureFileName", null)
-      setPhotoField(null)
-    } else {
-      dispatch(deletePicture(fileName));
-    }
-  };
 
   useEffect(() => {
     if (profilePicRemoved) {
       setValue(`profilePictureFileName`, null)
-      setPhotoField(null)
     }
   }, [profilePicRemoved])
 
@@ -65,7 +35,12 @@ function ProfilePicture({ setValue, reset }) {
             <FileDisplayField
               name="profilePictureFileName"
               fileName={photoField}
-              handleRemovePhoto={() => handleRemovePhoto(photoField)}
+              handleRemovePhoto={() => {
+                handleRemovePhoto(photoField)
+                if (photoField.includes('base64')) {
+                  setValue("profilePictureFileName", null)
+                }
+              }}
             />
           ) : (
               <FileUploader
@@ -78,31 +53,6 @@ function ProfilePicture({ setValue, reset }) {
             )
           }
         </div>
-
-        {/* <img
-                  style={{
-                    width: 200,
-                    height: 200,
-                    border: '1px solid #ced4da',
-                    borderRadius: '50%',
-                    position: 'absolute',
-                    //zIndex: -1,
-                  }}
-                />
-                 <div style={{ position: 'absolute' }}>
-                  <i className="fas fa-camera fa-3x"></i>
-                  <p>Drop your image here or click to add one</p>
-                </div> 
-                <input
-                  type="file"
-                  style={{
-                    border: '1px solid #ced4da',
-                    borderRadius: '50%',
-                    width: 200,
-                    height: 200,
-                    outline: 'none',
-                  }}
-                /> */}
       </Col>
     </Row>
   );

@@ -1,7 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
-import { getPersonalInfo, postPersonalInfo } from '../../../redux/actions/accountActions';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { useForm, FormProvider } from 'react-hook-form';
@@ -13,41 +11,30 @@ import ProfilePicture from './ProfilePicture';
 import PersonalInfo from './PersonalInfo';
 import SocialMedia from './SocialMedia';
 
+import { useGeneral } from './viewModal'
+
 const resolver = yupResolver(general_schema)
 
 function GeneralInfo({ activeKey }) {
   const personalInfoRef = useRef(null);
   const { t } = useTranslation();
 
-  const dispatch = useDispatch();
-  const { data: userData } = useSelector((state) => state.account);
-
   const methods = useForm({ defaultValues, resolver });
-  const { handleSubmit, reset, setValue, errors, watch } = methods;
+  const { handleSubmit, reset, setValue, errors } = methods;
 
-
-  useEffect(() => {
-    if (activeKey === 'general') {
-      dispatch(getPersonalInfo());
-    }
-  }, [activeKey, dispatch]);
+  const { data, onSubmit, photoField, handlePreview, handleRemovePhoto, profilePicRemove } = useGeneral(activeKey);
 
   useEffect(() => {
-    if (userData) {
-      reset(userData);
+    if (data) {
+      reset(data);
     }
-  }, [userData]);
+  }, [data]);
 
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       window.scrollTo(0, personalInfoRef.current.offsetTop - 20);
     }
   }, [errors])
-
-  const onSubmit = (data) => {
-    const { profilePictureFileName, ...rest } = data;
-    dispatch(postPersonalInfo(rest, profilePictureFileName.file));
-  };
 
   return (
     <>
@@ -56,7 +43,14 @@ function GeneralInfo({ activeKey }) {
           <SectionContainer>
             <SectionTitle>{t('general_info.profile_picture')}</SectionTitle>
 
-            <ProfilePicture setValue={setValue} reset={reset} watch={watch} />
+            <ProfilePicture
+              setValue={setValue}
+              reset={reset}
+              photoField={photoField}
+              handlePreview={handlePreview}
+              handleRemovePhoto={handleRemovePhoto}
+              profilePicRemove={profilePicRemove}
+            />
           </SectionContainer>
 
           <SectionContainer ref={personalInfoRef}>
