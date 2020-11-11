@@ -48,7 +48,7 @@ module.exports = {
       const validPass = await bcrypt.compare(password, user.password)
       if (!validPass) return res.status(400).json("Email and password combination isn't valid");
 
-      if (user.twoFactorAuthSecret) {
+      if (user.twoFactorSecret) {
         req.session.email = email;
         return res.status(200).json('enter google authenticator code')
       }

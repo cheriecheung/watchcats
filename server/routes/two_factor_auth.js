@@ -9,4 +9,6 @@ router.post('/google-authenticator-verify-code', authenticationLimiter, speedLim
 
 router.post('/phone-login', authenticationLimiter, speedLimiter(5), TwoFactorAuthController.phoneLogin)
 
+router.delete('/phone-login', authenticationLimiter, speedLimiter(5), verifyAccessTokenUpdate, TwoFactorAuthController.disableTwoFactor)
+
 module.exports = router;

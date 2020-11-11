@@ -46,12 +46,12 @@ module.exports = {
       const { error } = personalDataValidation(req.body)
       if (error) return res.status(401).json(error.details[0].message);
 
-      const userRecord = await User.findOneAndUpdate(
+      const user = await User.findOneAndUpdate(
         { _id: userId },
         { $set: { ...req.body } },
         { useFindAndModify: false }
       );
-      if (!userRecord) return res.status(401).json('Fail to update');
+      if (!user) return res.status(401).json('Fail to update');
 
       return res.status(200).json('User general profile successful saved');
     } catch (e) {
@@ -65,14 +65,14 @@ module.exports = {
     if (!userId) return res.status(404).json('No user id');
 
     try {
-      const userRecord = await User.findById(userId);
-      if (!userRecord) return res.status(404).json('User not found');
+      const user = await User.findById(userId);
+      if (!user) return res.status(404).json('User not found');
 
-      const { email, phone } = userRecord;
+      const { email, phone, twoFactorSecret } = user;
 
-      console.log({ email, phone })
+      const isTwoFactorEnabled = twoFactorSecret ? true : false;
 
-      return res.status(200).json({ email, phone })
+      return res.status(200).json({ email, phone, isTwoFactorEnabled })
     } catch (err) {
       console.log({ err })
       return res.status(403).json('Unable to retrieve user contact details')
@@ -131,7 +131,7 @@ module.exports = {
       if (!validOtp) return res.status(401).json('Invalid code')
       if (!unexpired) return res.status(401).json('Code expired, click resend')
 
-      const userRecord = await User.findOneAndUpdate(
+      const user = await User.findOneAndUpdate(
         { _id: userId },
         {
           $set: { phone },
@@ -139,7 +139,7 @@ module.exports = {
         },
         { useFindAndModify: false }
       );
-      if (!userRecord) return res.status(401).json('Fail to update');
+      if (!user) return res.status(401).json('Fail to update');
 
       return res.status(200).json('Phone verified and phone number stored')
     } catch (err) {
@@ -153,10 +153,10 @@ module.exports = {
     if (!userId) return res.status(404).json('No user id');
 
     try {
-      const userRecord = await User.findById(userId);
-      if (!userRecord) return res.status(401).json('Fail to update');
+      const user = await User.findById(userId);
+      if (!user) return res.status(401).json('Fail to update');
 
-      await userRecord.updateOne({ $unset: { phone: '' } });
+      await user.updateOne({ $unset: { phone: '' } });
 
       return res.status(200).json('Phone deleted')
     } catch (err) {

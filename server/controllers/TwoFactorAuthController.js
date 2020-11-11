@@ -2,11 +2,20 @@ const User = require('../model/User');
 const speakeasy = require('speakeasy');
 const qrcode = require('qrcode')
 const { createAccessToken, createRefreshToken } = require('../helpers/token');
+const { encryptSecret, decryptSecret } = require('../helpers/authentication')
 
 module.exports = {
   getGoogleAuthenticatorQrCode: async (req, res) => {
+    const { userId } = req.verifiedData
+    if (!userId) return res.status(403).json('User id missing');
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(401).json('No user data')
+
     try {
-      const secret = speakeasy.generateSecret({ name: 'WatchCats' })
+      const name = `WatchCats (${user.email})`
+
+      const secret = speakeasy.generateSecret({ name })
       const { ascii, otpauth_url } = secret;
       req.session.ascii_secret = ascii
 
@@ -34,12 +43,45 @@ module.exports = {
       })
       if (!verified) return res.status(401).json('verification failed')
 
-      const updated = await User.findOneAndUpdate(
+      const user = await User.findById(userId);
+      if (!user) return res.status(401).json('No user data')
+
+      const encrypted = encryptSecret(ascii_secret)
+
+      user.twoFactorSecret = encrypted;
+      await user.save();
+
+      return res.status(200).json('verification successful')
+    } catch (err) {
+      console.log({ err })
+      return res.status(401).json('verification failed')
+    }
+  },
+
+  disableTwoFactor: async (req, res) => {
+    const { userId } = req.verifiedData
+    if (!userId) return res.status(403).json('User id missing');
+
+    const { code } = req.body;
+
+    try {
+      const user = await User.findById(userId);
+      if (!user) return res.status(401).json("No such user");
+
+      const decrypted = decryptSecret(user.twoFactorSecret)
+
+      const verified = await speakeasy.totp.verify({
+        secret: decrypted,
+        encoding: 'ascii',
+        token: code
+      })
+      if (!verified) return res.status(401).json('verification failed')
+
+      await User.findOneAndUpdate(
         { _id: userId },
-        { $set: { twoFactorAuthSecret: ascii_secret } },  // hash secret ??
+        { $unset: { twoFactorSecret: '' } },
         { useFindAndModify: false }
       );
-      if (!updated) return res.status(401).json('unable to enable 2fa')
 
       return res.status(200).json('verification successful')
     } catch (err) {
@@ -56,8 +98,11 @@ module.exports = {
       const user = await User.findOne({ email });
       if (!user) return res.status(401).json("Fail to process with 2fa");
 
+      const decrypted = decryptSecret(user.twoFactorSecret)
+
+      // make sure this runs only after decryptSecret() ?
       const verified = await speakeasy.totp.verify({
-        secret: user.twoFactorAuthSecret,
+        secret: decrypted,
         encoding: 'ascii',
         token: code
       })

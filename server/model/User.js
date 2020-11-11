@@ -81,7 +81,7 @@ const userSchema = new Schema({
     type: Boolean,
     defaultValue: false,
   },
-  twoFactorAuthSecret: {
+  twoFactorSecret: {
     type: String,
     defaultValue: false,
   },

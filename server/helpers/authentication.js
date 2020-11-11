@@ -1,10 +1,37 @@
 const crypto = require('crypto');
 const { randomBytes } = require('crypto');
-const axios = require('axios');
 const qs = require('querystring');
+
+const algorithm = 'aes-256-ctr'
+const key = process.env.TWO_FACTOR_ENCRYPTION_KEY
+const iv = crypto.randomBytes(16);
+
+const axios = require('axios');
 
 let code_verifier;
 let ssn = {};
+
+const encryptSecret = (secret) => {
+  const cipher = crypto.createCipheriv(algorithm, key, iv);
+
+  const encrypted = Buffer.concat([cipher.update(secret), cipher.final()]);
+
+  const ivToString = iv.toString('hex');
+  const encryptedToString = encrypted.toString('hex')
+
+  return `${ivToString}.${encryptedToString}`
+}
+
+const decryptSecret = (secret) => {
+  const iv = secret.substr(0, secret.indexOf('.'));
+  const encrypted = secret.substr(secret.indexOf(".") + 1);
+
+  const decipher = crypto.createDecipheriv(algorithm, key, Buffer.from(iv, 'hex'));
+
+  const decrpyted = Buffer.concat([decipher.update(Buffer.from(encrypted, 'hex')), decipher.final()]);
+
+  return decrpyted.toString();
+}
 
 const generateCodes = async (req, res, next) => {
   const base64URLEncode = (str) => {
@@ -67,4 +94,4 @@ const authenticateUser = async (req, res, next) => {
   }
 };
 
-module.exports = { generateCodes, authenticateUser };
+module.exports = { generateCodes, authenticateUser, encryptSecret, decryptSecret };
