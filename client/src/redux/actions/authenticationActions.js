@@ -57,6 +57,18 @@ export function checkToken() {
   };
 }
 
+export function disableTwoFactor(code) {
+  return async (dispatch) => {
+    try {
+      // pass token too?
+      const { data } = await axiosInstance().delete(phoneLoginURL, { ...getConfig(), data: { code } });
+      dispatch({ type: 'TWO_FACTOR_DISABLED' });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
 export function getGoogleAuthenticatorQrCode() {
   return async (dispatch) => {
     try {
@@ -73,7 +85,7 @@ export function verifyGoogleAuthenticatorCode(code) {
     try {
       // pass token too?
       const { data } = await axiosInstance().post(googleAuthenticatorVerifyCodeURL, { code }, getConfig());
-      dispatch({ type: 'CODE_VALID', payload: data });
+      dispatch({ type: 'TWO_FACTOR_ACTIVATED' });
     } catch (e) {
       console.log({ e });
     }

@@ -5,9 +5,7 @@ import { getContactDetails, submitPhoneNumber, deletePhoneNumber, verifyPhoneNum
 function useSettings() {
   const dispatch = useDispatch();
   const { contactDetails, changePhoneNumberStep } = useSelector((state) => state.account);
-
-  const [showModal, setShowModal] = useState(false)
-  const [modalTitle, setModalTitle] = useState('')
+  const { isActivated } = useSelector((state) => state.two_factor_auth);
 
   const [email, setEmail] = useState(null);
   const [asteriskedEmail, setAsteriskedEmail] = useState('')
@@ -80,10 +78,6 @@ function useSettings() {
     dispatch(deletePhoneNumber(phone));
   }
 
-  function closeModal() {
-    setShowModal(false)
-  }
-
   // TO SOLVE: the second time will have a "clogged" input
   function processInput(e, slot) {
     const num = e.target.value;
@@ -117,14 +111,6 @@ function useSettings() {
     inputs.current.push(ref)
   }
 
-  const modalProps = {
-    showModal,
-    setShowModal,
-    modalTitle,
-    setModalTitle,
-    closeModal
-  }
-
   const contactDetailsProps = {
     email,
     asteriskedEmail,
@@ -152,10 +138,11 @@ function useSettings() {
   }
 
   return {
-    modalProps,
     contactDetailsProps,
     phoneNumberInputProps,
-    phoneVerificationProps
+    phoneVerificationProps,
+    contactDetails,
+    isActivated,
   };
 }
 

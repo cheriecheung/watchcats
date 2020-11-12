@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPersonalInfo, postPersonalInfo, deletePicture } from '../../../redux/actions/accountActions';
 
-function useGeneral(activeKey) {
+function useGeneral() {
   const dispatch = useDispatch();
   const { data, profilePicRemoved } = useSelector((state) => state.account);
 
@@ -11,10 +11,8 @@ function useGeneral(activeKey) {
   console.log('_________render useGeneral')
 
   useEffect(() => {
-    if (activeKey === ' general') {
-      dispatch(getPersonalInfo());
-    }
-  }, [activeKey, dispatch])
+    dispatch(getPersonalInfo());
+  }, [dispatch])
 
   useEffect(() => {
     if (data) {

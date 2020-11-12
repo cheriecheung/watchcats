@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldLabel, PasswordField } from '../../../../components/FormComponents';
 import { resetPassword } from '../../../../redux/actions/authenticationActions'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -23,23 +23,27 @@ function ChangePassword() {
   }
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} style={{ textAlign: 'left' }}>
+    <>
+      <h6>Change password</h6>
 
-        <FieldLabel> {t('settings.current_password')}</FieldLabel>
-        <PasswordField name="currentPassword" />
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)} style={{ textAlign: 'left' }}>
 
-        <FieldLabel> {t('settings.new_password')}</FieldLabel>
-        <PasswordField name="newPassword" />
+          <FieldLabel> {t('settings.current_password')}</FieldLabel>
+          <PasswordField name="currentPassword" />
 
-        <FieldLabel> {t('settings.repeat_new_password')}</FieldLabel>
-        <PasswordField name="newPasswordRepeat" />
+          <FieldLabel> {t('settings.new_password')}</FieldLabel>
+          <PasswordField name="newPassword" />
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <button type="submit" onClick={() => dispatch(resetPassword())}>Submit</button>
-        </div>
-      </form>
-    </FormProvider>
+          <FieldLabel> {t('settings.repeat_new_password')}</FieldLabel>
+          <PasswordField name="newPasswordRepeat" />
+
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <button type="submit" onClick={() => dispatch(resetPassword())}>Submit</button>
+          </div>
+        </form>
+      </FormProvider>
+    </>
   )
 }
 

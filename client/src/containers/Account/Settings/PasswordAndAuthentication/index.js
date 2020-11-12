@@ -1,47 +1,71 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getGoogleAuthenticatorQrCode } from '../../../../redux/actions/authenticationActions'
 import { useTranslation } from 'react-i18next';
-import { Row, Col, Button } from 'reactstrap';
+import { Button } from 'reactstrap';
+import { Modal } from 'antd';
 
 import ChangePassword from './ChangePassword'
 import Enable2FA, { EnableSuccess } from './Enable2FA'
 import Disable2FA from './Disable2FA'
 
-function PasswordAndAuthentication({ setModalTitle, setModalContent, closeModal }) {
+function PasswordAndAuthentication({ contactDetails, isActivated }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { contactDetails } = useSelector((state) => state.account);
-  const { isActivated } = useSelector((state) => state.two_factor_auth);
+
+  const [showModal, setShowModal] = useState(false);
+  const [content, setContent] = useState('')
 
   useEffect(() => {
     if (isActivated) {
-      setModalTitle('Enable Two Factor Authnetication')
-      setModalContent(<EnableSuccess closeModal={closeModal} />)
+      setContent('enableSuccess')
     }
   }, [isActivated])
 
   const onEnable2FA = () => {
+    setShowModal(true)
     dispatch(getGoogleAuthenticatorQrCode())
-
-    setModalTitle('Enable Two Factor Authentication')
-    setModalContent(<Enable2FA />)
+    setContent('enable2FA')
   }
 
   const onDisable2FA = () => {
-    setModalTitle('Disable Two Factor Authnetication')
-    setModalContent(<Disable2FA />)
+    setShowModal(true)
+    setContent('disable2FA')
+  }
+
+  const renderModalContent = () => {
+    switch (content) {
+      case 'changePassword':
+        return <ChangePassword closeModal={() => setShowModal(false)} />
+      case 'enable2FA':
+        return <Enable2FA closeModal={() => setShowModal(false)} />
+      case 'enableSuccess':
+        return <EnableSuccess closeModal={() => setShowModal(false)} />
+      case 'disable2FA':
+        return <Disable2FA closeModal={() => setShowModal(false)} />
+      default:
+        break;
+    }
   }
 
   return (
     <>
+      <Modal
+        centered
+        visible={showModal}
+        onCancel={() => setShowModal(false)}
+        footer={null}
+      >
+        {renderModalContent()}
+      </Modal>
+
       {/* disable if registered / signed in by google */}
       <Button
         color="info"
         size="sm"
         onClick={() => {
-          setModalTitle('Change your password')
-          setModalContent(<ChangePassword closeModal={closeModal} />)
+          setShowModal(true)
+          setContent('changePassword')
         }}
       >
         {t('settings.change_password')}
@@ -50,31 +74,31 @@ function PasswordAndAuthentication({ setModalTitle, setModalContent, closeModal 
       <h6 style={{ marginTop: 40 }}>Two-Factor Authentication</h6>
             (Only for accounts registered by email and password)
 
-      {contactDetails && contactDetails.isTwoFactorEnabled || isActivated ?
-        <>
-          <h6>you have already enabled two factor auth</h6>
-          <button onClick={onDisable2FA}>Disable 2FA</button>
-        </>
-        :
-        <>
-          <p>
-            Protect your account with an extra layer of security. Once configured, you'll be required
-            to enter both your password and an authentication code from your mobile phone in order to
-            sign in
+      {
+        contactDetails && contactDetails.isTwoFactorEnabled || isActivated ?
+          <>
+            <h6>you have already enabled two factor auth</h6>
+            <button onClick={onDisable2FA}>Disable 2FA</button>
+          </>
+          :
+          <>
+            <p>
+              Protect your account with an extra layer of security. Once configured, you'll be required
+              to enter both your password and an authentication code from your mobile phone in order to
+              sign in
           </p>
 
-          {/* disable button if register via google */}
-          <Button
-            color="info"
-            size="sm"
-            type="button"
-            onClick={onEnable2FA}
-          >
-            Enable Two-Factor Auth
+            {/* disable button if register via google */}
+            <Button
+              color="info"
+              size="sm"
+              type="button"
+              onClick={onEnable2FA}
+            >
+              Enable Two-Factor Auth
           </Button>
-        </>
+          </>
       }
-
     </>
   )
 }

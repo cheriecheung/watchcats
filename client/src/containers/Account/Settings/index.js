@@ -11,14 +11,13 @@ import { useSettings } from './viewModel'
 function Settings() {
     const { t } = useTranslation();
 
-    const { modalProps, contactDetailsProps, phoneNumberInputProps, phoneVerificationProps } = useSettings();
+    const { contactDetails, isActivated, contactDetailsProps, phoneNumberInputProps, phoneVerificationProps } = useSettings();
 
     return (
         <>
             <SectionContainer>
                 <SectionTitle>Contact Details</SectionTitle>
                 <ContactDetails
-                    modalProps={modalProps}
                     contactDetailsProps={contactDetailsProps}
                     phoneNumberInputProps={phoneNumberInputProps}
                     phoneVerificationProps={phoneVerificationProps}
@@ -33,7 +32,7 @@ function Settings() {
 
             <SectionContainer>
                 <SectionTitle>Password and Authentication</SectionTitle>
-                <PasswordAndAuthentication modalProps={modalProps} />
+                <PasswordAndAuthentication contactDetails={contactDetails} isActivated={isActivated} />
             </SectionContainer>
         </>
     );

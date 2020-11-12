@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FieldLabel } from '../../../../components/FormComponents';
 import { Modal } from 'antd';
@@ -40,18 +40,11 @@ const ContentBox = styled.div`
 `
 
 function ContactDetails({
-  modalProps,
   contactDetailsProps,
   phoneNumberInputProps,
   phoneVerificationProps
 }) {
   const dispatch = useDispatch();
-  const {
-    closeModal,
-    modalTitle,
-    showModal,
-    setShowModal
-  } = modalProps;
 
   const {
     email,
@@ -65,21 +58,22 @@ function ContactDetails({
     deletePhone
   } = contactDetailsProps
 
-  const { changePhoneNumberStep } = phoneNumberInputProps
+  const { changePhoneNumberStep } = phoneNumberInputProps;
+
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <ContentBox>
       <Modal
         centered
-        title={modalTitle}
         visible={showModal}
-        onCancel={closeModal}
+        onCancel={() => setShowModal(false)}
         footer={null}
       >
         {changePhoneNumberStep === 'submitted' &&
           <PhoneNumberVerification
             phoneVerificationProps={phoneVerificationProps}
-            closeModal={closeModal}
+            closeModal={() => setShowModal(false)}
           />}
         {changePhoneNumberStep === 'input' &&
           <PhoneNumberInput phoneNumberInputProps={phoneNumberInputProps} />
@@ -91,7 +85,7 @@ function ContactDetails({
             <br />
             <br />
             <p>You have successfully verified your phone</p>
-            <button onClick={() => closeModal && closeModal()}>OK</button>
+            <button onClick={() => setShowModal(false)}>OK</button>
           </>
         }
       </Modal>

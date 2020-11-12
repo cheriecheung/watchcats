@@ -33,10 +33,7 @@ function PhoneNumberVerification({ phoneVerificationProps }) {
             value={num}
             autoFocus={!code[0].length && idx === 0}
             // readOnly={loading}
-            onChange={e => {
-              console.log({ code })
-              processInput(e, idx)
-            }}
+            onChange={e => processInput(e, idx)}
             onKeyUp={e => onKeyUp(e, idx)}
             ref={ref => updateRef(ref)}
           />
