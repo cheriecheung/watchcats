@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FieldLabel } from '../../../../components/FormComponents';
+import { Modal } from 'antd';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { getContactDetails, deletePhoneNumber } from '../../../../redux/actions/accountActions'
+import { useDispatch } from 'react-redux';
 
 import PhoneNumberInput from './PhoneNumberInput'
+import PhoneNumberVerification from './PhoneNumberVerification'
 
 const Button = styled.button`
     background: none;
@@ -38,63 +39,63 @@ const ContentBox = styled.div`
     }
 `
 
-function ContactDetails({ setModalTitle, setModalContent, closeModal }) {
+function ContactDetails({
+  modalProps,
+  contactDetailsProps,
+  phoneNumberInputProps,
+  phoneVerificationProps
+}) {
   const dispatch = useDispatch();
-  const { contactDetails, changePhoneNumberStep } = useSelector((state) => state.account);
+  const {
+    closeModal,
+    modalTitle,
+    showModal,
+    setShowModal
+  } = modalProps;
 
-  const [email, setEmail] = useState(null);
-  const [asteriskedEmail, setAsteriskedEmail] = useState('')
-  const [revealEmail, setRevealEmail] = useState(false);
+  const {
+    email,
+    asteriskedEmail,
+    phone,
+    asteriskedPhone,
+    revealEmail,
+    setRevealEmail,
+    revealPhone,
+    setRevealPhone,
+    deletePhone
+  } = contactDetailsProps
 
-  const [phone, setPhone] = useState(null)
-  const [asteriskedPhone, setAsteriskedPhone] = useState('')
-  const [revealPhone, setRevealPhone] = useState(false);
-
-  useEffect(() => {
-    if (changePhoneNumberStep === 'removed') {
-      dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
-      setPhone('')
-    }
-  }, [changePhoneNumberStep])
-
-  useEffect(() => {
-    if (contactDetails) {
-      const { email, phone } = contactDetails;
-
-      setEmail(email);
-
-      const asteriskedEmailName = email.substr(0, email.indexOf('@')).replace(/./g, '*');
-      const emailDomain = email.substr(email.indexOf("@") + 1);
-      setAsteriskedEmail(`${asteriskedEmailName}@${emailDomain}`)
-
-      if (phone) {
-        setPhone(phone)
-
-        const withoutLastFourDigits = phone.slice(0, -4).replace(/./g, '*')
-        const lastFourDigits = phone.substr(phone.length - 4);
-        setAsteriskedPhone(`${withoutLastFourDigits}${lastFourDigits}`)
-      }
-    }
-  }, [contactDetails])
-
-  useEffect(() => {
-    if (phone) {
-      dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
-
-      setPhone(phone)
-
-      const withoutLastFourDigits = phone.slice(0, -4).replace(/./g, '*')
-      const lastFourDigits = phone.substr(phone.length - 4);
-      setAsteriskedPhone(`${withoutLastFourDigits}${lastFourDigits}`)
-    }
-  }, [phone])
-
-  useEffect(() => {
-    dispatch(getContactDetails())
-  }, [dispatch])
+  const { changePhoneNumberStep } = phoneNumberInputProps
 
   return (
     <ContentBox>
+      <Modal
+        centered
+        title={modalTitle}
+        visible={showModal}
+        onCancel={closeModal}
+        footer={null}
+      >
+        {changePhoneNumberStep === 'submitted' &&
+          <PhoneNumberVerification
+            phoneVerificationProps={phoneVerificationProps}
+            closeModal={closeModal}
+          />}
+        {changePhoneNumberStep === 'input' &&
+          <PhoneNumberInput phoneNumberInputProps={phoneNumberInputProps} />
+        }
+
+        {changePhoneNumberStep === 'verified' &&
+          <>
+            <i className="far fa-check-circle fa-3x" />
+            <br />
+            <br />
+            <p>You have successfully verified your phone</p>
+            <button onClick={() => closeModal && closeModal()}>OK</button>
+          </>
+        }
+      </Modal>
+
       <div style={{ flexBasis: '45%' }}>
         <FieldLabel>Email</FieldLabel>
 
@@ -129,48 +130,29 @@ function ContactDetails({ setModalTitle, setModalContent, closeModal }) {
               }
               <Button
                 style={{ float: 'right' }}
-                onClick={() => dispatch(deletePhoneNumber())}
+                onClick={deletePhone}
               >
                 Remove
-                            </Button>
+              </Button>
               <Button
                 style={{ float: 'right' }}
                 onClick={() => {
                   dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
-
-                  setModalTitle('Enter a Phone Number')
-                  setModalContent(
-                    <PhoneNumberInput
-                      setPhone={setPhone}
-                      setModalTitle={setModalTitle}
-                      setModalContent={setModalContent}
-                      closeModal={closeModal}
-                    />
-                  )
-                }}
-              >
+                  setShowModal(true)
+                }}>
                 Edit
-                            </Button>
+              </Button>
             </div>
           </div>
           :
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button onClick={() => {
               dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
-
-              setModalTitle('Enter a Phone Number')
-              setModalContent(
-                <PhoneNumberInput
-                  setPhone={setPhone}
-                  setModalTitle={setModalTitle}
-                  setModalContent={setModalContent}
-                  closeModal={closeModal}
-                />
-              )
+              setShowModal(true)
             }}
             >
               Add
-                        </Button>
+            </Button>
           </div>
         }
 

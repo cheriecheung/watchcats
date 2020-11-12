@@ -1,26 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
-import { useDispatch, useSelector } from 'react-redux';
-import { submitPhoneNumber } from '../../../../redux/actions/accountActions'
-import PhoneNumberVerification from './PhoneNumberVerification'
 
-function PhoneNumberInput({ setModalTitle, setModalContent, setPhone, closeModal }) {
-  const dispatch = useDispatch();
-  const { changePhoneNumberStep } = useSelector((state) => state.account);
-
-  const [phoneNumber, setPhoneNumber] = useState()
-
-  useEffect(() => {
-    if (changePhoneNumberStep === 'submitted') {
-      setModalTitle('Verify Phone Number')
-      setModalContent(
-        <PhoneNumberVerification
-          closeModal={closeModal}
-          setPhone={() => setPhone(phoneNumber)}
-        />)
-    }
-  }, [changePhoneNumberStep])
+function PhoneNumberInput({ phoneNumberInputProps }) {
+  const {
+    inputPhoneNumber,
+    setInputPhoneNumber,
+    savePhoneNumber
+  } = phoneNumberInputProps
 
   return (
     <div style={{ textAlign: 'center' }}>
@@ -31,8 +18,8 @@ function PhoneNumberInput({ setModalTitle, setModalContent, setPhone, closeModal
 
       <PhoneInput
         country={'nl'}
-        value={phoneNumber}
-        onChange={phone => setPhoneNumber(phone)}
+        value={inputPhoneNumber}
+        onChange={phone => setInputPhoneNumber(phone)}
         placeholder=""
         className="phone-input"
       />
@@ -40,9 +27,7 @@ function PhoneNumberInput({ setModalTitle, setModalContent, setPhone, closeModal
       <br />
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <button onClick={() => {
-          dispatch(submitPhoneNumber(phoneNumber))
-        }}>Submit</button>
+        <button type="button" onClick={savePhoneNumber}>Submit</button>
       </div>
     </div>
   )
