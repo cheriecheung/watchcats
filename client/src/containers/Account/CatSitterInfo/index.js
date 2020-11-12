@@ -1,11 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
-import { getSitterAccount, saveSitter } from '../../../redux/actions/accountActions';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import 'react-day-picker/lib/style.css';
-import moment from 'moment';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -17,23 +14,27 @@ import Experience from './Experience';
 import Pricing from './Pricing';
 import Availability from './Availability';
 
+import { useCatSitter } from './viewModel'
+
 const resolver = yupResolver(cat_sitter_schema)
 
-function SitterProfile({ activeKey }) {
+function SitterProfile() {
   const aboutSitterRef = useRef(null);
   const experienceRef = useRef(null);
 
   const { t } = useTranslation();
   const { id } = useParams();
-  const dispatch = useDispatch();
+
   const methods = useForm({ defaultValues, resolver });
   const { register, handleSubmit, watch, reset, errors } = methods;
 
+  const { cleanedData, onSubmit } = useCatSitter()
+
   useEffect(() => {
-    if (activeKey === 'sitter' && id) {
-      dispatch(getSitterAccount(id));
+    if (cleanedData) {
+      reset(cleanedData)
     }
-  }, [activeKey, dispatch]);
+  }, [cleanedData])
 
   useEffect(() => {
     const errorsArr = Object.keys(errors);
@@ -47,58 +48,6 @@ function SitterProfile({ activeKey }) {
       }
     }
   }, [errors])
-
-  const { sitterData } = useSelector((state) => state.account);
-
-  useEffect(() => {
-    if (sitterData) {
-      const {
-        hourlyRate,
-        nightlyRate,
-        unavailableDates = [],
-        ...rest
-      } = sitterData;
-
-      const formData = { ...rest }
-
-      if (hourlyRate) {
-        const hourlyRateOption = { value: hourlyRate, label: `€ ${hourlyRate},00` };
-        formData.hourlyRate = hourlyRateOption;
-      }
-
-      if (nightlyRate) {
-        const nightlyRateOption = { value: nightlyRate, label: `€ ${nightlyRate},00` };
-        formData.nightlyRate = nightlyRateOption;
-      }
-
-      if (unavailableDates.length > 0) {
-        const formattedDates = unavailableDates.map((item) => new Date(item));
-        formData.unavailableDates = formattedDates;
-      }
-
-      reset(formData);
-    }
-  }, [reset, sitterData]);
-
-  const onSubmit = (data) => {
-    const { hourlyRate, nightlyRate, unavailableDates, ...rest } = data;
-    const { value: hourlyRateValue } = hourlyRate || {};
-    const { value: nightlyRateValue } = nightlyRate || {};
-
-    const parsedDates = unavailableDates.map((date) => {
-      const parsed = moment(date).format('YYYY-MM-DD');
-      return parsed;
-    });
-
-    const cleanedData = {
-      hourlyRate: parseInt(hourlyRateValue),
-      nightlyRate: parseInt(nightlyRateValue),
-      unavailableDates: parsedDates,
-      ...rest,
-    };
-
-    dispatch(saveSitter(id, cleanedData));
-  };
 
   return (
     <>
