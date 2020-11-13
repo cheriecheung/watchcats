@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { googleLogin, login } from '../../redux/actions/authenticationActions';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { login_schema } from '../Account/_validationSchema'
 
@@ -11,6 +9,7 @@ import { Link } from 'react-router-dom';
 
 import { SectionContainer } from '../../components/FormComponents'
 import ThemeButton from '../../components/General/ThemeButton'
+import { useLogin } from './viewModel'
 
 import PhoneLogin from './PhoneLogin'
 
@@ -23,31 +22,21 @@ const resolver = yupResolver(login_schema)
 
 function Login() {
   const { t, i18n } = useTranslation();
-  const dispatch = useDispatch();
-  const { errorMessage, loginByPhone } = useSelector((state) => state.authentication);
 
   const methods = useForm({ defaultValues, resolver });
   const { handleSubmit, reset, setValue, errors, watch } = methods;
 
-  useEffect(() => {
-    return () => {
-      dispatch({ type: 'PHONE_LOGIN', payload: false });
-    };
-  }, [])
-
-  const handleGoogleLogin = () => {
-    dispatch(googleLogin());
-  };
-
-  const handleLogin = (data) => {
-    const { email, password } = data;
-    dispatch(login(email, password));
-  };
+  const { onLogin,
+    onGoogleLogin,
+    errorMessage,
+    loginByPhone,
+    onPhoneLogin
+  } = useLogin();
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       {loginByPhone ?
-        <PhoneLogin />
+        <PhoneLogin onPhoneLogin={onPhoneLogin} />
         :
         <SectionContainer style={{ width: '50vw', marginTop: 30 }}>
           <div style={{ width: '30vw', margin: '0 auto' }}>
@@ -67,7 +56,7 @@ function Login() {
             <button
               type="button"
               className="form-control btn btn-danger mb-3"
-              onClick={handleGoogleLogin}
+              onClick={onGoogleLogin}
             >
               Google
             </button>
@@ -78,7 +67,7 @@ function Login() {
 
             <FormProvider {...methods}>
               <form
-                onSubmit={handleSubmit(handleLogin)}
+                onSubmit={handleSubmit(onLogin)}
                 style={{ textAlign: 'left', display: 'grid', gridGap: 1 }}
               >
                 <FieldLabel>{t('form.email')}</FieldLabel>
@@ -105,7 +94,6 @@ function Login() {
             </FormProvider>
           </div>
         </SectionContainer>
-
       }
     </div>
   )

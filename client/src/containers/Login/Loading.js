@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
-import { googleAuthenticate } from '../../redux/actions/authenticationActions';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { useLogin } from './viewModel';
 
 function Loading() {
-  const dispatch = useDispatch();
+  const { onGoogleAuthenticate } = useLogin();
 
   useEffect(() => {
-    dispatch(googleAuthenticate());
-  }, [dispatch]);
+    onGoogleAuthenticate()
+  }, [onGoogleAuthenticate]);
 
   return <div>Loading...</div>;
 }

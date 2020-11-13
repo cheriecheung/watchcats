@@ -61,8 +61,6 @@ function Home() {
     history.push({ pathname: "/find", state: { googlePlaceAddress, startDate, endDate } });
   };
 
-
-
   return (
     <div style={{ padding: '80px 40px 25px 40px' }}>
       <button
