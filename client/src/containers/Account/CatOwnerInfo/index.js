@@ -1,12 +1,8 @@
 import React, { useEffect } from 'react';
 import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
 import styled from 'styled-components';
-import moment from 'moment';
-import { getOwnerAccount, saveOwner } from '../../../redux/actions/accountActions';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { catBreedOptions, personalityOptions } from '../../../constants';
 
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -18,6 +14,8 @@ import AppointmentTime from './AppointmentTime';
 import AboutCat from './AboutCat';
 import Responsibilities from './Responsibilities';
 
+import { useCatOwner, useCat } from './viewModel'
+
 const resolver = yupResolver(cat_owner_schema)
 
 const CatInfoContainer = styled.div`
@@ -28,10 +26,9 @@ const CatInfoContainer = styled.div`
   background: rgba(255, 255, 255, 1);
 `;
 
-function CatOwnerInfo({ activeKey }) {
+function CatOwnerInfo() {
   const { t } = useTranslation();
   const { id } = useParams();
-  const dispatch = useDispatch();
 
   const methods = useForm({ defaultValues, resolver });
   const { register, control, handleSubmit, reset, watch, errors, setValue } = methods;
@@ -40,122 +37,20 @@ function CatOwnerInfo({ activeKey }) {
   const overnightFieldArray = useFieldArray({ control, name: 'bookingOvernight' });
   const catFieldArray = useFieldArray({ control, name: 'cat' });
 
-  const { ownerData, ownerSaved, ownerCompleteSave, catPhotoRemoved } = useSelector((state) => state.account);
+  const { cleanedData, onSubmit } = useCatOwner();
+  const catProps = useCat();
 
   useEffect(() => {
-    console.log({ errors })
-  }, [errors])
-
-  // useEffect(() => {
-  //   console.log({ watchCats: watch('cat') })
-  // }, [watch('cat')])
-
-  // useEffect(() => {
-  //   if (catPhotoRemoved) {
-  //     const { index } = catPhotoRemoved
-  //     setValue(`cat${[index]}.photo`, '')
-  //   }
-  // }, [catPhotoRemoved])
-
-
-  useEffect(() => {
-    if (activeKey === 'owner' && id) {
-      dispatch(getOwnerAccount(id));
+    if (cleanedData) {
+      reset(cleanedData)
     }
-  }, [activeKey, dispatch]);
+  }, [cleanedData])
 
-  useEffect(() => {
-    if (ownerData) {
-      const {
-        aboutMe,
-        bookingOneDay = [{ date: '', startTime: null, endTime: '' }],
-        bookingOvernight = [{ startDAte: null, endDate: '' }],
-        cat,
-        catsDescription,
-      } = ownerData;
-
-      const catUpdated = cat.map(({ breed, personality, ...rest }, index) => {
-
-        const breedName = catBreedOptions.filter(({ value }) => value === breed)[0].label
-        const personalityName = personalityOptions.filter(({ value }) => value === personality)[0].label
-
-        return {
-          ...rest,
-          breed: { value: breed, label: breedName },
-          personality: { value: personality, label: personalityName },
-        }
-      })
-
-      reset({
-        // ...defaultValues,
-        aboutMe,
-        bookingOneDay,
-        bookingOvernight,
-        cat: catUpdated,
-        catsDescription,
-      });
-    }
-  }, [ownerData, reset]);
-
-  const onSubmit = (data) => {
-    const { cat, bookingOneDay, bookingOvernight, ...rest } = data;
-
-    const cleanedCat = cat.map(({ breed, personality, ...restCat }) => {
-      const { value: breedValue } = breed || {};
-      const { value: personalityValue } = personality || {};
-
-      return {
-        breed: parseInt(breedValue),
-        personality: parseInt(personalityValue),
-        ...restCat
-      }
-    })
-
-    let cleanedBookingOneDay;
-    let cleanedBookingOvernight;
-
-    if (bookingOneDay.length === 1 && (bookingOneDay[0].date === '' || bookingOneDay[0].endTime === '' || bookingOneDay.startTime === null)) {
-      cleanedBookingOneDay = []
-    } else {
-      cleanedBookingOneDay = bookingOneDay.map(({ date, startTime, endTime }) => {
-        const formattedDate = moment(date).format('YYYY-MM-DD');
-        const formattedStartTime = moment(startTime).format('HH:mm');
-        const formattedEndTime = moment(endTime).format('HH:mm');
-
-        return {
-          date: formattedDate,
-          startTime: formattedStartTime,
-          endTime: formattedEndTime
-        }
-      });
-    }
-
-    if (bookingOvernight.length === 1 && (bookingOvernight[0].endDate === '' || bookingOvernight.startDate === null)) {
-      cleanedBookingOvernight = []
-    } else {
-      cleanedBookingOvernight = bookingOvernight.map(({ startDate, endDate }) => {
-        const formattedStartDate = moment(startDate).format('YYYY-MM-DD');
-        const formattedEndDate = moment(endDate).format('YYYY-MM-DD');
-
-        return {
-          startDate: formattedStartDate,
-          endDate: formattedEndDate
-        }
-      });
-    }
-
-    const cleanedData = {
-      cat: cleanedCat,
-      bookingOneDay: cleanedBookingOneDay,
-      bookingOvernight: cleanedBookingOvernight,
-      ...rest
-    }
-
+  const submitData = (data) => {
     const photos = watch('cat').map(({ photo }) => photo || {})
 
-    dispatch(saveOwner(id, cleanedData, photos))
-  };
-  // const onSubmit = (data) => console.log(data);
+    onSubmit(data, photos)
+  }
 
   return (
     <>
@@ -166,7 +61,7 @@ function CatOwnerInfo({ activeKey }) {
       </div>
 
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(submitData)}>
           <SectionContainer>
             <SectionTitle> {t('owner_form.about_me')}</SectionTitle>
 
@@ -190,6 +85,7 @@ function CatOwnerInfo({ activeKey }) {
               setValue={setValue}
               watch={watch}
               catFieldArray={catFieldArray}
+              catProps={catProps}
             />
           </CatInfoContainer>
 

@@ -11,18 +11,18 @@ import ProfilePicture from './ProfilePicture';
 import PersonalInfo from './PersonalInfo';
 import SocialMedia from './SocialMedia';
 
-import { useGeneral } from './viewModal'
+import { useGeneral } from './viewModel'
 
 const resolver = yupResolver(general_schema)
 
-function GeneralInfo({ activeKey }) {
+function GeneralInfo() {
   const personalInfoRef = useRef(null);
   const { t } = useTranslation();
 
   const methods = useForm({ defaultValues, resolver });
   const { handleSubmit, reset, setValue, errors } = methods;
 
-  const { data, onSubmit, photoField, handlePreview, handleRemovePhoto, profilePicRemove } = useGeneral(activeKey);
+  const { data, onSubmit, photoField, handlePreview, handleRemovePhoto, profilePicRemove } = useGeneral();
 
   useEffect(() => {
     if (data) {

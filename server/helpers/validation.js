@@ -94,7 +94,7 @@ module.exports = {
         isVaccinated: Joi.boolean().required(),
         medicalNeeds: Joi.array().items(Joi.string().valid('pill', 'injection')),
         personality: Joi.number().integer().required(), // change to string?
-        photo: Joi.object(),
+        photo: Joi.alternatives(Joi.string(), Joi.object())
       }),
       catsDescription: textAreaType,
     })

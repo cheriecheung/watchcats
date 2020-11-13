@@ -88,14 +88,15 @@ export function getPersonalInfo() {
 }
 
 export function postPersonalInfo(userData, profilePicture) {
-  console.log({ userData })
   return async (dispatch) => {
     try {
       const { data } = await axiosInstance().post(personalInfoURL, userData, getConfig());
 
-      const formData = new FormData();
-      formData.append('profilePic', profilePicture);
-      await axiosInstance().post(profilePicURL, formData, getConfig());
+      if (profilePicture) {
+        const formData = new FormData();
+        formData.append('profilePic', profilePicture);
+        await axiosInstance().post(profilePicURL, formData, getConfig());
+      }
 
       dispatch({ type: 'GENERAL_INFO_SAVED', payload: data });
     } catch (e) {
@@ -162,21 +163,26 @@ const getCatConfig = () => {
 export function saveOwner(id, ownerData, photos) {
   return async (dispatch) => {
     try {
+      console.log({ photos })
       const { data } = await axiosInstance().post(ownerURL(id), ownerData, getConfig());
 
-      // try {
-      //   photos.forEach(async ({ file }, index) => {
-      //     if (file) {
-      //       const formData = new FormData();
-      //       formData.append('catPhoto', file);
-      //       formData.append('fieldArrayIndex', index)
+      // this should run only after new cat record is saved
+      if (data) {
+        try {
+          photos.forEach(async ({ file }, index) => {
+            if (file) {
+              console.log({ file })
+              const formData = new FormData();
+              formData.append('catPhoto', file);
+              formData.append('fieldArrayIndex', index)
 
-      //       await axiosInstance().post(catImageURL, formData, getCatConfig());
-      //     }
-      //   })
-      // } catch (e) {
-      //   console.log({ e });
-      // }
+              await axiosInstance().post(catImageURL, formData, getCatConfig());
+            }
+          })
+        } catch (e) {
+          console.log({ e });
+        }
+      }
 
       dispatch({ type: 'OWNER_ACCOUNT_SAVED', payload: data });
     } catch (e) {

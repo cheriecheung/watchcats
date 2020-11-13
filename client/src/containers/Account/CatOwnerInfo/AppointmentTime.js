@@ -12,6 +12,9 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
   const { fields: oneDayFields, remove: oneDayRemove, append: oneDayAppend } = oneDayFieldArray;
   const { fields: overnightFields, remove: overnightRemove, append: overnightAppend } = overnightFieldArray;
 
+  const bookingOneDay = watch('bookingOneDay');
+  const bookingOvernight = watch('bookingOvernight')
+
   return (
     <>
       {oneDayFields.map((item, index) => {
@@ -71,13 +74,13 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
               </Col>
             </Row>
 
-            <hr hidden={watch('bookingOneDay').length === 1} style={{ margin: '30px 0' }} />
+            <hr hidden={bookingOneDay && bookingOneDay.length === 1} style={{ margin: '30px 0' }} />
           </div>
         );
       })}
       <button
         type="button"
-        hidden={watch('bookingOneDay').length >= 2}
+        hidden={bookingOneDay && bookingOneDay.length >= 2}
         className="add-field-btn"
         onClick={() => oneDayAppend(oneDayObj)}
         style={{
@@ -91,7 +94,7 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
         <i className="fas fa-plus mr-1" />
         {t('owner_form.add_period')}
       </button>
-      <span hidden={watch('bookingOneDay').length < 2}>
+      <span hidden={bookingOneDay && bookingOneDay.length < 2}>
         You can at most request 2 one-day appointments at the same time!
       </span>
 
@@ -139,14 +142,14 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
                 <DatePicker name={`bookingOvernight[${index}].endDate`} />
               </div>
             </div>
-            <hr hidden={watch('bookingOvernight').length === 1} style={{ margin: '30px 0' }} />
+            <hr hidden={bookingOvernight && bookingOvernight.length === 1} style={{ margin: '30px 0' }} />
           </div>
         );
       })}
 
       <button
         type="button"
-        hidden={watch('bookingOvernight').length >= 2}
+        hidden={bookingOvernight && bookingOvernight.length >= 2}
         className="add-field-btn"
         onClick={() => overnightAppend(overnightObj)}
         style={{
@@ -160,7 +163,7 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
         <i className="fas fa-plus mr-1" />
         {t('owner_form.add_period')}
       </button>
-      <span hidden={watch('bookingOvernight').length < 2}>
+      <span hidden={bookingOvernight && bookingOvernight.length < 2}>
         You can at most request 2 overnight sitting appointments at the same time!
       </span>
     </>

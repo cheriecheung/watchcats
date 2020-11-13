@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
 import {
   CheckboxGroup,
@@ -13,30 +13,16 @@ import {
 import { useTranslation } from 'react-i18next';
 import { catBreedOptions, personalityOptions, medicineOptions } from '../../../constants';
 import { catObj } from '../_defaultValues'
-import { useDispatch, useSelector } from 'react-redux';
-import { removeCatPhoto } from '../../../redux/actions/accountActions';
 
 const color = '#252525';
 
-function AboutCat({ setValue, watch, catFieldArray }) {
+function AboutCat({ setValue, watch, catFieldArray, catProps }) {
+
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-
-  const { catPhotoRemoved, ownerData } = useSelector((state) => state.account);
-
   const { fields, append, remove } = catFieldArray;
+  const cat = watch('cat')
 
-  const [photoFields, setPhotoFields] = useState([])
-  const [removePhotoIndex, setRemovePhotoIndex] = useState('')
-
-  useEffect(() => {
-    if (ownerData) {
-      const { cat } = ownerData
-      const allPhotoFields = cat.map(({ photo }, index) => photo);
-
-      setPhotoFields(allPhotoFields);
-    }
-  }, [ownerData]);
+  const { photoFields, handlePreview, catPhotoRemoved, removePhotoIndex, handleRemovePhoto } = catProps;
 
   const handleRemoveCat = (index) => {
     if (window.confirm('Click Ok to confirm to remove cat record')) {
@@ -44,36 +30,12 @@ function AboutCat({ setValue, watch, catFieldArray }) {
     }
   };
 
-  const handlePreview = (data, index) => {
-    let updateFields = [...photoFields];
-    updateFields[index] = data
-    setPhotoFields(updateFields)
-  }
-
   useEffect(() => {
     // provide fail response
     if (catPhotoRemoved) {
       setValue(`cat[${removePhotoIndex}].photo`, null)
-
-      let updateFields = [...photoFields];
-      updateFields[removePhotoIndex] = null;
-      setPhotoFields(updateFields)
     }
   }, [catPhotoRemoved])
-
-  const handleRemovePhoto = (fileName, index) => {
-    setRemovePhotoIndex(index);
-
-    if (fileName.includes('base64')) {
-      setValue(`cat[${index}].photo`, null)
-
-      let updateFields = [...photoFields];
-      updateFields[index] = null
-      setPhotoFields(updateFields)
-    } else {
-      dispatch(removeCatPhoto(fileName, index))
-    }
-  }
 
   return (
     <>
@@ -114,7 +76,12 @@ function AboutCat({ setValue, watch, catFieldArray }) {
                 <FileDisplayField
                   name={`cat[${index}].photo`}
                   fileName={photoFields[index]}
-                  handleRemovePhoto={() => handleRemovePhoto(photoFields[index], index)}
+                  handleRemovePhoto={() => {
+                    handleRemovePhoto(photoFields[index], index)
+                    if (photoFields[index].includes('base64')) {
+                      setValue(`cat[${index}].photo`, null)
+                    }
+                  }}
                 />
                 :
                 <ArrayFileUploader
@@ -203,14 +170,14 @@ function AboutCat({ setValue, watch, catFieldArray }) {
               </Col>
             </Row>
 
-            <hr hidden={watch('cat').length === 1} style={{ margin: '20px 0 0 0' }} />
+            <hr hidden={cat && cat.length === 1} style={{ margin: '20px 0 0 0' }} />
           </div>
         );
       })}
 
       <button
         type="button"
-        hidden={watch('cat').length > 4}
+        hidden={cat && cat.length > 4}
         className="add-field-btn"
         onClick={() => append(catObj)}
         style={{
@@ -226,7 +193,7 @@ function AboutCat({ setValue, watch, catFieldArray }) {
         {t('owner_form.add_cat')}
       </button>
 
-      <span hidden={watch('cat').length <= 4}>
+      <span hidden={cat && cat.length <= 4}>
         If you have 5 or more cats, perhaps you would want to consider having them stay at a pet
         hotel, so they can all be taken care of by full time staff!
       </span>
