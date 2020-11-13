@@ -158,6 +158,8 @@ module.exports = {
     const { userId } = req.verifiedData
     if (!userId) return res.status(403).json('User id missing');
 
+    // if requested / comfirmed booking is expired, change status to 'declined'
+
     try {
       const userRecord = await User.findById(userId);
       if (!userRecord) return res.status(403).json('User not found');
