@@ -1,11 +1,10 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch, useSelector } from 'react-redux';
 import { reset_password_schema } from '../Account/_validationSchema'
 import { FieldLabel, TextField } from '../../components/FormComponents'
-import { resetPassword } from '../../redux/actions'
 import styled from 'styled-components';
+import { useForgotPassword } from './viewModel';
 
 const SubmitButton = styled.button`
   background: #ffa195;
@@ -27,15 +26,10 @@ const defaultValues = {
 const resolver = yupResolver(reset_password_schema)
 
 function ResetPassword() {
-    const dispatch = useDispatch();
-
     const methods = useForm({ defaultValues, resolver });
     const { handleSubmit } = methods;
 
-    const onSubmit = (data) => {
-        const { newPassword } = data;
-        dispatch(resetPassword(newPassword))
-    }
+    const { onSubmitNewPassword } = useForgotPassword();
 
     return (
         <div style={{ width: '30vw', margin: '50px auto 0 auto' }}>
@@ -43,7 +37,7 @@ function ResetPassword() {
             <p>Please enter your new password</p>
 
             <FormProvider {...methods}>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmitNewPassword)}>
                     <FieldLabel>New password</FieldLabel>
                     <TextField name="newPassword" />
 

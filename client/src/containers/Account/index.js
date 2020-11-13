@@ -54,17 +54,30 @@ function Account() {
     setActiveKey(defaultKey)
   }, [])
 
-  const accountTabs = [
+  const tabs = [
     { key: 'settings', tab: t('account.settings') },
     { key: 'general', tab: t('account.general_info') },
     { key: 'sitter', tab: t('account.sitter_profile') },
     { key: 'owner', tab: t('account.owner_profile') }
   ];
 
+  const renderTabContent = () => {
+    switch (activeKey) {
+      case 'general':
+        return <General />
+      case 'sitter':
+        return <CatSitterInfo />
+      case 'owner':
+        return <CatOwnerInfo />
+      default:
+        return <Settings />
+    }
+  }
+
   return (
     <div style={{ paddingTop: 30, maxWidth: 900, margin: '0 auto 50px auto' }}>
       <div>
-        {accountTabs.map(({ key, tab }) =>
+        {tabs.map(({ key, tab }) =>
           <button
             key={key}
             style={activeKey === key ? selectedTabStyle : defaultTabStyle}
@@ -76,10 +89,7 @@ function Account() {
       </div>
 
       <div style={{ marginTop: 30 }}>
-        {activeKey === 'settings' && <Settings />}
-        {activeKey === 'general' && <General activeKey={activeKey} />}
-        {activeKey === 'sitter' && <CatSitterInfo activeKey={activeKey} />}
-        {activeKey === 'owner' && <CatOwnerInfo activeKey={activeKey} />}
+        {renderTabContent()}
       </div>
 
       <ResponseModal />

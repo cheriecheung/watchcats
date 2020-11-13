@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch } from 'react-redux';
 import { send_email_schema } from '../Account/_validationSchema'
 import styled from 'styled-components';
 import { TextField } from '../../components/FormComponents'
-import { getPasswordResetEmail } from '../../redux/actions'
 import { Alert } from 'antd';
+import { useForgotPassword } from './viewModel';
 
 const SubmitButton = styled.button`
   background: #ffa195;
@@ -25,25 +24,15 @@ const defaultValues = { email: '' }
 const resolver = yupResolver(send_email_schema)
 
 function ForgotPassword() {
-    const dispatch = useDispatch();
-
     const methods = useForm({ defaultValues, resolver });
     const { handleSubmit } = methods;
 
-    const [emailSubmitted, setEmailSubmitted] = useState(false)
-
-    const onSubmit = (data) => {
-        const { email } = data;
-        dispatch(getPasswordResetEmail(email))
-        setEmailSubmitted(true)
-    }
-
+    const { emailSubmitted, onSubmitEmail } = useForgotPassword();
 
     return (
         <div style={{ width: '30vw', margin: '50px auto 0 auto' }}>
-
             <FormProvider {...methods}>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmitEmail)}>
                     <h5>Reset your password</h5>
                     <p>To reset your password, enter your email below and submit. An email will be sent to you with instructions about how to complete the process.</p>
 
