@@ -2,31 +2,28 @@ const { registerValidation } = require('../helpers/validation');
 const bcrypt = require('bcryptjs');
 const User = require('../model/User');
 const { sendActivateMail, sendResetPwMail } = require('../helpers/mailer');
-const { signAccessToken, createVerifyEmailToken, createResetPasswordToken } = require('../helpers/token');
+const { createVerifyEmailToken, createResetPasswordToken } = require('../helpers/token');
 
 module.exports = {
   register: async (req, res) => {
     const { error } = registerValidation(req.body);
     if (error) return res.status(400).json(error.details[0].message);
 
-    const emailExists = await User.findOne({ email: req.body.email });
-    if (emailExists) return res.status(400).json({ error: 'Email already exists' });
-
     const { name, email, password } = req.body;
 
-    const salt = await bcrypt.genSalt(12);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const newUser = new User({ name, email, password: hashedPassword });
-
-    // const secretToken = signAccessToken(newUser, JWT_VERIFY_SECRET);
-    // sendActivateMail(email, secretToken);
-
-    const token = createVerifyEmailToken(newUser.id);
-    sendActivateMail(token)
-
     try {
+      const emailExists = await User.findOne({ email });
+      if (emailExists) return res.status(400).json({ error: 'Email already exists' });
+
+      const salt = await bcrypt.genSalt(12);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      const newUser = new User({ name, email, password: hashedPassword });
       await newUser.save();
+
+      const token = createVerifyEmailToken(newUser.id);
+      sendActivateMail(email, token)
+
       return res
         .status(201)
         .json('A link to activate your account has been sent to the email provided. Be sure to check the spam / junk mailbox if the email is not found in the main inbox.');
@@ -44,11 +41,10 @@ module.exports = {
       if (!user) return res.status(400).json({ error: 'Invalid email' });
       if (user.isVerified) return res.status(200).json('Account has previously been activated');
 
-      // const secretToken = signAccessToken(user, JWT_VERIFY_SECRET);
-      // sendActivateMail(email, secretToken);
+      const { id, email: userEmail } = user;
 
-      const token = createVerifyEmailToken(user.id);
-      sendActivateMail(token)
+      const token = createVerifyEmailToken(id);
+      sendActivateMail(userEmail, token)
 
       return res.status(200).json('success');
     } catch (err) {

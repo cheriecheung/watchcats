@@ -17,6 +17,23 @@ module.exports = {
     return JWT.sign({ userId }, VERIFY_EMAIL_TOKEN_SECRET, { expiresIn: "60m" })
   },
 
+  verifyActivationLinkToken: (req, res, next) => {
+    const bearerHeader = req.headers['authorization'];
+    if (!bearerHeader) return res.status(401).json('Access deined');
+
+    try {
+      const bearer = bearerHeader.split(' ');
+      const bearerToken = bearer[1].toString();
+      const verifiedData = JWT.verify(bearerToken, VERIFY_EMAIL_TOKEN_SECRET)
+      req.verifiedData = verifiedData;
+
+      return next();
+    } catch (err) {
+      console.log({ err })
+      return res.status(401).json('Invalid token')
+    }
+  },
+
   createResetPasswordToken: userId => {
     return JWT.sign({ userId }, RESET_PASSWORD_TOKEN_SECRET, { expiresIn: "30m" })
   },

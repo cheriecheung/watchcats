@@ -12,18 +12,19 @@ const send = (data) => {
 };
 
 module.exports = {
-  sendActivateMail: (userEmail, token) => {
+  sendActivateMail: (email, token) => {
+    // query string activate?token=${token} ??
     const link = `https://${CLIENT_URL}/activate/${token}`;
 
     const data = {
       from: 'noreply@watchcats.com',
-      to: userEmail,
+      to: email,
       subject: 'Please verify your email',
       html: `
       <html>
         <h3>Hi there!</h3>
         <p>Please click on the following link to activate your account:</p>
-        <a href="${link}">${link}</a>
+        <a href="${link}" style="background:pink;">Confirm my email</a>
       </html>
     `,
     };
@@ -31,12 +32,12 @@ module.exports = {
     send(data);
   },
 
-  sendResetPwMail: (userEmail, token) => {
+  sendResetPwMail: (email, token) => {
     const link = `https://${CLIENT_URL}/reset_password/${token}`;
 
     const data = {
       from: 'noreply@watchcats.com',
-      to: userEmail,
+      to: email,
       subject: 'Reset password',
       html: `
       <html>

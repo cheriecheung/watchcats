@@ -45,6 +45,8 @@ module.exports = {
       // for production: error as Invalid email / password combination
       if (!user) return res.status(400).json("Email and password combination isn't valid");
 
+      // if (!googledId || !isVerified) return res.status(400).json('not verified)
+
       const validPass = await bcrypt.compare(password, user.password)
       if (!validPass) return res.status(400).json("Email and password combination isn't valid");
 
@@ -89,11 +91,11 @@ module.exports = {
   activateAccount: async (req, res) => {
     const { userId } = req.verifiedData;
 
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).json('User not found');
-    if (user.isVerified) return res.status(200).json('Account has previously been activated');
-
     try {
+      const user = await User.findById(userId);
+      if (!user) return res.status(404).json('User not found');
+      if (user.isVerified) return res.status(200).json('Account has previously been activated');
+
       user.isVerified = true;
       await user.save();
 
