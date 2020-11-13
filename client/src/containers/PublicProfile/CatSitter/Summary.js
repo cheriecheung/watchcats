@@ -1,40 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { getChatContacts, getChatConversation } from '../../../redux/actions/chatActions';
-import { getAppointmentTime, sendRequest } from '../../../redux/actions/bookingActions';
+import React from 'react';
 import ThemeButton from '../../../components/General/ThemeButton';
 import { ImageContainer, SummaryCard } from '../../../components/ProfileComponents';
 import RequestBookingModal from './RequestBookingModal';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
-function Summary({ id, sitterInfo }) {
+function Summary({ sitterInfo, summaryProps }) {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
 
-  const { error: errorType, appointmentTime } = useSelector((state) => state.bookings);
-
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const handleSendMessage = () => {
-    dispatch(getChatContacts);
-    dispatch(getChatConversation);
-  };
-
-  const handleSendRequest = (data) => {
-    const body = {
-      ...data,
-      sitterId: id,
-    };
-    dispatch(sendRequest(body));
-  };
-
-  useEffect(() => {
-    if (modalVisible) {
-      dispatch(getAppointmentTime());
-    }
-  }, [modalVisible]);
+  const {
+    modalVisible,
+    setModalVisible,
+    onSendMessage,
+    onSendRequest,
+    error,
+    appointmentTime
+  } = summaryProps;
 
   return (
     <SummaryCard
@@ -70,7 +52,7 @@ function Summary({ id, sitterInfo }) {
         {/* you will receive ___  */}
       </span>
 
-      <ThemeButton onClick={handleSendMessage}>{t('sitter_profile.send_message')}</ThemeButton>
+      <ThemeButton onClick={onSendMessage}>{t('sitter_profile.send_message')}</ThemeButton>
       <ThemeButton onClick={() => setModalVisible(true)}>
         {t('sitter_profile.request_appointment')}
       </ThemeButton>
@@ -78,12 +60,12 @@ function Summary({ id, sitterInfo }) {
       <RequestBookingModal
         modalVisible={modalVisible}
         closeModal={() => setModalVisible(false)}
-        error={errorType}
+        error={error}
         appointmentTime={appointmentTime}
         oneDayPrice={sitterInfo.hourlyRate}
         overnightPrice={sitterInfo.nightlyRate}
         // location={location}
-        handleSendRequest={handleSendRequest}
+        onSendRequest={onSendRequest}
       />
     </SummaryCard>
   );

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { getAccessToken, setAccessToken } from './accessToken';
 
+// logs out automatically when tried too many times?
 export default (history = null) => {
     const axiosInstance = axios.create({
         baseURL: process.env.REACT_APP_API_DOMAIN,

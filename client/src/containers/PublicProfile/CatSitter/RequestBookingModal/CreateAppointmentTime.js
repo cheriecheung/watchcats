@@ -167,23 +167,23 @@ function CreateAppointmentTime({
               </Col>
             </Row>
           ) : (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <div className="d-flex flex-column date-picker overnight-visit-date-picker">
-                <FieldLabel>{t('owner_form.start_date')}</FieldLabel>
-                <DatePicker name="overnight.startDate" />
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <div className="d-flex flex-column date-picker overnight-visit-date-picker">
+                  <FieldLabel>{t('owner_form.start_date')}</FieldLabel>
+                  <DatePicker name="overnight.startDate" />
+                </div>
+                <i className="fas fa-arrow-right align-self-center mt-4" />
+                <div className="d-flex flex-column date-picker overnight-visit-date-picker">
+                  <FieldLabel>{t('owner_form.end_date')}</FieldLabel>
+                  <DatePicker name="overnight.endDate" />
+                </div>
               </div>
-              <i className="fas fa-arrow-right align-self-center mt-4" />
-              <div className="d-flex flex-column date-picker overnight-visit-date-picker">
-                <FieldLabel>{t('owner_form.end_date')}</FieldLabel>
-                <DatePicker name="overnight.endDate" />
-              </div>
-            </div>
-          )}
+            )}
         </form>
       </FormProvider>
 

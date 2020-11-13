@@ -12,7 +12,7 @@ function RequestBookingModal({
   appointmentTime,
   oneDayPrice,
   overnightPrice,
-  handleSendRequest,
+  onSendRequest,
 }) {
   const { t } = useTranslation();
   const [appointmentData, setAppointmentData] = useState({});
@@ -27,7 +27,7 @@ function RequestBookingModal({
     <Modal
       //  title=""
       visible={modalVisible}
-      onOk={() => handleSendRequest(appointmentData)}
+      onOk={() => onSendRequest(appointmentData)}
       okText={modalOkText}
       onCancel={closeModal}
       cancelButtonProps={modalCancelButton}

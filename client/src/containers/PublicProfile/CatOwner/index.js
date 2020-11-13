@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Carousel from 'react-bootstrap/Carousel';
+import React from 'react';
 import { ContentContainer, SectionContainer } from '../../../components/ProfileComponents';
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getOwnerProfile } from '../../../redux/actions/profileActions';
+import styled from 'styled-components'
 
 import Summary from './Summary';
 import Reviews from '../Common/Reviews';
@@ -12,14 +9,12 @@ import AboutCat from './AboutCat';
 import Location from '../Common/Location';
 import Responsibilities from './Responsibilities';
 
-import styled from 'styled-components'
+import { useCatOwnerProfile } from '../viewModel';
 
 const allReviews = [];
 for (let i = 0; i < 7; i++) {
   allReviews.push({ id: i, name: `User ${i}` });
 }
-
-const allLocations = { id: 1, name: 'Cat Owner #1', lat: 52.3449, lng: 4.8766 };
 
 const DetailsContainer = styled.div`
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);
@@ -29,31 +24,7 @@ const DetailsContainer = styled.div`
 `;
 
 function CatOwner() {
-  const { id } = useParams();
-  const reviewListRef = useRef(null);
-  const dispatch = useDispatch();
-  const { data: ownerData } = useSelector((state) => state.profile);
-
-  const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
-
-  const [ownerInfo, setOwnerInfo] = useState({});
-
-  useEffect(() => {
-    if (id && dispatch) {
-      dispatch(getOwnerProfile(id));
-
-      // show 'does not exist' message if no profile with such id
-      console.log({ id });
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if (ownerData) {
-      console.log({ ownerData });
-
-      setOwnerInfo(ownerData);
-    }
-  }, [ownerData]);
+  const { returnedData, reviewListRef, scrollToRef } = useCatOwnerProfile();
 
   return (
     <div style={{ padding: '30px 60px' }}>
@@ -75,21 +46,21 @@ function CatOwner() {
 
               <SectionContainer>
                 <h5>About</h5>
-                <AboutMe aboutMe={ownerInfo.aboutMe} />
+                <AboutMe aboutMe={returnedData.aboutMe} />
               </SectionContainer>
 
               <hr />
 
               <SectionContainer>
                 <h5>About my cat</h5>
-                <AboutCat allCats={ownerInfo.cat} />
+                <AboutCat allCats={returnedData.cat} />
               </SectionContainer>
 
               <hr />
 
               <SectionContainer>
                 <h5>Responsibility</h5>
-                <Responsibilities descriptions={ownerInfo.catsDescription} />
+                <Responsibilities descriptions={returnedData.catsDescription} />
               </SectionContainer>
 
               <hr />
@@ -102,7 +73,7 @@ function CatOwner() {
             </DetailsContainer>
           </div>
 
-          <Summary ownerInfo={ownerInfo} />
+          <Summary ownerInfo={returnedData} />
         </ContentContainer>
       </div>
     </div>
