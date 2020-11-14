@@ -6,6 +6,7 @@ import { registration } from '../../redux/actions/authenticationActions';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { register_schema } from '../Account/_validationSchema'
 import { Link } from 'react-router-dom';
+import { FieldLabel, PasswordField, TextField } from '../../components/FormComponents'
 
 const defaultValues = {
   firstName: '',
@@ -21,7 +22,7 @@ function Register() {
   const dispatch = useDispatch()
 
   const methods = useForm({ defaultValues, resolver });
-  const { handleSubmit, reset, setValue, errors, watch, register } = methods;
+  const { handleSubmit } = methods;
 
   const handleRegister = (data) => {
     const { firstName, lastName, email, password } = data;
@@ -42,90 +43,31 @@ function Register() {
 
       <button type="button" className="form-control btn btn-danger">
         Google
-              </button>
+      </button>
 
       <div className="hr-label">
         <span>{t('form.or')}</span>
       </div>
 
-
       <FormProvider {...methods}>
         <form
           onSubmit={handleSubmit(handleRegister)}
-          style={{ textAlign: 'left', display: 'grid', gridGap: 15 }}
+          style={{ textAlign: 'left' }}
         >
-          <div>
-            <b>{t('form.first_name')}</b>
-            <input
-              className="form-control"
-              name="firstName"
-              type="text"
-              ref={register({
-                pattern: /^[A-Z]+$/i,
-                validate: (value) => value !== '',
-              })}
-            />
-            {errors.firstName && errors.firstName.type === 'pattern' && (
-              <p style={{ color: 'red', margin: 0 }}>{t('form.only_alphabet')}</p>
-            )}
-            {errors.firstName && errors.firstName.type === 'validate' && (
-              <p style={{ color: 'red', margin: 0 }}>{t('form.no_empty')}</p>
-            )}
-          </div>
+          <FieldLabel>{t('form.first_name')}</FieldLabel>
+          <TextField name="firstName" />
 
-          <div>
-            <b>{t('form.last_name')}</b>
-            <input
-              className="form-control"
-              name="lastName"
-              type="text"
-              ref={register({
-                pattern: /^[A-Z]+$/i,
-                validate: (value) => value !== '',
-              })}
-            />
-            {errors.lastName && errors.lastName.type === 'pattern' && (
-              <p style={{ color: 'red', margin: 0 }}>{t('form.only_alphabet')}</p>
-            )}
-            {errors.lastName && errors.lastName.type === 'validate' && (
-              <p style={{ color: 'red', margin: 0 }}>{t('form.no_empty')}</p>
-            )}
-          </div>
+          <FieldLabel>{t('form.last_name')}</FieldLabel>
+          <TextField name="lastName" />
 
-          <div>
-            <b>{t('form.email')}</b>
-            <input
-              className="form-control"
-              name="email"
-              type="email"
-              ref={register({
-                validate: (value) => value !== '',
-              })}
-            />
-            {errors.email && (
-              <p style={{ color: 'red', margin: 0 }}>{t('form.no_empty')}</p>
-            )}
-          </div>
+          <FieldLabel>{t('form.email')}</FieldLabel>
+          <TextField name="email" />
 
-          <div>
-            <b>{t('form.password')}</b>
-            <input
-              className="form-control"
-              name="password"
-              type="password"
-              ref={register({
-                validate: (value) => value !== '',
-              })}
-            />
-            {errors.password && (
-              <p style={{ color: 'red', margin: 0 }}>{t('form.no_empty')}</p>
-            )}
-          </div>
-          <input
-            type="submit"
-            value={t('form.register')}
-            style={{ float: 'right' }}
-          />
+          {/* password requirement */}
+          <FieldLabel>{t('form.password')}</FieldLabel>
+          <PasswordField name="password" />
+
+          <input type="submit" value={t('form.register')} />
         </form>
       </FormProvider>
     </div>

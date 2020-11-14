@@ -11,26 +11,27 @@ module.exports = {
 
     const { name, email, password } = req.body;
 
-    try {
-      const emailExists = await User.findOne({ email });
-      if (emailExists) return res.status(400).json({ error: 'Email already exists' });
+    console.log({ name, email, password })
+    // try {
+    //   const emailExists = await User.findOne({ email });
+    //   if (emailExists) return res.status(400).json({ error: 'Email already exists' });
 
-      const salt = await bcrypt.genSalt(12);
-      const hashedPassword = await bcrypt.hash(password, salt);
+    //   const salt = await bcrypt.genSalt(12);
+    //   const hashedPassword = await bcrypt.hash(password, salt);
 
-      const newUser = new User({ name, email, password: hashedPassword });
-      await newUser.save();
+    //   const newUser = new User({ name, email, password: hashedPassword });
+    //   await newUser.save();
 
-      const token = createVerifyEmailToken(newUser.id);
-      sendActivateMail(email, token)
+    //   const token = createVerifyEmailToken(newUser.id);
+    //   sendActivateMail(email, token)
 
-      return res
-        .status(201)
-        .json('A link to activate your account has been sent to the email provided. Be sure to check the spam / junk mailbox if the email is not found in the main inbox.');
-    } catch (error) {
-      console.log(error.message);
-      return res.status(400).json({ error });
-    }
+    //   return res
+    //     .status(201)
+    //     .json('A link to activate your account has been sent to the email provided. Be sure to check the spam / junk mailbox if the email is not found in the main inbox.');
+    // } catch (error) {
+    //   console.log(error.message);
+    //   return res.status(400).json({ error });
+    // }
   },
 
   getActivationEmail: async (req, res) => {
