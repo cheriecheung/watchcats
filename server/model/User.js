@@ -43,6 +43,10 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
+  coordinates: {
+    type: Array,
+    required: false
+  },
   profileFacebook: {
     type: String,
     required: false,

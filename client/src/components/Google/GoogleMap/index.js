@@ -8,29 +8,26 @@ import location_marker from '../../../assets/images/location_marker.png'
 
 function GoogleMap({ zoom, setZoom, center, setCenter, results, setLoading, hoveredResultId }) {
     const dispatch = useDispatch();
-    let infoWindow;
 
+    const [infoWindow, setInfoWindow] = useState();
     const [map, setMap] = useState(null)
     const [markersArray, setMarkersArray] = useState([]);
 
     useEffect(() => {
-        if (hoveredResultId) {
-            markersArray.forEach((marker) => {
-                if (marker.id === hoveredResultId) {
-                    marker.setAnimation(window.google.maps.Animation.BOUNCE);
-                }
-
-                if (marker.getAnimation() !== null) {
-                    marker.setAnimation(null);
-                }
-            })
-        }
+        markersArray.forEach((marker) => {
+            if (marker.id === hoveredResultId) {
+                marker.setAnimation(window.google.maps.Animation.BOUNCE);
+            } else {
+                marker.setAnimation(null);
+            }
+        })
     }, [hoveredResultId])
 
     const createInfoWindow = () => {
-        infoWindow = new window.google.maps.InfoWindow({
+        const infoWindowInstance = new window.google.maps.InfoWindow({
             content: '<div id="infoWindow" />'
         });
+        setInfoWindow(infoWindowInstance)
     }
 
     const createMarkers = () => {
@@ -38,9 +35,14 @@ function GoogleMap({ zoom, setZoom, center, setCenter, results, setLoading, hove
             markersArray.forEach((marker) => marker.setMap(null))
         }
 
-        const allMarkers = results.map(({ id, lat, lng }) => {
+        const allMarkers = results.map((item) => {
+            console.log({ item })
+            const { urlId, coordinates } = item
+            const lng = coordinates[0]
+            const lat = coordinates[1]
+
             const marker = new window.google.maps.Marker({
-                id,
+                id: urlId,
                 position: { lat, lng },
                 map: map
             });

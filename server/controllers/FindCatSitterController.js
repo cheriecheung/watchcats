@@ -8,32 +8,44 @@ const ObjectId = require('mongodb').ObjectID;
 
 async function getInfo(records) {
   return await Promise.all(
-    records.map(async ({ id, urlId, aboutSitter, hourlyRate, nightlyRate }) => {
-      const sitterObjId = ObjectId(id);
+    records.map(async (user) => {
+      const {
+        urlId,
+        coordinates,
+        firstName, lastName,
+        profilePictureFileName,
+        sitter: sitterObjId
+      } = user;
 
-      const userRecord = await User.findOne({ sitter: sitterObjId })
-      const { firstName, lastName, profilePictureFileName } = userRecord;
-
-      const [totalReviews, totalCompletedBookings] = await Promise.all([
-        Review.countDocuments({ reviewee: id }),
-        Booking.countDocuments({ sitter: id, status: 'completed' }),
+      const [sitterRecord, totalReviews, totalCompletedBookings, repeatedCustomers] = await Promise.all([
+        Sitter.findById(sitterObjId),
+        Review.countDocuments({ reviewee: sitterObjId }),
+        Booking.countDocuments({ sitter: sitterObjId, status: 'completed' }),
+        Booking.aggregate([
+          { $match: { sitter: sitterObjId, status: 'completed' } },
+          { $unwind: '$owner' },
+          { $group: { _id: '$owner', TotalBookingsFromCustomer: { $sum: 1 }, } },
+          { $match: { TotalBookingsFromCustomer: { $gt: 1 } } },
+        ])
       ]);
 
-      // if (!totalReviews || !totalCompletedBookings)
+      // if none of the above result in undefined?
 
-      const customers = await Booking.aggregate([
-        { $match: { sitter: sitterObjId, status: 'completed' } },
-        { $unwind: '$owner' },
-        { $group: { _id: '$owner', TotalBookingsFromCustomer: { $sum: 1 }, } },
-        { $match: { TotalBookingsFromCustomer: { $gt: 1 } } },
-      ]);
-
-      const totalRepeatedCustomers = customers.length;
+      const { aboutSitter, hourlyRate, nightlyRate } = sitterRecord;
+      const totalRepeatedCustomers = repeatedCustomers.length;
 
       return {
-        firstName, lastName, profilePictureFileName,
-        totalReviews, totalCompletedBookings, totalRepeatedCustomers,
-        urlId, aboutSitter, hourlyRate, nightlyRate
+        urlId,
+        coordinates,
+        firstName,
+        lastName,
+        profilePictureFileName,
+        aboutSitter,
+        hourlyRate,
+        nightlyRate,
+        totalReviews,
+        totalCompletedBookings,
+        totalRepeatedCustomers,
       };
     })
   );
@@ -44,39 +56,42 @@ function paginateRecords(records, currentPage, nPerPage) {
   return records.slice(start, start + nPerPage)
 }
 
-function inBounds(point, bounds) {
-  var lng = (point.lng - bounds.neLng) * (point.lng - bounds.swLng) < 0;
-  var lat = (point.lat - bounds.neLat) * (point.lat - bounds.swLat) < 0;
-
-  return lng && lat;
-}
-
 module.exports = {
-  getAllSitters: async (req, res) => {
+  getCatSittersInBounds: async (req, res) => {
     const { sort: sortType = 'totalReviews' } = req.query;
-    const { currentPage = 1, nPerPage = 3 } = req.body;
+    const { currentPage = 1, nPerPage = 10 } = req.body;
 
     try {
-      console.log({ query: req.query })
-
-
-      const point = { lat: 52.33, lng: 4.87 }
-
       const neLat = parseFloat(req.query.neLat);
       const neLng = parseFloat(req.query.neLng);
+
       const swLat = parseFloat(req.query.swLat);
       const swLng = parseFloat(req.query.swLng);
 
-      const bounds = { neLat, neLng, swLat, swLng }
+      const inBounds = await User.find({
+        sitter: { $exists: true },
+        coordinates: {
+          $geoWithin: {
+            $box: [
+              [swLng, swLat],
+              [neLng, neLat]
+            ]
+          }
+        }
+      })
 
-      const isInBound = inBounds(point, bounds);
+      let completeRecords = []
 
-      console.log({ isInBound })
+      // totalReviews / totalCompletedBookings / totalRepeatedCustomers
+      if (sortType.includes('total')) {
+        const cleaned = await getInfo(inBounds)
+        const sorted = await cleaned.sort((a, b) => b[sortType] - a[sortType])
 
-      return res.status(200).json([
-        { lat: 52.3752899891, lng: 4.90782887337 },
-        { lat: 52.4045, lng: 4.9385 }
-      ]);
+        completeRecords = paginateRecords(sorted, currentPage, nPerPage)
+      }
+
+      // ------------------------------ 00000000000000000 ------------------------------ /
+
 
       // let completeRecords = []
 
@@ -99,9 +114,9 @@ module.exports = {
       //   completeRecords = await getInfo(sortedAndPaginated)
       // }
 
-      // console.log({ completeRecords })
+      console.log({ completeRecords })
 
-      // return res.status(200).json(completeRecords);
+      return res.status(200).json(completeRecords);
     } catch (err) {
       console.log({ err });
       return res.status(404).json('No records found');

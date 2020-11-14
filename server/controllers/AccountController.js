@@ -2,6 +2,7 @@ const User = require('../model/User');
 const { changePasswordValidation, phoneNumberValidation, personalDataValidation } = require('../helpers/validation')
 const { sendTwilioSMS } = require('../helpers/sms')
 const bcrypt = require('bcryptjs');
+const { getCoordinatesByPostcode } = require('../helpers/user')
 
 async function generateOTP(userId) {
   let otp = Math.floor(100000 + Math.random() * 900000)
@@ -42,6 +43,8 @@ module.exports = {
     const { userId } = req.verifiedData
     if (!userId) return res.status(403).json('User id missing');
 
+    const { postcode } = req.body;
+
     try {
       const { error } = personalDataValidation(req.body)
       if (error) return res.status(401).json(error.details[0].message);
@@ -52,6 +55,18 @@ module.exports = {
         { useFindAndModify: false }
       );
       if (!user) return res.status(401).json('Fail to update');
+
+      if (postcode !== user.postcode) {
+        const { lng, lat } = await getCoordinatesByPostcode(postcode)
+
+        const geoJsonObj = {
+          type: "Point",
+          coordinates: [lng, lat]
+        }
+
+        user.location = geoJsonObj;
+        await user.save();
+      }
 
       return res.status(200).json('User general profile successful saved');
     } catch (e) {
