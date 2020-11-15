@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
 const shortid = require('shortid');
+const { DependentPhoneNumberList } = require('twilio/lib/rest/api/v2010/account/address/dependentPhoneNumber');
 
 const userSchema = new Schema({
   urlId: {
@@ -43,9 +44,17 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
+  // coordinates: {
+  //   type: Array,
+  //   default: [0, 0],
+  //   required: false
+  // },
+
+  // location: {
   coordinates: {
-    type: Array,
-    required: false
+    type: [Number],
+    // default: [4.8613457, 52.3701513],
+    index: '2d'
   },
   profileFacebook: {
     type: String,

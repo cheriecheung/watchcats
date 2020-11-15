@@ -12,6 +12,7 @@ async function getInfo(records) {
       const {
         urlId,
         coordinates,
+        // location,
         firstName, lastName,
         profilePictureFileName,
         sitter: sitterObjId
@@ -68,24 +69,31 @@ module.exports = {
       const swLat = parseFloat(req.query.swLat);
       const swLng = parseFloat(req.query.swLng);
 
+      console.log({ neLat, neLng, swLat, swLng })
+
       const inBounds = await User.find({
+        firstName: { $exists: true },
+        lastName: { $exists: true },
         sitter: { $exists: true },
+        // location: {
         coordinates: {
           $geoWithin: {
             $box: [
               [swLng, swLat],
               [neLng, neLat]
             ]
+            // }
           }
         }
       })
+
 
       let completeRecords = []
 
       // totalReviews / totalCompletedBookings / totalRepeatedCustomers
       if (sortType.includes('total')) {
         const cleaned = await getInfo(inBounds)
-        const sorted = await cleaned.sort((a, b) => b[sortType] - a[sortType])
+        const sorted = cleaned.sort((a, b) => b[sortType] - a[sortType])
 
         completeRecords = paginateRecords(sorted, currentPage, nPerPage)
       }
@@ -114,6 +122,8 @@ module.exports = {
       //   completeRecords = await getInfo(sortedAndPaginated)
       // }
 
+      // send count (sitter record) to front end for the pagination numbers;
+      // on front end, when clicked a pagination number, send it to back end
       console.log({ completeRecords })
 
       return res.status(200).json(completeRecords);

@@ -59,12 +59,7 @@ module.exports = {
       if (postcode !== user.postcode) {
         const { lng, lat } = await getCoordinatesByPostcode(postcode)
 
-        const geoJsonObj = {
-          type: "Point",
-          coordinates: [lng, lat]
-        }
-
-        user.location = geoJsonObj;
+        user.coordinates = [lng, lat];
         await user.save();
       }
 
