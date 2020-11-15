@@ -64,29 +64,32 @@ function FindCatSitter() {
       setTimeout(() => {
         setLoading(false)
         setResults(sitter_in_bounds)
-      }, 800)
+      }, 300)
     }
   }, [sitter_in_bounds])
 
   return (
-    <div style={{ padding: '0 30px' }}>
+    <div style={{ padding: '0 30px 50px 30px' }}>
       <br />
       <br />
-      <Search
+      {/* <Search
         setZoom={setZoom}
         setCenter={setCenter}
-      />
+      /> */}
       <Row>
         <Col md={7}>
           <p ref={resultsRef} style={{ textAlign: 'left', marginBottom: 20 }}>
-            Showing {results.length} cat sitters
+            Showing 1-10 of {results.length} matches!
           </p>
           <List
             itemLayout="vertical"
             size="large"
             pagination={{
-              onChange: () => scrollToRef(resultsRef),
-              pageSize: 5,
+              onChange: (currentPage) => {
+                scrollToRef(resultsRef)
+                alert(currentPage)
+              },
+              pageSize: 10,
             }}
             dataSource={results}
             renderItem={(item) =>

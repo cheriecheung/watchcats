@@ -37,37 +37,35 @@ function GeneralInfo() {
   }, [errors])
 
   return (
-    <>
-      <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <SectionContainer>
-            <SectionTitle>{t('general_info.profile_picture')}</SectionTitle>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <SectionContainer>
+          <SectionTitle>{t('general_info.profile_picture')}</SectionTitle>
 
-            <ProfilePicture
-              setValue={setValue}
-              reset={reset}
-              photoField={photoField}
-              handlePreview={handlePreview}
-              handleRemovePhoto={handleRemovePhoto}
-              profilePicRemove={profilePicRemove}
-            />
-          </SectionContainer>
+          <ProfilePicture
+            setValue={setValue}
+            reset={reset}
+            photoField={photoField}
+            handlePreview={handlePreview}
+            handleRemovePhoto={handleRemovePhoto}
+            profilePicRemove={profilePicRemove}
+          />
+        </SectionContainer>
 
-          <SectionContainer ref={personalInfoRef}>
-            <SectionTitle>{t('general_info.personal_info')}</SectionTitle>
+        <SectionContainer ref={personalInfoRef}>
+          <SectionTitle>{t('general_info.personal_info')}</SectionTitle>
 
-            <PersonalInfo />
-          </SectionContainer>
+          <PersonalInfo />
+        </SectionContainer>
 
-          <SectionContainer>
-            <SectionTitle>{t('general_info.social_media')}</SectionTitle>
-            <SocialMedia />
-          </SectionContainer>
+        <SectionContainer>
+          <SectionTitle>{t('general_info.social_media')}</SectionTitle>
+          <SocialMedia />
+        </SectionContainer>
 
-          <FormButtons onClick={() => reset(defaultValues)} />
-        </form>
-      </FormProvider>
-    </>
+        <FormButtons onClick={() => reset(defaultValues)} />
+      </form>
+    </FormProvider>
   );
 }
 

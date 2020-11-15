@@ -4,10 +4,12 @@ import { Row, Col } from 'reactstrap';
 import { SectionContainer } from '../../components/FormComponents';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import defaultProfilePic from '../../assets/images/default_profile_pic.jpg'
 
 // const cardHeight = 160;
 
 const ResultContainer = styled.div`
+  maxWidth: 400px;
   text-align: left;
   margin-bottom: 30px;
   border-radius: 10px;
@@ -17,6 +19,7 @@ const ResultContainer = styled.div`
   display: flex;
   padding: 20px;
   transition: all .3s ease-in-out;
+  height: 190px;
 
   &:hover {
     margin-left: 10px;
@@ -43,20 +46,24 @@ function Result({ item, setHoveredResultId }) {
   const { t } = useTranslation();
 
   const {
-    id,
-    name,
-    image,
-    distance,
-    price,
+    urlId,
+    firstName,
+    lastName,
+    profilePictureFileName,
+    // distance,
+    hourlyRate,
+    nightlyRate,
     totalReviews,
     totalCompletedBookings,
     totalRepeatedCustomers,
-    description,
+    aboutSitter,
   } = item;
+
+  const profilePicURL = profilePictureFileName ? `${process.env.REACT_APP_API_DOMAIN}/image/${profilePictureFileName}` : defaultProfilePic
 
   return (
     <ResultContainer
-      onMouseOver={() => setHoveredResultId(id)}
+      onMouseOver={() => setHoveredResultId(urlId)}
       onMouseLeave={() => setHoveredResultId('')}
     >
       <div
@@ -70,7 +77,7 @@ function Result({ item, setHoveredResultId }) {
         }}
       >
         <img
-          src={image}
+          src={profilePicURL}
           alt="pic"
           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
         />
@@ -86,15 +93,19 @@ function Result({ item, setHoveredResultId }) {
             justifyContent: 'space-between',
           }}
         >
-          <h5>{name}</h5>
+          <h5>{firstName} {lastName.charAt(0)}</h5>
           <div>
-            <div>
+            {/* <div>
               <i className="fas fa-map-marker-alt icon-sort-distance" />
               <span>{distance}</span>
+            </div> */}
+            <div>
+              {/* <i className="fas fa-euro-sign icon-sort-price" /> */}
+              <span>&euro;	{hourlyRate} / hour</span>
             </div>
             <div>
-              <i className="fas fa-euro-sign icon-sort-price" />
-              <span>{price} / booking</span>
+              {/* <i className="fas fa-euro-sign icon-sort-price" /> */}
+              <span>&euro;	{nightlyRate} / night</span>
             </div>
           </div>
         </div>
@@ -107,7 +118,12 @@ function Result({ item, setHoveredResultId }) {
                 </div> */}
 
         <Row>
-          {totalReviews > 0 ? (
+          {totalReviews > 0 && (
+            <Col md={4} style={{ minWidth: 200 }} className="mb-1">
+              {fiveStarDisplay(totalReviews)}
+            </Col>)
+          }
+          {/* {totalReviews > 0 ? (
             <Col md={4} style={{ minWidth: 200 }} className="mb-1">
               {fiveStarDisplay(totalReviews)}
             </Col>
@@ -116,44 +132,35 @@ function Result({ item, setHoveredResultId }) {
                 <i className="fas fa-user-plus mr-2" />
                 <span>{t('find_sitter.new_member')}</span>
               </Col>
-            )}
+            )} */}
         </Row>
 
-        <Row>
-          <Col
-            md={4}
-            style={{
-              margin: 0,
-              minWidth: 200,
-              color: '#00C68E',
-              visibility: totalCompletedBookings > 0 ? 'visible' : 'hidden',
-            }}
-          >
+
+        <div style={{ display: 'flex' }}>
+          <div style={{ color: '#00C68E', marginRight: 10, visibility: totalCompletedBookings > 0 ? 'visible' : 'hidden' }}>
             <i className="far fa-calendar-alt mr-2" />
             <span>
               {totalCompletedBookings} {t('find_sitter.completed_bookings')}
             </span>
-          </Col>
-          <Col
-            style={{
-              minWidth: 200,
-              color: '#00C68E',
-              visibility: totalRepeatedCustomers > 0 ? 'visible' : 'hidden',
-            }}
-          >
+          </div>
+
+          <div style={{ color: '#00C68E', visibility: totalRepeatedCustomers > 0 ? 'visible' : 'hidden' }}>
             <i className="fas fa-redo-alt mr-2" />
             <span>
               {totalRepeatedCustomers} {t('find_sitter.repeated_customers')}
             </span>
-          </Col>
-        </Row>
-        <hr style={{ margin: '10px 0' }} />
-        <p style={{ margin: 0, padding: 0 }}>{description}</p>
+          </div>
+        </div>
 
-        {/* href={`/profile/catsitter/${id}`} */}
-        <a href="/profile/catsitter/123" target="_blank" style={{ float: 'right' }}>
-          {t('find_sitter.view_profile')}
-        </a>
+        <hr style={{ margin: '15px 0' }} />
+
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div style={{ width: '80%' }}>{aboutSitter.slice(0, 110).trim().concat('...')}</div>
+
+          <a href={`/profile/catsitter/${urlId}`} target="_blank" style={{ width: '17%' }}>
+            {t('find_sitter.view_profile')}
+          </a>
+        </div>
       </div>
     </ResultContainer>
   );

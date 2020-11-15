@@ -57,7 +57,7 @@ function GoogleMap({
 
             marker.setIcon({
                 url: location_marker,
-                scaledSize: new window.google.maps.Size(35, 48)
+                scaledSize: new window.google.maps.Size(30, 40)
             });
 
             marker.addListener("click", () => {
