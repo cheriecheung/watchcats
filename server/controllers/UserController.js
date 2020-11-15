@@ -3,8 +3,22 @@ const bcrypt = require('bcryptjs');
 const User = require('../model/User');
 const { sendActivateMail, sendResetPwMail } = require('../helpers/mailer');
 const { createVerifyEmailToken, createResetPasswordToken } = require('../helpers/token');
+const shortid = require('shortid');
 
 module.exports = {
+  generateTestAccounts: async (req, res) => {
+    for (let i = 0; i < 10; i++) {
+      const newUser = new User({
+        name: `Test #${i}`,
+        email: `${i}@test.com`,
+        urlId: shortid.generate(),
+      });
+      await newUser.save();
+    }
+
+    return res.status(200).json('You saved the new test accounts')
+  },
+
   register: async (req, res) => {
     const { error } = registerValidation(req.body);
     if (error) return res.status(400).json(error.details[0].message);

@@ -3,6 +3,8 @@ const { verifyAccessToken } = require('../helpers/token');
 const UserController = require('../controllers/UserController');
 const { authenticationLimiter, speedLimiter } = require('../helpers/limiter')
 
+router.post(`/generate-test-accounts`, UserController.generateTestAccounts)
+
 router.post('/register', authenticationLimiter, speedLimiter(30), UserController.register);
 
 router.post('/activate-account-email', authenticationLimiter, speedLimiter(30), UserController.getActivationEmail)

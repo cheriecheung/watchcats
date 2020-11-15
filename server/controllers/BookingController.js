@@ -142,8 +142,10 @@ module.exports = {
 
       const ownerName = `${firstName} ${lastName}`
 
-      sendTwilioSMS(phone, 'BOOKING_REQUESTED', { name: ownerName })
-      sendNewBookingMail({ email, name: ownerName })
+      if (phone && email) {
+        sendTwilioSMS(phone, 'BOOKING_REQUESTED', { name: ownerName })
+        sendNewBookingMail({ email, name: ownerName })
+      }
 
       // +1 booking notification to sitter's notification document
 

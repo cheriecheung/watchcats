@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 import axiosInstance from '../../utility/axiosInstance';
 import { getAccessToken } from '../../utility/accessToken'
 
@@ -18,6 +20,18 @@ const getConfig = () => {
       Authorization: `Bearer ${getAccessToken()}`,
     },
   }
+}
+
+export function uploadTestPicture(profilePicture) {
+  return async (dispatch) => {
+    try {
+      const formData = new FormData();
+      formData.append('test_picture', profilePicture);
+      await axios.post(`https://localhost:5000/image/test-picture`, formData, getConfig());
+    } catch (e) {
+      console.log({ e });
+    }
+  };
 }
 
 export function getContactDetails() {

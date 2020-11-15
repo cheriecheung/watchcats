@@ -36,6 +36,21 @@ const storage = new GridFsStorage({
 module.exports = {
   storage,
 
+  saveTestPicture: async (req, res) => {
+    try {
+      const { file } = req;
+      if (!file) return res.status(404).json('File is not properly uploaded');
+
+      const { fieldname, filename } = file || {};
+      console.log({ fieldname, filename });
+
+      return res.status(200).json('TEST picture successfully saved');
+    } catch (e) {
+      console.log({ e });
+      return res.status(400).json('Unable to save test picture');
+    }
+  },
+
   displayImage: async (req, res) => {
     const image = await gfs.files.findOne({ filename: req.params.filename });
     if (!image) return res.status(404).json('No image exists');

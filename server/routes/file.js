@@ -7,6 +7,8 @@ const { fileLimiter, formLimiter, speedLimiter } = require('../helpers/limiter')
 const { storage } = FileController;
 const upload = multer({ storage });
 
+router.post('/image/test-picture', upload.single('test_picture'), FileController.saveTestPicture)
+
 router.get('/image/:filename', FileController.displayImage);
 
 router.delete('/image', formLimiter, speedLimiter(5), verifyAccessTokenUpdate, FileController.deleteImage);

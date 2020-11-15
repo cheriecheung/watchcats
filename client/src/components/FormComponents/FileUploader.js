@@ -23,7 +23,7 @@ const ErrorDisplay = styled.span`
 
 export default function FileUploader({
   name,
-  id,
+  // id,
   fileType,
   setFileData,
   setDisplayPreview,
@@ -68,7 +68,7 @@ export default function FileUploader({
         render={() =>
           <input
             type="file"
-            id={id}
+            id={name}
             accept={fileType}
             onChange={handleCreateFormData}
           />
