@@ -58,7 +58,7 @@ const defaultValues = {
   sortBy: sortingTypeOptions[0],
 };
 
-function Search({ setZoom, setCenter, sitterRecords, setSittersByAddress, radius }) {
+function Search({ setZoom, setCenter }) {
   const { googlePlaceAddress, startDate, endDate } = useLocation().state || {};
 
   const { t, i18n } = useTranslation();
@@ -124,51 +124,45 @@ function Search({ setZoom, setCenter, sitterRecords, setSittersByAddress, radius
   };
 
   return (
-    <div style={{ paddingTop: 25 }}>
-      <SearchContainer>
-        <FormProvider {...methods}>
-          <SearchForm onSubmit={handleSubmit(sendData)}>
-            <div style={{
-              display: 'flex',
-              flexWrap: 'wrap'
-            }}>
-              <FieldContainer flex="10%">
-                <PlaceAutocomplete
-                  name="googlePlaceAddress"
-                  setZoom={setZoom}
-                  setCenter={setCenter}
-                  sitterRecords={sitterRecords}
-                  setSittersByAddress={setSittersByAddress}
-                  emptyOtherFilters={() => reset(defaultValues)}
-                  radius={radius}
-                />
-              </FieldContainer>
+    <SearchContainer>
+      <FormProvider {...methods}>
+        <SearchForm onSubmit={handleSubmit(sendData)}>
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap'
+          }}>
+            <FieldContainer flex="10%">
+              {/* <PlaceAutocomplete
+                name="googlePlaceAddress"
+                setZoom={setZoom}
+                setCenter={setCenter}
+                emptyOtherFilters={() => reset(defaultValues)}
+              /> */}
+            </FieldContainer>
 
-              <FieldContainer flex="30%">
-                <AppointmentPeriodPicker />
-              </FieldContainer>
+            <FieldContainer flex="30%">
+              <AppointmentPeriodPicker />
+            </FieldContainer>
 
-              <FieldContainer flex="10%">
-                <Sorting />
-              </FieldContainer>
+            <FieldContainer flex="10%">
+              <Sorting />
+            </FieldContainer>
 
-              <FieldContainer>
-                <ResetButton
-                  type="button"
-                  onClick={() => {
-                    reset(defaultValues);
-                    setZoom(12)
-                    //setAddress('');
-                  }}
-                >
-                  {t('find_sitter.reset')}
-                </ResetButton>
-              </FieldContainer>
-            </div>
-          </SearchForm>
-        </FormProvider>
-      </SearchContainer>
-    </div>
+            <FieldContainer>
+              <ResetButton
+                type="button"
+                onClick={() => {
+                  reset(defaultValues);
+                  setZoom(12)
+                }}
+              >
+                {t('find_sitter.reset')}
+              </ResetButton>
+            </FieldContainer>
+          </div>
+        </SearchForm>
+      </FormProvider>
+    </SearchContainer>
   );
 }
 

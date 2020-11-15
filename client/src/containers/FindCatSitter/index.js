@@ -36,7 +36,7 @@ const LoadingSpin = styled(Spin)`
   align-self: center;
 `
 
-const defaultMapCenter = { lat: 52.3640, lng: 4.9390 }
+const defaultMapCenter = { lat: 52.379189, lng: 4.899431 }
 
 function FindCatSitter() {
   // const { googlePlaceAddress, startDate, endDate } = useLocation().state || {};
@@ -75,10 +75,6 @@ function FindCatSitter() {
       <Search
         setZoom={setZoom}
         setCenter={setCenter}
-        results={results}
-      // setResults={setResults}
-      //  setSittersByAddress={setSittersByAddress}
-      //  radius={radius}
       />
       <Row>
         <Col md={7}>
@@ -90,7 +86,7 @@ function FindCatSitter() {
             size="large"
             pagination={{
               onChange: () => scrollToRef(resultsRef),
-              pageSize: 10,
+              pageSize: 5,
             }}
             dataSource={results}
             renderItem={(item) =>

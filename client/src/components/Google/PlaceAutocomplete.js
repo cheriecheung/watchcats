@@ -14,9 +14,6 @@ function PlaceAutocomplete({
     setZoom,
     setCenter,
     emptyOtherFilters,
-    results,
-    setSittersByAddress,
-    radius
 }) {
     const { t } = useTranslation();
     const autoCompleteRef = useRef(null);
@@ -25,48 +22,26 @@ function PlaceAutocomplete({
     const { hasError, message } = getErrorProperties(name, errors)
 
     let autoComplete;
-    const { google } = window;
-    // const google = (window.google = window.google ? window.google : {});
 
     const handlePlaceSelect = async () => {
         emptyOtherFilters && emptyOtherFilters();
 
         const addressObject = autoComplete.getPlace();
         const newAddress = addressObject.formatted_address;
-        //udpateAddress(newAddress);
         reset({ [name]: newAddress })
 
         const addressLat = addressObject.geometry.location.lat();
         const addressLng = addressObject.geometry.location.lng();
 
-        if (results && setSittersByAddress && radius) {
-            const filtered = results.filter(
-                ({ coordinates }) => {
-                    const { lat, lng } = coordinates;
-
-                    const distance =
-                        google.maps.geometry.spherical.computeDistanceBetween(
-                            // filled-in address in auto-complete
-                            new google.maps.LatLng(addressLat, addressLng),
-                            // existing car park
-                            new google.maps.LatLng(parseFloat(lat), parseFloat(lng))
-                        ) <= radius;
-
-                    return distance === true;
-                }
-            );
-
-            setSittersByAddress(filtered)
-        }
-
-        console.log({ addressLat, addressLng })
-
         setZoom && setZoom(14)
         setCenter && setCenter({ lat: addressLat, lng: addressLng });
+
+        console.log({ addressLat, addressLng })
     };
 
     const handleScriptLoad = (ref) => {
         autoComplete = new window.google.maps.places.Autocomplete(ref.current, {
+            // add bounds (limits of amsterdam)
             componentRestrictions: { country: 'nl' },
         });
         autoComplete.setFields(['address_components', 'formatted_address', 'geometry']);

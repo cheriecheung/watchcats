@@ -92,14 +92,14 @@ export const home_search_schema = yup.object().shape({
 
 export const general_schema = yup.object().shape({
     // // max length
-    // firstName: yup.string().required(defaultError),
-    // // max length
-    // lastName: yup.string().required(defaultError),
-    // // matches() for phone
-    // // phone: yup.string().required(defaultError),
-    // // max length
-    // address: yup.string().required(defaultError),
-    // postcode: yup.string().required(postcodeError).matches(/^\d{4}[a-z]{2}$/i),
+    profilePictureFileName: yup.mixed()
+        .required(defaultError),
+    firstName: yup.string().required(defaultError),
+    // max length
+    lastName: yup.string().required(defaultError),
+    // max length
+    address: yup.string().required(defaultError),
+    postcode: yup.string().required(postcodeError).matches(/^\d{4}[a-z]{2}$/i, postcodeError),
 })
 
 // ----- Cat Owner Schema ----- //

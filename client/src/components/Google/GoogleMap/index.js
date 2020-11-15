@@ -6,7 +6,15 @@ import { useDispatch } from 'react-redux';
 import { getSittersInBounds } from '../../../redux/actions/findCatSitterActions'
 import location_marker from '../../../assets/images/location_marker.png'
 
-function GoogleMap({ zoom, setZoom, center, setCenter, results, setLoading, hoveredResultId }) {
+function GoogleMap({
+    zoom,
+    setZoom,
+    center,
+    setCenter,
+    results,
+    setLoading,
+    hoveredResultId
+}) {
     const dispatch = useDispatch();
 
     const [infoWindow, setInfoWindow] = useState();
@@ -80,15 +88,15 @@ function GoogleMap({ zoom, setZoom, center, setCenter, results, setLoading, hove
         dispatch(getSittersInBounds({ neLat, neLng, swLat, swLng }))
     }
 
-    const setCenterAfterEvent = () => {
-        const center = map.getCenter();
-        const lat = center.lat();
-        const lng = center.lng();
-        setCenter({ lat, lng });
+    // const setCenterAfterEvent = () => {
+    //     const center = map.getCenter();
+    //     const lat = center.lat();
+    //     const lng = center.lng();
+    //     setCenter({ lat, lng });
 
-        const zoom = map.getZoom();
-        setZoom(zoom)
-    }
+    //     const zoom = map.getZoom();
+    //     setZoom(zoom)
+    // }
 
     const addMapEventListeners = () => {
         // new window.google.maps.event.addListener(map, 'dragend', () => {
@@ -101,8 +109,26 @@ function GoogleMap({ zoom, setZoom, center, setCenter, results, setLoading, hove
         // });
         new window.google.maps.event.addListener(map, 'idle', () => {
             getBoundsAfterEvent(map);
+            const zoom = map.getZoom();
+            setZoom(zoom)
         });
     }
+
+    useEffect(() => {
+        if (results) {
+            createMarkers();
+        }
+    }, [results])
+
+    useEffect(() => {
+        console.log({ zoom })
+
+        if (map && zoom) {
+            console.log({ zoomWithMap: zoom })
+            map.setZoom(zoom);
+        }
+    }, [map, zoom])
+
 
     useEffect(() => {
         if (map && center) {
@@ -110,12 +136,6 @@ function GoogleMap({ zoom, setZoom, center, setCenter, results, setLoading, hove
 
         }
     }, [map, center])
-
-    useEffect(() => {
-        if (results) {
-            createMarkers();
-        }
-    }, [results])
 
     useEffect(() => {
         if (map) {
