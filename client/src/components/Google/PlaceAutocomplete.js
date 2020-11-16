@@ -11,6 +11,7 @@ const ErrorDisplay = styled.span`
 
 function PlaceAutocomplete({
     name,
+    setLoading,
     setZoom,
     setCenter,
     emptyOtherFilters,
@@ -33,6 +34,7 @@ function PlaceAutocomplete({
         const addressLat = addressObject.geometry.location.lat();
         const addressLng = addressObject.geometry.location.lng();
 
+        setLoading(true)
         setZoom && setZoom(14)
         setCenter && setCenter({ lat: addressLat, lng: addressLng });
 

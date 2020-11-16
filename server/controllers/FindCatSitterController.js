@@ -52,24 +52,28 @@ async function getInfo(records) {
   );
 }
 
-function paginateRecords(records, currentPage, nPerPage) {
+function paginate(records, currentPage, nPerPage) {
   const start = nPerPage * (currentPage - 1)
   return records.slice(start, start + nPerPage)
 }
 
 module.exports = {
   getCatSittersInBounds: async (req, res) => {
-    const { sort: sortType = 'totalReviews' } = req.query;
-    const { currentPage = 1, nPerPage = 10 } = req.body;
+    const {
+      sort: sortType = 'totalReviews',
+      //  currentPage = 1,
+      nPerPage = 10,
+    } = req.query;
+    // const { currentPage = 1, nPerPage = 20 } = req.body;
 
     try {
+      const currentPage = parseInt(req.query.currentPage);
       const neLat = parseFloat(req.query.neLat);
       const neLng = parseFloat(req.query.neLng);
-
       const swLat = parseFloat(req.query.swLat);
       const swLng = parseFloat(req.query.swLng);
 
-      console.log({ neLat, neLng, swLat, swLng })
+      // console.log({ neLat, neLng, swLat, swLng, currentPage })
 
       const inBounds = await User.find({
         firstName: { $exists: true },
@@ -87,16 +91,18 @@ module.exports = {
         }
       })
 
-
-      let completeRecords = []
+      const totalResults = inBounds.length;
+      let paginatedResults = []
 
       // totalReviews / totalCompletedBookings / totalRepeatedCustomers
       if (sortType.includes('total')) {
         const cleaned = await getInfo(inBounds)
         const sorted = cleaned.sort((a, b) => b[sortType] - a[sortType])
 
-        completeRecords = paginateRecords(sorted, currentPage, nPerPage)
+        paginatedResults = paginate(sorted, currentPage, nPerPage)
       }
+
+
 
       // ------------------------------ 00000000000000000 ------------------------------ /
 
@@ -124,9 +130,18 @@ module.exports = {
 
       // send count (sitter record) to front end for the pagination numbers;
       // on front end, when clicked a pagination number, send it to back end
-      console.log({ completeRecords })
+      // console.log({ paginatedResults })
 
-      return res.status(200).json(completeRecords);
+      const data = {
+        totalResults,
+        paginatedResults,
+      }
+
+      console.log({
+        totalResults,
+      })
+
+      return res.status(200).json(data);
     } catch (err) {
       console.log({ err });
       return res.status(404).json('No records found');

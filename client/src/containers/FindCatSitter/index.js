@@ -1,16 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Row, Col } from 'reactstrap';
-import { MapDisplay } from '../../components/Google';
 import GoogleMap from '../../components/Google/GoogleMap'
 import Search from './Search';
 import Result from './Result';
 import styled from 'styled-components';
 import { List } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { getSittersInBounds } from '../../redux/actions/findCatSitterActions';
 // import { useLocation } from 'react-router-dom';
 import { Spin } from 'antd';
+import { useFindCatSitter } from './viewModel';
 
 const mapHeight = '80vh';
 
@@ -36,60 +34,71 @@ const LoadingSpin = styled(Spin)`
   align-self: center;
 `
 
-const defaultMapCenter = { lat: 52.379189, lng: 4.899431 }
+const pageSize = 10;
 
 function FindCatSitter() {
   // const { googlePlaceAddress, startDate, endDate } = useLocation().state || {};
 
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const { sitter_in_bounds } = useSelector((state) => state.find_cat_sitters);
 
-  const resultsRef = useRef(null);
-  const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
-
-  const [zoom, setZoom] = useState(12);
-  const [center, setCenter] = useState(defaultMapCenter)
-  const [results, setResults] = useState([])
-  const [loading, setLoading] = useState(false)
-
-  const [hoveredResultId, setHoveredResultId] = useState('')
-
-  useEffect(() => {
-    dispatch(getSittersInBounds());
-  }, []);
-
-  useEffect(() => {
-    if (sitter_in_bounds) {
-      setTimeout(() => {
-        setLoading(false)
-        setResults(sitter_in_bounds)
-      }, 300)
-    }
-  }, [sitter_in_bounds])
+  const {
+    loading,
+    setLoading,
+    totalResults,
+    paginatedResults,
+    results, // ???
+    pagination,
+    currentPage,
+    onChangePage,
+    zoom,
+    setZoom,
+    center,
+    setCenter,
+    setBounds,
+    returnToPageOne,
+    hoveredResultId,
+    setHoveredResultId
+  } = useFindCatSitter();
 
   return (
     <div style={{ padding: '0 30px 50px 30px' }}>
       <br />
       <br />
       {/* <Search
+        setLoading={setLoading}
         setZoom={setZoom}
         setCenter={setCenter}
       /> */}
+
+      {/* create display when none is found in bounds */}
       <Row>
         <Col md={7}>
-          <p ref={resultsRef} style={{ textAlign: 'left', marginBottom: 20 }}>
-            Showing 1-10 of {results.length} matches!
-          </p>
+          {totalResults && paginatedResults ?
+            <p
+              // ref={resultsRef}
+              style={{ textAlign: 'left', marginBottom: 20 }}>
+              Showing {pagination.from} - {pagination.to} of {totalResults} matches!
+            </p>
+            :
+            []
+          }
+          {totalResults && totalResults === 0 ?
+            <p
+              // ref={resultsRef}
+              style={{ textAlign: 'left', marginBottom: 20 }}>
+              0 matches found
+            </p>
+            : []
+          }
           <List
             itemLayout="vertical"
             size="large"
+            loading={loading}
             pagination={{
-              onChange: (currentPage) => {
-                scrollToRef(resultsRef)
-                alert(currentPage)
-              },
-              pageSize: 10,
+              onChange: (current) => { onChangePage(current) },
+              total: totalResults,
+              pageSize,
+              current: currentPage
             }}
             dataSource={results}
             renderItem={(item) =>
@@ -110,7 +119,8 @@ function FindCatSitter() {
               zoom={zoom}
               setZoom={setZoom}
               center={center}
-              setCenter={setCenter}
+              setBounds={setBounds}
+              returnToPageOne={returnToPageOne}
               results={results}
               setLoading={setLoading}
               hoveredResultId={hoveredResultId}

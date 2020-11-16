@@ -58,7 +58,7 @@ const defaultValues = {
   sortBy: sortingTypeOptions[0],
 };
 
-function Search({ setZoom, setCenter }) {
+function Search({ setLoading, setZoom, setCenter }) {
   const { googlePlaceAddress, startDate, endDate } = useLocation().state || {};
 
   const { t, i18n } = useTranslation();
@@ -132,12 +132,13 @@ function Search({ setZoom, setCenter }) {
             flexWrap: 'wrap'
           }}>
             <FieldContainer flex="10%">
-              {/* <PlaceAutocomplete
+              <PlaceAutocomplete
                 name="googlePlaceAddress"
+                setLoading={setLoading}
                 setZoom={setZoom}
                 setCenter={setCenter}
                 emptyOtherFilters={() => reset(defaultValues)}
-              /> */}
+              />
             </FieldContainer>
 
             <FieldContainer flex="30%">

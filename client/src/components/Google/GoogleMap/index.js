@@ -10,7 +10,8 @@ function GoogleMap({
     zoom,
     setZoom,
     center,
-    setCenter,
+    setBounds,
+    returnToPageOne,
     results,
     setLoading,
     hoveredResultId
@@ -44,7 +45,6 @@ function GoogleMap({
         }
 
         const allMarkers = results.map((item) => {
-            console.log({ item })
             const { urlId, coordinates } = item
             const lng = coordinates[0]
             const lat = coordinates[1]
@@ -82,10 +82,10 @@ function GoogleMap({
         const swLat = bounds.getSouthWest().lat();
         const swLng = bounds.getSouthWest().lng();
 
-        console.log({ neLat, neLng, swLat, swLng })
-
         setLoading(true);
-        dispatch(getSittersInBounds({ neLat, neLng, swLat, swLng }))
+        setBounds({ neLat, neLng, swLat, swLng })
+        dispatch(getSittersInBounds({ neLat, neLng, swLat, swLng }, 1))
+        returnToPageOne && returnToPageOne()
     }
 
     // const setCenterAfterEvent = () => {
@@ -121,10 +121,7 @@ function GoogleMap({
     }, [results])
 
     useEffect(() => {
-        console.log({ zoom })
-
         if (map && zoom) {
-            console.log({ zoomWithMap: zoom })
             map.setZoom(zoom);
         }
     }, [map, zoom])
