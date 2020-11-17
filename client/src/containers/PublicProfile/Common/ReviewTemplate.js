@@ -1,6 +1,21 @@
 import React from 'react';
+import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { EllipsisParagraph } from '../../../components/ProfileComponents'
 
-function ReviewTemplate({ name }) {
+const ImageContainer = styled(Link)`
+  display: block;
+  width: 70px;
+  height: 70px;
+  background: pink;
+  overflow: hidden;
+  border-radius: 10px;
+`;
+
+function ReviewTemplate({ review }) {
+  const profilePicURL = review.reviewerPicture ? `${process.env.REACT_APP_API_DOMAIN}/image/${review.reviewerPicture}` : defaultProfilePic
+
   return (
     <div style={{ margin: '20px 0' }}>
       <div
@@ -10,27 +25,30 @@ function ReviewTemplate({ name }) {
           justifyContent: 'space-between',
         }}
       >
-        <div style={{ flexBasis: '10%' }}>
-          <div
-            style={{
-              width: 55,
-              height: 55,
-              borderRadius: 10,
-              background: 'pink',
-            }}
-          ></div>
+        <div>
+          <ImageContainer
+            to={`/profile/catsitter/${review.reviewerUrlId}`}
+          >
+            <img
+              src={profilePicURL}
+              alt="pic"
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+            />
+          </ImageContainer>
         </div>
 
-        <div style={{ flexBasis: '85%' }}>
-          <span>{name}</span>
+        <div style={{ marginLeft: 20 }}>
+          <span>{review.reviewerName}</span>
           <br />
-          <span>Location - Time</span>
-          <div>&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          {[...Array(review.rating).keys()].map((item, index) => {
+            return (
+              <i key={index} className="fas fa-star icon-sort-review" />
+            )
+          })}
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates at, eaque
-            necessitatibus unde, vel sequi fugiat ex temporibus non laboriosam labore culpa itaque
-            incidunt repudiandae nisi dolor fuga numquam ad earum dolorem! Odit quo doloremque
-            aliquam delectus! Officiis, hic consequuntur!
+            <EllipsisParagraph>
+              {review.content}
+            </EllipsisParagraph>
           </p>
         </div>
       </div>

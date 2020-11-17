@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
-const User = require('../model/User');
+const Review = require('../model/Review')
 const Sitter = require('../model/Sitter');
 const UnavailableDate = require('../model/UnavailableDate');
+const User = require('../model/User');
+
 const { getUnavailableDates } = require('../helpers/user');
 const { catSitterValidation } = require('../helpers/validation')
 
@@ -17,7 +19,43 @@ module.exports = {
 
       const { firstName, lastName, postcode, profilePictureFileName } = userRecord;
 
-      const unavailableDates = await getUnavailableDates(sitterRecord.id);
+      // const unavailableDates = await getUnavailableDates(sitterRecord.id);
+
+      const sitterId = mongoose.Types.ObjectId(sitterRecord.id);
+
+      const [unavailableDates, allReviews] = await Promise.all([
+        getUnavailableDates(sitterId),
+        Review.find({ reviewee: sitterId })
+      ]);
+
+      let reviews;
+      if (allReviews.length > 0) {
+        reviews = await Promise.all(
+          allReviews.map(async ({ _doc: item }) => {
+
+            console.log({ reviewId: item.reviewer })
+
+            const {
+              firstName: reviewerFirstName,
+              lastName: reviewerLastName,
+              profilePictureFileName: reviewerprofilePictureFileName,
+              urlId: reviewerUrlId
+            } = await User.findOne({ owner: item.reviewer })
+
+            const data = {
+              ...item,
+              reviewerName: `${reviewerFirstName} ${reviewerLastName}`,
+              reviewerPicture: reviewerprofilePictureFileName,
+              reviewerUrlId
+            }
+
+            console.log({ data })
+
+            return data
+          })
+        );
+      }
+
       const sitterData = {
         ...sitterRecord._doc,
         unavailableDates,
@@ -25,6 +63,7 @@ module.exports = {
         lastName,
         postcode,
         profilePictureFileName,
+        reviews
       };
 
       return res.status(200).json(sitterData);

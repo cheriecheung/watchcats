@@ -1,5 +1,9 @@
 import moment from 'moment';
 
+export function capitalize(string = '') {
+  return string.charAt(0).toUpperCase() + string.slice(1).toString()
+}
+
 export function getErrorProperties(name, errors) {
   let hasError, message;
 

@@ -1,7 +1,8 @@
 import React from 'react';
+import { EllipsisParagraph } from '../../../components/ProfileComponents'
 
 function Responsibilities({ descriptions }) {
-  return <p style={{ whiteSpace: 'pre-line' }}>{descriptions}</p>;
+  return <EllipsisParagraph>{descriptions}</EllipsisParagraph>;
 }
 
 export default Responsibilities;

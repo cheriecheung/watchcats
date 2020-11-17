@@ -31,18 +31,21 @@ function CatOwner() {
       <div style={{ textAlign: 'left' }}>
         <ContentContainer>
           <div style={{ flexBasis: '60%', marginBottom: 100 }}>
-            {/* <ImageSlider /> */}
-
             <DetailsContainer>
 
-              <SectionContainer style={{ marginTop: 0 }}>
-                <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
-                  Reviews(10)
-              </h5>
-                <Reviews scrollToRef={scrollToRef} reviewListRef={reviewListRef} />
-              </SectionContainer>
-
-              <hr />
+              {returnedData &&
+                returnedData.reviews &&
+                returnedData.reviews.length > 0 &&
+                <>
+                  <SectionContainer>
+                    <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
+                      Reviews ({returnedData.reviews.length})
+                   </h5>
+                    <Reviews reviews={returnedData.reviews} scrollToRef={scrollToRef} reviewListRef={reviewListRef} />
+                  </SectionContainer>
+                  <hr />
+                </>
+              }
 
               <SectionContainer>
                 <h5>About</h5>

@@ -1,8 +1,8 @@
 import React from 'react';
 import { FieldLabel, ImageContainer, InfoField } from '../../../components/ProfileComponents';
+import { capitalize } from '../../../utility'
 
 function AboutCat({ allCats }) {
-  console.log({ allCats });
   return (
     Array.isArray(allCats) &&
     allCats.length > 0 &&
@@ -17,7 +17,7 @@ function AboutCat({ allCats }) {
         isInsured,
         breed,
         personality,
-        favouriteTreat,
+        favoriteTreat,
       } = cat;
 
       return (
@@ -60,15 +60,15 @@ function AboutCat({ allCats }) {
                   medicalNeeds.map((need) => (
                     <div key={need}>
                       <i className="fas fa-times fa-2x icon-yes-no" />
-                      <span>{need}</span>
+                      <span>{capitalize(need)}</span>
                     </div>
                   ))
                 ) : (
-                  <>
-                    <i className="fas fa-times fa-2x icon-yes-no" />
-                    <span>None</span>
-                  </>
-                )}
+                    <>
+                      <i className="fas fa-times fa-2x icon-yes-no" />
+                      <span>None</span>
+                    </>
+                  )}
               </div>
             </InfoField>
 
@@ -80,11 +80,11 @@ function AboutCat({ allCats }) {
                   <span>Yes</span>
                 </div>
               ) : (
-                <div>
-                  <i className="fas fa-times fa-2x icon-yes-no" />
-                  <span>No</span>
-                </div>
-              )}
+                  <div>
+                    <i className="fas fa-times fa-2x icon-yes-no" />
+                    <span>No</span>
+                  </div>
+                )}
             </InfoField>
             <InfoField>
               <FieldLabel>Insured</FieldLabel>
@@ -94,25 +94,25 @@ function AboutCat({ allCats }) {
                   <span>Yes</span>
                 </div>
               ) : (
-                <div>
-                  <i className="fas fa-times fa-2x icon-yes-no" />
-                  <span>No</span>
-                </div>
-              )}
+                  <div>
+                    <i className="fas fa-times fa-2x icon-yes-no" />
+                    <span>No</span>
+                  </div>
+                )}
             </InfoField>
 
             <InfoField>
               <FieldLabel>Breed</FieldLabel>
-              <span>{breed.label}</span>
+              {/* <span>{breed.label}</span> */}
             </InfoField>
             <InfoField>
               <FieldLabel>Personality</FieldLabel>
-              <span>{personality.label}</span>
+              {/* <span>{personality.label}</span> */}
             </InfoField>
 
             <InfoField>
               <FieldLabel>Favorite treat</FieldLabel>
-              <span>{favouriteTreat}</span>
+              <span>{favoriteTreat}</span>
             </InfoField>
           </div>
         </div>

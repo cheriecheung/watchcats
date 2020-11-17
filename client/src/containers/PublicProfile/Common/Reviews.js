@@ -7,7 +7,8 @@ for (let i = 0; i < 23; i++) {
   allReviews.push({ id: i, name: `User ${i}` });
 }
 
-function Reviews({ scrollToRef, reviewListRef }) {
+function Reviews({ reviews, scrollToRef, reviewListRef }) {
+  console.log({ reviews })
   return (
     <List
       itemLayout="vertical"
@@ -16,8 +17,8 @@ function Reviews({ scrollToRef, reviewListRef }) {
         onChange: () => scrollToRef(reviewListRef),
         pageSize: 3,
       }}
-      dataSource={allReviews}
-      renderItem={({ name }) => <ReviewTemplate name={name} />}
+      dataSource={reviews}
+      renderItem={(review) => <ReviewTemplate review={review} />}
     />
   );
 }

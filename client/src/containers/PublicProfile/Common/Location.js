@@ -1,6 +1,6 @@
-import React from 'react';
-import { Map } from '../../../components/Google';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import GoogleMap from '../../../components/Google/GoogleMap'
 
 const mapHeight = '40vh';
 
@@ -9,26 +9,32 @@ const MapContainer = styled.div`
   height: ${mapHeight};
   top: 20px;
   bottom: 20px;
-  position: sticky;
 `
 
-const allLocations = [{ id: 1, name: 'Cat Sitter #1', coordinates: { lat: 52.3640, lng: 4.9390 } }];
-
 function Location() {
+  const [results, setResults] = useState([])
+
+  useEffect(() => {
+    setTimeout(() => {
+      setResults([
+        {
+          urlId: 'yRHl6YVB0',
+          coordinates: [5.040622, 52.308051]
+        }
+      ])
+    }, 1000)
+  }, [])
+
+
   return (
-    <>
-      {/* <Map
-        mapHeight="45vh"
-        markers={allLocations}
-        zoom={15}
-        center={{ lat: 52.3449, lng: 4.8766 }}
-        radius={500}
-        defaultCenter={{ lat: 52.3449, lng: 4.8766 }}
-        loadingElement={<div style={{ height: '100%' }} />}
-        containerElement={<MapContainer />}
-        mapElement={<div style={{ height: '100%' }} />}
-      /> */}
-    </>
+    <MapContainer>
+      <GoogleMap
+        zoom={12}
+        // center={{ lat: results[0].coordinates[1], lng: results[0].coordinates[0] }}
+        center={{ lat: 52.308051, lng: 5.040622 }}
+        results={results}
+      />
+    </MapContainer>
   );
 }
 

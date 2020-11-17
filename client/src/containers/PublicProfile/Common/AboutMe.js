@@ -1,9 +1,10 @@
 import React from 'react';
+import { EllipsisParagraph } from '../../../components/ProfileComponents'
 
 // line height, font size
 
 function AboutMe({ aboutMe }) {
-  return <p style={{ whiteSpace: 'pre-line' }}>{aboutMe}</p>;
+  return <EllipsisParagraph>{aboutMe}</EllipsisParagraph>;
 }
 
 export default AboutMe;

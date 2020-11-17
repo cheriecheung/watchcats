@@ -27,9 +27,12 @@ function Summary({ sitterInfo, summaryProps }) {
         top: 20,
       }}
     >
-      <h4>
-        {sitterInfo.firstName} {sitterInfo.lastName}
-      </h4>
+      {sitterInfo &&
+        sitterInfo.firstName &&
+        sitterInfo.lastName &&
+        <h4>{sitterInfo.firstName} {sitterInfo.lastName.charAt(0)}</h4>
+      }
+
       <ImageContainer>
         <img
           src={`${REACT_APP_API_DOMAIN}/image/${sitterInfo.profilePictureFileName}`}

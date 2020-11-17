@@ -15,9 +15,12 @@ function Summary({ ownerInfo }) {
         top: 20,
       }}
     >
-      <h4>
-        {ownerInfo.firstName} {ownerInfo.lastName}
-      </h4>
+      {ownerInfo &&
+        ownerInfo.firstName &&
+        ownerInfo.lastName &&
+        <h4>{ownerInfo.firstName} {ownerInfo.lastName.charAt(0)}</h4>
+      }
+
       <ImageContainer>
         <img
           src={`${REACT_APP_API_DOMAIN}/image/${ownerInfo.profilePictureFileName}`}

@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
-const User = require('../model/User');
-const Owner = require('../model/Owner');
-const Cat = require('../model/Cat');
 const AppointmentOneDay = require('../model/AppointmentOneDay');
 const AppointmentOvernight = require('../model/AppointmentOvernight');
+const Cat = require('../model/Cat');
+const Owner = require('../model/Owner');
+const Review = require('../model/Review');
+const User = require('../model/User');
+
 const { catOwnerValidation } = require('../helpers/validation')
 
 const ObjectId = require('mongodb').ObjectID;
@@ -19,17 +21,13 @@ module.exports = {
       if (!userRecord || !ownerRecord) return res.status(404).json('No account found');
 
       const { firstName, lastName, postcode, profilePictureFileName } = userRecord;
+      const ownerId = mongoose.Types.ObjectId(ownerRecord.id);
 
-      const [allOneDays, allOvernight, allCats] = await Promise.all([
-        AppointmentOneDay.find({
-          owner: mongoose.Types.ObjectId(ownerRecord.id),
-        }),
-        AppointmentOvernight.find({
-          owner: mongoose.Types.ObjectId(ownerRecord.id),
-        }),
-        Cat.find({
-          owner: mongoose.Types.ObjectId(ownerRecord.id),
-        }),
+      const [allOneDays, allOvernight, allCats, allReviews] = await Promise.all([
+        AppointmentOneDay.find({ owner: ownerId }),
+        AppointmentOvernight.find({ owner: ownerId }),
+        Cat.find({ owner: ownerId }),
+        Review.find({ reviewee: ownerId })
       ]);
 
       // if date is passed, delete document
@@ -63,6 +61,31 @@ module.exports = {
         });
       }
 
+      let reviews;
+      if (allReviews.length > 0) {
+        reviews = await Promise.all(
+          allReviews.map(async ({ _doc: item }) => {
+            const {
+              firstName: reviewerFirstName,
+              lastName: reviewerLastName,
+              profilePictureFileName: reviewerprofilePictureFileName,
+              urlId: reviewerUrlId
+            } = await User.findOne({ sitter: item.reviewer })
+
+            const data = {
+              ...item,
+              reviewerName: `${reviewerFirstName} ${reviewerLastName}`,
+              reviewerPicture: reviewerprofilePictureFileName,
+              reviewerUrlId
+            }
+
+            console.log({ data })
+
+            return data
+          })
+        );
+      }
+
       const ownerData = {
         ...ownerRecord._doc,
         firstName,
@@ -72,6 +95,7 @@ module.exports = {
         bookingOneDay,
         bookingOvernight,
         cat,
+        reviews
       };
 
       return res.status(200).json(ownerData);
