@@ -21,7 +21,6 @@ export function getOwnerProfile(id) {
   return async (dispatch) => {
     try {
       const { data } = await axios.get(ownerProfileURL(id));
-      console.log({ OWNER_data: data });
       dispatch({ type: 'GET_PROFILE', payload: data });
     } catch (e) {
       console.log({ e });

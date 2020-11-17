@@ -62,7 +62,7 @@ module.exports = {
     const {
       sort: sortType = 'totalReviews',
       //  currentPage = 1,
-      nPerPage = 10,
+      nPerPage = 25,
     } = req.query;
     // const { currentPage = 1, nPerPage = 20 } = req.body;
 

@@ -52,6 +52,7 @@ module.exports = {
   },
 
   displayImage: async (req, res) => {
+    // console.log({ params: req.params })
     const image = await gfs.files.findOne({ filename: req.params.filename });
     if (!image) return res.status(404).json('No image exists');
 

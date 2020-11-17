@@ -34,7 +34,7 @@ const LoadingSpin = styled(Spin)`
   align-self: center;
 `
 
-const pageSize = 10;
+const pageSize = 25;
 
 function FindCatSitter() {
   // const { googlePlaceAddress, startDate, endDate } = useLocation().state || {};

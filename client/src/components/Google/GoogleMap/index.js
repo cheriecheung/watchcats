@@ -23,7 +23,7 @@ function GoogleMap({
     const [markersArray, setMarkersArray] = useState([]);
 
     useEffect(() => {
-        markersArray.forEach((marker) => {
+        hoveredResultId && markersArray.forEach((marker) => {
             if (marker.id === hoveredResultId) {
                 marker.setAnimation(window.google.maps.Animation.BOUNCE);
             } else {
@@ -60,7 +60,7 @@ function GoogleMap({
                 scaledSize: new window.google.maps.Size(30, 40)
             });
 
-            marker.addListener("click", () => {
+            setZoom && marker.addListener("click", () => {
                 infoWindow.addListener("domready", () => {
                     render(<InfoWindow />, document.getElementById("infoWindow"));
                 });
@@ -82,10 +82,12 @@ function GoogleMap({
         const swLat = bounds.getSouthWest().lat();
         const swLng = bounds.getSouthWest().lng();
 
-        setLoading(true);
-        setBounds({ neLat, neLng, swLat, swLng })
-        dispatch(getSittersInBounds({ neLat, neLng, swLat, swLng }, 1))
-        returnToPageOne && returnToPageOne()
+        if (setLoading && setBounds && returnToPageOne) {
+            setLoading(true);
+            setBounds({ neLat, neLng, swLat, swLng })
+            dispatch(getSittersInBounds({ neLat, neLng, swLat, swLng }, 1))
+            returnToPageOne && returnToPageOne()
+        }
     }
 
     // const setCenterAfterEvent = () => {
@@ -110,7 +112,7 @@ function GoogleMap({
         new window.google.maps.event.addListener(map, 'idle', () => {
             getBoundsAfterEvent(map);
             const zoom = map.getZoom();
-            setZoom(zoom)
+            setZoom && setZoom(zoom)
         });
     }
 
@@ -135,33 +137,18 @@ function GoogleMap({
     }, [map, center])
 
     useEffect(() => {
-        if (map) {
+        if (map && setZoom) {
             createInfoWindow();
             addMapEventListeners();
         }
     }, [map])
 
     return (
-        <>
-            <MainMap
-                id="myMap"
-                options={{ center, zoom }}
-                results={results}
-                setMap={data => setMap(data)}
-            />
-
-            {/* <MainMap
+        <MainMap
             id="myMap"
             options={{ center, zoom }}
-            onMapLoad={(map) => {
-                createInfoWindow();
-                createMarkers(map);
-                addMapEventListeners(map)
-            }}
-            results={results}
             setMap={data => setMap(data)}
-        /> */}
-        </>
+        />
     );
 }
 

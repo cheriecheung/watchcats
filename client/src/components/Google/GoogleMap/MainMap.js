@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-function MainMap({ id, options, onMapLoad, results, setMap }) {
+function MainMap({ id, options, setMap }) {
     const onScriptLoad = () => {
         const map = new window.google.maps.Map(
             document.getElementById(id),
