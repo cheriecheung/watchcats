@@ -76,27 +76,38 @@ const Line = styled.span`
 `;
 
 const Overlay = styled.div`
-  z-index: 5;
   position: absolute;
-  height: ${(props) => (props.open ? '91vh' : 0)};
-  width: 100vw;
-  background: #f5f5f5;
-  transition: height 0.4s ease-in-out;
+  top: 0;
+  z-index: 5;
+  width: ${(props) => (props.open ? '80vw' : 0)};
+  height: 100vh;
+  background: #fff;
+  transition: 0.4s ease-in-out;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
 
   @media (min-width: 769px) {
     display: none;
   }
 `;
 
-const OverlayMenu = styled.ul`
-  padding: 0;
-  list-style: none;
-  position: absolute;
-  left: 50%;
-  top: 45%;
-  transform: translate(-50%, -50%);
+const OverlayMask = styled.div`
   display: ${(props) => (props.open ? 'block' : 'none')};
-  transition: opacity 0.4s ease-in-out;
+  background-color: rgba(0, 0 ,0, 0.3);
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  transition: 0.4s ease-in-out;
+`
+
+const OverlayMenu = styled.ul`
+  display: ${(props) => (props.open ? 'block' : 'none')};
+  padding: 20px 0 0 20px;
+  transition: 0.4s ease-in-out;
+  list-style: none;
+  text-align: left;
 
   li {
     font-size: 15px;
@@ -107,6 +118,22 @@ const OverlayMenu = styled.ul`
     margin: 10px 0px;
   }
 `;
+
+const CloseButton = styled.button`
+  position: relative;
+  float: right;
+  margin: 20px 10px 0 0;
+  font-size: 10px;
+  background: none;
+  border: none;
+  outline: none !important;
+`
+
+const MenuItemBox = styled.div`
+  display: flex;
+  width: 70%;
+  margin: 20px 0;
+`
 
 function Header() {
   const { t, i18n } = useTranslation();
@@ -147,16 +174,65 @@ function Header() {
           <MenuContent setLanguage={setLanguage} />
         </Menu>
       </Nav>
+
       <Overlay open={toggle}>
+        <CloseButton onClick={() => setToggle(false)}>
+          <i className="fas fa-times fa-2x" />
+        </CloseButton>
         <OverlayMenu open={toggle}>
-          <MenuContent setLanguage={setLanguage} closeMenu={() => setToggle(false)} />
+          <MobileMenu />
+          {/* <MenuContent setLanguage={setLanguage} closeMenu={() => setToggle(false)} /> */}
         </OverlayMenu>
       </Overlay>
+      <OverlayMask open={toggle} />
     </>
   );
 }
 
 export default Header;
+
+function MobileMenu() {
+  return (
+    <>
+      <h4 style={{ marginBottom: 30 }}>Cherie C</h4>
+      <MenuItemBox>
+        <i className="fas fa-search fa-2x" />
+        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>Find Cat Sitter</span>
+      </MenuItemBox>
+      <MenuItemBox>
+        <i className="fas fa-calendar-minus fa-2x" />
+        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>Bookings</span>
+      </MenuItemBox>
+      <MenuItemBox>
+        <i className="fas fa-envelope fa-2x" />
+        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>Messages</span>
+      </MenuItemBox>
+      <MenuItemBox>
+        <i className="fas fa-user fa-2x" />
+        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>Account</span>
+      </MenuItemBox>
+      <MenuItemBox>
+        <i className="fas fa-sign-out-alt fa-2x" />
+        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>Log Out</span>
+      </MenuItemBox>
+
+      <br /><br />
+
+      <MenuItemBox>
+        <i className="fas fa-info-circle fa-2x" />
+        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>About</span>
+      </MenuItemBox>
+      <MenuItemBox>
+        <i className="fas fa-home fa-2x" />
+        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>Home</span>
+      </MenuItemBox>
+      <MenuItemBox>
+        <i className="fas fa-globe-americas fa-2x" />
+        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>Nederlands</span>
+      </MenuItemBox>
+    </>
+  )
+}
 
 const ItemContainer = styled.div`
   display: flex;

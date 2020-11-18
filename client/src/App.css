@@ -13,6 +13,11 @@ html {
   background-color: var(--theme-color-pink);
   --antd-wave-shadow-color: green !important;
   scroll-behavior: smooth;
+
+  /* when with mobile screen */
+  @media only screen and (max-width: 769px) {
+    overflow: hidden !important;
+  }
 }
 
 body {
