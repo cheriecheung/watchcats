@@ -16,19 +16,13 @@ const ImageContainer = styled(Link)`
 function ReviewTemplate({ review }) {
   const profilePicURL = review.reviewerPicture ? `${process.env.REACT_APP_API_DOMAIN}/image/${review.reviewerPicture}` : defaultProfilePic
 
+  const pathname = window.location.pathname.includes('catsitter') ? `/profile/catowner/${review.reviewerUrlId}` : `/profile/catsitter/${review.reviewerUrlId}`
+
   return (
     <div style={{ margin: '20px 0' }}>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-      >
+      <div style={{ display: 'flex' }}>
         <div>
-          <ImageContainer
-            to={`/profile/catsitter/${review.reviewerUrlId}`}
-          >
+          <ImageContainer to={pathname}>
             <img
               src={profilePicURL}
               alt="pic"

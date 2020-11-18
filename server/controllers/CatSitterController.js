@@ -32,9 +32,6 @@ module.exports = {
       if (allReviews.length > 0) {
         reviews = await Promise.all(
           allReviews.map(async ({ _doc: item }) => {
-
-            console.log({ reviewId: item.reviewer })
-
             const {
               firstName: reviewerFirstName,
               lastName: reviewerLastName,
@@ -48,8 +45,6 @@ module.exports = {
               reviewerPicture: reviewerprofilePictureFileName,
               reviewerUrlId
             }
-
-            console.log({ data })
 
             return data
           })

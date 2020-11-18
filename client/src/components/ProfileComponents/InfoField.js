@@ -4,7 +4,7 @@ const InfoField = styled.div`
   flex: 0 50%;
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 `;
 
 export default InfoField;

@@ -1,10 +1,13 @@
 import React from 'react';
 import { ImageContainer, SummaryCard } from '../../../components/ProfileComponents';
 import moment from 'moment';
+import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
 function Summary({ ownerInfo }) {
+  const pictureUrl = ownerInfo.profilePictureFileName ? `${REACT_APP_API_DOMAIN}/image/${ownerInfo.profilePictureFileName}` : defaultProfilePic
+
   return (
     <SummaryCard
       style={{
@@ -23,7 +26,7 @@ function Summary({ ownerInfo }) {
 
       <ImageContainer>
         <img
-          src={`${REACT_APP_API_DOMAIN}/image/${ownerInfo.profilePictureFileName}`}
+          src={pictureUrl}
           alt="pic"
           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
         />

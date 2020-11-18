@@ -1,12 +1,15 @@
 import React from 'react';
 import { FieldLabel, ImageContainer, InfoField } from '../../../components/ProfileComponents';
 import { capitalize } from '../../../utility'
+import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
+
+const { REACT_APP_API_DOMAIN } = process.env;
 
 function AboutCat({ allCats }) {
   return (
     Array.isArray(allCats) &&
     allCats.length > 0 &&
-    allCats.map((cat) => {
+    allCats.map((cat, index) => {
       const {
         _id: id,
         name,
@@ -18,7 +21,10 @@ function AboutCat({ allCats }) {
         breed,
         personality,
         favoriteTreat,
+        photo
       } = cat;
+
+      const pictureUrl = cat.photo ? `${REACT_APP_API_DOMAIN}/image/${cat.photo}` : defaultProfilePic
 
       return (
         <div
@@ -30,7 +36,7 @@ function AboutCat({ allCats }) {
         >
           <ImageContainer>
             <img
-              src="https://i.pinimg.com/originals/f8/69/2b/f8692b4dde8249b26719f91e076aa8ab.jpg"
+              src={pictureUrl}
               alt="pic"
               style={{ objectFit: 'cover', width: '100%', height: '100%' }}
             />
@@ -49,7 +55,7 @@ function AboutCat({ allCats }) {
             <InfoField>
               <FieldLabel>Gender</FieldLabel>
               <div>
-                <i className="fas fa-mars fa-2x icon-gender" />
+                <i className="fas fa-mars fa-2x icon-gender profile" />
                 <span>{gender === 'F' ? 'Female' : 'Male'}</span>
               </div>
             </InfoField>
@@ -59,13 +65,13 @@ function AboutCat({ allCats }) {
                 {Array.isArray(medicalNeeds) && medicalNeeds.length > 0 ? (
                   medicalNeeds.map((need) => (
                     <div key={need}>
-                      <i className="fas fa-times fa-2x icon-yes-no" />
+                      <i className="fas fa-times fa-2x icon-yes-no profile" />
                       <span>{capitalize(need)}</span>
                     </div>
                   ))
                 ) : (
                     <>
-                      <i className="fas fa-times fa-2x icon-yes-no" />
+                      <i className="fas fa-times fa-2x icon-yes-no profile" />
                       <span>None</span>
                     </>
                   )}
@@ -76,12 +82,12 @@ function AboutCat({ allCats }) {
               <FieldLabel>Vaccinated</FieldLabel>
               {isVaccinated ? (
                 <div>
-                  <i className="fas fa-check fa-2x icon-yes-no" />
+                  <i className="fas fa-check fa-2x icon-yes-no profile" />
                   <span>Yes</span>
                 </div>
               ) : (
                   <div>
-                    <i className="fas fa-times fa-2x icon-yes-no" />
+                    <i className="fas fa-times fa-2x icon-yes-no profile" />
                     <span>No</span>
                   </div>
                 )}
@@ -90,12 +96,12 @@ function AboutCat({ allCats }) {
               <FieldLabel>Insured</FieldLabel>
               {isInsured ? (
                 <div>
-                  <i className="fas fa-check fa-2x icon-yes-no" />
+                  <i className="fas fa-check fa-2x icon-yes-no profile" />
                   <span>Yes</span>
                 </div>
               ) : (
                   <div>
-                    <i className="fas fa-times fa-2x icon-yes-no" />
+                    <i className="fas fa-times fa-2x icon-yes-no profile" />
                     <span>No</span>
                   </div>
                 )}

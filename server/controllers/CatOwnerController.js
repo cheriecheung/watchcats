@@ -79,8 +79,6 @@ module.exports = {
               reviewerUrlId
             }
 
-            console.log({ data })
-
             return data
           })
         );
