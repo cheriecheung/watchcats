@@ -15,51 +15,60 @@ const LabelBox = styled.div`
 `
 
 function Experience({ sitterInfo }) {
+  const { experience, hasCat, hasVolunteered, hasMedicationSkills, hasInjectionSkills, hasCertification, hasGroomingSkills } = sitterInfo;
+
+  const skillSet = [
+    {
+      value: hasCat,
+      icon: <i className="fas fa-cat sitter-profile" />,
+      title: 'Owns / owned a cat'
+    },
+    {
+      value: hasVolunteered,
+      icon: <i className="fas fa-hand-holding-heart sitter-profile" />,
+      title: 'Has done volunteer work'
+    },
+    {
+      value: hasMedicationSkills,
+      icon: <i className="fas fa-pills sitter-profile" />,
+      title: 'Able to administer medication'
+    },
+    {
+      value: hasInjectionSkills,
+      icon: <i className="fas fa-syringe sitter-profile" />,
+      title: 'Able to do injections'
+    },
+    {
+      value: hasCertification,
+      icon: <i className="fas fa-award sitter-profile" />,
+      title: 'Has pet sitting certification'
+    },
+    {
+      value: hasGroomingSkills,
+      icon: <i className="fas fa-cut sitter-profile" />,
+      title: 'Has pet grooming skills'
+    },
+  ]
+
   return (
     <>
-      <p>{sitterInfo.experience}</p>
+      <p>{experience}</p>
 
+      {}
       Summary:
       <br />
       <br />
 
       <Container>
-        {sitterInfo.hasCat &&
-          <LabelBox>
-            <i className="fas fa-cat sitter-profile" />
-            <span>Owns / owned a cat</span>
-          </LabelBox>
-        }
-        {sitterInfo.hasVolunteered &&
-          <LabelBox>
-            <i className="fas fa-hand-holding-heart sitter-profile" />
-            <span>Has done volunteer work</span>
-          </LabelBox>
-        }
-        {sitterInfo.hasMedicationSkills &&
-          <LabelBox>
-            <i className="fas fa-pills sitter-profile" />
-            <span>Able to administer medication</span>
-          </LabelBox>
-        }
-        {sitterInfo.hasInjectionSkills &&
-          <LabelBox>
-            <i className="fas fa-syringe sitter-profile" />
-            <span>Able to do injections</span>
-          </LabelBox>
-        }
-        {sitterInfo.hasCertification &&
-          <LabelBox>
-            <i className="fas fa-award sitter-profile" />
-            <span>Has pet sitting certification</span>
-          </LabelBox>
-        }
-        {sitterInfo.hasGroomingSkills &&
-          <LabelBox>
-            <i className="fas fa-cut sitter-profile" />
-            <span>Has pet grooming skills</span>
-          </LabelBox>
-        }
+        {skillSet.map(({ value, icon, title }) => {
+          return (
+            value &&
+            <LabelBox>
+              {icon}
+              <span>{title}</span>
+            </LabelBox>
+          )
+        })}
       </Container>
     </>
   );

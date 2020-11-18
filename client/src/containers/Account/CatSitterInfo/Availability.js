@@ -22,46 +22,29 @@ function Availability({ reset, watch }) {
   };
 
   return (
-    <Row>
-      <Col md={12}>
-        <p>{t('sitter_form.availability_description')}</p>
-      </Col>
-      <Col md={12} style={{ display: 'flex', justifyContent: 'center' }}>
+    <>
+      <p>{t('sitter_form.availability_description')}</p>
+
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginTop: 15,
+      }}
+      >
         <Calendar
           name="unavailableDates"
           selectedDays={selectedDays}
           handleDayClick={handleDayClick}
         />
-      </Col>
-      <Col
-        md={12}
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          marginTop: 15,
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-          }}
-        >
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
           <div className="calendar-available-date-box" />
           <span>{t('sitter_form.available')}</span>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            marginLeft: 50,
-          }}
-        >
           <div className="calendar-unavailable-date-box" />
           <span>{t('sitter_form.unavailable')}</span>
         </div>
-      </Col>
-    </Row>
+      </div>
+    </>
   );
 }
 
