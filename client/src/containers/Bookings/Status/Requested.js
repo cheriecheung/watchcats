@@ -74,6 +74,7 @@ function RequestedJob({ openModal, setModalContent, setActionType, setBookingId 
         {t('bookings.decline')}
       </ActionButton>
       <ActionButton
+        style={{ marginRight: 0 }}
         backgroundColor="#9ACD32"
         onClick={() => {
           openModal();

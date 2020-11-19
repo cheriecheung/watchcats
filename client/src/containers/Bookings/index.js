@@ -11,7 +11,7 @@ const Container = styled.div`
 `;
 
 const defaultTabStyle = {
-  marginRight: 15,
+  marginRight: 10,
   border: 'none',
   borderBottom: 'none',
   background: 'transparent',
@@ -52,9 +52,9 @@ function Bookings() {
 
   const bookingStatusTabs = [
     { key: 'requested', tab: `${t('bookings.requested')} (${requested.length})` },
-    { key: 'confirmed', tab: `${t('bookings.confirmed')} (${confirmed.length})` },
-    { key: 'completed', tab: `${t('bookings.completed')} (${completed.length})` },
-    { key: 'declined', tab: `${t('bookings.declined')} (${declined.length})` },
+    { key: 'confirmed', tab: `${t('bookings.confirmed')}  (${confirmed.length})` },
+    { key: 'completed', tab: `${t('bookings.completed')}  (${completed.length})` },
+    { key: 'declined', tab: `${t('bookings.declined')}  (${declined.length})` },
   ]
 
   const renderBookingStatusTabContent = () => {
