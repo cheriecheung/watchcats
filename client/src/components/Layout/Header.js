@@ -7,6 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/actions/authenticationActions';
 import styled from 'styled-components';
+import useLockBodyScroll from './use-lock-body-scroll';
+
 import { themeColor } from '../../style/theme';
 import { Badge } from 'antd';
 import Cookies from 'universal-cookie';
@@ -78,8 +80,9 @@ const Line = styled.span`
 const Overlay = styled.div`
   position: absolute;
   top: 0;
+  left: ${(props) => (props.open ? 0 : '-80vw')};
   z-index: 5;
-  width: ${(props) => (props.open ? '80vw' : 0)};
+  width: 80vw;
   height: 100vh;
   background: #fff;
   transition: 0.4s ease-in-out;
@@ -103,7 +106,6 @@ const OverlayMask = styled.div`
 `
 
 const OverlayMenu = styled.ul`
-  display: ${(props) => (props.open ? 'block' : 'none')};
   padding: 20px 0 0 20px;
   transition: 0.4s ease-in-out;
   list-style: none;
@@ -127,12 +129,6 @@ const CloseButton = styled.button`
   background: none;
   border: none;
   outline: none !important;
-`
-
-const MenuItemBox = styled.div`
-  display: flex;
-  width: 70%;
-  margin: 20px 0;
 `
 
 function Header() {
@@ -180,7 +176,7 @@ function Header() {
           <i className="fas fa-times fa-2x" />
         </CloseButton>
         <OverlayMenu open={toggle}>
-          <MobileMenu />
+          <MobileMenu setLanguage={setLanguage} closeMenu={() => setToggle(false)} />
           {/* <MenuContent setLanguage={setLanguage} closeMenu={() => setToggle(false)} /> */}
         </OverlayMenu>
       </Overlay>
@@ -191,44 +187,86 @@ function Header() {
 
 export default Header;
 
-function MobileMenu() {
+const MenuItemBox = styled(Link)`
+  display: flex;
+  width: 70%;
+  margin: 20px 0;
+  font-size: 10px;
+`
+
+const Icon = styled.i`
+  align-self: center;
+`
+
+const Label = styled.span`
+  font-size: 1.1rem;
+  margin-left: 25px;
+`
+
+function MobileMenu({ setLanguage, closeMenu }) {
+  const { isLoggedIn } = useSelector(state => state.isLoggedIn);
+  const currentLanguage = localStorage.getItem('lang')
+  const changeLanguage = currentLanguage === 'en' ? 'nl' : 'en'
+
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    closeMenu && closeMenu()
+  };
+
   return (
     <>
-      <h4 style={{ marginBottom: 30 }}>Cherie C</h4>
-      <MenuItemBox>
-        <i className="fas fa-search fa-2x" />
-        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>Find Cat Sitter</span>
-      </MenuItemBox>
-      <MenuItemBox>
-        <i className="fas fa-calendar-minus fa-2x" />
-        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>Bookings</span>
-      </MenuItemBox>
-      <MenuItemBox>
-        <i className="fas fa-envelope fa-2x" />
-        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>Messages</span>
-      </MenuItemBox>
-      <MenuItemBox>
-        <i className="fas fa-user fa-2x" />
-        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>Account</span>
-      </MenuItemBox>
-      <MenuItemBox>
-        <i className="fas fa-sign-out-alt fa-2x" />
-        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>Log Out</span>
-      </MenuItemBox>
+      {isLoggedIn ?
+        <>
+          <h4 style={{ marginBottom: 30 }}>Cherie C</h4>
+          <MenuItemBox to="/find" onClick={() => closeMenu && closeMenu()}>
+            <Icon className="fas fa-search fa-2x" />
+            <Label>Find Cat Sitter</Label>
+          </MenuItemBox>
+          <MenuItemBox to="/bookings" onClick={() => closeMenu && closeMenu()}>
+            <Icon className="fas fa-calendar-minus fa-2x" />
+            <Label>Bookings</Label>
+          </MenuItemBox>
+          <MenuItemBox to="/messages" onClick={() => closeMenu && closeMenu()}>
+            <Icon className="fas fa-envelope fa-2x" />
+            <Label>Messages</Label>
+          </MenuItemBox>
+          <MenuItemBox to={`/account/${cookies.get('shortId')}`} onClick={() => closeMenu && closeMenu()}>
+            <Icon className="fas fa-user fa-2x" />
+            <Label>Account</Label>
+          </MenuItemBox>
+          <MenuItemBox onClick={handleLogout}>
+            <Icon className="fas fa-sign-out-alt fa-2x" />
+            <Label>Log Out</Label>
+          </MenuItemBox>
+        </>
+        :
+        <>
+          <MenuItemBox to="/login" onClick={() => closeMenu && closeMenu()}>
+            <Icon className="fas fa-sign-in-alt fa-2x" />
+            <Label>Log In</Label>
+          </MenuItemBox>
+        </>
+      }
+
 
       <br /><br />
 
-      <MenuItemBox>
-        <i className="fas fa-info-circle fa-2x" />
-        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>About</span>
+      <MenuItemBox to="/about" onClick={() => closeMenu && closeMenu()}>
+        <Icon className="fas fa-info-circle fa-2x" />
+        <Label>About</Label>
       </MenuItemBox>
-      <MenuItemBox>
-        <i className="fas fa-home fa-2x" />
-        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>Home</span>
+      <MenuItemBox to="/" onClick={() => closeMenu && closeMenu()}>
+        <Icon className="fas fa-home fa-2x" />
+        <Label>Home</Label>
       </MenuItemBox>
-      <MenuItemBox>
-        <i className="fas fa-globe-americas fa-2x" />
-        <span style={{ fontSize: '1.2rem', marginLeft: 25 }}>Nederlands</span>
+      <MenuItemBox onClick={() => {
+        closeMenu && closeMenu()
+        setLanguage(changeLanguage)
+      }}>
+        <Icon className="fas fa-globe-americas fa-2x" />
+        <Label>{currentLanguage === 'en' ? 'Nederlands' : 'English'}</Label>
       </MenuItemBox>
     </>
   )
