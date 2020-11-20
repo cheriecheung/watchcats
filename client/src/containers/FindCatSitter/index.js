@@ -62,8 +62,6 @@ function FindCatSitter() {
 
   return (
     <div style={{ padding: '0 30px 50px 30px' }}>
-      <br />
-      <br />
       {/* <Search
         setLoading={setLoading}
         setZoom={setZoom}
@@ -72,7 +70,7 @@ function FindCatSitter() {
 
       {/* create display when none is found in bounds */}
       <Row>
-        <Col md={7}>
+        <Col md={7} style={{ width: 1100 }}>
           {totalResults && paginatedResults ?
             <p
               // ref={resultsRef}

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { EllipsisParagraph } from '../../../components/ProfileComponents'
 
 const Container = styled.div`
   display: flex;
@@ -50,26 +50,31 @@ function Experience({ sitterInfo }) {
     },
   ]
 
+  const hasSkills = hasCat || hasVolunteered || hasMedicationSkills || hasInjectionSkills || hasCertification || hasGroomingSkills
+
   return (
     <>
-      <p>{experience}</p>
+      <EllipsisParagraph>{experience}</EllipsisParagraph>
 
-      {}
-      Summary:
-      <br />
-      <br />
+      {hasSkills &&
+        <>
+          <span>Summary:</span>
+          <br />
+          <br />
 
-      <Container>
-        {skillSet.map(({ value, icon, title }) => {
-          return (
-            value &&
-            <LabelBox>
-              {icon}
-              <span>{title}</span>
-            </LabelBox>
-          )
-        })}
-      </Container>
+          <Container>
+            {skillSet.map(({ value, icon, title }) => {
+              return (
+                value &&
+                <LabelBox>
+                  {icon}
+                  <span>{title}</span>
+                </LabelBox>
+              )
+            })}
+          </Container>
+        </>
+      }
     </>
   );
 }

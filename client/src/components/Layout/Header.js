@@ -7,7 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/actions/authenticationActions';
 import styled from 'styled-components';
-import useLockBodyScroll from './use-lock-body-scroll';
 
 import { themeColor } from '../../style/theme';
 import { Badge } from 'antd';
@@ -22,7 +21,9 @@ const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: ${themeColor.peach};
+  background-color: #fff;
+  border: none;
+  box-shadow: 0 5px 5px rgba(182, 182, 182, 0.1);
 
   @media (max-width: 768px) {
     padding: 0 5px;
@@ -66,10 +67,10 @@ const NavIcon = styled.button`
 const Line = styled.span`
   display: block;
   border-radius: 50px;
-  width: 25px;
-  height: 3px;
+  width: 20px;
+  height: 2px;
   margin: 5px;
-  background-color: #fff;
+  background-color: ${themeColor.peach};
   transition: width 0.4s ease-in-out;
 
   :nth-child(2) {
@@ -156,7 +157,7 @@ function Header() {
         <Link to="/" style={{ display: 'flex' }} onClick={() => setToggle(false)}>
           <h4
             style={{
-              color: '#fff',
+              color: themeColor.peach,
               fontFamily: 'Alata, sans-serif',
               marginBottom: 0,
               whiteSpace: 'nowrap',
@@ -283,7 +284,7 @@ const ItemContainer = styled.div`
 `
 
 const LinkButton = styled(Link)`
-  color: #fff;
+  color: #9d9d9d;
   font-weight: 400;
 
   @media (max-width: 768px) {
@@ -292,7 +293,7 @@ const LinkButton = styled(Link)`
 `
 
 const LogoutButton = styled.button`
-  color: #fff;
+  color: #9d9d9d;
   font-weight: 400;
   outline: none;
   border: none;

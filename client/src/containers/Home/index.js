@@ -62,7 +62,7 @@ function Home() {
   };
 
   return (
-    <div style={{ padding: '80px 40px 25px 40px' }}>
+    <>
       <button
         type="button"
         onClick={() => dispatch(checkToken())}
@@ -83,7 +83,7 @@ function Home() {
           </Form>
         </FormProvider>
       </SearchContainer>
-    </div>
+    </>
   )
 }
 

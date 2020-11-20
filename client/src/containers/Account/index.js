@@ -75,7 +75,7 @@ function Account() {
   }
 
   return (
-    <div style={{ paddingTop: 30, maxWidth: 900, margin: '0 auto 50px auto' }}>
+    <div style={{ maxWidth: 900 }}>
       <div>
         {tabs.map(({ key, tab }) =>
           <button

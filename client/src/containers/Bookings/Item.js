@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const cardHeight = 140;
 
 const Container = styled.div`
-position: relative;
+  position: relative;
   height: ${cardHeight};
   text-align: left;
   padding: 20px;
@@ -16,11 +16,14 @@ position: relative;
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.05), 0 1px 6px rgba(0, 0, 0, 0.05);
   background: rgba(255, 255, 255, 1);
   overflow: visible;
+  width: 700px;
 
   @media (max-width: 500px) {
     padding: 15px;
+    width: 95vw;
   }
 `;
+// width 100% doesnt work
 
 const Field = styled.tr`
   display: flex;
@@ -41,6 +44,7 @@ const FieldItem = styled.td`
 
 const BrowseLink = styled(Link)`
   font-size: 25px;
+  color: #ffa195;
 `
 const ImageContainer = styled.div`
   width: ${cardHeight}px;
