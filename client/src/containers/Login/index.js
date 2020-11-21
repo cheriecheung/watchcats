@@ -1,32 +1,18 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { login_schema } from '../Account/_validationSchema'
 
-import { useForm, FormProvider } from 'react-hook-form';
-import { FieldLabel, TextField } from '../../components/FormComponents'
 import { Link } from 'react-router-dom';
 
 import { SectionContainer } from '../../components/FormComponents'
-import ThemeButton from '../../components/General/ThemeButton'
 import { useLogin } from './viewModel'
 
-import PhoneLogin from './PhoneLogin'
-
-const defaultValues = {
-  email: '',
-  password: ''
-}
-
-const resolver = yupResolver(login_schema)
+import { DemoUser, Google, Local, Phone } from './Type'
 
 function Login() {
   const { t, i18n } = useTranslation();
 
-  const methods = useForm({ defaultValues, resolver });
-  const { handleSubmit, reset, setValue, errors, watch } = methods;
-
-  const { onLogin,
+  const {
+    onLogin,
     onGoogleLogin,
     errorMessage,
     loginByPhone,
@@ -36,7 +22,7 @@ function Login() {
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       {loginByPhone ?
-        <PhoneLogin onPhoneLogin={onPhoneLogin} />
+        <Phone onPhoneLogin={onPhoneLogin} />
         :
         <SectionContainer style={{ width: '50vw', marginTop: 30 }}>
           <div style={{ width: '30vw', margin: '0 auto' }}>
@@ -50,48 +36,14 @@ function Login() {
               </Link>
             </div>
 
-            <button type="button" className="form-control btn btn-info mb-3">
-              Continue as DEMO USER
-      </button>
-            <button
-              type="button"
-              className="form-control btn btn-danger mb-3"
-              onClick={onGoogleLogin}
-            >
-              Google
-            </button>
+            <DemoUser />
+            <Google onGoogleLogin={onGoogleLogin} />
 
             <div className="hr-label">
               <span>{t('form.or')}</span>
             </div>
 
-            <FormProvider {...methods}>
-              <form
-                onSubmit={handleSubmit(onLogin)}
-                style={{ textAlign: 'left', display: 'grid', gridGap: 1 }}
-              >
-                <FieldLabel>{t('form.email')}</FieldLabel>
-                <TextField name="email" />
-
-                <FieldLabel>{t('form.password')}</FieldLabel>
-                <TextField name="password" type="password" />
-
-                <Link
-                  to="/forgot_password"
-                  style={{ background: 'none', border: 'none', outline: 'none', float: 'right' }}
-                >
-                  Forgot password?
-              </Link>
-
-                <ThemeButton type="submit">
-                  {t('login.login')}
-                </ThemeButton>
-
-                {errorMessage && (
-                  <span style={{ color: 'red' }}>{errorMessage}</span>
-                )}
-              </form>
-            </FormProvider>
+            <Local onLogin={onLogin} errorMessage={errorMessage} />
           </div>
         </SectionContainer>
       }
