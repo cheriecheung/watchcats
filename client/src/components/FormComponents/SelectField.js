@@ -18,10 +18,7 @@ const colourStyles = {
     flex: 1,
   }),
 
-
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-    // console.log({ data, isDisabled, isFocused, isSelected });
-
     return {
       ...styles,
       backgroundColor: isDisabled
@@ -31,7 +28,7 @@ const colourStyles = {
           : isFocused
             ? bgColor(0.2)
             : null,
-      color: '#494442',
+      color: '#7f7f7f',
 
       ':active': {
         ...styles[':active'],
@@ -56,6 +53,11 @@ const colourStyles = {
       boxShadow: '0 0 0 2px rgba(255, 161, 149, 0.15) !important',
     },
   }),
+
+  singleValue: (provided) => ({
+    ...provided,
+    color: '#7f7f7f',
+  })
 };
 
 export default function SelectField({

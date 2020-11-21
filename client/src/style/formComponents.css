@@ -42,9 +42,6 @@
   .overnight-visit-date-picker {
     width: 45% !important;
   }
-  form {
-    margin: 0 2vw;
-  }
 }
 
 /* ------------------- Ant button ------------------- */
@@ -354,6 +351,12 @@ select:-webkit-autofill:focus {
 /* .ant-checkbox-group-item.ant-checkbox-wrapper */
 
 /* ------------------- antd datepicker ------------------- */
+/* THEME STYLE */
+.ant-picker-input > input {
+ font-size: unset !important;
+ color: #7f7f7f !important;
+}
+
 .ant-picker-cell-selected .ant-picker-cell-inner {
   background: var(--theme-color-peach) !important;
 }

@@ -7,7 +7,6 @@ const Input = styled.textarea`
   padding: 7px 15px;
   border: 1px solid ${props => props.error ? '#E56E5A' : '#d9d9d9'};
   border-radius: 10px !important;
-  font-size: 0.9rem;
   outline: none;
   resize: none;
 `

@@ -15,6 +15,8 @@ const Input = styled(AntInput)`
   padding: 7px 15px;
   border: 1px solid ${props => props.error ? '#E56E5A' : '#d9d9d9'};
   border-radius: 10px;
+  font-size: unset;
+  color: #7f7f7f;
 `
 
 const ErrorDisplay = styled.span`

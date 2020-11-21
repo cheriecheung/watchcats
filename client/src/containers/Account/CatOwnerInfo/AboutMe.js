@@ -10,12 +10,11 @@ function AboutMe() {
     <Row>
       <Col md={6}>
         <p>
-          To let cat sitters get an idea of where they will be cat sitting, you can upload pictures
-          of your place.
+          {t('owner_form.about_me_description')}
         </p>
       </Col>
       <Col md={6}>
-        <TextArea name="aboutMe" placeholder={t('owner_form.about_me_description')} />
+        <TextArea name="aboutMe" />
       </Col>
     </Row>
   );

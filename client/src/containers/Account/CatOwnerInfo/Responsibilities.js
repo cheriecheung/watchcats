@@ -10,15 +10,11 @@ function Responsibilities() {
     <Row>
       <Col md={6}>
         <p>
-          Explain the responsibilities of the cat sitter, e.g. what is expected of him / her when
-          taking care of your cat(s)? What are some things to pay attention to?
-      </p>
+          {t('owner_form.cat_description_text')}
+        </p>
       </Col>
       <Col md={6}>
-        <TextArea
-          name="catsDescription"
-          placeholder={t('owner_form.cat_description_text')}
-        />
+        <TextArea name="catsDescription" />
       </Col>
     </Row>
   );

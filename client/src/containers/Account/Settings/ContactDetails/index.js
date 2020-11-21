@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FieldLabel } from '../../../../components/FormComponents';
-import { Modal } from 'antd';
+import { Modal, Switch } from 'antd';
 
 import { useDispatch } from 'react-redux';
 
@@ -105,9 +105,13 @@ function ContactDetails({
             {/* <Button style={{ float: 'right' }}>Edit</Button> */}
           </div>
         </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 }}>
+          <span>Receive notifications</span>
+          <Switch defaultChecked={false} onChange={(checked) => console.log({ checked })} />
+        </div>
       </div>
 
-      <BreakLine style={{ height: 50 }} />
+      <BreakLine style={{ height: 60 }} />
 
       <div style={{ flexBasis: '45%' }}>
         <FieldLabel>Phone number</FieldLabel>
@@ -150,6 +154,10 @@ function ContactDetails({
           </div>
         }
 
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 }}>
+          <span>Receive notifications</span>
+          <Switch defaultChecked={true} disabled={!phone} onChange={(checked) => console.log({ checked })} />
+        </div>
       </div>
     </ContentBox>
   )
