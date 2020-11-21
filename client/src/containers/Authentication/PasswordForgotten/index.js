@@ -1,11 +1,11 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { send_email_schema } from '../Account/_validationSchema'
+import { send_email_schema } from '../../Account/_validationSchema'
 import styled from 'styled-components';
-import { TextField } from '../../components/FormComponents'
+import { TextField } from '../../../components/FormComponents'
 import { Alert } from 'antd';
-import { useForgotPassword } from './viewModel';
+import { useForgotPassword } from '../viewModel';
 
 const SubmitButton = styled.button`
   background: #ffa195;
@@ -23,7 +23,7 @@ const defaultValues = { email: '' }
 
 const resolver = yupResolver(send_email_schema)
 
-function ForgotPassword() {
+function PasswordForgotten() {
     const methods = useForm({ defaultValues, resolver });
     const { handleSubmit } = methods;
 
@@ -52,4 +52,4 @@ function ForgotPassword() {
     )
 }
 
-export default ForgotPassword;
+export default PasswordForgotten;

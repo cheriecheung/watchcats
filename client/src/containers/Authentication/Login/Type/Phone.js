@@ -1,6 +1,6 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form';
-import { SectionContainer, FieldLabel, TextField } from '../../../components/FormComponents'
+import { SectionContainer, FieldLabel, TextField } from '../../../../components/FormComponents'
 
 function PhoneLogin({ onPhoneLogin }) {
   const methods = useForm();

@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 import { Link } from 'react-router-dom';
 
-import { SectionContainer } from '../../components/FormComponents'
-import { useLogin } from './viewModel'
+import { SectionContainer } from '../../../components/FormComponents'
+import { useLogin } from '../viewModel'
 
 import { DemoUser, Google, Local, Phone } from './Type'
 

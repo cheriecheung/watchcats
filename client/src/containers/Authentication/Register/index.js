@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Google, Local } from './Type'
-import { useRegister } from './viewModel';
+import { useRegister } from '../viewModel';
 
 function Register() {
   const { t, onGoogleLogin, onRegister } = useRegister()

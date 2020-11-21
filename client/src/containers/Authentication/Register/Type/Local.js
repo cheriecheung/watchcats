@@ -1,8 +1,8 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { register_schema } from '../../Account/_validationSchema'
-import { FieldLabel, PasswordField, TextField } from '../../../components/FormComponents'
+import { register_schema } from '../../../Account/_validationSchema'
+import { FieldLabel, PasswordField, TextField } from '../../../../components/FormComponents'
 
 const defaultValues = {
   firstName: '',

@@ -10,12 +10,7 @@ import Header from './components/Layout/Header';
 import Layout from './components/Layout';
 import Home from './containers/Home';
 import About from './containers/About';
-import VerifyEmail from './containers/VerifyEmail';
-import Login from './containers/Login';
-import Register from './containers/Register';
-import ForgotPassword from './containers/ForgotPassword'
-import ResetPassword from './containers/ForgotPassword/ResetPassword';
-import Loading from './containers/Login/Loading';
+import { EmailVerification, Loading, Login, PasswordForgotten, PasswordReset, Register } from './containers/Authentication';
 
 import Bookings from './containers/Bookings';
 import Payment from './containers/Payment';
@@ -61,9 +56,9 @@ function App() {
             <Route path="/about" component={About} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
-            <Route path="/forgot_password" component={ForgotPassword} />
-            <Route path="/reset_password/:token" component={ResetPassword} />
-            <Route path="/activate/:token?" component={VerifyEmail} />
+            <Route path="/forgot_password" component={PasswordForgotten} />
+            <Route path="/reset_password/:token" component={PasswordReset} />
+            <Route path="/activate/:token?" component={EmailVerification} />
             <PrivateRoute path="/profile/catsitter/:id" component={CatSitter} />
             <PrivateRoute path="/profile/catowner/:id" component={CatOwner} />
             <PrivateRoute path="/bookings" component={Bookings} />

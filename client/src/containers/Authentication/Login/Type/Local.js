@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { login_schema } from '../../Account/_validationSchema'
+import { login_schema } from '../../../Account/_validationSchema'
 
-import { FieldLabel, TextField } from '../../../components/FormComponents'
-import ThemeButton from '../../../components/General/ThemeButton'
+import { FieldLabel, TextField } from '../../../../components/FormComponents'
+import ThemeButton from '../../../../components/General/ThemeButton'
 
 const defaultValues = {
   email: '',
