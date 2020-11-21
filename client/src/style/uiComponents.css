@@ -5,6 +5,11 @@
 
   --theme-border-radius: 10px !important;
 }
+/* ------------------- ant switch button ------------------- */
+
+.ant-switch-checked {
+  background-color: #ffa195 !important;
+}
 
 /* ------------------- scroll bar ------------------- */
 
@@ -22,7 +27,7 @@ body::-webkit-scrollbar {
 
 *::-webkit-scrollbar-thumb {
   background-color: #c5c1c7;
-  outline: 1px solid slategrey;
+  outline: none;
   border-radius: 10px;
 }
 

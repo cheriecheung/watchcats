@@ -11,25 +11,55 @@ import CatSitterInfo from './CatSitterInfo';
 import CatOwnerInfo from './CatOwnerInfo';
 
 const Container = styled.div`
-  text-align: left;
-  margin: 5% 3% 3% 3%;
+  margin: 0 4vw; 
+  padding: 40px 0;
 `;
 
-const defaultTabStyle = {
-  marginRight: 15,
-  border: 'none',
-  borderBottom: 'none',
-  background: 'transparent',
-  outline: 'none',
-  color: '#666',
-};
+const Content = styled.div`
+  max-width: 800px;
 
-const selectedTabStyle = {
-  ...defaultTabStyle,
-  fontWeight: 'bold',
-  color: '#ffa195',
-  borderBottom: '2px solid #ffa195',
-};
+  @media (max-width: 680px) {
+    width: 90vw;
+    margin: 0 auto; 
+  }
+`
+
+const TabBar = styled.div`
+  display: inline-flex;
+  align-items: center;
+  overflow-x: scroll;
+  white-space: nowrap;
+  height: 40px;
+  margin-bottom: 40px;
+  padding: 0;
+  background: #fff;
+  border-radius: 50px;
+  border-left: 4px solid #fff;
+  border-right: 4px solid #fff;
+  border-top: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: 680px) {
+    width: 90vw;
+    margin: 0 auto 40px auto; 
+  }
+`
+
+const TabItem = styled.button`
+  background-color: ${props => props.isSelected ? '#ffa195' : '#fff'};
+  color: ${props => props.isSelected ? '#fff' : '#666'};
+  font-weight: ${props => props.isSelected ? 'bold' : 'normal'};
+  height: 100%;
+  border-radius: 40px;
+  border: none;
+  outline: none !important;
+  padding: 0 15px;
+`
 
 function Account() {
   const { accountTab } = useLocation().state || {};
@@ -75,25 +105,25 @@ function Account() {
   }
 
   return (
-    <div style={{ maxWidth: 900 }}>
-      <div>
+    <Container style={{ color: ' #7f7f7f' }}>
+      <TabBar>
         {tabs.map(({ key, tab }) =>
-          <button
+          <TabItem
             key={key}
-            style={activeKey === key ? selectedTabStyle : defaultTabStyle}
+            isSelected={activeKey === key}
             onClick={() => setActiveKey(key)}
           >
             {tab}
-          </button>
+          </TabItem>
         )}
-      </div>
+      </TabBar>
 
-      <div style={{ marginTop: 30 }}>
+      <Content>
         {renderTabContent()}
-      </div>
+      </Content>
 
       <ResponseModal />
-    </div>
+    </Container>
   );
 }
 

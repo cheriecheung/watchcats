@@ -146,7 +146,7 @@ export default {
     view_profile: 'Bekijk mijn openbare katteneigenaarsprofiel',
 
     about_me: 'Over mij',
-    about_me_description: '',
+    about_me_description: 'Tell cat sitters about yourself. Start with a little description of yourself - What do you do for a living? Why are you looking for a cat sitter?',
 
     appointment: 'Cat sitting appointment',
     one_day: 'Eendaags bezoek',
@@ -179,7 +179,7 @@ export default {
     add_cat: 'Kat toevoegen',
 
     cat_description: 'Description of my cat(s)',
-    cat_description_text: '',
+    cat_description_text: 'Please write a description about your cat(s) - include their feeing, litter, playtime routine, and other needs. It is also important to include your vets details should the cat sitter needs to get hold if them.',
   },
 
   cat_breed: {
@@ -218,8 +218,10 @@ export default {
   },
 
   bookings: {
-    sitting_jobs: 'Oppas jobs voor mij',
-    sitting_service: 'Oppas diensten voor mijn kat',
+    // sitting_jobs: 'Oppas jobs voor mij',
+    // sitting_service: 'Oppas diensten voor mijn kat',
+    as_cat_sitter: 'Als een Kattenoppas',
+    as_cat_owner: 'Als een Katteneigenaar',
 
     requested: 'Aangevraagd',
     decline: 'Weigeren',

@@ -149,7 +149,7 @@ export default {
     view_profile: 'View my public cat owner profile',
 
     about_me: 'About me',
-    about_me_description: '',
+    about_me_description: 'Tell cat sitters about yourself. Start with a little description of yourself - What do you do for a living? Why are you looking for a cat sitter?',
 
     appointment: 'Cat sitting appointment',
     one_day: 'One day visit',
@@ -222,8 +222,10 @@ export default {
   },
 
   bookings: {
-    sitting_jobs: 'Sitting jobs for me',
-    sitting_service: 'Sitting service for my cat',
+    // sitting_jobs: 'Sitting jobs for me',
+    // sitting_service: 'Sitting service for my cat',
+    as_cat_sitter: 'As a cat sitter',
+    as_cat_owner: 'As a cat owner',
 
     requested: 'Requested',
     decline: 'Decline',

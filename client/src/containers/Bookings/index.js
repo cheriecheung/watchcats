@@ -11,83 +11,30 @@ const Container = styled.div`
 `;
 
 const BookingTypeToggle = styled.div`
-  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);
-  background: #fff;
   display: inline-flex;
   align-items: center;
-  padding: 0 5px;
+  white-space: nowrap;
+  padding: 0;
   height: 40px;
+  background: #fff;
   border-radius: 50px;
-  
-  @media (min-width: 769px) {
-    margin-top: -20px;
-  }
+  border-left: 4px solid #fff;
+  border-right: 4px solid #fff;
+  border-top: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);
 `
 
 const TypeItem = styled.button`
   background-color: ${props => props.isSelected ? '#ffa195' : '#fff'};
   color: ${props => props.isSelected ? '#fff' : '#666'};
-  height: 80%;
+  font-weight: ${props => props.isSelected ? 'bold' : 'normal'};
+  height: 100%;
   border-radius: 40px;
   border: none;
   outline: none !important;
-  font-weight: bold;
   padding: 0 15px;
 `
-
-const defaultTabStyle = {
-  marginRight: 10,
-  border: 'none',
-  borderBottom: 'none',
-  background: 'transparent',
-  outline: 'none',
-  color: '#666',
-};
-
-const selectedTabStyle = {
-  ...defaultTabStyle,
-  fontWeight: 'bold',
-  color: '#ffa195',
-  borderBottom: '2px solid #ffa195',
-};
-
-// const BookingStatusTabs = styled.div`
-//   width: 90vw;
-//   height: 40px;
-//   overflow-x: scroll;
-//   margin-top: 15px;
-//   white-space: nowrap;
-//   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);
-//   background: #fff;
-//   display: inline-flex;
-//   align-items: center;
-//   padding: 0 5px;
-//   border-radius: 50px;
-
-//   ::-webkit-scrollbar {
-//     display: none;
-//   }
-// `
-
-// const StatusItem = styled.button`
-//   border: ${props => props.isSelected ? '2px solid #ffa195' : 'none'};
-//   border-radius: 40px;
-//   color: ${props => props.isSelected ? '#ffa195' : '#c4c4c4'};
-//   outline: none !important;
-//   font-weight: bold;
-//   background: none;
-//   padding: 3px 10px 4px 10px;
-//   margin: 0 5px;
-//   white-space: nowrap;
-
-//   :first-child {
-//     margin-left: 1px;
-//   }
-
-//   :last-child{
-//     margin-right: 1px;
-//   }
-// `
 
 const BookingStatusTabs = styled.div`
   width: 100vw;
@@ -102,11 +49,10 @@ const BookingStatusTabs = styled.div`
 `
 
 const StatusItem = styled.button`
-  border: ${props => props.isSelected ? '2px solid #ffa195' : 'none'};
-  border-radius: 40px;
+  border: ${props => props.isSelected ? '2px solid #ffa195' : 'none'};  font-weight: ${props => props.isSelected ? 'bold' : 'normal'};
   color: ${props => props.isSelected ? '#ffa195' : '#949292'};
+  border-radius: 40px;
   outline: none !important;
-  font-weight: bold;
   background: none;
   padding: 3px 10px 4px 10px;
   margin: 0 5px;
@@ -194,29 +140,23 @@ function Bookings() {
 
   return (
     <>
-      <div style={{
-        // background: '#fff',
-        //padding: '20px 0 5px 0',
-        //boxShadow: '0 5px 5px rgba(182, 182, 182, 0.1)'
-        padding: '40px 0 5px 0',
-      }}>
+      <div style={{ padding: '40px 0 5px 0' }}>
         <BookingTypeToggle>
           <TypeItem
             style={{ marginRight: 5 }}
             onClick={() => setBookingTypeActiveKey('sitting_jobs')}
             isSelected={bookingTypeActiveKey === 'sitting_jobs'}
           >
-            As a cat sitter
-        </TypeItem>
+            {t('bookings.as_cat_sitter')}
+          </TypeItem>
           <TypeItem
             onClick={() => setBookingTypeActiveKey('sitting_service')}
             isSelected={bookingTypeActiveKey === 'sitting_service'}
           >
-            As a cat owner
-        </TypeItem>
+            {t('bookings.as_cat_owner')}
+          </TypeItem>
         </BookingTypeToggle>
 
-        {/* <div style={{ margin: '0 5vw' }}> */}
         <BookingStatusTabs>
           {bookingStatusTabs.map(({ key, tab }) =>
             <StatusItem
@@ -228,7 +168,6 @@ function Bookings() {
             </StatusItem>
           )}
         </BookingStatusTabs>
-        {/* </div> */}
       </div>
 
       <div style={{ margin: '4vw' }}>
