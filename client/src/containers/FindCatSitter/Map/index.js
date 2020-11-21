@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Spin } from 'antd';
-import GoogleMap from '../../../components/Google/GoogleMap'
+import { Maps } from '../../../components/Google'
 
 const mapHeight = '80vh';
 
@@ -43,7 +43,7 @@ function MapItem({
       <LoadingBox style={{ visibility: loading ? 'visible' : 'hidden' }}>
         <LoadingSpin size="large" />
       </LoadingBox>
-      <GoogleMap
+      <Maps
         zoom={zoom}
         setZoom={setZoom}
         center={center}

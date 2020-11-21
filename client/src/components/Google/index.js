@@ -1,4 +1,5 @@
 
+import Maps from './Maps'
 import PlaceAutocomplete from './PlaceAutocomplete';
 
-export { PlaceAutocomplete }
+export { Maps, PlaceAutocomplete }

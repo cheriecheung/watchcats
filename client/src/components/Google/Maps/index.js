@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { render } from "react-dom";
-import MainMap from "./MainMap";
 import InfoWindow from "./InfoWindow";
 import { useDispatch } from 'react-redux';
 import { getSittersInBounds } from '../../../redux/actions/findCatSitterActions'
 import location_marker from '../../../assets/images/location_marker.png'
 
-function GoogleMap({
+function Maps({
     zoom,
     setZoom,
     center,
@@ -90,25 +89,7 @@ function GoogleMap({
         }
     }
 
-    // const setCenterAfterEvent = () => {
-    //     const center = map.getCenter();
-    //     const lat = center.lat();
-    //     const lng = center.lng();
-    //     setCenter({ lat, lng });
-
-    //     const zoom = map.getZoom();
-    //     setZoom(zoom)
-    // }
-
     const addMapEventListeners = () => {
-        // new window.google.maps.event.addListener(map, 'dragend', () => {
-        //     getBoundsAfterEvent(map);
-        //     setCenterAfterEvent(map);
-        // });
-        // new window.google.maps.event.addListener(map, 'zoom_changed', () => {
-        //     getBoundsAfterEvent(map);
-        //     setCenterAfterEvent(map);
-        // });
         new window.google.maps.event.addListener(map, 'idle', () => {
             getBoundsAfterEvent(map);
             const zoom = map.getZoom();
@@ -132,7 +113,6 @@ function GoogleMap({
     useEffect(() => {
         if (map && center) {
             map.setCenter(center)
-
         }
     }, [map, center])
 
@@ -143,13 +123,16 @@ function GoogleMap({
         }
     }, [map])
 
-    return (
-        <MainMap
-            id="myMap"
-            options={{ center, zoom }}
-            setMap={data => setMap(data)}
-        />
-    );
+    useEffect(() => {
+        const map = new window.google.maps.Map(
+            document.getElementById("find_cat_sitter_map"),
+            { center, zoom }
+        );
+
+        setMap(map);
+    }, []);
+
+    return <div style={{ width: '100%', height: '100%' }} id="find_cat_sitter_map" />
 }
 
-export default GoogleMap;
+export default Maps;

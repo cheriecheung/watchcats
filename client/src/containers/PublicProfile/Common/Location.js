@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import GoogleMap from '../../../components/Google/GoogleMap'
+import { Maps } from '../../../components/Google'
 
 const mapHeight = '40vh';
 
@@ -28,7 +28,7 @@ function Location() {
 
   return (
     <MapContainer>
-      <GoogleMap
+      <Maps
         zoom={12}
         // center={{ lat: results[0].coordinates[1], lng: results[0].coordinates[0] }}
         center={{ lat: 52.308051, lng: 5.040622 }}
