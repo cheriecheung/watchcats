@@ -1,7 +1,6 @@
 import React from 'react';
 import { DatePicker } from '../../../components/FormComponents';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 
 function AppointmentPeriodPicker() {
   const { t } = useTranslation();

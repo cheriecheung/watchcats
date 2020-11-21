@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Row, Col } from 'reactstrap';
-import { SectionContainer } from '../../components/FormComponents';
+import { SectionContainer } from '../../../components/FormComponents';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import defaultProfilePic from '../../assets/images/default_profile_pic.jpg'
+import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
 // const cardHeight = 160;
 
@@ -42,7 +42,7 @@ const fiveStarDisplay = (number) => {
   );
 };
 
-function Result({ item, setHoveredResultId }) {
+function Card({ item, setHoveredResultId }) {
   const { t } = useTranslation();
 
   const {
@@ -110,31 +110,16 @@ function Result({ item, setHoveredResultId }) {
           </div>
         </div>
         {/* <div className="mb-2">
-                  <span className="mr-2">Verified by: </span>
-                  <i className="fas fa-address-card icon-verified" />
-                  <i className="fas fa-home icon-verified" />
-                  <i className="fas fa-phone icon-verified" />
-                  <i className="fab fa-facebook-square icon-verified" />
-                </div> */}
+          <span className="mr-2">Verified by: </span>
+          <i className="fas fa-address-card icon-verified" />
+          <i className="fas fa-home icon-verified" />
+          <i className="fas fa-phone icon-verified" />
+          <i className="fab fa-facebook-square icon-verified" />
+        </div> */}
 
-        <Row>
-          {totalReviews > 0 && (
-            <Col md={4} style={{ minWidth: 200 }} className="mb-1">
-              {fiveStarDisplay(totalReviews)}
-            </Col>)
-          }
-          {/* {totalReviews > 0 ? (
-            <Col md={4} style={{ minWidth: 200 }} className="mb-1">
-              {fiveStarDisplay(totalReviews)}
-            </Col>
-          ) : (
-              <Col md={4} style={{ minWidth: 200, color: '#00C68E' }} className="mb-1">
-                <i className="fas fa-user-plus mr-2" />
-                <span>{t('find_sitter.new_member')}</span>
-              </Col>
-            )} */}
-        </Row>
-
+        <div style={{ marginTop: -15, marginRight: 10, visibility: totalReviews > 0 ? 'visible' : 'hidden' }}>
+          {fiveStarDisplay(totalReviews)}
+        </div>
 
         <div style={{ display: 'flex' }}>
           <div style={{ color: '#00C68E', marginRight: 10, visibility: totalCompletedBookings > 0 ? 'visible' : 'hidden' }}>
@@ -155,8 +140,7 @@ function Result({ item, setHoveredResultId }) {
         <hr style={{ margin: '15px 0' }} />
 
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div style={{ width: '80%' }}>{aboutSitter.slice(0, 110).trim().concat('...')}</div>
-
+          <div style={{ width: '80%', height: '50px', overflow: 'hidden' }}>{aboutSitter.slice(0, 100).trim().replace(/("[^"]+"|\w+)$/, "...")}</div>
           <a href={`/profile/catsitter/${urlId}`} target="_blank" style={{ width: '17%' }}>
             {t('find_sitter.view_profile')}
           </a>
@@ -166,4 +150,4 @@ function Result({ item, setHoveredResultId }) {
   );
 }
 
-export default Result;
+export default Card;
