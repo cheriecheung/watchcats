@@ -6,7 +6,6 @@ import './style/uiComponents.css';
 
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Header from './components/Layout/Header';
 import Layout from './components/Layout';
 import Home from './containers/Home';
 import About from './containers/About';

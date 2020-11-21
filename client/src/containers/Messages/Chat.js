@@ -3,10 +3,11 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { TextArea } from '../../components/FormComponents';
-import { NavHeight } from '../../components/Layout/Header';
 import io from 'socket.io-client';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
+
+const NavHeight = 7;
 
 const ChatContainer = styled.div`
   padding: 0 20px;

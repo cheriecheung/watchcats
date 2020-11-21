@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import List from './List';
 import Chat from './Chat';
 import ChatDetails from './ChatDetails';
-import { NavHeight } from '../../components/Layout/Header';
+
+const NavHeight = 7;
 
 const ListWidth = 25;
 const ChatDetailsWidth = 25;
