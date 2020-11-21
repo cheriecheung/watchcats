@@ -1,32 +1,23 @@
 
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { getActivationEmail } from '../../../../redux/actions/authenticationActions';
+
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch } from 'react-redux';
+import {
+  email_verification_default_values as defaultValues,
+  send_email_schema
+} from '../../_formConfig'
 
 import { TextField } from '../../../../components/FormComponents'
-import { send_email_schema } from '../../../Account/_validationSchema'
-import styled from 'styled-components';
-
-const SubmitButton = styled.button`
-background: #ffa195;
-height: 35px;
-margin-left: 15px;
-padding: 5px 25px;
-color: #fff;
-font-weight: 600;
-border: none;
-border-radius: 10px;
-outline: none !important;
-`;
-
+import { SubmitButton } from '../../_styledComponents'
 
 function Unsuccessful() {
   const dispatch = useDispatch();
 
   const resolver = yupResolver(send_email_schema);
-  const methods = useForm({ defaultValues: { email: '' }, resolver });
+  const methods = useForm({ defaultValues, resolver });
   const { handleSubmit } = methods;
 
   const onSubmit = (data) => {

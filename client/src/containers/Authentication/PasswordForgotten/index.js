@@ -1,25 +1,14 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { send_email_schema } from '../../Account/_validationSchema'
-import styled from 'styled-components';
+import {
+    email_verification_default_values as defaultValues,
+    send_email_schema
+} from '../_formConfig'
+import { SubmitButton } from '../_styledComponents';
 import { TextField } from '../../../components/FormComponents'
 import { Alert } from 'antd';
 import { useForgotPassword } from '../viewModel';
-
-const SubmitButton = styled.button`
-  background: #ffa195;
-  height: 35px;
-  margin-left: 15px;
-  padding: 5px 25px;
-  color: #fff;
-  font-weight: 600;
-  border: none;
-  border-radius: 10px;
-  outline: none !important;
-`;
-
-const defaultValues = { email: '' }
 
 const resolver = yupResolver(send_email_schema)
 

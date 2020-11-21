@@ -34,35 +34,6 @@ export const review_schema = yup.object().shape({
     rating: yup.number().positive('Rating required').integer('Rating required').required(defaultError)
 })
 
-// ----- Login Schema ----- // 
-
-export const login_schema = yup.object().shape({
-    email: yup.string()
-        .required(defaultError)
-        .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Invalid email format'),
-    password: yup.string().required(defaultError)
-})
-
-// ----- Register Schema ----- // 
-
-export const register_schema = yup.object().shape({
-    firstName: yup.string().required(defaultError),
-    lastName: yup.string().required(defaultError),
-    email: yup.string()
-        .required(defaultError)
-        .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Invalid email format'),
-    // matches() for password
-    password: yup.string().required(defaultError)
-})
-
-// ----- Send Email Schema (For forgot password, or request activation link again) ----- //
-
-export const send_email_schema = yup.object().shape({
-    email: yup.string()
-        .required(defaultError)
-        .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Invalid email format')
-})
-
 // ----- Reset Password Schema ----- //
 //https://github.com/jquense/yup/issues/345
 //https://www.nuomiphp.com/eplan/en/34699.

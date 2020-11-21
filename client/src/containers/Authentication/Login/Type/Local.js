@@ -4,15 +4,13 @@ import { useTranslation } from 'react-i18next';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { login_schema } from '../../../Account/_validationSchema'
+import {
+  login_default_values as defaultValues,
+  login_schema
+} from '../../_formConfig'
 
 import { FieldLabel, TextField } from '../../../../components/FormComponents'
 import ThemeButton from '../../../../components/General/ThemeButton'
-
-const defaultValues = {
-  email: '',
-  password: ''
-}
 
 const resolver = yupResolver(login_schema)
 

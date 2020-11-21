@@ -1,8 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
-
 import { Link } from 'react-router-dom';
-
 import { SectionContainer } from '../../../components/FormComponents'
 import { useLogin } from '../viewModel'
 
