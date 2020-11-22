@@ -11,6 +11,8 @@ function useHeader() {
 
   const [toggle, setToggle] = useState(false);
 
+  const currentLanguage = localStorage.getItem('lang')
+
   useEffect(() => {
     i18n.changeLanguage(localStorage.getItem('lang') || 'en');
   }, [i18n]);
@@ -41,6 +43,7 @@ function useHeader() {
     t,
     toggle,
     triggerToggle,
+    currentLanguage,
     setLanguage,
     isLoggedIn,
     onLogout,

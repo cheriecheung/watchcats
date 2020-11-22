@@ -8,6 +8,11 @@ const DefaultHorizontalCard = styled.div`
   border-radius: 10px;
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);
   background: rgba(255, 255, 255, 1);
+  
+  @media (max-width: 765px) {
+    padding: 15px;
+    width: 90vw;
+  }
 `;
 // box-shadow: 0px 0px 40px 0px rgba(212, 170, 185, 0.3);
 
@@ -40,9 +45,9 @@ const BookingsHorizontalCard = styled.div`
   overflow: visible;
   width: 700px;
 
-  @media (max-width: 500px) {
+  @media (max-width: 765px) {
     padding: 15px;
-    width: 95vw;
+    width: 90vw;
   }
 `
 

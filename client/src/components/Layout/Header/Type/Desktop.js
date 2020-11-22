@@ -1,6 +1,8 @@
 import React from 'react';
+import { TextButton } from '../../../UIComponents'
 import {
   Menu,
+  Icon,
   Item,
   ItemContainer,
   LinkButton,
@@ -10,7 +12,13 @@ import { Badge } from 'antd';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-function Desktop({ t, setLanguage, isLoggedIn, onLogout }) {
+function Desktop({
+  t,
+  setLanguage,
+  currentLanguage,
+  isLoggedIn,
+  onLogout
+}) {
   return (
     <Menu>
       <ItemContainer>
@@ -61,34 +69,10 @@ function Desktop({ t, setLanguage, isLoggedIn, onLogout }) {
           )}
 
         <Item>
-          <button
-            onClick={() => setLanguage('en')}
-            style={{
-              border: 'none',
-              background: 'none',
-              padding: 0,
-              outline: 0,
-              cursor: 'pointer',
-              marginRight: 5,
-            }}
-          >
-            EN
-          </button>
-        </Item>
-
-        <Item>
-          <button
-            onClick={() => setLanguage('nl')}
-            style={{
-              border: 'none',
-              background: 'none',
-              padding: 0,
-              outline: 0,
-              cursor: 'pointer',
-            }}
-          >
-            NL
-          </button>
+          <TextButton onClick={() => setLanguage(currentLanguage === 'en' ? 'nl' : 'en')}>
+            <Icon className="fas fa-globe-americas" style={{ fontSize: 13, marginRight: 5 }} />
+            <span>{currentLanguage === 'en' ? 'Nederlands' : 'English'}</span>
+          </TextButton>
         </Item>
       </ItemContainer>
     </Menu>

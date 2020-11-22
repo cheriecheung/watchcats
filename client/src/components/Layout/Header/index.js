@@ -17,6 +17,7 @@ function Header() {
     toggle,
     triggerToggle,
     setLanguage,
+    currentLanguage,
     isLoggedIn,
     onLogout,
     closeMenu,
@@ -48,14 +49,17 @@ function Header() {
         <Desktop
           t={t}
           setLanguage={setLanguage}
+          currentLanguage={currentLanguage}
           isLoggedIn={isLoggedIn}
           onLogout={onLogout}
         />
       </Nav>
 
       <Mobile
-        t={t} toggle={toggle}
+        t={t}
+        toggle={toggle}
         setLanguage={setLanguage}
+        currentLanguage={currentLanguage}
         isLoggedIn={isLoggedIn}
         closeMenu={closeMenu}
         onMobileLogout={onMobileLogout}

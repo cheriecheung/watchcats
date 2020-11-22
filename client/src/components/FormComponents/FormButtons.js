@@ -13,7 +13,10 @@ export default function FormButtons({ onClick }) {
 
   return (
     <div className="float-right">
-      <TextButton onClick={() => handleReset(onClick)}>
+      <TextButton
+        style={{ marginRight: 10 }}
+        onClick={() => handleReset(onClick)}
+      >
         {t('form.reset')}
       </TextButton>
 

@@ -30,6 +30,12 @@ const BookingRecordImageContainer = styled.div`
     height: 80px;
     margin-left: -15px;
   }
+
+  @media (max-width: 380px) {
+    width: 60px;
+    height: 60px;
+    margin-left: -15px;
+  }
 `
 
 function ImageContainer({ variant, size, children }) {

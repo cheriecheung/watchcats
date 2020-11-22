@@ -248,8 +248,8 @@ export default {
     view_profile: 'Bekijk profiel',
     view_conversation: 'Bekijk gesprek',
 
-    sitter: 'Kattenoppas',
-    owner: 'Katteneigenaar',
+    sitter: 'Oppas',
+    owner: 'Eigenaar',
     location: 'Locatie',
     time: 'Tijd',
     price: 'Prjs',

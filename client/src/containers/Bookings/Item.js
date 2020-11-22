@@ -10,7 +10,7 @@ const Field = styled.tr`
 `
 
 const FieldLabel = styled.td`
-  width: 30%;
+  width: 28%;
   margin-bottom: 0;
   font-weight: bold;
 
@@ -19,7 +19,6 @@ const FieldLabel = styled.td`
 `
 
 const FieldItem = styled.td`
-  width: 65%;
 `
 
 const BrowseLink = styled(Link)`
@@ -30,11 +29,7 @@ const BrowseLink = styled(Link)`
 const Item = ({ data, bookingType, renderActionButtons, status }) => {
   const { t } = useTranslation();
 
-  useEffect(() => {
-    console.log({ data });
-  }, [data]);
-
-  const { id, name, shortId, appointmentType, location, price } = data;
+  const { id, firstName, lastName, shortId, appointmentType, location, price } = data;
   const profileUrl =
     bookingType === 'sitting_jobs'
       ? `/profile/catowner/${shortId}`
@@ -59,10 +54,12 @@ const Item = ({ data, bookingType, renderActionButtons, status }) => {
           <Image url="https://images.pexels.com/photos/569170/pexels-photo-569170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" />
         </ImageContainer>
 
-        <div style={{ width: '80%' }}>
+        <div style={{ width: '80%', display: 'flex', flexDirection: 'column' }}>
           <Field>
-            <FieldLabel>{bookingType === 'sitting_jobs' ? t('bookings.owner') : t('bookings.sitter')}</FieldLabel>
-            <FieldItem>{name}</FieldItem>
+            <FieldLabel>
+              {bookingType === 'sitting_jobs' ? t('bookings.owner') : t('bookings.sitter')}
+            </FieldLabel>
+            <FieldItem>{firstName} {lastName.charAt(0)}</FieldItem>
           </Field>
 
           <Field>

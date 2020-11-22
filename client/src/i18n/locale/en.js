@@ -252,8 +252,8 @@ export default {
     view_profile: 'View profile',
     view_conversation: 'View conversation',
 
-    sitter: 'Cat sitter',
-    owner: 'Cat owner',
+    sitter: 'Sitter',
+    owner: 'Owner',
     location: 'Location',
     time: 'Time',
     price: 'Price',

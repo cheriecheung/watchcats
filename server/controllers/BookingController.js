@@ -12,7 +12,8 @@ const cleanRecordData = async (item, bookingType) => {
 
   const data = {
     id,
-    name: `${firstName} ${lastName}`,
+    firstName,
+    lastName,
     shortId: urlId,
     appointmentType,
     location,

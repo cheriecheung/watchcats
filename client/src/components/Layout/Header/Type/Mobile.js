@@ -1,6 +1,4 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../../../redux/actions/authenticationActions';
 import {
   Overlay,
   OverlayMask,
@@ -13,7 +11,15 @@ import {
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-function Mobile({ t, toggle, setLanguage, isLoggedIn, closeMenu, onMobileLogout }) {
+function Mobile({
+  t,
+  toggle,
+  setLanguage,
+  currentLanguage,
+  isLoggedIn,
+  closeMenu,
+  onMobileLogout
+}) {
   return (
     <>
       <Overlay open={toggle}>
@@ -22,7 +28,13 @@ function Mobile({ t, toggle, setLanguage, isLoggedIn, closeMenu, onMobileLogout 
         </CloseButton>
 
         <OverlayMenu open={toggle}>
-          <MobileMenu setLanguage={setLanguage} isLoggedIn={isLoggedIn} closeMenu={closeMenu} onMobileLogout={onMobileLogout} />
+          <MobileMenu
+            setLanguage={setLanguage}
+            currentLanguage={currentLanguage}
+            isLoggedIn={isLoggedIn}
+            closeMenu={closeMenu}
+            onMobileLogout={onMobileLogout}
+          />
         </OverlayMenu>
       </Overlay>
 
@@ -33,17 +45,15 @@ function Mobile({ t, toggle, setLanguage, isLoggedIn, closeMenu, onMobileLogout 
 
 export default Mobile;
 
-function MobileMenu({ setLanguage, closeMenu, onMobileLogout }) {
-  const { isLoggedIn } = useSelector(state => state.isLoggedIn);
-  const currentLanguage = localStorage.getItem('lang')
-  const changeLanguage = currentLanguage === 'en' ? 'nl' : 'en'
-
-  // const dispatch = useDispatch();
-
-  // const handleLogout = () => {
-  //   dispatch(logout());
-  //   closeMenu && closeMenu()
-  // };
+function MobileMenu({
+  setLanguage,
+  currentLanguage,
+  closeMenu,
+  isLoggedIn,
+  onMobileLogout
+}) {
+  // const currentLanguage = localStorage.getItem('lang')
+  // const changeLanguage = currentLanguage === 'en' ? 'nl' : 'en'
 
   return (
     <>
@@ -93,7 +103,7 @@ function MobileMenu({ setLanguage, closeMenu, onMobileLogout }) {
       </MenuItemBox>
       <MenuItemBox onClick={() => {
         closeMenu && closeMenu()
-        setLanguage(changeLanguage)
+        setLanguage(currentLanguage === 'en' ? 'nl' : 'en')
       }}>
         <Icon className="fas fa-globe-americas fa-2x" />
         <Label>{currentLanguage === 'en' ? 'Nederlands' : 'English'}</Label>

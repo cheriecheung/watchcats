@@ -14,7 +14,7 @@ export const Nav = styled.nav`
   border: none;
   box-shadow: 0 5px 5px rgba(182, 182, 182, 0.1);
 
-  @media (max-width: 768px) {
+  @media (max-width: 920px) {
     padding: 0 5px;
     justify-content: center;
   }
@@ -31,7 +31,7 @@ export const Menu = styled.ul`
     margin: 0px 20px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 920px) {
     display: none;
   }
 `;
@@ -48,7 +48,7 @@ export const NavIcon = styled.button`
   cursor: pointer;
   border: none;
 
-  @media (min-width: 769px) {
+  @media (min-width: 920px) {
     display: none;
   }
 `;
@@ -79,19 +79,19 @@ export const Overlay = styled.div`
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
 
-  @media (min-width: 769px) {
+  @media (min-width: 920px) {
     display: none;
   }
 `;
 
 export const OverlayMask = styled.div`
-  display: ${(props) => (props.open ? 'block' : 'none')};
+  opacity: ${(props) => (props.open ? 1 : 0)};
+  z-index: ${(props) => (props.open ? 1 : -1)};
   background-color: rgba(0, 0 ,0, 0.3);
   width: 100vw;
   height: 100vh;
   position: absolute;
   top: 0;
-  z-index: 1;
   transition: 0.4s ease-in-out;
 `
 
@@ -121,12 +121,12 @@ export const CloseButton = styled.button`
   outline: none !important;
 `
 
-
 export const MenuItemBox = styled(Link)`
   display: flex;
   width: 70%;
   margin: 20px 0;
   font-size: 10px;
+  color: ${themeColor.peach}
 `
 
 export const Icon = styled.i`
@@ -141,7 +141,7 @@ export const ItemContainer = styled.div`
   display: flex;
   flex-direction: row;
 
-  @media (max-width: 768px) {
+  @media (max-width: 920px) {
     flex-direction: column;
     justify-content: center;
   }
@@ -151,7 +151,7 @@ export const LinkButton = styled(Link)`
   color: #9d9d9d;
   font-weight: 400;
 
-  @media (max-width: 768px) {
+  @media (max-width: 920px) {
     color: grey;
   }
 `
@@ -163,7 +163,7 @@ export const LogoutButton = styled.button`
   border: none;
   background: none;
 
-  @media (max-width: 768px) {
+  @media (max-width: 920px) {
     color: grey;
   }
 `

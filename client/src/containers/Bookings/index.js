@@ -4,6 +4,21 @@ import { useTranslation } from 'react-i18next';
 import { Requested, Confirmed, Completed, Declined } from './Status';
 import { useBookings } from './viewModel'
 import { SubTabBar, SubTabBarItem, TabBar, TabItem } from '../../components/UIComponents'
+import styled from 'styled-components';
+
+const Container = styled.div`
+  margin: 0 4vw; 
+  padding: 40px 0;
+`;
+
+const Content = styled.div`
+  max-width: 800px;
+
+  @media (max-width: 680px) {
+    width: 90vw;
+    margin: 0 auto; 
+  }
+`
 
 function Bookings() {
   const { t } = useTranslation();
@@ -104,9 +119,9 @@ function Bookings() {
         </SubTabBar>
       </div>
 
-      <div style={{ margin: '4vw' }}>
+      <Content>
         {renderBookingStatusTabContent()}
-      </div>
+      </Content>
 
       <Modal
         visible={modalVisible}
