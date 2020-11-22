@@ -22,8 +22,9 @@ const { DB_CONNECT, SESS_NAME, SESS_SECRET, SESS_LIFETIME, PASSPHRASE } = proces
 
 mongoose
   .connect(DB_CONNECT, {
-    useUnifiedTopology: true,
     useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
   })
   .then(() => console.log('connected to db yay'))
   .catch((err) => console.log(err.message));
