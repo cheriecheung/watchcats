@@ -56,27 +56,6 @@ function WriteReview() {
               <h6>Give your rating</h6>
               <RateField name="rating" />
             </div>
-            {/* <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <Label>Profile accuracy</Label>
-          <span>
-            Are the cat sitter's skills and service aligned with what being portrayed in his / her
-            profile?
-          </span>
-          <Rate onChange={(value) => console.log({ value })} />
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <Label>Communication</Label>
-          <span>
-            How clearly did the cat sitter communicate the appointment details and concerns?
-          </span>
-          <span></span>
-          <Rate />
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <Label>Treatment of animals</Label>
-          <span>How well did the cat sitter take care of your cat(s)?</span>
-          <Rate />
-        </div> */}
 
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <button type="submit">Submit</button>
