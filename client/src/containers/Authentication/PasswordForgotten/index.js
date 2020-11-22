@@ -5,7 +5,7 @@ import {
     email_verification_default_values as defaultValues,
     send_email_schema
 } from '../_formConfig'
-import { ButtonFilled } from '../../../components/UIComponents';
+import { ContainedButton } from '../../../components/UIComponents';
 import { TextField } from '../../../components/FormComponents'
 import { Alert } from 'antd';
 import { useForgotPassword } from '../viewModel';
@@ -32,7 +32,7 @@ function PasswordForgotten() {
                         :
                         <>
                             <TextField name="email" />
-                            <ButtonFilled>Submit</ButtonFilled>
+                            <ContainedButton>Submit</ContainedButton>
                         </>
                     }
                 </form>

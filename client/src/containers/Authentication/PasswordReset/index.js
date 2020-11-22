@@ -6,7 +6,7 @@ import {
     password_reset_schema
 } from '../_formConfig'
 import { FieldLabel, TextField } from '../../../components/FormComponents'
-import { ButtonFilled } from '../../../components/UIComponents';
+import { ContainedButton } from '../../../components/UIComponents';
 import { useForgotPassword } from '../viewModel';
 
 const resolver = yupResolver(password_reset_schema)
@@ -30,7 +30,7 @@ function PasswordReset() {
                     <FieldLabel>Repeat password</FieldLabel>
                     <TextField name="newPasswordRepeat" />
 
-                    <ButtonFilled>Submit</ButtonFilled>
+                    <ContainedButton>Submit</ContainedButton>
                 </form>
             </FormProvider>
         </div>

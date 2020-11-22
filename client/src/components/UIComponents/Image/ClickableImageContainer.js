@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const ImageContainerClickable = styled(Link)`
+const ClickableImageContainer = styled(Link)`
   display: block;
   width: 70px;
   height: 70px;
@@ -10,4 +10,4 @@ const ImageContainerClickable = styled(Link)`
   border-radius: 10px;
 `;
 
-export default ImageContainerClickable
+export default ClickableImageContainer

@@ -1,7 +1,7 @@
-import { themeColor } from '../../style/theme';
+import { themeColor } from '../../../style/theme';
 import styled from 'styled-components';
 
-const ButtonFilled = styled.button`
+const ContainedButton = styled.button`
   background: ${themeColor.peach};
   border: none;
   outline: none !important;
@@ -13,4 +13,4 @@ const ButtonFilled = styled.button`
   margin: 5px 0;
 `;
 
-export default ButtonFilled;
+export default ContainedButton;

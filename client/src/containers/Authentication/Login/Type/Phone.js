@@ -1,13 +1,14 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form';
-import { SectionContainer, FieldLabel, TextField } from '../../../../components/FormComponents'
+import { FieldLabel, TextField } from '../../../../components/FormComponents'
+import { HorizontalCard } from '../../../../components/UIComponents'
 
 function PhoneLogin({ onPhoneLogin }) {
   const methods = useForm();
   const { handleSubmit } = methods;
 
   return (
-    <SectionContainer style={{ width: '40vw', marginTop: 30 }}>
+    <HorizontalCard style={{ width: '40vw', marginTop: 30 }}>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onPhoneLogin)}>
           <FieldLabel>Code</FieldLabel>
@@ -16,7 +17,7 @@ function PhoneLogin({ onPhoneLogin }) {
           <button type="submit">submit</button>
         </form>
       </FormProvider>
-    </SectionContainer>
+    </HorizontalCard>
   )
 }
 

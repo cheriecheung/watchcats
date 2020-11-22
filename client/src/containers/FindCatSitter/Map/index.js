@@ -24,7 +24,8 @@ height: 100%;
 `
 
 const LoadingSpin = styled(Spin)`
-align-self: center;
+  color: red !important;
+  align-self: center;
 `
 
 function MapItem({

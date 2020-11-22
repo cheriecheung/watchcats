@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { FormButtons, SectionContainer } from '../../../components/FormComponents';
-import { CardTitle } from '../../../components/UIComponents'
+import { FormButtons } from '../../../components/FormComponents';
+import { CardTitle, HorizontalCard } from '../../../components/UIComponents'
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import 'react-day-picker/lib/style.css';
@@ -60,31 +60,31 @@ function SitterProfile() {
 
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <SectionContainer ref={aboutSitterRef}>
+          <HorizontalCard ref={aboutSitterRef}>
             <CardTitle>{t('sitter_form.about_me')}</CardTitle>
 
             <AboutMe />
-          </SectionContainer>
+          </HorizontalCard>
 
           {/*  YEARS OF CAT CARE  */}
 
-          <SectionContainer ref={experienceRef}>
+          <HorizontalCard ref={experienceRef}>
             <CardTitle>{t('sitter_form.experience_serivce')}</CardTitle>
 
             <Experience />
-          </SectionContainer>
+          </HorizontalCard>
 
-          <SectionContainer>
+          <HorizontalCard>
             <CardTitle>{t('sitter_form.pricing')}</CardTitle>
 
             <Pricing />
-          </SectionContainer>
+          </HorizontalCard>
 
-          <SectionContainer>
+          <HorizontalCard>
             <CardTitle>{t('sitter_form.availability')}</CardTitle>
 
             <Availability reset={reset} watch={watch} />
-          </SectionContainer>
+          </HorizontalCard>
 
           <FormButtons onClick={() => reset(defaultValues)} />
         </form>

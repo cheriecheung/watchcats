@@ -10,7 +10,7 @@ import {
 } from '../../_formConfig'
 
 import { FieldLabel, TextField } from '../../../../components/FormComponents'
-import { ButtonFilled } from '../../../../components/UIComponents'
+import { ContainedButton } from '../../../../components/UIComponents'
 
 const resolver = yupResolver(login_schema)
 
@@ -39,9 +39,9 @@ function LocalLogin({ onLogin, errorMessage }) {
           Forgot password?
         </Link>
 
-        <ButtonFilled type="submit">
+        <ContainedButton type="submit">
           {t('login.login')}
-        </ButtonFilled>
+        </ContainedButton>
 
         {errorMessage && (
           <span style={{ color: 'red' }}>{errorMessage}</span>

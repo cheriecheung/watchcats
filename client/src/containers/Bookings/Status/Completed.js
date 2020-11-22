@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Item from '../Item';
-import { ButtonBordered } from '../../../components/UIComponents';
+import { OutlinedButton } from '../../../components/UIComponents';
 import { useTranslation } from 'react-i18next';
 
 function Completed({ bookingType, bookings }) {
@@ -12,7 +12,7 @@ function Completed({ bookingType, bookings }) {
       {hasWrittenReview ? (
         <h5>Show review here</h5>
       ) : (
-          <ButtonBordered
+          <OutlinedButton
             backgroundColor="#FF5C4E"
             // use <Link> instead
             onClick={() => {
@@ -20,7 +20,7 @@ function Completed({ bookingType, bookings }) {
             }}
           >
             {t('bookings.write_review')}
-          </ButtonBordered>
+          </OutlinedButton>
         )}
     </div>
   );

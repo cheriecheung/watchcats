@@ -64,30 +64,6 @@ footer {
   display: none;
 }
 
-.hr-label::before {
-  right: 0.5em;
-  margin-left: -50%;
-  z-index: -1;
-}
-
-.hr-label::after {
-  left: 0.5em;
-  margin-right: -50%;
-  z-index: -1;
-}
-
-.hr-label::before,
-.hr-label::after {
-  z-index: -1;
-  content: '';
-  position: relative;
-  width: 50%;
-  background-color: rgba(0, 0, 0, 0.2);
-  display: inline-block;
-  height: 1px;
-  vertical-align: middle;
-}
-
 .clear-btn {
   background: transparent;
   border: none;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const ButtonBordered = styled.button`
+const OutlinedButton = styled.button`
   border: 1px solid ${(props) => props.backgroundColor};
   border-radius: 15px;
   background-color: #fff;
@@ -11,4 +11,4 @@ const ButtonBordered = styled.button`
   margin-right: 10px;
 `;
 
-export default ButtonBordered;
+export default OutlinedButton;

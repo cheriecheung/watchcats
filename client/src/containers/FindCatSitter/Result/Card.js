@@ -1,31 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Row, Col } from 'reactstrap';
-import { SectionContainer } from '../../../components/FormComponents';
-import styled from 'styled-components';
+import { HorizontalCard, HorizontalDivider, Image, ImageContainer } from '../../../components/UIComponents';
 import { Link } from 'react-router-dom';
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
-
-// const cardHeight = 160;
-
-const ResultContainer = styled.div`
-  maxWidth: 400px;
-  text-align: left;
-  margin-bottom: 30px;
-  border-radius: 10px;
-  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.05), 0 1px 6px rgba(0, 0, 0, 0.05);
-  background: rgba(255, 255, 255, 1);
-  overflow: hidden;
-  display: flex;
-  padding: 20px;
-  transition: all .3s ease-in-out;
-  height: 190px;
-
-  &:hover {
-    margin-left: 10px;
-    margin-right: -10px;
-  }
-`;
 
 const fiveStarDisplay = (number) => {
   return (
@@ -62,31 +39,16 @@ function Card({ item, setHoveredResultId }) {
   const profilePicURL = profilePictureFileName ? `${process.env.REACT_APP_API_DOMAIN}/image/${profilePictureFileName}` : defaultProfilePic
 
   return (
-    <ResultContainer
+    <HorizontalCard
+      variant="findCatSitter"
       onMouseOver={() => setHoveredResultId(urlId)}
       onMouseLeave={() => setHoveredResultId('')}
     >
-      <div
-        style={{
-          //maxHeight: 150,
-          flexBasis: '26%',
-          margin: '0 15px 0 -20px',
-          borderTopRightRadius: 10,
-          borderBottomRightRadius: 10,
-          overflow: 'hidden',
-        }}
-      >
-        <img
-          src={profilePicURL}
-          alt="pic"
-          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-        />
-      </div>
-      <div
-        style={{
-          flexBasis: '75%',
-        }}
-      >
+      <ImageContainer variant="findCatSitter">
+        <Image url={profilePicURL} />
+      </ImageContainer>
+
+      <div style={{ flexBasis: '75%' }} >
         <div
           style={{
             display: 'flex',
@@ -95,10 +57,6 @@ function Card({ item, setHoveredResultId }) {
         >
           <h5>{firstName} {lastName.charAt(0)}</h5>
           <div>
-            {/* <div>
-              <i className="fas fa-map-marker-alt icon-sort-distance" />
-              <span>{distance}</span>
-            </div> */}
             <div>
               {/* <i className="fas fa-euro-sign icon-sort-price" /> */}
               <span>&euro;	{hourlyRate} / hour</span>
@@ -137,16 +95,17 @@ function Card({ item, setHoveredResultId }) {
           </div>
         </div>
 
-        <hr style={{ margin: '15px 0' }} />
+        <HorizontalDivider />
 
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ width: '80%', height: '50px', overflow: 'hidden' }}>{aboutSitter.slice(0, 100).trim().replace(/("[^"]+"|\w+)$/, "...")}</div>
+
           <a href={`/profile/catsitter/${urlId}`} target="_blank" style={{ width: '17%' }}>
             {t('find_sitter.view_profile')}
           </a>
         </div>
       </div>
-    </ResultContainer>
+    </HorizontalCard>
   );
 }
 

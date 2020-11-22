@@ -9,7 +9,6 @@ import FormButtons from './FormButtons';
 import PasswordField from './PasswordField'
 import { RadioGroup, RadioButton } from './Radio';
 import RateField from './RateField'
-import SectionContainer from './SectionContainer';
 import SelectField from './SelectField';
 import TextArea from './TextArea';
 import TextField from './TextField';
@@ -30,7 +29,6 @@ export {
   RadioGroup,
   RadioButton,
   RateField,
-  SectionContainer,
   SelectField,
   TextArea,
   TextField,

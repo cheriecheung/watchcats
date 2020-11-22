@@ -1,6 +1,6 @@
 import React from 'react';
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
-import { EllipsisParagraph, ImageContainerClickable } from '../../../components/UIComponents';
+import { EllipsisParagraph, ClickableImageContainer, Image } from '../../../components/UIComponents';
 
 function ReviewTemplate({ review }) {
   const profilePicURL = review.reviewerPicture ? `${process.env.REACT_APP_API_DOMAIN}/image/${review.reviewerPicture}` : defaultProfilePic
@@ -11,13 +11,9 @@ function ReviewTemplate({ review }) {
     <div style={{ margin: '20px 0' }}>
       <div style={{ display: 'flex' }}>
         <div>
-          <ImageContainerClickable to={pathname}>
-            <img
-              src={profilePicURL}
-              alt="pic"
-              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-            />
-          </ImageContainerClickable>
+          <ClickableImageContainer to={pathname}>
+            <Image url={profilePicURL} />
+          </ClickableImageContainer>
         </div>
 
         <div style={{ marginLeft: 20 }}>

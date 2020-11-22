@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Item from '../Item';
-import { ButtonBordered } from '../../../components/UIComponents';
+import { OutlinedButton } from '../../../components/UIComponents';
 import { useTranslation } from 'react-i18next';
 
 function Confirmed({
@@ -68,7 +68,7 @@ function ConfirmedJob({ hasPaid, openModal, setModalContent, setActionType, setB
 
   return hasPaid ? (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <ButtonBordered
+      <OutlinedButton
         backgroundColor="#9ACD32"
         onClick={() => {
           openModal();
@@ -78,7 +78,7 @@ function ConfirmedJob({ hasPaid, openModal, setModalContent, setActionType, setB
         }}
       >
         {t('bookings.complete')}
-      </ButtonBordered>
+      </OutlinedButton>
     </div>
   ) : (
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>

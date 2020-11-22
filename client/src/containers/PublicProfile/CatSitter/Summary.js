@@ -1,6 +1,6 @@
 import React from 'react';
-import { ButtonFilled } from '../../../components/UIComponents';
-import { CardVertical, ImageContainer } from '../../../components/UIComponents'
+import { ContainedButton } from '../../../components/UIComponents';
+import { Image, ImageContainer, VerticalCard } from '../../../components/UIComponents'
 import RequestBookingModal from './RequestBookingModal';
 import { useTranslation } from 'react-i18next';
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
@@ -22,7 +22,7 @@ function Summary({ sitterInfo, summaryProps }) {
   } = summaryProps;
 
   return (
-    <CardVertical
+    <VerticalCard
       style={{
         flexBasis: '35%',
         maxHeight: 400,
@@ -37,11 +37,7 @@ function Summary({ sitterInfo, summaryProps }) {
       }
 
       <ImageContainer>
-        <img
-          src={pictureUrl}
-          alt="pic"
-          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-        />
+        <Image url={pictureUrl} />
       </ImageContainer>
 
       <hr />
@@ -58,10 +54,10 @@ function Summary({ sitterInfo, summaryProps }) {
         {/* you will receive ___  */}
       </span>
 
-      <ButtonFilled onClick={onSendMessage}>{t('sitter_profile.send_message')}</ButtonFilled>
-      <ButtonFilled onClick={() => setModalVisible(true)}>
+      <ContainedButton onClick={onSendMessage}>{t('sitter_profile.send_message')}</ContainedButton>
+      <ContainedButton onClick={() => setModalVisible(true)}>
         {t('sitter_profile.request_appointment')}
-      </ButtonFilled>
+      </ContainedButton>
 
       <RequestBookingModal
         modalVisible={modalVisible}
@@ -73,7 +69,7 @@ function Summary({ sitterInfo, summaryProps }) {
         // location={location}
         onSendRequest={onSendRequest}
       />
-    </CardVertical>
+    </VerticalCard>
   );
 }
 

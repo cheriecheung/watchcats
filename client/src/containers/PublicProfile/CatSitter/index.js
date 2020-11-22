@@ -21,7 +21,7 @@ const ContentContainer = styled.div`
   }
 `;
 
-const SectionContainer = styled.div`
+const HorizontalCard = styled.div`
   margin: 50px 0;
 `;
 
@@ -48,41 +48,41 @@ function CatSitter() {
                 cleanedData.reviews &&
                 cleanedData.reviews.length > 0 &&
                 <>
-                  <SectionContainer>
+                  <HorizontalCard>
                     <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
                       Reviews ({cleanedData.reviews.length})
               </h5>
                     <Reviews reviews={cleanedData.reviews} crollToRef={scrollToRef} reviewListRef={reviewListRef} />
-                  </SectionContainer>
+                  </HorizontalCard>
                   <hr />
                 </>
               }
 
-              <SectionContainer>
+              <HorizontalCard>
                 <h5>About</h5>
                 <AboutMe aboutMe={cleanedData.aboutSitter} />
-              </SectionContainer>
+              </HorizontalCard>
 
               <hr />
 
-              <SectionContainer>
+              <HorizontalCard>
                 <h5>Experience</h5>
                 <Experience sitterInfo={cleanedData} />
-              </SectionContainer>
+              </HorizontalCard>
 
               <hr />
 
-              <SectionContainer>
+              <HorizontalCard>
                 <h5>Availability</h5>
                 <AvailabilityCalendar unavailableDates={cleanedData.unavailableDates} />
-              </SectionContainer>
+              </HorizontalCard>
 
               <hr />
 
-              <SectionContainer>
+              <HorizontalCard>
                 <h5>Location</h5>
                 <Location />
-              </SectionContainer>
+              </HorizontalCard>
             </DetailsContainer>
           </div>
 

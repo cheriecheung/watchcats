@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { FormButtons, SectionContainer } from '../../../components/FormComponents';
-import { CardTitle } from '../../../components/UIComponents'
+import { FormButtons } from '../../../components/FormComponents';
+import { CardTitle, HorizontalCard } from '../../../components/UIComponents'
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -63,13 +63,13 @@ function CatOwnerInfo() {
 
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(submitData)}>
-          <SectionContainer>
+          <HorizontalCard>
             <CardTitle> {t('owner_form.about_me')}</CardTitle>
 
             <AboutMe />
-          </SectionContainer>
+          </HorizontalCard>
 
-          <SectionContainer>
+          <HorizontalCard>
             <CardTitle>{t('owner_form.appointment')}</CardTitle>
 
             <h6 style={{ marginTop: 30 }}>{t('owner_form.one_day')}</h6>
@@ -78,7 +78,7 @@ function CatOwnerInfo() {
               oneDayFieldArray={oneDayFieldArray}
               overnightFieldArray={overnightFieldArray}
             />
-          </SectionContainer>
+          </HorizontalCard>
 
           <CatInfoContainer>
             <CardTitle>{t('owner_form.about_cat')}</CardTitle>
@@ -90,11 +90,11 @@ function CatOwnerInfo() {
             />
           </CatInfoContainer>
 
-          <SectionContainer>
+          <HorizontalCard>
             <CardTitle>{t('owner_form.cat_description')}</CardTitle>
 
             <Responsibilities />
-          </SectionContainer>
+          </HorizontalCard>
 
           <FormButtons onClick={() => reset(defaultValues)} />
         </form>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { HorizontalDivider } from '../../../components/UIComponents'
 
 import { Google, Local } from './Type'
 import { useRegister } from '../viewModel';
@@ -21,9 +22,7 @@ function Register() {
 
       <Google onGoogleLogin={onGoogleLogin} />
 
-      <div className="hr-label">
-        <span>{t('form.or')}</span>
-      </div>
+      <HorizontalDivider>{t('form.or')}</HorizontalDivider>
 
       <Local t={t} onRegister={onRegister} />
     </div>

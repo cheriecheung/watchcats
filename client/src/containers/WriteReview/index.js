@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { Row, Col } from 'reactstrap';
-import { RateField, SectionContainer, TextArea } from '../../components/FormComponents';
+import { RateField, TextArea } from '../../components/FormComponents';
+import { HorizontalCard } from '../../components/UIComponents'
 import styled from 'styled-components';
 
 import { useForm, FormProvider } from 'react-hook-form';
@@ -39,7 +40,7 @@ function WriteReview() {
 
   return (
     <div style={{ width: '70vw', margin: '20px auto 0 auto' }}>
-      <SectionContainer>
+      <HorizontalCard>
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)} style={{ textAlign: 'left' }}>
             <div>
@@ -62,7 +63,7 @@ function WriteReview() {
             </div>
           </form>
         </FormProvider>
-      </SectionContainer>
+      </HorizontalCard>
     </div>
   );
 }
