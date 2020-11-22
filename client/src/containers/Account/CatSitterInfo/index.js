@@ -53,7 +53,7 @@ function SitterProfile() {
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 20 }}>
-        <TextButton variant="link" link={`/profile/catsitter/${id}`}>
+        <TextButton variant="href" link={`/profile/catsitter/${id}`}>
           {t('sitter_form.view_profile')}
         </TextButton>
       </div>

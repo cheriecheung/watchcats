@@ -87,7 +87,7 @@ function Enable2FA() {
             <FieldLabel>3. Login with your code</FieldLabel>
             <p>Enter the 6-digit verification code generated.</p>
             <TextField name="verificationCode" placeholder="000 000" />
-            <ContainedButton onClick={onVerifyCode}>Activate</ContainedButton>
+            <ContainedButton type="button" onClick={onVerifyCode}>Activate</ContainedButton>
           </Description>
         </Section>
       </form>
@@ -104,9 +104,9 @@ export function EnableSuccess({ closeModal }) {
       <br />
       <br />
       <p>You have successfully activated 2FA</p>
-      <button onClick={() => {
-        closeModal && closeModal()
-      }}>OK</button>
+      <ContainedButton onClick={() => closeModal && closeModal()}>
+        OK
+      </ContainedButton>
     </>
   )
 }

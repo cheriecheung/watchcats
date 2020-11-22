@@ -6,6 +6,7 @@ import {
   register_schema
 } from '../../_formConfig'
 import { FieldLabel, PasswordField, TextField } from '../../../../components/FormComponents'
+import { OutlinedButton } from '../../../../components/UIComponents'
 
 const resolver = yupResolver(register_schema)
 
@@ -32,7 +33,9 @@ function Local({ t, onRegister }) {
         <FieldLabel>{t('form.password')}</FieldLabel>
         <PasswordField name="password" />
 
-        <input type="submit" value={t('form.register')} />
+        <OutlinedButton type="submit" style={{ width: '100%' }}>
+          {t('register.register')}
+        </OutlinedButton>
       </form>
     </FormProvider>
   )

@@ -10,6 +10,7 @@ import {
   SelectField,
   TextField,
 } from '../../../components/FormComponents';
+import { TextButton } from '../../../components/UIComponents'
 import { useTranslation } from 'react-i18next';
 import { catBreedOptions, personalityOptions, medicineOptions } from '../../../constants';
 import { catObj } from '../_defaultValues'
@@ -46,25 +47,16 @@ function AboutCat({ setValue, watch, catFieldArray, catProps }) {
               <h6 hidden={index === 0} style={{ color, fontWeight: 800 }}>
                 And my #{index + 1} cat
               </h6>
-              <button
-                type="button"
+              <TextButton
                 hidden={index === 0}
                 onClick={() => handleRemoveCat(index)}
-                style={{
-                  marginBottom: 10,
-                  background: 'none',
-                  border: 'none',
-                  outline: 'none',
-                  float: 'right',
-                  color: '#ffa195',
-                }}
+                style={{ float: 'right', color: '#ffa195' }}
               >
                 {t('owner_form.remove')}
-              </button>
+              </TextButton>
             </div>
 
             <div>
-              {/* <FieldLabel>{t('owner_form.pictures')}</FieldLabel> */}
               <br />
               {photoFields[index] ?
                 <FileDisplayField
@@ -80,7 +72,6 @@ function AboutCat({ setValue, watch, catFieldArray, catProps }) {
                 :
                 <ArrayFileUploader
                   name={`cat[${index}].photo`}
-                  //id={`cat[${index}].photo`}
                   fileType="image/x-png,image/jpeg"
                   setFileData={(data) => setValue(`cat[${index}].photo`, data)}
                   setDisplayPreview={(data) => handlePreview(data, index)}
@@ -169,23 +160,14 @@ function AboutCat({ setValue, watch, catFieldArray, catProps }) {
         );
       })}
 
-      <button
-        type="button"
+      <TextButton
         hidden={cat && cat.length > 4}
-        className="add-field-btn"
         onClick={() => append(catObj)}
-        style={{
-          // background: '#ffecea',
-          color: '#5FBB96',
-          outline: 'none',
-          border: 'none',
-          borderRadius: 15,
-          padding: 20,
-        }}
+        style={{ color: '#5FBB96' }}
       >
         <i className="fas fa-plus mr-1" />
         {t('owner_form.add_cat')}
-      </button>
+      </TextButton>
 
       <span hidden={cat && cat.length <= 4}>
         If you have 5 or more cats, perhaps you would want to consider having them stay at a pet

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { HorizontalDivider } from '../../../components/UIComponents'
+import { TextButton, HorizontalDivider } from '../../../components/UIComponents'
 
 import { Google, Local } from './Type'
 import { useRegister } from '../viewModel';
@@ -12,12 +12,9 @@ function Register() {
     <div style={{ width: '30vw', margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h4>{t('register.register')}</h4>
-        <Link
-          to="/login"
-          style={{ background: 'none', border: 'none', outline: 'none' }}
-        >
+        <TextButton variant="link" link="/login">
           {t('login.login')}
-        </Link>
+        </TextButton>
       </div>
 
       <Google onGoogleLogin={onGoogleLogin} />

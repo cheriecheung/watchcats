@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { disableTwoFactor } from '../../../../redux/actions/authenticationActions'
 import { TextField } from '../../../../components/FormComponents';
+import { ContainedButton } from '../../../../components/UIComponents';
 import { useForm, FormProvider } from 'react-hook-form';
 
 function Disable2FA() {
@@ -16,15 +17,13 @@ function Disable2FA() {
   }
 
   return (
-    <>
-      <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)} style={{ textAlign: 'left' }}>
-          <TextField name="code" />
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)} style={{ textAlign: 'left' }}>
+        <TextField name="code" />
 
-          <button type="submit">Submit</button>
-        </form>
-      </FormProvider>
-    </>
+        <ContainedButton type="submit">Submit</ContainedButton>
+      </form>
+    </FormProvider>
   )
 }
 

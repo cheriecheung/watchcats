@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
+import { ContainedButton } from '../../../../components/UIComponents'
 
 function PhoneNumberInput({ phoneNumberInputProps }) {
   const {
@@ -27,7 +28,7 @@ function PhoneNumberInput({ phoneNumberInputProps }) {
       <br />
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <button type="button" onClick={savePhoneNumber}>Submit</button>
+        <ContainedButton type="button" onClick={savePhoneNumber}>Submit</ContainedButton>
       </div>
     </div>
   )

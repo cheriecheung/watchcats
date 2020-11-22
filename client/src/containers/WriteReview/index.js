@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { RateField, TextArea } from '../../components/FormComponents';
-import { HorizontalCard } from '../../components/UIComponents'
+import { ContainedButton, HorizontalCard } from '../../components/UIComponents'
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -49,7 +49,7 @@ function WriteReview() {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <button type="submit">Submit</button>
+              <ContainedButton type="submit">Submit</ContainedButton>
             </div>
           </form>
         </FormProvider>

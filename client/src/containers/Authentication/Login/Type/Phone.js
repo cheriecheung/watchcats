@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form';
 import { FieldLabel, TextField } from '../../../../components/FormComponents'
-import { HorizontalCard } from '../../../../components/UIComponents'
+import { ContainedButton, HorizontalCard } from '../../../../components/UIComponents'
 
 function PhoneLogin({ onPhoneLogin }) {
   const methods = useForm();
@@ -14,7 +14,7 @@ function PhoneLogin({ onPhoneLogin }) {
           <FieldLabel>Code</FieldLabel>
           <TextField name="code" />
 
-          <button type="submit">submit</button>
+          <ContainedButton type="submit">submit</ContainedButton>
         </form>
       </FormProvider>
     </HorizontalCard>

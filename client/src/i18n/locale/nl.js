@@ -55,7 +55,7 @@ export default {
     reset: 'Resetten',
 
     showing: (total) => `Showing ${total} cat sitter`,
-    no_results: 'Geen kattenoppas gevonden',
+    no_results: 'Geen oppas gevonden',
     new_member: 'Nieuw lid',
     completed_booking: 'Voltooide afspraak',
     completed_bookings: 'Voltooide afspraken',
@@ -90,8 +90,8 @@ export default {
 
   account: {
     general_info: 'Algemene informatie',
-    sitter_profile: 'Kattenoppasprofiel',
-    owner_profile: 'Katteneigenaarsprofiel',
+    sitter_profile: 'Oppasprofiel',
+    owner_profile: 'Eigenaarsprofiel',
     settings: 'Instellingen',
   },
 
@@ -113,7 +113,7 @@ export default {
   },
 
   sitter_form: {
-    view_profile: 'Bekijk mijn openbare kattenoppasprofiel',
+    view_profile: 'Bekijk mijn openbare oppasprofiel',
 
     about_me: 'Over mij',
     about_me_description:
@@ -124,10 +124,10 @@ export default {
       'Please select relevant experience / skills you possess. For every item selected, please briefly explain the details in the text box below.',
     has_cat: 'Eigenaar van een kat',
     volunteer: 'Heeft vrijwillegerswerk gedaan',
-    medication: 'Kan medicijnen toedienen ',
+    medication: 'Kan medicijnen toedienen',
     injection: 'Kan injecties toedienen',
-    certificate: 'Heeft certificaat voor dierenverzorging ',
-    grooming: 'Heeft verzorgings bekwaamheid voor huisdieren',
+    certificate: 'Bezit certificaat',
+    grooming: 'Ervaring in dierenverzorging',
 
     pricing: 'Prijsstelling',
     one_day: 'Eendaags bezoek',
@@ -143,7 +143,7 @@ export default {
   },
 
   owner_form: {
-    view_profile: 'Bekijk mijn openbare katteneigenaarsprofiel',
+    view_profile: 'Bekijk mijn openbare eigenaarsprofiel',
 
     about_me: 'Over mij',
     about_me_description: 'Tell cat sitters about yourself. Start with a little description of yourself - What do you do for a living? Why are you looking for a cat sitter?',
@@ -220,8 +220,8 @@ export default {
   bookings: {
     // sitting_jobs: 'Oppas jobs voor mij',
     // sitting_service: 'Oppas diensten voor mijn kat',
-    as_cat_sitter: 'Als een Kattenoppas',
-    as_cat_owner: 'Als een Katteneigenaar',
+    as_cat_sitter: 'Als een oppas',
+    as_cat_owner: 'Als een eigenaar',
 
     requested: 'Aangevraagd',
     decline: 'Weigeren',

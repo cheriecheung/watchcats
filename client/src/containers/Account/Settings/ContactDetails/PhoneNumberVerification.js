@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { resendVerficationCode } from '../../../../redux/actions/accountActions'
+import { ContainedButton } from '../../../../components/UIComponents'
 import styled from 'styled-components';
 
 const CodeInput = styled.input`
@@ -45,7 +46,7 @@ function PhoneNumberVerification({ phoneVerificationProps }) {
       {/* {changePhoneNumberStep === 'verificationFailed' &&
             <span>code invalid. please try again</span>
           } */}
-      <button onClick={() => dispatch(resendVerficationCode())}>Resend Code</button>
+      <ContainedButton onClick={() => dispatch(resendVerficationCode())}>Resend Code</ContainedButton>
     </div>
   )
 }

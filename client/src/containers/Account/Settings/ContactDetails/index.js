@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FieldLabel } from '../../../../components/FormComponents';
-import { TextButton, VerticalDivider, WrapLayout } from '../../../../components/UIComponents';
+import { ContainedButton, TextButton, VerticalDivider, WrapLayout } from '../../../../components/UIComponents';
 import { Modal, Switch } from 'antd';
 
 import { useDispatch } from 'react-redux';
@@ -31,6 +31,32 @@ function ContactDetails({
 
   const [showModal, setShowModal] = useState(false);
 
+  const renderModalContent = () => {
+    switch (changePhoneNumberStep) {
+      case 'submitted':
+        return (
+          <PhoneNumberVerification
+            phoneVerificationProps={phoneVerificationProps}
+            closeModal={() => setShowModal(false)}
+          />
+        )
+      case 'input':
+        return (
+          <PhoneNumberInput phoneNumberInputProps={phoneNumberInputProps} />
+        )
+      case 'verified':
+        return (
+          <>
+            <i className="far fa-check-circle fa-3x" />
+            <br />
+            <br />
+            <p>You have successfully verified your phone</p>
+            <ContainedButton onClick={() => setShowModal(false)}>OK</ContainedButton>
+          </>
+        )
+    }
+  }
+
   return (
     <WrapLayout>
       <Modal
@@ -39,24 +65,7 @@ function ContactDetails({
         onCancel={() => setShowModal(false)}
         footer={null}
       >
-        {changePhoneNumberStep === 'submitted' &&
-          <PhoneNumberVerification
-            phoneVerificationProps={phoneVerificationProps}
-            closeModal={() => setShowModal(false)}
-          />}
-        {changePhoneNumberStep === 'input' &&
-          <PhoneNumberInput phoneNumberInputProps={phoneNumberInputProps} />
-        }
-
-        {changePhoneNumberStep === 'verified' &&
-          <>
-            <i className="far fa-check-circle fa-3x" />
-            <br />
-            <br />
-            <p>You have successfully verified your phone</p>
-            <button onClick={() => setShowModal(false)}>OK</button>
-          </>
-        }
+        {renderModalContent()}
       </Modal>
 
       <div style={{ flexBasis: '45%' }}>
@@ -71,7 +80,6 @@ function ContactDetails({
               :
               <TextButton onClick={() => setRevealEmail(true)}>Reveal</TextButton>
             }
-            {/* <Button style={{ float: 'right' }}>Edit</Button> */}
           </div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 }}>
@@ -113,10 +121,11 @@ function ContactDetails({
           </div>
           :
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <TextButton onClick={() => {
-              dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
-              setShowModal(true)
-            }}
+            <TextButton
+              onClick={() => {
+                dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
+                setShowModal(true)
+              }}
             >
               Add
             </TextButton>

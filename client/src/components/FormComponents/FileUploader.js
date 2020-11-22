@@ -23,7 +23,6 @@ const ErrorDisplay = styled.span`
 
 export default function FileUploader({
   name,
-  // id,
   fileType,
   setFileData,
   setDisplayPreview,

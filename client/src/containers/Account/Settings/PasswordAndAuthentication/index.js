@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getGoogleAuthenticatorQrCode } from '../../../../redux/actions/authenticationActions'
+import { ContainedButton, OutlinedButton } from '../../../../components/UIComponents'
 import { useTranslation } from 'react-i18next';
 import { Button } from 'reactstrap';
 import { Modal } from 'antd';
@@ -60,16 +61,15 @@ function PasswordAndAuthentication({ contactDetails, isActivated }) {
       </Modal>
 
       {/* disable if registered / signed in by google */}
-      <Button
-        color="info"
-        size="sm"
+      <ContainedButton
+        type="button"
         onClick={() => {
           setShowModal(true)
           setContent('changePassword')
         }}
       >
         {t('settings.change_password')}
-      </Button>
+      </ContainedButton>
 
       <h6 style={{ marginTop: 40 }}>Two-Factor Authentication</h6>
             (Only for accounts registered by email and password)
@@ -78,7 +78,7 @@ function PasswordAndAuthentication({ contactDetails, isActivated }) {
         contactDetails && contactDetails.isTwoFactorEnabled || isActivated ?
           <>
             <h6>you have already enabled two factor auth</h6>
-            <button onClick={onDisable2FA}>Disable 2FA</button>
+            <OutlinedButton onClick={onDisable2FA}>Disable 2FA</OutlinedButton>
           </>
           :
           <>
@@ -89,14 +89,12 @@ function PasswordAndAuthentication({ contactDetails, isActivated }) {
           </p>
 
             {/* disable button if register via google */}
-            <Button
-              color="info"
-              size="sm"
+            <ContainedButton
               type="button"
               onClick={onEnable2FA}
             >
               Enable Two-Factor Auth
-          </Button>
+          </ContainedButton>
           </>
       }
     </>

@@ -3,6 +3,7 @@ import { Row, Col } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import { themeColor } from '../../../style/theme';
 import { DatePicker, TimePicker, FieldLabel } from '../../../components/FormComponents';
+import { TextButton } from '../../../components/UIComponents';
 import { oneDayObj, overnightObj } from '../_defaultValues'
 
 const color = '#252525';
@@ -24,21 +25,13 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
               <h6 hidden={index === 0}>
                 {t('owner_form.one_day')} #{index + 1}
               </h6>
-              <button
-                type="button"
+              <TextButton
                 hidden={index === 0}
                 onClick={() => oneDayRemove(index)}
-                style={{
-                  alignSelf: 'flex-end',
-                  background: 'none',
-                  border: 'none',
-                  outline: 'none',
-                  float: 'right',
-                  color: themeColor.peach,
-                }}
+                style={{ float: 'right', color: themeColor.peach }}
               >
                 {t('owner_form.remove')}
-              </button>
+              </TextButton>
             </div>
 
             <Row>
@@ -78,22 +71,14 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
           </div>
         );
       })}
-      <button
-        type="button"
+      <TextButton
         hidden={bookingOneDay && bookingOneDay.length >= 2}
-        className="add-field-btn"
         onClick={() => oneDayAppend(oneDayObj)}
-        style={{
-          // background: '#ffecea',
-          color: '#5FBB96',
-          outline: 'none',
-          border: 'none',
-          borderRadius: 15,
-        }}
+        style={{ color: '#5FBB96' }}
       >
         <i className="fas fa-plus mr-1" />
         {t('owner_form.add_period')}
-      </button>
+      </TextButton>
       <span hidden={bookingOneDay && bookingOneDay.length < 2}>
         You can at most request 2 one-day appointments at the same time!
       </span>
@@ -107,21 +92,13 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
               <h6 hidden={index === 0} style={{ color }}>
                 {t('owner_form.overnight')} visit #{index + 1}
               </h6>
-              <button
-                type="button"
+              <TextButton
                 hidden={index === 0}
                 onClick={() => overnightRemove(index)}
-                style={{
-                  alignSelf: 'flex-end',
-                  background: 'none',
-                  border: 'none',
-                  outline: 'none',
-                  float: 'right',
-                  color: themeColor.peach,
-                }}
+                style={{ float: 'right', color: themeColor.peach }}
               >
                 {t('owner_form.remove')}
-              </button>
+              </TextButton>
             </div>
 
             <div
@@ -147,22 +124,14 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
         );
       })}
 
-      <button
-        type="button"
+      <TextButton
         hidden={bookingOvernight && bookingOvernight.length >= 2}
-        className="add-field-btn"
         onClick={() => overnightAppend(overnightObj)}
-        style={{
-          //  background: '#ffecea',
-          color: '#5FBB96',
-          outline: 'none',
-          border: 'none',
-          borderRadius: 15,
-        }}
+        style={{ color: '#5FBB96' }}
       >
         <i className="fas fa-plus mr-1" />
         {t('owner_form.add_period')}
-      </button>
+      </TextButton>
       <span hidden={bookingOvernight && bookingOvernight.length < 2}>
         You can at most request 2 overnight sitting appointments at the same time!
       </span>

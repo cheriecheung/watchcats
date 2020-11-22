@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldLabel, PasswordField } from '../../../../components/FormComponents';
+import { ContainedButton } from '../../../../components/UIComponents';
 import { resetPassword } from '../../../../redux/actions/authenticationActions'
 import { useDispatch } from 'react-redux';
 
@@ -39,7 +40,7 @@ function ChangePassword() {
           <PasswordField name="newPasswordRepeat" />
 
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <button type="submit" onClick={() => dispatch(resetPassword())}>Submit</button>
+            <ContainedButton type="submit" onClick={() => dispatch(resetPassword())}>Submit</ContainedButton>
           </div>
         </form>
       </FormProvider>

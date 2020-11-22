@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { useForm, FormProvider } from 'react-hook-form';
@@ -10,7 +9,7 @@ import {
 } from '../../_formConfig'
 
 import { FieldLabel, TextField } from '../../../../components/FormComponents'
-import { ContainedButton } from '../../../../components/UIComponents'
+import { TextButton, OutlinedButton } from '../../../../components/UIComponents'
 
 const resolver = yupResolver(login_schema)
 
@@ -32,16 +31,13 @@ function LocalLogin({ onLogin, errorMessage }) {
         <FieldLabel>{t('form.password')}</FieldLabel>
         <TextField name="password" type="password" />
 
-        <Link
-          to="/forgot_password"
-          style={{ background: 'none', border: 'none', outline: 'none', float: 'right' }}
-        >
+        <TextButton variant="link" link="/forgot_password">
           Forgot password?
-        </Link>
+        </TextButton>
 
-        <ContainedButton type="submit">
+        <OutlinedButton type="submit">
           {t('login.login')}
-        </ContainedButton>
+        </OutlinedButton>
 
         {errorMessage && (
           <span style={{ color: 'red' }}>{errorMessage}</span>

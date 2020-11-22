@@ -1,14 +1,15 @@
 import React from 'react'
+import { OutlinedButton } from '../../../../components/UIComponents'
 
 function Google({ onGoogleLogin }) {
   return (
-    <button
+    <OutlinedButton
       type="button"
-      className="form-control btn btn-danger"
+      style={{ width: '100%', marginTop: 10 }}
       onClick={onGoogleLogin}
     >
       Google
-    </button>
+    </OutlinedButton>
   )
 }
 

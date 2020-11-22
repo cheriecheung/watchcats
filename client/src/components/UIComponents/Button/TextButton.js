@@ -1,6 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components';
 import { themeColor } from '../../../style/theme'
+import { Link } from 'react-router-dom';
 
 const sharedStyle = css`
   background: none;
@@ -21,12 +22,21 @@ const LinkedTextButton = styled.a`
   ${sharedStyle}
 `
 
-function TextButton({ variant, link, children }) {
+const RouterLinkTextButton = styled(Link)`
+  background: none;
+  border: none;
+  outline: none;
+  float: right !important;
+`
+
+function TextButton({ variant, link, type = "button", onClick, hidden, children }) {
   switch (variant) {
-    case 'link':
+    case 'href':
       return <LinkedTextButton href={link} target="_blank">{children}</LinkedTextButton>
+    case 'link':
+      return <RouterLinkTextButton to={link}>{children}</RouterLinkTextButton>
     default:
-      return <DefaultTextButton>{children}</DefaultTextButton>
+      return <DefaultTextButton type={type} hidden={hidden} onClick={onClick}>{children}</DefaultTextButton>
   }
 }
 

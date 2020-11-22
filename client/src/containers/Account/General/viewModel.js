@@ -8,8 +8,6 @@ function useGeneral() {
 
   const [photoField, setPhotoField] = useState()
 
-  console.log('_________render useGeneral')
-
   useEffect(() => {
     dispatch(getPersonalInfo());
   }, [dispatch])
