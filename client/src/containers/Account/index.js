@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ResponseModal from './ResponseModal';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import { TabBar, TabItem } from '../../components/UIComponents'
 
 import Settings from './Settings';
 import General from './General';
@@ -21,43 +22,6 @@ const Content = styled.div`
     width: 90vw;
     margin: 0 auto; 
   }
-`
-
-const TabBar = styled.div`
-  display: inline-flex;
-  align-items: center;
-  overflow-x: scroll;
-  white-space: nowrap;
-  height: 40px;
-  margin-bottom: 40px;
-  padding: 0;
-  background: #fff;
-  border-radius: 50px;
-  border-left: 4px solid #fff;
-  border-right: 4px solid #fff;
-  border-top: 4px solid #fff;
-  border-bottom: 4px solid #fff;
-  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
-
-  @media (max-width: 680px) {
-    width: 90vw;
-    margin: 0 auto 40px auto; 
-  }
-`
-
-const TabItem = styled.button`
-  background-color: ${props => props.isSelected ? '#ffa195' : '#fff'};
-  color: ${props => props.isSelected ? '#fff' : '#666'};
-  font-weight: ${props => props.isSelected ? 'bold' : 'normal'};
-  height: 100%;
-  border-radius: 40px;
-  border: none;
-  outline: none !important;
-  padding: 0 15px;
 `
 
 function Account() {

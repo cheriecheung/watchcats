@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { FormButtons } from '../../../components/FormComponents';
 import { CardTitle, HorizontalCard } from '../../../components/UIComponents'
-import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -18,14 +17,6 @@ import Responsibilities from './Responsibilities';
 import { useCatOwner, useCat } from './viewModel'
 
 const resolver = yupResolver(cat_owner_schema)
-
-const CatInfoContainer = styled.div`
-  text-align: left;
-  margin-bottom: 40px;
-  border-radius: 10px;
-  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);
-  background: rgba(255, 255, 255, 1);
-`;
 
 function CatOwnerInfo() {
   const { t } = useTranslation();
@@ -80,7 +71,7 @@ function CatOwnerInfo() {
             />
           </HorizontalCard>
 
-          <CatInfoContainer>
+          <HorizontalCard>
             <CardTitle>{t('owner_form.about_cat')}</CardTitle>
             <AboutCat
               setValue={setValue}
@@ -88,7 +79,7 @@ function CatOwnerInfo() {
               catFieldArray={catFieldArray}
               catProps={catProps}
             />
-          </CatInfoContainer>
+          </HorizontalCard>
 
           <HorizontalCard>
             <CardTitle>{t('owner_form.cat_description')}</CardTitle>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldContainer, FieldLabel } from '../../../components/FormComponents'
-import { ImageContainer } from '../../../components/UIComponents'
+import { Image, ImageContainer } from '../../../components/UIComponents'
 import { capitalize } from '../../../utility'
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
@@ -36,11 +36,7 @@ function AboutCat({ allCats }) {
           key={id}
         >
           <ImageContainer>
-            <img
-              src={pictureUrl}
-              alt="pic"
-              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-            />
+            <Image url={pictureUrl} />
           </ImageContainer>
 
           <div style={{ flexBasis: '70%', display: 'flex', flexWrap: 'wrap' }}>

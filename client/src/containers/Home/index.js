@@ -3,39 +3,14 @@ import { Link, useHistory } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 // import { useSpring, animated } from 'react-spring';
-import styled from 'styled-components';
 import { PlaceAutocomplete } from '../../components/Google'
+import { HorizontalCard } from '../../components/UIComponents'
 import AppointmentPeriodPicker from '../FindCatSitter/Search/AppointmentPeriodPicker';
 import { appointmentTypeOptions } from '../../constants'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { home_search_schema } from '../Account/_validationSchema'
 import { checkToken } from '../../redux/actions/authenticationActions'
 import { useDispatch } from 'react-redux';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
-
-const SearchContainer = styled.div`
-  text-align: left;
-  margin-bottom: 25px;
-  border-radius: 10px;
-  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.05), 0 1px 6px rgba(0, 0, 0, 0.05);
-  background: rgba(255, 255, 255, 1);
-
-  display: flex;
-  flex-direction: column;
-  padding: 2px 25px;
-`;
-
-const Form = styled.form`
-  width: 100%;
-  min-height: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  const resolver = yupResolver(cat_sitter_schema)
-
-`
 
 const resolver = yupResolver(home_search_schema)
 
@@ -69,20 +44,21 @@ function Home() {
       >
         test API
         </button>
-      <SearchContainer>
+
+      <HorizontalCard>
         <h5>Find a cat sitter in your area</h5>
 
         <FormProvider {...methods}>
-          <Form onSubmit={handleSubmit(sendData)}>
+          <form onSubmit={handleSubmit(sendData)}>
             {/* <PlaceAutocomplete name="googlePlaceAddress" /> */}
             <AppointmentPeriodPicker />
 
             <button type="submit">
               <i className="fas fa-search" />
             </button>
-          </Form>
+          </form>
         </FormProvider>
-      </SearchContainer>
+      </HorizontalCard>
     </>
   )
 }

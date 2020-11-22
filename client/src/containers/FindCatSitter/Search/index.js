@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Row, Col } from 'reactstrap';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
@@ -11,26 +10,9 @@ import { filterByDate, sortSitters } from '../../../redux/actions/findCatSitterA
 import { sortingTypeOptions } from '../../../constants';
 
 import { PlaceAutocomplete } from '../../../components/Google'
+import { HorizontalCard, TextButton } from '../../../components/UIComponents'
 import AppointmentPeriodPicker from './AppointmentPeriodPicker';
 import Sorting from './Sorting';
-
-const SearchContainer = styled.div`
-  text-align: left;
-  margin-bottom: 25px;
-  border-radius: 10px;
-  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.05), 0 1px 6px rgba(0, 0, 0, 0.05);
-  background: rgba(255, 255, 255, 1);
-
-  display: flex;
-  padding: 2px 0;
-`;
-
-const SearchForm = styled.form`
-  width: 100%;
-  min-height: 100px;
-  align-items: center;
-  padding: 15px 15px;
-`
 
 const FieldContainer = styled.div`
   flex: ${props => props.flex};
@@ -42,13 +24,6 @@ const FieldContainer = styled.div`
     margin-bottom: 20px;
     padding: 0;
   }
-`
-
-const ResetButton = styled.div`
-  background: none;
-  outline: none;
-  border: none;
-  align-self: center;
 `
 
 const defaultValues = {
@@ -124,21 +99,21 @@ function Search({ setLoading, setZoom, setCenter }) {
   };
 
   return (
-    <SearchContainer>
+    <HorizontalCard>
       <FormProvider {...methods}>
-        <SearchForm onSubmit={handleSubmit(sendData)}>
+        <form onSubmit={handleSubmit(sendData)}>
           <div style={{
             display: 'flex',
             flexWrap: 'wrap'
           }}>
             <FieldContainer flex="10%">
-              <PlaceAutocomplete
+              {/* <PlaceAutocomplete
                 name="googlePlaceAddress"
                 setLoading={setLoading}
                 setZoom={setZoom}
                 setCenter={setCenter}
                 emptyOtherFilters={() => reset(defaultValues)}
-              />
+              /> */}
             </FieldContainer>
 
             <FieldContainer flex="30%">
@@ -150,7 +125,7 @@ function Search({ setLoading, setZoom, setCenter }) {
             </FieldContainer>
 
             <FieldContainer>
-              <ResetButton
+              <TextButton
                 type="button"
                 onClick={() => {
                   reset(defaultValues);
@@ -158,12 +133,12 @@ function Search({ setLoading, setZoom, setCenter }) {
                 }}
               >
                 {t('find_sitter.reset')}
-              </ResetButton>
+              </TextButton>
             </FieldContainer>
           </div>
-        </SearchForm>
+        </form>
       </FormProvider>
-    </SearchContainer>
+    </HorizontalCard>
   );
 }
 

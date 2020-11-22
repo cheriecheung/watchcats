@@ -11,7 +11,7 @@ import {
 } from '../../_formConfig'
 
 import { TextField } from '../../../../components/FormComponents'
-import { ButtonFilled } from '../../../../components/UIComponents';
+import { ContainedButton } from '../../../../components/UIComponents';
 
 function Unsuccessful() {
   const dispatch = useDispatch();
@@ -37,9 +37,9 @@ function Unsuccessful() {
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <TextField name="email" style={{ width: 200 }} />
 
-            <ButtonFilled>
+            <ContainedButton>
               Submit
-          </ButtonFilled>
+          </ContainedButton>
           </div>
         </form>
       </FormProvider>

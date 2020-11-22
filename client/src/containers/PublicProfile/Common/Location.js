@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { Maps } from '../../../components/Google'
-
-const mapHeight = '40vh';
-
-const MapContainer = styled.div`
-  background: lightblue;
-  height: ${mapHeight};
-  top: 20px;
-  bottom: 20px;
-`
+import { MapContainer } from '../../../components/UIComponents'
 
 function Location() {
   const [results, setResults] = useState([])

@@ -1,18 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-import { EllipsisParagraph } from '../../../components/UIComponents'
-
-const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between
-`
-
-const LabelBox = styled.div`
-  display: flex;
-  flex: 0 49%;
-  margin-bottom: 15px;
-`
+import { EllipsisParagraph, WrapLayout } from '../../../components/UIComponents'
 
 function Experience({ sitterInfo }) {
   const { experience, hasCat, hasVolunteered, hasMedicationSkills, hasInjectionSkills, hasCertification, hasGroomingSkills } = sitterInfo;
@@ -62,17 +49,17 @@ function Experience({ sitterInfo }) {
           <br />
           <br />
 
-          <Container>
+          <WrapLayout>
             {skillSet.map(({ value, icon, title }) => {
               return (
                 value &&
-                <LabelBox>
+                <div style={{ display: 'flex', flex: '0 49%', marginBottom: 15 }}>
                   {icon}
                   <span>{title}</span>
-                </LabelBox>
+                </div>
               )
             })}
-          </Container>
+          </WrapLayout>
         </>
       }
     </>

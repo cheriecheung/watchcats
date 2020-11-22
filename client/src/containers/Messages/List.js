@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ImageContainer } from '../../components/UIComponents'
+import { Image, ImageContainer } from '../../components/UIComponents'
 
 const ListItemContainer = styled.div`
   display: flex;
@@ -23,11 +23,7 @@ function List({ allChats }) {
     return (
       <ListItemContainer style={{ background: isSelected ? '#f3f3f3' : '#fff' }} key={id}>
         <ImageContainer>
-          <img
-            src="https://images.pexels.com/photos/569170/pexels-photo-569170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-            alt="pic"
-            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-          />
+          <Image url="https://images.pexels.com/photos/569170/pexels-photo-569170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" />
         </ImageContainer>
         <TextContainer>
           <h6>{name}</h6>

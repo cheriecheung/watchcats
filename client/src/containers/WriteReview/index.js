@@ -2,25 +2,15 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { Row, Col } from 'reactstrap';
 import { RateField, TextArea } from '../../components/FormComponents';
 import { HorizontalCard } from '../../components/UIComponents'
-import styled from 'styled-components';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { review_schema } from '../Account/_validationSchema';
 import { submitReview } from '../../redux/actions/bookingActions';
 
-const Label = styled.label`
-  font-size: 1.2rem;
-  margin-right: 15px;
-`;
-
 const defaultValues = {
-  // profileAccuracy: 0,
-  // communication: 0,
-  // treatmentOfAnimals: 0,
   review: '',
   rating: 0
 };

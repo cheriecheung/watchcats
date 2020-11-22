@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { verifyGoogleAuthenticatorCode } from '../../../../redux/actions/authenticationActions'
-import { TextField } from '../../../../components/FormComponents';
+import { FieldLabel, TextField } from '../../../../components/FormComponents';
+import { ContainedButton, Image, ImageContainer } from '../../../../components/UIComponents';
 import styled from 'styled-components'
 
 import { useForm, FormProvider } from 'react-hook-form';
 
-const Container = styled.div`
-     display: flex;
-    flex-wrap: wrap;
-`;
-
-const Picture = styled.div`
-  width: 120px;
-  height: 120px;
-  overflow: hidden;
+const Section = styled.div`
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 const Description = styled.div`
@@ -56,57 +51,45 @@ function Enable2FA() {
 
         <p>Make your account safer in three easy steps:</p>
 
-        <Container>
-          <Picture>
-            <img src="https://whooptous.com/wp-content/uploads/2020/05/unnamed.png" style={{ objectFit: 'contain', width: '80%', height: 'auto' }} />
-          </Picture>
+        <Section>
+          <ImageContainer>
+            <Image url="https://whooptous.com/wp-content/uploads/2020/05/unnamed.png" />
+          </ImageContainer>
           <Description>
-            <div style={{ display: 'flex' }}>
-              <h6>1.</h6>&nbsp;
-                            <b>Download an authenticator app</b>
-            </div>
+            <FieldLabel>1. Download an authenticator app</FieldLabel>
             <p>
               Download and install <a href="https://support.google.com/accounts/answer/1066447?hl=en">Google Authenticator</a> for your phone or tablet.
                          </p>
           </Description>
-        </Container>
+        </Section>
 
         <hr style={{ marginTop: '-10px' }} />
 
-        <Container>
-          <Picture>
-            <img src={qrCodeImage} style={{ objectFit: 'contain', width: '100%', height: 'auto' }} />
-          </Picture>
+        <Section>
+          <ImageContainer>
+            <Image url={qrCodeImage} />
+          </ImageContainer>
           <Description>
-            <div style={{ display: 'flex' }}>
-              <h6>2.</h6>&nbsp;
-                            <b>Scan the QR code</b>
-            </div>
+            <FieldLabel>2. Scan the QR code</FieldLabel>
             <p>
               Open the authenticator app and scan the image to the left using your phone's camera.
-                        </p>
-            {/* <span>2FA Key (manual entry)</span>
-                        <span>XXXX XXXX XXXX XXXX</span> */}
+             </p>
           </Description>
-        </Container>
+        </Section>
 
         <hr />
 
-        <Container>
-          <Picture>
+        <Section>
+          <ImageContainer>
             <i className="fas fa-mobile-alt fa-4x mb-3" />
-
-          </Picture>
+          </ImageContainer>
           <Description>
-            <div style={{ display: 'flex' }}>
-              <h6>3.</h6>&nbsp;
-                            <b>Login with your code</b>
-            </div>
+            <FieldLabel>3. Login with your code</FieldLabel>
             <p>Enter the 6-digit verification code generated.</p>
             <TextField name="verificationCode" placeholder="000 000" />
-            <button onClick={onVerifyCode}>Activate</button>
+            <ContainedButton onClick={onVerifyCode}>Activate</ContainedButton>
           </Description>
-        </Container>
+        </Section>
       </form>
     </FormProvider>
   )

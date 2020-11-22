@@ -41,13 +41,7 @@ function AboutCat({ setValue, watch, catFieldArray, catProps }) {
     <>
       {fields.map(({ id }, index) => {
         return (
-          <div
-            key={id}
-            style={{
-              background: index % 2 !== 0 ? 'rgba(168, 165, 165, 0.05)' : 'none',
-              padding: '20px 20px 0 20px',
-            }}
-          >
+          <div key={id}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <h6 hidden={index === 0} style={{ color, fontWeight: 800 }}>
                 And my #{index + 1} cat

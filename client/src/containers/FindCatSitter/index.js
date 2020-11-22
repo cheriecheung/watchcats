@@ -35,11 +35,11 @@ function FindCatSitter() {
 
   return (
     <div style={{ padding: '40px 30px 50px 30px' }}>
-      {/* <Search
+      <Search
         setLoading={setLoading}
         setZoom={setZoom}
         setCenter={setCenter}
-      /> */}
+      />
 
       <Row>
         <Col md={7} style={{ width: 1100 }}>

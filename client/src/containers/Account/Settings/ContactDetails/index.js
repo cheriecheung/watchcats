@@ -1,33 +1,12 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { FieldLabel } from '../../../../components/FormComponents';
-import { VerticalDivider } from '../../../../components/UIComponents';
+import { TextButton, VerticalDivider, WrapLayout } from '../../../../components/UIComponents';
 import { Modal, Switch } from 'antd';
 
 import { useDispatch } from 'react-redux';
 
 import PhoneNumberInput from './PhoneNumberInput'
 import PhoneNumberVerification from './PhoneNumberVerification'
-
-const Button = styled.button`
-    background: none;
-    border: none;
-    outline: none !important;
-    
-    &:hover{
-        color: pink
-    }
-`
-
-const ContentBox = styled.div`
-    display:flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    @media (min-width: 769px) {
-        flex-direction: row;
-    }
-`
 
 function ContactDetails({
   contactDetailsProps,
@@ -53,7 +32,7 @@ function ContactDetails({
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <ContentBox>
+    <WrapLayout>
       <Modal
         centered
         visible={showModal}
@@ -88,9 +67,9 @@ function ContactDetails({
 
           <div style={{ display: 'flex' }}>
             {revealEmail ?
-              <Button onClick={() => setRevealEmail(false)}>Hide</Button>
+              <TextButton onClick={() => setRevealEmail(false)}>Hide</TextButton>
               :
-              <Button onClick={() => setRevealEmail(true)}>Reveal</Button>
+              <TextButton onClick={() => setRevealEmail(true)}>Reveal</TextButton>
             }
             {/* <Button style={{ float: 'right' }}>Edit</Button> */}
           </div>
@@ -112,35 +91,35 @@ function ContactDetails({
 
             <div style={{ display: 'flex' }}>
               {revealPhone ?
-                <Button onClick={() => setRevealPhone(false)}>Hide</Button>
+                <TextButton onClick={() => setRevealPhone(false)}>Hide</TextButton>
                 :
-                <Button onClick={() => setRevealPhone(true)}>Reveal</Button>
+                <TextButton onClick={() => setRevealPhone(true)}>Reveal</TextButton>
               }
-              <Button
+              <TextButton
                 style={{ float: 'right' }}
                 onClick={deletePhone}
               >
                 Remove
-              </Button>
-              <Button
+              </TextButton>
+              <TextButton
                 style={{ float: 'right' }}
                 onClick={() => {
                   dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
                   setShowModal(true)
                 }}>
                 Edit
-              </Button>
+              </TextButton>
             </div>
           </div>
           :
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button onClick={() => {
+            <TextButton onClick={() => {
               dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
               setShowModal(true)
             }}
             >
               Add
-            </Button>
+            </TextButton>
           </div>
         }
 
@@ -149,7 +128,7 @@ function ContactDetails({
           <Switch defaultChecked={true} disabled={!phone} onChange={(checked) => console.log({ checked })} />
         </div>
       </div>
-    </ContentBox>
+    </WrapLayout>
   )
 }
 

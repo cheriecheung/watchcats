@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const DefaultImageContainer = styled.div`
   width: ${props => props.size ? props.size : '100px'};
   height:  ${props => props.size ? props.size : '100px'};
-  background: pink;
   border-radius: 10px;
   overflow: hidden;
 `;

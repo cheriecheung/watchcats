@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 
 const TextButton = styled.button`
-  border: none;
   background: none;
-  outline: none;
-  margin-right: 20px;
+  border: none;
+  outline: none !important;
+
+  &:hover{
+    color: pink
+  }
 `;
 
 export default TextButton;
