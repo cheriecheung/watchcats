@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import ResponseModal from './ResponseModal';
-import ScreenWidthListener from '../../components/General/ScreenWidthListener';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
@@ -76,7 +75,6 @@ function Account() {
   console.log('tabs page')
 
   const { t } = useTranslation();
-  const { screenWidth } = ScreenWidthListener();
 
   const [activeKey, setActiveKey] = useState('');
 

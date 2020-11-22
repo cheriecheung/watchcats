@@ -1,6 +1,6 @@
 import React from 'react';
-import ThemeButton from '../../../components/General/ThemeButton';
-import { ImageContainer, SummaryCard } from '../../../components/ProfileComponents';
+import { ButtonFilled } from '../../../components/UIComponents';
+import { CardVertical, ImageContainer } from '../../../components/UIComponents'
 import RequestBookingModal from './RequestBookingModal';
 import { useTranslation } from 'react-i18next';
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
@@ -22,7 +22,7 @@ function Summary({ sitterInfo, summaryProps }) {
   } = summaryProps;
 
   return (
-    <SummaryCard
+    <CardVertical
       style={{
         flexBasis: '35%',
         maxHeight: 400,
@@ -58,10 +58,10 @@ function Summary({ sitterInfo, summaryProps }) {
         {/* you will receive ___  */}
       </span>
 
-      <ThemeButton onClick={onSendMessage}>{t('sitter_profile.send_message')}</ThemeButton>
-      <ThemeButton onClick={() => setModalVisible(true)}>
+      <ButtonFilled onClick={onSendMessage}>{t('sitter_profile.send_message')}</ButtonFilled>
+      <ButtonFilled onClick={() => setModalVisible(true)}>
         {t('sitter_profile.request_appointment')}
-      </ThemeButton>
+      </ButtonFilled>
 
       <RequestBookingModal
         modalVisible={modalVisible}
@@ -73,7 +73,7 @@ function Summary({ sitterInfo, summaryProps }) {
         // location={location}
         onSendRequest={onSendRequest}
       />
-    </SummaryCard>
+    </CardVertical>
   );
 }
 

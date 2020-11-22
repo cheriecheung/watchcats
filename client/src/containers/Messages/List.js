@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ImageContainer } from '../../components/UIComponents'
 
 const ListItemContainer = styled.div`
   display: flex;
@@ -7,15 +8,6 @@ const ListItemContainer = styled.div`
   padding: 15px 20px;
   border-bottom: 1px solid #f1f1f1;
   cursor: pointer;
-`;
-
-const ImageContainer = styled.div`
-  width: 50px;
-  height: 50px;
-  background: pink;
-  overflow: hidden;
-  border-radius: 10px;
-  margin-right: 15px;
 `;
 
 const TextContainer = styled.div`

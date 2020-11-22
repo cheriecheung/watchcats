@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const ActionButton = styled.button`
+const ButtonBordered = styled.button`
   border: 1px solid ${(props) => props.backgroundColor};
   border-radius: 15px;
   background-color: #fff;
@@ -11,4 +11,4 @@ const ActionButton = styled.button`
   margin-right: 10px;
 `;
 
-export default ActionButton;
+export default ButtonBordered;

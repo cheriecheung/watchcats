@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { EllipsisParagraph } from '../../../components/ProfileComponents'
+import { EllipsisParagraph } from '../../../components/UIComponents'
 
 const Container = styled.div`
   display: flex;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { SectionContainer, SectionTitle } from '../../../components/FormComponents';
+import { SectionContainer } from '../../../components/FormComponents';
+import { CardTitle } from '../../../components/UIComponents'
 
 import ContactDetails from './ContactDetails'
 import PaymentSetup from './PaymentSetup'
@@ -16,7 +17,7 @@ function Settings() {
     return (
         <>
             <SectionContainer>
-                <SectionTitle>Contact Details</SectionTitle>
+                <CardTitle>Contact Details</CardTitle>
                 <ContactDetails
                     contactDetailsProps={contactDetailsProps}
                     phoneNumberInputProps={phoneNumberInputProps}
@@ -26,12 +27,12 @@ function Settings() {
 
             <SectionContainer>
                 {/* give redirecting loading notice */}
-                <SectionTitle>Stripe Account</SectionTitle>
+                <CardTitle>Stripe Account</CardTitle>
                 <PaymentSetup />
             </SectionContainer>
 
             <SectionContainer>
-                <SectionTitle>Password and Authentication</SectionTitle>
+                <CardTitle>Password and Authentication</CardTitle>
                 <PasswordAndAuthentication contactDetails={contactDetails} isActivated={isActivated} />
             </SectionContainer>
         </>

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
+import { FormButtons, SectionContainer } from '../../../components/FormComponents';
+import { CardTitle } from '../../../components/UIComponents'
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -63,13 +64,13 @@ function CatOwnerInfo() {
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(submitData)}>
           <SectionContainer>
-            <SectionTitle> {t('owner_form.about_me')}</SectionTitle>
+            <CardTitle> {t('owner_form.about_me')}</CardTitle>
 
             <AboutMe />
           </SectionContainer>
 
           <SectionContainer>
-            <SectionTitle>{t('owner_form.appointment')}</SectionTitle>
+            <CardTitle>{t('owner_form.appointment')}</CardTitle>
 
             <h6 style={{ marginTop: 30 }}>{t('owner_form.one_day')}</h6>
             <AppointmentTime
@@ -80,7 +81,7 @@ function CatOwnerInfo() {
           </SectionContainer>
 
           <CatInfoContainer>
-            <SectionTitle>{t('owner_form.about_cat')}</SectionTitle>
+            <CardTitle>{t('owner_form.about_cat')}</CardTitle>
             <AboutCat
               setValue={setValue}
               watch={watch}
@@ -90,7 +91,7 @@ function CatOwnerInfo() {
           </CatInfoContainer>
 
           <SectionContainer>
-            <SectionTitle>{t('owner_form.cat_description')}</SectionTitle>
+            <CardTitle>{t('owner_form.cat_description')}</CardTitle>
 
             <Responsibilities />
           </SectionContainer>

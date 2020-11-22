@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { FormButtons, SectionContainer, SectionTitle } from '../../../components/FormComponents';
+import { FormButtons, SectionContainer } from '../../../components/FormComponents';
+import { CardTitle } from '../../../components/UIComponents'
 import { useTranslation } from 'react-i18next';
 
 import { useForm, FormProvider } from 'react-hook-form';
@@ -40,7 +41,7 @@ function GeneralInfo() {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <SectionContainer>
-          <SectionTitle>{t('general_info.profile_picture')}</SectionTitle>
+          <CardTitle>{t('general_info.profile_picture')}</CardTitle>
 
           <ProfilePicture
             setValue={setValue}
@@ -53,13 +54,13 @@ function GeneralInfo() {
         </SectionContainer>
 
         <SectionContainer ref={personalInfoRef}>
-          <SectionTitle>{t('general_info.personal_info')}</SectionTitle>
+          <CardTitle>{t('general_info.personal_info')}</CardTitle>
 
           <PersonalInfo />
         </SectionContainer>
 
         <SectionContainer>
-          <SectionTitle>{t('general_info.social_media')}</SectionTitle>
+          <CardTitle>{t('general_info.social_media')}</CardTitle>
           <SocialMedia />
         </SectionContainer>
 

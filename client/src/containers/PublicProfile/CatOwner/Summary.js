@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageContainer, SummaryCard } from '../../../components/ProfileComponents';
+import { CardVertical, ImageContainer } from '../../../components/UIComponents'
 import moment from 'moment';
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
@@ -9,7 +9,7 @@ function Summary({ ownerInfo }) {
   const pictureUrl = ownerInfo.profilePictureFileName ? `${REACT_APP_API_DOMAIN}/image/${ownerInfo.profilePictureFileName}` : defaultProfilePic
 
   return (
-    <SummaryCard
+    <CardVertical
       style={{
         display: 'inline-table',
         flexBasis: '35%',
@@ -38,7 +38,7 @@ function Summary({ ownerInfo }) {
 
       <h6>Sitter needed:</h6>
       <AppointmentTime oneDay={ownerInfo.bookingOneDay} overnight={ownerInfo.bookingOvernight} />
-    </SummaryCard>
+    </CardVertical>
   );
 }
 

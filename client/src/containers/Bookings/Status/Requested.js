@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Item from '../Item';
-import { ActionButton } from '../../../components/Bookings';
+import { ButtonBordered } from '../../../components/UIComponents';
 import { useTranslation } from 'react-i18next';
 
 function Requested({
@@ -62,7 +62,7 @@ function RequestedJob({ openModal, setModalContent, setActionType, setBookingId 
 
   return (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <ActionButton
+      <ButtonBordered
         backgroundColor="#FF5C4E"
         onClick={() => {
           openModal();
@@ -72,8 +72,8 @@ function RequestedJob({ openModal, setModalContent, setActionType, setBookingId 
         }}
       >
         {t('bookings.decline')}
-      </ActionButton>
-      <ActionButton
+      </ButtonBordered>
+      <ButtonBordered
         style={{ marginRight: 0 }}
         backgroundColor="#9ACD32"
         onClick={() => {
@@ -84,7 +84,7 @@ function RequestedJob({ openModal, setModalContent, setActionType, setBookingId 
         }}
       >
         {t('bookings.accept')}
-      </ActionButton>
+      </ButtonBordered>
     </div>
   );
 }

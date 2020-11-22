@@ -1,13 +1,5 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-
-const ImageContainer = styled.div`
-  width: 100px;
-  height: 100px;
-  background: pink;
-  overflow: hidden;
-  border-radius: 10px;
-`;
+import React from 'react';
+import { ImageContainer } from '../../components/UIComponents'
 
 function ChatDetails() {
   return (

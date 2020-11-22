@@ -1,5 +1,5 @@
 import React from 'react';
-import { EllipsisParagraph } from '../../../components/ProfileComponents'
+import { EllipsisParagraph } from '../../../components/UIComponents'
 
 // line height, font size
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { FieldLabel, ImageContainer, InfoField } from '../../../components/ProfileComponents';
+import { FieldContainer, FieldLabel } from '../../../components/FormComponents'
+import { ImageContainer } from '../../../components/UIComponents'
 import { capitalize } from '../../../utility'
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
@@ -43,23 +44,23 @@ function AboutCat({ allCats }) {
           </ImageContainer>
 
           <div style={{ flexBasis: '70%', display: 'flex', flexWrap: 'wrap' }}>
-            <InfoField>
+            <FieldContainer>
               <FieldLabel>Name</FieldLabel>
               <span>{name}</span>
-            </InfoField>
-            <InfoField>
+            </FieldContainer>
+            <FieldContainer>
               <FieldLabel>Age</FieldLabel>
               <span>{age}</span>
-            </InfoField>
+            </FieldContainer>
 
-            <InfoField>
+            <FieldContainer>
               <FieldLabel>Gender</FieldLabel>
               <div>
                 <i className="fas fa-mars fa-2x icon-gender profile" />
                 <span>{gender === 'F' ? 'Female' : 'Male'}</span>
               </div>
-            </InfoField>
-            <InfoField>
+            </FieldContainer>
+            <FieldContainer>
               <FieldLabel>Medical needs</FieldLabel>
               <div>
                 {Array.isArray(medicalNeeds) && medicalNeeds.length > 0 ? (
@@ -76,9 +77,9 @@ function AboutCat({ allCats }) {
                     </>
                   )}
               </div>
-            </InfoField>
+            </FieldContainer>
 
-            <InfoField>
+            <FieldContainer>
               <FieldLabel>Vaccinated</FieldLabel>
               {isVaccinated ? (
                 <div>
@@ -91,8 +92,8 @@ function AboutCat({ allCats }) {
                     <span>No</span>
                   </div>
                 )}
-            </InfoField>
-            <InfoField>
+            </FieldContainer>
+            <FieldContainer>
               <FieldLabel>Insured</FieldLabel>
               {isInsured ? (
                 <div>
@@ -105,21 +106,21 @@ function AboutCat({ allCats }) {
                     <span>No</span>
                   </div>
                 )}
-            </InfoField>
+            </FieldContainer>
 
-            <InfoField>
+            <FieldContainer>
               <FieldLabel>Breed</FieldLabel>
               {/* <span>{breed.label}</span> */}
-            </InfoField>
-            <InfoField>
+            </FieldContainer>
+            <FieldContainer>
               <FieldLabel>Personality</FieldLabel>
               {/* <span>{personality.label}</span> */}
-            </InfoField>
+            </FieldContainer>
 
-            <InfoField>
+            <FieldContainer>
               <FieldLabel>Favorite treat</FieldLabel>
               <span>{favoriteTreat}</span>
-            </InfoField>
+            </FieldContainer>
           </div>
         </div>
       );

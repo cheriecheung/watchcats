@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { ImageContainer } from '../../components/UIComponents'
 
 const cardHeight = 140;
 
@@ -46,21 +47,21 @@ const BrowseLink = styled(Link)`
   font-size: 25px;
   color: #ffa195;
 `
-const ImageContainer = styled.div`
-  width: ${cardHeight}px;
-  height: ${cardHeight}px;
-  margin-left: -20px;
-  margin-right: 15px;
-  border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px;
-  overflow: hidden;
+// const ImageContainer = styled.div`
+//   width: ${cardHeight}px;
+//   height: ${cardHeight}px;
+//   margin-left: -20px;
+//   margin-right: 15px;
+//   border-bottom-right-radius: 10px;
+//   border-top-right-radius: 10px;
+//   overflow: hidden;
 
-  @media (max-width: 500px) {
-    width: 80px;
-    height: 80px;
-    margin-left: -15px;
-  }
-`
+//   @media (max-width: 500px) {
+//     width: 80px;
+//     height: 80px;
+//     margin-left: -15px;
+//   }
+// `
 
 const Item = ({ data, bookingType, renderActionButtons, status }) => {
   const { t } = useTranslation();

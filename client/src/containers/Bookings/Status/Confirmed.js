@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Item from '../Item';
-import { ActionButton } from '../../../components/Bookings';
+import { ButtonBordered } from '../../../components/UIComponents';
 import { useTranslation } from 'react-i18next';
 
 function Confirmed({
@@ -68,7 +68,7 @@ function ConfirmedJob({ hasPaid, openModal, setModalContent, setActionType, setB
 
   return hasPaid ? (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <ActionButton
+      <ButtonBordered
         backgroundColor="#9ACD32"
         onClick={() => {
           openModal();
@@ -78,7 +78,7 @@ function ConfirmedJob({ hasPaid, openModal, setModalContent, setActionType, setB
         }}
       >
         {t('bookings.complete')}
-      </ActionButton>
+      </ButtonBordered>
     </div>
   ) : (
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -102,15 +102,6 @@ function ConfirmedService({ hasPaid, openModal, setModalContent }) {
         <Link to={{ pathname: '/payment', state: { stripeAccountId: 'acct_1HYCiyART4JEToPd' } }}>
           {t('bookings.pay_now')}
         </Link>
-
-        {/* <ActionButton
-        backgroundColor="#9ACD32"
-        onClick={() => {
-          alert('redirect to payment page');
-        }}
-      >
-        {t('bookings.pay_now')}
-      </ActionButton> */}
       </div>
     );
 }

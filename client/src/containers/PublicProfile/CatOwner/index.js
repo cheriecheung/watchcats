@@ -1,5 +1,4 @@
 import React from 'react';
-import { ContentContainer, SectionContainer } from '../../../components/ProfileComponents';
 import styled from 'styled-components'
 
 import Summary from './Summary';
@@ -15,6 +14,22 @@ const allReviews = [];
 for (let i = 0; i < 7; i++) {
   allReviews.push({ id: i, name: `User ${i}` });
 }
+
+const ContentContainer = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  @media (max-width: 700px) {
+    flex-direction: column-reverse;
+  }
+`;
+
+
+const SectionContainer = styled.div`
+  margin: 50px 0;
+`;
 
 const DetailsContainer = styled.div`
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);

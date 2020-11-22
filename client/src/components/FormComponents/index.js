@@ -1,6 +1,7 @@
 import Calendar from './Calendar';
 import { Checkbox, CheckboxGroup } from './Checkbox';
 import DatePicker from './DatePicker';
+import FieldContainer from './FieldContainer'
 import FieldLabel from './FieldLabel';
 import FileDisplayField from './FileDisplayField';
 import FileUploader, { ArrayFileUploader } from './FileUploader';
@@ -9,7 +10,6 @@ import PasswordField from './PasswordField'
 import { RadioGroup, RadioButton } from './Radio';
 import RateField from './RateField'
 import SectionContainer from './SectionContainer';
-import SectionTitle from './SectionTitle';
 import SelectField from './SelectField';
 import TextArea from './TextArea';
 import TextField from './TextField';
@@ -21,6 +21,7 @@ export {
   Checkbox,
   CheckboxGroup,
   DatePicker,
+  FieldContainer,
   FieldLabel,
   FileDisplayField,
   FileUploader,
@@ -30,7 +31,6 @@ export {
   RadioButton,
   RateField,
   SectionContainer,
-  SectionTitle,
   SelectField,
   TextArea,
   TextField,

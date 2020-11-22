@@ -10,7 +10,7 @@ import {
 } from '../../_formConfig'
 
 import { FieldLabel, TextField } from '../../../../components/FormComponents'
-import ThemeButton from '../../../../components/General/ThemeButton'
+import { ButtonFilled } from '../../../../components/UIComponents'
 
 const resolver = yupResolver(login_schema)
 
@@ -39,9 +39,9 @@ function LocalLogin({ onLogin, errorMessage }) {
           Forgot password?
         </Link>
 
-        <ThemeButton type="submit">
+        <ButtonFilled type="submit">
           {t('login.login')}
-        </ThemeButton>
+        </ButtonFilled>
 
         {errorMessage && (
           <span style={{ color: 'red' }}>{errorMessage}</span>
