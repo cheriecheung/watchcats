@@ -7,7 +7,7 @@ import {
   Line,
 } from './styledComponents'
 
-import { themeColor } from '../../style/theme';
+import { themeColor } from '../../../style/theme';
 import { Desktop, Mobile } from './Type'
 import { useHeader } from './viewModel';
 

@@ -11,7 +11,7 @@ import {
 } from '../../_formConfig'
 
 import { TextField } from '../../../../components/FormComponents'
-import { SubmitButton } from '../../_styledComponents'
+import { ButtonFilled } from '../../../../components/UIComponents';
 
 function Unsuccessful() {
   const dispatch = useDispatch();
@@ -37,9 +37,9 @@ function Unsuccessful() {
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <TextField name="email" style={{ width: 200 }} />
 
-            <SubmitButton>
+            <ButtonFilled>
               Submit
-          </SubmitButton>
+          </ButtonFilled>
           </div>
         </form>
       </FormProvider>

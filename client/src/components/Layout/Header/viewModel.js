@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../redux/actions/authenticationActions';
+import { logout } from '../../../redux/actions/authenticationActions';
 
 function useHeader() {
   const { t, i18n } = useTranslation();
