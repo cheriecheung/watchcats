@@ -1,20 +1,14 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import { useTranslation } from 'react-i18next';
 import { themeColor } from '../../../style/theme';
 import { DatePicker, TimePicker, FieldLabel } from '../../../components/FormComponents';
 import { TextButton } from '../../../components/UIComponents';
-import { oneDayObj, overnightObj } from '../_defaultValues'
 
 const color = '#252525';
 
-function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
-  const { t } = useTranslation();
-  const { fields: oneDayFields, remove: oneDayRemove, append: oneDayAppend } = oneDayFieldArray;
-  const { fields: overnightFields, remove: overnightRemove, append: overnightAppend } = overnightFieldArray;
-
-  const bookingOneDay = watch('bookingOneDay');
-  const bookingOvernight = watch('bookingOvernight')
+function AppointmentTime({ t, bookingOneDayProps, bookingOvernightProps }) {
+  const { bookingOneDay, oneDayFields, addOneDay, removeOneDay } = bookingOneDayProps;
+  const { bookingOvernight, overnightFields, addOvernight, removeOvernight } = bookingOvernightProps;
 
   return (
     <>
@@ -27,7 +21,7 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
               </h6>
               <TextButton
                 hidden={index === 0}
-                onClick={() => oneDayRemove(index)}
+                onClick={() => removeOneDay(index)}
                 style={{ float: 'right', color: themeColor.peach }}
               >
                 {t('owner_form.remove')}
@@ -72,8 +66,9 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
         );
       })}
       <TextButton
+        type="button"
         hidden={bookingOneDay && bookingOneDay.length >= 2}
-        onClick={() => oneDayAppend(oneDayObj)}
+        onClick={addOneDay}
         style={{ color: '#5FBB96' }}
       >
         <i className="fas fa-plus mr-1" />
@@ -94,7 +89,7 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
               </h6>
               <TextButton
                 hidden={index === 0}
-                onClick={() => overnightRemove(index)}
+                onClick={() => removeOvernight(index)}
                 style={{ float: 'right', color: themeColor.peach }}
               >
                 {t('owner_form.remove')}
@@ -125,8 +120,9 @@ function AppointmentTime({ watch, oneDayFieldArray, overnightFieldArray }) {
       })}
 
       <TextButton
+        type="button"
         hidden={bookingOvernight && bookingOvernight.length >= 2}
-        onClick={() => overnightAppend(overnightObj)}
+        onClick={addOvernight}
         style={{ color: '#5FBB96' }}
       >
         <i className="fas fa-plus mr-1" />

@@ -1,10 +1,8 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { TextArea } from '../../../components/FormComponents';
-import { useTranslation } from 'react-i18next';
 
-function Responsibilities() {
-  const { t } = useTranslation();
+function Responsibilities({ t }) {
 
   return (
     <Row>

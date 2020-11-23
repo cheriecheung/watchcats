@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Row, Col } from 'reactstrap';
 import {
   CheckboxGroup,
@@ -11,36 +11,16 @@ import {
   TextField,
 } from '../../../components/FormComponents';
 import { TextButton } from '../../../components/UIComponents'
-import { useTranslation } from 'react-i18next';
 import { catBreedOptions, personalityOptions, medicineOptions } from '../../../constants';
-import { catObj } from '../_defaultValues'
 
 const color = '#252525';
 
-function AboutCat({ setValue, watch, catFieldArray, catProps }) {
-
-  const { t } = useTranslation();
-  const { fields, append, remove } = catFieldArray;
-  const cat = watch('cat')
-
-  const { photoFields, handlePreview, catPhotoRemoved, removePhotoIndex, handleRemovePhoto } = catProps;
-
-  const handleRemoveCat = (index) => {
-    if (window.confirm('Click Ok to confirm to remove cat record')) {
-      remove(index);
-    }
-  };
-
-  useEffect(() => {
-    // provide fail response
-    if (catPhotoRemoved) {
-      setValue(`cat[${removePhotoIndex}].photo`, null)
-    }
-  }, [catPhotoRemoved])
+function AboutCat({ t, setValue, catProps }) {
+  const { cat, catFields, addCat, removeCat, photoFields, handlePreview, handleRemovePhoto } = catProps;
 
   return (
     <>
-      {fields.map(({ id }, index) => {
+      {catFields.map(({ id }, index) => {
         return (
           <div key={id}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -49,7 +29,7 @@ function AboutCat({ setValue, watch, catFieldArray, catProps }) {
               </h6>
               <TextButton
                 hidden={index === 0}
-                onClick={() => handleRemoveCat(index)}
+                onClick={() => removeCat(index)}
                 style={{ float: 'right', color: '#ffa195' }}
               >
                 {t('owner_form.remove')}
@@ -62,12 +42,7 @@ function AboutCat({ setValue, watch, catFieldArray, catProps }) {
                 <FileDisplayField
                   name={`cat[${index}].photo`}
                   fileName={photoFields[index]}
-                  handleRemovePhoto={() => {
-                    handleRemovePhoto(photoFields[index], index)
-                    if (photoFields[index].includes('base64')) {
-                      setValue(`cat[${index}].photo`, null)
-                    }
-                  }}
+                  handleRemovePhoto={() => handleRemovePhoto(photoFields[index], index)}
                 />
                 :
                 <ArrayFileUploader
@@ -161,8 +136,9 @@ function AboutCat({ setValue, watch, catFieldArray, catProps }) {
       })}
 
       <TextButton
+        type="button"
         hidden={cat && cat.length > 4}
-        onClick={() => append(catObj)}
+        onClick={addCat}
         style={{ color: '#5FBB96' }}
       >
         <i className="fas fa-plus mr-1" />

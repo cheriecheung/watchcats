@@ -1,17 +1,43 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOwnerAccount, saveOwner, removeCatPhoto } from '../../../redux/actions/accountActions';
 import moment from 'moment';
 import { catBreedOptions, personalityOptions } from '../../../constants';
+import { cat_owner_default_values, catObj, oneDayObj, overnightObj } from '../_defaultValues'
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
+import { cat_owner_schema } from '../_validationSchema';
 
 function useCatOwner() {
+  const { t } = useTranslation();
   const { id } = useParams();
 
   const dispatch = useDispatch();
 
-  const { ownerData, ownerSaved, ownerCompleteSave } = useSelector((state) => state.account);
+  const { ownerData, ownerSaved, ownerCompleteSave, catPhotoRemoved } = useSelector((state) => state.account);
+
   const [cleanedData, setCleanedData] = useState([])
+  const [photoFields, setPhotoFields] = useState([])
+  const [removePhotoIndex, setRemovePhotoIndex] = useState('')
+
+  const defaultValues = cat_owner_default_values;
+  const resolver = yupResolver(cat_owner_schema)
+  const methods = useForm({ defaultValues, resolver });
+  const { control, reset, watch, setValue } = methods;
+
+  const oneDayFieldArray = useFieldArray({ control, name: 'bookingOneDay' });
+  const bookingOneDay = watch('bookingOneDay');
+  const oneDayFields = oneDayFieldArray.fields
+
+  const overnightFieldArray = useFieldArray({ control, name: 'bookingOvernight' });
+  const bookingOvernight = watch('bookingOvernight')
+  const overnightFields = overnightFieldArray.fields
+
+  let catFieldArray = useFieldArray({ control, name: 'cat' });
+  const cat = watch('cat')
+  let catFields = catFieldArray.fields
 
   useEffect(() => {
     if (id) {
@@ -51,9 +77,53 @@ function useCatOwner() {
     }
   }, [ownerData])
 
-  function onSubmit(data, photos) {
-    const { cat, bookingOneDay, bookingOvernight, ...rest } = data;
+  useEffect(() => {
+    if (cleanedData) {
+      reset(cleanedData)
+    }
 
+    if (cleanedData && cleanedData.cat) {
+      const { cat } = cleanedData
+      const allPhotoFields = cat.map(({ photo }, index) => photo);
+
+      setPhotoFields(allPhotoFields);
+    }
+  }, [cleanedData]);
+
+  useEffect(() => {
+    // provide fail response
+    if (catPhotoRemoved) {
+      let updateFields = [...photoFields];
+      updateFields[removePhotoIndex] = null;
+      setPhotoFields(updateFields)
+
+      setValue(`cat[${removePhotoIndex}].photo`, null)
+    }
+  }, [catPhotoRemoved])
+
+  const handlePreview = (data, index) => {
+    let updateFields = [...photoFields];
+    updateFields[index] = data
+    setPhotoFields(updateFields)
+  }
+
+  const handleRemovePhoto = (fileName, index) => {
+    setRemovePhotoIndex(index);
+
+    if (fileName.includes('base64')) {
+      let updateFields = [...photoFields];
+      updateFields[index] = null
+      setPhotoFields(updateFields)
+
+      setValue(`cat[${index}].photo`, null)
+    } else {
+      dispatch(removeCatPhoto(fileName, index))
+    }
+  }
+
+  function onSubmit(data) {
+    const { cat, bookingOneDay, bookingOvernight, ...rest } = data;
+    console.log({ data })
     const cleanedCat = cat.map(({ breed, personality, ...restCat }) => {
       const { value: breedValue } = breed || {};
       const { value: personalityValue } = personality || {};
@@ -105,67 +175,95 @@ function useCatOwner() {
       ...rest
     }
 
+    const photos = watch('cat').map(({ photo }) => photo || {})
+
     dispatch(saveOwner(id, cleanedData, photos))
   };
 
-  return {
-    cleanedData,
-    onSubmit
-  }
-}
-
-function useCat() {
-  const dispatch = useDispatch();
-
-  const { cleanedData } = useCatOwner();
-  const { catPhotoRemoved } = useSelector((state) => state.account);
-
-  const [photoFields, setPhotoFields] = useState([])
-  const [removePhotoIndex, setRemovePhotoIndex] = useState('')
-
-  useEffect(() => {
-    if (cleanedData && cleanedData.cat) {
-      const { cat } = cleanedData
-      const allPhotoFields = cat.map(({ photo }, index) => photo);
-
-      setPhotoFields(allPhotoFields);
-    }
-  }, [cleanedData]);
-
-  const handlePreview = (data, index) => {
-    let updateFields = [...photoFields];
-    updateFields[index] = data
-    setPhotoFields(updateFields)
+  function resetForm() {
+    reset(defaultValues)
   }
 
-  useEffect(() => {
-    // provide fail response
-    if (catPhotoRemoved) {
-      let updateFields = [...photoFields];
-      updateFields[removePhotoIndex] = null;
-      setPhotoFields(updateFields)
-    }
-  }, [catPhotoRemoved])
+  function addCat() {
+    catFieldArray.append(catObj)
+  }
 
-  const handleRemovePhoto = (fileName, index) => {
-    setRemovePhotoIndex(index);
+  function removeCat(index) {
+    if (window.confirm('Click Ok to confirm to remove cat record')) {
+      catFieldArray.remove(index);
 
-    if (fileName.includes('base64')) {
-      let updateFields = [...photoFields];
-      updateFields[index] = null
-      setPhotoFields(updateFields)
-    } else {
-      dispatch(removeCatPhoto(fileName, index))
+      // let newCatFieldArray = [...catFields];
+      // newCatFieldArray.splice(index, 1);
+
+      // let updateFields = [...photoFields];
+      // updateFields[index] = null;
+      // setPhotoFields(updateFields)
+
+      // reset({ cat: newCatFieldArray })
     }
   }
 
-  return {
+  function addOneDay() {
+    oneDayFieldArray.append(oneDayObj)
+  }
+
+  function removeOneDay(index) {
+    oneDayFieldArray.remove(index);
+
+    // let newOneDayFieldArray = [...oneDayFields];
+    // newOneDayFieldArray.splice(index, 1);
+
+    // reset({ bookingOneDay: newOneDayFieldArray })
+  }
+
+  function addOvernight() {
+    overnightFieldArray.append(overnightObj)
+  }
+
+  function removeOvernight(index) {
+    overnightFieldArray.remove(index);
+
+    // let newOvernightFieldArray = [...overnightFields];
+    // newOvernightFieldArray.splice(index, 1);
+
+    // reset({ bookingOvernight: newOvernightFieldArray })
+  }
+
+  const catProps = {
+    cat,
+    catFields,
+    addCat,
+    removeCat,
     photoFields,
     handlePreview,
-    catPhotoRemoved,
-    removePhotoIndex,
     handleRemovePhoto
+  }
+
+  const bookingOneDayProps = {
+    bookingOneDay,
+    oneDayFields,
+    addOneDay,
+    removeOneDay
+  }
+
+  const bookingOvernightProps = {
+    bookingOvernight,
+    overnightFields,
+    addOvernight,
+    removeOvernight
+  }
+
+  return {
+    t,
+    id,
+    methods,
+    FormProvider,
+    onSubmit,
+    resetForm,
+    bookingOneDayProps,
+    bookingOvernightProps,
+    catProps
   }
 }
 
-export { useCatOwner, useCat };
+export { useCatOwner };
