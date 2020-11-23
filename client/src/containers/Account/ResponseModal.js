@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal } from 'antd';
+import { Modal } from '../../components/UIComponents'
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 

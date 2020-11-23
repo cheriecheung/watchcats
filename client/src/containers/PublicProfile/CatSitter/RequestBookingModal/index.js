@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Modal } from 'antd';
+import { Modal } from '../../../../components/UIComponents'
 import CreateAppointmentTime from './CreateAppointmentTime';
 import CreateOwnerProfile from './CreateOwnerProfile';
 import SelectAppointmentTime from './SelectAppointmentTime';
@@ -25,14 +25,13 @@ function RequestBookingModal({
 
   return (
     <Modal
-      //  title=""
       visible={modalVisible}
       onOk={() => onSendRequest(appointmentData)}
       okText={modalOkText}
       onCancel={closeModal}
       cancelButtonProps={modalCancelButton}
-      className="request-modal-style"
       maskClosable={false}
+      style={{ width: 700 }}
     >
       <br />
 

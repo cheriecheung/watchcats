@@ -28,6 +28,7 @@ import TabItem from './Tab/TabItem'
 
 import EllipsisParagraph from './EllipsisParagraph'
 import MapContainer from './MapContainer'
+import Modal from './Modal'
 
 export {
   ContainedButton,
@@ -59,5 +60,6 @@ export {
   TabItem,
 
   EllipsisParagraph,
-  MapContainer
+  MapContainer,
+  Modal
 }

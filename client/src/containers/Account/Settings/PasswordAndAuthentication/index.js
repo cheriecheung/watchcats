@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getGoogleAuthenticatorQrCode } from '../../../../redux/actions/authenticationActions'
-import { ContainedButton, OutlinedButton } from '../../../../components/UIComponents'
+import { ContainedButton, Modal, OutlinedButton } from '../../../../components/UIComponents'
 import { useTranslation } from 'react-i18next';
-import { Button } from 'reactstrap';
-import { Modal } from 'antd';
 
 import ChangePassword from './ChangePassword'
 import Enable2FA, { EnableSuccess } from './Enable2FA'

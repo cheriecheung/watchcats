@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FieldLabel } from '../../../../components/FormComponents';
-import { ContainedButton, TextButton, VerticalDivider, WrapLayout } from '../../../../components/UIComponents';
-import { Modal, Switch } from 'antd';
+import { ContainedButton, Modal, TextButton, VerticalDivider, WrapLayout } from '../../../../components/UIComponents';
+import { Switch } from 'antd';
 
 import { useDispatch } from 'react-redux';
 

@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
-import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Requested, Confirmed, Completed, Declined } from './Status';
 import { useBookings } from './viewModel'
-import { SubTabBar, SubTabBarItem, TabBar, TabItem } from '../../components/UIComponents'
+import { Modal, SubTabBar, SubTabBarItem, TabBar, TabItem } from '../../components/UIComponents'
 import styled from 'styled-components';
-
-const Container = styled.div`
-  margin: 0 4vw; 
-  padding: 40px 0;
-`;
 
 const Content = styled.div`
   max-width: 800px;
