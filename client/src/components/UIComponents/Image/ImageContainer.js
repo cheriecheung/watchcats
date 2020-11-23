@@ -1,52 +1,60 @@
-import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const DefaultImageContainer = styled.div`
-  width: ${props => props.size ? props.size : '100px'};
-  height:  ${props => props.size ? props.size : '100px'};
-  border-radius: 10px;
-  overflow: hidden;
-`;
-
-const FindCatSitterImageContainer = styled.div`
-  flex-basis: 26%;
-  margin: 0 15px 0 -20px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+const defaultStyle = css`
   overflow: hidden;
 `
+const defaultContainer = props => {
+  if (!props.variant) return css`
+    width: ${props.size ? props.size : '100px'};
+    height:  ${props.size ? props.size : '100px'};
+    border-radius: 10px;
+  `
 
-const BookingRecordImageContainer = styled.div`
-  width: 140px;
-  height: 140px;
-  margin-left: -20px;
-  margin-right: 15px;
-  border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px;
-  overflow: hidden;
-
-  @media (max-width: 500px) {
-    width: 80px;
-    height: 80px;
-    margin-left: -15px;
-  }
-
-  @media (max-width: 380px) {
-    width: 60px;
-    height: 60px;
-    margin-left: -15px;
-  }
-`
-
-function ImageContainer({ variant, size, children }) {
-  switch (variant) {
-    case 'findCatSitter':
-      return <FindCatSitterImageContainer>{children}</FindCatSitterImageContainer>
-    case 'bookings':
-      return <BookingRecordImageContainer>{children}</BookingRecordImageContainer>
-    default:
-      return <DefaultImageContainer size={size}>{children}</DefaultImageContainer>
-  }
+  return css``
 }
+
+const findCatSitter = props => {
+  if (props.variant !== 'findCatSitter') return css``
+
+  return `
+    flex-basis: 26%;
+    margin: 0 15px 0 -20px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  `
+}
+
+const bookings = props => {
+  if (props.variant !== 'bookings') return css``
+
+  return `
+    width: 140px;
+    height: 140px;
+    margin-left: -20px;
+    margin-right: 15px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+
+    @media (max-width: 500px) {
+      width: 80px;
+      height: 80px;
+      margin-left: -15px;
+    }
+
+    @media (max-width: 380px) {
+      width: 60px;
+      height: 60px;
+      margin-left: -15px;
+    }
+  `
+}
+
+const ImageContainer = styled.div`
+  ${defaultStyle}
+
+  ${defaultContainer}
+  ${findCatSitter}
+  ${bookings}
+`
 
 export default ImageContainer;

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { FormButtons } from '../../../components/FormComponents';
-import { CardTitle, HorizontalCard, TextButton } from '../../../components/UIComponents'
+import { CardTitle, HorizontalCard, LinkButton } from '../../../components/UIComponents'
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -47,9 +47,9 @@ function CatOwnerInfo() {
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 20 }}>
-        <TextButton variant="href" link={`/profile/catowner/${id}`}>
+        <LinkButton to={`/profile/catowner/${id}`} target="_blank">
           {t('owner_form.view_profile')}
-        </TextButton>
+        </LinkButton>
       </div>
 
       <FormProvider {...methods}>

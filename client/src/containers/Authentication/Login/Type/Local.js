@@ -9,7 +9,7 @@ import {
 } from '../../_formConfig'
 
 import { FieldLabel, TextField } from '../../../../components/FormComponents'
-import { TextButton, OutlinedButton } from '../../../../components/UIComponents'
+import { LinkButton, OutlinedButton } from '../../../../components/UIComponents'
 
 const resolver = yupResolver(login_schema)
 
@@ -31,9 +31,9 @@ function LocalLogin({ onLogin, errorMessage }) {
         <FieldLabel>{t('form.password')}</FieldLabel>
         <TextField name="password" type="password" />
 
-        <TextButton variant="link" link="/forgot_password">
+        <LinkButton to="/forgot_password">
           Forgot password?
-        </TextButton>
+        </LinkButton>
 
         <OutlinedButton type="submit">
           {t('login.login')}

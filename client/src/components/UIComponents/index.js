@@ -1,5 +1,5 @@
 import ContainedButton from './Button/ContainedButton'
-import IconButton from './Button/IconButton'
+import LinkButton from './Button/LinkButton'
 import OutlinedButton from './Button/OutlinedButton'
 import TextButton from './Button/TextButton'
 
@@ -31,7 +31,7 @@ import MapContainer from './MapContainer'
 
 export {
   ContainedButton,
-  IconButton,
+  LinkButton,
   OutlinedButton,
   TextButton,
 

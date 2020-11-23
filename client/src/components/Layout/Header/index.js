@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   Nav,
   NavIcon,
   Line,
 } from './styledComponents'
+import { LinkButton } from '../../UIComponents'
 
 import { themeColor } from '../../../style/theme';
 import { Desktop, Mobile } from './Type'
@@ -33,7 +33,7 @@ function Header() {
           <Line open={toggle} />
         </NavIcon>
 
-        <Link to="/" style={{ display: 'flex' }} onClick={closeMenu}>
+        <LinkButton to="/" onClick={closeMenu}>
           <h4
             style={{
               color: themeColor.peach,
@@ -44,7 +44,7 @@ function Header() {
           >
             Watch Cats
           </h4>
-        </Link>
+        </LinkButton>
 
         <Desktop
           t={t}

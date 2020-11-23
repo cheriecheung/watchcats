@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Item from '../Item';
-import { OutlinedButton } from '../../../components/UIComponents';
+import { LinkButton } from '../../../components/UIComponents';
 import { useTranslation } from 'react-i18next';
 
 function Completed({ bookingType, bookings }) {
@@ -12,16 +11,11 @@ function Completed({ bookingType, bookings }) {
       {hasWrittenReview ? (
         <h5>Show review here</h5>
       ) : (
-          <OutlinedButton
-            backgroundColor="#FF5C4E"
-            // use <Link> instead
-            onClick={() => {
-              window.location = `/writereivew/${bookingId}`;
-            }}
-          >
-            {t('bookings.write_review')}
-          </OutlinedButton>
-        )}
+          <LinkButton to={`/writereivew/${bookingId}`} >
+            { t('bookings.write_review')}
+          </LinkButton>
+        )
+      }
     </div>
   );
 
@@ -50,7 +44,7 @@ function Completed({ bookingType, bookings }) {
       {bookingType === 'sitting_service' && bookings.length === 0 && (
         <span>
           You have no completed sitting service at the moment. Go to&nbsp;
-          <Link to="/find">Find a cat sitter</Link> page to start looking for a cat sitter now!
+          <LinkButton to="/find">Find a cat sitter</LinkButton> page to start looking for a cat sitter now!
         </span>
       )}
     </>

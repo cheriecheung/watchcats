@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { FormButtons } from '../../../components/FormComponents';
-import { CardTitle, HorizontalCard, TextButton } from '../../../components/UIComponents'
+import { CardTitle, HorizontalCard, LinkButton } from '../../../components/UIComponents'
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import 'react-day-picker/lib/style.css';
@@ -53,9 +53,9 @@ function SitterProfile() {
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 20 }}>
-        <TextButton variant="href" link={`/profile/catsitter/${id}`}>
+        <LinkButton to={`/profile/catsitter/${id}`} target="_blank">
           {t('sitter_form.view_profile')}
-        </TextButton>
+        </LinkButton>
       </div>
 
       <FormProvider {...methods}>

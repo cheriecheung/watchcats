@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { HorizontalCard, HorizontalDivider, Image, ImageContainer } from '../../../components/UIComponents';
+import { HorizontalCard, HorizontalDivider, Image, ImageContainer, LinkButton } from '../../../components/UIComponents';
 import { Link } from 'react-router-dom';
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
@@ -100,9 +100,9 @@ function Card({ item, setHoveredResultId }) {
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ width: '80%', height: '50px', overflow: 'hidden' }}>{aboutSitter.slice(0, 100).trim().replace(/("[^"]+"|\w+)$/, "...")}</div>
 
-          <a href={`/profile/catsitter/${urlId}`} target="_blank" style={{ width: '17%' }}>
+          <LinkButton to={`/profile/catsitter/${urlId}`} target="_blank" style={{ width: '17%' }}>
             {t('find_sitter.view_profile')}
-          </a>
+          </LinkButton>
         </div>
       </div>
     </HorizontalCard>

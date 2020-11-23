@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Item from '../Item';
-import { OutlinedButton } from '../../../components/UIComponents';
+import { LinkButton, OutlinedButton } from '../../../components/UIComponents';
 import { useTranslation } from 'react-i18next';
 
 function Confirmed({
@@ -53,7 +53,7 @@ function Confirmed({
       {bookingType === 'sitting_service' && bookings.length === 0 && (
         <span>
           You have no confirmed sitting service at the moment. Go to&nbsp;
-          <Link to="/find">Find a cat sitter</Link> page to start looking for a cat sitter now!
+          <LinkButton to="/find">Find a cat sitter</LinkButton> page to start looking for a cat sitter now!
         </span>
       )}
     </>
@@ -98,10 +98,9 @@ function ConfirmedService({ hasPaid, openModal, setModalContent }) {
     </div>
   ) : (
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        {/* <Link to="/payment" >{t('bookings.pay_now')}</Link> */}
-        <Link to={{ pathname: '/payment', state: { stripeAccountId: 'acct_1HYCiyART4JEToPd' } }}>
+        <LinkButton to={{ pathname: '/payment', state: { stripeAccountId: 'acct_1HYCiyART4JEToPd' } }}>
           {t('bookings.pay_now')}
-        </Link>
+        </LinkButton>
       </div>
     );
 }

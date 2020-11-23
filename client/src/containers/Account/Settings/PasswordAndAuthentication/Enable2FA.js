@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { verifyGoogleAuthenticatorCode } from '../../../../redux/actions/authenticationActions'
 import { FieldLabel, TextField } from '../../../../components/FormComponents';
-import { ContainedButton, Image, ImageContainer } from '../../../../components/UIComponents';
+import { ContainedButton, Image, ImageContainer, LinkButton } from '../../../../components/UIComponents';
 import styled from 'styled-components'
 
 import { useForm, FormProvider } from 'react-hook-form';
@@ -58,7 +58,7 @@ function Enable2FA() {
           <Description>
             <FieldLabel>1. Download an authenticator app</FieldLabel>
             <p>
-              Download and install <a href="https://support.google.com/accounts/answer/1066447?hl=en">Google Authenticator</a> for your phone or tablet.
+              Download and install <LinkButton to="https://support.google.com/accounts/answer/1066447?hl=en" target="_blank">Google Authenticator</LinkButton> for your phone or tablet.
                          </p>
           </Description>
         </Section>

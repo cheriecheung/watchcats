@@ -1,4 +1,5 @@
 import React from 'react';
+import { LinkButton } from '../../../../components/UIComponents'
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
@@ -9,9 +10,9 @@ function CreateOwnerProfile({ t }) {
       <br />
       <h6>
         To start creating your cat owner profile, go to the
-        <a href={`/account/${cookies.get('shortId')}`} target="_blank">
+        <LinkButton to={`/account/${cookies.get('shortId')}`}>
           &nbsp;account page
-        </a>
+        </LinkButton>
         , and click on the 'Cat owner profile' tab.
       </h6>
     </div>
