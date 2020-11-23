@@ -1,53 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { resendVerficationCode } from '../../../../redux/actions/accountActions'
 import { ContainedButton } from '../../../../components/UIComponents'
-import styled from 'styled-components';
+import { OtpInput } from '../../../../components/FormComponents'
+import { useForm, FormProvider } from 'react-hook-form';
 
-const CodeInput = styled.input`
-    margin: 0 4px;
-    padding: 0;
-    width: 40px;
-    height: 60px;
-    border: 2px solid #D3D3D3;
-    border-radius: 10px;
-    font-size: 25px;
-    text-align: center;
-    outline: none;
-`
+const defaultValues = { otp: '' }
 
 function PhoneNumberVerification({ phoneVerificationProps }) {
   const dispatch = useDispatch();
-  const { code, processInput, onKeyUp, updateRef } = phoneVerificationProps
+  const { onSubmitOtp } = phoneVerificationProps
+
+  const methods = useForm({ defaultValues });
+  const { handleSubmit } = methods;
 
   return (
-    <div style={{ textAlign: 'center' }}>
-      <p>Enter the 6-digit code we sent to your phone.</p>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmitOtp)} style={{ textAlign: 'center' }}>
 
-      {code.map((num, idx) => {
-        return (
-          <CodeInput
-            key={idx}
-            type="text"
-            inputMode="numeric"
-            maxLength={1}
-            value={num}
-            autoFocus={!code[0].length && idx === 0}
-            // readOnly={loading}
-            onChange={e => processInput(e, idx)}
-            onKeyUp={e => onKeyUp(e, idx)}
-            ref={ref => updateRef(ref)}
-          />
-        );
-      })}
+        <p>Enter the 6-digit code we sent to your phone.</p>
 
-      <br />
-      <br />
-      {/* {changePhoneNumberStep === 'verificationFailed' &&
+        <OtpInput name="otp" />
+
+        <br />
+        <br />
+        {/* {changePhoneNumberStep === 'verificationFailed' &&
             <span>code invalid. please try again</span>
           } */}
-      <ContainedButton onClick={() => dispatch(resendVerficationCode())}>Resend Code</ContainedButton>
-    </div>
+        <ContainedButton onClick={() => dispatch(resendVerficationCode())}>Resend Code</ContainedButton>
+        <ContainedButton type="submit">Submit</ContainedButton>
+      </form>
+    </FormProvider>
   )
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useForm, FormProvider } from 'react-hook-form';
-import { FieldLabel, TextField } from '../../../../components/FormComponents'
+import { FieldLabel, OtpInput } from '../../../../components/FormComponents'
 import { ContainedButton, HorizontalCard } from '../../../../components/UIComponents'
 
 function PhoneLogin({ onPhoneLogin }) {
@@ -12,7 +12,7 @@ function PhoneLogin({ onPhoneLogin }) {
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onPhoneLogin)}>
           <FieldLabel>Code</FieldLabel>
-          <TextField name="code" />
+          <OtpInput name="code" />
 
           <ContainedButton type="submit">submit</ContainedButton>
         </form>
