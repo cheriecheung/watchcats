@@ -1,19 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { TimePicker as AntTimePicker } from 'antd';
 import moment from 'moment';
 import styled from 'styled-components';
 import { getErrorProperties } from '../../utility'
+import ErrorDisplay from './ErrorDisplay';
 
 const Field = styled(AntTimePicker)`
   border: 1px solid ${props => props.error ? '#E56E5A' : '#d9d9d9'};
-`
-
-const ErrorDisplay = styled.span`
-  display: inline-block;
-  color: #E56E5A;
-  text-align: right;
-  margin-top: 5px;
 `
 
 const allSeconds = () => {

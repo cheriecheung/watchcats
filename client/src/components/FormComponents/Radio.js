@@ -3,13 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { Radio as AntRadio } from 'antd';
 import { getErrorProperties } from '../../utility'
 import styled from 'styled-components';
-
-const ErrorDisplay = styled.span`
-  display: inline-block;
-  color: #E56E5A;
-  float: right;
-  text-align: right;
-`
+import ErrorDisplay from './ErrorDisplay';
 
 export function RadioGroup({ name, children }) {
   const { control, watch, errors } = useFormContext();

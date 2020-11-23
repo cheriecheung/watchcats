@@ -1,6 +1,7 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
+import ErrorDisplay from './ErrorDisplay';
 
 const Input = styled.textarea`
   width: 100%;
@@ -9,11 +10,6 @@ const Input = styled.textarea`
   border-radius: 10px !important;
   outline: none;
   resize: none;
-`
-
-const ErrorDisplay = styled.span`
-  color: #E56E5A;
-  float: right;
 `
 
 export default function TextArea({ name, placeholder, rows = 10, customStyle }) {

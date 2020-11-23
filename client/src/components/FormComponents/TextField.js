@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Input as AntInput } from 'antd';
 import styled from 'styled-components';
 import { getErrorProperties } from '../../utility'
+import ErrorDisplay from './ErrorDisplay';
 
 const Container = styled.div`
   display: flex;
@@ -17,12 +18,6 @@ const Input = styled(AntInput)`
   border-radius: 10px;
   font-size: unset;
   color: #7f7f7f;
-`
-
-const ErrorDisplay = styled.span`
-  color: #E56E5A;
-  align-self: flex-end;
-  float: right;
 `
 
 export default function TextField({ name, prefix, placeholder, disabled, type = "text", style }) {

@@ -3,6 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import { getErrorProperties } from '../../utility'
 import { useTranslation } from 'react-i18next';
+import ErrorDisplay from './ErrorDisplay';
 
 const Label = styled.label`
   display:flex;
@@ -12,13 +13,6 @@ const Label = styled.label`
   height: 120px;
   border-radius: 10px;
   overflow: hidden; 
-`
-
-const ErrorDisplay = styled.span`
-  display: inline-block;
-  color: #E56E5A;
-  float: right;
-  text-align: right;
 `
 
 export default function FileUploader({

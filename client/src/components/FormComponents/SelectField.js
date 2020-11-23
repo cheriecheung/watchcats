@@ -1,13 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import styled from 'styled-components';
 import Select from 'react-select';
 import { getErrorProperties } from '../../utility'
-
-const ErrorDisplay = styled.span`
-  color: #E56E5A;
-  float: right;
-`
+import ErrorDisplay from './ErrorDisplay';
 
 const bgColor = (opacity) => `rgba(255, 161, 149, ${opacity})`;
 const bordercolor = (opacity) => `1px solid rgb(255, 161, 149, ${opacity})`;
