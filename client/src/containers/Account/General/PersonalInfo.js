@@ -1,11 +1,8 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import { useTranslation } from 'react-i18next';
 import { FieldLabel, TextField } from '../../../components/FormComponents';
 
-function PersonalInfo() {
-  const { t } = useTranslation();
-
+function PersonalInfo({ t }) {
   return (
     <>
       <p style={{ marginBottom: 30 }}>

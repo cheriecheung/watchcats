@@ -1,17 +1,14 @@
 import React, { useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
-import { useTranslation } from 'react-i18next';
 import { FileDisplayField, FileUploader } from '../../../components/FormComponents';
 
-function ProfilePicture({ setValue, reset, photoField, handlePreview, handleRemovePhoto, profilePicRemoved }) {
-  const { t } = useTranslation();
-
-  useEffect(() => {
-    if (profilePicRemoved) {
-      setValue(`profilePictureFileName`, null)
-    }
-  }, [profilePicRemoved])
-
+function ProfilePicture({
+  t,
+  reset,
+  photoField,
+  handlePreview,
+  handleRemovePhoto
+}) {
   return (
     <Row>
       <Col md={6}>
@@ -31,12 +28,7 @@ function ProfilePicture({ setValue, reset, photoField, handlePreview, handleRemo
             <FileDisplayField
               name="profilePictureFileName"
               fileName={photoField}
-              handleRemovePhoto={() => {
-                handleRemovePhoto(photoField)
-                if (photoField.includes('base64')) {
-                  setValue("profilePictureFileName", null)
-                }
-              }}
+              handleRemovePhoto={() => handleRemovePhoto(photoField)}
             />
           ) : (
               <FileUploader

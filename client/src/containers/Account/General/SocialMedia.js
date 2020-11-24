@@ -1,11 +1,8 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import { useTranslation } from 'react-i18next';
 import { FieldLabel, TextField } from '../../../components/FormComponents';
 
-function SocialMedia() {
-  const { t } = useTranslation();
-
+function SocialMedia({ t }) {
   return (
     <Row className="social-media-input">
       <Col md={4} className="mb-3">
