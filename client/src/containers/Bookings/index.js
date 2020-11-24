@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Requested, Confirmed, Completed, Declined } from './Status';
-import { useBookings } from './viewModel'
+import React from 'react';
 import { Modal, SubTabBar, SubTabBarItem, TabBar, TabItem } from '../../components/UIComponents'
 import styled from 'styled-components';
+
+import Requested from './containers/Requested'
+import Confirmed from './containers/Confirmed'
+import Completed from './containers/Completed'
+import Declined from './containers/Declined'
+
+import { useBookings } from './viewModel'
 
 const Content = styled.div`
   max-width: 800px;
@@ -15,12 +19,8 @@ const Content = styled.div`
 `
 
 function Bookings() {
-  const { t } = useTranslation();
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalContent, setModalContent] = useState('');
-
   const {
+    t,
     bookings,
     bookingTypeActiveKey,
     setBookingTypeActiveKey,
@@ -28,28 +28,23 @@ function Bookings() {
     setBookingStatusActiveKey,
     setBookingId,
     setActionType,
-    submitAction
+    submitAction,
+    bookingTypeTabs,
+    bookingStatusTabs,
+    modalVisible,
+    setModalVisible,
+    modalContent,
+    setModalContent,
   } = useBookings();
 
   const { requested, confirmed, completed, declined } = bookings || {}
-
-  const bookingTypeTabs = [
-    { key: 'sitting_jobs', tab: t('bookings.as_cat_sitter') },
-    { key: 'sitting_service', tab: t('bookings.as_cat_owner') },
-  ];
-
-  const bookingStatusTabs = [
-    { key: 'requested', tab: `${t('bookings.requested')} (${requested.length})` },
-    { key: 'confirmed', tab: `${t('bookings.confirmed')}  (${confirmed.length})` },
-    { key: 'completed', tab: `${t('bookings.completed')}  (${completed.length})` },
-    { key: 'declined', tab: `${t('bookings.declined')}  (${declined.length})` },
-  ]
 
   const renderBookingStatusTabContent = () => {
     switch (bookingStatusActiveKey) {
       case 'confirmed':
         return (
           <Confirmed
+            t={t}
             bookingType={bookingTypeActiveKey}
             bookings={confirmed}
             openModal={() => setModalVisible(true)}
@@ -61,6 +56,7 @@ function Bookings() {
       case 'completed':
         return (
           <Completed
+            t={t}
             bookingType={bookingTypeActiveKey}
             bookings={completed}
           />
@@ -68,12 +64,14 @@ function Bookings() {
       case 'declined':
         return (
           <Declined
+            t={t}
             bookings={declined}
           />
         )
       default:
         return (
           <Requested
+            t={t}
             bookingType={bookingTypeActiveKey}
             bookings={requested}
             openModal={() => setModalVisible(true)}

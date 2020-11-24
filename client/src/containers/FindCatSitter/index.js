@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Row, Col } from 'reactstrap';
 // import { useLocation } from 'react-router-dom';
 import { useFindCatSitter } from './viewModel';
@@ -12,9 +11,8 @@ import MapItem from './Map'
 function FindCatSitter() {
   // const { googlePlaceAddress, startDate, endDate } = useLocation().state || {};
 
-  const { t } = useTranslation();
-
   const {
+    t,
     loading,
     setLoading,
     totalResults,
@@ -36,6 +34,7 @@ function FindCatSitter() {
   return (
     <div style={{ padding: '40px 30px 50px 30px' }}>
       <Search
+        t={t}
         setLoading={setLoading}
         setZoom={setZoom}
         setCenter={setCenter}
@@ -44,6 +43,7 @@ function FindCatSitter() {
       <Row>
         <Col md={7} style={{ width: 1100 }}>
           <Result
+            t={t}
             totalResults={totalResults}
             paginatedResults={paginatedResults}
             results={results}
@@ -57,6 +57,7 @@ function FindCatSitter() {
 
         <Col md={5}>
           <MapItem
+            t={t}
             zoom={zoom}
             setZoom={setZoom}
             center={center}

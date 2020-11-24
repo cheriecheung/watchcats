@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Requested() {
+function Requested({ t }) {
   return (
     <>
       <br />

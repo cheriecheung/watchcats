@@ -1,9 +1,7 @@
 import React from 'react';
 import { DatePicker } from '../../../components/FormComponents';
-import { useTranslation } from 'react-i18next';
 
-function AppointmentPeriodPicker() {
-  const { t } = useTranslation();
+function AppointmentPeriodPicker({ t }) {
 
   return (
     <div style={{ display: 'flex' }}>

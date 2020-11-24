@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Successful() {
+function Successful({ t }) {
   return (
     <>
       <br />

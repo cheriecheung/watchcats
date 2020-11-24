@@ -16,7 +16,7 @@ const Section = styled.div`
 `;
 
 function CatSitter() {
-  const { cleanedData, reviewListRef, scrollToRef, id } = useCatSitterProfile();
+  const { t, cleanedData, reviewListRef, scrollToRef, id } = useCatSitterProfile();
   const summaryProps = useCatSitterSummary();
 
   return (
@@ -52,7 +52,7 @@ function CatSitter() {
 
         <Section>
           <h5>Availability</h5>
-          <AvailabilityCalendar unavailableDates={cleanedData.unavailableDates} />
+          <AvailabilityCalendar t={t} unavailableDates={cleanedData.unavailableDates} />
         </Section>
 
         <hr />
@@ -63,7 +63,7 @@ function CatSitter() {
         </Section>
       </VerticalCard>
 
-      <Summary summaryProps={summaryProps} sitterInfo={cleanedData} />
+      <Summary t={t} summaryProps={summaryProps} sitterInfo={cleanedData} />
     </WrapLayout>
   );
 }

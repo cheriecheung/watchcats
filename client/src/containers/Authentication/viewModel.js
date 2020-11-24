@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -11,17 +13,55 @@ import {
   register_default_values,
   register_schema
 } from './_formConfig'
-import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, googleLogin, googleAuthenticate, phoneLogin, registration } from '../../redux/actions/authenticationActions';
+import {
+  verifyEmail,
+  getActivationEmail,
+  login,
+  googleLogin,
+  googleAuthenticate,
+  phoneLogin,
+  registration
+} from '../../redux/actions/authenticationActions';
 import { getPasswordResetEmail, resetPassword } from '../../redux/actions'
 
 function useEmailVerification() {
+  const { token } = useParams();
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
+  const activate = useSelector((state) => state.authentication);
 
-  return {}
+  const [emailSubmitted, setEmailSubmitted] = useState(false)
+
+  const defaultValues = email_verification_default_values;
+  const resolver = yupResolver(send_email_schema)
+  const methods = useForm({ defaultValues, resolver });
+
+  useEffect(() => {
+    if (token) {
+      dispatch(verifyEmail(token));
+    }
+  }, [dispatch, token]);
+
+  function onSubmit(data) {
+    const { email } = data;
+    dispatch(getActivationEmail(email));
+    setEmailSubmitted(true)
+  }
+
+  const unsuccessfulVerificationProps = {
+    FormProvider,
+    methods,
+    onSubmit,
+    emailSubmitted
+  }
+
+  return {
+    t,
+    activate,
+    unsuccessfulVerificationProps
+  }
 }
 
 function useLogin() {

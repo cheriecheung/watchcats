@@ -1,33 +1,22 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { verifyEmail } from '../../../redux/actions/authenticationActions';
+import React from 'react'
 
 import Requested from './containers/Requested'
 import Successful from './containers/Successful'
 import Unsuccessful from './containers/Unsuccessful'
 
+import { useEmailVerification } from '../viewModel'
+
 function EmailVerification() {
-  const { token } = useParams();
-  const dispatch = useDispatch();
-  const activate = useSelector((state) => state.authentication);
-
-  useEffect(() => {
-    dispatch(verifyEmail(token));
-  }, [dispatch, token]);
-
-  useEffect(() => {
-    console.log({ activate, payload: activate.payload })
-  }, [activate])
+  const { t, activate } = useEmailVerification();
 
   const renderResponse = () => {
     switch (activate.payload) {
       case 'Activation failed':
-        return <Unsuccessful />
+        return <Unsuccessful t={t} />
       case 'Activation successful':
-        return <Successful />
+        return <Successful t={t} />
       case 'Email requested':
-        return <Requested />
+        return <Requested t={t} />
       default:
         break;
     }

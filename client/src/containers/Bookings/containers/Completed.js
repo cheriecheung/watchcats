@@ -1,10 +1,8 @@
 import React from 'react';
 import Item from '../Item';
 import { LinkButton } from '../../../components/UIComponents';
-import { useTranslation } from 'react-i18next';
 
-function Completed({ bookingType, bookings }) {
-  const { t } = useTranslation();
+function Completed({ t, bookingType, bookings }) {
 
   const renderActionButtons = (bookingId, hasWrittenReview) => (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -29,6 +27,7 @@ function Completed({ bookingType, bookings }) {
           return (
             <Item
               key={index} // data.id
+              t={t}
               data={data}
               // renderActionButtons={() => renderActionButtons(hasWrittenReview, 123)}
               renderActionButtons={renderActionButtons}

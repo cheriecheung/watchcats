@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
 import { useForm, FormProvider } from 'react-hook-form';
@@ -33,10 +32,8 @@ const defaultValues = {
   sortBy: sortingTypeOptions[0],
 };
 
-function Search({ setLoading, setZoom, setCenter }) {
+function Search({ t, setLoading, setZoom, setCenter }) {
   const { googlePlaceAddress, startDate, endDate } = useLocation().state || {};
-
-  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
 
   const methods = useForm({ defaultValues });
@@ -117,11 +114,11 @@ function Search({ setLoading, setZoom, setCenter }) {
             </FieldContainer>
 
             <FieldContainer flex="30%">
-              <AppointmentPeriodPicker />
+              <AppointmentPeriodPicker t={t} />
             </FieldContainer>
 
             <FieldContainer flex="10%">
-              <Sorting />
+              <Sorting t={t} />
             </FieldContainer>
 
             <FieldContainer>

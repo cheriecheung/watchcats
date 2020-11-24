@@ -5,6 +5,7 @@ import { LinkButton, OutlinedButton } from '../../../components/UIComponents';
 import { useTranslation } from 'react-i18next';
 
 function Confirmed({
+  t,
   bookingType,
   bookings,
   openModal,
@@ -38,6 +39,7 @@ function Confirmed({
           return (
             <Item
               key={index} // data.id
+              t={t}
               data={data}
               openModal={openModal}
               renderActionButtons={renderActionButtons}

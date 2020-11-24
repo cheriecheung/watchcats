@@ -1,29 +1,12 @@
 
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { getActivationEmail } from '../../../../redux/actions/authenticationActions';
-
-import { useForm, FormProvider } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  email_verification_default_values as defaultValues,
-  send_email_schema
-} from '../../_formConfig'
-
+import { Alert } from 'antd';
 import { TextField } from '../../../../components/FormComponents'
 import { ContainedButton } from '../../../../components/UIComponents';
 
-function Unsuccessful() {
-  const dispatch = useDispatch();
-
-  const resolver = yupResolver(send_email_schema);
-  const methods = useForm({ defaultValues, resolver });
+function Unsuccessful({ t, unsuccessfulVerificationProps }) {
+  const { FormProvider, methods, onSubmit, emailSubmitted } = unsuccessfulVerificationProps
   const { handleSubmit } = methods;
-
-  const onSubmit = (data) => {
-    const { email } = data;
-    dispatch(getActivationEmail(email));
-  }
 
   return (
     <>
@@ -35,11 +18,17 @@ function Unsuccessful() {
         <form onSubmit={handleSubmit(onSubmit)}>
 
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <TextField name="email" style={{ width: 200 }} />
 
-            <ContainedButton>
-              Submit
-          </ContainedButton>
+            {emailSubmitted ?
+              <Alert message="If the provided email is in our database, a password reset link will be sent to it. Please be sure to check the spam / junk mailbox if it is not found in the main inbox" type="success" showIcon />
+              :
+              <>
+                <TextField name="email" style={{ width: 200 }} />
+                <ContainedButton>
+                  Submit
+                </ContainedButton>
+              </>
+            }
           </div>
         </form>
       </FormProvider>

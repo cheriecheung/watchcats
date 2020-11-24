@@ -5,6 +5,7 @@ import Card from './Card'
 const pageSize = 25;
 
 function Result({
+  t,
   totalResults,
   paginatedResults,
   results,
@@ -48,6 +49,7 @@ function Result({
         dataSource={results}
         renderItem={(item) =>
           <Card
+            t={t}
             item={item}
             setHoveredResultId={setHoveredResultId}
           />

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSittersInBounds } from '../../redux/actions/findCatSitterActions';
 
@@ -6,6 +7,8 @@ const defaultMapCenter = { lat: 52.379189, lng: 4.899431 }
 const pageSize = 10;
 
 function useFindCatSitter() {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const { totalResults, paginatedResults } = useSelector((state) => state.find_cat_sitters);
   // display error when returned failure
@@ -56,6 +59,7 @@ function useFindCatSitter() {
   }
 
   return {
+    t,
     loading,
     setLoading,
     totalResults,

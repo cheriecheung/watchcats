@@ -1,7 +1,5 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { HorizontalCard, HorizontalDivider, Image, ImageContainer, LinkButton } from '../../../components/UIComponents';
-import { Link } from 'react-router-dom';
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
 const fiveStarDisplay = (number) => {
@@ -19,8 +17,7 @@ const fiveStarDisplay = (number) => {
   );
 };
 
-function Card({ item, setHoveredResultId }) {
-  const { t } = useTranslation();
+function Card({ t, item, setHoveredResultId }) {
 
   const {
     urlId,

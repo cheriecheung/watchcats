@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getOwnerProfile, getSitterProfile } from '../../redux/actions/profileActions';
@@ -6,6 +7,8 @@ import { getAppointmentTime, sendRequest } from '../../redux/actions/bookingActi
 import { getChatContacts, getChatConversation } from '../../redux/actions/chatActions';
 
 function useCatOwnerProfile() {
+  const { t } = useTranslation();
+
   const { id } = useParams();
 
   const dispatch = useDispatch();
@@ -30,6 +33,7 @@ function useCatOwnerProfile() {
   }, [data]);
 
   return {
+    t,
     returnedData,
     reviewListRef,
     scrollToRef
@@ -37,6 +41,8 @@ function useCatOwnerProfile() {
 }
 
 function useCatSitterProfile() {
+  const { t } = useTranslation();
+
   const { id } = useParams();
 
   const dispatch = useDispatch();
@@ -70,6 +76,7 @@ function useCatSitterProfile() {
   }, [data]);
 
   return {
+    t,
     cleanedData,
     reviewListRef,
     scrollToRef,

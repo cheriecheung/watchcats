@@ -1,10 +1,7 @@
 import React from 'react';
 import DayPicker from 'react-day-picker';
-import { useTranslation } from 'react-i18next';
 
-function AvailabilityCalendar({ unavailableDates }) {
-  const { t } = useTranslation();
-
+function AvailabilityCalendar({ t, unavailableDates }) {
   return (
     <div style={{
       display: 'flex',

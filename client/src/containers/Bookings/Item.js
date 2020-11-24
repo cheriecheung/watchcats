@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { HorizontalCard, Image, ImageContainer } from '../../components/UIComponents'
@@ -26,10 +25,18 @@ const BrowseLink = styled(Link)`
   color: #ffa195;
 `
 
-const Item = ({ data, bookingType, renderActionButtons, status }) => {
-  const { t } = useTranslation();
+const Item = ({ t, data, bookingType, renderActionButtons, status }) => {
 
-  const { id, firstName, lastName, shortId, appointmentType, location, price } = data;
+  const {
+    id,
+    firstName,
+    lastName,
+    shortId,
+    appointmentType,
+    location,
+    price
+  } = data;
+
   const profileUrl =
     bookingType === 'sitting_jobs'
       ? `/profile/catowner/${shortId}`

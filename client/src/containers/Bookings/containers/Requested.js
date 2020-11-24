@@ -5,6 +5,7 @@ import { LinkButton, OutlinedButton } from '../../../components/UIComponents';
 import { useTranslation } from 'react-i18next';
 
 function Requested({
+  t,
   bookingType,
   bookings,
   openModal,
@@ -31,6 +32,7 @@ function Requested({
         bookings.map((data, index) => (
           <Item
             key={index} // data.id
+            t={t}
             data={data}
             renderActionButtons={(id) => renderSection(id)}
             bookingType={bookingType}

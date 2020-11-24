@@ -16,7 +16,7 @@ const Section = styled.div`
 `;
 
 function CatOwner() {
-  const { returnedData, reviewListRef, scrollToRef } = useCatOwnerProfile();
+  const { t, returnedData, reviewListRef, scrollToRef } = useCatOwnerProfile();
 
   return (
     <WrapLayout style={{ padding: '30px 60px', textAlign: 'left' }}>
@@ -64,7 +64,7 @@ function CatOwner() {
 
       </VerticalCard>
 
-      <Summary ownerInfo={returnedData} />
+      <Summary t={t} ownerInfo={returnedData} />
     </WrapLayout>
   );
 }

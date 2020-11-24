@@ -2,13 +2,11 @@ import React from 'react';
 import { ContainedButton } from '../../../components/UIComponents';
 import { Image, ImageContainer, VerticalCard } from '../../../components/UIComponents'
 import RequestBookingModal from './RequestBookingModal';
-import { useTranslation } from 'react-i18next';
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
-function Summary({ sitterInfo, summaryProps }) {
-  const { t } = useTranslation();
+function Summary({ t, sitterInfo, summaryProps }) {
 
   const pictureUrl = sitterInfo.profilePictureFileName ? `${REACT_APP_API_DOMAIN}/image/${sitterInfo.profilePictureFileName}` : defaultProfilePic
 
