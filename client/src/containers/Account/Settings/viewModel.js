@@ -2,13 +2,23 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getContactDetails, submitPhoneNumber, deletePhoneNumber, verifyPhoneNumber, resendVerficationCode } from '../../../redux/actions/accountActions';
-import { resetPassword, getGoogleAuthenticatorQrCode, verifyGoogleAuthenticatorCode, disableTwoFactor } from '../../../redux/actions/authenticationActions'
+import {
+  getContactDetails,
+  submitPhoneNumber,
+  deletePhoneNumber,
+  verifyPhoneNumber,
+  resendVerficationCode
+} from '../../../redux/actions/accountActions';
+import {
+  resetPassword,
+  getGoogleAuthenticatorQrCode,
+  verifyGoogleAuthenticatorCode,
+  disableTwoFactor
+} from '../../../redux/actions/authenticationActions'
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { reset_password_schema } from '../_validationSchema'
-import { reset_password_default_values } from '../_defaultValues'
+import { reset_password_schema, reset_password_default_values } from '../_formConfig'
 
 function useContactDetails() {
   const { t } = useTranslation();

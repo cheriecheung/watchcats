@@ -7,7 +7,7 @@ import { ContainedButton, HorizontalCard } from '../../components/UIComponents'
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { review_schema } from '../Account/_validationSchema';
+import { review_schema } from '../Account/_formConfig';
 import { submitReview } from '../../redux/actions/bookingActions';
 
 const defaultValues = {

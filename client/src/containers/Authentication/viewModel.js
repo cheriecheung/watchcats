@@ -16,6 +16,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login, googleLogin, googleAuthenticate, phoneLogin, registration } from '../../redux/actions/authenticationActions';
 import { getPasswordResetEmail, resetPassword } from '../../redux/actions'
 
+function useEmailVerification() {
+  const { t } = useTranslation();
+
+  const dispatch = useDispatch();
+
+  return {}
+}
+
 function useLogin() {
   const { t } = useTranslation();
 
@@ -150,4 +158,4 @@ function useRegister() {
   }
 }
 
-export { useLogin, useForgotPassword, useResetPassword, useRegister }
+export { useEmailVerification, useLogin, useForgotPassword, useResetPassword, useRegister }

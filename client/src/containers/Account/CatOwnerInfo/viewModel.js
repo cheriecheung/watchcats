@@ -5,10 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getOwnerAccount, saveOwner, removeCatPhoto } from '../../../redux/actions/accountActions';
 import moment from 'moment';
 import { catBreedOptions, personalityOptions } from '../../../constants';
-import { cat_owner_default_values, catObj, oneDayObj, overnightObj } from '../_defaultValues'
+
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
-import { cat_owner_schema } from '../_validationSchema';
+import {
+  cat_owner_default_values,
+  catObj,
+  oneDayObj,
+  overnightObj,
+  cat_owner_schema
+} from '../_formConfig'
 
 function useCatOwner() {
   const { t } = useTranslation();

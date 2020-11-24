@@ -8,7 +8,7 @@ import { HorizontalCard } from '../../components/UIComponents'
 import AppointmentPeriodPicker from '../FindCatSitter/Search/AppointmentPeriodPicker';
 import { appointmentTypeOptions } from '../../constants'
 import { yupResolver } from '@hookform/resolvers/yup';
-import { home_search_schema } from '../Account/_validationSchema'
+import { home_search_schema } from '../Account/_formConfig'
 import { checkToken } from '../../redux/actions/authenticationActions'
 import { useDispatch } from 'react-redux';
 
