@@ -1,25 +1,26 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next';
 import { HorizontalCard, HorizontalDivider, LinkButton } from '../../../components/UIComponents'
+
+import DemoUser from './containers/DemoUser'
+import Google from './containers/Google'
+import Local from './containers/Local'
+import Phone from './containers/Phone'
+
 import { useLogin } from '../viewModel'
 
-import { DemoUser, Google, Local, Phone } from './Type'
-
 function Login() {
-  const { t, i18n } = useTranslation();
-
   const {
-    onLogin,
+    t,
+    localLoginProps,
+    phoneLoginProps,
     onGoogleLogin,
-    errorMessage,
     loginByPhone,
-    onPhoneLogin
   } = useLogin();
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
       {loginByPhone ?
-        <Phone onPhoneLogin={onPhoneLogin} />
+        <Phone t={t} phoneLoginProps={phoneLoginProps} />
         :
         <HorizontalCard>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -29,12 +30,12 @@ function Login() {
             </LinkButton>
           </div>
 
-          <DemoUser />
-          <Google onGoogleLogin={onGoogleLogin} />
+          <DemoUser t={t} />
+          <Google t={t} onGoogleLogin={onGoogleLogin} />
 
           <HorizontalDivider>{t('form.or')}</HorizontalDivider>
 
-          <Local onLogin={onLogin} errorMessage={errorMessage} />
+          <Local t={t} localLoginProps={localLoginProps} />
         </HorizontalCard>
       }
     </div>

@@ -1,22 +1,19 @@
 import React from 'react'
-import { useForm, FormProvider } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-    email_verification_default_values as defaultValues,
-    send_email_schema
-} from '../_formConfig'
 import { ContainedButton } from '../../../components/UIComponents';
 import { TextField } from '../../../components/FormComponents'
 import { Alert } from 'antd';
 import { useForgotPassword } from '../viewModel';
 
-const resolver = yupResolver(send_email_schema)
-
 function PasswordForgotten() {
-    const methods = useForm({ defaultValues, resolver });
-    const { handleSubmit } = methods;
+    const {
+        t,
+        FormProvider,
+        methods,
+        emailSubmitted,
+        onSubmitEmail
+    } = useForgotPassword();
 
-    const { emailSubmitted, onSubmitEmail } = useForgotPassword();
+    const { handleSubmit } = methods;
 
     return (
         <div style={{ width: '30vw', margin: '50px auto 0 auto' }}>

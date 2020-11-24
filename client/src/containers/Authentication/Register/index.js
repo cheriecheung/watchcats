@@ -1,11 +1,13 @@
 import React from 'react';
 import { HorizontalDivider, LinkButton } from '../../../components/UIComponents'
 
-import { Google, Local } from './Type'
+import Google from './containers/Google'
+import Local from './containers/Local'
+
 import { useRegister } from '../viewModel';
 
 function Register() {
-  const { t, onGoogleLogin, onRegister } = useRegister()
+  const { t, onGoogleLogin, localRegisterProps } = useRegister()
 
   return (
     <div style={{ width: '30vw', margin: '0 auto' }}>
@@ -20,7 +22,7 @@ function Register() {
 
       <HorizontalDivider>{t('form.or')}</HorizontalDivider>
 
-      <Local t={t} onRegister={onRegister} />
+      <Local t={t} localRegisterProps={localRegisterProps} />
     </div>
   )
 }

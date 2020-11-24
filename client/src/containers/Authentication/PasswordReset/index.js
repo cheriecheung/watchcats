@@ -1,21 +1,17 @@
 import React from 'react'
-import { useForm, FormProvider } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-    password_reset_default_values as defaultValues,
-    password_reset_schema
-} from '../_formConfig'
 import { FieldLabel, TextField } from '../../../components/FormComponents'
 import { ContainedButton } from '../../../components/UIComponents';
-import { useForgotPassword } from '../viewModel';
-
-const resolver = yupResolver(password_reset_schema)
+import { useResetPassword } from '../viewModel';
 
 function PasswordReset() {
-    const methods = useForm({ defaultValues, resolver });
-    const { handleSubmit } = methods;
+    const {
+        t,
+        FormProvider,
+        methods,
+        onSubmitNewPassword
+    } = useResetPassword();
 
-    const { onSubmitNewPassword } = useForgotPassword();
+    const { handleSubmit } = methods;
 
     return (
         <div style={{ width: '30vw', margin: '50px auto 0 auto' }}>

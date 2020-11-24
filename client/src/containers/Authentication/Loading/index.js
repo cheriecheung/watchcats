@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { googleAuthenticate } from '../../../redux/actions/authenticationActions';
+import { useLogin } from '../viewModel'
 
 function Loading() {
-  const dispatch = useDispatch();
+  const { t, onGoogleAuthenticate } = useLogin();
 
   useEffect(() => {
-    dispatch(googleAuthenticate());
-  }, [googleAuthenticate]);
+    onGoogleAuthenticate();
+  }, [onGoogleAuthenticate]);
 
   return <div>Loading...</div>;
 }
