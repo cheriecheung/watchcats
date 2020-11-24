@@ -1,7 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { FieldLabel, SelectField } from '../../../components/FormComponents';
-import { useTranslation } from 'react-i18next';
 import { hourlyRateOptions, nightlyRateOptions } from '../../../constants';
 import styled from 'styled-components';
 
@@ -14,9 +13,7 @@ const Type = styled.span`
   align-self: center;
 `
 
-function Pricing() {
-  const { t } = useTranslation();
-
+function Pricing({ t }) {
   return (
     <Row>
       <Col md={6}>

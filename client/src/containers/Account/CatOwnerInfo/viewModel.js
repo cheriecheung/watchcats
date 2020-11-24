@@ -199,6 +199,7 @@ function useCatOwner() {
       // updateFields[index] = null;
       // setPhotoFields(updateFields)
 
+      // try setValue
       // reset({ cat: newCatFieldArray })
     }
   }
@@ -213,6 +214,7 @@ function useCatOwner() {
     // let newOneDayFieldArray = [...oneDayFields];
     // newOneDayFieldArray.splice(index, 1);
 
+    // try setValue
     // reset({ bookingOneDay: newOneDayFieldArray })
   }
 
@@ -226,6 +228,7 @@ function useCatOwner() {
     // let newOvernightFieldArray = [...overnightFields];
     // newOvernightFieldArray.splice(index, 1);
 
+    // try setValue
     // reset({ bookingOvernight: newOvernightFieldArray })
   }
 

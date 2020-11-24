@@ -1,26 +1,7 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
 import { Calendar } from '../../../components/FormComponents';
-import { useTranslation } from 'react-i18next';
-import { DateUtils } from 'react-day-picker';
 
-function Availability({ reset, watch }) {
-  const { t } = useTranslation();
-  const selectedDays = watch('unavailableDates') || [];
-
-  const handleDayClick = (day, { selected }) => {
-    const allDays = [...selectedDays];
-    if (selected) {
-      const selectedIndex = allDays.findIndex((selectedDay) =>
-        DateUtils.isSameDay(selectedDay, day)
-      );
-      allDays.splice(selectedIndex, 1);
-    } else {
-      allDays.push(day);
-    }
-    reset({ unavailableDates: allDays });
-  };
-
+function Availability({ t, selectedUnavailableDays, onDayClick }) {
   return (
     <>
       <p>{t('sitter_form.availability_description')}</p>
@@ -34,8 +15,8 @@ function Availability({ reset, watch }) {
       >
         <Calendar
           name="unavailableDates"
-          selectedDays={selectedDays}
-          handleDayClick={handleDayClick}
+          selectedDays={selectedUnavailableDays}
+          handleDayClick={onDayClick}
         />
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <div className="calendar-available-date-box" />

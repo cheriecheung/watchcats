@@ -1,10 +1,7 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Checkbox, TextArea } from '../../../components/FormComponents';
 
-function Experience() {
-  const { t } = useTranslation();
-
+function Experience({ t }) {
   return (
     <>
       <p style={{ margin: '20px 0 30px 0' }}>{t('sitter_form.experience_description')}</p>
