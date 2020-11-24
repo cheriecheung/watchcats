@@ -1,7 +1,7 @@
 import React from 'react'
 import { OutlinedButton } from '../../../../components/UIComponents'
 
-function Google({ onGoogleLogin }) {
+function Google({ t, onGoogleLogin }) {
   return (
     <OutlinedButton
       type="button"

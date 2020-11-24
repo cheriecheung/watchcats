@@ -8,7 +8,9 @@ import {
 import { LinkButton } from '../../UIComponents'
 
 import { themeColor } from '../../../style/theme';
-import { Desktop, Mobile } from './Type'
+import Desktop from './containers/Desktop'
+import Mobile from './containers/Mobile'
+
 import { useHeader } from './viewModel';
 
 function Header() {

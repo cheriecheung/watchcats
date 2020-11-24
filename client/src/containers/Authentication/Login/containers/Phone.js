@@ -1,10 +1,14 @@
 import React from 'react'
-import { useForm, FormProvider } from 'react-hook-form';
 import { FieldLabel, OtpInput } from '../../../../components/FormComponents'
 import { ContainedButton, HorizontalCard } from '../../../../components/UIComponents'
 
-function PhoneLogin({ onPhoneLogin }) {
-  const methods = useForm();
+function PhoneLogin({ t, phoneLoginProps }) {
+  const {
+    FormProvider,
+    phoneLoginMethods: methods,
+    onPhoneLogin,
+  } = phoneLoginProps;
+
   const { handleSubmit } = methods;
 
   return (

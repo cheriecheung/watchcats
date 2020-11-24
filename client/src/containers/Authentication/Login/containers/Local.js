@@ -1,28 +1,21 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next';
-
-import { useForm, FormProvider } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  login_default_values as defaultValues,
-  login_schema
-} from '../../_formConfig'
-
 import { FieldLabel, TextField } from '../../../../components/FormComponents'
 import { LinkButton, OutlinedButton } from '../../../../components/UIComponents'
 
-const resolver = yupResolver(login_schema)
+function LocalLogin({ t, localLoginProps }) {
+  const {
+    FormProvider,
+    localLoginMethods: methods,
+    onLocalLogin,
+    errorMessage
+  } = localLoginProps;
 
-function LocalLogin({ onLogin, errorMessage }) {
-  const { t, i18n } = useTranslation();
-
-  const methods = useForm({ defaultValues, resolver });
-  const { handleSubmit, reset, setValue, errors, watch } = methods;
+  const { handleSubmit } = methods;
 
   return (
     <FormProvider {...methods}>
       <form
-        onSubmit={handleSubmit(onLogin)}
+        onSubmit={handleSubmit(onLocalLogin)}
         style={{ textAlign: 'left', display: 'grid', gridGap: 1 }}
       >
         <FieldLabel>{t('form.email')}</FieldLabel>

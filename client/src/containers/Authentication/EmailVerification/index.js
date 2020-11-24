@@ -3,7 +3,9 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { verifyEmail } from '../../../redux/actions/authenticationActions';
 
-import { Requested, Successful, Unsuccessful } from './Type'
+import Requested from './containers/Requested'
+import Successful from './containers/Successful'
+import Unsuccessful from './containers/Unsuccessful'
 
 function EmailVerification() {
   const { token } = useParams();

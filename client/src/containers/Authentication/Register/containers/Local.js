@@ -1,17 +1,9 @@
 import React from 'react'
-import { useForm, FormProvider } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  register_default_values as defaultValues,
-  register_schema
-} from '../../_formConfig'
 import { FieldLabel, PasswordField, TextField } from '../../../../components/FormComponents'
 import { OutlinedButton } from '../../../../components/UIComponents'
 
-const resolver = yupResolver(register_schema)
-
-function Local({ t, onRegister }) {
-  const methods = useForm({ defaultValues, resolver });
+function Local({ t, localRegisterProps }) {
+  const { FormProvider, methods, onRegister } = localRegisterProps
   const { handleSubmit } = methods;
 
   return (
