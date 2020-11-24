@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { verifyGoogleAuthenticatorCode } from '../../../../redux/actions/authenticationActions'
+import React from 'react';
 import { FieldLabel, TextField } from '../../../../components/FormComponents';
 import { ContainedButton, Image, ImageContainer, LinkButton } from '../../../../components/UIComponents';
 import styled from 'styled-components'
 
-import { useForm, FormProvider } from 'react-hook-form';
+import { useEnable2FA } from '../viewModel';
 
 const Section = styled.div`
   display: flex;
@@ -20,34 +18,17 @@ const Description = styled.div`
   flex: 50%;
 `;
 
-function Enable2FA() {
-  const dispatch = useDispatch();
-  const { qrCode } = useSelector((state) => state.two_factor_auth);
-
-  const methods = useForm();
-  const { handleSubmit, watch } = methods;
-
-  const [qrCodeImage, setQrCodeImage] = useState('')
-
-  const onSubmit = (data) => {
-    console.log({ data })
-  }
-
-  useEffect(() => {
-    if (qrCode) {
-      setQrCodeImage(qrCode)
-    }
-  }, [qrCode])
-
-  const onVerifyCode = () => {
-    console.log(watch('verificationCode'))
-    const code = watch('verificationCode')
-    dispatch(verifyGoogleAuthenticatorCode(code))
-  }
+function Enable2FA({ t }) {
+  const {
+    FormProvider,
+    methods,
+    qrCodeImage,
+    onVerifyCode
+  } = useEnable2FA();
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} style={{ textAlign: 'left' }}>
+      <form style={{ textAlign: 'left' }}>
 
         <p>Make your account safer in three easy steps:</p>
 
@@ -97,7 +78,7 @@ function Enable2FA() {
 
 export default Enable2FA
 
-export function EnableSuccess({ closeModal }) {
+export function EnableSuccess({ t, closeModal }) {
   return (
     <>
       <i className="far fa-check-circle fa-3x" />

@@ -1,17 +1,16 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { resendVerficationCode } from '../../../../redux/actions/accountActions'
+import React from 'react';
 import { ContainedButton } from '../../../../components/UIComponents'
 import { OtpInput } from '../../../../components/FormComponents'
-import { useForm, FormProvider } from 'react-hook-form';
+import { usePhoneNumberVerification } from '../viewModel';
 
-const defaultValues = { otp: '' }
+function PhoneNumberVerification({ t }) {
+  const {
+    FormProvider,
+    methods,
+    onSubmitOtp,
+    resendCode
+  } = usePhoneNumberVerification();
 
-function PhoneNumberVerification({ phoneVerificationProps }) {
-  const dispatch = useDispatch();
-  const { onSubmitOtp } = phoneVerificationProps
-
-  const methods = useForm({ defaultValues });
   const { handleSubmit } = methods;
 
   return (
@@ -27,7 +26,7 @@ function PhoneNumberVerification({ phoneVerificationProps }) {
         {/* {changePhoneNumberStep === 'verificationFailed' &&
             <span>code invalid. please try again</span>
           } */}
-        <ContainedButton onClick={() => dispatch(resendVerficationCode())}>Resend Code</ContainedButton>
+        <ContainedButton onClick={resendCode}>Resend Code</ContainedButton>
         <ContainedButton type="submit">Submit</ContainedButton>
       </form>
     </FormProvider>

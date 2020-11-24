@@ -1,17 +1,15 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { CardTitle, HorizontalCard } from '../../../components/UIComponents'
 
 import ContactDetails from './ContactDetails'
 import PaymentSetup from './PaymentSetup'
 import PasswordAndAuthentication from './PasswordAndAuthentication';
 
-import { useSettings } from './viewModel'
+import { useContactDetails, usePasswordAndAuthentication } from './viewModel'
 
 function Settings() {
-    const { t } = useTranslation();
-
-    const { contactDetails, isActivated, contactDetailsProps, phoneNumberInputProps, phoneVerificationProps } = useSettings();
+    const contactDetailsProps = useContactDetails();
+    const passwordAndAuthenticationProps = usePasswordAndAuthentication();
 
     return (
         <>
@@ -19,8 +17,6 @@ function Settings() {
                 <CardTitle>Contact Details</CardTitle>
                 <ContactDetails
                     contactDetailsProps={contactDetailsProps}
-                    phoneNumberInputProps={phoneNumberInputProps}
-                    phoneVerificationProps={phoneVerificationProps}
                 />
             </HorizontalCard>
 
@@ -32,7 +28,9 @@ function Settings() {
 
             <HorizontalCard>
                 <CardTitle>Password and Authentication</CardTitle>
-                <PasswordAndAuthentication contactDetails={contactDetails} isActivated={isActivated} />
+                <PasswordAndAuthentication
+                    passwordAndAuthenticationProps={passwordAndAuthenticationProps}
+                />
             </HorizontalCard>
         </>
     );

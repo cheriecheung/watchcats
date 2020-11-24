@@ -3,7 +3,7 @@ import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import { ContainedButton } from '../../../../components/UIComponents'
 
-function PhoneNumberInput({ phoneNumberInputProps }) {
+function PhoneNumberInput({ t, phoneNumberInputProps }) {
   const {
     inputPhoneNumber,
     setInputPhoneNumber,

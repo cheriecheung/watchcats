@@ -3,7 +3,7 @@ import { ContainedButton } from '../../../components/UIComponents'
 import { onboardUser } from '../../../redux/actions/paymentActions';
 import { useDispatch } from 'react-redux';
 
-function PaymentSetup() {
+function PaymentSetup({ t }) {
     const dispatch = useDispatch();
 
     return (

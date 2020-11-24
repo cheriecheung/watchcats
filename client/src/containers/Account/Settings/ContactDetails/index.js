@@ -8,11 +8,9 @@ import { useDispatch } from 'react-redux';
 import PhoneNumberInput from './PhoneNumberInput'
 import PhoneNumberVerification from './PhoneNumberVerification'
 
-function ContactDetails({
-  contactDetailsProps,
-  phoneNumberInputProps,
-  phoneVerificationProps
-}) {
+function ContactDetails({ contactDetailsProps }) {
+  const { t, contactDetailsDisplayProps, phoneNumberInputProps } = contactDetailsProps;
+
   const dispatch = useDispatch();
 
   const {
@@ -25,7 +23,7 @@ function ContactDetails({
     revealPhone,
     setRevealPhone,
     deletePhone
-  } = contactDetailsProps
+  } = contactDetailsDisplayProps
 
   const { changePhoneNumberStep } = phoneNumberInputProps;
 
@@ -36,13 +34,16 @@ function ContactDetails({
       case 'submitted':
         return (
           <PhoneNumberVerification
-            phoneVerificationProps={phoneVerificationProps}
+            t={t}
             closeModal={() => setShowModal(false)}
           />
         )
       case 'input':
         return (
-          <PhoneNumberInput phoneNumberInputProps={phoneNumberInputProps} />
+          <PhoneNumberInput
+            t={t}
+            phoneNumberInputProps={phoneNumberInputProps}
+          />
         )
       case 'verified':
         return (

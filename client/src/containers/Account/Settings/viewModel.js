@@ -1,11 +1,20 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContactDetails, submitPhoneNumber, deletePhoneNumber, verifyPhoneNumber } from '../../../redux/actions/accountActions';
 
-function useSettings() {
+import { getContactDetails, submitPhoneNumber, deletePhoneNumber, verifyPhoneNumber, resendVerficationCode } from '../../../redux/actions/accountActions';
+import { resetPassword, getGoogleAuthenticatorQrCode, verifyGoogleAuthenticatorCode, disableTwoFactor } from '../../../redux/actions/authenticationActions'
+
+import { useForm, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { reset_password_schema } from '../_validationSchema'
+import { reset_password_default_values } from '../_defaultValues'
+
+function useContactDetails() {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const { contactDetails, changePhoneNumberStep } = useSelector((state) => state.account);
-  const { isActivated } = useSelector((state) => state.two_factor_auth);
 
   const [email, setEmail] = useState(null);
   const [asteriskedEmail, setAsteriskedEmail] = useState('')
@@ -16,11 +25,6 @@ function useSettings() {
   const [revealPhone, setRevealPhone] = useState(false);
 
   const [inputPhoneNumber, setInputPhoneNumber] = useState('')
-
-  const codeLength = 6
-  const defaultCodeValue = [...Array(codeLength)].map(() => "")
-  const [code, setCode] = useState(defaultCodeValue);
-  const inputs = useRef([]);
 
   useEffect(() => {
     dispatch(getContactDetails());
@@ -66,7 +70,6 @@ function useSettings() {
     }
     if (changePhoneNumberStep === 'input') {
       setInputPhoneNumber('')
-      setCode(defaultCodeValue)
     }
   }, [changePhoneNumberStep])
 
@@ -78,40 +81,7 @@ function useSettings() {
     dispatch(deletePhoneNumber(phone));
   }
 
-  // TO SOLVE: the second time will have a "clogged" input
-  function processInput(e, slot) {
-    const num = e.target.value;
-    if (/[^0-9]/.test(num)) return;
-
-    const newCode = [...code];
-    newCode[slot] = num;
-    setCode(newCode);
-
-    if (slot !== codeLength - 1) {
-      inputs.current[slot + 1].focus();
-    }
-    if (newCode.every(num => num !== "")) {
-      setTimeout(() => {
-        const filledInCode = newCode.join('')
-        dispatch(verifyPhoneNumber(filledInCode))
-      }, 500)
-    }
-  };
-
-  function onKeyUp(e, slot) {
-    if (e.keyCode === 8 && !code[slot] && slot !== 0) {
-      const newCode = [...code];
-      newCode[slot - 1] = "";
-      setCode(newCode);
-      inputs.current[slot - 1].focus();
-    }
-  };
-
-  function updateRef(ref) {
-    inputs.current.push(ref)
-  }
-
-  const contactDetailsProps = {
+  const contactDetailsDisplayProps = {
     email,
     asteriskedEmail,
     phone,
@@ -130,20 +100,156 @@ function useSettings() {
     savePhoneNumber
   }
 
-  const phoneVerificationProps = {
-    code,
-    processInput,
-    onKeyUp,
-    updateRef
-  }
-
   return {
-    contactDetailsProps,
+    t,
+    contactDetailsDisplayProps,
     phoneNumberInputProps,
-    phoneVerificationProps,
-    contactDetails,
-    isActivated,
   };
 }
 
-export { useSettings };
+function usePhoneNumberVerification() {
+  const dispatch = useDispatch();
+
+  const defaultValues = { otp: '' }
+  const methods = useForm({ defaultValues });
+
+  function onSubmitOtp(data) {
+    const { otp } = data;
+    dispatch(verifyPhoneNumber(otp))
+  }
+
+  function resendCode() {
+    dispatch(resendVerficationCode())
+  }
+
+  return {
+    FormProvider,
+    methods,
+    onSubmitOtp,
+    resendCode
+  }
+}
+
+function usePasswordAndAuthentication() {
+  const { t } = useTranslation();
+
+  const dispatch = useDispatch();
+
+  const { contactDetails } = useSelector((state) => state.account);
+  const { isActivated } = useSelector((state) => state.two_factor_auth);
+
+  const [showModal, setShowModal] = useState(false);
+  const [content, setContent] = useState('')
+
+  useEffect(() => {
+    if (isActivated) {
+      setContent('enableSuccess')
+    }
+  }, [isActivated])
+
+  function showChangePasswordModal() {
+    setShowModal(true)
+    setContent('changePassword')
+  }
+
+  function showEnable2faModal() {
+    setShowModal(true)
+    dispatch(getGoogleAuthenticatorQrCode())
+    setContent('enable2FA')
+  }
+
+  function showDisable2faModal() {
+    setShowModal(true)
+    setContent('disable2FA')
+  }
+
+  function closeModal() {
+    setShowModal(false)
+  }
+
+  return {
+    t,
+    contactDetails,
+    isActivated,
+    showChangePasswordModal,
+    showEnable2faModal,
+    showDisable2faModal,
+    showModal,
+    closeModal,
+    content
+  }
+}
+
+function useEnable2FA() {
+  const dispatch = useDispatch();
+
+  const { qrCode } = useSelector((state) => state.two_factor_auth);
+
+  const methods = useForm();
+  const { watch } = methods;
+
+  const [qrCodeImage, setQrCodeImage] = useState('')
+
+  const onVerifyCode = () => {
+    const code = watch('verificationCode')
+    dispatch(verifyGoogleAuthenticatorCode(code))
+  }
+
+  useEffect(() => {
+    if (qrCode) {
+      setQrCodeImage(qrCode)
+    }
+  }, [qrCode])
+
+  return {
+    FormProvider,
+    methods,
+    qrCodeImage,
+    onVerifyCode
+  }
+}
+
+function useDisable2FA() {
+  const dispatch = useDispatch();
+
+  const methods = useForm();
+
+  function onSubmit(data) {
+    const { code } = data;
+    dispatch(disableTwoFactor(code))
+  }
+
+  return {
+    FormProvider,
+    methods,
+    onSubmit
+  }
+}
+
+function useChangePassword() {
+  const dispatch = useDispatch();
+
+  const defaultValues = reset_password_default_values;
+  const resolver = yupResolver(reset_password_schema)
+  const methods = useForm({ defaultValues, resolver });
+
+  function onSubmit(data) {
+    const { newPassword } = data;
+    dispatch(resetPassword(newPassword))
+  }
+
+  return {
+    FormProvider,
+    methods,
+    onSubmit
+  }
+}
+
+export {
+  useContactDetails,
+  usePhoneNumberVerification,
+  usePasswordAndAuthentication,
+  useEnable2FA,
+  useDisable2FA,
+  useChangePassword
+};

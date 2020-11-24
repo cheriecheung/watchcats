@@ -1,27 +1,17 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { FieldLabel, PasswordField } from '../../../../components/FormComponents';
 import { ContainedButton } from '../../../../components/UIComponents';
-import { resetPassword } from '../../../../redux/actions/authenticationActions'
-import { useDispatch } from 'react-redux';
 
-import { useForm, FormProvider } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { reset_password_schema } from '../../_validationSchema'
-import { reset_password_default_values as defaultValues } from '../../_defaultValues'
+import { useChangePassword } from '../viewModel';
 
-const resolver = yupResolver(reset_password_schema)
+function ChangePassword({ t }) {
+  const {
+    FormProvider,
+    methods,
+    onSubmit
+  } = useChangePassword();
 
-function ChangePassword() {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-
-  const methods = useForm({ defaultValues, resolver });
   const { handleSubmit } = methods;
-
-  const onSubmit = (data) => {
-    console.log({ data })
-  }
 
   return (
     <>
@@ -40,7 +30,7 @@ function ChangePassword() {
           <PasswordField name="newPasswordRepeat" />
 
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <ContainedButton type="submit" onClick={() => dispatch(resetPassword())}>Submit</ContainedButton>
+            <ContainedButton type="submit">Submit</ContainedButton>
           </div>
         </form>
       </FormProvider>

@@ -1,47 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { getGoogleAuthenticatorQrCode } from '../../../../redux/actions/authenticationActions'
+import React from 'react';
 import { ContainedButton, Modal, OutlinedButton } from '../../../../components/UIComponents'
-import { useTranslation } from 'react-i18next';
 
 import ChangePassword from './ChangePassword'
 import Enable2FA, { EnableSuccess } from './Enable2FA'
 import Disable2FA from './Disable2FA'
 
-function PasswordAndAuthentication({ contactDetails, isActivated }) {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-
-  const [showModal, setShowModal] = useState(false);
-  const [content, setContent] = useState('')
-
-  useEffect(() => {
-    if (isActivated) {
-      setContent('enableSuccess')
-    }
-  }, [isActivated])
-
-  const onEnable2FA = () => {
-    setShowModal(true)
-    dispatch(getGoogleAuthenticatorQrCode())
-    setContent('enable2FA')
-  }
-
-  const onDisable2FA = () => {
-    setShowModal(true)
-    setContent('disable2FA')
-  }
+function PasswordAndAuthentication({ passwordAndAuthenticationProps }) {
+  const {
+    t,
+    contactDetails,
+    isActivated,
+    showChangePasswordModal,
+    showEnable2faModal,
+    showDisable2faModal,
+    showModal,
+    closeModal,
+    content
+  } = passwordAndAuthenticationProps
 
   const renderModalContent = () => {
     switch (content) {
       case 'changePassword':
-        return <ChangePassword closeModal={() => setShowModal(false)} />
+        return <ChangePassword t={t} closeModal={closeModal} />
       case 'enable2FA':
-        return <Enable2FA closeModal={() => setShowModal(false)} />
+        return <Enable2FA t={t} closeModal={closeModal} />
       case 'enableSuccess':
-        return <EnableSuccess closeModal={() => setShowModal(false)} />
+        return <EnableSuccess t={t} closeModal={closeModal} />
       case 'disable2FA':
-        return <Disable2FA closeModal={() => setShowModal(false)} />
+        return <Disable2FA t={t} closeModal={closeModal} />
       default:
         break;
     }
@@ -52,7 +38,7 @@ function PasswordAndAuthentication({ contactDetails, isActivated }) {
       <Modal
         centered
         visible={showModal}
-        onCancel={() => setShowModal(false)}
+        onCancel={closeModal}
         footer={null}
       >
         {renderModalContent()}
@@ -61,10 +47,7 @@ function PasswordAndAuthentication({ contactDetails, isActivated }) {
       {/* disable if registered / signed in by google */}
       <ContainedButton
         type="button"
-        onClick={() => {
-          setShowModal(true)
-          setContent('changePassword')
-        }}
+        onClick={showChangePasswordModal}
       >
         {t('settings.change_password')}
       </ContainedButton>
@@ -76,7 +59,7 @@ function PasswordAndAuthentication({ contactDetails, isActivated }) {
         contactDetails && contactDetails.isTwoFactorEnabled || isActivated ?
           <>
             <h6>you have already enabled two factor auth</h6>
-            <OutlinedButton onClick={onDisable2FA}>Disable 2FA</OutlinedButton>
+            <OutlinedButton onClick={showDisable2faModal}>Disable 2FA</OutlinedButton>
           </>
           :
           <>
@@ -89,7 +72,7 @@ function PasswordAndAuthentication({ contactDetails, isActivated }) {
             {/* disable button if register via google */}
             <ContainedButton
               type="button"
-              onClick={onEnable2FA}
+              onClick={showEnable2faModal}
             >
               Enable Two-Factor Auth
           </ContainedButton>

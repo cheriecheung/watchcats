@@ -1,20 +1,16 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { disableTwoFactor } from '../../../../redux/actions/authenticationActions'
 import { TextField } from '../../../../components/FormComponents';
 import { ContainedButton } from '../../../../components/UIComponents';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useDisable2FA } from '../viewModel';
 
-function Disable2FA() {
-  const dispatch = useDispatch();
+function Disable2FA({ t }) {
+  const {
+    FormProvider,
+    methods,
+    onSubmit
+  } = useDisable2FA();
 
-  const methods = useForm();
   const { handleSubmit } = methods;
-
-  const onSubmit = (data) => {
-    const { code } = data;
-    dispatch(disableTwoFactor(code))
-  }
 
   return (
     <FormProvider {...methods}>
