@@ -21,6 +21,17 @@ const findCatSitter = props => {
     margin: 0 15px 0 -20px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+
+    @media (max-width: 680px) {
+      flex-basis: unset;
+      width: 120px;
+      height: 120px;
+    }
+
+    @media (max-width: 600px) {
+      width: 100px;
+      height: 100px;
+    }
   `
 }
 

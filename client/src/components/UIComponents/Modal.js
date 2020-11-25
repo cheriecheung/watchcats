@@ -29,6 +29,7 @@ function Modal({
   visible,
   onOk = null,
   onCancel = null,
+  okButtonProps = {},
   cancelButtonProps = {},
   closable = true,
   maskClosable = false,
@@ -42,6 +43,7 @@ function Modal({
       visible={visible}
       onOk={onOk}
       onCancel={onCancel}
+      okButtonProps={okButtonProps}
       cancelButtonProps={cancelButtonProps}
       footer={footer}
       closable={closable}

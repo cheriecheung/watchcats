@@ -27,13 +27,26 @@ const findCatSitter = props => {
 
   return `
     display: flex;
+    flex-direction: column;
     padding: 20px;
-    transition: all .3s ease-in-out;
+    width: 100%;
     height: 190px;
+    transition: all .3s ease-in-out;
 
     &:hover {
       margin-left: 10px;
       margin-right: -10px;
+    }
+
+    @media (max-width: 680px) {
+      &:hover {
+        margin-left: unset;
+        margin-right: unset;
+      }
+    }
+
+    @media (max-width: 600px) {
+      height: unset;
     }
   `
 }

@@ -13,7 +13,8 @@ function Result({
   loading,
   onChangePage,
   currentPage,
-  setHoveredResultId
+  setHoveredResultId,
+  screenWidth,
 }) {
   return (
     <>
@@ -52,6 +53,7 @@ function Result({
             t={t}
             item={item}
             setHoveredResultId={setHoveredResultId}
+            screenWidth={screenWidth}
           />
         }
       />

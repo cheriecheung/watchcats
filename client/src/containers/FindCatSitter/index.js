@@ -1,14 +1,52 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
 // import { useLocation } from 'react-router-dom';
 import { useFindCatSitter } from './viewModel';
+import ScreenWidthListener from '../../components/Layout/ScreenWidthListener'
+
+import styled from 'styled-components'
 
 import Search from './Search';
 import Result from './Result'
 import MapItem from './Map'
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  @media (max-width: 990px) {
+    flex-direction: column;
+  }
+`
+
+const ResultContainer = styled.div`
+  width: 1100px; 
+  flex-basis: 56%;
+
+  @media (max-width: 1185px) {
+    width: 90vw;
+    flex-basis: 57%;
+  }
+
+  @media (max-width: 1100px) {
+    width: 95vw;
+  }
+
+  @media (max-width: 990px) {
+    width: 75vw;
+    margin-bottom: 50px;
+    flex-basis: unset;
+  }
+
+  @media (max-width: 890px) {
+    width: 100%; 
+  }
+`
 
 function FindCatSitter() {
+  const { screenWidth } = ScreenWidthListener();
+
+  console.log({ outerWidth__: screenWidth })
   // const { googlePlaceAddress, startDate, endDate } = useLocation().state || {};
 
   const {
@@ -32,7 +70,7 @@ function FindCatSitter() {
   } = useFindCatSitter();
 
   return (
-    <div style={{ padding: '40px 30px 50px 30px' }}>
+    <div style={{ padding: '40px 20px 50px 20px' }}>
       <Search
         t={t}
         setLoading={setLoading}
@@ -40,8 +78,8 @@ function FindCatSitter() {
         setCenter={setCenter}
       />
 
-      <Row>
-        <Col md={7} style={{ width: 1100 }}>
+      <Container>
+        <ResultContainer>
           <Result
             t={t}
             totalResults={totalResults}
@@ -52,10 +90,11 @@ function FindCatSitter() {
             onChangePage={onChangePage}
             currentPage={currentPage}
             setHoveredResultId={setHoveredResultId}
+            screenWidth={screenWidth}
           />
-        </Col>
+        </ResultContainer>
 
-        <Col md={5}>
+        <div style={{ flexBasis: '40%' }}>
           <MapItem
             t={t}
             zoom={zoom}
@@ -68,8 +107,8 @@ function FindCatSitter() {
             setLoading={setLoading}
             hoveredResultId={hoveredResultId}
           />
-        </Col>
-      </Row>
+        </div>
+      </Container>
     </div>
   );
 }
