@@ -14,9 +14,7 @@ function Summary({ t, sitterInfo, summaryProps }) {
     modalVisible,
     setModalVisible,
     onSendMessage,
-    onSendRequest,
     error,
-    appointmentTime
   } = summaryProps;
 
   return (
@@ -58,14 +56,11 @@ function Summary({ t, sitterInfo, summaryProps }) {
       </ContainedButton>
 
       <RequestBookingModal
+        t={t}
         modalVisible={modalVisible}
         closeModal={() => setModalVisible(false)}
         error={error}
-        appointmentTime={appointmentTime}
-        oneDayPrice={sitterInfo.hourlyRate}
-        overnightPrice={sitterInfo.nightlyRate}
-        // location={location}
-        onSendRequest={onSendRequest}
+      // location={location}
       />
     </VerticalCard>
   );

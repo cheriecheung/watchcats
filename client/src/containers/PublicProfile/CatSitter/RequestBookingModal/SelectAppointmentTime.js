@@ -1,52 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Row, Col } from 'reactstrap';
 import moment from 'moment';
-import { calculateOneDayPrice, calculateOvernightPrice } from '../../../../utility';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+import { ContainedButton } from '../../../../components/UIComponents'
+import { useSelectAppointmentTime } from '../../viewModel'
 
-function SelectAppointmentTime({
-  t,
-  appointmentTime,
-  oneDayPrice,
-  overnightPrice,
-  setAppointmentData,
-}) {
-  const { allOneDays = [], allOvernight = [] } = appointmentTime;
-  const [price, setPrice] = useState('To be calculated');
-
-  const handleSelectTime = (e) => {
-    const [type, index] = e.target.value.split('.');
-
-    if (type === 'oneDay') {
-      const date = allOneDays[index].date;
-      const startTime = allOneDays[index].startTime;
-      const endTime = allOneDays[index].endTime;
-
-      const priceValue = calculateOneDayPrice(startTime, endTime, oneDayPrice);
-      if (typeof priceValue === 'number') {
-        setPrice(`€ ${priceValue}, 00`);
-      } else {
-        setPrice(priceValue);
-      }
-
-      setAppointmentData({ type, date, startTime, endTime, price: priceValue });
-    }
-
-    if (type === 'overnight') {
-      const startDate = allOvernight[index].startDate;
-      const endDate = allOvernight[index].endDate;
-
-      const priceValue = calculateOvernightPrice(startDate, endDate, overnightPrice);
-      if (typeof priceValue === 'number') {
-        setPrice(`€ ${priceValue}, 00`);
-      } else {
-        setPrice(priceValue);
-      }
-
-      setAppointmentData({ type, startDate, endDate, price: priceValue });
-    }
-  };
+function SelectAppointmentTime({ t }) {
+  const {
+    allOneDays,
+    allOvernight,
+    handleSelectTime,
+    price,
+    onSendRequest
+  } = useSelectAppointmentTime();
 
   return (
     <div style={{ textAlign: 'left' }}>
@@ -129,6 +94,8 @@ function SelectAppointmentTime({
           <h6>{price}</h6>
         </Col>
       </Row>
+
+      <ContainedButton onClick={onSendRequest}>Submit</ContainedButton>
     </div>
   );
 }

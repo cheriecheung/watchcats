@@ -1,116 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import React, { useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
 import { DatePicker, FieldLabel, TimePicker } from '../../../../components/FormComponents';
-import { calculateOneDayPrice, calculateOvernightPrice } from '../../../../utility';
+import { ContainedButton } from '../../../../components/UIComponents'
+import { useCreateAppointmentTime } from '../../viewModel'
 
-const defaultButtonStyle = {
-  marginRight: 15,
-  border: 'none',
-  borderBottom: 'none',
-  background: 'transparent',
-  outline: 'none',
-  color: '#666',
-};
+function CreateAppointmentTime({ t, modalVisible }) {
+  const {
+    FormProvider,
+    methods,
+    type,
+    price,
+    onSendRequest,
+    resetForm,
+    oneDayStyle,
+    overnightStyle
+  } = useCreateAppointmentTime();
 
-const clickedButtonStyle = {
-  ...defaultButtonStyle,
-  fontWeight: 'bold',
-  color: '#ffa195',
-  borderBottom: '2px solid #ffa195',
-};
-
-const defaultValues = {
-  type: 'oneDay',
-  oneDay: { date: '', startTime: '', endTime: '' },
-  overnight: { startDate: '', endDate: '' },
-  price: 'To be calculated',
-};
-
-function CreateAppointmentTime({
-  t,
-  oneDayPrice,
-  overnightPrice,
-  modalVisible,
-  setAppointmentData,
-}) {
-  const methods = useForm({ defaultValues });
-  const { register, control, handleSubmit, setValue, reset, watch } = methods;
-  const type = watch('type');
-  const oneDayDate = watch('oneDay.date');
-  const oneDayStartTime = watch('oneDay.startTime');
-  const oneDayEndTime = watch('oneDay.endTime');
-  const overnightStartDate = watch('overnight.startDate');
-  const overnightEndDate = watch('overnight.endDate');
-  const price = watch('price');
-
-  const [oneDayStyle, setOneDayStyle] = useState(defaultButtonStyle);
-  const [overnightStyle, setOvernightStyle] = useState(defaultButtonStyle);
-
-  const onSubmit = (data) => console.log(data);
-
-  useEffect(() => {
-    register({ name: 'price' });
-  }, [register]);
-
-  useEffect(() => {
-    if (oneDayDate && oneDayStartTime && oneDayEndTime) {
-      const priceValue = calculateOneDayPrice(oneDayStartTime, oneDayEndTime, oneDayPrice);
-
-      if (typeof priceValue === 'number') {
-        setValue('price', `€ ${priceValue}, 00`);
-      } else {
-        setValue('price', priceValue);
-      }
-
-      setAppointmentData({
-        type,
-        date: oneDayDate,
-        startTime: oneDayStartTime,
-        endTime: oneDayEndTime,
-        price: priceValue,
-      });
-    }
-  }, [oneDayStartTime, oneDayEndTime]);
-
-  useEffect(() => {
-    if (overnightStartDate && overnightEndDate) {
-      const priceValue = calculateOvernightPrice(
-        overnightStartDate,
-        overnightEndDate,
-        overnightPrice
-      );
-
-      if (typeof priceValue === 'number') {
-        setValue('price', `€ ${priceValue}, 00`);
-      } else {
-        setValue('price', priceValue);
-      }
-
-      setAppointmentData({
-        type,
-        startDate: overnightStartDate,
-        endDate: overnightEndDate,
-        price: priceValue,
-      });
-    }
-  }, [overnightStartDate, overnightEndDate]);
-
-  useEffect(() => {
-    if (type === 'oneDay') {
-      setOneDayStyle(clickedButtonStyle);
-      setOvernightStyle(defaultButtonStyle);
-    }
-
-    if (type === 'overnight') {
-      setOvernightStyle(clickedButtonStyle);
-      setOneDayStyle(defaultButtonStyle);
-    }
-  }, [type]);
+  const { handleSubmit, reset } = methods;
 
   useEffect(() => {
     if (!modalVisible) {
-      reset(defaultValues);
+      resetForm();
     }
   }, [modalVisible]);
 
@@ -138,7 +48,7 @@ function CreateAppointmentTime({
       </Row>
 
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSendRequest)}>
           {type === 'oneDay' ? (
             <Row>
               <Col md={6}>
@@ -199,6 +109,8 @@ function CreateAppointmentTime({
           <h6>{price}</h6>
         </Col>
       </Row>
+
+      <ContainedButton onClick={onSendRequest}>Submit</ContainedButton>
     </div>
   );
 }
