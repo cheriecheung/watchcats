@@ -1,5 +1,5 @@
 import React from 'react';
-import { HorizontalDivider, LinkButton } from '../../../components/UIComponents'
+import { HorizontalDivider, LinkButton, VerticalCard } from '../../../components/UIComponents'
 
 import Google from './containers/Google'
 import Local from './containers/Local'
@@ -10,19 +10,22 @@ function Register() {
   const { t, onGoogleLogin, localRegisterProps } = useRegister()
 
   return (
-    <div style={{ width: '30vw', margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h4>{t('register.register')}</h4>
-        <LinkButton to="/login">
-          {t('login.login')}
-        </LinkButton>
-      </div>
+    <div style={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
 
-      <Google onGoogleLogin={onGoogleLogin} />
+      <VerticalCard variant="authentication">
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <h4>{t('register.register')}</h4>
+          <LinkButton to="/login">
+            {t('login.login')}
+          </LinkButton>
+        </div>
 
-      <HorizontalDivider>{t('form.or')}</HorizontalDivider>
+        <Google onGoogleLogin={onGoogleLogin} />
 
-      <Local t={t} localRegisterProps={localRegisterProps} />
+        <HorizontalDivider>{t('form.or')}</HorizontalDivider>
+
+        <Local t={t} localRegisterProps={localRegisterProps} />
+      </VerticalCard>
     </div>
   )
 }

@@ -1,28 +1,28 @@
 import React from 'react'
+import { VerticalCard } from '../../../components/UIComponents'
 
-import Requested from './containers/Requested'
 import Successful from './containers/Successful'
 import Unsuccessful from './containers/Unsuccessful'
 
 import { useEmailVerification } from '../viewModel'
 
 function EmailVerification() {
-  const { t, activate } = useEmailVerification();
+  const { t, activate, unsuccessfulProps } = useEmailVerification();
 
-  const renderResponse = () => {
-    switch (activate.payload) {
-      case 'Activation failed':
-        return <Unsuccessful t={t} />
-      case 'Activation successful':
-        return <Successful t={t} />
-      case 'Email requested':
-        return <Requested t={t} />
-      default:
-        break;
-    }
-  }
-
-  return renderResponse();
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
+      <VerticalCard variant="authentication">
+        {activate.payload === 'Activation successful' ?
+          <Successful t={t} />
+          :
+          <Unsuccessful
+            t={t}
+            unsuccessfulProps={unsuccessfulProps}
+          />
+        }
+      </VerticalCard>
+    </div>
+  );
 }
 
 export default EmailVerification;

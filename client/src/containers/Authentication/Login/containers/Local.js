@@ -24,7 +24,7 @@ function LocalLogin({ t, localLoginProps }) {
         <FieldLabel>{t('form.password')}</FieldLabel>
         <TextField name="password" type="password" />
 
-        <LinkButton to="/forgot_password">
+        <LinkButton to="/forgot_password" style={{ textAlign: 'right' }}>
           Forgot password?
         </LinkButton>
 

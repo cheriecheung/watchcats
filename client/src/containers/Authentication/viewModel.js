@@ -50,7 +50,7 @@ function useEmailVerification() {
     setEmailSubmitted(true)
   }
 
-  const unsuccessfulVerificationProps = {
+  const unsuccessfulProps = {
     FormProvider,
     methods,
     onSubmit,
@@ -60,7 +60,7 @@ function useEmailVerification() {
   return {
     t,
     activate,
-    unsuccessfulVerificationProps
+    unsuccessfulProps
   }
 }
 

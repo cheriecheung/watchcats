@@ -4,32 +4,30 @@ import { Alert } from 'antd';
 import { TextField } from '../../../../components/FormComponents'
 import { ContainedButton } from '../../../../components/UIComponents';
 
-function Unsuccessful({ t, unsuccessfulVerificationProps }) {
-  const { FormProvider, methods, onSubmit, emailSubmitted } = unsuccessfulVerificationProps
+function Unsuccessful({ t, unsuccessfulProps }) {
+  const { FormProvider, methods, onSubmit, emailSubmitted } = unsuccessfulProps
   const { handleSubmit } = methods;
 
   return (
     <>
-      <h5 style={{ marginTop: 30 }}>Your verification link has expired</h5>
+      {/* show text when account has already been activated */}
+
+      <h5>Your verification link has expired</h5>
       <p >Please enter your registered email below to get another link to activate your account.</p>
       <br />
 
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-
-            {emailSubmitted ?
-              <Alert message="If the provided email is in our database, a password reset link will be sent to it. Please be sure to check the spam / junk mailbox if it is not found in the main inbox" type="success" showIcon />
-              :
-              <>
-                <TextField name="email" style={{ width: 200 }} />
-                <ContainedButton>
-                  Submit
-                </ContainedButton>
-              </>
-            }
-          </div>
+          {emailSubmitted ?
+            <Alert message="If the provided email is in our database, a password reset link will be sent to it. Please be sure to check the spam / junk mailbox if it is not found in the main inbox" type="success" showIcon />
+            :
+            <>
+              <TextField name="email" />
+              <ContainedButton>
+                Submit
+              </ContainedButton>
+            </>
+          }
         </form>
       </FormProvider>
     </>

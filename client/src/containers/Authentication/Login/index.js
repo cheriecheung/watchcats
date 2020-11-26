@@ -1,5 +1,5 @@
 import React from 'react'
-import { HorizontalCard, HorizontalDivider, LinkButton } from '../../../components/UIComponents'
+import { HorizontalDivider, LinkButton, VerticalCard } from '../../../components/UIComponents'
 
 import DemoUser from './containers/DemoUser'
 import Google from './containers/Google'
@@ -20,9 +20,14 @@ function Login() {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
       {loginByPhone ?
-        <Phone t={t} phoneLoginProps={phoneLoginProps} />
+        <VerticalCard
+          variant="authentication"
+          style={{ display: 'flex', justifyContent: 'center' }}
+        >
+          <Phone t={t} phoneLoginProps={phoneLoginProps} />
+        </VerticalCard>
         :
-        <HorizontalCard>
+        <VerticalCard variant="authentication">
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <h4>{t('login.login')}</h4>
             <LinkButton to="/register">
@@ -36,7 +41,7 @@ function Login() {
           <HorizontalDivider>{t('form.or')}</HorizontalDivider>
 
           <Local t={t} localLoginProps={localLoginProps} />
-        </HorizontalCard>
+        </VerticalCard>
       }
     </div>
   )
