@@ -48,14 +48,10 @@ body::-webkit-scrollbar {
   margin-right: 10px;
 }
 
-.icon-gender {
-  font-size: 25px;
-  margin-right: 15px;
-}
-
-.icon-yes-no {
+.profile-data-icon {
   font-size: 20px;
   margin-right: 15px;
+  align-self: center;
 }
 
 .icon-group-sort .ant-radio-button-wrapper {

@@ -149,7 +149,8 @@ const catObjSchema = yup.object().shape({
     isInsured: yup.boolean().required(selectError),
     breed: yup.object().shape(reactSelectSchema).required(defaultError),
     // pill and injection
-    medicalNeeds: yup.array().of(yup.string()),
+    needsInjection: yup.bool(),
+    needsPill: yup.bool(),
     personality: yup.object().shape(reactSelectSchema).required(defaultError),
     // max length
     favouriteTreat: yup.string().required(defaultError),

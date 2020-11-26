@@ -28,6 +28,15 @@ function useCatSitter() {
   const methods = useForm({ defaultValues, resolver });
   const { watch, reset, errors } = methods;
 
+  const hasCat = watch('hasCat');
+  const hasCertification = watch('hasCertification');
+  const hasGroomingSkills = watch('hasGroomingSkills')
+  const hasInjectionSkills = watch('hasInjectionSkills')
+  const hasMedicationSkills = watch('hasMedicationSkills')
+  const hasVolunteered = watch('hasVolunteered')
+
+  console.log({ watch: watch() })
+
   const selectedUnavailableDays = watch('unavailableDates') || [];
 
   useEffect(() => {
@@ -123,6 +132,15 @@ function useCatSitter() {
     reset(defaultValues)
   }
 
+  const experienceData = {
+    hasCat,
+    hasCertification,
+    hasGroomingSkills,
+    hasInjectionSkills,
+    hasMedicationSkills,
+    hasVolunteered
+  }
+
   return {
     t,
     id,
@@ -133,7 +151,8 @@ function useCatSitter() {
     onSubmit,
     resetForm,
     aboutSitterRef,
-    experienceRef
+    experienceRef,
+    experienceData
   }
 }
 

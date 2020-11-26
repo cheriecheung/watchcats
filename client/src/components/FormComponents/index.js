@@ -1,5 +1,5 @@
 import Calendar from './Calendar';
-import { Checkbox, CheckboxGroup } from './Checkbox';
+import Checkbox from './Checkbox';
 import DatePicker from './DatePicker';
 import ErrorDisplay from './ErrorDisplay';
 import FieldContainer from './FieldContainer'
@@ -20,7 +20,6 @@ export {
   ArrayFileUploader,
   Calendar,
   Checkbox,
-  CheckboxGroup,
   DatePicker,
   ErrorDisplay,
   FieldContainer,

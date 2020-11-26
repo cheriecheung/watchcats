@@ -21,7 +21,8 @@ function SitterProfile() {
     onSubmit,
     resetForm,
     aboutSitterRef,
-    experienceRef
+    experienceRef,
+    experienceData
   } = useCatSitter()
 
   const { handleSubmit } = methods;
@@ -45,7 +46,7 @@ function SitterProfile() {
           <HorizontalCard ref={experienceRef}>
             <CardTitle>{t('sitter_form.experience_serivce')}</CardTitle>
 
-            <Experience t={t} />
+            <Experience t={t} experienceData={experienceData} />
           </HorizontalCard>
 
           <HorizontalCard>

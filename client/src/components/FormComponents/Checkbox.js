@@ -4,10 +4,17 @@ import { Checkbox as AntCheckbox } from 'antd';
 import styled from 'styled-components';
 
 const Container = styled.div`
+  display: flex !important;
   margin-bottom: 20px;
 `;
 
-export function Checkbox({ name, children }) {
+const CheckboxComponent = styled(AntCheckbox)`
+  display: flex;
+  justify-content: space-between;
+  width: ${props => props.width ? props.width : '100%'};
+`
+
+function Checkbox({ name, children, width }) {
   const { control, errors } = useFormContext();
 
   return (
@@ -17,35 +24,18 @@ export function Checkbox({ name, children }) {
         name={name}
         defaultValue={false}
         render={({ value, onChange }) => (
-          <AntCheckbox
-            className="custom-checkbox-basic"
+          <CheckboxComponent
+            //className="custom-checkbox-basic"
             checked={value}
-            onChange={(e) => {
-              onChange(e.target.checked);
-            }}
+            onChange={(e) => onChange(e.target.checked)}
+            width={width}
           >
             {children}
-          </AntCheckbox>
+          </CheckboxComponent>
         )}
       />
     </Container>
   );
 }
 
-export function CheckboxGroup({ name, value, options }) {
-  const { control, watch, errors } = useFormContext();
-
-  return (
-    <Controller
-      control={control}
-      name={name}
-      value={watch(value)}
-      as={
-        <AntCheckbox.Group
-          options={options}
-          className="custom-checkbox-group"
-        />
-      }
-    />
-  );
-}
+export default Checkbox

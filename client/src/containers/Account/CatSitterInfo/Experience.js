@@ -1,29 +1,51 @@
 import React from 'react';
 import { Checkbox, TextArea } from '../../../components/FormComponents';
+import { CheckSquareIcon } from '../../../components/UIComponents'
 
-function Experience({ t }) {
+function Experience({ t, experienceData }) {
+  const {
+    hasCat,
+    hasCertification,
+    hasGroomingSkills,
+    hasInjectionSkills,
+    hasMedicationSkills,
+    hasVolunteered
+  } = experienceData;
+
   return (
     <>
       <p style={{ margin: '20px 0 30px 0' }}>{t('sitter_form.experience_description')}</p>
       {/* <Row> */}
       <div className="sitter-skills">
         <Checkbox name="hasCat">
-          <span>{t('sitter_form.has_cat')}</span>
+          <i className="fas fa-cat profile-data-icon" />
+          <span style={{ alignSelf: 'center' }}>{t('sitter_form.has_cat')}</span>
+          <CheckSquareIcon isShown={hasCat} />
         </Checkbox>
         <Checkbox name="hasVolunteered">
-          <span>{t('sitter_form.volunteer')}</span>
+          <i className="fas fa-hand-holding-heart profile-data-icon" />
+          <span style={{ alignSelf: 'center' }}>{t('sitter_form.volunteer')}</span>
+          <CheckSquareIcon isShown={hasVolunteered} />
         </Checkbox>
         <Checkbox name="hasMedicationSkills">
-          <span>{t('sitter_form.medication')}</span>
+          <i className="fas fa-pills profile-data-icon" />
+          <span style={{ alignSelf: 'center' }}>{t('sitter_form.medication')}</span>
+          <CheckSquareIcon isShown={hasMedicationSkills} />
         </Checkbox>
         <Checkbox name="hasInjectionSkills">
-          <span>{t('sitter_form.injection')}</span>
+          <i className="fas fa-syringe profile-data-icon" />
+          <span style={{ alignSelf: 'center' }}>{t('sitter_form.injection')}</span>
+          <CheckSquareIcon isShown={hasInjectionSkills} />
         </Checkbox>
         <Checkbox name="hasCertification">
-          <span>{t('sitter_form.certificate')}</span>
+          <i className="fas fa-award profile-data-icon" />
+          <span style={{ alignSelf: 'center' }}>{t('sitter_form.certificate')}</span>
+          <CheckSquareIcon isShown={hasCertification} />
         </Checkbox>
         <Checkbox name="hasGroomingSkills">
-          <span>{t('sitter_form.grooming')}</span>
+          <i className="fas fa-cut profile-data-icon" />
+          <span style={{ alignSelf: 'center' }}>{t('sitter_form.grooming')}</span>
+          <CheckSquareIcon isShown={hasGroomingSkills} />
         </Checkbox>
       </div>
 

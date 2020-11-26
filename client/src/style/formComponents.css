@@ -137,6 +137,7 @@ textarea:hover {
     box-shadow: none !important;
   }
    */
+   
 input:-webkit-autofill,
 /* input:-webkit-autofill:hover, */
 /* input:-webkit-autofill:focus, */
@@ -231,10 +232,10 @@ select:-webkit-autofill:focus {
 }
 /* ------------------- antd checkbox ------------------- */
 
-.custom-checkbox-basic.ant-checkbox-wrapper {
+/* .custom-checkbox-basic.ant-checkbox-wrapper {
   display: flex !important;
   justify-content: flex-start !important;
-}
+} */
 
 .sitter-skills {
   display: flex;
@@ -254,36 +255,19 @@ select:-webkit-autofill:focus {
   }
 }
 
-.sitter-skills div .custom-checkbox-basic.ant-checkbox-wrapper {
-  padding-left: 35px !important;
-}
-
-.sitter-skills div:first-child .custom-checkbox-basic.ant-checkbox-wrapper::before {
-  content: '\f6be' !important;
-}
-
-.sitter-skills div:nth-child(2) .custom-checkbox-basic.ant-checkbox-wrapper::before {
-  content: '\f4be' !important;
-}
-
-.sitter-skills div:nth-child(3) .custom-checkbox-basic.ant-checkbox-wrapper::before {
-  content: '\f484' !important;
-}
-
-.sitter-skills div:nth-child(4) .custom-checkbox-basic.ant-checkbox-wrapper::before {
-  content: '\f48e' !important;
-}
-
-.sitter-skills div:nth-child(5) .custom-checkbox-basic.ant-checkbox-wrapper::before {
-  content: '\f559' !important;
-}
-
-.sitter-skills div:nth-child(6) .custom-checkbox-basic.ant-checkbox-wrapper::before {
-  content: '\f0c4' !important;
+.ant-radio-button-wrapper span{
+    display: flex !important;
 }
 
 .ant-checkbox {
   display: none !important;
+}
+
+.ant-checkbox + span {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 30px !important;
 }
 
 .ant-checkbox-group {
@@ -297,7 +281,6 @@ select:-webkit-autofill:focus {
   border-radius: var(--theme-border-radius);
   display: flex !important;
   justify-content: center !important;
-  padding-top: 7px !important;
   transition: 0.1s all 0.1s;
 
   background-color: #fff;
@@ -310,24 +293,6 @@ select:-webkit-autofill:focus {
   border: 1px solid rgb(255, 161, 149, 0.5) !important;
   -webkit-box-shadow: var(--theme-select-button-box-shadow);
   box-shadow: var(--theme-select-button-box-shadow);
-}
-
-.ant-checkbox-wrapper:first-child::before {
-  font-family: 'Font Awesome 5 Free';
-  content: '\f48e' !important;
-  margin-right: 10px !important;
-  font-weight: 900;
-  font-size: 20px;
-  margin-top: -5px;
-}
-
-.ant-checkbox-wrapper:last-child::before {
-  font-family: 'Font Awesome 5 Free';
-  content: '\f484' !important;
-  margin-right: 10px !important;
-  font-weight: 900;
-  font-size: 20px;
-  margin-top: -5px;
 }
 
 .ant-checkbox-group-item.ant-checkbox-wrapper {

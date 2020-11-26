@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import {
-  CheckboxGroup,
+  Checkbox,
   FieldLabel,
   FileDisplayField,
   ArrayFileUploader,
@@ -10,7 +10,7 @@ import {
   SelectField,
   TextField,
 } from '../../../components/FormComponents';
-import { TextButton } from '../../../components/UIComponents'
+import { CheckSquareIcon, TextButton } from '../../../components/UIComponents'
 import { catBreedOptions, personalityOptions, medicineOptions } from '../../../constants';
 
 const color = '#252525';
@@ -18,9 +18,13 @@ const color = '#252525';
 function AboutCat({ t, setValue, catProps }) {
   const { cat, catFields, addCat, removeCat, photoFields, handlePreview, handleRemovePhoto } = catProps;
 
+  console.log({ cat })
+
   return (
     <>
       {catFields.map(({ id }, index) => {
+        const { gender, needsInjection, needsPill, isVaccinated, isInsured } = cat[index] || {}
+
         return (
           <div key={id}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -71,19 +75,32 @@ function AboutCat({ t, setValue, catProps }) {
                 <br />
                 <RadioGroup name={`cat[${index}].gender`}>
                   <RadioButton value="M">
-                    <i className="fas fa-mars fa-2x icon-gender" />
+                    <i className="fas fa-mars fa-2x profile-data-icon" />
                     <span>{t('owner_form.male')}</span>
+                    <CheckSquareIcon variant="catInfo" isShown={gender === 'M'} />
                   </RadioButton>
                   <RadioButton value="F">
-                    <i className="fas fa-venus fa-2x icon-gender" />
+                    <i className="fas fa-venus fa-2x profile-data-icon" />
                     <span>{t('owner_form.female')}</span>
+                    <CheckSquareIcon variant="catInfo" isShown={gender === 'F'} />
                   </RadioButton>
                 </RadioGroup>
               </Col>
               <Col md={6} className="mb-4">
                 <FieldLabel>{t('owner_form.medical_needs')}</FieldLabel>
                 <br />
-                <CheckboxGroup name={`cat[${index}].medicalNeeds`} options={medicineOptions} />
+                <div style={{ display: 'flex' }}>
+                  <Checkbox name="needsInjection" >
+                    <i className="fas fa-syringe profile-data-icon" />
+                    <span style={{ alignSelf: 'center' }}>{t('owner_form.injection')}</span>
+                    <CheckSquareIcon isShown={needsInjection} />
+                  </Checkbox>
+                  <Checkbox name="needsPill">
+                    <i className="fas fa-pills profile-data-icon" />
+                    <span style={{ alignSelf: 'center' }}>{t('owner_form.pill')}</span>
+                    <CheckSquareIcon isShown={needsPill} />
+                  </Checkbox>
+                </div>
               </Col>
 
               <Col md={6} className="mb-4">
@@ -91,12 +108,14 @@ function AboutCat({ t, setValue, catProps }) {
                 <br />
                 <RadioGroup name={`cat[${index}].isVaccinated`}>
                   <RadioButton value={true}>
-                    <i className="fas fa-check fa-2x icon-yes-no" />
+                    <i className="fas fa-times fa-2x profile-data-icon" style={{ opacity: 0 }} />
                     <span>{t('owner_form.yes')}</span>
+                    <CheckSquareIcon variant="catInfo" isShown={isVaccinated} />
                   </RadioButton>
                   <RadioButton value={false}>
-                    <i className="fas fa-times fa-2x icon-yes-no" />
+                    <i className="fas fa-times fa-2x profile-data-icon" style={{ opacity: 0 }} />
                     <span>{t('owner_form.no')}</span>
+                    <CheckSquareIcon variant="catInfo" isShown={isVaccinated === false} />
                   </RadioButton>
                 </RadioGroup>
               </Col>
@@ -105,12 +124,14 @@ function AboutCat({ t, setValue, catProps }) {
                 <br />
                 <RadioGroup name={`cat[${index}].isInsured`}>
                   <RadioButton value={true}>
-                    <i className="fas fa-check fa-2x icon-yes-no" />
+                    <i className="fas fa-times fa-2x profile-data-icon" style={{ opacity: 0 }} />
                     <span>{t('owner_form.yes')}</span>
+                    <CheckSquareIcon variant="catInfo" isShown={isInsured} />
                   </RadioButton>
                   <RadioButton value={false}>
-                    <i className="fas fa-times fa-2x icon-yes-no" />
+                    <i className="fas fa-times fa-2x profile-data-icon" style={{ opacity: 0 }} />
                     <span>{t('owner_form.no')}</span>
+                    <CheckSquareIcon variant="catInfo" isShown={isInsured === false} />
                   </RadioButton>
                 </RadioGroup>
               </Col>
