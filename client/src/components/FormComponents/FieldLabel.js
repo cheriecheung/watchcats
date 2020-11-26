@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const Label = styled.label`
   font-weight: 600;
   color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 5px;
 `;
 
 export default function FieldLabel({ children, customStyle }) {

@@ -5,11 +5,11 @@ import ErrorDisplay from './ErrorDisplay'
 import OtpInput from 'react-otp-input';
 
 const OtpInputComponent = styled(OtpInput)`
-  margin: 10px;
+  margin: 10px 5px;
 
   & > input {
-    width: 50px !important;
-    height: 65px;
+    width: 40px !important;
+    height: 50px;
     border: 1px solid #666;
     border-radius: 10px;
     font-size: 30px;

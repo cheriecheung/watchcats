@@ -8,7 +8,7 @@ import ErrorDisplay from './ErrorDisplay';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `
 
 const Input = styled(AntInput)`
