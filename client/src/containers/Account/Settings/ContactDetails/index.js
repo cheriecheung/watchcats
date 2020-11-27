@@ -14,15 +14,18 @@ function ContactDetails({ contactDetailsProps }) {
   const dispatch = useDispatch();
 
   const {
+    onChangeNotification,
     email,
     asteriskedEmail,
+    getEmailNotification,
     phone,
     asteriskedPhone,
+    getSmsNotification,
     revealEmail,
     setRevealEmail,
     revealPhone,
     setRevealPhone,
-    deletePhone
+    deletePhone,
   } = contactDetailsDisplayProps
 
   const { changePhoneNumberStep } = phoneNumberInputProps;
@@ -85,7 +88,11 @@ function ContactDetails({ contactDetailsProps }) {
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 }}>
           <span>Receive notifications</span>
-          <Switch defaultChecked={false} onChange={(checked) => console.log({ checked })} />
+          <Switch
+            defaultChecked={getEmailNotification}
+            checked={getEmailNotification}
+            onChange={(checked) => onChangeNotification('email')}
+          />
         </div>
       </div>
 
@@ -135,7 +142,12 @@ function ContactDetails({ contactDetailsProps }) {
 
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 }}>
           <span>Receive notifications</span>
-          <Switch defaultChecked={true} disabled={!phone} onChange={(checked) => console.log({ checked })} />
+          <Switch
+            defaultChecked={getSmsNotification}
+            checked={getSmsNotification}
+            disabled={!phone}
+            onChange={(checked) => onChangeNotification('sms')}
+          />
         </div>
       </div>
     </WrapLayout>

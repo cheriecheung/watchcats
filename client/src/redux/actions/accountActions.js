@@ -4,6 +4,7 @@ import axiosInstance from '../../utility/axiosInstance';
 import { getAccessToken } from '../../utility/accessToken'
 
 const contactDetailsURL = `/contact-details`;
+const notificationURL = `/notification`
 const phoneNumberURL = `/phone-number`;
 const verificationCodeURL = `/verification-code`;
 const personalInfoURL = `/personal-info`;
@@ -44,6 +45,18 @@ export function getContactDetails() {
     }
   };
 }
+
+export function changeNotification(contactType) {
+  return async (dispatch) => {
+    try {
+      const { data } = await axiosInstance().post(notificationURL, { contactType }, getConfig());
+      dispatch({ type: 'NOTIFICATION_SETTINGS_CHANGED', payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
 
 export function submitPhoneNumber(phone) {
   return async (dispatch) => {

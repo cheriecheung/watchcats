@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
   getContactDetails,
+  changeNotification,
   submitPhoneNumber,
   deletePhoneNumber,
   verifyPhoneNumber,
@@ -24,7 +25,8 @@ function useContactDetails() {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
-  const { contactDetails, changePhoneNumberStep } = useSelector((state) => state.account);
+  const contactDetails = useSelector((state) => state.account);
+  const { email: emailValue, getEmailNotification, phone: phoneValue, getSmsNotification, changePhoneNumberStep } = contactDetails
 
   const [email, setEmail] = useState(null);
   const [asteriskedEmail, setAsteriskedEmail] = useState('')
@@ -42,19 +44,19 @@ function useContactDetails() {
 
   useEffect(() => {
     if (contactDetails) {
-      const { email, phone } = contactDetails;
+      // const { email, phone } = contactDetails;
 
-      setEmail(email);
+      setEmail(emailValue);
 
-      const asteriskedEmailName = email.substr(0, email.indexOf('@')).replace(/./g, '*');
-      const emailDomain = email.substr(email.indexOf("@") + 1);
+      const asteriskedEmailName = emailValue.substr(0, emailValue.indexOf('@')).replace(/./g, '*');
+      const emailDomain = emailValue.substr(emailValue.indexOf("@") + 1);
       setAsteriskedEmail(`${asteriskedEmailName}@${emailDomain}`)
 
-      if (phone) {
-        setPhone(phone)
+      if (phoneValue) {
+        setPhone(phoneValue)
 
-        const withoutLastFourDigits = phone.slice(0, -4).replace(/./g, '*')
-        const lastFourDigits = phone.substr(phone.length - 4);
+        const withoutLastFourDigits = phoneValue.slice(0, -4).replace(/./g, '*')
+        const lastFourDigits = phoneValue.substr(phoneValue.length - 4);
         setAsteriskedPhone(`${withoutLastFourDigits}${lastFourDigits}`)
       }
     }
@@ -91,11 +93,18 @@ function useContactDetails() {
     dispatch(deletePhoneNumber(phone));
   }
 
+  function onChangeNotification(contactType) {
+    dispatch(changeNotification(contactType));
+  }
+
   const contactDetailsDisplayProps = {
+    onChangeNotification,
     email,
     asteriskedEmail,
+    getEmailNotification,
     phone,
     asteriskedPhone,
+    getSmsNotification,
     revealEmail,
     setRevealEmail,
     revealPhone,

@@ -2,13 +2,19 @@ import Immutable from 'seamless-immutable';
 
 const initialState = Immutable({
   changePhoneNumberStep: 'input',
+  email: '',
+  getEmailNotifiation: '',
+  phone: '',
+  changePhoneNotifiation: ''
 });
 
 const accountReducer = {
   account: (state = initialState, action) => {
     switch (action.type) {
       case 'CONTACT_DETAILS_RETURNED':
-        return { ...state, contactDetails: action.payload };
+        return { ...state, ...action.payload };
+      case 'NOTIFICATION_SETTINGS_CHANGED':
+        return { ...state, ...action.payload };
       case 'PHONE_NUMBER_SUBMITTED':
         return { ...state, changePhoneNumberStep: action.payload }
       case 'VERIFY_PHONE_NUMBER':
