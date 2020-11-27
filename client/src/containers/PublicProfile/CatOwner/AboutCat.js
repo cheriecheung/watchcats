@@ -16,7 +16,8 @@ function AboutCat({ allCats }) {
         name,
         age,
         gender,
-        medicalNeeds,
+        needsInjection,
+        needsPill,
         isVaccinated,
         isInsured,
         breed,
@@ -59,19 +60,23 @@ function AboutCat({ allCats }) {
             <FieldContainer>
               <FieldLabel>Medical needs</FieldLabel>
               <div>
-                {Array.isArray(medicalNeeds) && medicalNeeds.length > 0 ? (
-                  medicalNeeds.map((need) => (
-                    <div key={need}>
-                      <i className="fas fa-times fa-2x icon-yes-no profile" />
-                      <span>{capitalize(need)}</span>
-                    </div>
-                  ))
-                ) : (
-                    <>
-                      <i className="fas fa-times fa-2x icon-yes-no profile" />
-                      <span>None</span>
-                    </>
-                  )}
+                {!needsInjection &&
+                  !needsPill &&
+                  <>
+                    <i className="fas fa-times fa-2x" />
+                    <span>None</span>
+                  </>
+                }
+                {needsInjection &&
+                  <>
+                    <i className="fas fa-syringe fa-2x" />
+                    <span>Injection</span>
+                  </>}
+                {needsPill &&
+                  <>
+                    <i className="fas fa-pills fa-2x" />
+                    <span>Pill</span>
+                  </>}
               </div>
             </FieldContainer>
 

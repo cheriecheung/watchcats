@@ -145,12 +145,12 @@ const catObjSchema = yup.object().shape({
     age: yup.number().positive().integer().required(defaultError).typeError(defaultError),
     // m or f
     gender: yup.string().required(genderSelectError),
-    isVaccinated: yup.boolean().required(selectError),
-    isInsured: yup.boolean().required(selectError),
-    breed: yup.object().shape(reactSelectSchema).required(defaultError),
     // pill and injection
     needsInjection: yup.bool(),
     needsPill: yup.bool(),
+    isVaccinated: yup.boolean().required(selectError),
+    isInsured: yup.boolean().required(selectError),
+    breed: yup.object().shape(reactSelectSchema).required(defaultError),
     personality: yup.object().shape(reactSelectSchema).required(defaultError),
     // max length
     favouriteTreat: yup.string().required(defaultError),

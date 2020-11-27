@@ -18,8 +18,12 @@ const catSchema = new Schema({
     type: String,
     required: false,
   },
-  medicalNeeds: {
-    type: Array,
+  needsInjection: {
+    type: Boolean,
+    required: false,
+  },
+  needsPill: {
+    type: Boolean,
     required: false,
   },
   isVaccinated: {
@@ -46,7 +50,6 @@ const catSchema = new Schema({
     type: String,
     required: false,
   },
-
   createdAt: {
     type: Date,
     default: Date.now(),

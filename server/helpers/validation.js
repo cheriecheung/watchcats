@@ -92,7 +92,8 @@ module.exports = {
         gender: Joi.string().valid('M', 'F').required(),
         isInsured: Joi.boolean().required(),
         isVaccinated: Joi.boolean().required(),
-        medicalNeeds: Joi.array().items(Joi.string().valid('pill', 'injection')),
+        needsInjection: Joi.boolean(),
+        needsPill: Joi.boolean(),
         personality: Joi.number().integer().required(), // change to string?
         photo: Joi.alternatives(Joi.string(), Joi.object())
       }),

@@ -325,7 +325,8 @@ module.exports = {
             name,
             age,
             gender,
-            medicalNeeds,
+            needsInjection,
+            needsPill,
             isVaccinated,
             isInsured,
             breed,
@@ -337,7 +338,8 @@ module.exports = {
             allCats[index].name = name;
             allCats[index].age = age;
             allCats[index].gender = gender;
-            allCats[index].medicalNeeds = medicalNeeds;
+            allCats[index].needsInjection = needsInjection;
+            allCats[index].needsPill = needsPill;
             allCats[index].isVaccinated = isVaccinated;
             allCats[index].isInsured = isInsured;
             allCats[index].breed = breed;
@@ -350,7 +352,8 @@ module.exports = {
               name,
               age,
               gender,
-              medicalNeeds,
+              needsInjection,
+              needsPill,
               isVaccinated,
               isInsured,
               breed,

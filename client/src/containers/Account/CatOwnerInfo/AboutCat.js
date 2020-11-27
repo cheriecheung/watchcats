@@ -90,12 +90,12 @@ function AboutCat({ t, setValue, catProps }) {
                 <FieldLabel>{t('owner_form.medical_needs')}</FieldLabel>
                 <br />
                 <div style={{ display: 'flex' }}>
-                  <Checkbox name="needsInjection" >
+                  <Checkbox name={`cat[${index}].needsInjection`} >
                     <i className="fas fa-syringe profile-data-icon" />
                     <span style={{ alignSelf: 'center' }}>{t('owner_form.injection')}</span>
                     <CheckSquareIcon isShown={needsInjection} />
                   </Checkbox>
-                  <Checkbox name="needsPill">
+                  <Checkbox name={`cat[${index}].needsPill`}>
                     <i className="fas fa-pills profile-data-icon" />
                     <span style={{ alignSelf: 'center' }}>{t('owner_form.pill')}</span>
                     <CheckSquareIcon isShown={needsPill} />
