@@ -1,12 +1,6 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-
-import { useForm, FormProvider } from 'react-hook-form';
+import React from 'react';
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { filterByDate, sortSitters } from '../../../redux/actions/findCatSitterActions';
-import { sortingTypeOptions } from '../../../constants';
 
 import { PlaceAutocomplete } from '../../../components/Google'
 import { HorizontalCard, TextButton } from '../../../components/UIComponents'
@@ -25,80 +19,14 @@ const FieldContainer = styled.div`
   }
 `
 
-const defaultValues = {
-  googlePlaceAddress: '',
-  startDate: '',
-  endDate: '',
-  sortBy: sortingTypeOptions[0],
-};
-
-function Search({ t, setLoading, setZoom, setCenter }) {
-  const { googlePlaceAddress, startDate, endDate } = useLocation().state || {};
-  const dispatch = useDispatch();
-
-  const methods = useForm({ defaultValues });
-  const { register, control, handleSubmit, reset, watch, setValue } = methods;
-  const startDateValue = watch('startDate');
-  const endDateValue = watch('endDate');
-  const sortByValue = watch('sortBy');
-
-  const fetchSitters = () => {
-    console.log('fetch sitters here');
-  };
-
-  // const { google } = window;
-
-  useEffect(() => {
-    if (googlePlaceAddress && startDate && endDate) {
-      reset({ googlePlaceAddress })
-      // google.maps.event.trigger(autocomplete, 'place_changed');
-    }
-    console.log({ googlePlaceAddress, startDate, endDate })
-  }, [googlePlaceAddress, startDate, endDate])
-
-
-  useEffect(() => {
-    if ((startDateValue !== '', endDateValue !== '')) {
-      dispatch(filterByDate());
-    }
-  }, [startDateValue, endDateValue]);
-
-  useEffect(() => {
-    const { value } = sortByValue || {};
-
-    if (value !== '') {
-      // setValue('startDate', '');
-      // setValue('endDate', '');
-      // setAddress('');
-
-      dispatch(sortSitters(value));
-    }
-  }, [sortByValue]);
-
-  useEffect(() => {
-    if (startDateValue !== '' || endDateValue !== '') {
-      // setValue('sortBy', '');
-      // setAddress('');
-    }
-
-    // use yup
-    if (startDateValue !== '' && endDateValue !== '') {
-      if (new Date(startDateValue) > new Date(endDateValue)) {
-        console.log('hey make sure your end date is after or equal to start date');
-      } else {
-        fetchSitters();
-      }
-    }
-  }, [startDateValue, endDateValue]);
-
-  const sendData = (data) => {
-    console.log(data);
-  };
+function Search({ t, searchProps }) {
+  const { FormProvider, methods, resetSearch } = searchProps;
 
   return (
-    <HorizontalCard>
+    <HorizontalCard variant="findCatSitter">
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(sendData)}>
+        {/* <form onSubmit={handleSubmit(sendData)}> */}
+        <form>
           <div style={{
             display: 'flex',
             flexWrap: 'wrap'
@@ -124,10 +52,7 @@ function Search({ t, setLoading, setZoom, setCenter }) {
             <FieldContainer>
               <TextButton
                 type="button"
-                onClick={() => {
-                  reset(defaultValues);
-                  setZoom(12)
-                }}
+                onClick={resetSearch}
               >
                 {t('find_sitter.reset')}
               </TextButton>

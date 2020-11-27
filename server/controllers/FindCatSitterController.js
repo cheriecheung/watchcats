@@ -52,8 +52,8 @@ async function getInfo(records) {
   );
 }
 
-function paginate(records, currentPage, nPerPage) {
-  const start = nPerPage * (currentPage - 1)
+function paginate(records, page, nPerPage) {
+  const start = nPerPage * (page - 1)
   return records.slice(start, start + nPerPage)
 }
 
@@ -61,19 +61,19 @@ module.exports = {
   getCatSittersInBounds: async (req, res) => {
     const {
       sort: sortType = 'totalReviews',
-      //  currentPage = 1,
-      nPerPage = 25,
+      page,
+      nPerPage = 10,
     } = req.query;
-    // const { currentPage = 1, nPerPage = 20 } = req.body;
+
+    console.log({ sortType___: sortType })
 
     try {
-      const currentPage = parseInt(req.query.currentPage);
       const neLat = parseFloat(req.query.neLat);
       const neLng = parseFloat(req.query.neLng);
       const swLat = parseFloat(req.query.swLat);
       const swLng = parseFloat(req.query.swLng);
 
-      // console.log({ neLat, neLng, swLat, swLng, currentPage })
+      console.log({ neLat, neLng, swLat, swLng, page })
 
       const inBounds = await User.find({
         firstName: { $exists: true },
@@ -99,7 +99,7 @@ module.exports = {
         const cleaned = await getInfo(inBounds)
         const sorted = cleaned.sort((a, b) => b[sortType] - a[sortType])
 
-        paginatedResults = paginate(sorted, currentPage, nPerPage)
+        paginatedResults = paginate(sorted, page, nPerPage)
       }
 
 
@@ -148,55 +148,51 @@ module.exports = {
     }
   },
 
-  filterByAddress: async (req, res) => {
-    console.log('filtering by address');
-  },
+  // filterByDate: async (req, res) => {
+  //   const {
+  //     currentPage = 2,
+  //     nPerPage = 2,
+  //     startDate = '2020-10-10',
+  //     endDate = '2020-10-15',
+  //   } = req.body;
 
-  filterByDate: async (req, res) => {
-    const {
-      currentPage = 2,
-      nPerPage = 2,
-      startDate = '2020-10-10',
-      endDate = '2020-10-15',
-    } = req.body;
+  //   const startDateObj = new Date(startDate);
+  //   const endDateObj = new Date(endDate);
 
-    const startDateObj = new Date(startDate);
-    const endDateObj = new Date(endDate);
+  //   try {
+  //     const recordsInPage = await Sitter.find()
+  //       .skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
+  //       .limit(nPerPage);
 
-    try {
-      const recordsInPage = await Sitter.find()
-        .skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
-        .limit(nPerPage);
+  //     const recordsAvailable = await Promise.all(
+  //       recordsInPage.map(async ({ id, ...rest }) => {
+  //         const sitterObjId = ObjectId(id);
+  //         const { _doc } = rest;
 
-      const recordsAvailable = await Promise.all(
-        recordsInPage.map(async ({ id, ...rest }) => {
-          const sitterObjId = ObjectId(id);
-          const { _doc } = rest;
+  //         const unavailability = await UnavailableDate.find({ sitter: sitterObjId });
 
-          const unavailability = await UnavailableDate.find({ sitter: sitterObjId });
+  //         const arr = unavailability.map(({ date }) => {
+  //           if (startDateObj <= date && endDateObj >= date) {
+  //             return 'unavailable';
+  //           } else {
+  //             return 'available';
+  //           }
+  //         });
 
-          const arr = unavailability.map(({ date }) => {
-            if (startDateObj <= date && endDateObj >= date) {
-              return 'unavailable';
-            } else {
-              return 'available';
-            }
-          });
+  //         if (arr.includes('unavailable')) {
+  //           return;
+  //         } else {
+  //           return _doc;
+  //         }
+  //       })
+  //     );
 
-          if (arr.includes('unavailable')) {
-            return;
-          } else {
-            return _doc;
-          }
-        })
-      );
+  //     const filteredRecords = recordsAvailable.filter((item) => !!item);
 
-      const filteredRecords = recordsAvailable.filter((item) => !!item);
-
-      return res.status(200).json(filteredRecords);
-    } catch (err) {
-      console.log({ err });
-      return res.status(404).json('No records found');
-    }
-  },
+  //     return res.status(200).json(filteredRecords);
+  //   } catch (err) {
+  //     console.log({ err });
+  //     return res.status(404).json('No records found');
+  //   }
+  // },
 };

@@ -84,7 +84,7 @@ function Maps({
         if (setLoading && setBounds && returnToPageOne) {
             setLoading(true);
             setBounds({ neLat, neLng, swLat, swLng })
-            dispatch(getSittersInBounds({ neLat, neLng, swLat, swLng }, 1))
+            dispatch(getSittersInBounds({ neLat, neLng, swLat, swLng, page: 1 }))
             returnToPageOne && returnToPageOne()
         }
     }
