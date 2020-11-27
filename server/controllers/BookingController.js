@@ -98,10 +98,20 @@ module.exports = {
     const { sitterId: sitterShortId, type } = req.body;
 
     try {
-      const [{ owner: ownerObjId, postcode, firstName, lastName }, { sitter: sitterObjId, phone, email }] = await Promise.all([
+      // const [{ owner: ownerObjId, postcode, firstName, lastName }, { sitter: sitterObjId, phone, email }] = await Promise.all([
+      const [owner, sitter] = await Promise.all([
         User.findById(ownerUserId),
         User.findOne({ urlId: sitterShortId }),
       ]);
+
+      const { owner: ownerObjId, postcode, firstName, lastName } = owner;
+      const {
+        sitter: sitterObjId,
+        email,
+        getEmailNotification,
+        phone,
+        getSmsNotification,
+      } = sitter;
 
       if (!ownerObjId || !sitterObjId)
         return res.status(401).json('Unable to identity sitter or owner profile.');
@@ -143,9 +153,12 @@ module.exports = {
 
       const ownerName = `${firstName} ${lastName}`
 
-      if (phone && email) {
-        sendTwilioSMS(phone, 'BOOKING_REQUESTED', { name: ownerName })
+      if (email && getEmailNotification) {
         sendNewBookingMail({ email, name: ownerName })
+      }
+
+      if (phone && getSmsNotification) {
+        sendTwilioSMS(phone, 'BOOKING_REQUESTED', { name: ownerName })
       }
 
       // +1 booking notification to sitter's notification document
@@ -232,10 +245,19 @@ module.exports = {
       );
       if (!bookingRecord) return res.status(401).json('No booking record to update')
 
-      const [{ phone, email }, { firstName, lastName }] = await Promise.all([
+      // const [{ phone, email }, { firstName, lastName }] = await Promise.all([
+      const [owner, sitter] = await Promise.all([
         User.findOne({ owner: bookingRecord.owner }),
         User.findOne({ sitter: bookingRecord.sitter })
       ]);
+
+      const {
+        email,
+        getEmailNotification,
+        phone,
+        getSmsNotification
+      } = owner;
+      const { firstName, lastName } = sitter
 
       if (!phone || !firstName || !lastName) {
         return res.status(401).json('Unable to find owner or sitter')
@@ -243,8 +265,13 @@ module.exports = {
 
       const sitterName = `${firstName} ${lastName}`
 
-      sendTwilioSMS(phone, description, { name: sitterName })
-      sendUpdatedBookingMail({ email, action, name: sitterName })
+      if (email && getEmailNotification) {
+        sendUpdatedBookingMail({ email, action, name: sitterName })
+      }
+
+      if (phone && getSmsNotification) {
+        sendTwilioSMS(phone, description, { name: sitterName })
+      }
 
       // change notification of owner notification document
 

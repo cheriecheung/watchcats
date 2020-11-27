@@ -78,14 +78,60 @@ module.exports = {
       const user = await User.findById(userId);
       if (!user) return res.status(404).json('User not found');
 
-      const { email, phone, twoFactorSecret } = user;
+      const {
+        email,
+        getEmailNotification,
+        phone,
+        getSmsNotification,
+        twoFactorSecret
+      } = user;
 
       const isTwoFactorEnabled = twoFactorSecret ? true : false;
 
-      return res.status(200).json({ email, phone, isTwoFactorEnabled })
+      return res.status(200).json({
+        email,
+        getEmailNotification,
+        phone,
+        getSmsNotification,
+        isTwoFactorEnabled
+      })
     } catch (err) {
       console.log({ err })
       return res.status(403).json('Unable to retrieve user contact details')
+    }
+  },
+
+  changeNotification: async (req, res) => {
+    const { userId } = req.verifiedData;
+    if (!userId) return res.status(404).json('No user id');
+
+    const { contactType } = req.body;
+
+    try {
+      const user = await User.findById(userId);
+      if (!user) return res.status(404).json('User not found');
+
+      const { getEmailNotification, getSmsNotification } = user
+
+      if (contactType === 'email') {
+        user.getEmailNotification = !getEmailNotification;
+      }
+
+      if (contactType === 'sms') {
+        user.getSmsNotification = !getSmsNotification;
+      }
+
+      await user.save();
+
+      console.log({ contactType, user })
+
+      return res.status(200).json({
+        getEmailNotification: user.getEmailNotification,
+        getSmsNotification: user.getSmsNotification
+      })
+    } catch (err) {
+      console.log({ err })
+      return res.status(403).json('Unable to change notification')
     }
   },
 
@@ -166,7 +212,7 @@ module.exports = {
       const user = await User.findById(userId);
       if (!user) return res.status(401).json('Fail to update');
 
-      await user.updateOne({ $unset: { phone: '' } });
+      await user.updateOne({ $unset: { phone: '', getSmsNotification: '' } });
 
       return res.status(200).json('Phone deleted')
     } catch (err) {

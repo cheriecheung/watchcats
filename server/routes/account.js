@@ -9,6 +9,8 @@ router.post('/personal-info', formLimiter, speedLimiter(5), verifyAccessTokenUpd
 
 router.get('/contact-details', verifyAccessTokenUpdate, AccountController.getContactDetails)
 
+router.post('/notification', verifyAccessTokenUpdate, AccountController.changeNotification)
+
 router.post('/phone-number', verifyAccessTokenUpdate, AccountController.submitPhoneNumber)
 
 router.get('/verification-code', verifyAccessTokenUpdate, AccountController.resendVerficationCode)

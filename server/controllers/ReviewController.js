@@ -42,12 +42,23 @@ module.exports = {
       if (!revieweeUserRecord) return res.status(401).json('User record not found');
 
       const { firstName, lastName } = reviewerUserRecord;
-      const { phone, email } = revieweeUserRecord;
+
+      const {
+        email,
+        getEmailNotification,
+        phone,
+        getSmsNotification
+      } = revieweeUserRecord;
 
       const reviewerName = `${firstName} ${lastName}`
 
-      sendTwilioSMS(phone, 'REVIEW_RECEIEVED', { name: reviewerName })
-      sendNewReviewMail({ email, name: reviewerName })
+      if (email && getEmailNotification) {
+        sendNewReviewMail({ email, name: reviewerName })
+      }
+
+      if (phone && getSmsNotification) {
+        sendTwilioSMS(phone, 'REVIEW_RECEIEVED', { name: reviewerName })
+      }
 
       return res.status(200).json('Successful submitted review')
     } catch (err) {
