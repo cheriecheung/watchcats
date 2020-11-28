@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { render } from "react-dom";
 import InfoWindow from "./InfoWindow";
-import { useDispatch } from 'react-redux';
-import { getSittersInBounds } from '../../../redux/actions/findCatSitterActions'
 import location_marker from '../../../assets/images/location_marker.png'
 
 function Maps({
     zoom,
     setZoom,
     center,
-    setBounds,
-    returnToPageOne,
     results,
-    setLoading,
-    hoveredResultId
+    hoveredResultId,
+    onGetSitters
 }) {
-    const dispatch = useDispatch();
-
     const [infoWindow, setInfoWindow] = useState();
     const [map, setMap] = useState(null)
     const [markersArray, setMarkersArray] = useState([]);
@@ -81,11 +75,8 @@ function Maps({
         const swLat = bounds.getSouthWest().lat();
         const swLng = bounds.getSouthWest().lng();
 
-        if (setLoading && setBounds && returnToPageOne) {
-            setLoading(true);
-            setBounds({ neLat, neLng, swLat, swLng })
-            dispatch(getSittersInBounds({ neLat, neLng, swLat, swLng, page: 1 }))
-            returnToPageOne && returnToPageOne()
+        if (onGetSitters) {
+            onGetSitters({ neLat, neLng, swLat, swLng })
         }
     }
 

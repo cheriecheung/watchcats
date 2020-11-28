@@ -4,14 +4,12 @@ import { LoadingMask, MapContainer, Spinner } from '../../../components/UICompon
 
 function MapItem({
   loading,
-  setLoading,
   zoom,
   setZoom,
   center,
-  setBounds,
-  returnToPageOne,
   results,
-  hoveredResultId
+  hoveredResultId,
+  onGetSitters
 }) {
   return (
     <MapContainer variant="findCatSitter">
@@ -22,11 +20,9 @@ function MapItem({
         zoom={zoom}
         setZoom={setZoom}
         center={center}
-        setBounds={setBounds}
-        returnToPageOne={returnToPageOne}
         results={results}
-        setLoading={setLoading}
         hoveredResultId={hoveredResultId}
+        onGetSitters={onGetSitters}
       />
     </MapContainer>
   )

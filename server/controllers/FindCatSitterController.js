@@ -31,7 +31,6 @@ async function getInfo(records) {
       ]);
 
       // if none of the above result in undefined?
-
       const { aboutSitter, hourlyRate, nightlyRate } = sitterRecord;
       const totalRepeatedCustomers = repeatedCustomers.length;
 
@@ -62,10 +61,7 @@ module.exports = {
     const {
       sort: sortType = 'totalReviews',
       page,
-      nPerPage = 10,
     } = req.query;
-
-    console.log({ sortType___: sortType })
 
     try {
       const neLat = parseFloat(req.query.neLat);
@@ -73,75 +69,41 @@ module.exports = {
       const swLat = parseFloat(req.query.swLat);
       const swLng = parseFloat(req.query.swLng);
 
-      console.log({ neLat, neLng, swLat, swLng, page })
+      // console.log({ neLat, neLng, swLat, swLng, page, sortType })
 
       const inBounds = await User.find({
         firstName: { $exists: true },
         lastName: { $exists: true },
         sitter: { $exists: true },
-        // location: {
         coordinates: {
           $geoWithin: {
             $box: [
               [swLng, swLat],
               [neLng, neLat]
             ]
-            // }
           }
         }
       })
 
-      const totalResults = inBounds.length;
-      let paginatedResults = []
+      const totalResults = inBounds.length
+
+      const cleaned = await getInfo(inBounds)
+      let sorted = []
 
       // totalReviews / totalCompletedBookings / totalRepeatedCustomers
       if (sortType.includes('total')) {
-        const cleaned = await getInfo(inBounds)
-        const sorted = cleaned.sort((a, b) => b[sortType] - a[sortType])
-
-        paginatedResults = paginate(sorted, page, nPerPage)
+        sorted = cleaned.sort((a, b) => b[sortType] - a[sortType])
       }
 
-
-
-      // ------------------------------ 00000000000000000 ------------------------------ /
-
-
-      // let completeRecords = []
-
-      // // totalReviews / totalCompletedBookings / totalRepeatedCustomers
-      // if (sortType.includes('total')) {
-      //   const allSitterRecords = await Sitter.find()
-      //   const cleaned = await getInfo(allSitterRecords)
-      //   const sorted = await cleaned.sort((a, b) => b[sortType] - a[sortType])
-
-      //   completeRecords = paginateRecords(sorted, currentPage, nPerPage)
-      // }
-
-      // // hourlyRate / nightly
-      // if (sortType.includes('Rate')) {
-      //   const sortedAndPaginated = await Sitter.find()
-      //     .sort({ [sortType]: 1 })
-      //     .skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
-      //     .limit(nPerPage);
-
-      //   completeRecords = await getInfo(sortedAndPaginated)
-      // }
-
-      // send count (sitter record) to front end for the pagination numbers;
-      // on front end, when clicked a pagination number, send it to back end
-      // console.log({ paginatedResults })
-
-      const data = {
-        totalResults,
-        paginatedResults,
+      // hourlyRate / nightlyRate
+      if (sortType.includes('Rate')) {
+        sorted = cleaned.sort((a, b) => a[sortType] - b[sortType])
       }
 
-      console.log({
-        totalResults,
-      })
+      const nPerPage = 10
+      const paginatedResults = paginate(sorted, page, nPerPage)
 
-      return res.status(200).json(data);
+      return res.status(200).json({ totalResults, paginatedResults });
     } catch (err) {
       console.log({ err });
       return res.status(404).json('No records found');

@@ -3,7 +3,7 @@ import React from "react";
 function InfoWindow() {
     return (
         <div>
-            ewagaerghaehrhaerhaerh
+            Info window under construction
         </div>
     );
 }

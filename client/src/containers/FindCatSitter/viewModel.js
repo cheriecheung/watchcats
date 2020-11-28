@@ -36,11 +36,20 @@ function useFindCatSitter() {
   };
 
   const methods = useForm({ defaultValues });
-  const { register, control, handleSubmit, reset, watch, setValue } = methods;
+  const { reset, watch } = methods;
 
   const startDateValue = watch('startDate');
   const endDateValue = watch('endDate');
-  const sortByValue = watch('sortBy');
+  const { value: sortByValue } = watch('sortBy') || {};
+
+  function onGetSitters(bounds) {
+    setLoading(true);
+    setBounds({ ...bounds })
+
+    // sortByValue remains default value even when changed to another
+    dispatch(getSittersInBounds({ ...bounds, page: 1, sort: sortByValue }))
+    setCurrentPage(1)
+  }
 
   useEffect(() => {
     if (paginatedResults) {
@@ -78,27 +87,20 @@ function useFindCatSitter() {
   }, [startDateValue, endDateValue]);
 
   useEffect(() => {
-    const { value } = sortByValue || {};
-
-    if (value !== '') {
+    if (sortByValue !== '') {
       // setValue('startDate', '');
       // setValue('endDate', '');
       // setAddress('');
-
-      dispatch(getSittersInBounds({ ...bounds, page: 1, sort: value }))
+      setCurrentPage(1)
+      dispatch(getSittersInBounds({ ...bounds, page: 1, sort: sortByValue }))
     }
   }, [sortByValue]);
 
   function onChangePage(current) {
-    console.log({ current })
-    dispatch(getSittersInBounds({ ...bounds, page: current }))
+    dispatch(getSittersInBounds({ ...bounds, page: current, sort: sortByValue }))
     setCurrentPage(current)
     setLoading(true)
     setResults([])
-  }
-
-  function returnToPageOne() {
-    setCurrentPage(1)
   }
 
   function resetZoom() {
@@ -123,7 +125,6 @@ function useFindCatSitter() {
   return {
     t,
     loading,
-    setLoading,
     totalResults,
     paginatedResults,
     results,
@@ -135,9 +136,8 @@ function useFindCatSitter() {
     zoom,
     setZoom,
     center,
-    setBounds,
-    returnToPageOne,
     searchProps,
+    onGetSitters,
   }
 }
 
