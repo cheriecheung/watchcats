@@ -61,6 +61,8 @@ module.exports = {
     const {
       sort: sortType = 'totalReviews',
       page,
+      startDate,
+      endDate
     } = req.query;
 
     try {
@@ -69,7 +71,7 @@ module.exports = {
       const swLat = parseFloat(req.query.swLat);
       const swLng = parseFloat(req.query.swLng);
 
-      // console.log({ neLat, neLng, swLat, swLng, page, sortType })
+      console.log({ neLat, neLng, swLat, swLng, page, sortType, startDate, endDate })
 
       const inBounds = await User.find({
         firstName: { $exists: true },

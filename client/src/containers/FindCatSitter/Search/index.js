@@ -20,12 +20,12 @@ const FieldContainer = styled.div`
 `
 
 function Search({ t, searchProps }) {
-  const { FormProvider, methods, resetSearch } = searchProps;
+  const { FormProvider, methods, resetSearch, defaultValues, setLoading, setZoom, setCenter } = searchProps;
+  const { reset } = methods;
 
   return (
     <HorizontalCard variant="findCatSitter">
       <FormProvider {...methods}>
-        {/* <form onSubmit={handleSubmit(sendData)}> */}
         <form>
           <div style={{
             display: 'flex',

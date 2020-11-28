@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSittersInBounds } from '../../redux/actions/findCatSitterActions';
-import { useForm, FormProvider } from 'react-hook-form';
-import { useLocation } from 'react-router-dom';
 import { sortingTypeOptions } from '../../constants';
+
+import { useForm, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { find_cat_sitter_default_values as defaultValues } from './_formConfig/_defaultValues';
+import { find_cat_sitter_schema } from './_formConfig/_validationSchema'
 
 const defaultMapCenter = { lat: 52.379189, lng: 4.899431 }
 const pageSize = 10;
@@ -25,18 +29,16 @@ function useFindCatSitter() {
   const [currentPage, setCurrentPage] = useState(1)
   const [pagination, setPagination] = useState({})
   const [loading, setLoading] = useState(true)
-
   const [hoveredResultId, setHoveredResultId] = useState('')
 
-  const defaultValues = {
-    googlePlaceAddress: '',
-    startDate: '',
-    endDate: '',
-    sortBy: sortingTypeOptions[0],
-  };
-
-  const methods = useForm({ defaultValues });
-  const { reset, watch } = methods;
+  const resolver = yupResolver(find_cat_sitter_schema)
+  const methods = useForm({
+    defaultValues,
+    resolver,
+    mode: 'onChange',
+    reValidateMode: 'onChange'
+  });
+  const { handleSubmit, reset, setValue, watch, errors } = methods;
 
   const startDateValue = watch('startDate');
   const endDateValue = watch('endDate');
@@ -71,28 +73,41 @@ function useFindCatSitter() {
       reset({ googlePlaceAddress })
       // google.maps.event.trigger(autocomplete, 'place_changed');
     }
-    console.log({ googlePlaceAddress, startDate, endDate })
   }, [googlePlaceAddress, startDate, endDate])
 
   useEffect(() => {
-    // use yup
-    if (startDateValue !== '' && endDateValue !== '') {
-      if (new Date(startDateValue) > new Date(endDateValue)) {
-        console.log('hey make sure your end date is after or equal to start date');
-      } else {
-        // setValue('sortBy', '');
-        // setAddress('');
+    handleSubmit(() => {
+      // errors appears even when endDate is before startDate
+      if (startDateValue && endDateValue && Object.keys(errors).length === 0) {
+        console.log({ errors })
+        const queryParams = {
+          ...bounds,
+          page: 1,
+          sort: sortByValue,
+          startDate: startDateValue,
+          endDate: endDateValue
+        }
+
+        dispatch(getSittersInBounds(queryParams))
       }
-    }
+    })()
+
+    // reset({
+    //   ...defaultValues,
+    //   startDate: startDateValue,
+    //   endDate: endDateValue
+    // })
   }, [startDateValue, endDateValue]);
 
   useEffect(() => {
-    if (sortByValue !== '') {
-      // setValue('startDate', '');
-      // setValue('endDate', '');
-      // setAddress('');
+    if (sortByValue) {
       setCurrentPage(1)
       dispatch(getSittersInBounds({ ...bounds, page: 1, sort: sortByValue }))
+
+      // reset({
+      //   ...defaultValues,
+      //   sortBy: sortByValue
+      // })
     }
   }, [sortByValue]);
 
@@ -119,7 +134,11 @@ function useFindCatSitter() {
   const searchProps = {
     FormProvider,
     methods,
-    resetSearch
+    resetSearch,
+    defaultValues,
+    setLoading,
+    setZoom,
+    setCenter
   }
 
   return {
