@@ -46,18 +46,6 @@ export const reset_password_schema = yup.object().shape({
         .oneOf([yup.ref('newPassword'), null], "New passwords don't match")
 })
 
-// ----- Home Search Schema ----- //
-
-export const home_search_schema = yup.object().shape({
-    googlePlaceAddress: yup.string().required('Fill in an address or postcode'),
-    startDate: yup.date().transform(parseDateString)
-        .required(defaultError)
-        .typeError(defaultError),
-    endDate: yup.date().transform(parseDateString)
-        .min(yup.ref('startDate'), dateOrderError)
-        .required(defaultError)
-        .typeError(defaultError)
-})
 
 // ----- General Schema ----- //
 

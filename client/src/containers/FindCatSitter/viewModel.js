@@ -10,17 +10,21 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { find_cat_sitter_default_values as defaultValues } from './_formConfig/_defaultValues';
 import { find_cat_sitter_schema } from './_formConfig/_validationSchema'
 
+import moment from 'moment';
+
 const defaultMapCenter = { lat: 52.379189, lng: 4.899431 }
 const pageSize = 10;
 
 function useFindCatSitter() {
   const { t } = useTranslation();
-  const { googlePlaceAddress, startDate, endDate } = useLocation().state || {};
+  const { googlePlaceAddress, startDate, endDate, center: centerValue, zoom: zoomValue } = useLocation().state || {};
+
 
   const dispatch = useDispatch();
   const { totalResults, paginatedResults } = useSelector((state) => state.find_cat_sitters);
   // display error when returned failure
 
+  // if get location has zoom and center, use them instead
   const [zoom, setZoom] = useState(12);
   const [center, setCenter] = useState(defaultMapCenter);
   const [bounds, setBounds] = useState({})
@@ -32,26 +36,18 @@ function useFindCatSitter() {
   const [hoveredResultId, setHoveredResultId] = useState('')
 
   const resolver = yupResolver(find_cat_sitter_schema)
-  const methods = useForm({
-    defaultValues,
-    resolver,
-    mode: 'onChange',
-    reValidateMode: 'onChange'
-  });
+  const methods = useForm({ defaultValues, resolver });
   const { handleSubmit, reset, setValue, watch, errors } = methods;
 
   const startDateValue = watch('startDate');
   const endDateValue = watch('endDate');
   const { value: sortByValue } = watch('sortBy') || {};
 
-  function onGetSitters(bounds) {
-    setLoading(true);
-    setBounds({ ...bounds })
-
-    // sortByValue remains default value even when changed to another
-    dispatch(getSittersInBounds({ ...bounds, page: 1, sort: sortByValue }))
-    setCurrentPage(1)
-  }
+  useEffect(() => {
+    return () => {
+      // clear states
+    }
+  }, [])
 
   useEffect(() => {
     if (paginatedResults) {
@@ -70,8 +66,15 @@ function useFindCatSitter() {
 
   useEffect(() => {
     if (googlePlaceAddress && startDate && endDate) {
-      reset({ googlePlaceAddress })
-      // google.maps.event.trigger(autocomplete, 'place_changed');
+      reset({
+        googlePlaceAddress,
+        startDate,
+        endDate,
+        sortBy: sortingTypeOptions[0]
+      })
+
+      setCenter(centerValue)
+      setZoom(zoomValue)
     }
   }, [googlePlaceAddress, startDate, endDate])
 
@@ -111,6 +114,26 @@ function useFindCatSitter() {
     }
   }, [sortByValue]);
 
+  function onGetSitters(bounds) {
+    setLoading(true);
+    setBounds({ ...bounds })
+
+    // sortByValue remains default value even when changed to another
+    const queryParams = {
+      ...bounds,
+      page: 1,
+      sort: sortByValue,
+    }
+
+    if (startDateValue && endDateValue) {
+      queryParams.startDate = moment(startDateValue).format('YYYY-MM-DD');
+      queryParams.endDate = moment(endDateValue).format('YYYY-MM-DD');
+    }
+
+    dispatch(getSittersInBounds(queryParams))
+    setCurrentPage(1)
+  }
+
   function onChangePage(current) {
     dispatch(getSittersInBounds({ ...bounds, page: current, sort: sortByValue }))
     setCurrentPage(current)
@@ -123,7 +146,7 @@ function useFindCatSitter() {
   }
 
   function onZoom() {
-    setZoom(14)
+    setZoom(13)
   }
 
   function resetSearch() {
@@ -138,7 +161,7 @@ function useFindCatSitter() {
     defaultValues,
     setLoading,
     setZoom,
-    setCenter
+    setCenter,
   }
 
   return {
@@ -157,6 +180,8 @@ function useFindCatSitter() {
     center,
     searchProps,
     onGetSitters,
+    startDate,
+    endDate
   }
 }
 

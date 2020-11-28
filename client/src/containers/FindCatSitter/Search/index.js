@@ -32,13 +32,13 @@ function Search({ t, searchProps }) {
             flexWrap: 'wrap'
           }}>
             <FieldContainer flex="10%">
-              {/* <PlaceAutocomplete
+              <PlaceAutocomplete
                 name="googlePlaceAddress"
                 setLoading={setLoading}
                 setZoom={setZoom}
                 setCenter={setCenter}
                 emptyOtherFilters={() => reset(defaultValues)}
-              /> */}
+              />
             </FieldContainer>
 
             <FieldContainer flex="30%">

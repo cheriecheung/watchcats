@@ -9,7 +9,7 @@ function MapItem({
   center,
   results,
   hoveredResultId,
-  onGetSitters
+  onGetSitters,
 }) {
   return (
     <MapContainer variant="findCatSitter">

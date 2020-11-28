@@ -34,8 +34,8 @@ function PlaceAutocomplete({
         const addressLat = addressObject.geometry.location.lat();
         const addressLng = addressObject.geometry.location.lng();
 
-        setLoading(true)
-        setZoom && setZoom(14)
+        setLoading && setLoading(true)
+        setZoom && setZoom(13)
         setCenter && setCenter({ lat: addressLat, lng: addressLng });
 
         console.log({ addressLat, addressLng })
@@ -50,9 +50,9 @@ function PlaceAutocomplete({
         autoComplete.addListener('place_changed', () => handlePlaceSelect());
     };
 
-    useEffect(() => {
-        handleScriptLoad(autoCompleteRef);
-    }, []);
+    // useEffect(() => {
+    //     handleScriptLoad(autoCompleteRef);
+    // }, []);
 
     return (
         <>

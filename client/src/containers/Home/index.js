@@ -1,65 +1,76 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useForm, FormProvider } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
 // import { useSpring, animated } from 'react-spring';
 import { PlaceAutocomplete } from '../../components/Google'
 import { HorizontalCard } from '../../components/UIComponents'
 import AppointmentPeriodPicker from '../FindCatSitter/Search/AppointmentPeriodPicker';
-import { appointmentTypeOptions } from '../../constants'
-import { yupResolver } from '@hookform/resolvers/yup';
-import { home_search_schema } from '../Account/_formConfig'
 import { checkToken } from '../../redux/actions/authenticationActions'
-import { useDispatch } from 'react-redux';
 
-const resolver = yupResolver(home_search_schema)
+import { useHome } from './viewModel'
 
-const defaultValues = {
-  googlePlaceAddress: '',
-  startDate: '',
-  endDate: ''
-}
+import styled from 'styled-components'
+
+const MainContainer = styled.div`
+  padding: 40px 0 50px 0;
+  width: 900px !important;
+  margin: 0 auto;
+
+  @media (max-width: 1220px) {
+    padding: 40px 100px 50px 100px;
+    width: unset;
+  }
+  
+  @media (max-width: 1090px) {
+    padding: 40px 50px 50px 50px;
+  }
+
+  @media (max-width: 890px) {
+    padding: 40px 50px 50px 50px;
+  }
+
+  @media (max-width: 500px) {
+    padding: 40px 4vw 50px 4vw;
+  }
+`
 
 function Home() {
-  const dispatch = useDispatch()
-  const history = useHistory();
+  const {
+    t,
+    FormProvider,
+    methods,
+    onSubmit,
+    setCenter,
+    setZoom,
+  } = useHome()
 
-  const methods = useForm({ defaultValues, resolver });
-  const { handleSubmit, errors } = methods;
-
-  useEffect(() => {
-    console.log({ errors })
-  }, [errors])
-
-  const sendData = (data) => {
-    const { googlePlaceAddress, startDate, endDate } = data
-    history.push({ pathname: "/find", state: { googlePlaceAddress, startDate, endDate } });
-  };
+  const { handleSubmit } = methods;
 
   return (
-    <>
-      <button
-        type="button"
-        onClick={() => dispatch(checkToken())}
-      >
+    <MainContainer>
+      {/* <button type="button" onClick={() => dispatch(checkToken())}>
         test API
-        </button>
+        </button> */}
 
       <HorizontalCard>
         <h5>Find a cat sitter in your area</h5>
+        <br />
 
         <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(sendData)}>
-            {/* <PlaceAutocomplete name="googlePlaceAddress" /> */}
-            <AppointmentPeriodPicker />
+          <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+            <PlaceAutocomplete
+              name="googlePlaceAddress"
+              setCenter={setCenter}
+              setZoom={setZoom}
+            />
+            <AppointmentPeriodPicker t={t} />
 
-            <button type="submit">
+            <button type="input">
               <i className="fas fa-search" />
             </button>
           </form>
         </FormProvider>
       </HorizontalCard>
-    </>
+    </MainContainer>
   )
 }
 
