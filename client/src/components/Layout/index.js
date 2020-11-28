@@ -24,9 +24,9 @@ function Layout({ children }) {
   return (
     <>
       <Header />
-      <MainContainer>
-        {children}
-      </MainContainer>
+      {/* <MainContainer> */}
+      {children}
+      {/* </MainContainer> */}
       {/* <Footer /> */}
     </>
   );

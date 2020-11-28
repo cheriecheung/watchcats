@@ -5,9 +5,9 @@ const defaultStyle = css`
   border-radius: 10px;
   background: rgba(255, 255, 255, 1);
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
   text-align: left;
 `
+// overflow: hidden;
 
 const defaultCard = props => {
   if (!props.variant) return css`
@@ -30,12 +30,12 @@ const findCatSitter = props => {
     flex-direction: column;
     padding: 20px;
     width: 100%;
-    height: 190px;
+    height: ${props.hover ? '190px' : 'unset'};
     transition: all .3s ease-in-out;
 
     &:hover {
-      margin-left: 10px;
-      margin-right: -10px;
+      margin-left: ${props.hover && '10px'};
+      margin-right: ${props.hover && '-10px'};
     }
 
     @media (max-width: 680px) {

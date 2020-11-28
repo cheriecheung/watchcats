@@ -2,7 +2,7 @@ import React from 'react';
 import { List } from 'antd';
 import Card from './Card'
 
-const pageSize = 25;
+const pageSize = 10;
 
 function Result({
   t,

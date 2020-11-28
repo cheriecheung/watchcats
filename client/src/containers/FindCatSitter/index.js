@@ -15,17 +15,16 @@ const Container = styled.div`
   justify-content: space-between;
 
   @media (max-width: 990px) {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 `
 
 const ResultContainer = styled.div`
   width: 1100px; 
-  flex-basis: 56%;
+  flex-basis: 57%;
 
   @media (max-width: 1185px) {
     width: 90vw;
-    flex-basis: 57%;
   }
 
   @media (max-width: 1100px) {
@@ -33,8 +32,7 @@ const ResultContainer = styled.div`
   }
 
   @media (max-width: 990px) {
-    width: 75vw;
-    margin-bottom: 50px;
+    width: 100%;
     flex-basis: unset;
   }
 
@@ -42,17 +40,38 @@ const ResultContainer = styled.div`
     width: 100%; 
   }
 `
+const MainContainer = styled.div`
+  padding: 40px 0 50px 0;
+  width: 1100px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+
+  @media (max-width: 1220px) {
+    padding: 40px 100px 50px 100px;
+    width: unset;
+  }
+  
+  @media (max-width: 1090px) {
+    padding: 40px 50px 50px 50px;
+  }
+
+  @media (max-width: 890px) {
+    padding: 40px 50px 50px 50px;
+  }
+
+  @media (max-width: 500px) {
+    padding: 40px 4vw 50px 4vw;
+  }
+`
 
 function FindCatSitter() {
   const { screenWidth } = ScreenWidthListener();
-
-  console.log({ outerWidth__: screenWidth })
   // const { googlePlaceAddress, startDate, endDate } = useLocation().state || {};
 
   const {
     t,
     loading,
-    setLoading,
     totalResults,
     paginatedResults,
     results, // ???
@@ -62,20 +81,17 @@ function FindCatSitter() {
     zoom,
     setZoom,
     center,
-    setCenter,
-    setBounds,
-    returnToPageOne,
     hoveredResultId,
-    setHoveredResultId
+    setHoveredResultId,
+    searchProps,
+    onGetSitters
   } = useFindCatSitter();
 
   return (
-    <div style={{ padding: '40px 20px 50px 20px' }}>
+    <MainContainer>
       <Search
         t={t}
-        setLoading={setLoading}
-        setZoom={setZoom}
-        setCenter={setCenter}
+        searchProps={searchProps}
       />
 
       <Container>
@@ -100,16 +116,14 @@ function FindCatSitter() {
             zoom={zoom}
             setZoom={setZoom}
             center={center}
-            setBounds={setBounds}
-            returnToPageOne={returnToPageOne}
             results={results}
             loading={loading}
-            setLoading={setLoading}
             hoveredResultId={hoveredResultId}
+            onGetSitters={onGetSitters}
           />
         </div>
       </Container>
-    </div>
+    </MainContainer>
   );
 }
 
