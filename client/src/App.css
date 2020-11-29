@@ -71,49 +71,46 @@ footer {
 }
 
 .card2 {
-  position: absolute;
-  margin-top: 10ch;
-  left: 25ch;
   width: 20ch;
-  height: 25ch;
+  height: 15ch;
   background-image: url('./assets//images/cat_stretch.png');
   background-size: contain;
   background-repeat: no-repeat;
 }
 
-.card_scottish_fold {
-  opacity: 0.8;
-  position: absolute;
-  margin-top: 30ch;
-  right: 25ch;
-  width: 30ch;
-  height: 25ch;
-  background-image: url('./assets//images/scottish_fold.png');
+.cat_vertical {
+  width: 23ch;
+  height: 20ch;
+  background-image: url('./assets//images/cat_vertical.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.cat_horizontal{
+  width: 25ch;
+  height: 15ch;
+  margin-top:50px;
+  margin-right: 20px;
+  background-image: url('./assets//images/cat_horizontal.png');
   background-size: contain;
   background-repeat: no-repeat;
 }
 
 .card_sphynx {
   opacity: 0.8;
-  position: absolute;
-  margin-top: 30ch;
-  left: 10;
-  bottom: 10ch;
-  width: 40ch;
-  height: 25ch;
+  width: 25ch;
+  height: 18ch;
   background-image: url('./assets//images/sphynx.png');
   background-size: contain;
   background-repeat: no-repeat;
 }
 
-.card_jump {
-  position: absolute;
-  margin-top: 30ch;
-  right: 50ch;
-  top: -10ch;
-  width: 40ch;
-  height: 25ch;
-  background-image: url('./assets//images/jump_cat.png');
+.card_longhair {
+  opacity: 0.8;
+  width: 20ch;
+  height: 20ch;
+  margin-top: 30px;
+  background-image: url('./assets//images/longhair.png');
   background-size: contain;
   background-repeat: no-repeat;
 }
