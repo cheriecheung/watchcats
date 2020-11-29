@@ -15,6 +15,9 @@ const accountReducer = {
         return { ...state, ...action.payload };
       case 'NOTIFICATION_SETTINGS_CHANGED':
         return { ...state, ...action.payload };
+      case ' VERIFICATION_CODE_SENT':
+        return { ...state }
+      // rename
       case 'PHONE_NUMBER_SUBMITTED':
         return { ...state, changePhoneNumberStep: action.payload }
       case 'VERIFY_PHONE_NUMBER':

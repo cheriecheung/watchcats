@@ -12,8 +12,6 @@ function EmailDisplay({ emailProps, onChangeNotification, prevSettings }) {
     getEmailNotification
   } = emailProps
 
-  console.log({ prevSettings })
-
   return (
     <>
       <FieldLabel>Email</FieldLabel>

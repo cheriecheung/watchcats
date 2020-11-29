@@ -8,7 +8,8 @@ import {
   submitPhoneNumber,
   deletePhoneNumber,
   verifyPhoneNumber,
-  resendVerficationCode
+  resendOtpToInputtedPhoneNumber,
+  sendOtpToSavedPhoneNumber
 } from '../../../redux/actions/accountActions';
 import {
   resetPassword,
@@ -57,24 +58,11 @@ function useContactDetails() {
   const [inputPhoneNumber, setInputPhoneNumber] = useState('')
 
   useEffect(() => {
-    if (prevSettings && prevSettings.getEmailNotification !== getEmailNotification) {
-      console.log('EMAIL notification settings CHANGED')
-      // process here
-    }
-    if (prevSettings && prevSettings.getSmsNotification !== getSmsNotification) {
-      console.log('SMS notification settings CHANGED')
-      // process here
-    }
-  }, [getEmailNotification, getSmsNotification])
-
-  useEffect(() => {
     dispatch(getContactDetails());
   }, [dispatch])
 
   useEffect(() => {
     if (contactDetails) {
-      // const { email, phone } = contactDetails;
-
       setEmail(emailValue);
 
       const asteriskedEmailName = emailValue.substr(0, emailValue.indexOf('@')).replace(/./g, '*');
@@ -102,8 +90,8 @@ function useContactDetails() {
   }, [phone])
 
   useEffect(() => {
+    console.log({ changePhoneNumberStep })
     if (changePhoneNumberStep === 'removed') {
-      dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
       setPhone('')
     }
     if (changePhoneNumberStep === 'verified') {
@@ -114,12 +102,12 @@ function useContactDetails() {
     }
   }, [changePhoneNumberStep])
 
-  function savePhoneNumber() {
-    dispatch(submitPhoneNumber(inputPhoneNumber))
+  function getOtp() {
+    dispatch(sendOtpToSavedPhoneNumber())
   }
 
-  function deletePhone() {
-    dispatch(deletePhoneNumber(phone));
+  function onSubmitPhoneNumber() {
+    dispatch(submitPhoneNumber(inputPhoneNumber))
   }
 
   function onChangeNotification(contactType) {
@@ -140,14 +128,14 @@ function useContactDetails() {
     setRevealPhone,
     asteriskedPhone,
     getSmsNotification,
-    deletePhone
+    getOtp
   }
 
   const phoneNumberInputProps = {
     changePhoneNumberStep,
     inputPhoneNumber,
     setInputPhoneNumber,
-    savePhoneNumber
+    onSubmitPhoneNumber
   }
 
   return {
@@ -162,17 +150,23 @@ function useContactDetails() {
 
 function usePhoneNumberVerification() {
   const dispatch = useDispatch();
+  const { changePhoneNumberStep } = useSelector((state) => state.account);
 
   const defaultValues = { otp: '' }
   const methods = useForm({ defaultValues });
 
   function onSubmitOtp(data) {
     const { otp } = data;
-    dispatch(verifyPhoneNumber(otp))
+
+    if (changePhoneNumberStep === 'verifyToRemove') {
+      dispatch(deletePhoneNumber(otp));
+    } else {
+      dispatch(verifyPhoneNumber(otp))
+    }
   }
 
   function resendCode() {
-    dispatch(resendVerficationCode())
+    dispatch(resendOtpToInputtedPhoneNumber())
   }
 
   return {

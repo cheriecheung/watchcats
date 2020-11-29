@@ -17,9 +17,10 @@ function ContactDetails({ contactDetailsProps }) {
     prevSettings,
     emailProps,
     phoneProps,
-    phoneNumberInputProps
+    phoneNumberInputProps,
   } = contactDetailsProps;
 
+  const { getOtp } = phoneProps;
   const { changePhoneNumberStep } = phoneNumberInputProps;
 
   const dispatch = useDispatch();
@@ -28,7 +29,8 @@ function ContactDetails({ contactDetailsProps }) {
 
   const renderModalContent = () => {
     switch (changePhoneNumberStep) {
-      case 'submitted':
+      case 'verifyToSave':
+      case 'verifyToRemove':
         return <PhoneNumberVerification t={t} />
       case 'input':
         return <PhoneNumberInput t={t} phoneNumberInputProps={phoneNumberInputProps} />
@@ -65,12 +67,23 @@ function ContactDetails({ contactDetailsProps }) {
           phoneProps={phoneProps}
           onChangeNotification={onChangeNotification}
           prevSettings={prevSettings}
+
+          // rename
           addPhone={() => {
             dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
             setShowModal(true)
           }}
+
+          // rename
           editPhone={() => {
             dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
+            setShowModal(true)
+          }}
+
+          // turns displayed phone number to previous one when clicked 
+          removePhone={() => {
+            getOtp()
+            dispatch({ type: 'VERIFY_PHONE_NUMBER', payload: 'verifyToRemove' });
             setShowModal(true)
           }}
         />

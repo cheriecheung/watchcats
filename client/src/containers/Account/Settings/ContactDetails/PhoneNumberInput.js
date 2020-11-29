@@ -7,7 +7,7 @@ function PhoneNumberInput({ t, phoneNumberInputProps }) {
   const {
     inputPhoneNumber,
     setInputPhoneNumber,
-    savePhoneNumber
+    onSubmitPhoneNumber
   } = phoneNumberInputProps
 
   return (
@@ -28,7 +28,7 @@ function PhoneNumberInput({ t, phoneNumberInputProps }) {
       <br />
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <ContainedButton type="button" onClick={savePhoneNumber}>Submit</ContainedButton>
+        <ContainedButton type="button" onClick={onSubmitPhoneNumber}>Submit</ContainedButton>
       </div>
     </div>
   )

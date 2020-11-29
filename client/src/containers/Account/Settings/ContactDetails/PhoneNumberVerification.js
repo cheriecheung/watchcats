@@ -29,7 +29,7 @@ function PhoneNumberVerification({ t }) {
             <span>code invalid. please try again</span>
           } */}
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <ContainedButton onClick={resendCode}>Resend Code</ContainedButton>
+          <ContainedButton type="button" onClick={resendCode}>Resend Code</ContainedButton>
           <ContainedButton type="submit">Submit</ContainedButton>
         </div>
       </form>

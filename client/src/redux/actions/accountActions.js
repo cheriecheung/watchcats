@@ -62,18 +62,29 @@ export function submitPhoneNumber(phone) {
   return async (dispatch) => {
     try {
       const { data } = await axiosInstance().post(phoneNumberURL, { phone }, getConfig());
-      dispatch({ type: 'PHONE_NUMBER_SUBMITTED', payload: 'submitted' });
+      dispatch({ type: 'PHONE_NUMBER_SUBMITTED', payload: 'verifyToSave' });
     } catch (e) {
       console.log({ e });
     }
   };
 }
 
-export function resendVerficationCode() {
+export function resendOtpToInputtedPhoneNumber() {
   return async (dispatch) => {
     try {
       const { data } = await axiosInstance().get(verificationCodeURL, getConfig());
-      dispatch({ type: 'VERIFICATION_CODE_SENT', payload: '' });
+      dispatch({ type: 'VERIFICATION_CODE_SENT' });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
+export function sendOtpToSavedPhoneNumber() {
+  return async (dispatch) => {
+    try {
+      const { data } = await axiosInstance().patch(verificationCodeURL, getConfig());
+      dispatch({ type: 'VERIFICATION_CODE_SENT' });
     } catch (e) {
       console.log({ e });
     }
@@ -92,10 +103,10 @@ export function verifyPhoneNumber(code) {
   };
 }
 
-export function deletePhoneNumber() {
+export function deletePhoneNumber(otp) {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().delete(phoneNumberURL, getConfig());
+      const { data } = await axiosInstance().delete(phoneNumberURL, { ...getConfig(), data: { otp } });
       dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'removed' });
     } catch (e) {
       console.log({ e });

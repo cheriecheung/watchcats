@@ -153,11 +153,29 @@ module.exports = {
     }
   },
 
-  resendVerficationCode: async (req, res) => {
+  resendOtpToInputtedPhoneNumber: async (req, res) => {
     const { userId } = req.verifiedData;
     if (!userId) return res.status(404).json('No user id');
 
     const { phone } = req.session
+
+    try {
+      const { otp } = await generateOTP(userId);
+      sendTwilioSMS(phone, 'VERIFY_PHONE_NUMBER', { code: otp })
+
+      return res.status(200).json('Code sent')
+    } catch (err) {
+      console.log({ err })
+      return res.status(403).json('Unable to send code')
+    }
+  },
+
+  sendOtpToSavedPhoneNumber: async (req, res) => {
+    const { userId } = req.verifiedData;
+    if (!userId) return res.status(404).json('No user id');
+
+    const { phone } = await User.findById(userId)
+    if (!phone) return res.status(404).json('No user found');
 
     try {
       const { otp } = await generateOTP(userId);
@@ -208,13 +226,30 @@ module.exports = {
     const { userId } = req.verifiedData;
     if (!userId) return res.status(404).json('No user id');
 
+    const { otp: submittedOtp } = req.body;
+
     try {
-      const user = await User.findById(userId);
-      if (!user) return res.status(401).json('Fail to update');
+      const user = await User.findById(userId)
+      if (!user) return res.status(401).json('Code not found');
 
-      await user.updateOne({ $unset: { phone: '', getSmsNotification: '' } });
+      const { otp, otpExpiryTime } = user;
 
-      return res.status(200).json('Phone deleted')
+      const validOtp = await bcrypt.compare(submittedOtp, otp)
+      const unexpired = new Date() < otpExpiryTime
+
+      if (!validOtp) return res.status(401).json('Invalid code')
+      if (!unexpired) return res.status(401).json('Code expired, click resend')
+
+      await user.updateOne({
+        $unset: {
+          otp: '',
+          otpExpiryTime: '',
+          phone: '',
+          getSmsNotification: ''
+        }
+      });
+
+      return res.status(200).json('Phone number stored')
     } catch (err) {
       console.log({ err })
       return res.status(403).json('Unable to delete phone')

@@ -3,14 +3,21 @@ import { FieldLabel } from '../../../../components/FormComponents';
 import { Alert, TextButton } from '../../../../components/UIComponents'
 import { Switch } from 'antd';
 
-function PhoneDisplay({ phoneProps, onChangeNotification, prevSettings, addPhone, editPhone }) {
+function PhoneDisplay({
+  phoneProps,
+  onChangeNotification,
+  prevSettings,
+  addPhone,
+  editPhone,
+  removePhone
+}) {
   const {
     phone,
     revealPhone,
     setRevealPhone,
     asteriskedPhone,
     getSmsNotification,
-    deletePhone
+    // deletePhone
   } = phoneProps
 
   return (
@@ -29,7 +36,7 @@ function PhoneDisplay({ phoneProps, onChangeNotification, prevSettings, addPhone
             }
             <TextButton
               style={{ float: 'right' }}
-              onClick={deletePhone}
+              onClick={removePhone}
             >
               Remove
               </TextButton>
