@@ -20,7 +20,7 @@ function Availability({ t, selectedUnavailableDays, onDayClick }) {
         />
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <div className="calendar-available-date-box" />
-          <span>{t('sitter_form.available')}</span>
+          <span style={{ marginRight: 25 }}>{t('sitter_form.available')}</span>
           <div className="calendar-unavailable-date-box" />
           <span>{t('sitter_form.unavailable')}</span>
         </div>

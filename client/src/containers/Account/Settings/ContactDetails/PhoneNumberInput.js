@@ -15,7 +15,7 @@ function PhoneNumberInput({ t, phoneNumberInputProps }) {
       <i className="fas fa-mobile-alt fa-4x mb-3" />
 
       <p>You will receive a text message with a verification code.</p>
-      <p>Your phone number is only used for verification and will not be shared to anyone on this application.</p>
+      <p>Your phone number is only used for verification and notifications. It will not be shared to anyone on this application.</p>
 
       <PhoneInput
         country={'nl'}

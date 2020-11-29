@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -21,12 +21,30 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { reset_password_schema, reset_password_default_values } from '../_formConfig'
 
+function usePrevious(value) {
+  const ref = useRef();
+
+  useEffect(() => {
+    ref.current = value;
+  });
+
+  return ref.current;
+}
+
 function useContactDetails() {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const contactDetails = useSelector((state) => state.account);
-  const { email: emailValue, getEmailNotification, phone: phoneValue, getSmsNotification, changePhoneNumberStep } = contactDetails
+  const {
+    email: emailValue,
+    getEmailNotification,
+    phone: phoneValue,
+    getSmsNotification,
+    changePhoneNumberStep
+  } = contactDetails
+
+  const prevSettings = usePrevious({ getEmailNotification, getSmsNotification });
 
   const [email, setEmail] = useState(null);
   const [asteriskedEmail, setAsteriskedEmail] = useState('')
@@ -37,6 +55,17 @@ function useContactDetails() {
   const [revealPhone, setRevealPhone] = useState(false);
 
   const [inputPhoneNumber, setInputPhoneNumber] = useState('')
+
+  useEffect(() => {
+    if (prevSettings && prevSettings.getEmailNotification !== getEmailNotification) {
+      console.log('EMAIL notification settings CHANGED')
+      // process here
+    }
+    if (prevSettings && prevSettings.getSmsNotification !== getSmsNotification) {
+      console.log('SMS notification settings CHANGED')
+      // process here
+    }
+  }, [getEmailNotification, getSmsNotification])
 
   useEffect(() => {
     dispatch(getContactDetails());
@@ -97,18 +126,20 @@ function useContactDetails() {
     dispatch(changeNotification(contactType));
   }
 
-  const contactDetailsDisplayProps = {
-    onChangeNotification,
+  const emailProps = {
     email,
-    asteriskedEmail,
-    getEmailNotification,
-    phone,
-    asteriskedPhone,
-    getSmsNotification,
     revealEmail,
     setRevealEmail,
+    asteriskedEmail,
+    getEmailNotification,
+  }
+
+  const phoneProps = {
+    phone,
     revealPhone,
     setRevealPhone,
+    asteriskedPhone,
+    getSmsNotification,
     deletePhone
   }
 
@@ -121,7 +152,10 @@ function useContactDetails() {
 
   return {
     t,
-    contactDetailsDisplayProps,
+    onChangeNotification,
+    prevSettings,
+    emailProps,
+    phoneProps,
     phoneNumberInputProps,
   };
 }
@@ -265,6 +299,7 @@ function useChangePassword() {
 }
 
 export {
+  usePrevious,
   useContactDetails,
   usePhoneNumberVerification,
   usePasswordAndAuthentication,

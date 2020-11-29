@@ -16,18 +16,22 @@ function PhoneNumberVerification({ t }) {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmitOtp)} style={{ textAlign: 'center' }}>
+        <i className="fas fa-sms fa-4x mb-3" />
 
-        <p>Enter the 6-digit code we sent to your phone.</p>
+        <p>Enter the 6-digit code we sent to your phone via SMS.</p>
 
-        <OtpInput name="otp" />
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <OtpInput name="otp" />
+        </div>
 
-        <br />
         <br />
         {/* {changePhoneNumberStep === 'verificationFailed' &&
             <span>code invalid. please try again</span>
           } */}
-        <ContainedButton onClick={resendCode}>Resend Code</ContainedButton>
-        <ContainedButton type="submit">Submit</ContainedButton>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <ContainedButton onClick={resendCode}>Resend Code</ContainedButton>
+          <ContainedButton type="submit">Submit</ContainedButton>
+        </div>
       </form>
     </FormProvider>
   )

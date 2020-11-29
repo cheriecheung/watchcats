@@ -1,63 +1,41 @@
 import React, { useState } from 'react';
-import { FieldLabel } from '../../../../components/FormComponents';
-import { ContainedButton, Modal, TextButton, VerticalDivider, WrapLayout } from '../../../../components/UIComponents';
-import { Switch } from 'antd';
+import { Modal, VerticalDivider, WrapLayout } from '../../../../components/UIComponents';
 
 import { useDispatch } from 'react-redux';
 
+import EmailDisplay from './EmailDisplay'
+import PhoneDisplay from './PhoneDisplay'
+
 import PhoneNumberInput from './PhoneNumberInput'
 import PhoneNumberVerification from './PhoneNumberVerification'
+import PhoneNumberVerified from './PhoneNumberVerified';
 
 function ContactDetails({ contactDetailsProps }) {
-  const { t, contactDetailsDisplayProps, phoneNumberInputProps } = contactDetailsProps;
-
-  const dispatch = useDispatch();
-
   const {
+    t,
     onChangeNotification,
-    email,
-    asteriskedEmail,
-    getEmailNotification,
-    phone,
-    asteriskedPhone,
-    getSmsNotification,
-    revealEmail,
-    setRevealEmail,
-    revealPhone,
-    setRevealPhone,
-    deletePhone,
-  } = contactDetailsDisplayProps
+    prevSettings,
+    emailProps,
+    phoneProps,
+    phoneNumberInputProps
+  } = contactDetailsProps;
 
   const { changePhoneNumberStep } = phoneNumberInputProps;
+
+  const dispatch = useDispatch();
 
   const [showModal, setShowModal] = useState(false);
 
   const renderModalContent = () => {
     switch (changePhoneNumberStep) {
       case 'submitted':
-        return (
-          <PhoneNumberVerification
-            t={t}
-            closeModal={() => setShowModal(false)}
-          />
-        )
+        return <PhoneNumberVerification t={t} />
       case 'input':
-        return (
-          <PhoneNumberInput
-            t={t}
-            phoneNumberInputProps={phoneNumberInputProps}
-          />
-        )
+        return <PhoneNumberInput t={t} phoneNumberInputProps={phoneNumberInputProps} />
       case 'verified':
-        return (
-          <>
-            <i className="far fa-check-circle fa-3x" />
-            <br />
-            <br />
-            <p>You have successfully verified your phone</p>
-            <ContainedButton onClick={() => setShowModal(false)}>OK</ContainedButton>
-          </>
-        )
+        return <PhoneNumberVerified t={t} closeModal={() => setShowModal(false)} />
+      default:
+        break
     }
   }
 
@@ -73,82 +51,29 @@ function ContactDetails({ contactDetailsProps }) {
       </Modal>
 
       <div style={{ flexBasis: '45%' }}>
-        <FieldLabel>Email</FieldLabel>
-
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          {revealEmail ? <span>{email}</span> : <span>{asteriskedEmail}</span>}
-
-          <div style={{ display: 'flex' }}>
-            {revealEmail ?
-              <TextButton onClick={() => setRevealEmail(false)}>Hide</TextButton>
-              :
-              <TextButton onClick={() => setRevealEmail(true)}>Reveal</TextButton>
-            }
-          </div>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 }}>
-          <span>Receive notifications</span>
-          <Switch
-            defaultChecked={getEmailNotification}
-            checked={getEmailNotification}
-            onChange={(checked) => onChangeNotification('email')}
-          />
-        </div>
+        <EmailDisplay
+          emailProps={emailProps}
+          onChangeNotification={onChangeNotification}
+          prevSettings={prevSettings}
+        />
       </div>
 
       <VerticalDivider />
 
       <div style={{ flexBasis: '45%' }}>
-        <FieldLabel>Phone number</FieldLabel>
-
-        {phone ?
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            {revealPhone ? <span>{phone}</span> : <span>{asteriskedPhone}</span>}
-
-            <div style={{ display: 'flex' }}>
-              {revealPhone ?
-                <TextButton onClick={() => setRevealPhone(false)}>Hide</TextButton>
-                :
-                <TextButton onClick={() => setRevealPhone(true)}>Reveal</TextButton>
-              }
-              <TextButton
-                style={{ float: 'right' }}
-                onClick={deletePhone}
-              >
-                Remove
-              </TextButton>
-              <TextButton
-                style={{ float: 'right' }}
-                onClick={() => {
-                  dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
-                  setShowModal(true)
-                }}>
-                Edit
-              </TextButton>
-            </div>
-          </div>
-          :
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <TextButton
-              onClick={() => {
-                dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
-                setShowModal(true)
-              }}
-            >
-              Add
-            </TextButton>
-          </div>
-        }
-
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 }}>
-          <span>Receive notifications</span>
-          <Switch
-            defaultChecked={getSmsNotification}
-            checked={getSmsNotification}
-            disabled={!phone}
-            onChange={(checked) => onChangeNotification('sms')}
-          />
-        </div>
+        <PhoneDisplay
+          phoneProps={phoneProps}
+          onChangeNotification={onChangeNotification}
+          prevSettings={prevSettings}
+          addPhone={() => {
+            dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
+            setShowModal(true)
+          }}
+          editPhone={() => {
+            dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
+            setShowModal(true)
+          }}
+        />
       </div>
     </WrapLayout>
   )

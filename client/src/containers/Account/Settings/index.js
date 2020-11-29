@@ -9,11 +9,12 @@ import { useContactDetails, usePasswordAndAuthentication } from './viewModel'
 
 function Settings() {
     const contactDetailsProps = useContactDetails();
+
     const passwordAndAuthenticationProps = usePasswordAndAuthentication();
 
     return (
         <>
-            <HorizontalCard>
+            <HorizontalCard style={{ width: '100%' }}>
                 <CardTitle>Contact Details</CardTitle>
                 <ContactDetails
                     contactDetailsProps={contactDetailsProps}

@@ -1,7 +1,6 @@
 import React from 'react'
-import { ContainedButton, VerticalCard } from '../../../components/UIComponents';
+import { Alert, ContainedButton, VerticalCard } from '../../../components/UIComponents';
 import { TextField } from '../../../components/FormComponents'
-import { Alert } from 'antd';
 import { useForgotPassword } from '../viewModel';
 
 function PasswordForgotten() {
@@ -26,7 +25,9 @@ function PasswordForgotten() {
                 <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(onSubmitEmail)}>
                         {emailSubmitted ?
-                            <Alert message="If the provided email is in our database, a password reset link will be sent to it. Please be sure to check the spam / junk mailbox if it is not found in the main inbox" type="success" showIcon />
+                            <Alert type="success">
+                                If the provided email is in our database, a password reset link will be sent to it. Please be sure to check the spam / junk mailbox if it is not found in the main inbox
+                            </Alert>
                             :
                             <>
                                 <TextField name="email" />
