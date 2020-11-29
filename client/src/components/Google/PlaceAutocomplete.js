@@ -15,6 +15,7 @@ function PlaceAutocomplete({
     setZoom,
     setCenter,
     emptyOtherFilters,
+    style
 }) {
     const { t } = useTranslation();
     const autoCompleteRef = useRef(null);
@@ -65,7 +66,7 @@ function PlaceAutocomplete({
                         type="text"
                         placeholder={t('find_sitter.address')}
                         className="form-control"
-                        style={{ outline: 'none', paddingLeft: 10 }}
+                        style={{ outline: 'none', paddingLeft: 10, ...style }}
                     />
                 } />
             <ErrorDisplay hidden={!hasError}>{message}</ErrorDisplay>

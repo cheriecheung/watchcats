@@ -22,13 +22,14 @@ function useHome() {
   const { errors } = methods;
 
   function followMouse(e) {
-    const x = e.clientX / 40;
-    const y = e.clientY / 20;
+    // const x = e.clientX / 40;
+    // const y = e.clientY / 20;
 
-    horizontalCatRef.current.style.transition = `0.5s all`;
-    verticalCatRef.current.style.transition = `0.5s all`;
+    // horizontalCatRef.current.style.transition = `0.5s all`;
+    // horizontalCatRef.current.style.transform = `translateX(${x}px)`;
 
-    horizontalCatRef.current.style.transform = `translateX(${x}px)`; verticalCatRef.current.style.transform = `translateY(${y}px)`;
+    // verticalCatRef.current.style.transition = `0.5s all`;
+    // verticalCatRef.current.style.transform = `translateY(${y}px)`;
   };
 
   useEffect(() => {

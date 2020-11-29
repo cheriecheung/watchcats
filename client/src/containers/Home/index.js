@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { PlaceAutocomplete } from '../../components/Google'
-import { HorizontalCard } from '../../components/UIComponents'
+import { ContainedButton, HorizontalCard } from '../../components/UIComponents'
+import ScreenWidthListener from '../../components/Layout/ScreenWidthListener'
 import AppointmentPeriodPicker from '../FindCatSitter/Search/AppointmentPeriodPicker';
 import { checkToken } from '../../redux/actions/authenticationActions'
 
@@ -10,29 +11,62 @@ import { useHome } from './viewModel'
 import styled from 'styled-components'
 
 const MainContainer = styled.div`
-  padding: 40px 0 50px 0;
-  width: 1200px !important;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  width: 800px;
   margin: 0 auto;
+  padding: 150px 0 50px 0;
 
-  @media (max-width: 1220px) {
-    padding: 40px 100px 50px 100px;
+  @media (max-width: 850px) {
+    padding: 150px 50px 50px 50px;
     width: unset;
-  }
-  
-  @media (max-width: 1090px) {
-    padding: 40px 50px 50px 50px;
-  }
-
-  @media (max-width: 890px) {
-    padding: 40px 50px 50px 50px;
   }
 
   @media (max-width: 500px) {
-    padding: 40px 4vw 50px 4vw;
+    padding: 150px 4vw 50px 4vw;
+  }
+`
+
+const RelaxCatContainer = styled.div`
+  position: absolute;
+  display: flex; 
+  justify-content: flex-end;
+  width: 830px; 
+
+  @media (max-width: 850px) {
+    width: 90%; 
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+`
+
+const FormContainer = styled.form`
+  display: flex; 
+  flex-direction: row;
+  justify-content: space-between;
+
+  @media (max-width: 650px) {
+    flex-direction: column;
+  }
+`
+
+const FieldContainer = styled.div`
+  flex-basis: 42%;
+  margin-right: 10px;
+
+  @media (max-width: 650px) {
+    flex-basis: unset;
+    margin-right: 0;
+    margin-bottom: 15px;
   }
 `
 
 function Home() {
+  const { screenWidth } = ScreenWidthListener();
+
   const {
     t,
     FormProvider,
@@ -52,37 +86,41 @@ function Home() {
         test API
         </button> */}
 
-      <div style={{ display: 'flex', width: '950px', justifyContent: 'flex-end', position: 'absolute' }}>
-        <div className="cat_horizontal" ref={horizontalCatRef} />
-      </div>
+      <RelaxCatContainer>
+        <div className="cat-horizontal" ref={horizontalCatRef} />
+      </RelaxCatContainer>
 
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 100 }}>
-        <div className="cat_vertical" ref={verticalCatRef} />
-        <HorizontalCard>
-          <h5>Find a cat sitter in your area</h5>
-          <br />
+      <HorizontalCard style={{ width: '100%' }}>
+        <h5>Find a cat sitter in your area</h5>
+        <br />
 
-          <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <FormProvider {...methods}>
+          <FormContainer onSubmit={handleSubmit(onSubmit)}>
+            <FieldContainer>
               <PlaceAutocomplete
                 name="googlePlaceAddress"
                 setCenter={setCenter}
                 setZoom={setZoom}
+                style={{ height: 40 }}
               />
-              <AppointmentPeriodPicker t={t} />
+            </FieldContainer>
 
-              <button type="input">
-                <i className="fas fa-search" />
-              </button>
-            </form>
-          </FormProvider>
-        </HorizontalCard>
-        <div className="cat_vertical" style={{ opacity: 0 }} />
-      </div>
+            {screenWidth > 650 &&
+              <FieldContainer>
+                <AppointmentPeriodPicker t={t} style={{ height: 40 }} />
+              </FieldContainer>
+            }
 
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
+            <ContainedButton type="input" style={{ height: 40, margin: 0 }}>
+              <i className="fas fa-search" />
+            </ContainedButton>
+          </FormContainer>
+        </FormProvider>
+      </HorizontalCard>
+
+      <div style={{ width: '95%', margin: '20px auto 0 auto' }}>
         <div className="card_sphynx" />
-        <div className="card_longhair" />
+        {/* <div className="card_longhair" /> */}
       </div>
     </MainContainer>
   )
