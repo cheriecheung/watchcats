@@ -26,6 +26,7 @@ import SubTabBarItem from './Tab/SubTabBarItem'
 import TabBar from './Tab/TabBar'
 import TabItem from './Tab/TabItem'
 
+import Alert from './Alert'
 import CheckSquareIcon from './CheckSquareIcon'
 import EllipsisParagraph from './EllipsisParagraph'
 import MapContainer from './MapContainer'
@@ -60,6 +61,7 @@ export {
   TabBar,
   TabItem,
 
+  Alert,
   CheckSquareIcon,
   EllipsisParagraph,
   MapContainer,

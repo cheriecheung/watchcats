@@ -25,7 +25,9 @@ function Layout({ children }) {
     <>
       <Header />
       {/* <MainContainer> */}
-      {children}
+      <div className="content">
+        {children}
+      </div>
       {/* </MainContainer> */}
       {/* <Footer /> */}
     </>

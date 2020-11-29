@@ -29,12 +29,14 @@ body {
 
 * {
   /* font-family: 'Lato', sans-serif; */
-  font-family: 'Source Sans Pro', sans-serif;
   font-size: 15px;
   letter-spacing: 0.3px;
   font-weight: 100;
 }
 
+.content {
+  font-family: 'Source Sans Pro', sans-serif !important;
+}
 
 footer {
   position: absolute;

@@ -25,6 +25,7 @@ const ResultContainer = styled.div`
 
   @media (max-width: 1185px) {
     width: 90vw;
+    margin-top: 40px;
   }
 
   @media (max-width: 1100px) {

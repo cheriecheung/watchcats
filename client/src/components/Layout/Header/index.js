@@ -27,7 +27,7 @@ function Header() {
   } = useHeader();
 
   return (
-    <>
+    <div style={{ fontFamily: 'Source Sans Pro, sans-serif' }}>
       <Nav>
         <NavIcon onClick={triggerToggle}>
           <Line open={toggle} />
@@ -66,7 +66,7 @@ function Header() {
         closeMenu={closeMenu}
         onMobileLogout={onMobileLogout}
       />
-    </>
+    </div>
   );
 }
 
