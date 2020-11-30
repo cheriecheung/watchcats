@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPersonalInfo, postPersonalInfo, deletePicture } from '../../../redux/actions/accountActions';
+import { getPersonalInfo, postPersonalInfo, deletePicture } from '../../../redux/account/actions';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';

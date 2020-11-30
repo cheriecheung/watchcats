@@ -1,6 +1,6 @@
 import React from 'react';
 import { ContainedButton } from '../../../components/UIComponents'
-import { onboardUser } from '../../../redux/actions/paymentActions';
+import { onboardUser } from '../../../redux/payment/actions';
 import { useDispatch } from 'react-redux';
 
 function PaymentSetup({ t }) {

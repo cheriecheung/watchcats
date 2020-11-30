@@ -11,7 +11,7 @@ function Unsuccessful({ t, unsuccessfulProps }) {
     <>
       {/* show text when account has already been activated */}
 
-      <h5>Your verification link has expired</h5>
+      <h5>Expired or invalid verification link</h5>
       <p >Please enter your registered email below to get another link to activate your account.</p>
       <br />
 
@@ -24,9 +24,11 @@ function Unsuccessful({ t, unsuccessfulProps }) {
             :
             <>
               <TextField name="email" />
-              <ContainedButton>
-                Submit
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <ContainedButton>
+                  Submit
               </ContainedButton>
+              </div>
             </>
           }
         </form>

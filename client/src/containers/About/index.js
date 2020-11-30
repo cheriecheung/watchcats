@@ -1,5 +1,5 @@
 import React from "react";
-import { uploadTestPicture } from '../../redux/actions/accountActions'
+import { uploadTestPicture } from '../../redux/account/actions'
 import { FileUploader } from '../../components/FormComponents'
 import { useForm, FormProvider } from 'react-hook-form';
 import { useDispatch } from 'react-redux';

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { getRecords, fulfillAction } from '../../redux/actions/bookingActions';
+import { getRecords, fulfillAction } from '../../redux/bookings/actions';
 
 const defaultKeyBookingType = 'sitting_jobs';
 const defaultKeyBookingStatus = 'requested';

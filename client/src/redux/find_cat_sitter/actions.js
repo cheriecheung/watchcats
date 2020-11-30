@@ -1,4 +1,6 @@
 import axios from 'axios';
+import FindCatSitterActionTypes from './actionTypes'
+
 const { REACT_APP_API_DOMAIN } = process.env;
 
 export function getSittersInBounds(query) {
@@ -13,7 +15,7 @@ export function getSittersInBounds(query) {
       const url = `${REACT_APP_API_DOMAIN}/sitter?${queryString}`
 
       const { data } = await axios.get(url);
-      dispatch({ type: 'GET_SITTERS_IN_BOUNDS', payload: data });
+      dispatch({ type: FindCatSitterActionTypes.GET_SITTERS_IN_BOUNDS, payload: data });
     } catch (e) {
       console.log({ e });
     }

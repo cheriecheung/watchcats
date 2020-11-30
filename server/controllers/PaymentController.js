@@ -14,10 +14,10 @@ function generateAccountLink(accountID, origin) {
 
 module.exports = {
   onboardUser: async (req, res) => {
-    try {
-      const userId = req.headers['authorization'];
-      if (!userId) return res.status(403).json('User id missing');
+    const { userId } = req.verifiedData
+    if (!userId) return res.status(404).json('No user found');
 
+    try {
       const account = await stripe.accounts.create({
         business_profile: {
           // mcc: null,
@@ -69,10 +69,10 @@ module.exports = {
   },
 
   getClientSecret: async (req, res) => {
-    try {
-      const userId = req.headers['authorization'];
-      if (!userId) return res.status(403).json('User id missing');
+    const { userId } = req.verifiedData
+    if (!userId) return res.status(404).json('No user found');
 
+    try {
       const { bookingId } = req.body;
 
       console.log({ userId, bookingId });

@@ -10,13 +10,13 @@ import {
   verifyPhoneNumber,
   resendOtpToInputtedPhoneNumber,
   sendOtpToSavedPhoneNumber
-} from '../../../redux/actions/accountActions';
+} from '../../../redux/account/actions';
 import {
   resetPassword,
   getGoogleAuthenticatorQrCode,
   verifyGoogleAuthenticatorCode,
   disableTwoFactor
-} from '../../../redux/actions/authenticationActions'
+} from '../../../redux/authentication/actions'
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -182,8 +182,8 @@ function usePasswordAndAuthentication() {
 
   const dispatch = useDispatch();
 
-  const { contactDetails } = useSelector((state) => state.account);
-  const { isActivated } = useSelector((state) => state.two_factor_auth);
+  const { isTwoFactorEnabled } = useSelector((state) => state.account);
+  const { isActivated } = useSelector((state) => state.authentication);
 
   const [showModal, setShowModal] = useState(false);
   const [content, setContent] = useState('')
@@ -216,7 +216,7 @@ function usePasswordAndAuthentication() {
 
   return {
     t,
-    contactDetails,
+    isTwoFactorEnabled,
     isActivated,
     showChangePasswordModal,
     showEnable2faModal,
@@ -230,7 +230,7 @@ function usePasswordAndAuthentication() {
 function useEnable2FA() {
   const dispatch = useDispatch();
 
-  const { qrCode } = useSelector((state) => state.two_factor_auth);
+  const { qrCode } = useSelector((state) => state.authentication);
 
   const methods = useForm();
   const { watch } = methods;

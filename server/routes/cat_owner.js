@@ -3,6 +3,7 @@ const CatOwnerController = require('../controllers/CatOwnerController');
 const { verifyAccessTokenUpdate } = require('../helpers/token')
 const { formLimiter, speedLimiter } = require('../helpers/limiter')
 
+// verifyAccessTokenUpdate
 router.get('/owner/profile/:id?', CatOwnerController.getProfile);
 
 router.get('/owner/account/:id?', verifyAccessTokenUpdate, CatOwnerController.getAccount);

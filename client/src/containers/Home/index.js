@@ -4,7 +4,8 @@ import { PlaceAutocomplete } from '../../components/Google'
 import { ContainedButton, HorizontalCard } from '../../components/UIComponents'
 import ScreenWidthListener from '../../components/Layout/ScreenWidthListener'
 import AppointmentPeriodPicker from '../FindCatSitter/Search/AppointmentPeriodPicker';
-import { checkToken } from '../../redux/actions/authenticationActions'
+// import { checkToken } from '../../redux/authentication/actions'
+import { useDispatch } from 'react-redux';
 
 import { useHome } from './viewModel'
 
@@ -66,6 +67,7 @@ const FieldContainer = styled.div`
 
 function Home() {
   const { screenWidth } = ScreenWidthListener();
+  const dispatch = useDispatch();
 
   const {
     t,
@@ -82,10 +84,6 @@ function Home() {
 
   return (
     <MainContainer>
-      {/* <button type="button" onClick={() => dispatch(checkToken())}>
-        test API
-        </button> */}
-
       <RelaxCatContainer>
         <div className="cat-horizontal" ref={horizontalCatRef} />
       </RelaxCatContainer>
@@ -122,6 +120,14 @@ function Home() {
         <div className="card_sphynx" />
         {/* <div className="card_longhair" /> */}
       </div>
+
+      {/* <button type="button" onClick={() => {
+        dispatch(checkToken())
+        console.log('helo')
+      }}>
+        test API
+        </button> */}
+
     </MainContainer>
   )
 }

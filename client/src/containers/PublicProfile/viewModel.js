@@ -2,9 +2,9 @@ import { useEffect, useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getOwnerProfile, getSitterProfile } from '../../redux/actions/profileActions';
-import { getAppointmentTime, sendRequest } from '../../redux/actions/bookingActions';
-import { getChatContacts, getChatConversation } from '../../redux/actions/chatActions';
+import { getOwnerProfile, getSitterProfile } from '../../redux/profile/actions';
+import { getAppointmentTime, sendRequest } from '../../redux/bookings/actions';
+import { getChatContacts, getChatConversation } from '../../redux/chat/actions';
 import { calculateOneDayPrice, calculateOvernightPrice } from '../../utility';
 import { useForm, FormProvider } from 'react-hook-form';
 

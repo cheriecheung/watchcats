@@ -1,4 +1,5 @@
 import Immutable from 'seamless-immutable';
+import AccountActionTypes from './actionTypes'
 
 const initialState = Immutable({
   changePhoneNumberStep: 'input',
@@ -8,39 +9,37 @@ const initialState = Immutable({
   changePhoneNotifiation: ''
 });
 
-const accountReducer = {
+const account_reducer = {
   account: (state = initialState, action) => {
     switch (action.type) {
-      case 'CONTACT_DETAILS_RETURNED':
+      case AccountActionTypes.CONTACT_DETAILS_RETURNED:
         return { ...state, ...action.payload };
-      case 'NOTIFICATION_SETTINGS_CHANGED':
+      case AccountActionTypes.NOTIFICATION_SETTINGS_CHANGED:
         return { ...state, ...action.payload };
-      case ' VERIFICATION_CODE_SENT':
+      case AccountActionTypes.VERIFICATION_CODE_SENT:
         return { ...state }
       // rename
-      case 'PHONE_NUMBER_SUBMITTED':
+      case AccountActionTypes.PHONE_NUMBER_SUBMITTED:
         return { ...state, changePhoneNumberStep: action.payload }
-      case 'VERIFY_PHONE_NUMBER':
+      case AccountActionTypes.VERIFY_PHONE_NUMBER:
         return { ...state, changePhoneNumberStep: action.payload }
-      case 'PHONE_NUMBER_DELETED':
+      case AccountActionTypes.PHONE_NUMBER_DELETED:
         return { ...state, changePhoneNumberStep: action.payload };
-      case 'GET_USER':
+      case AccountActionTypes.GET_USER:
         return { ...state, data: action.payload };
-      case 'GENERAL_INFO_SAVED':
+      case AccountActionTypes.GENERAL_INFO_SAVED:
         return { ...state, generalInfo: action.payload };
-      case 'SITTER_ACCOUNT_SAVED':
-        return { ...state, sitter: action.payload };
-      case 'OWNER_ACCOUNT_SAVED':
-        return { ...state, ownerSaved: action.payload };
-      case 'GET_SITTER_ACCOUNT':
-        return { ...state, sitterData: action.payload };
-      case 'GET_OWNER_ACCOUNT':
-        return { ...state, ownerData: action.payload };
-      // case 'SAVE_CAT_PIC':
-      //   return { ownerCompleteSave: action.payload }
-      case 'PROFILE_PIC_REMOVED':
+      case AccountActionTypes.PROFILE_PIC_REMOVED:
         return { ...state, profilePicRemoved: action.payload }
-      case 'CAT_PIC_REMOVED':
+      case AccountActionTypes.SITTER_ACCOUNT_SAVED:
+        return { ...state, sitter: action.payload };
+      case AccountActionTypes.OWNER_ACCOUNT_SAVED:
+        return { ...state, ownerSaved: action.payload };
+      case AccountActionTypes.GET_SITTER_ACCOUNT:
+        return { ...state, sitterData: action.payload };
+      case AccountActionTypes.GET_OWNER_ACCOUNT:
+        return { ...state, ownerData: action.payload };
+      case AccountActionTypes.CAT_PIC_REMOVED:
         return { ...state, catPhotoRemoved: { index: action.payload } }
       default:
         return state;
@@ -49,4 +48,4 @@ const accountReducer = {
 }
 
 
-export default accountReducer;
+export default account_reducer;

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import ChatActionTypes from './actionTypes'
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
@@ -18,7 +19,7 @@ export function getChatContacts(id) {
   return async (dispatch) => {
     try {
       const { data } = await axios.get(contactsUrl(id), config);
-      dispatch({ type: 'GET_CHAT_CONTACTS', payload: data });
+      dispatch({ type: ChatActionTypes.GET_CHAT_CONTACTS, payload: data });
     } catch (e) {
       console.log({ e });
     }
@@ -29,7 +30,7 @@ export function getChatConversation(id) {
   return async (dispatch) => {
     try {
       const { data } = await axios.get(conversationUrl(id), config);
-      dispatch({ type: 'GET_CHAT_CONVERSATION', payload: data });
+      dispatch({ type: ChatActionTypes.GET_CHAT_CONVERSATION, payload: data });
     } catch (e) {
       console.log({ e });
     }

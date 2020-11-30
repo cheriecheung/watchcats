@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOwnerAccount, saveOwner, removeCatPhoto } from '../../../redux/actions/accountActions';
+import { getOwnerAccount, saveOwner, removeCatPhoto } from '../../../redux/account/actions';
 import moment from 'moment';
 import { catBreedOptions, personalityOptions } from '../../../constants';
 

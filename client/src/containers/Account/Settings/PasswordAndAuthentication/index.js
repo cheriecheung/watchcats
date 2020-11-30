@@ -8,7 +8,7 @@ import Disable2FA from './Disable2FA'
 function PasswordAndAuthentication({ passwordAndAuthenticationProps }) {
   const {
     t,
-    contactDetails,
+    isTwoFactorEnabled,
     isActivated,
     showChangePasswordModal,
     showEnable2faModal,
@@ -56,7 +56,7 @@ function PasswordAndAuthentication({ passwordAndAuthenticationProps }) {
             (Only for accounts registered by email and password)
 
       {
-        contactDetails && contactDetails.isTwoFactorEnabled || isActivated ?
+        isTwoFactorEnabled || isActivated ?
           <>
             <h6>you have already enabled two factor auth</h6>
             <OutlinedButton onClick={showDisable2faModal}>Disable 2FA</OutlinedButton>

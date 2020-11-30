@@ -1,17 +1,9 @@
 import axios from 'axios';
-import {
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  LOGOUT_SUCCESS,
-  LOGOUT_FAIL,
-  VERIFY_SUCCESS,
-  VERIFY_FAIL,
-} from './types';
-import Cookies from 'universal-cookie';
-import { getAccessToken, setAccessToken } from '../../utility/accessToken';
+import AuthActionTypes from './actionTypes'
+import { setAccessToken } from '../../utility/accessToken';
 import axiosInstance from '../../utility/axiosInstance';
+import { getConfig } from '../../utility/api'
+import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 const { REACT_APP_API_DOMAIN } = process.env;
@@ -33,36 +25,27 @@ const passwordURL = `/password`
 const googleAuthenticatorQrCodeURL = `google-authenticator-qrcode`
 const googleAuthenticatorVerifyCodeURL = `google-authenticator-verify-code`
 
-const getConfig = () => {
-  return {
-    withCredentials: true,
-    headers: {
-      Authorization: `Bearer ${getAccessToken()}`,
-    },
-  }
-}
+// export function checkToken() {
+//   return async (dispatch) => {
+//     try {
+//       const { data } = await axios.post(`/refresh_token`)
 
-export function checkToken() {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.post(`/refresh_token`)
+//       const { accessToken } = data;
+//       setAccessToken(accessToken)
 
-      const { accessToken } = data;
-      setAccessToken(accessToken)
-
-      dispatch({ type: 'ACCESS_TOKEN_ATTAINED' });
-    } catch (err) {
-      console.log({ err });
-    }
-  };
-}
+//       dispatch({ type: AuthActionTypes.ACCESS_TOKEN_ATTAINED });
+//     } catch (err) {
+//       console.log({ err });
+//     }
+//   };
+// }
 
 export function disableTwoFactor(code) {
   return async (dispatch) => {
     try {
       // pass token too?
       const { data } = await axiosInstance().delete(phoneLoginURL, { ...getConfig(), data: { code } });
-      dispatch({ type: 'TWO_FACTOR_DISABLED' });
+      dispatch({ type: AuthActionTypes.TWO_FACTOR_DISABLED });
     } catch (e) {
       console.log({ e });
     }
@@ -73,7 +56,7 @@ export function getGoogleAuthenticatorQrCode() {
   return async (dispatch) => {
     try {
       const { data } = await axiosInstance().get(googleAuthenticatorQrCodeURL, getConfig());
-      dispatch({ type: 'QR_CODE_RETURNED', payload: data });
+      dispatch({ type: AuthActionTypes.QR_CODE_RETURNED, payload: data });
     } catch (e) {
       console.log({ e });
     }
@@ -85,7 +68,7 @@ export function verifyGoogleAuthenticatorCode(code) {
     try {
       // pass token too?
       const { data } = await axiosInstance().post(googleAuthenticatorVerifyCodeURL, { code }, getConfig());
-      dispatch({ type: 'TWO_FACTOR_ACTIVATED' });
+      dispatch({ type: AuthActionTypes.TWO_FACTOR_ACTIVATED });
     } catch (e) {
       console.log({ e });
     }
@@ -98,7 +81,7 @@ export function googleLogin() {
       const { data } = await axios.get(googleLoginURL);
 
       console.log({ data })
-      dispatch({ type: 'GOOGLE_LOGIN', payload: data });
+      dispatch({ type: AuthActionTypes.GOOGLE_LOGIN, payload: data });
     } catch (e) {
       console.log({ e });
     }
@@ -115,7 +98,7 @@ export function googleAuthenticate() {
       const { shortId } = data || {};
       cookies.set('shortId', shortId);
 
-      dispatch({ type: 'GOOGLE_LOGIN_SUCCESS' });
+      dispatch({ type: AuthActionTypes.GOOGLE_LOGIN_SUCCESS });
       window.location = `/account/${shortId}`;
     } catch (e) {
       window.location = '/';
@@ -136,13 +119,13 @@ export function registration(firstName, lastName, email, password) {
       console.log({ data })
 
       dispatch({
-        type: REGISTER_SUCCESS,
+        type: AuthActionTypes.REGISTER_SUCCESS,
         payload: 'Registration successful. Please log into your email to activate your account.',
       });
     } catch (e) {
       console.log({ e });
       dispatch({
-        type: REGISTER_FAIL,
+        type: AuthActionTypes.REGISTER_FAIL,
         payload: 'Registration fail. Please try again',
       });
     }
@@ -154,10 +137,11 @@ export function verifyEmail(token) {
     try {
       await axios.post(activateURL, {}, { headers: { Authorization: `Bearer ${token}` } });
 
-      dispatch({ type: VERIFY_SUCCESS, payload: 'Activation successful' });
+      // if already activated, give different response
+      dispatch({ type: AuthActionTypes.VERIFY_SUCCESS, payload: 'Activation successful' });
     } catch (e) {
       console.log({ e });
-      dispatch({ type: VERIFY_FAIL, payload: 'Activation failed' });
+      dispatch({ type: AuthActionTypes.VERIFY_FAIL, payload: 'Activation failed' });
     }
   };
 }
@@ -167,10 +151,10 @@ export function getActivationEmail(email) {
     try {
       await axios.post(activationEmailURL, { email });
 
-      dispatch({ type: 'ACTIVATE_EMAIL_REQUESTED', payload: 'Email requested' });
+      dispatch({ type: AuthActionTypes.ACTIVATE_EMAIL_REQUESTED, payload: 'Email requested' });
     } catch (e) {
       console.log({ e });
-      dispatch({ type: 'ACTIVATE_EMAIL_REQUESTED', payload: 'Email requested' });
+      dispatch({ type: AuthActionTypes.ACTIVATE_EMAIL_REQUESTED, payload: 'Email requested' });
     }
   };
 }
@@ -180,10 +164,10 @@ export function getPasswordResetEmail(email) {
     try {
       await axios.post(resetPasswordEmailURL, { email });
 
-      dispatch({ type: 'PASSWORD_RESET_EMAIL_REQUESTED', payload: 'Email requested' });
+      dispatch({ type: AuthActionTypes.PASSWORD_RESET_EMAIL_REQUESTED, payload: 'Email requested' });
     } catch (e) {
       console.log({ e });
-      dispatch({ type: 'PASSWORD_RESET_EMAIL_REQUESTED', payload: 'Email requested' });
+      dispatch({ type: AuthActionTypes.PASSWORD_RESET_EMAIL_REQUESTED, payload: 'Email requested' });
     }
   };
 }
@@ -193,10 +177,10 @@ export function resetPassword(password) {
     try {
       await axiosInstance().put(passwordURL, { password }, getConfig());
 
-      dispatch({ type: 'PASSWORD_RESET', payload: 'Password reset' });
+      dispatch({ type: AuthActionTypes.PASSWORD_RESET, payload: 'Password reset' });
     } catch (e) {
       console.log({ e });
-      dispatch({ type: 'PASSWORD_RESET', payload: 'Password reset' });
+      dispatch({ type: AuthActionTypes.PASSWORD_RESET, payload: 'Password reset' });
     }
   };
 }
@@ -216,7 +200,7 @@ export function phoneLogin(code) {
       window.location = `/account/${shortId}`;
     } catch (e) {
       console.log({ e });
-      dispatch({ type: LOGIN_FAIL, err: e });
+      dispatch({ type: AuthActionTypes.LOGIN_FAIL, err: e });
     }
   }
 }
@@ -234,14 +218,14 @@ export function login(email, password) {
         await setAccessToken(accessToken)
         window.location = `/account/${shortId}`;
       } else {
-        dispatch({ type: 'PHONE_LOGIN', payload: true });
+        dispatch({ type: AuthActionTypes.PHONE_LOGIN, payload: true });
       }
     } catch (e) {
       const { response: { data } } = e
       console.log({ e });
 
       dispatch({
-        type: LOGIN_FAIL,
+        type: AuthActionTypes.LOGIN_FAIL,
         payload: data || "Email and password combination isn't valid",
       });
     }
@@ -252,12 +236,12 @@ export function logout() {
   return async (dispatch) => {
     try {
       await axiosInstance().delete(logoutURL, getConfig());
-      dispatch({ type: LOGOUT_SUCCESS });
+      dispatch({ type: AuthActionTypes.LOGOUT_SUCCESS });
       // window.location = '/';
       cookies.remove('shortId', { path: "/" })
     } catch (e) {
       console.log({ e });
-      dispatch({ type: LOGOUT_FAIL, err: e });
+      dispatch({ type: AuthActionTypes.LOGOUT_FAIL, err: e });
     }
   };
 }

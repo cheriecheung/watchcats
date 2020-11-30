@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSittersInBounds } from '../../redux/actions/findCatSitterActions';
+import { getSittersInBounds } from '../../redux/find_cat_sitter/actions';
 import { sortingTypeOptions } from '../../constants';
 
 import { useForm, FormProvider } from 'react-hook-form';
@@ -21,7 +21,7 @@ function useFindCatSitter() {
 
 
   const dispatch = useDispatch();
-  const { totalResults, paginatedResults } = useSelector((state) => state.find_cat_sitters);
+  const { totalResults, paginatedResults } = useSelector((state) => state.find_cat_sitter);
   // display error when returned failure
 
   // if get location has zoom and center, use them instead

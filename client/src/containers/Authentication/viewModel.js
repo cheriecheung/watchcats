@@ -21,9 +21,10 @@ import {
   googleLogin,
   googleAuthenticate,
   phoneLogin,
-  registration
-} from '../../redux/actions/authenticationActions';
-import { getPasswordResetEmail, resetPassword } from '../../redux/actions'
+  registration,
+  getPasswordResetEmail,
+  resetPassword
+} from '../../redux/authentication/actions';
 
 function useEmailVerification() {
   const { token } = useParams();

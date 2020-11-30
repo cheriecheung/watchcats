@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { getSitterAccount, saveSitter } from '../../../redux/actions/accountActions';
+import { getSitterAccount, saveSitter } from '../../../redux/account/actions';
 import moment from 'moment';
 
 import { useForm, FormProvider } from 'react-hook-form';

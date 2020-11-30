@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../../redux/actions/authenticationActions';
+import { logout } from '../../../redux/authentication/actions';
 
 function useHeader() {
   const { t, i18n } = useTranslation();
 
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector(state => state.isLoggedIn);
+  const { isLoggedIn } = useSelector(state => state.authentication);
 
   const [toggle, setToggle] = useState(false);
 
