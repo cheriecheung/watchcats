@@ -88,7 +88,8 @@ function useCatSitterProfile() {
 
 function useCatSitterSummary() {
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.bookings);
+  // move to profile reducer
+  const { profileActionStatus } = useSelector((state) => state.bookings);
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -107,7 +108,7 @@ function useCatSitterSummary() {
     modalVisible,
     setModalVisible,
     onSendMessage,
-    error,
+    profileActionStatus,
   }
 }
 

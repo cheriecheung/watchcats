@@ -84,8 +84,8 @@ function SelectAppointmentTime({ t }) {
 
       <hr />
 
-      <Row style={{ marginTop: 10 }}>
-        <Col md={4} style={{ marginBottom: 15 }}>
+      <Row>
+        <Col md={4}>
           <b style={{ fontSize: '0.9rem', flexBasis: '25%' }}>
             {t('sitter_profile.appointment_fee')}:
           </b>
@@ -95,7 +95,9 @@ function SelectAppointmentTime({ t }) {
         </Col>
       </Row>
 
-      <ContainedButton onClick={onSendRequest}>Submit</ContainedButton>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <ContainedButton onClick={onSendRequest}>Submit</ContainedButton>
+      </div>
     </div>
   );
 }

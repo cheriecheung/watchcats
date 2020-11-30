@@ -14,7 +14,7 @@ function Summary({ t, sitterInfo, summaryProps }) {
     modalVisible,
     setModalVisible,
     onSendMessage,
-    error,
+    profileActionStatus,
   } = summaryProps;
 
   return (
@@ -59,8 +59,7 @@ function Summary({ t, sitterInfo, summaryProps }) {
         t={t}
         modalVisible={modalVisible}
         closeModal={() => setModalVisible(false)}
-        error={error}
-      // location={location}
+        profileActionStatus={profileActionStatus}
       />
     </VerticalCard>
   );

@@ -31,6 +31,7 @@ import CheckSquareIcon from './CheckSquareIcon'
 import EllipsisParagraph from './EllipsisParagraph'
 import MapContainer from './MapContainer'
 import Modal from './Modal'
+import SuccessDisplay from './SuccessDisplay'
 
 export {
   ContainedButton,
@@ -65,5 +66,6 @@ export {
   CheckSquareIcon,
   EllipsisParagraph,
   MapContainer,
-  Modal
+  Modal,
+  SuccessDisplay
 }

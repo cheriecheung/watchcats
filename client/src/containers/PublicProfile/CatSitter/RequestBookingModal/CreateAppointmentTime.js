@@ -51,13 +51,13 @@ function CreateAppointmentTime({ t, modalVisible }) {
         <form onSubmit={handleSubmit(onSendRequest)}>
           {type === 'oneDay' ? (
             <Row>
-              <Col md={6}>
+              <Col md={4}>
                 <div className="d-flex flex-column date-picker">
                   <FieldLabel> {t('owner_form.date')}</FieldLabel>
                   <DatePicker name="oneDay.date" />
                 </div>
               </Col>
-              <Col md={6}>
+              <Col md={8}>
                 <div
                   style={{
                     display: 'flex',
@@ -100,17 +100,19 @@ function CreateAppointmentTime({ t, modalVisible }) {
       <hr style={{ margin: '35px 0 25px 0' }} />
 
       <Row>
-        <Col md={3}>
+        <Col md={4}>
           <b style={{ fontSize: '0.9rem', flexBasis: '25%' }}>
             {t('sitter_profile.appointment_fee')}:
           </b>
         </Col>
-        <Col md={9}>
+        <Col md={8}>
           <h6>{price}</h6>
         </Col>
       </Row>
 
-      <ContainedButton onClick={onSendRequest}>Submit</ContainedButton>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <ContainedButton onClick={onSendRequest}>Submit</ContainedButton>
+      </div>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, VerticalDivider, WrapLayout } from '../../../../components/UIComponents';
+import { Modal, SuccessDisplay, VerticalDivider, WrapLayout } from '../../../../components/UIComponents';
 
 import { useDispatch } from 'react-redux';
 
@@ -8,7 +8,6 @@ import PhoneDisplay from './PhoneDisplay'
 
 import PhoneNumberInput from './PhoneNumberInput'
 import PhoneNumberVerification from './PhoneNumberVerification'
-import PhoneNumberVerified from './PhoneNumberVerified';
 
 function ContactDetails({ contactDetailsProps }) {
   const {
@@ -35,7 +34,8 @@ function ContactDetails({ contactDetailsProps }) {
       case 'input':
         return <PhoneNumberInput t={t} phoneNumberInputProps={phoneNumberInputProps} />
       case 'verified':
-        return <PhoneNumberVerified t={t} closeModal={() => setShowModal(false)} />
+        return <SuccessDisplay message="You have successfully verified your phone!" onClick={() => setShowModal(false)} />
+      // close modal after removing phone
       default:
         break
     }
