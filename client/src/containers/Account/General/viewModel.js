@@ -5,7 +5,8 @@ import { getPersonalInfo, postPersonalInfo, deletePicture } from '../../../redux
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { general_default_values, general_schema } from '../_formConfig'
+import { general_default_values } from '../_formConfig/_defaultValues'
+import { general_schema } from '../_formConfig/_validationSchema'
 
 function useGeneral() {
   const personalInfoRef = useRef(null);

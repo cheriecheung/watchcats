@@ -13,8 +13,8 @@ import {
   catObj,
   oneDayObj,
   overnightObj,
-  cat_owner_schema
-} from '../_formConfig'
+} from '../_formConfig/_defaultValues'
+import { cat_owner_schema } from '../_formConfig/_validationSchema'
 
 function useCatOwner() {
   const { t } = useTranslation();

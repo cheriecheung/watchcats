@@ -60,11 +60,12 @@ export function fulfillAction(id, action) {
 
 export function submitReview(bookingId, data) {
   return async (dispatch) => {
-    try {
-      await axiosInstance().post(reviewURL(bookingId), data, getConfig());
-      dispatch({ type: BookingActionTypes.REVIEW_SUBMITTED, payload: '' });
-    } catch (e) {
-      console.log({ e });
-    }
+    dispatch({ type: BookingActionTypes.REVIEW_SUBMITTED });
+    // try {
+    //   await axiosInstance().post(reviewURL(bookingId), data, getConfig());
+    //   dispatch({ type: BookingActionTypes.REVIEW_SUBMITTED, payload: '' });
+    // } catch (e) {
+    //   console.log({ e });
+    // }
   };
 }

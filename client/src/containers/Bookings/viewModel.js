@@ -5,7 +5,8 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { review_schema } from '../Account/_formConfig';
+import { review_default_values as defaultValues } from './_formConfig/_defaultValues'
+import { review_schema } from './_formConfig/_validationSchema';
 
 import { getRecords, fulfillAction, submitReview } from '../../redux/bookings/actions';
 
@@ -94,11 +95,6 @@ function useBookings() {
     setModalContent,
   }
 }
-
-const defaultValues = {
-  review: '',
-  rating: 0
-};
 
 function useWriteReview() {
   const { t } = useTranslation();

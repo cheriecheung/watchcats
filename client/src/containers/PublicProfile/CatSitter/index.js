@@ -3,11 +3,11 @@ import styled from 'styled-components'
 import { VerticalCard, WrapLayout } from '../../../components/UIComponents'
 
 import Summary from './Summary';
-import Reviews from '../Common/Reviews';
-import AboutMe from '../Common/AboutMe';
+import Reviews from '../components/Reviews';
+import AboutMe from '../components/AboutMe';
 import Experience from './Experience';
 import AvailabilityCalendar from './AvailabilityCalendar';
-import Location from '../Common/Location';
+import Location from '../components/Location';
 
 import { useCatSitterProfile, useCatSitterSummary } from '../viewModel'
 

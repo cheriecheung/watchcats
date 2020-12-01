@@ -148,7 +148,7 @@ function useCreateAppointmentTime() {
   };
 
   const methods = useForm({ defaultValues });
-  const { register, control, handleSubmit, setValue, reset, watch } = methods;
+  const { register, setValue, reset, watch } = methods;
 
   const type = watch('type');
   const oneDayDate = watch('oneDay.date');

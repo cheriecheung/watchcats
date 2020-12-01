@@ -7,7 +7,8 @@ import moment from 'moment';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { cat_sitter_default_values, cat_sitter_schema } from '../_formConfig';
+import { cat_sitter_default_values } from '../_formConfig/_defaultValues';
+import { cat_sitter_schema } from '../_formConfig/_validationSchema'
 
 import { DateUtils } from 'react-day-picker';
 

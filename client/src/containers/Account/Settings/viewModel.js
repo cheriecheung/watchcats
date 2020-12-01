@@ -20,7 +20,8 @@ import {
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { reset_password_schema, reset_password_default_values } from '../_formConfig'
+import { reset_password_default_values } from '../_formConfig/_defaultValues'
+import { reset_password_schema } from '../_formConfig/_validationSchema'
 
 function usePrevious(value) {
   const ref = useRef();

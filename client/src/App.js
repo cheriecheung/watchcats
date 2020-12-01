@@ -12,7 +12,7 @@ import About from './containers/About';
 import { EmailVerification, Loading, Login, PasswordForgotten, PasswordReset, Register } from './containers/Authentication';
 
 import Bookings from './containers/Bookings';
-import Payment from './containers/Payment';
+import Payment from './containers/Bookings/containers/Payment';
 import WriteReview from './containers/Bookings/containers/WriteReview';
 
 import Messages from './containers/Messages';

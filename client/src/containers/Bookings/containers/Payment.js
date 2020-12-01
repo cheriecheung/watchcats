@@ -1,13 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import Item from './Item';
-import IdealBankForm from './IdealBankForm';
-import { getPaymentIntent } from '../../redux/payment/actions';
-import { useStripe, useElements, IdealBankElement } from '@stripe/react-stripe-js';
-import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-
-import { Elements } from '@stripe/react-stripe-js';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPaymentIntent } from '../../../redux/payment/actions';
+import { useStripe, useElements, Elements, IdealBankElement } from '@stripe/react-stripe-js';
+import '../../../style/IdealBankSectionStyles.css';
 import { loadStripe } from '@stripe/stripe-js';
+import ItemContent from '../components/ItemContent';
+
+const options = {
+  // Custom styling can be passed to options when creating an Element
+  style: {
+    base: {
+      padding: '10px 12px',
+      color: '#32325d',
+      fontSize: '16px',
+      '::placeholder': {
+        color: '#aab7c4',
+      },
+    },
+  },
+};
 
 function CheckoutForm() {
   const stripe = useStripe();
@@ -57,11 +69,14 @@ function CheckoutForm() {
 
   return (
     <div style={{ maxWidth: 900, margin: '50px auto', textAlign: 'left' }}>
-      <Item />
+      <ItemContent />
       <hr style={{ margin: '30px 0' }} />
 
       <form onSubmit={handleSubmit}>
-        <IdealBankForm />
+        <label>
+          <h6 style={{ marginBottom: 15 }}>iDEAL Bank</h6>
+          <IdealBankElement className="IdealBankElement" options={options} />
+        </label>
 
         <br />
         <br />

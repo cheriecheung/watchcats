@@ -27,13 +27,6 @@ function parseDateString(value, originalValue) {
     return parsedDate;
 }
 
-// ----- Review Schema ----- //
-export const review_schema = yup.object().shape({
-    // min and max word count
-    review: yup.string().required(defaultError).min(10, 'too short'),
-    rating: yup.number().positive('Rating required').integer('Rating required').required(defaultError)
-})
-
 // ----- Reset Password Schema ----- //
 //https://github.com/jquense/yup/issues/345
 //https://www.nuomiphp.com/eplan/en/34699.

@@ -5,14 +5,16 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   login_default_values,
-  login_schema,
   email_verification_default_values,
-  send_email_schema,
   password_reset_default_values,
-  password_reset_schema,
   register_default_values,
+} from './_formConfig/_defaultValues'
+import {
+  login_schema,
+  send_email_schema,
+  password_reset_schema,
   register_schema
-} from './_formConfig'
+} from './_formConfig/_validationSchema'
 import { useDispatch, useSelector } from 'react-redux';
 import {
   verifyEmail,
