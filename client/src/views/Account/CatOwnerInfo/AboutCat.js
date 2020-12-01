@@ -11,7 +11,7 @@ import {
   TextField,
 } from '../../../components/FormComponents';
 import { CheckSquareIcon, TextButton } from '../../../components/UIComponents'
-import { catBreedOptions, personalityOptions, medicineOptions } from '../../../constants';
+import { catBreedOptions, personalityOptions, medicineOptions } from '../../../utility/constants';
 
 const color = '#252525';
 

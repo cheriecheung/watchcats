@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOwnerAccount, saveOwner, removeCatPhoto } from '../../../redux/account/actions';
 import moment from 'moment';
-import { catBreedOptions, personalityOptions } from '../../../constants';
+import { catBreedOptions, personalityOptions } from '../../../utility/constants';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';

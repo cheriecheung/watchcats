@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { FieldLabel, SelectField } from '../../../components/FormComponents';
-import { hourlyRateOptions, nightlyRateOptions } from '../../../constants';
+import { hourlyRateOptions, nightlyRateOptions } from '../../../utility/constants';
 import styled from 'styled-components';
 
 const Container = styled.div`

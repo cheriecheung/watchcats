@@ -7,18 +7,18 @@ import './style/uiComponents.css';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from './components/Layout';
-import Home from './containers/Home';
-import About from './containers/About';
-import { EmailVerification, Loading, Login, PasswordForgotten, PasswordReset, Register } from './containers/Authentication';
+import Home from './views/Home';
+import About from './views/About';
+import { EmailVerification, Loading, Login, PasswordForgotten, PasswordReset, Register } from './views/Authentication';
 
-import Bookings from './containers/Bookings';
-import Payment from './containers/Bookings/containers/Payment';
-import WriteReview from './containers/Bookings/containers/WriteReview';
+import Bookings from './views/Bookings';
+import Payment from './views/Bookings/containers/Payment';
+import WriteReview from './views/Bookings/containers/WriteReview';
 
-import Messages from './containers/Messages';
-import Account from './containers/Account';
-import FindCatSitter from './containers/FindCatSitter';
-import { CatSitter, CatOwner } from './containers/PublicProfile';
+import Messages from './views/Messages';
+import Account from './views/Account';
+import FindCatSitter from './views/FindCatSitter';
+import { CatSitter, CatOwner } from './views/PublicProfile';
 
 import { useSelector } from 'react-redux';
 

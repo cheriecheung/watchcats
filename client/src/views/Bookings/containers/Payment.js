@@ -6,6 +6,7 @@ import { useStripe, useElements, Elements, IdealBankElement } from '@stripe/reac
 import '../../../style/IdealBankSectionStyles.css';
 import { loadStripe } from '@stripe/stripe-js';
 import ItemContent from '../components/ItemContent';
+import { useTranslation } from 'react-i18next';
 
 const options = {
   // Custom styling can be passed to options when creating an Element
@@ -22,6 +23,8 @@ const options = {
 };
 
 function CheckoutForm() {
+  const { t } = useTranslation();
+
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
@@ -69,7 +72,7 @@ function CheckoutForm() {
 
   return (
     <div style={{ maxWidth: 900, margin: '50px auto', textAlign: 'left' }}>
-      <ItemContent />
+      <ItemContent t={t} bookingType={'n/a'} data={{}} />
       <hr style={{ margin: '30px 0' }} />
 
       <form onSubmit={handleSubmit}>

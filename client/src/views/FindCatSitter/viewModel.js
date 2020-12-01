@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSittersInBounds } from '../../redux/find_cat_sitter/actions';
-import { sortingTypeOptions } from '../../constants';
+import { sortingTypeOptions } from '../../utility/constants';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';

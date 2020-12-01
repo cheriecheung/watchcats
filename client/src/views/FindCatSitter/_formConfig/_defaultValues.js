@@ -1,4 +1,4 @@
-import { sortingTypeOptions } from '../../../constants';
+import { sortingTypeOptions } from '../../../utility/constants';
 
 export const find_cat_sitter_default_values = {
   googlePlaceAddress: '',
