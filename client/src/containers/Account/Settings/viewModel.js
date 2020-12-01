@@ -90,7 +90,6 @@ function useContactDetails() {
   }, [phone])
 
   useEffect(() => {
-    console.log({ changePhoneNumberStep })
     if (changePhoneNumberStep === 'removed') {
       setPhone('')
     }
@@ -191,6 +190,8 @@ function usePasswordAndAuthentication() {
   useEffect(() => {
     if (isActivated) {
       setContent('enableSuccess')
+    } else {
+      setContent('disableSuccess')
     }
   }, [isActivated])
 

@@ -48,7 +48,8 @@ function PhoneDisplay({
           </div>
         </div>
         :
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span>&#8212;</span>
           <TextButton
             onClick={addPhone}
           >

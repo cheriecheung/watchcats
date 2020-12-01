@@ -34,8 +34,9 @@ function ContactDetails({ contactDetailsProps }) {
       case 'input':
         return <PhoneNumberInput t={t} phoneNumberInputProps={phoneNumberInputProps} />
       case 'verified':
-        return <SuccessDisplay message="You have successfully verified your phone!" onClick={() => setShowModal(false)} />
-      // close modal after removing phone
+        return <SuccessDisplay message="You have successfully verified your phone" onClick={() => setShowModal(false)} />
+      case 'removed':
+        return <SuccessDisplay message="You have successfully removed your phone" onClick={() => setShowModal(false)} />
       default:
         break
     }

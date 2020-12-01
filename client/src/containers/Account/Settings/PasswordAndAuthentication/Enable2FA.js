@@ -77,17 +77,3 @@ function Enable2FA({ t }) {
 }
 
 export default Enable2FA
-
-export function EnableSuccess({ t, closeModal }) {
-  return (
-    <>
-      <i className="far fa-check-circle fa-3x" />
-      <br />
-      <br />
-      <p>You have successfully activated 2FA</p>
-      <ContainedButton onClick={() => closeModal && closeModal()}>
-        OK
-      </ContainedButton>
-    </>
-  )
-}

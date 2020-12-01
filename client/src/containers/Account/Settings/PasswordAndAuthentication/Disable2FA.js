@@ -1,6 +1,6 @@
 import React from 'react';
-import { TextField } from '../../../../components/FormComponents';
-import { ContainedButton } from '../../../../components/UIComponents';
+import { OtpInput } from '../../../../components/FormComponents';
+import { ContainedButton, Image, ImageContainer } from '../../../../components/UIComponents';
 import { useDisable2FA } from '../viewModel';
 
 function Disable2FA({ t }) {
@@ -15,9 +15,22 @@ function Disable2FA({ t }) {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} style={{ textAlign: 'left' }}>
-        <TextField name="code" />
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <ImageContainer>
+            <Image url="https://whooptous.com/wp-content/uploads/2020/05/unnamed.png" />
+          </ImageContainer>
 
-        <ContainedButton type="submit">Submit</ContainedButton>
+          <br />
+          <p style={{ textAlign: 'center' }}>Enter the 6-digit code in the Google Authenticator app on your phone.</p>
+
+          <OtpInput name="code" />
+        </div>
+
+        <br />
+
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <ContainedButton type="submit">Submit</ContainedButton>
+        </div>
       </form>
     </FormProvider>
   )

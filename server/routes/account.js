@@ -16,7 +16,7 @@ router.post('/phone-number', verifyAccessTokenUpdate, AccountController.submitPh
 router.get('/verification-code', verifyAccessTokenUpdate, AccountController.resendOtpToInputtedPhoneNumber)
 
 // 401 unauthorized always "Access denied" when verifying token
-router.patch('/verification-code', verifyAccessTokenUpdate, AccountController.sendOtpToSavedPhoneNumber)
+router.post('/verification-code', verifyAccessTokenUpdate, AccountController.sendOtpToSavedPhoneNumber)
 
 // rate limit
 router.patch('/phone-number', verifyAccessTokenUpdate, AccountController.verifyPhoneNumber)

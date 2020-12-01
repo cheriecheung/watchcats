@@ -249,7 +249,7 @@ module.exports = {
         }
       });
 
-      return res.status(200).json('Phone number stored')
+      return res.status(200).json('Phone number deleted')
     } catch (err) {
       console.log({ err })
       return res.status(403).json('Unable to delete phone')

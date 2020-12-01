@@ -1,8 +1,8 @@
 import React from 'react';
-import { ContainedButton, Modal, OutlinedButton } from '../../../../components/UIComponents'
+import { ContainedButton, Modal, OutlinedButton, SuccessDisplay } from '../../../../components/UIComponents'
 
 import ChangePassword from './ChangePassword'
-import Enable2FA, { EnableSuccess } from './Enable2FA'
+import Enable2FA from './Enable2FA'
 import Disable2FA from './Disable2FA'
 
 function PasswordAndAuthentication({ passwordAndAuthenticationProps }) {
@@ -25,9 +25,11 @@ function PasswordAndAuthentication({ passwordAndAuthenticationProps }) {
       case 'enable2FA':
         return <Enable2FA t={t} closeModal={closeModal} />
       case 'enableSuccess':
-        return <EnableSuccess t={t} closeModal={closeModal} />
+        return <SuccessDisplay message="You have enabled 2-factor authentication. You will now need to login by phone on top of logging in by email and password." onClick={closeModal} />
       case 'disable2FA':
         return <Disable2FA t={t} closeModal={closeModal} />
+      case 'disableSuccess':
+        return <SuccessDisplay message="You have disabled 2-factor authentication. You will now only log in by email and password." onClick={closeModal} />
       default:
         break;
     }

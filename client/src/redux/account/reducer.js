@@ -24,7 +24,7 @@ const account_reducer = {
       case AccountActionTypes.VERIFY_PHONE_NUMBER:
         return { ...state, changePhoneNumberStep: action.payload }
       case AccountActionTypes.PHONE_NUMBER_DELETED:
-        return { ...state, changePhoneNumberStep: action.payload };
+        return { ...state, changePhoneNumberStep: action.payload, phone: '' };
       case AccountActionTypes.GET_USER:
         return { ...state, data: action.payload };
       case AccountActionTypes.GENERAL_INFO_SAVED:
