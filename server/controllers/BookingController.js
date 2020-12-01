@@ -259,7 +259,7 @@ module.exports = {
       } = owner;
       const { firstName, lastName } = sitter
 
-      if (!phone || !firstName || !lastName) {
+      if (!firstName || !lastName) {
         return res.status(401).json('Unable to find owner or sitter')
       }
 
@@ -273,7 +273,7 @@ module.exports = {
         sendTwilioSMS(phone, description, { name: sitterName })
       }
 
-      // change notification of owner notification document
+      // change notification on web
 
       return res.status(200).json('success')
     } catch (err) {

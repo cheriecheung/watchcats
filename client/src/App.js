@@ -13,7 +13,7 @@ import { EmailVerification, Loading, Login, PasswordForgotten, PasswordReset, Re
 
 import Bookings from './containers/Bookings';
 import Payment from './containers/Payment';
-import WriteReview from './containers/WriteReview';
+import WriteReview from './containers/Bookings/containers/WriteReview';
 
 import Messages from './containers/Messages';
 import Account from './containers/Account';

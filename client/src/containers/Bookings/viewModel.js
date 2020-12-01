@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { getRecords, fulfillAction } from '../../redux/bookings/actions';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+
+import { useForm, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { review_schema } from '../Account/_formConfig';
+
+import { getRecords, fulfillAction, submitReview } from '../../redux/bookings/actions';
 
 const defaultKeyBookingType = 'sitting_jobs';
 const defaultKeyBookingStatus = 'requested';
@@ -89,4 +95,53 @@ function useBookings() {
   }
 }
 
-export { useBookings }
+const defaultValues = {
+  review: '',
+  rating: 0
+};
+
+function useWriteReview() {
+  const { t } = useTranslation();
+  const history = useHistory();
+  const { bookingId } = useParams();
+
+  const { booking } = useLocation().state || {};
+
+  const dispatch = useDispatch();
+  const { reviewBooking, reviewSubmitted } = useSelector((state) => state.bookings);
+
+  const [showModal, setShowModal] = useState(false)
+
+  const resolver = yupResolver(review_schema)
+  const methods = useForm({ defaultValues, resolver });
+
+  useEffect(() => {
+    if (reviewSubmitted) {
+      setShowModal(true)
+    }
+  }, [reviewSubmitted])
+
+  function onSubmit(data) {
+    dispatch(submitReview(bookingId, data))
+  };
+
+  function closeModal() {
+    setShowModal(false)
+
+    if (reviewSubmitted) {
+      history.push('/bookings');
+    }
+  }
+
+  return {
+    t,
+    FormProvider,
+    methods,
+    onSubmit,
+    booking,
+    showModal,
+    closeModal,
+  }
+}
+
+export { useBookings, useWriteReview }

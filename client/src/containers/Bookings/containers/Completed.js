@@ -1,17 +1,27 @@
 import React from 'react';
-import Item from '../Item';
+import ItemCard from '../components/ItemCard';
 import { LinkButton } from '../../../components/UIComponents';
 
 function Completed({ t, bookingType, bookings }) {
 
-  const renderActionButtons = (bookingId, hasWrittenReview) => (
+  const renderActionButtons = (data, hasWrittenReview) => (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
       {hasWrittenReview ? (
         <h5>Show review here</h5>
       ) : (
-          <LinkButton to={`/writereivew/${bookingId}`} >
+          <>
+            <LinkButton
+              to={{
+                pathname: `/writereivew/${data.id}`,
+                state: { booking: { ...data, bookingType } }
+              }}
+            >
+              {t('bookings.write_review')}
+            </LinkButton>
+            {/* <LinkButton to={`/writereivew/${bookingId}`} >
             { t('bookings.write_review')}
-          </LinkButton>
+          </LinkButton> */}
+          </>
         )
       }
     </div>
@@ -25,7 +35,7 @@ function Completed({ t, bookingType, bookings }) {
           // data.hasWrittenReview
           const hasWrittenReview = false;
           return (
-            <Item
+            <ItemCard
               key={index} // data.id
               t={t}
               data={data}

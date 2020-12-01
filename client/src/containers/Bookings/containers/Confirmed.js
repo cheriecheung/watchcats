@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Item from '../Item';
+import ItemCard from '../components/ItemCard';
 import { LinkButton, OutlinedButton } from '../../../components/UIComponents';
 import { useTranslation } from 'react-i18next';
 
@@ -37,7 +37,7 @@ function Confirmed({
         bookings.length > 0 &&
         bookings.map((data, index) => {
           return (
-            <Item
+            <ItemCard
               key={index} // data.id
               t={t}
               data={data}

@@ -1,8 +1,12 @@
 import Immutable from 'seamless-immutable';
 import BookingActionTypes from './actionTypes'
 
+const initialState = Immutable({
+  reviewSubmitted: false,
+});
+
 const bookings_reducer = {
-  bookings: (state = {}, action) => {
+  bookings: (state = initialState, action) => {
     switch (action.type) {
       case BookingActionTypes.OWNER_PROFILE_NOT_FOUND:
         return { ...state, profileActionStatus: action.payload };
@@ -15,9 +19,9 @@ const bookings_reducer = {
       case BookingActionTypes.BOOKING_RECORDS_RETURNED:
         return { bookings: action.payload };
       case BookingActionTypes.ACTION_FULFILLED:
-        return 'booking action fulfilled'
+        return window.location.reload();
       case BookingActionTypes.REVIEW_SUBMITTED:
-        return 'You submitted your review';
+        return { ...state, reviewSubmitted: true };
       default:
         return state;
     }
