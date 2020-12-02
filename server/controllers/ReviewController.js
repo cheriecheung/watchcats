@@ -1,9 +1,8 @@
-const Booking = require('../model/Booking')
 const Review = require('../model/Review');
 const User = require('../model/User');
 const { sendTwilioSMS } = require('../helpers/sms')
 const { sendNewReviewMail } = require('../helpers/mailer')
-const ObjectId = require('mongodb').ObjectID;
+const { getInfo } = require('../helpers/bookings')
 
 module.exports = {
   submitReview: async (req, res) => {
@@ -14,41 +13,26 @@ module.exports = {
     const { bookingId } = req.params
 
     try {
-      const bookingRecord = await Booking.findById(bookingId)
-      if (!bookingRecord) return res.status(401).json('Booking not found');
+      const { reviewer, reviewee, error } = await getInfo(bookingId, reviewerUserId);
+      if (error) return res.status(401).json(error)
 
-      const bookingIds = [
-        ObjectId(bookingRecord.owner).toString(),
-        ObjectId(bookingRecord.sitter).toString()
-      ];
-
-      const reviewerUserRecord = await User.findById(reviewerUserId)
-      if (!reviewerUserRecord) return res.status(401).json('User record not found');
-
-      const reviewerIds = [
-        ObjectId(reviewerUserRecord.owner).toString(),
-        ObjectId(reviewerUserRecord.sitter).toString()
-      ]
-
-      const reviewer = bookingIds.find(id => reviewerIds.includes(id));
-      const reviewee = bookingIds.find(id => id !== reviewer)
-
-      const newReview = new Review({ reviewer, reviewee, content, rating })
-      await newReview.save();
-
-      const revieweeUserRecord = await User.findOne({
-        $or: [{ owner: reviewee }, { sitter: reviewee }],
+      const newReview = new Review({
+        reviewer: reviewer._id,
+        reviewee: reviewee._id,
+        content,
+        rating
       })
-      if (!revieweeUserRecord) return res.status(401).json('User record not found');
+      await newReview.save();
+      if (newReview) return res.status(401).json('Cannot save review')
 
-      const { firstName, lastName } = reviewerUserRecord;
+      const { firstName, lastName } = reviewer;
 
       const {
         email,
         getEmailNotification,
         phone,
         getSmsNotification
-      } = revieweeUserRecord;
+      } = reviewee;
 
       const reviewerName = `${firstName} ${lastName}`
 

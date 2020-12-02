@@ -79,8 +79,10 @@ module.exports = {
       </html>
     `,
     };
+    console.log({ data })
 
-    send(data);
+    // SEND EMAIL -------
+    // send(data);
   },
 
 

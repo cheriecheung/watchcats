@@ -4,47 +4,7 @@ const Booking = require('../model/Booking');
 const User = require('../model/User');
 const { sendTwilioSMS } = require('../helpers/sms')
 const { sendNewBookingMail, sendUpdatedBookingMail } = require('../helpers/mailer')
-
-const cleanRecordData = async (item, bookingType) => {
-  const { id, appointmentType, owner, sitter, location, price, status, hasPaid } = item;
-  const query = bookingType === 'jobs' ? { owner } : { sitter };
-  const { firstName, lastName, urlId } = await User.findOne(query);
-
-  const data = {
-    id,
-    firstName,
-    lastName,
-    shortId: urlId,
-    appointmentType,
-    location,
-    price,
-    status,
-    hasPaid
-  }
-
-  if (appointmentType === 'oneDay') {
-    const { date, startTime, endTime } = item;
-
-    return { date, startTime, endTime, ...data };
-  } else {
-    const { startDate, endDate } = item;
-
-    return { startDate, endDate, ...data };
-  }
-};
-
-const getNewBookingStatus = (action) => {
-  switch (action) {
-    case 'decline':
-      return { status: 'declined', description: 'BOOKING_DECLINED' }
-    case 'accept':
-      return { status: 'confirmed', description: 'BOOKING_ACCEPTED' }
-    case 'complete':
-      return { status: 'completed', description: 'BOOKING_COMPLETED' }
-    default:
-      throw new Error("Unable to get new booking status");
-  }
-}
+const { cleanRecordData, getNewBookingStatus, getInfo } = require('../helpers/bookings')
 
 module.exports = {
   getAppointmentTime: async (req, res) => {
@@ -276,6 +236,36 @@ module.exports = {
       // change notification on web
 
       return res.status(200).json('success')
+    } catch (err) {
+      console.log({ err })
+      return res.status(401).json('Unable to update')
+    }
+  },
+
+  getBookingInfo: async (req, res) => {
+    const { userId } = req.verifiedData
+    if (!userId) return res.status(403).json('User id missing');
+
+    const { bookingId } = req.params;
+
+    try {
+      const { booking, reviewee, error } = await getInfo(bookingId, userId);
+      if (error) return res.status(401).json(error)
+
+      const { appointmentType, location, price } = booking
+      const { firstName, lastName, profilePictureFileName } = reviewee
+
+      let returnData = { firstName, lastName, appointmentType, location, profilePictureFileName, price }
+
+      if (appointmentType === 'oneDay') {
+        const { date, startTime, endTime } = booking;
+        returnData = { date, startTime, endTime, ...returnData };
+      } else {
+        const { startDate, endDate } = booking;
+        returnData = { startDate, endDate, ...returnData };
+      }
+
+      return res.status(200).json(returnData)
     } catch (err) {
       console.log({ err })
       return res.status(401).json('Unable to update')
