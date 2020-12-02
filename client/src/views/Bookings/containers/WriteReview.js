@@ -6,7 +6,7 @@ import { useWriteReview } from '../viewModel'
 import ItemContent from '../components/ItemContent'
 
 function WriteReview() {
-  const { t, FormProvider, methods, onSubmit, booking: data, showModal, closeModal } = useWriteReview();
+  const { t, FormProvider, methods, onSubmit, bookingInfo, showModal, closeModal } = useWriteReview();
   const { handleSubmit } = methods;
 
   return (
@@ -18,7 +18,7 @@ function WriteReview() {
               <h5>Rate & Review</h5>
               <h6>Booking Information</h6>
 
-              <ItemContent t={t} data={data} />
+              <ItemContent t={t} data={bookingInfo} />
 
               <hr />
 

@@ -8,7 +8,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { review_default_values as defaultValues } from './_formConfig/_defaultValues'
 import { review_schema } from './_formConfig/_validationSchema';
 
-import { getRecords, fulfillAction, submitReview } from '../../redux/bookings/actions';
+import {
+  getRecords,
+  fulfillAction,
+  getBookingInfo,
+  submitReview
+} from '../../redux/bookings/actions';
 
 const defaultKeyBookingType = 'sitting_jobs';
 const defaultKeyBookingStatus = 'requested';
@@ -101,15 +106,17 @@ function useWriteReview() {
   const history = useHistory();
   const { bookingId } = useParams();
 
-  const { booking } = useLocation().state || {};
-
   const dispatch = useDispatch();
-  const { reviewBooking, reviewSubmitted } = useSelector((state) => state.bookings);
+  const { bookingInfo, reviewSubmitted } = useSelector((state) => state.bookings);
 
   const [showModal, setShowModal] = useState(false)
 
   const resolver = yupResolver(review_schema)
   const methods = useForm({ defaultValues, resolver });
+
+  useEffect(() => {
+    dispatch(getBookingInfo(bookingId))
+  }, [bookingId])
 
   useEffect(() => {
     if (reviewSubmitted) {
@@ -134,7 +141,7 @@ function useWriteReview() {
     FormProvider,
     methods,
     onSubmit,
-    booking,
+    bookingInfo,
     showModal,
     closeModal,
   }

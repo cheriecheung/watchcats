@@ -7,16 +7,24 @@ function ItemContent({ t, data }) {
   const {
     firstName,
     lastName,
+    profilePictureFileName,
     appointmentType,
     location,
     price,
-    bookingType
-  } = data;
+    bookingType,
+    date,
+    startTime,
+    endTime,
+    startDate,
+    endDate
+  } = data || {};
+
+  const imgUrl = profilePictureFileName ? `${process.env.REACT_APP_API_DOMAIN}/image/${profilePictureFileName}` : 'https://images.pexels.com/photos/569170/pexels-photo-569170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
 
   return (
     <div style={{ display: 'flex', marginTop: 15, marginBottom: 15 }}>
-      <ImageContainer variant="bookings">
-        <Image url="https://images.pexels.com/photos/569170/pexels-photo-569170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" />
+      <ImageContainer>
+        <Image url={imgUrl} />
       </ImageContainer>
 
       <div style={{ width: '80%', display: 'flex', flexDirection: 'column' }}>
@@ -24,7 +32,7 @@ function ItemContent({ t, data }) {
           <FieldLabel>
             {bookingType === 'sitting_jobs' ? t('bookings.owner') : t('bookings.sitter')}
           </FieldLabel>
-          <FieldItem>{firstName} {lastName.charAt(0)}</FieldItem>
+          <FieldItem>{firstName} {lastName && lastName.charAt(0)}</FieldItem>
         </Field>
 
         <Field>
@@ -34,14 +42,14 @@ function ItemContent({ t, data }) {
 
         <Field>
           <FieldLabel>{t('bookings.time')}</FieldLabel>
-          {appointmentType === 'oneDay' ? (
+          {data && appointmentType === 'oneDay' ? (
             <FieldItem>
-              {formatDate(data.date, 'DD MMM YYYY')}, {formatTime(data.startTime)} -
-              {formatTime(data.endTime)}
+              {formatDate(date, 'DD MMM YYYY')}, {formatTime(startTime)} -
+              {formatTime(endTime)}
             </FieldItem>
           ) : (
               <FieldItem>
-                {formatDate(data.startDate, 'DD MMM YYYY')} - {formatDate(data.endDate, 'DD MMM YYYY')}
+                {formatDate(startDate, 'DD MMM YYYY')} - {formatDate(endDate, 'DD MMM YYYY')}
               </FieldItem>
             )}
         </Field>

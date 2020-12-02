@@ -3,6 +3,7 @@ import BookingActionTypes from './actionTypes'
 
 const initialState = Immutable({
   reviewSubmitted: false,
+  bookingInfo: {}
 });
 
 const bookings_reducer = {
@@ -20,6 +21,8 @@ const bookings_reducer = {
         return { bookings: action.payload };
       case BookingActionTypes.ACTION_FULFILLED:
         return window.location.reload();
+      case BookingActionTypes.BOOKING_INFO_RETURNED:
+        return { ...state, bookingInfo: action.payload }
       case BookingActionTypes.REVIEW_SUBMITTED:
         return { ...state, reviewSubmitted: true };
       default:

@@ -58,14 +58,25 @@ export function fulfillAction(id, action) {
   };
 }
 
+export function getBookingInfo(id) {
+  return async (dispatch) => {
+    try {
+      const { data } = await axiosInstance().get(`${bookingUrl}/${id}`, getConfig());
+      dispatch({ type: BookingActionTypes.BOOKING_INFO_RETURNED, payload: data });
+    } catch (e) {
+      console.log({ e });
+    }
+  };
+}
+
 export function submitReview(bookingId, data) {
   return async (dispatch) => {
-    dispatch({ type: BookingActionTypes.REVIEW_SUBMITTED });
-    // try {
-    //   await axiosInstance().post(reviewURL(bookingId), data, getConfig());
-    //   dispatch({ type: BookingActionTypes.REVIEW_SUBMITTED, payload: '' });
-    // } catch (e) {
-    //   console.log({ e });
-    // }
+    // dispatch({ type: BookingActionTypes.REVIEW_SUBMITTED });
+    try {
+      await axiosInstance().post(reviewURL(bookingId), data, getConfig());
+      dispatch({ type: BookingActionTypes.REVIEW_SUBMITTED, payload: '' });
+    } catch (e) {
+      console.log({ e });
+    }
   };
 }
