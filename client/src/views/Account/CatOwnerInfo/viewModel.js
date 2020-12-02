@@ -3,9 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOwnerAccount, saveOwner, removeCatPhoto } from '../../../redux/account/actions';
-import moment from 'moment';
 import { catBreedOptions, personalityOptions } from '../../../utility/constants';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 import {
@@ -15,6 +13,7 @@ import {
   overnightObj,
 } from '../_formConfig/_defaultValues'
 import { cat_owner_schema } from '../_formConfig/_validationSchema'
+import { formatDate, formatTime } from '../../../utility'
 
 function useCatOwner() {
   const { t } = useTranslation();
@@ -148,9 +147,9 @@ function useCatOwner() {
       cleanedBookingOneDay = []
     } else {
       cleanedBookingOneDay = bookingOneDay.map(({ date, startTime, endTime }) => {
-        const formattedDate = moment(date).format('YYYY-MM-DD');
-        const formattedStartTime = moment(startTime).format('HH:mm');
-        const formattedEndTime = moment(endTime).format('HH:mm');
+        const formattedDate = formatDate(date);
+        const formattedStartTime = formatTime(startTime);
+        const formattedEndTime = formatTime(endTime);
 
         return {
           date: formattedDate,
@@ -164,8 +163,8 @@ function useCatOwner() {
       cleanedBookingOvernight = []
     } else {
       cleanedBookingOvernight = bookingOvernight.map(({ startDate, endDate }) => {
-        const formattedStartDate = moment(startDate).format('YYYY-MM-DD');
-        const formattedEndDate = moment(endDate).format('YYYY-MM-DD');
+        const formattedStartDate = formatDate(startDate);
+        const formattedEndDate = formatDate(endDate);
 
         return {
           startDate: formattedStartDate,

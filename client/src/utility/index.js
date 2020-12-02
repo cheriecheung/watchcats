@@ -4,6 +4,14 @@ export function capitalize(string = '') {
   return string.charAt(0).toUpperCase() + string.slice(1).toString()
 }
 
+export function formatDate(date, formatType = 'YYYY-MM-DD') {
+  return moment(date).format(formatType)
+}
+
+export function formatTime(time) {
+  return moment(time).format('HH:mm')
+}
+
 export function getErrorProperties(name, errors) {
   let hasError, message;
 

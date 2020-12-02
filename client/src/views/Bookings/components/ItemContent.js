@@ -1,19 +1,17 @@
 import React from 'react';
-import moment from 'moment';
 import { Image, ImageContainer } from '../../../components/UIComponents'
 import { Field, FieldLabel, FieldItem, } from './styledComponents'
+import { formatDate, formatTime } from '../../../utility'
 
-function ItemContent({ t, bookingType, data }) {
+function ItemContent({ t, data }) {
   const {
     firstName,
     lastName,
     appointmentType,
     location,
-    price
+    price,
+    bookingType
   } = data;
-
-  const formattedDate = (date) => moment(date).format('DD MMM YYYY');
-  const formattedTime = (time) => moment(time).format('HH:mm');
 
   return (
     <div style={{ display: 'flex', marginTop: 15, marginBottom: 15 }}>
@@ -38,12 +36,12 @@ function ItemContent({ t, bookingType, data }) {
           <FieldLabel>{t('bookings.time')}</FieldLabel>
           {appointmentType === 'oneDay' ? (
             <FieldItem>
-              {formattedDate(data.date)}, {formattedTime(data.startTime)} -
-              {formattedTime(data.endTime)}
+              {formatDate(data.date, 'DD MMM YYYY')}, {formatTime(data.startTime)} -
+              {formatTime(data.endTime)}
             </FieldItem>
           ) : (
               <FieldItem>
-                {formattedDate(data.startDate)} - {formattedDate(data.endDate)}
+                {formatDate(data.startDate, 'DD MMM YYYY')} - {formatDate(data.endDate, 'DD MMM YYYY')}
               </FieldItem>
             )}
         </Field>
