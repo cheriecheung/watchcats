@@ -221,7 +221,8 @@ export function login(email, password) {
         dispatch({ type: AuthActionTypes.PHONE_LOGIN, payload: true });
       }
     } catch (e) {
-      const { response: { data } } = e
+      const { response } = e
+      const { data } = response || {}
       console.log({ e });
 
       dispatch({

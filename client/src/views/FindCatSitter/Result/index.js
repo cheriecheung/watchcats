@@ -23,9 +23,10 @@ function Result({
       {totalResults && paginatedResults ?
         <p
           // ref={resultsRef}
-          style={{ textAlign: 'left', marginBottom: 20 }}>
+          style={{ textAlign: 'left', marginBottom: 20 }}
+        >
           Showing {pagination.from} - {pagination.to} of {totalResults} matches!
-      </p>
+        </p>
         :
         []
       }

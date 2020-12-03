@@ -65,11 +65,6 @@ export const catBreedOptions = [
   { value: 16, label: 'Other' },
 ];
 
-export const medicineOptions = [
-  { value: 'injection', label: 'Injection' },
-  { value: 'pill', label: 'Pill' },
-];
-
 export const personalityOptions = [
   { value: 1, label: 'Shy and can be easily scared' },
   { value: 2, label: 'Curious and hyper' },

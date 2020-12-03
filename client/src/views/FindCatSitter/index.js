@@ -25,7 +25,6 @@ const ResultContainer = styled.div`
 
   @media (max-width: 1185px) {
     width: 90vw;
-    margin-top: 40px;
   }
 
   @media (max-width: 1100px) {
@@ -39,6 +38,7 @@ const ResultContainer = styled.div`
 
   @media (max-width: 890px) {
     width: 100%; 
+    margin-top: 20px;
   }
 `
 const MainContainer = styled.div`

@@ -12,7 +12,6 @@ import i18n from './i18n/i18n';
 import { I18nextProvider } from 'react-i18next';
 
 async function checkLoggedIn() {
-  console.log("checking logged in")
   let preloadedState
 
   try {
@@ -22,16 +21,15 @@ async function checkLoggedIn() {
     const { accessToken } = data;
     setAccessToken(accessToken)
 
-    preloadedState = { authentication: { isLoggedIn: true } };
+    preloadedState = { app: { isLoggedIn: true } };
 
     // history push
-
     return preloadedState;
 
   } catch (err) {
     console.log({ err_____: err })
 
-    preloadedState = { authentication: { isLoggedIn: false } };
+    preloadedState = { app: { isLoggedIn: false } };
     return preloadedState;
   }
 }

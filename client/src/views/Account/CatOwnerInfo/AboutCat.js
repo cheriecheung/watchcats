@@ -4,14 +4,14 @@ import {
   Checkbox,
   FieldLabel,
   FileDisplayField,
-  ArrayFileUploader,
+  FileUploader,
   RadioButton,
   RadioGroup,
   SelectField,
   TextField,
 } from '../../../components/FormComponents';
 import { CheckSquareIcon, TextButton } from '../../../components/UIComponents'
-import { catBreedOptions, personalityOptions, medicineOptions } from '../../../utility/constants';
+import { catBreedOptions, personalityOptions } from '../../../utility/constants';
 
 const color = '#252525';
 
@@ -49,7 +49,7 @@ function AboutCat({ t, setValue, catProps }) {
                   handleRemovePhoto={() => handleRemovePhoto(photoFields[index], index)}
                 />
                 :
-                <ArrayFileUploader
+                <FileUploader
                   name={`cat[${index}].photo`}
                   fileType="image/x-png,image/jpeg"
                   setFileData={(data) => setValue(`cat[${index}].photo`, data)}

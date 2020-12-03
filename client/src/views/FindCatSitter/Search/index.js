@@ -17,6 +17,12 @@ const FieldContainer = styled.div`
     margin-bottom: 20px;
     padding: 0;
   }
+
+  :last-child{
+    @media (max-width: 770px) {
+      margin: -5px 0 -10px 0;
+    }
+  }
 `
 
 function Search({ t, searchProps }) {
