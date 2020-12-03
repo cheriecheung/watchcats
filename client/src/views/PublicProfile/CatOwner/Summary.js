@@ -6,7 +6,7 @@ import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 const { REACT_APP_API_DOMAIN } = process.env;
 
 function Summary({ t, ownerInfo }) {
-  const pictureUrl = ownerInfo.profilePictureFileName ? `${REACT_APP_API_DOMAIN}/image/${ownerInfo.profilePictureFileName}` : defaultProfilePic
+  const pictureUrl = ownerInfo.profilePicture ? `${REACT_APP_API_DOMAIN}/image/${ownerInfo.profilePicture}` : defaultProfilePic
 
   return (
     <VerticalCard

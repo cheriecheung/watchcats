@@ -7,7 +7,7 @@ export const reset_password_default_values = {
 }
 
 export const general_default_values = {
-    profilePictureFileName: null,
+    profilePicture: null,
     firstName: '',
     lastName: '',
     address: '',

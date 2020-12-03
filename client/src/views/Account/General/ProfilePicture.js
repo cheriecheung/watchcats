@@ -26,16 +26,16 @@ function ProfilePicture({
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           {photoField ? (
             <FileDisplayField
-              name="profilePictureFileName"
+              name="profilePicture"
               fileName={photoField}
               handleRemovePhoto={() => handleRemovePhoto(photoField)}
             />
           ) : (
               <FileUploader
-                name="profilePictureFileName"
-                id="profilePictureFileName"
+                name="profilePicture"
+                id="profilePicture"
                 fileType="image/x-png,image/jpeg"
-                setFileData={(data) => reset({ profilePictureFileName: data })}
+                setFileData={(data) => reset({ profilePicture: data })}
                 setDisplayPreview={handlePreview}
               />
             )

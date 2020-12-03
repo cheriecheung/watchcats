@@ -29,9 +29,9 @@ function useGeneral() {
 
   useEffect(() => {
     if (data) {
-      const { profilePictureFileName } = data;
-      if (profilePictureFileName) {
-        setPhotoField(profilePictureFileName);
+      const { profilePicture } = data;
+      if (profilePicture) {
+        setPhotoField(profilePicture);
       }
 
       reset(data);
@@ -47,7 +47,7 @@ function useGeneral() {
   useEffect(() => {
     if (profilePicRemoved) {
       setPhotoField(null)
-      setValue(`profilePictureFileName`, null)
+      setValue(`profilePicture`, null)
     }
   }, [profilePicRemoved])
 
@@ -58,15 +58,15 @@ function useGeneral() {
   function handleRemovePhoto(fileName) {
     if (fileName.includes('base64')) {
       setPhotoField(null)
-      setValue("profilePictureFileName", null)
+      setValue("profilePicture", null)
     } else {
       dispatch(deletePicture(fileName));
     }
   };
 
   function onSubmit(data) {
-    const { profilePictureFileName, ...rest } = data;
-    dispatch(postPersonalInfo(rest, profilePictureFileName.file));
+    const { profilePicture, ...rest } = data;
+    dispatch(postPersonalInfo(rest, profilePicture.file));
   }
 
   function resetForm() {

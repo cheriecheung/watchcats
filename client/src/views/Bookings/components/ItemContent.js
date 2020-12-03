@@ -2,12 +2,13 @@ import React from 'react';
 import { Image, ImageContainer } from '../../../components/UIComponents'
 import { Field, FieldLabel, FieldItem, } from './styledComponents'
 import { formatDate, formatTime } from '../../../utility'
+import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
-function ItemContent({ t, data }) {
+function ItemContent({ t, data, imageContainerVariant }) {
   const {
     firstName,
     lastName,
-    profilePictureFileName,
+    profilePicture,
     appointmentType,
     location,
     price,
@@ -19,11 +20,11 @@ function ItemContent({ t, data }) {
     endDate
   } = data || {};
 
-  const imgUrl = profilePictureFileName ? `${process.env.REACT_APP_API_DOMAIN}/image/${profilePictureFileName}` : 'https://images.pexels.com/photos/569170/pexels-photo-569170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+  const imgUrl = profilePicture ? `${process.env.REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
 
   return (
     <div style={{ display: 'flex', marginTop: 15, marginBottom: 15 }}>
-      <ImageContainer>
+      <ImageContainer variant={imageContainerVariant}>
         <Image url={imgUrl} />
       </ImageContainer>
 

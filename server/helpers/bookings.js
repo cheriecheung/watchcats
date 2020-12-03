@@ -6,13 +6,14 @@ module.exports = {
   cleanRecordData: async (item, bookingType) => {
     const { id, appointmentType, owner, sitter, location, price, status, hasPaid } = item;
     const query = bookingType === 'jobs' ? { owner } : { sitter };
-    const { firstName, lastName, urlId } = await User.findOne(query);
+    const { firstName, lastName, urlId, profilePicture } = await User.findOne(query);
 
     const data = {
       id,
       firstName,
       lastName,
-      shortId: urlId,
+      urlId,
+      profilePicture,
       appointmentType,
       location,
       price,

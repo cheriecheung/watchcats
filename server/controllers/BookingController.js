@@ -253,9 +253,9 @@ module.exports = {
       if (error) return res.status(401).json(error)
 
       const { appointmentType, location, price } = booking
-      const { firstName, lastName, profilePictureFileName } = reviewee
+      const { firstName, lastName, profilePicture } = reviewee
 
-      let returnData = { firstName, lastName, appointmentType, location, profilePictureFileName, price }
+      let returnData = { firstName, lastName, appointmentType, location, profilePicture, price }
 
       if (appointmentType === 'oneDay') {
         const { date, startTime, endTime } = booking;

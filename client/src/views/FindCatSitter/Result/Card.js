@@ -41,7 +41,7 @@ function Card({ screenWidth, t, item, setHoveredResultId }) {
     urlId,
     firstName,
     lastName,
-    profilePictureFileName,
+    profilePicture,
     // distance,
     hourlyRate,
     nightlyRate,
@@ -51,7 +51,7 @@ function Card({ screenWidth, t, item, setHoveredResultId }) {
     aboutSitter,
   } = item;
 
-  const profilePicURL = profilePictureFileName ? `${process.env.REACT_APP_API_DOMAIN}/image/${profilePictureFileName}` : defaultProfilePic
+  const profilePicURL = profilePicture ? `${process.env.REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
 
   const renderDescription = (wordCount) => (
     <>

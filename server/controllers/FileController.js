@@ -72,7 +72,7 @@ module.exports = {
     const userRecord = await User.findById(userId);
     if (!userRecord) return res.status(404).json('User not found');
 
-    await userRecord.updateOne({ $unset: { profilePictureFileName: '' } });
+    await userRecord.updateOne({ $unset: { profilePicture: '' } });
 
     try {
       const { filename } = req.body;
@@ -101,7 +101,7 @@ module.exports = {
       console.log({ fieldname, filename });
 
       if (fieldname === 'profilePic') {
-        userRecord.profilePictureFileName = filename;
+        userRecord.profilePicture = filename;
       }
 
       await userRecord.save();

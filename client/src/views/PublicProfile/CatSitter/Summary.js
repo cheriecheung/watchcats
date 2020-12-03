@@ -8,7 +8,7 @@ const { REACT_APP_API_DOMAIN } = process.env;
 
 function Summary({ t, sitterInfo, summaryProps }) {
 
-  const pictureUrl = sitterInfo.profilePictureFileName ? `${REACT_APP_API_DOMAIN}/image/${sitterInfo.profilePictureFileName}` : defaultProfilePic
+  const pictureUrl = sitterInfo.profilePicture ? `${REACT_APP_API_DOMAIN}/image/${sitterInfo.profilePicture}` : defaultProfilePic
 
   const {
     modalVisible,

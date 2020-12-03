@@ -44,7 +44,7 @@ export const reset_password_schema = yup.object().shape({
 
 export const general_schema = yup.object().shape({
     // // max length
-    profilePictureFileName: yup.mixed()
+    profilePicture: yup.mixed()
         .required(defaultError),
     firstName: yup.string().required(defaultError),
     // max length
