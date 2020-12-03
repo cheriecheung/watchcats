@@ -1,5 +1,5 @@
 import React from 'react';
-import { HorizontalCard, HorizontalDivider, Image, ImageContainer, LinkButton } from '../../../components/UIComponents';
+import { HorizontalCard, HorizontalDivider, Image, ImageContainer, LinkButton, ProfileStats } from '../../../components/UIComponents';
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
 import styled from 'styled-components'
@@ -11,30 +11,6 @@ const ContentContainer = styled.div`
     flex-basis: 80%;
   }
 `
-
-const BookingStats = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-  }
-`
-
-const fiveStarDisplay = (number) => {
-  return (
-    <>
-      <i className="fas fa-star icon-sort-review" />
-      <i className="fas fa-star icon-sort-review" />
-      <i className="fas fa-star icon-sort-review" />
-      <i className="fas fa-star icon-sort-review" />
-      <i className="fas fa-star icon-sort-review" />
-      <span className="ml-1">
-        {number} {number === 1 ? 'Review' : 'Reviews'}
-      </span>
-    </>
-  );
-};
 
 function Card({ screenWidth, t, item, setHoveredResultId }) {
   const {
@@ -106,25 +82,11 @@ function Card({ screenWidth, t, item, setHoveredResultId }) {
           <i className="fab fa-facebook-square icon-verified" />
         </div> */}
 
-          <div style={{ marginTop: -15, marginRight: 10, visibility: totalReviews > 0 ? 'visible' : 'hidden' }}>
-            {fiveStarDisplay(totalReviews)}
-          </div>
-
-          <BookingStats>
-            <div style={{ color: '#00C68E', marginRight: 10, visibility: totalCompletedBookings > 0 ? 'visible' : 'hidden' }}>
-              <i className="far fa-calendar-alt mr-2" />
-              <span>
-                {totalCompletedBookings} {t('find_sitter.completed_bookings')}
-              </span>
-            </div>
-
-            <div style={{ color: '#00C68E', visibility: totalRepeatedCustomers > 0 ? 'visible' : 'hidden' }}>
-              <i className="fas fa-redo-alt mr-2" />
-              <span>
-                {totalRepeatedCustomers} {t('find_sitter.repeated_customers')}
-              </span>
-            </div>
-          </BookingStats>
+          <ProfileStats
+            totalReviews={totalReviews}
+            totalCompletedBookings={totalCompletedBookings}
+            totalRepeatedCustomers={totalRepeatedCustomers}
+          />
 
           {screenWidth > 600 && renderDescription(100)}
         </ContentContainer>

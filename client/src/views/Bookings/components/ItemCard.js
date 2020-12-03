@@ -5,12 +5,12 @@ import ItemContent from './ItemContent'
 
 const Item = ({ t, data, bookingType, renderActionButtons, status }) => {
 
-  const { id, shortId } = data;
+  const { id, urlId } = data;
 
   const profileUrl =
     bookingType === 'sitting_jobs'
-      ? `/profile/catowner/${shortId}`
-      : `/profile/catsitter/${shortId}`;
+      ? `/profile/catowner/${urlId}`
+      : `/profile/catsitter/${urlId}`;
 
   const _renderActionButtons = () => {
     switch (status) {
@@ -28,7 +28,7 @@ const Item = ({ t, data, bookingType, renderActionButtons, status }) => {
   return (
     <HorizontalCard variant="bookings">
       <div style={{ display: 'inline-block', position: 'absolute', right: 0, marginTop: -10, marginRight: 15 }}>
-        <BrowseLink>
+        <BrowseLink to={profileUrl}>
           <i className="fas fa-user-circle fa-xs mr-2" />
         </BrowseLink>
         <BrowseLink>
@@ -36,7 +36,7 @@ const Item = ({ t, data, bookingType, renderActionButtons, status }) => {
         </BrowseLink>
       </div>
 
-      <ItemContent t={t} bookingType={bookingType} data={data} />
+      <ItemContent t={t} bookingType={bookingType} data={data} imageContainerVariant="bookings" />
 
       {renderActionButtons && _renderActionButtons()}
     </HorizontalCard>

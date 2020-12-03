@@ -31,6 +31,7 @@ import CheckSquareIcon from './CheckSquareIcon'
 import EllipsisParagraph from './EllipsisParagraph'
 import MapContainer from './MapContainer'
 import Modal from './Modal'
+import ProfileStats from './ProfileStats'
 import SuccessDisplay from './SuccessDisplay'
 
 export {
@@ -67,5 +68,6 @@ export {
   EllipsisParagraph,
   MapContainer,
   Modal,
+  ProfileStats,
   SuccessDisplay
 }

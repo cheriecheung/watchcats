@@ -1,12 +1,23 @@
 import React from 'react';
-import { Image, ImageContainer, VerticalCard } from '../../../components/UIComponents'
+import { Image, ImageContainer, ProfileStats, VerticalCard } from '../../../components/UIComponents'
 import moment from 'moment';
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
 function Summary({ t, ownerInfo }) {
-  const pictureUrl = ownerInfo.profilePicture ? `${REACT_APP_API_DOMAIN}/image/${ownerInfo.profilePicture}` : defaultProfilePic
+  const {
+    firstName,
+    lastName,
+    profilePicture,
+    totalReviews,
+    totalCompletedBookings,
+    totalRepeatedCustomers,
+    bookingOneDay,
+    bookingOvernight
+  } = ownerInfo
+
+  const pictureUrl = profilePicture ? `${REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
 
   return (
     <VerticalCard
@@ -18,22 +29,29 @@ function Summary({ t, ownerInfo }) {
         top: 20,
       }}
     >
-      {ownerInfo &&
-        ownerInfo.firstName &&
-        ownerInfo.lastName &&
-        <h4>{ownerInfo.firstName} {ownerInfo.lastName.charAt(0)}</h4>
+      {firstName && lastName &&
+        <h4>{firstName} {lastName.charAt(0)}</h4>
       }
 
       <ImageContainer>
         <Image url={pictureUrl} />
       </ImageContainer>
 
+      <br />
+
+      <ProfileStats
+        type="owner"
+        totalReviews={totalReviews}
+        totalCompletedBookings={totalCompletedBookings}
+        totalRepeatedCustomers={totalRepeatedCustomers}
+      />
+
       <hr />
       <h6>Verified</h6>
       <hr />
 
       <h6>Sitter needed:</h6>
-      <AppointmentTime oneDay={ownerInfo.bookingOneDay} overnight={ownerInfo.bookingOvernight} />
+      <AppointmentTime oneDay={bookingOneDay} overnight={bookingOvernight} />
     </VerticalCard>
   );
 }
