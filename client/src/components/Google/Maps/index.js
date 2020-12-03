@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { render } from "react-dom";
+import PropTypes from 'prop-types';
 import InfoWindow from "./InfoWindow";
 import location_marker from '../../../assets/images/location_marker.png'
 
-function Maps({
+export default function Maps({
     zoom,
     setZoom,
     center,
@@ -126,4 +127,11 @@ function Maps({
     return <div style={{ width: '100%', height: '100%' }} id="find_cat_sitter_map" />
 }
 
-export default Maps;
+Maps.propTypes = {
+    zoom: PropTypes.number,
+    setZoom: PropTypes.func,
+    center: PropTypes.object,
+    results: PropTypes.array,
+    hoveredResultId: PropTypes.number,
+    onGetSitters: PropTypes.func,
+};

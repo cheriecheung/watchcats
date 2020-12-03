@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import { TimePicker as AntTimePicker } from 'antd';
 import moment from 'moment';
@@ -16,7 +17,7 @@ const allSeconds = () => {
   return allSeconds;
 };
 
-export default function TimePicker({ name }) {
+function TimePicker({ name }) {
   const { control, watch, setValue, errors } = useFormContext();
   const { hasError, message } = getErrorProperties(name, errors)
   const selectedTime = watch(name);
@@ -57,3 +58,9 @@ export default function TimePicker({ name }) {
     </>
   );
 }
+
+export default TimePicker
+
+TimePicker.propTypes = {
+  name: PropTypes.string.isRequired,
+};

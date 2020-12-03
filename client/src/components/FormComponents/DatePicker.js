@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import { DatePicker as AntDatePicker } from 'antd';
 import moment from 'moment';
@@ -10,7 +11,7 @@ const Field = styled(AntDatePicker)`
   border: 1px solid ${props => props.error ? '#E56E5A' : '#d9d9d9'};
 `
 
-export default function DatePicker({ name, placeholder }) {
+function DatePicker({ name, placeholder }) {
   const { control, watch, setValue, errors } = useFormContext();
   const { hasError, message } = getErrorProperties(name, errors)
 
@@ -37,3 +38,10 @@ export default function DatePicker({ name, placeholder }) {
     </>
   );
 }
+
+export default DatePicker
+
+DatePicker.propTypes = {
+  name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+};

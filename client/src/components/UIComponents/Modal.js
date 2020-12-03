@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Modal as AntModal } from 'antd';
 
@@ -56,3 +57,16 @@ function Modal({
 }
 
 export default Modal
+
+Modal.propTypes = {
+  visible: PropTypes.bool,
+  onOk: PropTypes.func,
+  onCancel: PropTypes.func,
+  okButtonProps: PropTypes.object,
+  cancelButtonProps: PropTypes.object,
+  closable: PropTypes.bool,
+  maskClosable: PropTypes.bool,
+  footer: PropTypes.node,
+  style: PropTypes.object,
+  children: PropTypes.node
+};

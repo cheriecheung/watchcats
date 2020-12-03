@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components'
 
 const defaultStyle = css`
@@ -27,3 +28,7 @@ function CheckSquareIcon({ isShown }) {
 }
 
 export default CheckSquareIcon
+
+CheckSquareIcon.propTypes = {
+  isShown: PropTypes.bool.isRequired
+};

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Checkbox as AntCheckbox } from 'antd';
 import styled from 'styled-components';
@@ -28,7 +29,7 @@ function Checkbox({ name, children, width }) {
             //className="custom-checkbox-basic"
             checked={value}
             onChange={(e) => onChange(e.target.checked)}
-            width={width}
+            width={width} // needed?
           >
             {children}
           </CheckboxComponent>
@@ -39,3 +40,9 @@ function Checkbox({ name, children, width }) {
 }
 
 export default Checkbox
+
+Checkbox.propTypes = {
+  name: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  width: PropTypes.string
+};

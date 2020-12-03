@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { ContainedButton, TextButton } from '../UIComponents'
 
-export default function FormButtons({ onClick }) {
+function FormButtons({ onClick }) {
   const { t } = useTranslation();
 
   const handleReset = (resetFunction) => {
@@ -26,3 +27,9 @@ export default function FormButtons({ onClick }) {
     </div>
   );
 }
+
+export default FormButtons
+
+FormButtons.propTypes = {
+  onClick: PropTypes.func
+};

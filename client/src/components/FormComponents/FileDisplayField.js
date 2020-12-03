@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -28,7 +29,7 @@ const RemoveText = styled.span`
     align-self: center;
 `
 
-export default function FileDisplayField({ name, fileName, handleRemovePhoto }) {
+function FileDisplayField({ name, fileName, handleRemovePhoto }) {
     const { control } = useFormContext();
 
     return (
@@ -44,6 +45,8 @@ export default function FileDisplayField({ name, fileName, handleRemovePhoto }) 
         />
     )
 }
+
+export default FileDisplayField
 
 function Display({ fileName, handleRemovePhoto }) {
     const { t } = useTranslation();
@@ -66,3 +69,14 @@ function Display({ fileName, handleRemovePhoto }) {
         </div>
     )
 }
+
+FileDisplayField.propTypes = {
+    name: PropTypes.string.isRequired,
+    fileName: PropTypes.string.isRequired,
+    handleRemovePhoto: PropTypes.func.isRequired
+};
+
+Display.propTypes = {
+    fileName: PropTypes.string.isRequired,
+    handleRemovePhoto: PropTypes.func.isRequired
+};

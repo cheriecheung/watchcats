@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { getErrorProperties } from '../../utility'
-import { useTranslation } from 'react-i18next';
 import ErrorDisplay from './ErrorDisplay';
 
 const Label = styled.label`
@@ -15,7 +16,7 @@ const Label = styled.label`
   overflow: hidden; 
 `
 
-export default function FileUploader({
+function FileUploader({
   name,
   fileType,
   setFileData,
@@ -23,7 +24,7 @@ export default function FileUploader({
 }) {
   const { t } = useTranslation();
 
-  const { register, control, watch, errors } = useFormContext();
+  const { control, errors } = useFormContext();
   const { hasError, message } = getErrorProperties(name, errors)
 
   const handleCreateFormData = (e) => {
@@ -73,64 +74,11 @@ export default function FileUploader({
   );
 }
 
+export default FileUploader
 
-
-export function ArrayFileUploader({
-  name,
-  // id,
-  fileType,
-  setFileData,
-  setDisplayPreview
-}) {
-  const { t } = useTranslation();
-
-  const { control, errors } = useFormContext();
-  const { hasError, message } = getErrorProperties(name, errors)
-
-  useEffect(() => {
-    console.log({ errors })
-  }, [errors])
-
-  const handleCreateFormData = (e) => {
-    e.persist();
-    const { files } = e.target || {};
-
-    if (files && files[0]) {
-      setFileData({ name, file: files[0] });
-
-      if (setDisplayPreview) {
-        let reader = new FileReader();
-        reader.onload = (readerEvent) => {
-          setDisplayPreview(readerEvent.target.result);
-        };
-        reader.readAsDataURL(e.target.files[0]);
-      }
-    }
-  };
-
-  return (
-    <>
-      <Label htmlFor={name} className="upload-file-input form-control" error={hasError}>
-        <div style={{ alignSelf: 'center' }}>
-          <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
-          <span>{t('owner_form.upload')}</span>
-        </div>
-      </Label>
-
-      <Controller
-        name={name}
-        control={control}
-        render={() =>
-          <input
-            type="file"
-            id={name}
-            accept={fileType}
-            onChange={handleCreateFormData}
-          />
-        }
-      />
-
-      <ErrorDisplay hidden={!hasError}>{message}</ErrorDisplay>
-    </>
-  )
-}
+FileUploader.propTypes = {
+  name: PropTypes.string.isRequired,
+  fileType: PropTypes.string.isRequired,
+  setFileData: PropTypes.func,
+  setDisplayPreview: PropTypes.func
+};

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import { Divider } from 'antd';
 
 function HorizontalDivider({ children }) {
@@ -13,3 +14,7 @@ function HorizontalDivider({ children }) {
 }
 
 export default HorizontalDivider
+
+HorizontalDivider.propTypes = {
+  children: PropTypes.node,
+};

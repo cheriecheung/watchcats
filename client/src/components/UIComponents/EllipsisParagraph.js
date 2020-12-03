@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Typography } from 'antd';
 const { Paragraph } = Typography;
 
@@ -11,3 +12,7 @@ function EllipsisParagraph({ children }) {
 }
 
 export default EllipsisParagraph
+
+EllipsisParagraph.propTypes = {
+  children: PropTypes.node.isRequired
+};

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import { Alert as AntAlert } from 'antd'
 
 function Alert({ children, type, showIcon = true, closable = false, style }) {
@@ -14,3 +15,11 @@ function Alert({ children, type, showIcon = true, closable = false, style }) {
 }
 
 export default Alert
+
+Alert.propTypes = {
+  children: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  showIcon: PropTypes.bool,
+  closable: PropTypes.bool,
+  style: PropTypes.object
+};

@@ -5,7 +5,7 @@ import ErrorDisplay from './ErrorDisplay';
 import FieldContainer from './FieldContainer'
 import FieldLabel from './FieldLabel';
 import FileDisplayField from './FileDisplayField';
-import FileUploader, { ArrayFileUploader } from './FileUploader';
+import FileUploader from './FileUploader';
 import FormButtons from './FormButtons';
 import OtpInput from './OtpInput';
 import PasswordField from './PasswordField'
@@ -17,7 +17,6 @@ import TextField from './TextField';
 import TimePicker from './TimePicker';
 
 export {
-  ArrayFileUploader,
   Calendar,
   Checkbox,
   DatePicker,

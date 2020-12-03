@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components'
 import ErrorDisplay from './ErrorDisplay'
@@ -40,3 +41,7 @@ function ReactOtpInput({ name }) {
 }
 
 export default ReactOtpInput
+
+ReactOtpInput.propTypes = {
+  name: PropTypes.string.isRequired
+};

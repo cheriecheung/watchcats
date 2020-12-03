@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ContainedButton } from '../UIComponents'
 
 function SuccessDisplay({ message, onClick }) {
@@ -17,3 +18,8 @@ function SuccessDisplay({ message, onClick }) {
 }
 
 export default SuccessDisplay
+
+SuccessDisplay.propTypes = {
+  message: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
+};

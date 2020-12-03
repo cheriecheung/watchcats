@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Label = styled.label`
@@ -7,6 +8,13 @@ const Label = styled.label`
   margin-bottom: 5px;
 `;
 
-export default function FieldLabel({ children, customStyle }) {
+function FieldLabel({ children, customStyle }) {
   return <Label style={customStyle}>{children}</Label>;
 }
+
+export default FieldLabel
+
+FieldLabel.propTypes = {
+  children: PropTypes.node.isRequired,
+  customStyle: PropTypes.object,
+};

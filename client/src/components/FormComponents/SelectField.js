@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select from 'react-select';
 import { getErrorProperties } from '../../utility'
@@ -55,7 +56,7 @@ const colourStyles = {
   })
 };
 
-export default function SelectField({
+function SelectField({
   name,
   options,
   onChange = ([selected]) => selected,
@@ -83,3 +84,12 @@ export default function SelectField({
     </>
   );
 }
+
+export default SelectField
+
+SelectField.propTypes = {
+  name: PropTypes.string.isRequired,
+  options: PropTypes.array.isRequired,
+  onChange: PropTypes.func,
+  placeholder: PropTypes.string
+};

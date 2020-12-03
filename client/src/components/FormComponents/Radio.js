@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Radio as AntRadio } from 'antd';
 import { getErrorProperties } from '../../utility'
-import styled from 'styled-components';
 import ErrorDisplay from './ErrorDisplay';
 
 export function RadioGroup({ name, children }) {
@@ -37,3 +37,14 @@ export function RadioButton({ value, children, style }) {
     </AntRadio.Button>
   );
 }
+
+RadioGroup.propTypes = {
+  name: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
+RadioButton.propTypes = {
+  value: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  style: PropTypes.object
+};

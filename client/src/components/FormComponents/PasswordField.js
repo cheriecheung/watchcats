@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Input as AntInput } from 'antd';
 import styled from 'styled-components';
@@ -18,7 +19,7 @@ const Input = styled(AntInput)`
   border-radius: 10px;
 `
 
-export default function PasswordField({ name }) {
+function PasswordField({ name }) {
   const { control, errors } = useFormContext();
   const { hasError, message } = getErrorProperties(name, errors)
 
@@ -33,3 +34,9 @@ export default function PasswordField({ name }) {
     </Container>
   );
 }
+
+export default PasswordField
+
+PasswordField.propTypes = {
+  name: PropTypes.string.isRequired
+};

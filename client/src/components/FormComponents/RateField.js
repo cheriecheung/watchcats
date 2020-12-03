@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Rate } from 'antd';
 import ErrorDisplay from './ErrorDisplay';
 
-export default function RateField({ name }) {
+function RateField({ name }) {
   const { control, errors } = useFormContext();
   const error = errors[name]
   const message = error && error.message || 'Required field'
@@ -19,3 +20,9 @@ export default function RateField({ name }) {
     </>
   );
 }
+
+export default RateField
+
+RateField.propTypes = {
+  name: PropTypes.string.isRequired
+};

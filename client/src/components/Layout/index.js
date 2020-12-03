@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from './Header';
 import Footer from './Footer';
 import { themeColor } from '../../style/theme';
@@ -34,4 +35,8 @@ function Layout({ children }) {
   );
 }
 
-export default Layout;
+export default Layout
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired
+};

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TextButton } from '../../../UIComponents'
 import {
   Menu,
@@ -79,4 +80,12 @@ function Desktop({
   )
 }
 
-export default Desktop;
+export default Desktop
+
+Desktop.propTypes = {
+  t: PropTypes.func.isRequired,
+  setLanguage: PropTypes.func.isRequired,
+  currentLanguage: PropTypes.string.isRequired,
+  isLoggedIn: PropTypes.bool,
+  onLogout: PropTypes.func.isRequired,
+};

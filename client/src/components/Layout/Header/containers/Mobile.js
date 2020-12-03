@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Overlay,
   OverlayMask,
@@ -87,6 +88,10 @@ function MobileMenu({
             <Icon className="fas fa-sign-in-alt fa-2x" />
             <Label>Log In</Label>
           </MenuItemBox>
+          <MenuItemBox to="/find" onClick={closeMenu}>
+            <Icon className="fas fa-search fa-2x" />
+            <Label>Find Cat Sitter</Label>
+          </MenuItemBox>
         </>
       }
 
@@ -111,3 +116,22 @@ function MobileMenu({
     </>
   )
 }
+
+Mobile.propTypes = {
+  t: PropTypes.func.isRequired,
+  toggle: PropTypes.bool.isRequired,
+  setLanguage: PropTypes.func.isRequired,
+  currentLanguage: PropTypes.string.isRequired,
+  isLoggedIn: PropTypes.bool,
+  closeMenu: PropTypes.func.isRequired,
+  onMobileLogout: PropTypes.func.isRequired,
+};
+
+MobileMenu.propTypes = {
+  setLanguage: PropTypes.func.isRequired,
+  currentLanguage: PropTypes.string.isRequired,
+  isLoggedIn: PropTypes.bool,
+  closeMenu: PropTypes.func.isRequired,
+  onMobileLogout: PropTypes.func.isRequired,
+};
+

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import ErrorDisplay from './ErrorDisplay';
@@ -12,7 +13,7 @@ const Input = styled.textarea`
   resize: none;
 `
 
-export default function TextArea({ name, placeholder, rows = 10, customStyle }) {
+function TextArea({ name, placeholder, rows = 10, customStyle }) {
   const { control, errors } = useFormContext();
   const error = errors[name]
   const message = error && error.message || 'Required field'
@@ -35,3 +36,12 @@ export default function TextArea({ name, placeholder, rows = 10, customStyle }) 
     </>
   );
 }
+
+export default TextArea
+
+TextArea.propTypes = {
+  name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  rows: PropTypes.number,
+  customStyle: PropTypes.object,
+};

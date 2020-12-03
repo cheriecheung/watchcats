@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import DayPicker from 'react-day-picker';
 
-export default function Calendar({ name, selectedDays, handleDayClick }) {
+function Calendar({ name, selectedDays = [], handleDayClick }) {
   const { control, errors } = useFormContext();
 
   return (
@@ -21,3 +22,11 @@ export default function Calendar({ name, selectedDays, handleDayClick }) {
     />
   );
 }
+
+export default Calendar
+
+Calendar.propTypes = {
+  name: PropTypes.string.isRequired,
+  selectedDays: PropTypes.array,
+  handleDayClick: PropTypes.func.isRequired
+};

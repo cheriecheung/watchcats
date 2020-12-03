@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Input as AntInput } from 'antd';
 import styled from 'styled-components';
@@ -20,7 +21,7 @@ const Input = styled(AntInput)`
   color: #7f7f7f;
 `
 
-export default function TextField({ name, prefix, placeholder, disabled, type = "text", style }) {
+function TextField({ name, prefix, placeholder, disabled, type = "text", style }) {
   const { control, errors } = useFormContext();
   const { hasError, message } = getErrorProperties(name, errors)
 
@@ -44,3 +45,14 @@ export default function TextField({ name, prefix, placeholder, disabled, type = 
     </Container>
   );
 }
+
+export default TextField
+
+TextField.propTypes = {
+  name: PropTypes.string.isRequired,
+  prefix: PropTypes.node,
+  placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
+  type: PropTypes.string,
+  style: PropTypes.object,
+};
