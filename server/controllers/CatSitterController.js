@@ -4,6 +4,7 @@ const Sitter = require('../model/Sitter');
 const UnavailableDate = require('../model/UnavailableDate');
 const User = require('../model/User');
 
+const { getProfileStats } = require('../helpers/profile')
 const { getUnavailableDates } = require('../helpers/user');
 const { catSitterValidation } = require('../helpers/validation')
 
@@ -17,16 +18,21 @@ module.exports = {
 
       if (!userRecord || !sitterRecord) return res.status(404).json('No account found');
 
-      const { firstName, lastName, postcode, profilePictureFileName } = userRecord;
-
-      // const unavailableDates = await getUnavailableDates(sitterRecord.id);
+      const { firstName, lastName, profilePicture, coordinates } = userRecord;
 
       const sitterId = mongoose.Types.ObjectId(sitterRecord.id);
 
-      const [unavailableDates, allReviews] = await Promise.all([
+      const [stats, unavailableDates, allReviews] = await Promise.all([
+        getProfileStats('sitter', sitterId),
         getUnavailableDates(sitterId),
         Review.find({ reviewee: sitterId })
       ]);
+
+      const {
+        totalReviews,
+        totalCompletedBookings,
+        totalRepeatedCustomers
+      } = stats;
 
       let reviews;
       if (allReviews.length > 0) {
@@ -35,14 +41,14 @@ module.exports = {
             const {
               firstName: reviewerFirstName,
               lastName: reviewerLastName,
-              profilePictureFileName: reviewerprofilePictureFileName,
+              profilePicture: reviewerprofilePicture,
               urlId: reviewerUrlId
             } = await User.findOne({ owner: item.reviewer })
 
             const data = {
               ...item,
               reviewerName: `${reviewerFirstName} ${reviewerLastName}`,
-              reviewerPicture: reviewerprofilePictureFileName,
+              reviewerPicture: reviewerprofilePicture,
               reviewerUrlId
             }
 
@@ -56,9 +62,12 @@ module.exports = {
         unavailableDates,
         firstName,
         lastName,
-        postcode,
-        profilePictureFileName,
-        reviews
+        profilePicture,
+        totalReviews,
+        totalCompletedBookings,
+        totalRepeatedCustomers,
+        coordinates,
+        reviews,
       };
 
       return res.status(200).json(sitterData);

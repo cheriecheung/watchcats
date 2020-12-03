@@ -1,10 +1,6 @@
-const User = require('../model/User');
 const Sitter = require('../model/Sitter');
-const Booking = require('../model/Booking');
-const Review = require('../model/Review');
-const UnavailableDate = require('../model/UnavailableDate');
-
-const ObjectId = require('mongodb').ObjectID;
+const User = require('../model/User');
+const { getProfileStats } = require('../helpers/profile')
 
 async function getInfo(records) {
   return await Promise.all(
@@ -12,34 +8,30 @@ async function getInfo(records) {
       const {
         urlId,
         coordinates,
-        // location,
         firstName, lastName,
-        profilePictureFileName,
+        profilePicture,
         sitter: sitterObjId
       } = user;
 
-      const [sitterRecord, totalReviews, totalCompletedBookings, repeatedCustomers] = await Promise.all([
-        Sitter.findById(sitterObjId),
-        Review.countDocuments({ reviewee: sitterObjId }),
-        Booking.countDocuments({ sitter: sitterObjId, status: 'completed' }),
-        Booking.aggregate([
-          { $match: { sitter: sitterObjId, status: 'completed' } },
-          { $unwind: '$owner' },
-          { $group: { _id: '$owner', TotalBookingsFromCustomer: { $sum: 1 }, } },
-          { $match: { TotalBookingsFromCustomer: { $gt: 1 } } },
-        ])
-      ]);
+      const [stats, sitter] = await Promise.all([
+        getProfileStats('sitter', sitterObjId),
+        Sitter.findById(sitterObjId)
+      ])
 
-      // if none of the above result in undefined?
-      const { aboutSitter, hourlyRate, nightlyRate } = sitterRecord;
-      const totalRepeatedCustomers = repeatedCustomers.length;
+      const {
+        totalReviews,
+        totalCompletedBookings,
+        totalRepeatedCustomers
+      } = stats
+
+      const { aboutSitter, hourlyRate, nightlyRate } = sitter;
 
       return {
         urlId,
         coordinates,
         firstName,
         lastName,
-        profilePictureFileName,
+        profilePicture,
         aboutSitter,
         hourlyRate,
         nightlyRate,

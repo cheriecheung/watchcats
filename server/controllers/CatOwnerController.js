@@ -6,6 +6,7 @@ const Owner = require('../model/Owner');
 const Review = require('../model/Review');
 const User = require('../model/User');
 
+const { getProfileStats } = require('../helpers/profile')
 const { catOwnerValidation } = require('../helpers/validation')
 
 const ObjectId = require('mongodb').ObjectID;
@@ -20,15 +21,22 @@ module.exports = {
 
       if (!userRecord || !ownerRecord) return res.status(404).json('No account found');
 
-      const { firstName, lastName, postcode, profilePictureFileName } = userRecord;
+      const { firstName, lastName, profilePicture, coordinates } = userRecord;
       const ownerId = mongoose.Types.ObjectId(ownerRecord.id);
 
-      const [allOneDays, allOvernight, allCats, allReviews] = await Promise.all([
+      const [stats, allOneDays, allOvernight, allCats, allReviews] = await Promise.all([
+        getProfileStats('owner', ownerId),
         AppointmentOneDay.find({ owner: ownerId }),
         AppointmentOvernight.find({ owner: ownerId }),
         Cat.find({ owner: ownerId }),
         Review.find({ reviewee: ownerId })
       ]);
+
+      const {
+        totalReviews,
+        totalCompletedBookings,
+        totalRepeatedCustomers
+      } = stats;
 
       // if date is passed, delete document
       let bookingOneDay;
@@ -68,14 +76,14 @@ module.exports = {
             const {
               firstName: reviewerFirstName,
               lastName: reviewerLastName,
-              profilePictureFileName: reviewerprofilePictureFileName,
+              profilePicture: reviewerprofilePicture,
               urlId: reviewerUrlId
             } = await User.findOne({ sitter: item.reviewer })
 
             const data = {
               ...item,
               reviewerName: `${reviewerFirstName} ${reviewerLastName}`,
-              reviewerPicture: reviewerprofilePictureFileName,
+              reviewerPicture: reviewerprofilePicture,
               reviewerUrlId
             }
 
@@ -88,8 +96,11 @@ module.exports = {
         ...ownerRecord._doc,
         firstName,
         lastName,
-        postcode,
-        profilePictureFileName,
+        profilePicture,
+        totalReviews,
+        totalCompletedBookings,
+        totalRepeatedCustomers,
+        coordinates,
         bookingOneDay,
         bookingOvernight,
         cat,
