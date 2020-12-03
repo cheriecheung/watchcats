@@ -18,19 +18,26 @@ const Section = styled.div`
 function CatOwner() {
   const { t, returnedData, reviewListRef, scrollToRef } = useCatOwnerProfile();
 
+  const {
+    reviews,
+    aboutMe,
+    cat,
+    catsDescription,
+    coordinates,
+    urlId
+  } = returnedData
+
   return (
     <WrapLayout style={{ padding: '30px 60px', textAlign: 'left' }}>
       <VerticalCard style={{ flexBasis: '60%' }}>
 
-        {returnedData &&
-          returnedData.reviews &&
-          returnedData.reviews.length > 0 &&
+        {reviews && reviews.length > 0 &&
           <>
             <Section>
               <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
-                Reviews ({returnedData.reviews.length})
+                Reviews ({reviews.length})
                    </h5>
-              <Reviews reviews={returnedData.reviews} scrollToRef={scrollToRef} reviewListRef={reviewListRef} />
+              <Reviews reviews={reviews} scrollToRef={scrollToRef} reviewListRef={reviewListRef} />
             </Section>
             <hr />
           </>
@@ -38,28 +45,28 @@ function CatOwner() {
 
         <Section>
           <h5>About</h5>
-          <AboutMe aboutMe={returnedData.aboutMe} />
+          <AboutMe aboutMe={aboutMe} />
         </Section>
 
         <hr />
 
         <Section>
           <h5>About my cat</h5>
-          <AboutCat allCats={returnedData.cat} />
+          <AboutCat allCats={cat} />
         </Section>
 
         <hr />
 
         <Section>
           <h5>Responsibility</h5>
-          <Responsibilities descriptions={returnedData.catsDescription} />
+          <Responsibilities descriptions={catsDescription} />
         </Section>
 
         <hr />
 
         <Section>
           <h5>Location</h5>
-          <Location />
+          <Location coordinates={coordinates} urlId={urlId} />
         </Section>
 
       </VerticalCard>

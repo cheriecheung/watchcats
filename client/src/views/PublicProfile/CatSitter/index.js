@@ -19,18 +19,24 @@ function CatSitter() {
   const { t, cleanedData, reviewListRef, scrollToRef, id } = useCatSitterProfile();
   const summaryProps = useCatSitterSummary();
 
+  const {
+    reviews,
+    aboutSitter,
+    unavailableDates,
+    coordinates,
+    urlId
+  } = cleanedData
+
   return (
     <WrapLayout style={{ padding: '30px 60px', textAlign: 'left' }}>
       <VerticalCard style={{ flexBasis: '60%' }}>
-        {cleanedData &&
-          cleanedData.reviews &&
-          cleanedData.reviews.length > 0 &&
+        {reviews && reviews.length > 0 &&
           <>
             <Section>
               <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
-                Reviews ({cleanedData.reviews.length})
+                Reviews ({reviews.length})
               </h5>
-              <Reviews reviews={cleanedData.reviews} crollToRef={scrollToRef} reviewListRef={reviewListRef} />
+              <Reviews reviews={reviews} crollToRef={scrollToRef} reviewListRef={reviewListRef} />
             </Section>
             <hr />
           </>
@@ -38,7 +44,7 @@ function CatSitter() {
 
         <Section>
           <h5>About</h5>
-          <AboutMe aboutMe={cleanedData.aboutSitter} />
+          <AboutMe aboutMe={aboutSitter} />
         </Section>
 
         <hr />
@@ -52,14 +58,14 @@ function CatSitter() {
 
         <Section>
           <h5>Availability</h5>
-          <AvailabilityCalendar t={t} unavailableDates={cleanedData.unavailableDates} />
+          <AvailabilityCalendar t={t} unavailableDates={unavailableDates} />
         </Section>
 
         <hr />
 
         <Section>
           <h5>Location</h5>
-          <Location />
+          <Location coordinates={coordinates} urlId={urlId} />
         </Section>
       </VerticalCard>
 

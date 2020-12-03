@@ -39,7 +39,7 @@ export default function Maps({
         }
 
         const allMarkers = results.map((item) => {
-            const { urlId, coordinates } = item
+            const { urlId, coordinates = [] } = item
             const lng = coordinates[0]
             const lat = coordinates[1]
 
@@ -118,7 +118,12 @@ export default function Maps({
     useEffect(() => {
         const map = new window.google.maps.Map(
             document.getElementById("find_cat_sitter_map"),
-            { center, zoom }
+            {
+                center,
+                zoom,
+                disableDefaultUI: true,
+                zoomControl: true
+            }
         );
 
         setMap(map);
