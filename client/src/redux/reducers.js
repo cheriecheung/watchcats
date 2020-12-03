@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import account_reducer from './account/reducer';
+import app_reducer from './app/reducer';
 import authentication_reducer from './authentication/reducer';
 import bookings_reducer from './bookings/reducer';
 import chat_reducer from './chat/reducer';
@@ -11,6 +12,7 @@ import profile_reducer from './profile/reducer';
 const rootReducer = combineReducers(
   Object.assign(
     account_reducer,
+    app_reducer,
     authentication_reducer,
     bookings_reducer,
     chat_reducer,

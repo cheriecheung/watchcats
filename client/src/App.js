@@ -1,29 +1,33 @@
-import React, { useEffect, useState } from 'react';
-
-import './App.css';
-import './style/formComponents.css';
-import './style/uiComponents.css';
-
+import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+
 import Layout from './components/Layout';
 import Home from './views/Home';
 import About from './views/About';
 import { EmailVerification, Loading, Login, PasswordForgotten, PasswordReset, Register } from './views/Authentication';
-
 import Bookings from './views/Bookings';
 import Payment from './views/Bookings/containers/Payment';
 import WriteReview from './views/Bookings/containers/WriteReview';
-
 import Messages from './views/Messages';
 import Account from './views/Account';
 import FindCatSitter from './views/FindCatSitter';
 import { CatSitter, CatOwner } from './views/PublicProfile';
 
-import { useSelector } from 'react-redux';
+import './App.css';
+import './style/formComponents.css';
+import './style/uiComponents.css';
+import { createGlobalStyle } from 'styled-components'
+
+const GlobalStyle = createGlobalStyle`
+  html {
+    overflow: ${props => props.toggleMobileMenu ? 'hidden' : 'unset'};
+  }
+`
 
 function PrivateRoute({ component: Component, ...rest }) {
-  const { isLoggedIn } = useSelector(state => state.authentication);
+  const { isLoggedIn } = useSelector(state => state.app);
 
   return (
     <Route
@@ -40,13 +44,20 @@ function PrivateRoute({ component: Component, ...rest }) {
 }
 
 function App() {
-  const { i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(localStorage.getItem('lang') || 'en');
-  }, [i18n]);
+  const { language, toggleMobileMenu } = useSelector(state => state.app);
+
+  console.log({ language, toggleMobileMenu })
+
+  // const { i18n } = useTranslation();
+
+  // useEffect(() => {
+  //   i18n.changeLanguage(localStorage.getItem('lang') || 'en');
+  // }, [i18n]);
 
   return (
     <div className="App">
+      <GlobalStyle toggleMobileMenu={toggleMobileMenu} />
+
       <BrowserRouter basename={'/'}>
         <Layout>
           <Switch>
