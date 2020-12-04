@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
+  clearAccountActionError,
   getContactDetails,
   changeNotification,
   submitPhoneNumber,
@@ -39,6 +40,7 @@ function useContactDetails() {
   const dispatch = useDispatch();
   const contactDetails = useSelector((state) => state.account);
   const {
+    accountActionError,
     email: emailValue,
     getEmailNotification,
     phone: phoneValue,
@@ -57,6 +59,8 @@ function useContactDetails() {
   const [revealPhone, setRevealPhone] = useState(false);
 
   const [inputPhoneNumber, setInputPhoneNumber] = useState('')
+
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     dispatch(getContactDetails());
@@ -102,16 +106,30 @@ function useContactDetails() {
     }
   }, [changePhoneNumberStep])
 
-  function getOtp() {
-    dispatch(sendOtpToSavedPhoneNumber())
-  }
-
   function onSubmitPhoneNumber() {
     dispatch(submitPhoneNumber(inputPhoneNumber))
   }
 
   function onChangeNotification(contactType) {
     dispatch(changeNotification(contactType));
+  }
+
+  function onHandlePhoneNumber(action) {
+    if (action === 'add' || action === 'edit') {
+      dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
+    }
+    if (action === 'remove') {
+      dispatch(sendOtpToSavedPhoneNumber())
+      dispatch({ type: 'VERIFY_PHONE_NUMBER', payload: 'verifyToRemove' });
+    }
+
+    setShowModal(true)
+  }
+
+  function closeModal() {
+    setShowModal(false)
+    setInputPhoneNumber('')
+    dispatch(clearAccountActionError())
   }
 
   const emailProps = {
@@ -128,7 +146,6 @@ function useContactDetails() {
     setRevealPhone,
     asteriskedPhone,
     getSmsNotification,
-    getOtp
   }
 
   const phoneNumberInputProps = {
@@ -140,11 +157,16 @@ function useContactDetails() {
 
   return {
     t,
+    showModal,
+    setShowModal,
+    closeModal,
+    onHandlePhoneNumber,
     onChangeNotification,
     prevSettings,
     emailProps,
     phoneProps,
     phoneNumberInputProps,
+    accountActionError
   };
 }
 

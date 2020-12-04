@@ -39,6 +39,7 @@ module.exports = {
 
     const { email, password } = req.body;
 
+    // email to lowercase
     try {
       const user = await User.findOne({ email });
       // dev purpose: error remains "no user found"
@@ -81,7 +82,7 @@ module.exports = {
       req.session.destroy();
       res.clearCookie("refresh_token", { path: "/" });
 
-      return res.status(204).json('Logging out...');
+      return res.status(204).json('')
     } catch (err) {
       console.log({ err })
       return res.status(400).json('Cannot logout');

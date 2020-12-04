@@ -1,30 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal, SuccessDisplay, VerticalDivider, WrapLayout } from '../../../../components/UIComponents';
-
-import { useDispatch } from 'react-redux';
-
 import EmailDisplay from './EmailDisplay'
 import PhoneDisplay from './PhoneDisplay'
-
 import PhoneNumberInput from './PhoneNumberInput'
 import PhoneNumberVerification from './PhoneNumberVerification'
 
 function ContactDetails({ contactDetailsProps }) {
   const {
     t,
+    showModal,
+    closeModal,
+    onHandlePhoneNumber,
     onChangeNotification,
     prevSettings,
     emailProps,
     phoneProps,
     phoneNumberInputProps,
-  } = contactDetailsProps;
+    accountActionError
+  } = contactDetailsProps
 
-  const { getOtp } = phoneProps;
   const { changePhoneNumberStep } = phoneNumberInputProps;
-
-  const dispatch = useDispatch();
-
-  const [showModal, setShowModal] = useState(false);
 
   const renderModalContent = () => {
     switch (changePhoneNumberStep) {
@@ -32,11 +27,27 @@ function ContactDetails({ contactDetailsProps }) {
       case 'verifyToRemove':
         return <PhoneNumberVerification t={t} />
       case 'input':
-        return <PhoneNumberInput t={t} phoneNumberInputProps={phoneNumberInputProps} />
+        return (
+          <PhoneNumberInput
+            t={t}
+            phoneNumberInputProps={phoneNumberInputProps}
+            accountActionError={accountActionError}
+          />
+        )
       case 'verified':
-        return <SuccessDisplay message="You have successfully verified your phone" onClick={() => setShowModal(false)} />
+        return (
+          <SuccessDisplay
+            message="You have successfully verified your phone"
+            onClick={closeModal}
+          />
+        )
       case 'removed':
-        return <SuccessDisplay message="You have successfully removed your phone" onClick={() => setShowModal(false)} />
+        return (
+          <SuccessDisplay
+            message="You have successfully removed your phone"
+            onClick={closeModal}
+          />
+        )
       default:
         break
     }
@@ -47,7 +58,7 @@ function ContactDetails({ contactDetailsProps }) {
       <Modal
         centered
         visible={showModal}
-        onCancel={() => setShowModal(false)}
+        onCancel={closeModal}
         footer={null}
       >
         {renderModalContent()}
@@ -68,25 +79,9 @@ function ContactDetails({ contactDetailsProps }) {
           phoneProps={phoneProps}
           onChangeNotification={onChangeNotification}
           prevSettings={prevSettings}
-
-          // rename
-          addPhone={() => {
-            dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
-            setShowModal(true)
-          }}
-
-          // rename
-          editPhone={() => {
-            dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
-            setShowModal(true)
-          }}
-
-          // turns displayed phone number to previous one when clicked 
-          removePhone={() => {
-            getOtp()
-            dispatch({ type: 'VERIFY_PHONE_NUMBER', payload: 'verifyToRemove' });
-            setShowModal(true)
-          }}
+          addPhone={() => onHandlePhoneNumber('add')}
+          editPhone={() => onHandlePhoneNumber('edit')}
+          removePhone={() => onHandlePhoneNumber('remove')}
         />
       </div>
     </WrapLayout>

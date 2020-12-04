@@ -16,6 +16,12 @@ const sitterURL = id => `/sitter/account/${id}`
 const ownerURL = id => `/owner/account/${id}`
 const catImageURL = `/image/cat`
 
+export function clearAccountActionError() {
+  return (dispatch) => {
+    dispatch({ type: AccountActionTypes.ERROR_OCCURED, payload: '' });
+  }
+}
+
 export function uploadTestPicture(profilePicture) {
   return async (dispatch) => {
     try {
@@ -54,10 +60,13 @@ export function changeNotification(contactType) {
 export function submitPhoneNumber(phone) {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().post(phoneNumberURL, { phone }, getConfig());
+      await axiosInstance().post(phoneNumberURL, { phone }, getConfig());
       dispatch({ type: AccountActionTypes.PHONE_NUMBER_SUBMITTED, payload: 'verifyToSave' });
     } catch (e) {
       console.log({ e });
+      const { response } = e
+      const { data } = response || {}
+      dispatch({ type: AccountActionTypes.ERROR_OCCURED, payload: data });
     }
   };
 }

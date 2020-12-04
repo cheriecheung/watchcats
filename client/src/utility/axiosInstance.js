@@ -14,27 +14,13 @@ export default (history = null) => {
         },
         (error) => {
             return new Promise((resolve, reject) => {
-                const originalReq = error.config;
-
+                const { response, config: originalReq } = error
+                const { status } = response || {}
                 console.log({ errorConfig: error.config })
 
                 // with specific message
-                if (error.response.status === 401 && error.config && !error.config.__isRetryRequest) {
+                if (status === 401 && originalReq && !originalReq.__isRetryRequest) {
                     originalReq._retry = true;
-
-                    // let refreshTokenRes = fetch(`/refresh_token`, {
-                    //     method: 'POST',
-                    //     mode: 'cors',
-                    //     cache: 'no-cache',
-                    //     credentials: 'same-origin'
-                    // }).then((res) => {
-                    //     console.log({ resJSON: res.json(), res______: res })
-                    //     // res.json() 
-
-                    //     return axios(originalReq);
-                    // }).catch(err => {
-                    //     console.log({ err_________: err.response })
-                    // })
 
                     let refreshTokenRes = fetch(`/refresh_token`, {
                         method: 'POST',
@@ -59,6 +45,8 @@ export default (history = null) => {
                     })
 
                     resolve(refreshTokenRes)
+                } else if ((status === 400 || status === 404) && originalReq) {
+                    return reject(error)
                 } else {
                     console.log('unsuccessful')
 

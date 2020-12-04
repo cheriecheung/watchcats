@@ -143,13 +143,16 @@ module.exports = {
     req.session.phone = phone;
 
     try {
+      const phoneExists = await User.findOne({ phone });
+      if (phoneExists) return res.status(400).json('ERROR/PHONE_ALREADY_EXISTS')
+
       const { otp } = await generateOTP(userId);
       sendTwilioSMS(phone, 'VERIFY_PHONE_NUMBER', { code: otp })
 
-      return res.status(200).json('Phone number submitted')
+      return res.status(200).json('success')
     } catch (err) {
       console.log({ err })
-      return res.status(403).json('Unable to retrieve user contact details')
+      return res.status(400).json('ERROR/PHONE_SUBMISSION_FAILED')
     }
   },
 
