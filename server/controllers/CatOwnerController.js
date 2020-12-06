@@ -117,7 +117,7 @@ module.exports = {
   getAccount: async (req, res) => {
     try {
       const ownerRecord = await Owner.findOne({ urlId: req.params.id });
-      if (!ownerRecord) return res.status(204).json('No owner account');
+      if (!ownerRecord) return res.status(404)
 
       const { id, aboutMe, catsDescription } = ownerRecord;
       const ownerId = ObjectId(id)

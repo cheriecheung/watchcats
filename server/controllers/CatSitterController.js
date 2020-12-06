@@ -81,7 +81,7 @@ module.exports = {
     // get by user id from verified token
     try {
       const sitterRecord = await Sitter.findOne({ urlId: req.params.id });
-      if (!sitterRecord) return res.status(204).json('No sitter account');
+      if (!sitterRecord) return res.status(404)
 
       const unavailableDates = await getUnavailableDates(sitterRecord.id);
       const sitterData = { ...sitterRecord._doc, unavailableDates };

@@ -29,6 +29,7 @@ import TabItem from './Tab/TabItem'
 import Alert from './Alert'
 import CheckSquareIcon from './CheckSquareIcon'
 import EllipsisParagraph from './EllipsisParagraph'
+import ErrorMessage from './ErrorMessage'
 import MapContainer from './MapContainer'
 import Modal from './Modal'
 import ProfileStats from './ProfileStats'
@@ -66,6 +67,7 @@ export {
   Alert,
   CheckSquareIcon,
   EllipsisParagraph,
+  ErrorMessage,
   MapContainer,
   Modal,
   ProfileStats,

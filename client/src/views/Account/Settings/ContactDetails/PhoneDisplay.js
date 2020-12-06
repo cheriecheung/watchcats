@@ -64,7 +64,7 @@ function PhoneDisplay({
           defaultChecked={getSmsNotification}
           checked={getSmsNotification}
           disabled={!phone}
-          onChange={(checked) => onChangeNotification('sms')}
+          onChange={() => onChangeNotification('sms')}
         />
       </div>
 

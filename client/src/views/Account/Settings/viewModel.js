@@ -13,6 +13,7 @@ import {
   sendOtpToSavedPhoneNumber
 } from '../../../redux/account/actions';
 import {
+  clearAuthActionError,
   resetPassword,
   getGoogleAuthenticatorQrCode,
   verifyGoogleAuthenticatorCode,
@@ -236,6 +237,8 @@ function usePasswordAndAuthentication() {
 
   function closeModal() {
     setShowModal(false)
+
+    dispatch(clearAuthActionError())
   }
 
   return {
@@ -254,10 +257,11 @@ function usePasswordAndAuthentication() {
 function useEnable2FA() {
   const dispatch = useDispatch();
 
+  const { authActionError } = useSelector((state) => state.authentication)
   const { qrCode } = useSelector((state) => state.authentication);
 
   const methods = useForm();
-  const { watch } = methods;
+  const { watch, reset } = methods;
 
   const [qrCodeImage, setQrCodeImage] = useState('')
 
@@ -272,11 +276,18 @@ function useEnable2FA() {
     }
   }, [qrCode])
 
+  useEffect(() => {
+    if (authActionError === '') {
+      reset({ verificationCode: '' })
+    }
+  }, [authActionError])
+
   return {
     FormProvider,
     methods,
     qrCodeImage,
-    onVerifyCode
+    onVerifyCode,
+    authActionError
   }
 }
 

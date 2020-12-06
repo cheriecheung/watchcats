@@ -2,6 +2,7 @@ import Immutable from 'seamless-immutable';
 import AuthActionTypes from './actionTypes'
 
 const initialState = Immutable({
+  authActionError: '',
   loginByPhone: false,
   qrCode: '',
   isActivated: false,
@@ -10,6 +11,8 @@ const initialState = Immutable({
 const authentication_reducer = {
   authentication: (state = initialState, action) => {
     switch (action.type) {
+      case AuthActionTypes.ERROR_OCCURED:
+        return { ...state, authActionError: action.payload }
       case AuthActionTypes.REGISTER_SUCCESS:
         return {};
       case AuthActionTypes.REGISTER_FAIL:

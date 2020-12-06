@@ -200,13 +200,13 @@ module.exports = {
 
     try {
       const { otp, otpExpiryTime } = await User.findById(userId)
-      if (!otp || !otpExpiryTime) return res.status(401).json('Code not found');
+      if (!otp || !otpExpiryTime) return res.status(404).json('ERROR/OTP_INVALID');
 
       const validOtp = await bcrypt.compare(code, otp)
       const unexpired = new Date() < otpExpiryTime
 
-      if (!validOtp) return res.status(401).json('Invalid code')
-      if (!unexpired) return res.status(401).json('Code expired, click resend')
+      if (!validOtp) return res.status(400).json('ERROR/OTP_INVALID')
+      if (!unexpired) return res.status(400).json('ERROR/OTP_INVALID')
 
       const user = await User.findOneAndUpdate(
         { _id: userId },
@@ -216,12 +216,12 @@ module.exports = {
         },
         { useFindAndModify: false }
       );
-      if (!user) return res.status(401).json('Fail to update');
+      if (!user) return res.status(401).json('ERROR/PHONE_SAVING_FAILED');
 
-      return res.status(200).json('Phone verified and phone number stored')
+      return res.status(200).json('')
     } catch (err) {
       console.log({ err })
-      return res.status(403).json('Unable to retrieve user contact details')
+      return res.status(403).json('ERROR/PHONE_VERIFICATION_FAILED')
     }
   },
 

@@ -25,7 +25,12 @@ function ContactDetails({ contactDetailsProps }) {
     switch (changePhoneNumberStep) {
       case 'verifyToSave':
       case 'verifyToRemove':
-        return <PhoneNumberVerification t={t} />
+        return (
+          <PhoneNumberVerification
+            t={t}
+            accountActionError={accountActionError}
+          />
+        )
       case 'input':
         return (
           <PhoneNumberInput

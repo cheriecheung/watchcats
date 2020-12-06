@@ -96,11 +96,13 @@ export function sendOtpToSavedPhoneNumber() {
 export function verifyPhoneNumber(code) {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().patch(phoneNumberURL, { code }, getConfig());
+      await axiosInstance().patch(phoneNumberURL, { code }, getConfig());
       dispatch({ type: AccountActionTypes.VERIFY_PHONE_NUMBER, payload: 'verified' });
     } catch (e) {
       console.log({ e });
-      dispatch({ type: AccountActionTypes.VERIFY_PHONE_NUMBER, payload: 'verificationFailed' });
+      const { response } = e
+      const { data } = response || {}
+      dispatch({ type: AccountActionTypes.ERROR_OCCURED, payload: data });
     }
   };
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldLabel, TextField } from '../../../../components/FormComponents';
-import { ContainedButton, Image, ImageContainer, LinkButton } from '../../../../components/UIComponents';
+import { ContainedButton, ErrorMessage, Image, ImageContainer, LinkButton } from '../../../../components/UIComponents';
 import styled from 'styled-components'
 
 import { useEnable2FA } from '../viewModel';
@@ -23,8 +23,22 @@ function Enable2FA({ t }) {
     FormProvider,
     methods,
     qrCodeImage,
-    onVerifyCode
+    onVerifyCode,
+    authActionError
   } = useEnable2FA();
+
+  console.log({ authActionError })
+
+  const _renderErrorMessage = () => {
+    switch (authActionError) {
+      case 'ERROR/GOOGLE_OTP_INVALID':
+        return 'Verification code invalid. Please try again.'
+      case 'ERROR/2FA_ACTIVATION_FAILED':
+        return 'Unable to activate 2FA. Please try again.'
+      default:
+        break;
+    }
+  }
 
   return (
     <FormProvider {...methods}>
@@ -67,7 +81,9 @@ function Enable2FA({ t }) {
           <Description>
             <FieldLabel>3. Login with your code</FieldLabel>
             <p>Enter the 6-digit verification code generated.</p>
+
             <TextField name="verificationCode" placeholder="000 000" />
+            {authActionError && <ErrorMessage>{_renderErrorMessage()}</ErrorMessage>}
             <ContainedButton type="button" onClick={onVerifyCode}>Activate</ContainedButton>
           </Description>
         </Section>

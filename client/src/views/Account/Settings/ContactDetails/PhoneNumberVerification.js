@@ -1,9 +1,9 @@
 import React from 'react';
-import { ContainedButton } from '../../../../components/UIComponents'
+import { ContainedButton, ErrorMessage } from '../../../../components/UIComponents'
 import { OtpInput } from '../../../../components/FormComponents'
 import { usePhoneNumberVerification } from '../viewModel';
 
-function PhoneNumberVerification({ t }) {
+function PhoneNumberVerification({ t, accountActionError }) {
   const {
     FormProvider,
     methods,
@@ -13,21 +13,33 @@ function PhoneNumberVerification({ t }) {
 
   const { handleSubmit } = methods;
 
+  const _renderErrorMessage = () => {
+    switch (accountActionError) {
+      case 'ERROR/OTP_INVALID':
+        return 'Verification code invalid. Please try again.'
+      case 'ERROR/PHONE_VERIFICATION_FAILED':
+        return 'Unable to verify code. Please try again.'
+      case 'ERROR/PHONE_SAVING_FAILED':
+        return 'Failed to save phone. Please try again.'
+      default:
+        break;
+    }
+  }
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmitOtp)} style={{ textAlign: 'center' }}>
         <i className="fas fa-sms fa-4x mb-3" />
 
+        {/* within timeline? */}
         <p>Enter the 6-digit code we sent to your phone via SMS.</p>
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <OtpInput name="otp" />
         </div>
 
-        <br />
-        {/* {changePhoneNumberStep === 'verificationFailed' &&
-            <span>code invalid. please try again</span>
-          } */}
+        {accountActionError && <ErrorMessage>{_renderErrorMessage()}</ErrorMessage>}
+
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <ContainedButton type="button" onClick={resendCode}>Resend Code</ContainedButton>
           <ContainedButton type="submit">Submit</ContainedButton>

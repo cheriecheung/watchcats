@@ -29,7 +29,7 @@ module.exports = {
 
   activateTwoFactorAuthentication: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('User id missing');
+    if (!userId) return res.status(400).json('ERROR/2FA_ACTIVATION_FAILED');
 
     const { code } = req.body
     const { ascii_secret } = req.session;
@@ -41,20 +41,20 @@ module.exports = {
         encoding: 'ascii',
         token: code
       })
-      if (!verified) return res.status(401).json('verification failed')
+      if (!verified) return res.status(400).json('ERROR/GOOGLE_OTP_INVALID')
 
       const user = await User.findById(userId);
-      if (!user) return res.status(401).json('No user data')
+      if (!user) return res.status(404).json('ERROR/2FA_ACTIVATION_FAILED')
 
       const encrypted = encryptSecret(ascii_secret)
 
       user.twoFactorSecret = encrypted;
       await user.save();
 
-      return res.status(200).json('verification successful')
+      return res.status(200).json('')
     } catch (err) {
       console.log({ err })
-      return res.status(401).json('verification failed')
+      return res.status(400).json('ERROR/2FA_ACTIVATION_FAILED')
     }
   },
 

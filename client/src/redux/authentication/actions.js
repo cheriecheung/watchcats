@@ -22,6 +22,7 @@ const resetPasswordURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
 
 const passwordURL = `/password`
 
+// slash?
 const googleAuthenticatorQrCodeURL = `google-authenticator-qrcode`
 const googleAuthenticatorVerifyCodeURL = `google-authenticator-verify-code`
 
@@ -39,6 +40,12 @@ const googleAuthenticatorVerifyCodeURL = `google-authenticator-verify-code`
 //     }
 //   };
 // }
+
+export function clearAuthActionError() {
+  return (dispatch) => {
+    dispatch({ type: AuthActionTypes.ERROR_OCCURED, payload: '' });
+  }
+}
 
 export function disableTwoFactor(code) {
   return async (dispatch) => {
@@ -66,11 +73,13 @@ export function getGoogleAuthenticatorQrCode() {
 export function verifyGoogleAuthenticatorCode(code) {
   return async (dispatch) => {
     try {
-      // pass token too?
-      const { data } = await axiosInstance().post(googleAuthenticatorVerifyCodeURL, { code }, getConfig());
+      await axiosInstance().post(googleAuthenticatorVerifyCodeURL, { code }, getConfig());
       dispatch({ type: AuthActionTypes.TWO_FACTOR_ACTIVATED });
     } catch (e) {
       console.log({ e });
+      const { response } = e
+      const { data } = response || {}
+      dispatch({ type: AuthActionTypes.ERROR_OCCURED, payload: data });
     }
   };
 }
