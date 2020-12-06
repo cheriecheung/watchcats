@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const path = require('path');
 const cookie = require('cookie');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -71,6 +72,14 @@ app.use(
 // });
 
 app.use('/', baseRouter);
+
+//Serve Static Assets in production 
+//set static folder
+app.use(express.static("client/build"));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
+
 
 const httpsOptions = {
   key: fs.readFileSync('./server/certificate/localhost.key'),
