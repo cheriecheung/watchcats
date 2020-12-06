@@ -1,24 +1,59 @@
+import React from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { themeColor } from '../../../style/theme';
 
 const NavHeight = 7;
 
-export const Nav = styled.nav`
-  padding: 0 20px;
-  min-height: ${NavHeight}vh;
+export const NavBar = styled.nav`
   display: flex;
   justify-content: space-between;
+  padding: 0 20px;
+  min-height: ${NavHeight}vh;
   align-items: center;
   background-color: #fff;
   border: none;
   box-shadow: 0 5px 5px rgba(182, 182, 182, 0.1);
 
   @media (max-width: 920px) {
-    padding: 0 5px;
-    justify-content: center;
+    padding: 0 13px 0 10px;
   }
 `;
+
+export const AppLogo = styled.img`
+  width: 30px;
+  height: 30px;
+`
+
+export const AppName = styled.h4`
+  color: ${themeColor.peach};
+  font-family: Alata, sans-serif;
+  margin-bottom: 0;
+  white-space: nowrap;
+  margin-right: 7px;
+
+  @media (max-width: 920px) {
+    display: none;
+  }
+`
+
+export const HomeButton = styled(Link)`
+  display: flex;
+  background: none;
+  border: none;
+  outline: none;
+`
+
+export const MobileHeaderTitle = styled.h4`
+  display: none;
+  margin: 0;
+  font-family: Alata, sans-serif;
+  color: ${themeColor.peach};
+
+  @media (max-width: 920px) {
+    display: block;
+  }
+`
 
 export const Menu = styled.ul`
   list-style: none;
@@ -41,12 +76,11 @@ export const Item = styled.li`
 `;
 
 export const NavIcon = styled.button`
-  position: absolute;
-  left: 0;
-  outline: none !important;
   background: none;
-  cursor: pointer;
+  padding: 0;
   border: none;
+  cursor: pointer;
+  outline: none !important;
 
   @media (min-width: 920px) {
     display: none;
@@ -55,16 +89,11 @@ export const NavIcon = styled.button`
 
 export const Line = styled.span`
   display: block;
-  border-radius: 50px;
+  margin: 5px;
   width: 20px;
   height: 2px;
-  margin: 5px;
+  border-radius: 50px;
   background-color: ${themeColor.peach};
-  transition: width 0.4s ease-in-out;
-
-  :nth-child(2) {
-    width: ${(props) => (props.open ? '40%' : '70%')};
-  }
 `;
 
 export const Overlay = styled.div`
@@ -87,12 +116,12 @@ export const Overlay = styled.div`
 export const OverlayMask = styled.div`
   opacity: ${(props) => (props.open ? 1 : 0)};
   z-index: ${(props) => (props.open ? 1 : -1)};
-  background-color: rgba(0, 0 ,0, 0.3);
-  width: 100vw;
+  background-color: rgba(0, 0 ,0, 0.5);
+  width: 100%;
   height: 100vh;
   position: absolute;
   top: 0;
-  transition: 0.4s ease-in-out;
+  //transition: 0.4s ease-in-out;
 `
 
 export const OverlayMenu = styled.ul`
@@ -109,6 +138,7 @@ export const OverlayMenu = styled.ul`
   li:nth-child(2) {
     margin: 10px 0px;
   }
+  
 `;
 
 export const CloseButton = styled.button`

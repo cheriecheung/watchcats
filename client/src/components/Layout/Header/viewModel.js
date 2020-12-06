@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../redux/authentication/actions';
@@ -6,6 +7,9 @@ import { changeLanguage, toggleMobileMenu } from '../../../redux/app/actions';
 
 function useHeader() {
   const { t, i18n } = useTranslation();
+
+  const location = useLocation();
+  const { pathname } = location || {}
 
   const dispatch = useDispatch();
   const { language: currentLanguage, isLoggedIn } = useSelector(state => state.app);
@@ -25,6 +29,25 @@ function useHeader() {
   function triggerToggle() {
     setToggle(!toggle)
     dispatch(toggleMobileMenu(!toggle))
+  }
+
+  function renderPageTitle() {
+    if (pathname.includes('/account')) {
+      return t('header.account')
+    }
+
+    switch (pathname) {
+      case '/about':
+        return t('header.about')
+      case '/find':
+        return t('header.find_sitter')
+      case '/bookings':
+        return t('header.bookings')
+      case '/account':
+        return t('header.account')
+      default:
+        return 'Watch Cats'
+    }
   }
 
   function closeMenu() {
@@ -47,6 +70,7 @@ function useHeader() {
     triggerToggle,
     currentLanguage,
     setLanguage,
+    renderPageTitle,
     isLoggedIn,
     onLogout,
     onMobileLogout,

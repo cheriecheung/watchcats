@@ -1,13 +1,16 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
-  Nav,
+  AppLogo,
+  AppName,
+  HomeButton,
+  MobileHeaderTitle,
+  NavBar,
   NavIcon,
   Line,
 } from './styledComponents'
-import { LinkButton } from '../../UIComponents'
+import Logo from '../../../assets/images/logo.png'
 
-import { themeColor } from '../../../style/theme';
 import Desktop from './containers/Desktop'
 import Mobile from './containers/Mobile'
 
@@ -18,35 +21,32 @@ function Header() {
     t,
     toggle,
     triggerToggle,
-    setLanguage,
     currentLanguage,
+    setLanguage,
+    renderPageTitle,
     isLoggedIn,
     onLogout,
     closeMenu,
-    onMobileLogout
+    onMobileLogout,
   } = useHeader();
 
   return (
     <div style={{ fontFamily: 'Source Sans Pro, sans-serif' }}>
-      <Nav>
+      <NavBar>
         <NavIcon onClick={triggerToggle}>
-          <Line open={toggle} />
-          <Line open={toggle} />
-          <Line open={toggle} />
+          <Line />
+          <Line />
+          <Line />
         </NavIcon>
 
-        <LinkButton to="/" onClick={closeMenu}>
-          <h4
-            style={{
-              color: themeColor.peach,
-              fontFamily: 'Alata, sans-serif',
-              marginBottom: 0,
-              whiteSpace: 'nowrap',
-            }}
-          >
-            Watch Cats
-          </h4>
-        </LinkButton>
+        <MobileHeaderTitle>
+          {renderPageTitle()}
+        </MobileHeaderTitle>
+
+        <HomeButton to="/" onClick={closeMenu}>
+          <AppName toggle={toggle}>Watch Cats</AppName>
+          <AppLogo src={Logo} alt="logo" />
+        </HomeButton>
 
         <Desktop
           t={t}
@@ -55,7 +55,7 @@ function Header() {
           isLoggedIn={isLoggedIn}
           onLogout={onLogout}
         />
-      </Nav>
+      </NavBar>
 
       <Mobile
         t={t}
