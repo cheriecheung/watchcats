@@ -3,9 +3,9 @@ import AuthActionTypes from './actionTypes'
 
 const initialState = Immutable({
   authActionError: '',
+  authActionStatus: '',
   loginByPhone: false,
   qrCode: '',
-  isActivated: false,
 });
 
 const authentication_reducer = {
@@ -37,12 +37,14 @@ const authentication_reducer = {
         return { passwordResetRequested: action.payload }
       // case 'ACCESS_TOKEN_ATTAINED':
       //   return { isLoggedIn: true }
+      case AuthActionTypes.PASSWORD_RESET:
+        return { ...state, authActionStatus: 'resetPasswordSuccess' }
       case AuthActionTypes.QR_CODE_RETURNED:
         return { ...state, qrCode: action.payload }
-      case AuthActionTypes.TWO_FACTOR_ACTIVATED:
-        return { ...state, isActivated: true }
+      case AuthActionTypes.TWO_FACTOR_ENABLED:
+        return { ...state, authActionStatus: 'enable2FASuccess' }
       case AuthActionTypes.TWO_FACTOR_DISABLED:
-        return { ...state, isActivated: false }
+        return { ...state, authActionStatus: 'disable2FASuccess' }
       default:
         return state;
     }

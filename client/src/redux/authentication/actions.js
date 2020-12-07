@@ -18,8 +18,6 @@ const phoneLoginURL = `${REACT_APP_API_DOMAIN}/phone-login`;
 const loginURL = `${REACT_APP_API_DOMAIN}/login`;
 const logoutURL = '/logout';
 const resetPasswordEmailURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
-const resetPasswordURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
-
 const passwordURL = `/password`
 
 // slash?
@@ -74,7 +72,7 @@ export function verifyGoogleAuthenticatorCode(code) {
   return async (dispatch) => {
     try {
       await axiosInstance().post(googleAuthenticatorVerifyCodeURL, { code }, getConfig());
-      dispatch({ type: AuthActionTypes.TWO_FACTOR_ACTIVATED });
+      dispatch({ type: AuthActionTypes.TWO_FACTOR_ENABLED });
     } catch (e) {
       console.log({ e });
       const { response } = e
@@ -181,15 +179,17 @@ export function getPasswordResetEmail(email) {
   };
 }
 
-export function resetPassword(password) {
+export function resetPassword(newPassword) {
   return async (dispatch) => {
     try {
-      await axiosInstance().put(passwordURL, { password }, getConfig());
+      await axiosInstance().put(passwordURL, { newPassword }, getConfig());
 
-      dispatch({ type: AuthActionTypes.PASSWORD_RESET, payload: 'Password reset' });
+      dispatch({ type: AuthActionTypes.PASSWORD_RESET });
     } catch (e) {
       console.log({ e });
-      dispatch({ type: AuthActionTypes.PASSWORD_RESET, payload: 'Password reset' });
+      const { response } = e
+      const { data } = response || {}
+      dispatch({ type: AuthActionTypes.ERROR_OCCURED, payload: data });
     }
   };
 }

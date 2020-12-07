@@ -165,23 +165,25 @@ module.exports = {
 
   resetPassword: async (req, res) => {
     const { userId } = req.verifiedData;
-    if (!userId) return res.status(404).json('No user id');
+    if (!userId) return res.status(404).json('ERROR/PASSOWORD_RESET_FAILED');
 
-    const { password } = req.body;
-    // hash password
+    const { newPassword } = req.body;
 
     try {
+      const salt = await bcrypt.genSalt(12);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+
       const userRecord = await User.findOneAndUpdate(
         { _id: userId },
-        { $set: { password: 'hasedPassword' } },
+        { $set: { password: hashedPassword } },
         { useFindAndModify: false }
       );
-      if (!userRecord) return res.status(401).json('Fail to update');
+      if (!userRecord) return res.status(400).json('ERROR/PASSOWORD_RESET_FAILED');
 
-      return res.status(200).json('Phone deleted')
+      return res.status(200).json('')
     } catch (err) {
       console.log({ err })
-      return res.status(403).json('Unable to delete phone')
+      return res.status(400).json('ERROR/PASSOWORD_RESET_FAILED')
     }
   }
 };

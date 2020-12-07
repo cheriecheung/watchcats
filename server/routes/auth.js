@@ -23,7 +23,7 @@ router.get('/googlelogin', generateCodes, AuthController.googleLogin);
 router.get('/oauth2callback', authenticateUser);
 router.get('/getUser', AuthController.googleUser);
 
-router.put('/password', authenticationLimiter, speedLimiter(30), AuthController.resetPassword)
+router.put('/password', authenticationLimiter, speedLimiter(30), verifyAccessTokenUpdate, AuthController.resetPassword)
 
 
 module.exports = router;

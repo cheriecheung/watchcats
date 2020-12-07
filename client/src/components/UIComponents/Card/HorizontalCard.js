@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 
 const defaultStyle = css`
+  width: 100%;
   margin-bottom: 30px;
   border-radius: 10px;
   background: rgba(255, 255, 255, 1);

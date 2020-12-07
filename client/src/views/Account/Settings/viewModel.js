@@ -206,22 +206,20 @@ function usePasswordAndAuthentication() {
   const dispatch = useDispatch();
 
   const { isTwoFactorEnabled } = useSelector((state) => state.account);
-  const { isActivated } = useSelector((state) => state.authentication);
+  const { authActionStatus } = useSelector((state) => state.authentication);
 
   const [showModal, setShowModal] = useState(false);
   const [content, setContent] = useState('')
 
   useEffect(() => {
-    if (isActivated) {
-      setContent('enableSuccess')
-    } else {
-      setContent('disableSuccess')
+    if (authActionStatus) {
+      setContent(authActionStatus)
     }
-  }, [isActivated])
+  }, [authActionStatus])
 
   function showChangePasswordModal() {
     setShowModal(true)
-    setContent('changePassword')
+    setContent('resetPassword')
   }
 
   function showEnable2faModal() {
@@ -244,7 +242,7 @@ function usePasswordAndAuthentication() {
   return {
     t,
     isTwoFactorEnabled,
-    isActivated,
+    authActionStatus,
     showChangePasswordModal,
     showEnable2faModal,
     showDisable2faModal,
@@ -311,6 +309,8 @@ function useDisable2FA() {
 function useChangePassword() {
   const dispatch = useDispatch();
 
+  const { authActionError } = useSelector((state) => state.authentication)
+
   const defaultValues = reset_password_default_values;
   const resolver = yupResolver(reset_password_schema)
   const methods = useForm({ defaultValues, resolver });
@@ -323,7 +323,8 @@ function useChangePassword() {
   return {
     FormProvider,
     methods,
-    onSubmit
+    onSubmit,
+    authActionError
   }
 }
 

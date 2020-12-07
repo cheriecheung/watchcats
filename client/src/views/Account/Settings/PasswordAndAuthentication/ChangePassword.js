@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldLabel, PasswordField } from '../../../../components/FormComponents';
-import { ContainedButton } from '../../../../components/UIComponents';
+import { ContainedButton, ErrorMessage } from '../../../../components/UIComponents';
 
 import { useChangePassword } from '../viewModel';
 
@@ -8,7 +8,8 @@ function ChangePassword({ t }) {
   const {
     FormProvider,
     methods,
-    onSubmit
+    onSubmit,
+    authActionError
   } = useChangePassword();
 
   const { handleSubmit } = methods;
@@ -28,6 +29,8 @@ function ChangePassword({ t }) {
 
           <FieldLabel> {t('settings.repeat_new_password')}</FieldLabel>
           <PasswordField name="newPasswordRepeat" />
+
+          {authActionError && <ErrorMessage>Password reset unsuccessful. Please try again.</ErrorMessage>}
 
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <ContainedButton type="submit">Submit</ContainedButton>
