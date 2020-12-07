@@ -37,6 +37,7 @@ const authentication_reducer = {
         return { passwordResetRequested: action.payload }
       // case 'ACCESS_TOKEN_ATTAINED':
       //   return { isLoggedIn: true }
+
       case AuthActionTypes.PASSWORD_RESET:
         return { ...state, authActionStatus: 'resetPasswordSuccess' }
       case AuthActionTypes.QR_CODE_RETURNED:

@@ -21,47 +21,39 @@ const socketio = require('socket.io');
 
 const { DB_CONNECT, SESS_NAME, SESS_SECRET, SESS_LIFETIME, PASSPHRASE } = process.env;
 
-mongoose
-  .connect(DB_CONNECT, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
-  .then(() => console.log('connected to db yay'))
-  .catch((err) => console.log(err.message));
+mongoose.connect(DB_CONNECT, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true
+}).then(() => console.log('connected to db yay')).catch(err => console.log(err.message));
 
-app.use(
-  cors({
-    origin: 'https://localhost:3000',
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: 'https://localhost:3000',
+  credentials: true
+}));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(cookieParser('secretcode'));
 app.use(cookieParser());
 
+app.use(session({
+  name: SESS_NAME,
+  resave: true,
+  saveUninitialized: true,
+  secret: SESS_SECRET,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    collection: 'session',
+    ttl: 24 * 60 * 60 / 1000
+  }),
 
-app.use(
-  session({
-    name: SESS_NAME,
-    resave: true,
-    saveUninitialized: true,
-    secret: SESS_SECRET,
-    store: new MongoStore({
-      mongooseConnection: mongoose.connection,
-      collection: 'session',
-      ttl: (24 * 60 * 60) / 1000,
-    }),
-
-    cookie: {
-      httpOnly: true,
-      secure: true,
-      maxAge: 24 * 60 * 60,
-    },
-  })
-);
+  cookie: {
+    httpOnly: true,
+    secure: true,
+    maxAge: 24 * 60 * 60
+  }
+}));
 
 // app.use((req, res, next) => {
 //   res.header("Access-Control-Allow-Headers","*");
@@ -84,7 +76,7 @@ app.use(express.static(path.join(__dirname, 'client', 'build')));
 const httpsOptions = {
   key: fs.readFileSync('./server/certificate/localhost.key'),
   cert: fs.readFileSync('./server/certificate/localhost.crt'),
-  passphrase: PASSPHRASE,
+  passphrase: PASSPHRASE
 };
 
 const server = https.createServer(httpsOptions, app).listen(5000, () => {
@@ -113,7 +105,7 @@ io.use((socket, next) => {
   return next();
 });
 
-io.on('connection', (socket) => {
+io.on('connection', socket => {
   console.log('>>>>>>>>>>> we have a connection');
 
   socket.on('send', async ({ message, recipient }) => {
@@ -126,7 +118,7 @@ io.on('connection', (socket) => {
 
     const currentConversation = await Conversation.findOne({
       participant1: [recipientObjId, senderObjId],
-      participant2: [recipientObjId, senderObjId],
+      participant2: [recipientObjId, senderObjId]
     });
 
     if (currentConversation) {
@@ -139,7 +131,7 @@ io.on('connection', (socket) => {
         lastMessage: message,
         lastMessageDate: Date.now(),
         participant1: recipientObjId,
-        participant2: senderObjId,
+        participant2: senderObjId
       });
 
       // save new message in Message model
@@ -147,10 +139,10 @@ io.on('connection', (socket) => {
       const newMessage = new Message({
         // displays as plain string, not obj id
         sender: senderObjId,
-        content: message,
+        content: message
       });
 
-      await newConversation.save((err) => {
+      await newConversation.save(err => {
         if (err) return err;
         newMessage.conversation = newConversation._id;
         newMessage.save();
