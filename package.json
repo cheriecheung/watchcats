@@ -9,6 +9,9 @@
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "build": "babel server/index.js --out-file server.compiled.js"
   },
+  "engines": {
+    "node": ">=0.12"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cheriecheung/find-pet-sitter-backend.git"
