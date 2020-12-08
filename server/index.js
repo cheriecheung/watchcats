@@ -81,6 +81,10 @@ app.use('/', baseRouter);
 // });
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 
+app.get('/test-api', (req, res) => {
+  return res.status(200).json('hello the backend is working')
+})
+
 const httpsOptions = {
   key: fs.readFileSync('./server/certificate/localhost.key'),
   cert: fs.readFileSync('./server/certificate/localhost.crt'),
