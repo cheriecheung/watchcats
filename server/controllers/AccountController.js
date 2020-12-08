@@ -193,7 +193,7 @@ module.exports = {
 
   verifyPhoneNumber: async (req, res) => {
     const { userId } = req.verifiedData;
-    if (!userId) return res.status(404).json('No user id');
+    if (!userId) return res.status(404).json('ERROR/PHONE_VERIFICATION_FAILED');
 
     const { code } = req.body;
     const { phone } = req.session
@@ -227,21 +227,21 @@ module.exports = {
 
   deletePhoneNumber: async (req, res) => {
     const { userId } = req.verifiedData;
-    if (!userId) return res.status(404).json('No user id');
+    if (!userId) return res.status(404).json('ERROR/PHONE_DELETION_FAILED');
 
     const { otp: submittedOtp } = req.body;
 
     try {
       const user = await User.findById(userId)
-      if (!user) return res.status(401).json('Code not found');
+      if (!user) return res.status(401).json('ERROR/PHONE_DELETION_FAILED');
 
       const { otp, otpExpiryTime } = user;
 
       const validOtp = await bcrypt.compare(submittedOtp, otp)
       const unexpired = new Date() < otpExpiryTime
 
-      if (!validOtp) return res.status(401).json('Invalid code')
-      if (!unexpired) return res.status(401).json('Code expired, click resend')
+      if (!validOtp) return res.status(401).json('ERROR/OTP_INVALID')
+      if (!unexpired) return res.status(401).json('ERROR/OTP_INVALID')
 
       await user.updateOne({
         $unset: {
@@ -252,10 +252,10 @@ module.exports = {
         }
       });
 
-      return res.status(200).json('Phone number deleted')
+      return res.status(200).json('')
     } catch (err) {
       console.log({ err })
-      return res.status(403).json('Unable to delete phone')
+      return res.status(403).json('ERROR/PHONE_DELETION_FAILED')
     }
   }
 }

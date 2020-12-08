@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  clearAccountActionError,
   getContactDetails,
   changeNotification,
   submitPhoneNumber,
@@ -13,12 +12,12 @@ import {
   sendOtpToSavedPhoneNumber
 } from '../../../redux/account/actions';
 import {
-  clearAuthActionError,
   resetPassword,
   getGoogleAuthenticatorQrCode,
   verifyGoogleAuthenticatorCode,
   disableTwoFactor
 } from '../../../redux/authentication/actions'
+import { clearError } from '../../../redux/error/actions'
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -41,13 +40,13 @@ function useContactDetails() {
   const dispatch = useDispatch();
   const contactDetails = useSelector((state) => state.account);
   const {
-    accountActionError,
     email: emailValue,
     getEmailNotification,
     phone: phoneValue,
     getSmsNotification,
     changePhoneNumberStep
   } = contactDetails
+  const { accountError } = useSelector((state) => state.error);
 
   const prevSettings = usePrevious({ getEmailNotification, getSmsNotification });
 
@@ -130,7 +129,7 @@ function useContactDetails() {
   function closeModal() {
     setShowModal(false)
     setInputPhoneNumber('')
-    dispatch(clearAccountActionError())
+    dispatch(clearError('accountError'))
   }
 
   const emailProps = {
@@ -167,7 +166,7 @@ function useContactDetails() {
     emailProps,
     phoneProps,
     phoneNumberInputProps,
-    accountActionError
+    accountError
   };
 }
 
@@ -236,7 +235,7 @@ function usePasswordAndAuthentication() {
   function closeModal() {
     setShowModal(false)
 
-    dispatch(clearAuthActionError())
+    dispatch(clearError('authenticationError'))
   }
 
   return {
@@ -255,7 +254,7 @@ function usePasswordAndAuthentication() {
 function useEnable2FA() {
   const dispatch = useDispatch();
 
-  const { authActionError } = useSelector((state) => state.authentication)
+  const { authenticationError } = useSelector((state) => state.error)
   const { qrCode } = useSelector((state) => state.authentication);
 
   const methods = useForm();
@@ -275,17 +274,17 @@ function useEnable2FA() {
   }, [qrCode])
 
   useEffect(() => {
-    if (authActionError === '') {
+    if (authenticationError === '') {
       reset({ verificationCode: '' })
     }
-  }, [authActionError])
+  }, [authenticationError])
 
   return {
     FormProvider,
     methods,
     qrCodeImage,
     onVerifyCode,
-    authActionError
+    authenticationError
   }
 }
 
@@ -309,7 +308,7 @@ function useDisable2FA() {
 function useChangePassword() {
   const dispatch = useDispatch();
 
-  const { authActionError } = useSelector((state) => state.authentication)
+  const { authenticationError } = useSelector((state) => state.authentication)
 
   const defaultValues = reset_password_default_values;
   const resolver = yupResolver(reset_password_schema)
@@ -324,7 +323,7 @@ function useChangePassword() {
     FormProvider,
     methods,
     onSubmit,
-    authActionError
+    authenticationError
   }
 }
 

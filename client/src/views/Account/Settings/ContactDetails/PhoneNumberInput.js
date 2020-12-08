@@ -3,7 +3,7 @@ import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import { ContainedButton, ErrorMessage } from '../../../../components/UIComponents'
 
-function PhoneNumberInput({ t, phoneNumberInputProps, accountActionError }) {
+function PhoneNumberInput({ t, phoneNumberInputProps, accountError }) {
   const {
     inputPhoneNumber,
     setInputPhoneNumber,
@@ -11,7 +11,7 @@ function PhoneNumberInput({ t, phoneNumberInputProps, accountActionError }) {
   } = phoneNumberInputProps
 
   const _renderErrorMessage = () => {
-    switch (accountActionError) {
+    switch (accountError) {
       case 'ERROR/PHONE_ALREADY_EXISTS':
         return 'Phone number is used by another account.'
       case 'ERROR/PHONE_SUBMISSION_FAILED':
@@ -36,7 +36,7 @@ function PhoneNumberInput({ t, phoneNumberInputProps, accountActionError }) {
         className="phone-input"
       />
 
-      {accountActionError && <ErrorMessage>{_renderErrorMessage()}</ErrorMessage>}
+      {accountError && <ErrorMessage>{_renderErrorMessage()}</ErrorMessage>}
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <ContainedButton type="button" onClick={onSubmitPhoneNumber}>Submit</ContainedButton>

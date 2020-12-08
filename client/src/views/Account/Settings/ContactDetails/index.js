@@ -16,7 +16,7 @@ function ContactDetails({ contactDetailsProps }) {
     emailProps,
     phoneProps,
     phoneNumberInputProps,
-    accountActionError
+    accountError
   } = contactDetailsProps
 
   const { changePhoneNumberStep } = phoneNumberInputProps;
@@ -28,7 +28,7 @@ function ContactDetails({ contactDetailsProps }) {
         return (
           <PhoneNumberVerification
             t={t}
-            accountActionError={accountActionError}
+            accountError={accountError}
           />
         )
       case 'input':
@@ -36,7 +36,7 @@ function ContactDetails({ contactDetailsProps }) {
           <PhoneNumberInput
             t={t}
             phoneNumberInputProps={phoneNumberInputProps}
-            accountActionError={accountActionError}
+            accountError={accountError}
           />
         )
       case 'verified':

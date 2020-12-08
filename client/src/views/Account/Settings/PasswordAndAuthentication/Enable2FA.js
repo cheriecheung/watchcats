@@ -24,13 +24,12 @@ function Enable2FA({ t }) {
     methods,
     qrCodeImage,
     onVerifyCode,
-    authActionError
+    authenticationError
   } = useEnable2FA();
 
-  console.log({ authActionError })
 
   const _renderErrorMessage = () => {
-    switch (authActionError) {
+    switch (authenticationError) {
       case 'ERROR/GOOGLE_OTP_INVALID':
         return 'Verification code invalid. Please try again.'
       case 'ERROR/2FA_ACTIVATION_FAILED':
@@ -83,7 +82,7 @@ function Enable2FA({ t }) {
             <p>Enter the 6-digit verification code generated.</p>
 
             <TextField name="verificationCode" placeholder="000 000" />
-            {authActionError && <ErrorMessage>{_renderErrorMessage()}</ErrorMessage>}
+            {authenticationError && <ErrorMessage>{_renderErrorMessage()}</ErrorMessage>}
             <ContainedButton type="button" onClick={onVerifyCode}>Activate</ContainedButton>
           </Description>
         </Section>

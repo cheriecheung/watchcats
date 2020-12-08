@@ -1,5 +1,6 @@
 import axios from 'axios';
 import AuthActionTypes from './actionTypes'
+import ErrorTypes from '../error/actionTypes'
 import { setAccessToken } from '../../utility/accessToken';
 import axiosInstance from '../../utility/axiosInstance';
 import { getConfig } from '../../utility/api'
@@ -39,11 +40,6 @@ const googleAuthenticatorVerifyCodeURL = `google-authenticator-verify-code`
 //   };
 // }
 
-export function clearAuthActionError() {
-  return (dispatch) => {
-    dispatch({ type: AuthActionTypes.ERROR_OCCURED, payload: '' });
-  }
-}
 
 export function disableTwoFactor(code) {
   return async (dispatch) => {
@@ -77,7 +73,7 @@ export function verifyGoogleAuthenticatorCode(code) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      dispatch({ type: AuthActionTypes.ERROR_OCCURED, payload: data });
+      dispatch({ type: ErrorTypes.AUTHENTICATION_ERROR, payload: data })
     }
   };
 }
@@ -189,7 +185,7 @@ export function resetPassword(newPassword) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      dispatch({ type: AuthActionTypes.ERROR_OCCURED, payload: data });
+      dispatch({ type: ErrorTypes.AUTHENTICATION_ERROR, payload: data })
     }
   };
 }

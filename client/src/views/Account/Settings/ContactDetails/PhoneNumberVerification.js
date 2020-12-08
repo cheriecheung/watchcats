@@ -3,7 +3,7 @@ import { ContainedButton, ErrorMessage } from '../../../../components/UIComponen
 import { OtpInput } from '../../../../components/FormComponents'
 import { usePhoneNumberVerification } from '../viewModel';
 
-function PhoneNumberVerification({ t, accountActionError }) {
+function PhoneNumberVerification({ t, accountError }) {
   const {
     FormProvider,
     methods,
@@ -14,7 +14,7 @@ function PhoneNumberVerification({ t, accountActionError }) {
   const { handleSubmit } = methods;
 
   const _renderErrorMessage = () => {
-    switch (accountActionError) {
+    switch (accountError) {
       case 'ERROR/OTP_INVALID':
         return 'Verification code invalid. Please try again.'
       case 'ERROR/PHONE_VERIFICATION_FAILED':
@@ -25,6 +25,8 @@ function PhoneNumberVerification({ t, accountActionError }) {
         break;
     }
   }
+
+  console.log({ accountError })
 
   return (
     <FormProvider {...methods}>
@@ -38,7 +40,7 @@ function PhoneNumberVerification({ t, accountActionError }) {
           <OtpInput name="otp" />
         </div>
 
-        {accountActionError && <ErrorMessage>{_renderErrorMessage()}</ErrorMessage>}
+        {accountError && <ErrorMessage>{_renderErrorMessage()}</ErrorMessage>}
 
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <ContainedButton type="button" onClick={resendCode}>Resend Code</ContainedButton>

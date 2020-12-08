@@ -9,7 +9,7 @@ function ChangePassword({ t }) {
     FormProvider,
     methods,
     onSubmit,
-    authActionError
+    authenticationError
   } = useChangePassword();
 
   const { handleSubmit } = methods;
@@ -30,7 +30,7 @@ function ChangePassword({ t }) {
           <FieldLabel> {t('settings.repeat_new_password')}</FieldLabel>
           <PasswordField name="newPasswordRepeat" />
 
-          {authActionError && <ErrorMessage>Password reset unsuccessful. Please try again.</ErrorMessage>}
+          {authenticationError && <ErrorMessage>Password reset unsuccessful. Please try again.</ErrorMessage>}
 
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <ContainedButton type="submit">Submit</ContainedButton>

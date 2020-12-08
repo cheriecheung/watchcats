@@ -3,6 +3,7 @@ import axiosInstance from '../../utility/axiosInstance';
 import { getAccessToken } from '../../utility/accessToken'
 import { getConfig } from '../../utility/api'
 import AccountActionTypes from './actionTypes'
+import ErrorTypes from '../error/actionTypes'
 
 const contactDetailsURL = `/contact-details`;
 const notificationURL = `/notification`
@@ -15,12 +16,6 @@ const profilePicURL = `/image/profile-picture`;
 const sitterURL = id => `/sitter/account/${id}`
 const ownerURL = id => `/owner/account/${id}`
 const catImageURL = `/image/cat`
-
-export function clearAccountActionError() {
-  return (dispatch) => {
-    dispatch({ type: AccountActionTypes.ERROR_OCCURED, payload: '' });
-  }
-}
 
 export function uploadTestPicture(profilePicture) {
   return async (dispatch) => {
@@ -66,7 +61,8 @@ export function submitPhoneNumber(phone) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      dispatch({ type: AccountActionTypes.ERROR_OCCURED, payload: data });
+      // dispatch({ type: AccountActionTypes.ERROR_OCCURED, payload: data });
+      dispatch({ type: ErrorTypes.ACCOUNT_ERROR, payload: data });
     }
   };
 }
@@ -102,7 +98,8 @@ export function verifyPhoneNumber(code) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      dispatch({ type: AccountActionTypes.ERROR_OCCURED, payload: data });
+      // dispatch({ type: AccountActionTypes.ERROR_OCCURED, payload: data });
+      dispatch({ type: ErrorTypes.ACCOUNT_ERROR, payload: data });
     }
   };
 }
@@ -114,6 +111,10 @@ export function deletePhoneNumber(otp) {
       dispatch({ type: AccountActionTypes.PHONE_NUMBER_DELETED, payload: 'removed' });
     } catch (e) {
       console.log({ e });
+      const { response } = e
+      const { data } = response || {}
+      dispatch({ type: ErrorTypes.ACCOUNT_ERROR, payload: data });
+
     }
   };
 }
