@@ -27,18 +27,6 @@ function Enable2FA({ t }) {
     authenticationError
   } = useEnable2FA();
 
-
-  const _renderErrorMessage = () => {
-    switch (authenticationError) {
-      case 'ERROR/GOOGLE_OTP_INVALID':
-        return 'Verification code invalid. Please try again.'
-      case 'ERROR/2FA_ACTIVATION_FAILED':
-        return 'Unable to activate 2FA. Please try again.'
-      default:
-        break;
-    }
-  }
-
   return (
     <FormProvider {...methods}>
       <form style={{ textAlign: 'left' }}>
@@ -82,7 +70,7 @@ function Enable2FA({ t }) {
             <p>Enter the 6-digit verification code generated.</p>
 
             <TextField name="verificationCode" placeholder="000 000" />
-            {authenticationError && <ErrorMessage>{_renderErrorMessage()}</ErrorMessage>}
+            {authenticationError && <ErrorMessage type={authenticationError} />}
             <ContainedButton type="button" onClick={onVerifyCode}>Activate</ContainedButton>
           </Description>
         </Section>

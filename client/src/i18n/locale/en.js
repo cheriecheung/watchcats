@@ -1,4 +1,18 @@
 export default {
+  error: {
+    generic: 'Error occured.',
+
+    phone_exists: 'Phone number is used by another account.',
+    code_verify_failed: 'Unable to verify code.',
+    phone_submit_failed: 'Unable to submit phone number. Please try again.',
+    phone_save_failed: 'Unable to save phone. Please try again.',
+
+    password_reset_failed: 'Unable to reset password. Please try again.',
+
+    otp_invalid: 'erkeerde verificatiecode.',
+    activation_failed: 'Unable to activate 2FA. Please try again.',
+  },
+
   header: {
     find_sitter: 'Find a cat sitter',
     about: 'About',

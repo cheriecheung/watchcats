@@ -1,4 +1,18 @@
 export default {
+  error: {
+    generic: 'Er is een fout opgetreden.',
+
+    phone_exists: 'Dit telefoonnummer is al gebruikt.',
+    code_verify_failed: 'Kan het code niet verifiëren.',
+    phone_submit_failed: 'Kan het telefoonnummer niet wijzigen. Probeer het opnieuw a.u.b',
+    phone_save_failed: 'Kay het telefoonnummer niet opslaan. Probeer het opnieuw a.u.b',
+
+    password_reset_failed: 'Kan wachtwoord niet resetten. Probeer het opnieuw a.u.b.',
+
+    otp_invalid: 'Verkeerde verificatiecode.',
+    activation_failed: 'Kan het 2FA niet activeren. Probeer het opnieuw a.u.b.',
+  },
+
   header: {
     find_sitter: 'Oppas zoeken',
     about: 'Over',

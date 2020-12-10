@@ -13,21 +13,6 @@ function PhoneNumberVerification({ t, accountError }) {
 
   const { handleSubmit } = methods;
 
-  const _renderErrorMessage = () => {
-    switch (accountError) {
-      case 'ERROR/OTP_INVALID':
-        return 'Verification code invalid. Please try again.'
-      case 'ERROR/PHONE_VERIFICATION_FAILED':
-        return 'Unable to verify code. Please try again.'
-      case 'ERROR/PHONE_SAVING_FAILED':
-        return 'Failed to save phone. Please try again.'
-      default:
-        break;
-    }
-  }
-
-  console.log({ accountError })
-
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmitOtp)} style={{ textAlign: 'center' }}>
@@ -40,7 +25,7 @@ function PhoneNumberVerification({ t, accountError }) {
           <OtpInput name="otp" />
         </div>
 
-        {accountError && <ErrorMessage>{_renderErrorMessage()}</ErrorMessage>}
+        {accountError && <ErrorMessage type={accountError} />}
 
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <ContainedButton type="button" onClick={resendCode}>Resend Code</ContainedButton>

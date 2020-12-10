@@ -30,7 +30,7 @@ function ChangePassword({ t }) {
           <FieldLabel> {t('settings.repeat_new_password')}</FieldLabel>
           <PasswordField name="newPasswordRepeat" />
 
-          {authenticationError && <ErrorMessage>Password reset unsuccessful. Please try again.</ErrorMessage>}
+          {authenticationError && <ErrorMessage type={authenticationError} />}
 
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <ContainedButton type="submit">Submit</ContainedButton>

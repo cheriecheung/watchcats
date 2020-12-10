@@ -10,17 +10,6 @@ function PhoneNumberInput({ t, phoneNumberInputProps, accountError }) {
     onSubmitPhoneNumber
   } = phoneNumberInputProps
 
-  const _renderErrorMessage = () => {
-    switch (accountError) {
-      case 'ERROR/PHONE_ALREADY_EXISTS':
-        return 'Phone number is used by another account.'
-      case 'ERROR/PHONE_SUBMISSION_FAILED':
-        return 'Unable to submit phone number. Please try again.'
-      default:
-        break;
-    }
-  }
-
   return (
     <div style={{ textAlign: 'center' }}>
       <i className="fas fa-mobile-alt fa-4x mb-3" />
@@ -35,8 +24,7 @@ function PhoneNumberInput({ t, phoneNumberInputProps, accountError }) {
         placeholder=""
         className="phone-input"
       />
-
-      {accountError && <ErrorMessage>{_renderErrorMessage()}</ErrorMessage>}
+      {accountError && <ErrorMessage type={accountError} />}
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <ContainedButton type="button" onClick={onSubmitPhoneNumber}>Submit</ContainedButton>
