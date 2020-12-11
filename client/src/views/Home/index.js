@@ -4,7 +4,7 @@ import { PlaceAutocomplete } from '../../components/Google'
 import { ContainedButton, HorizontalCard } from '../../components/UIComponents'
 import ScreenWidthListener from '../../components/Layout/ScreenWidthListener'
 import AppointmentPeriodPicker from '../FindCatSitter/Search/AppointmentPeriodPicker';
-// import { checkToken } from '../../redux/authentication/actions'
+// import { checkToken } from '../../redux/app/actions'
 import { useDispatch } from 'react-redux';
 
 import { useHome } from './viewModel'

@@ -9,7 +9,7 @@ function PasswordAndAuthentication({ passwordAndAuthenticationProps }) {
   const {
     t,
     isTwoFactorEnabled,
-    authActionStatus,
+    appActionStatus,
     showChangePasswordModal,
     showEnable2faModal,
     showDisable2faModal,
@@ -18,7 +18,7 @@ function PasswordAndAuthentication({ passwordAndAuthenticationProps }) {
     content
   } = passwordAndAuthenticationProps
 
-  console.log({ isTwoFactorEnabled, authActionStatus })
+  console.log({ isTwoFactorEnabled, appActionStatus })
 
   const renderModalContent = () => {
     switch (content) {
@@ -62,7 +62,7 @@ function PasswordAndAuthentication({ passwordAndAuthenticationProps }) {
             (Only for accounts registered by email and password)
 
       {
-        isTwoFactorEnabled || authActionStatus === '2faEnabled' ?
+        isTwoFactorEnabled || appActionStatus === '2faEnabled' ?
           <>
             <h6>you have already enabled two factor auth</h6>
             <OutlinedButton onClick={showDisable2faModal}>Disable 2FA</OutlinedButton>

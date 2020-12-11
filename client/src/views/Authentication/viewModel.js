@@ -18,15 +18,17 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import {
   verifyEmail,
-  getActivationEmail,
   login,
   googleLogin,
   googleAuthenticate,
   phoneLogin,
+} from '../../redux/authentication/actions';
+import {
   registration,
+  getActivationEmail,
   getPasswordResetEmail,
   resetPassword
-} from '../../redux/authentication/actions';
+} from '../../redux/app/actions';
 
 function useEmailVerification() {
   const { token } = useParams();

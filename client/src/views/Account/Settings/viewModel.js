@@ -16,7 +16,7 @@ import {
   getGoogleAuthenticatorQrCode,
   verifyGoogleAuthenticatorCode,
   disableTwoFactor
-} from '../../../redux/authentication/actions'
+} from '../../../redux/app/actions'
 import { clearError } from '../../../redux/error/actions'
 
 import { useForm, FormProvider } from 'react-hook-form';
@@ -205,16 +205,16 @@ function usePasswordAndAuthentication() {
   const dispatch = useDispatch();
 
   const { isTwoFactorEnabled } = useSelector((state) => state.account);
-  const { authActionStatus } = useSelector((state) => state.authentication);
+  const { appActionStatus } = useSelector((state) => state.app);
 
   const [showModal, setShowModal] = useState(false);
   const [content, setContent] = useState('')
 
   useEffect(() => {
-    if (authActionStatus) {
-      setContent(authActionStatus)
+    if (appActionStatus) {
+      setContent(appActionStatus)
     }
-  }, [authActionStatus])
+  }, [appActionStatus])
 
   function showChangePasswordModal() {
     setShowModal(true)
@@ -241,7 +241,7 @@ function usePasswordAndAuthentication() {
   return {
     t,
     isTwoFactorEnabled,
-    authActionStatus,
+    appActionStatus,
     showChangePasswordModal,
     showEnable2faModal,
     showDisable2faModal,
