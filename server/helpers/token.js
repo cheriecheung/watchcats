@@ -1,20 +1,20 @@
 const JWT = require('jsonwebtoken');
 const { verify } = require('jsonwebtoken')
-const { JWT_VERIFY_SECRET, ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET, VERIFY_EMAIL_TOKEN_SECRET, RESET_PASSWORD_TOKEN_SECRET } = process.env
+const { JWT_VERIFY_SECRET, JWT_ACCESS_TOKEN_SECRET, JWT_REFRESH_TOKEN_SECRET, JWT_VERIFY_EMAIL_TOKEN_SECRET, JWT_RESET_PASSWORD_TOKEN_SECRET } = process.env
 
 module.exports = {
   createAccessToken: (user) => {
     const { id: userId, tokenVersion } = user;
-    return JWT.sign({ userId, tokenVersion }, ACCESS_TOKEN_SECRET, { expiresIn: "10m" })
+    return JWT.sign({ userId, tokenVersion }, JWT_ACCESS_TOKEN_SECRET, { expiresIn: "10m" })
   },
 
   createRefreshToken: (user) => {
     const { id: userId, tokenVersion } = user;
-    return JWT.sign({ userId, tokenVersion }, REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
+    return JWT.sign({ userId, tokenVersion }, JWT_REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
   },
 
   createVerifyEmailToken: userId => {
-    return JWT.sign({ userId }, VERIFY_EMAIL_TOKEN_SECRET, { expiresIn: "60m" })
+    return JWT.sign({ userId }, JWT_VERIFY_EMAIL_TOKEN_SECRET, { expiresIn: "60m" })
   },
 
   verifyActivationLinkToken: (req, res, next) => {
@@ -24,7 +24,7 @@ module.exports = {
     try {
       const bearer = bearerHeader.split(' ');
       const bearerToken = bearer[1].toString();
-      const verifiedData = JWT.verify(bearerToken, VERIFY_EMAIL_TOKEN_SECRET)
+      const verifiedData = JWT.verify(bearerToken, JWT_VERIFY_EMAIL_TOKEN_SECRET)
       req.verifiedData = verifiedData;
 
       return next();
@@ -35,7 +35,7 @@ module.exports = {
   },
 
   createResetPasswordToken: userId => {
-    return JWT.sign({ userId }, RESET_PASSWORD_TOKEN_SECRET, { expiresIn: "30m" })
+    return JWT.sign({ userId }, JWT_RESET_PASSWORD_TOKEN_SECRET, { expiresIn: "30m" })
   },
 
   // 24 hours, for verify email and reset password
@@ -64,7 +64,7 @@ module.exports = {
       const bearer = bearerHeader.split(' ');
       const accessToken = bearer[1].toString();
 
-      const verifiedData = verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+      const verifiedData = verify(accessToken, process.env.JWT_ACCESS_TOKEN_SECRET)
       req.verifiedData = verifiedData;
 
       return next();
