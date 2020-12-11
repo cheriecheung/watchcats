@@ -93,27 +93,6 @@ module.exports = {
 
     // return res.status(200).json('Email requested');
   },
-
-  resetPassword: async (req, res) => {
-    console.log({ email: req.body.email })
-    // JWT.verify(req.token, JWT_RESET_PW_SECRET, async (err, authData) => {
-    //   if (err) {
-    //     console.log(err);
-    //     return res.status(401).json('Incorrect or expired token.');
-    //   } else {
-    //     const user = await User.findById(authData.sub);
-    //     if (!user) return res.status(404).json('User not found');
-
-    //     const salt = await bcrypt.genSalt(12);
-    //     const hashPassword = await bcrypt.hash(req.body.password, salt);
-
-    //     user.password = hashPassword;
-    //     await user.save();
-
-    //     return res.status(200).json('You have successfully changed your password.');
-    //   }
-    // });
-  },
 };
 
 
@@ -198,26 +177,5 @@ module.exports = {
 //     // sendResetPwMail(email, secretToken);
 
 //     // return res.status(200).json('Email requested');
-//   },
-
-//   resetPassword: async (req, res) => {
-//     console.log({ email: req.body.email })
-//     // JWT.verify(req.token, JWT_RESET_PW_SECRET, async (err, authData) => {
-//     //   if (err) {
-//     //     console.log(err);
-//     //     return res.status(401).json('Incorrect or expired token.');
-//     //   } else {
-//     //     const user = await User.findById(authData.sub);
-//     //     if (!user) return res.status(404).json('User not found');
-
-//     //     const salt = await bcrypt.genSalt(12);
-//     //     const hashPassword = await bcrypt.hash(req.body.password, salt);
-
-//     //     user.password = hashPassword;
-//     //     await user.save();
-
-//     //     return res.status(200).json('You have successfully changed your password.');
-//     //   }
-//     // });
 //   },
 // };

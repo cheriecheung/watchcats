@@ -19,7 +19,7 @@ const { baseRouter } = require('./routes');
 
 const socketio = require('socket.io');
 
-const { DB_CONNECT, SESS_NAME, SESS_SECRET, SESS_LIFETIME, PASSPHRASE } = process.env;
+const { DB_CONNECT, SESS_NAME, SESS_SECRET, SESS_LIFETIME } = process.env;
 
 mongoose
   .connect(DB_CONNECT, {
@@ -85,14 +85,12 @@ app.get('/test-api', (req, res) => {
   return res.status(200).json('hello the backend is working')
 })
 
-const httpsOptions = {
-  key: fs.readFileSync('./server/certificate/localhost.key'),
-  cert: fs.readFileSync('./server/certificate/localhost.crt'),
-  passphrase: PASSPHRASE,
-};
+const httpsOptions = {};
 
-const server = https.createServer(httpsOptions, app).listen(5000, () => {
-  console.log('SERVER RUNNING AT ' + 5000);
+const port = process.env.port || 5000;
+
+const server = https.createServer(httpsOptions, app).listen(port, () => {
+  console.log('SERVER RUNNING AT ' + port);
 });
 
 const io = socketio(server);
