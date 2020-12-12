@@ -1,13 +1,12 @@
 import React from 'react'
 import { FieldLabel, TextField } from '../../../../components/FormComponents'
-import { LinkButton, OutlinedButton } from '../../../../components/UIComponents'
+import { ErrorMessage, LinkButton, OutlinedButton } from '../../../../components/UIComponents'
 
-function LocalLogin({ t, localLoginProps }) {
+function LocalLogin({ t, authenticationError, localLoginProps }) {
   const {
     FormProvider,
     localLoginMethods: methods,
     onLocalLogin,
-    errorMessage
   } = localLoginProps;
 
   const { handleSubmit } = methods;
@@ -32,9 +31,7 @@ function LocalLogin({ t, localLoginProps }) {
           {t('login.login')}
         </OutlinedButton>
 
-        {errorMessage && (
-          <span style={{ color: 'red' }}>{errorMessage}</span>
-        )}
+        {authenticationError && <ErrorMessage type={authenticationError} />}
       </form>
     </FormProvider>
   )

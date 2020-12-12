@@ -11,6 +11,7 @@ import { useLogin } from '../viewModel'
 function Login() {
   const {
     t,
+    authenticationError,
     localLoginProps,
     phoneLoginProps,
     onGoogleLogin,
@@ -40,7 +41,11 @@ function Login() {
 
           <HorizontalDivider>{t('form.or')}</HorizontalDivider>
 
-          <Local t={t} localLoginProps={localLoginProps} />
+          <Local
+            t={t}
+            authenticationError={authenticationError}
+            localLoginProps={localLoginProps}
+          />
         </VerticalCard>
       }
     </div>

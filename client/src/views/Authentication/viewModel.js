@@ -29,6 +29,7 @@ import {
   getPasswordResetEmail,
   resetPassword
 } from '../../redux/app/actions';
+import { clearError } from '../../redux/error/actions'
 
 function useEmailVerification() {
   const { token } = useParams();
@@ -73,7 +74,8 @@ function useLogin() {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
-  const { errorMessage, loginByPhone } = useSelector((state) => state.authentication);
+  const { loginByPhone } = useSelector((state) => state.authentication);
+  const { authenticationError } = useSelector((state) => state.error)
 
   const phoneLoginMethods = useForm();
 
@@ -81,6 +83,10 @@ function useLogin() {
     defaultValues: login_default_values,
     resolver: yupResolver(login_schema)
   });
+
+  useEffect(() => {
+    dispatch(clearError('authenticationError'))
+  }, [])
 
   function onLocalLogin(data) {
     const { email, password } = data;
@@ -104,7 +110,6 @@ function useLogin() {
     FormProvider,
     localLoginMethods,
     onLocalLogin,
-    errorMessage,
   }
 
   const phoneLoginProps = {
@@ -115,6 +120,7 @@ function useLogin() {
 
   return {
     t,
+    authenticationError,
     localLoginProps,
     phoneLoginProps,
     onGoogleLogin,

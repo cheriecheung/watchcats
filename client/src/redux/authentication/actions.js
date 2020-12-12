@@ -98,14 +98,10 @@ export function login(email, password) {
         dispatch({ type: AuthActionTypes.PHONE_LOGIN, payload: true });
       }
     } catch (e) {
+      console.log({ e });
       const { response } = e
       const { data } = response || {}
-      console.log({ e });
-
-      // dispatch({
-      //   type: AuthActionTypes.LOGIN_FAIL,
-      //   payload: data || "Email and password combination isn't valid",
-      // });
+      dispatch({ type: ErrorTypes.AUTHENTICATION_ERROR, payload: data })
     }
   };
 }

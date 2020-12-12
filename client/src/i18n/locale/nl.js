@@ -2,15 +2,18 @@ export default {
   error: {
     generic: 'Er is een fout opgetreden.',
 
+    login_failed: 'Unable to login. Please try again.',
+    login_credentials_invalid: 'Email and password combination is incorrect.',
+
     phone_exists: 'Dit telefoonnummer is al gebruikt.',
     code_verify_failed: 'Kan het code niet verifiëren.',
-    phone_submit_failed: 'Kan het telefoonnummer niet wijzigen. Probeer het opnieuw a.u.b',
-    phone_save_failed: 'Kay het telefoonnummer niet opslaan. Probeer het opnieuw a.u.b',
+    phone_submission_failed: 'Kan het telefoonnummer niet wijzigen. Probeer het opnieuw a.u.b',
+    phone_saving_failed: 'Kay het telefoonnummer niet opslaan. Probeer het opnieuw a.u.b',
 
     password_reset_failed: 'Kan wachtwoord niet resetten. Probeer het opnieuw a.u.b.',
 
     otp_invalid: 'Verkeerde verificatiecode.',
-    activation_failed: 'Kan het 2FA niet activeren. Probeer het opnieuw a.u.b.',
+    two_factor_activation_failed: 'Kan het 2FA niet activeren. Probeer het opnieuw a.u.b.',
   },
 
   header: {
