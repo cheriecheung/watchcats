@@ -11,11 +11,20 @@ import { setAccessToken } from './utility/accessToken'
 import i18n from './i18n/i18n';
 import { I18nextProvider } from 'react-i18next';
 
+const { REACT_APP_API_DOMAIN } = process.env;
+
 async function checkLoggedIn() {
   let preloadedState
 
   try {
-    const { data } = await axios.post(`/refresh_token`)
+    // get
+    const { data } = await axios.post(`${REACT_APP_API_DOMAIN}/refresh_token`, {}, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      withCredentials: true,
+    })
     console.log({ data_____: data });
 
     const { accessToken } = data;

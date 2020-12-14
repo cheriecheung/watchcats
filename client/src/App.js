@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import Layout from './components/Layout';
 import Home from './views/Home';
 import About from './views/About';
-import { EmailVerification, Loading, Login, PasswordForgotten, PasswordReset, Register } from './views/Authentication';
+import { EmailVerification, Login, PasswordForgotten, PasswordReset, Register } from './views/Authentication';
 import Bookings from './views/Bookings';
 import Payment from './views/Bookings/containers/Payment';
 import WriteReview from './views/Bookings/containers/WriteReview';
@@ -76,7 +76,7 @@ function App() {
             <PrivateRoute path="/writereivew/:bookingId?" component={WriteReview} />
             <PrivateRoute path="/messages/:id?" component={Messages} />
             <PrivateRoute path="/account/:id?" component={Account} />
-            <Route path="/loading" component={Loading} />
+            {/* <Route path="/loading" component={Loading} /> */}
           </Switch>
         </Layout>
       </BrowserRouter>

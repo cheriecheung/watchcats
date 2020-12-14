@@ -10,7 +10,6 @@ const cookies = new Cookies();
 const { REACT_APP_API_DOMAIN } = process.env;
 
 const googleLoginURL = `${REACT_APP_API_DOMAIN}/googlelogin`;
-const googleAuthURL = `${REACT_APP_API_DOMAIN}/getUser`;
 const activateURL = `${REACT_APP_API_DOMAIN}/activate-account`;
 const phoneLoginURL = `${REACT_APP_API_DOMAIN}/phone-login`;
 const loginURL = `${REACT_APP_API_DOMAIN}/login`;
@@ -24,25 +23,6 @@ export function googleLogin() {
       console.log({ data })
       dispatch({ type: AuthActionTypes.GOOGLE_LOGIN, payload: data });
     } catch (e) {
-      console.log({ e });
-    }
-  };
-}
-
-export function googleAuthenticate() {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.get(googleAuthURL, {
-        withCredentials: true,
-        // credentials: 'include',
-      });
-      const { shortId } = data || {};
-      cookies.set('shortId', shortId);
-
-      dispatch({ type: AuthActionTypes.GOOGLE_LOGIN_SUCCESS });
-      window.location = `/account/${shortId}`;
-    } catch (e) {
-      window.location = '/';
       console.log({ e });
     }
   };

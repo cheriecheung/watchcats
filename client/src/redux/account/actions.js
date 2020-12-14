@@ -198,7 +198,7 @@ const getCatConfig = () => {
     withCredentials: true,
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
-      'content-ype': undefined
+      'content-type': undefined
     },
   }
 }

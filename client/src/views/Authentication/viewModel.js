@@ -20,7 +20,6 @@ import {
   verifyEmail,
   login,
   googleLogin,
-  googleAuthenticate,
   phoneLogin,
 } from '../../redux/authentication/actions';
 import {
@@ -97,10 +96,6 @@ function useLogin() {
     dispatch(googleLogin());
   }
 
-  function onGoogleAuthenticate() {
-    dispatch(googleAuthenticate());
-  }
-
   function onPhoneLogin(data) {
     const { code } = data
     dispatch(phoneLogin(code));
@@ -124,7 +119,6 @@ function useLogin() {
     localLoginProps,
     phoneLoginProps,
     onGoogleLogin,
-    onGoogleAuthenticate,
     loginByPhone,
   }
 }

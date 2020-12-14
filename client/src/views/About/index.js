@@ -20,6 +20,7 @@ function About() {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <h5>about page</h5>
+        <h5>deployment successful, latest modification: local login issue fixed</h5>
         <FileUploader name="testPic" setFileData={(data) => setValue(`testPic`, data)} />
         <button type="submit">upload picture for test account</button>
       </form>
