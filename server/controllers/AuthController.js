@@ -1,6 +1,8 @@
 const axios = require('axios');
+const qs = require('querystring');
 const User = require('../model/User');
 const bcrypt = require('bcryptjs');
+const { getCodeVerifier, getSsn } = require('../helpers/authentication');
 const { loginValidation } = require('../helpers/validation');
 const { createAccessToken, createRefreshToken } = require('../helpers/token');
 const { verify } = require('jsonwebtoken')
@@ -13,7 +15,7 @@ module.exports = {
     try {
       let payload = null;
 
-      payload = verify(refresh_token, process.env.REFRESH_TOKEN_SECRET)
+      payload = verify(refresh_token, process.env.JWT_REFRESH_TOKEN_SECRET)
       if (!payload) return res.status(402).json({ ok: false, message: 'message' });
 
       const user = await User.findById(payload.userId)
@@ -35,7 +37,7 @@ module.exports = {
 
   login: async (req, res) => {
     const { error } = loginValidation(req.body);
-    if (error) return res.status(400).json(error.details[0].message);
+    if (error) return res.status(400).json('ERROR/LOGIN_FAILED');
 
     const { email, password } = req.body;
 
@@ -44,12 +46,12 @@ module.exports = {
       const user = await User.findOne({ email });
       // dev purpose: error remains "no user found"
       // for production: error as Invalid email / password combination
-      if (!user) return res.status(400).json("Email and password combination isn't valid");
+      if (!user) return res.status(400).json("ERROR/LOGIN_CREDENTIALS_INVALID");
 
       // if (!googledId || !isVerified) return res.status(400).json('not verified)
 
       const validPass = await bcrypt.compare(password, user.password)
-      if (!validPass) return res.status(400).json("Email and password combination isn't valid");
+      if (!validPass) return res.status(400).json("ERROR/LOGIN_CREDENTIALS_INVALID");
 
       if (user.twoFactorSecret) {
         req.session.email = email;
@@ -68,7 +70,7 @@ module.exports = {
       return res.status(200).json({ shortId: user.urlId, accessToken })
     } catch (err) {
       console.log({ err })
-      return res.status(400).json("Email and password combination isn't valid")
+      return res.status(400).json("ERROR/LOGIN_FAILED")
     }
   },
 
@@ -113,24 +115,49 @@ module.exports = {
     return res.status(200).json(authenticationURI);
   },
 
+  authenticateGoogleUser: async (req, res, next) => {
+    const code = req.query.code;
+    const state = req.query.state.split(' ').join('+');
 
-  googleUser: async (req, res) => {
-    const { access_token, refresh_token } = await req.session;
+    const ssn = getSsn();
+    const code_verifier = getCodeVerifier();
 
-    // if (!access_token && !refresh_token) {
-    //   return res.redirect('https://localhost:3000/');
-    // }
+    if (state !== ssn) {
+      return res.status(401).json('Invalid state parameter');
+    }
 
-    const config = {
+    const requestBody = {
+      code,
+      client_id: process.env.GOOGLE_OAUTH_CLIENT_ID,
+      client_secret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+      redirect_uri: process.env.GOOGLE_OAUTH_CALLBACK_URL,
+      code_verifier,
+      grant_type: 'authorization_code',
+    };
+
+    const authenticateConfig = {
       headers: {
-        Authorization: `Bearer ${access_token}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
     };
 
     try {
+      const { data } = await axios.post('https://oauth2.googleapis.com/token', qs.stringify(requestBody), authenticateConfig);
+      const { access_token, refresh_token } = data || {};
+
+      if (!access_token && !refresh_token) {
+        // return res.redirect('https://localhost:3000/');
+      }
+
+      const getGoogleUserConfig = {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      };
+
       const {
         data: { sub: google_id, name, email },
-      } = await axios.get('https://openidconnect.googleapis.com/v1/userinfo', config);
+      } = await axios.get('https://openidconnect.googleapis.com/v1/userinfo', getGoogleUserConfig);
 
       let shortId;
       let userObj;
@@ -155,11 +182,15 @@ module.exports = {
         httpOnly: true,
         // domain
       })
+      res.cookie('shortId', user.urlId);
 
-      return res.status(200).json({ shortId });
+      return res.redirect(`https://localhost:3000/account/${shortId}`);
     } catch (e) {
-      console.log('>>>>>>>>>>>> unsuccessful', e);
-      return res.status(401).json('Incorrect credentials');
+      console.log({ e });
+      const { response } = e || {};
+      const { data } = response || {}
+      console.log({ data })
+      // redirect to certain page if failed
     }
   },
 
@@ -172,6 +203,8 @@ module.exports = {
     try {
       const salt = await bcrypt.genSalt(12);
       const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+      // joi fulfill password requirement
 
       const userRecord = await User.findOneAndUpdate(
         { _id: userId },
