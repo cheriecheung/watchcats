@@ -32,3 +32,12 @@ client/build/static/media/sphynx.61fb7597.png
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+client/build/precache-manifest.435c46b2bb4de5f423205f40470055e9.js
+client/build/static/js/2.f11ae7a8.chunk.js
+client/build/static/js/2.f11ae7a8.chunk.js.LICENSE.txt
+client/build/static/js/2.f11ae7a8.chunk.js.map
+client/build/static/js/main.601fa1aa.chunk.js
+client/build/static/js/main.601fa1aa.chunk.js.map
+client/build/precache-manifest.57443c9c884b677cf6bd62c423d96b24.js
+client/build/static/js/main.62d5ca35.chunk.js
+client/build/static/js/main.62d5ca35.chunk.js.map
