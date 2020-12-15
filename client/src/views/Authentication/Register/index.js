@@ -4,10 +4,11 @@ import { HorizontalDivider, LinkButton, VerticalCard } from '../../../components
 import Google from './containers/Google'
 import Local from './containers/Local'
 
-import { useRegister } from '../viewModel';
+import { useAuthentication, useRegister } from '../viewModel';
 
 function Register() {
-  const { t, onGoogleLogin, localRegisterProps } = useRegister()
+  const { t, appError } = useAuthentication();
+  const { onGoogleLogin, localRegisterProps } = useRegister()
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
@@ -24,7 +25,11 @@ function Register() {
 
         <HorizontalDivider>{t('form.or')}</HorizontalDivider>
 
-        <Local t={t} localRegisterProps={localRegisterProps} />
+        <Local
+          t={t}
+          localRegisterProps={localRegisterProps}
+          appError={appError}
+        />
       </VerticalCard>
     </div>
   )

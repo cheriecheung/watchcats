@@ -6,12 +6,11 @@ import Google from './containers/Google'
 import Local from './containers/Local'
 import Phone from './containers/Phone'
 
-import { useLogin } from '../viewModel'
+import { useAuthentication, useLogin } from '../viewModel'
 
 function Login() {
+  const { t, authenticationError } = useAuthentication();
   const {
-    t,
-    authenticationError,
     localLoginProps,
     phoneLoginProps,
     onGoogleLogin,

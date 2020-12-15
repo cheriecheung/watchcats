@@ -1,8 +1,8 @@
 import React from 'react'
 import { FieldLabel, PasswordField, TextField } from '../../../../components/FormComponents'
-import { OutlinedButton } from '../../../../components/UIComponents'
+import { ErrorMessage, OutlinedButton } from '../../../../components/UIComponents'
 
-function Local({ t, localRegisterProps }) {
+function Local({ t, localRegisterProps, appError }) {
   const { FormProvider, methods, onRegister } = localRegisterProps
   const { handleSubmit } = methods;
 
@@ -28,6 +28,8 @@ function Local({ t, localRegisterProps }) {
         <OutlinedButton type="submit" style={{ width: '100%' }}>
           {t('register.register')}
         </OutlinedButton>
+
+        {appError && <ErrorMessage type={appError} />}
       </form>
     </FormProvider>
   )

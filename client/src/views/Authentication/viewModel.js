@@ -23,17 +23,32 @@ import {
   phoneLogin,
 } from '../../redux/authentication/actions';
 import {
-  registration,
+  register,
   getActivationEmail,
   getPasswordResetEmail,
   resetPassword
 } from '../../redux/app/actions';
 import { clearError } from '../../redux/error/actions'
 
-function useEmailVerification() {
-  const { token } = useParams();
+function useAuthentication() {
   const { t } = useTranslation();
 
+  const dispatch = useDispatch();
+  const { appError, authenticationError } = useSelector((state) => state.error)
+
+  useEffect(() => {
+    dispatch(clearError(['appError', 'authenticationError']))
+  }, [])
+
+  return {
+    t,
+    appError,
+    authenticationError
+  }
+}
+
+function useEmailVerification() {
+  const { token } = useParams();
   const dispatch = useDispatch();
   const activate = useSelector((state) => state.authentication);
 
@@ -47,7 +62,7 @@ function useEmailVerification() {
     if (token) {
       dispatch(verifyEmail(token));
     }
-  }, [dispatch, token]);
+  }, [token]);
 
   function onSubmit(data) {
     const { email } = data;
@@ -63,29 +78,20 @@ function useEmailVerification() {
   }
 
   return {
-    t,
     activate,
     unsuccessfulProps
   }
 }
 
 function useLogin() {
-  const { t } = useTranslation();
-
   const dispatch = useDispatch();
   const { loginByPhone } = useSelector((state) => state.authentication);
-  const { authenticationError } = useSelector((state) => state.error)
-
   const phoneLoginMethods = useForm();
 
   const localLoginMethods = useForm({
     defaultValues: login_default_values,
     resolver: yupResolver(login_schema)
   });
-
-  useEffect(() => {
-    dispatch(clearError('authenticationError'))
-  }, [])
 
   function onLocalLogin(data) {
     const { email, password } = data;
@@ -114,8 +120,6 @@ function useLogin() {
   }
 
   return {
-    t,
-    authenticationError,
     localLoginProps,
     phoneLoginProps,
     onGoogleLogin,
@@ -124,8 +128,6 @@ function useLogin() {
 }
 
 function useForgotPassword() {
-  const { t } = useTranslation();
-
   const dispatch = useDispatch();
 
   const [emailSubmitted, setEmailSubmitted] = useState(false)
@@ -141,7 +143,6 @@ function useForgotPassword() {
   }
 
   return {
-    t,
     FormProvider,
     methods,
     emailSubmitted,
@@ -150,8 +151,6 @@ function useForgotPassword() {
 }
 
 function useResetPassword() {
-  const { t } = useTranslation();
-
   const dispatch = useDispatch();
 
   const defaultValues = password_reset_default_values;
@@ -164,7 +163,6 @@ function useResetPassword() {
   }
 
   return {
-    t,
     FormProvider,
     methods,
     onSubmitNewPassword
@@ -172,8 +170,6 @@ function useResetPassword() {
 }
 
 function useRegister() {
-  const { t } = useTranslation();
-
   const dispatch = useDispatch();
   // const { } = useSelector((state) => state.authentication);
 
@@ -183,7 +179,7 @@ function useRegister() {
 
   function onRegister(data) {
     const { firstName, lastName, email, password } = data;
-    dispatch(registration(firstName, lastName, email, password));
+    dispatch(register(firstName, lastName, email, password));
   };
 
   function onGoogleLogin() {
@@ -197,10 +193,16 @@ function useRegister() {
   }
 
   return {
-    t,
     onGoogleLogin,
     localRegisterProps,
   }
 }
 
-export { useEmailVerification, useLogin, useForgotPassword, useResetPassword, useRegister }
+export {
+  useAuthentication,
+  useEmailVerification,
+  useLogin,
+  useForgotPassword,
+  useResetPassword,
+  useRegister
+}

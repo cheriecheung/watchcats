@@ -1,11 +1,11 @@
 import React from 'react'
 import { FieldLabel, TextField } from '../../../components/FormComponents'
 import { ContainedButton, VerticalCard } from '../../../components/UIComponents';
-import { useResetPassword } from '../viewModel';
+import { useAuthentication, useResetPassword } from '../viewModel';
 
 function PasswordReset() {
+    const { t, appError } = useAuthentication()
     const {
-        t,
         FormProvider,
         methods,
         onSubmitNewPassword

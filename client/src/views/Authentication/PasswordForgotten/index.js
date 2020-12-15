@@ -1,11 +1,11 @@
 import React from 'react'
 import { Alert, ContainedButton, VerticalCard } from '../../../components/UIComponents';
 import { TextField } from '../../../components/FormComponents'
-import { useForgotPassword } from '../viewModel';
+import { useAuthentication, useForgotPassword } from '../viewModel';
 
 function PasswordForgotten() {
+    const { t, appError } = useAuthentication();
     const {
-        t,
         FormProvider,
         methods,
         emailSubmitted,

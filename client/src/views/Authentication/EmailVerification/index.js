@@ -4,10 +4,11 @@ import { VerticalCard } from '../../../components/UIComponents'
 import Successful from './containers/Successful'
 import Unsuccessful from './containers/Unsuccessful'
 
-import { useEmailVerification } from '../viewModel'
+import { useAuthentication, useEmailVerification } from '../viewModel'
 
 function EmailVerification() {
-  const { t, activate, unsuccessfulProps } = useEmailVerification();
+  const { t, authenticationError } = useAuthentication();
+  const { activate, unsuccessfulProps } = useEmailVerification();
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>

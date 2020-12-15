@@ -30,7 +30,7 @@ const googleAuthenticatorVerifyCodeURL = `google-authenticator-verify-code`
 //   };
 // }
 
-export function registration(firstName, lastName, email, password) {
+export function register(firstName, lastName, email, password) {
   return async (dispatch) => {
     try {
       const { data } = await axios.post(registerURL, {
@@ -47,10 +47,9 @@ export function registration(firstName, lastName, email, password) {
       });
     } catch (e) {
       console.log({ e });
-      dispatch({
-        type: AppActionTypes.REGISTER_FAIL,
-        payload: 'Registration fail. Please try again',
-      });
+      const { response } = e
+      const { data } = response || {}
+      dispatch({ type: ErrorTypes.APP_ERROR, payload: data });
     }
   };
 }
