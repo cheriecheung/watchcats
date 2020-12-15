@@ -7,10 +7,10 @@ const { encryptSecret, decryptSecret } = require('../helpers/authentication')
 module.exports = {
   getGoogleAuthenticatorQrCode: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('User id missing');
+    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
     const user = await User.findById(userId);
-    if (!user) return res.status(401).json('No user data')
+    if (!user) return res.status(401).json('ERROR/USER_NOT_FOUND')
 
     try {
       const name = `WatchCats (${user.email})`
@@ -23,7 +23,7 @@ module.exports = {
       return res.status(200).json(qrcodeImage)
     } catch (err) {
       console.log({ err })
-      return res.status(400).json('Error')
+      return res.status(400).json('ERROR/ERROR_OCCURED')
     }
   },
 
@@ -60,13 +60,13 @@ module.exports = {
 
   disableTwoFactor: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('User id missing');
+    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
     const { code } = req.body;
 
     try {
       const user = await User.findById(userId);
-      if (!user) return res.status(401).json("No such user");
+      if (!user) return res.status(401).json("ERROR/USER_NOT_FOUND");
 
       const decrypted = decryptSecret(user.twoFactorSecret)
 
@@ -75,7 +75,7 @@ module.exports = {
         encoding: 'ascii',
         token: code
       })
-      if (!verified) return res.status(401).json('verification failed')
+      if (!verified) return res.status(401).json('ERROR/INVALID_CODE')
 
       await User.findOneAndUpdate(
         { _id: userId },
@@ -86,7 +86,7 @@ module.exports = {
       return res.status(200).json('verification successful')
     } catch (err) {
       console.log({ err })
-      return res.status(401).json('verification failed')
+      return res.status(401).json('ERROR/ERROR_OCCURED')
     }
   },
 
@@ -96,7 +96,7 @@ module.exports = {
 
     try {
       const user = await User.findOne({ email });
-      if (!user) return res.status(401).json("Fail to process with 2fa");
+      if (!user) return res.status(401).json("ERROR/ERROR_OCCURED");
 
       const decrypted = decryptSecret(user.twoFactorSecret)
 
@@ -106,7 +106,7 @@ module.exports = {
         encoding: 'ascii',
         token: code
       })
-      if (!verified) return res.status(401).json('verification failed')
+      if (!verified) return res.status(401).json('ERROR/INVALID_CODE')
 
       const accessToken = createAccessToken(user);
       const refreshToken = createRefreshToken(user);
@@ -120,7 +120,7 @@ module.exports = {
       return res.status(200).json({ shortId: user.urlId, accessToken })
     } catch (err) {
       console.log({ err })
-      return res.status(401).json("2fa failed")
+      return res.status(401).json("ERROR/ERROR_OCCURED")
     }
   }
 }

@@ -19,7 +19,7 @@ module.exports = {
         Owner.findOne({ urlId: req.params.id }),
       ]);
 
-      if (!userRecord || !ownerRecord) return res.status(404).json('No account found');
+      if (!userRecord || !ownerRecord) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
       const { firstName, lastName, profilePicture, coordinates } = userRecord;
       const ownerId = mongoose.Types.ObjectId(ownerRecord.id);
@@ -110,14 +110,21 @@ module.exports = {
       return res.status(200).json(ownerData);
     } catch (err) {
       console.log({ err });
-      return res.status(500).json({ err });
+      return res.status(401).json('ERROR_ERROR/OCCURED');
     }
   },
 
   getAccount: async (req, res) => {
+    const { userId } = req.verifiedData;
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
+
     try {
-      const ownerRecord = await Owner.findOne({ urlId: req.params.id });
-      if (!ownerRecord) return res.status(404)
+      // populate
+      const user = await User.findById(userId);
+      if (!user) return res.status(404).json('ERROR/USER_NOT_FOUND')
+
+      const ownerRecord = await Owner.findById(user.owner);
+      if (!ownerRecord) return res.status(404).json('ERROR/USER_NOT_FOUND')
 
       const { id, aboutMe, catsDescription } = ownerRecord;
       const ownerId = ObjectId(id)
@@ -166,28 +173,28 @@ module.exports = {
       });
     } catch (err) {
       console.log({ err });
-      return res.status(500).json({ err });
+      return res.status(401).json('ERROR/ERROR_OCCURED');
     }
   },
 
   postAccount: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(404).json('No user found');
-
-    const userRecord = await User.findById(userId);
-    if (!userRecord) return res.status(404).json('No user found');
-
-    const {
-      bookingOneDay: oneDayArr,
-      bookingOvernight: overnightArr,
-      cat: catArr,
-      ...rest
-    } = req.body;
-
-    const { error } = catOwnerValidation(req.body);
-    if (error) return res.status(401).json(error.details[0].message);
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     try {
+      const userRecord = await User.findById(userId);
+      if (!userRecord) return res.status(404).json('ERROR/USER_NOT_FOUND');
+
+      const {
+        bookingOneDay: oneDayArr,
+        bookingOvernight: overnightArr,
+        cat: catArr,
+        ...rest
+      } = req.body;
+
+      const { error } = catOwnerValidation(req.body);
+      if (error) return res.status(401).json(error.details[0].message);
+
       if (!userRecord.owner) {
         const newOwner = new Owner({
           _id: new mongoose.Types.ObjectId(),
@@ -243,11 +250,11 @@ module.exports = {
       }
 
       const ownerRecord = await Owner.findOneAndUpdate(
-        { urlId: req.params.id },
+        { _id: userRecord.owner },
         { $set: { ...rest } },
         { useFindAndModify: false }
       );
-      if (!ownerRecord) return res.status(401).json('Fail to update');
+      if (!ownerRecord) return res.status(401).json('ERROR/ERROR_OCCURED');
 
       const { id: ownerId } = ownerRecord;
 
@@ -383,7 +390,7 @@ module.exports = {
       return res.status(201).json('Owner profile successfully saved');
     } catch (err) {
       console.log({ err });
-      return res.status(401).json({ err });
+      return res.status(401).json('ERROR/ERROR_OCCURED');
     }
   },
 };

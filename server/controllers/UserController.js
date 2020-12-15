@@ -34,14 +34,14 @@ module.exports = {
 
   register: async (req, res) => {
     const { error } = registerValidation(req.body);
-    if (error) return res.status(400).json(error.details[0].message);
+    if (error) return res.status(400).json('ERROR/ERROR_OCCURED');
 
     const { name, email, password } = req.body;
 
     console.log({ name, email, password })
     try {
       const emailExists = await User.findOne({ email });
-      if (emailExists) return res.status(400).json({ error: 'Email already exists' });
+      if (emailExists) return res.status(400).json('ERROR/EMAIL_ALREADY_EXISTS');
 
       const salt = await bcrypt.genSalt(12);
       const hashedPassword = await bcrypt.hash(password, salt);
@@ -57,7 +57,7 @@ module.exports = {
         .json('A link to activate your account has been sent to the email provided. Be sure to check the spam / junk mailbox if the email is not found in the main inbox.');
     } catch (error) {
       console.log(error.message);
-      return res.status(400).json({ error });
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 
@@ -66,8 +66,8 @@ module.exports = {
 
     try {
       const user = await User.findOne({ email });
-      if (!user) return res.status(400).json({ error: 'Invalid email' });
-      if (user.isVerified) return res.status(200).json('Account has previously been activated');
+      if (!user) return res.status(400).json('ERROR/ERROR_OCCURED');
+      if (user.isVerified) return res.status(200).json('ERROR/ACCOUNT_ALREADY_ACTIVATED');
 
       const { id, email: userEmail } = user;
 
@@ -76,7 +76,7 @@ module.exports = {
 
       return res.status(200).json('success');
     } catch (err) {
-      return res.status(400).json('error');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 

@@ -31,30 +31,30 @@ async function generateOTP(userId) {
 module.exports = {
   getPersonalInfo: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('User id missing');
+    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
     const user = await User.findById(userId);
-    if (!user) return res.status(404).json('User not found');
+    if (!user) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     return res.status(200).json(user);
   },
 
   postPersonalInfo: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('User id missing');
+    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
     const { postcode } = req.body;
 
     try {
       const { error } = personalDataValidation(req.body)
-      if (error) return res.status(401).json(error.details[0].message);
+      if (error) return res.status(401).json('ERROR/CORRECT_INFO_NEEDED');
 
       const user = await User.findOneAndUpdate(
         { _id: userId },
         { $set: { ...req.body } },
         { useFindAndModify: false }
       );
-      if (!user) return res.status(401).json('Fail to update');
+      if (!user) return res.status(401).json('ERROR/FAIL_TO_SAVE');
 
       if (postcode !== user.postcode) {
         const { lng, lat } = await getCoordinatesByPostcode(postcode)
@@ -63,20 +63,20 @@ module.exports = {
         await user.save();
       }
 
-      return res.status(200).json('User general profile successful saved');
+      return res.status(200).json('');
     } catch (e) {
       console.log({ e });
-      return res.status(401).json('Unsuccessful');
+      return res.status(401).json('ERROR/FAIL_TO_SAVE');
     }
   },
 
   getContactDetails: async (req, res) => {
     const { userId } = req.verifiedData;
-    if (!userId) return res.status(404).json('No user id');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     try {
       const user = await User.findById(userId);
-      if (!user) return res.status(404).json('User not found');
+      if (!user) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
       const {
         email,
@@ -97,19 +97,19 @@ module.exports = {
       })
     } catch (err) {
       console.log({ err })
-      return res.status(403).json('Unable to retrieve user contact details')
+      return res.status(403).json('ERROR/ERROR_OCCURED')
     }
   },
 
   changeNotification: async (req, res) => {
     const { userId } = req.verifiedData;
-    if (!userId) return res.status(404).json('No user id');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const { contactType } = req.body;
 
     try {
       const user = await User.findById(userId);
-      if (!user) return res.status(404).json('User not found');
+      if (!user) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
       const { getEmailNotification, getSmsNotification } = user
 
@@ -131,13 +131,13 @@ module.exports = {
       })
     } catch (err) {
       console.log({ err })
-      return res.status(403).json('Unable to change notification')
+      return res.status(403).json('ERROR/ERROR_OCCURED')
     }
   },
 
   submitPhoneNumber: async (req, res) => {
     const { userId } = req.verifiedData;
-    if (!userId) return res.status(404).json('No user id');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const { phone } = req.body;
     req.session.phone = phone;
@@ -158,7 +158,7 @@ module.exports = {
 
   resendOtpToInputtedPhoneNumber: async (req, res) => {
     const { userId } = req.verifiedData;
-    if (!userId) return res.status(404).json('No user id');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const { phone } = req.session
 
@@ -166,28 +166,28 @@ module.exports = {
       const { otp } = await generateOTP(userId);
       sendTwilioSMS(phone, 'VERIFY_PHONE_NUMBER', { code: otp })
 
-      return res.status(200).json('Code sent')
+      return res.status(200).json('')
     } catch (err) {
       console.log({ err })
-      return res.status(403).json('Unable to send code')
+      return res.status(403).json('ERROR/ERROR_OCCURED')
     }
   },
 
   sendOtpToSavedPhoneNumber: async (req, res) => {
     const { userId } = req.verifiedData;
-    if (!userId) return res.status(404).json('No user id');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const { phone } = await User.findById(userId)
-    if (!phone) return res.status(404).json('No user found');
+    if (!phone) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     try {
       const { otp } = await generateOTP(userId);
       sendTwilioSMS(phone, 'VERIFY_PHONE_NUMBER', { code: otp })
 
-      return res.status(200).json('Code sent')
+      return res.status(200).json('')
     } catch (err) {
       console.log({ err })
-      return res.status(403).json('Unable to send code')
+      return res.status(403).json('ERROR/ERROR_OCCUTED')
     }
   },
 

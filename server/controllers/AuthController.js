@@ -79,7 +79,7 @@ module.exports = {
 
     try {
       const user = await User.findById(userId);
-      if (!user) return res.status(404).json('User not found');
+      if (!user) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
       req.session.destroy();
       res.clearCookie("refresh_token", { path: "/" });
@@ -96,15 +96,15 @@ module.exports = {
 
     try {
       const user = await User.findById(userId);
-      if (!user) return res.status(404).json('User not found');
-      if (user.isVerified) return res.status(200).json('Account has previously been activated');
+      if (!user) return res.status(404).json('ERROR/USER_NOT_FOUND');
+      if (user.isVerified) return res.status(200).json('ERROR/ACCOUNT_ALREADY_ACTIVATED');
 
       user.isVerified = true;
       await user.save();
 
       return res.status(200).json('Account activate is now activated');
     } catch (err) {
-      return res.status(400).json('Unable to update the status of your account');
+      return res.status(400).json('ERROR/ACCOUNT_ACTIVATION_FAILED');
     }
   },
 
@@ -123,7 +123,8 @@ module.exports = {
     const code_verifier = getCodeVerifier();
 
     if (state !== ssn) {
-      return res.status(401).json('Invalid state parameter');
+      // create page on front end: "please go back and try again"
+      return res.status(401).json('ERROR/GOOGLE_LOGIN_FAILED');
     }
 
     const requestBody = {
@@ -184,13 +185,15 @@ module.exports = {
       })
       res.cookie('shortId', user.urlId);
 
-      return res.redirect(`https://localhost:3000/account/${shortId}`);
+      return res.redirect("https://localhost:3000/account");
     } catch (e) {
       console.log({ e });
       const { response } = e || {};
       const { data } = response || {}
       console.log({ data })
       // redirect to certain page if failed
+      // create page on front end: "please go back and try again"
+      return res.status(401).json('ERROR/GOOGLE_LOGIN_FAILED');
     }
   },
 

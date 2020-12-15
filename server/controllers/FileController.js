@@ -39,7 +39,7 @@ module.exports = {
   saveTestPicture: async (req, res) => {
     try {
       const { file } = req;
-      if (!file) return res.status(404).json('File is not properly uploaded');
+      if (!file) return res.status(404).json('ERROR/ERROR_OCCURED');
 
       const { fieldname, filename } = file || {};
       console.log({ fieldname, filename });
@@ -47,30 +47,30 @@ module.exports = {
       return res.status(200).json('TEST picture successfully saved');
     } catch (e) {
       console.log({ e });
-      return res.status(400).json('Unable to save test picture');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 
   displayImage: async (req, res) => {
     // console.log({ params: req.params })
     const image = await gfs.files.findOne({ filename: req.params.filename });
-    if (!image) return res.status(404).json('No image exists');
+    if (!image) return res.status(404).json('ERROR/ERROR_OCCURED');
 
     const { contentType, filename } = image;
     if (contentType === 'image/jpeg' || contentType === 'image/png') {
       const readstream = gfs.createReadStream(filename);
       readstream.pipe(res);
     } else {
-      return res.status(404).json('Not an image');
+      return res.status(404).json('ERROR/ERROR_OCCURED');
     }
   },
 
   deleteImage: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('User id missing');
+    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
     const userRecord = await User.findById(userId);
-    if (!userRecord) return res.status(404).json('User not found');
+    if (!userRecord) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     await userRecord.updateOne({ $unset: { profilePicture: '' } });
 
@@ -81,20 +81,20 @@ module.exports = {
       return res.status(200).json('Picture successfully deleted');
     } catch (err) {
       console.log({ err });
-      return res.status(404).json('Picture does not exist');
+      return res.status(404).json('ERROR/ERROR_OCCURED');
     }
   },
 
   saveFileName: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('User id missing');
+    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
     const userRecord = await User.findById(userId);
-    if (!userRecord) return res.status(404).json('User not found');
+    if (!userRecord) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     try {
       const { file } = req;
-      if (!file) return res.status(404).json('File is not properly uploaded');
+      if (!file) return res.status(404).json('ERROR/ERROR_OCCURED');
 
       const { fieldname, filename } = file || {};
 
@@ -108,13 +108,13 @@ module.exports = {
       return res.status(200).json('File successfully saved');
     } catch (e) {
       console.log({ e });
-      return res.status(400).json('Unable to save image');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 
   saveCatPhoto: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(404).json('No user found');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const userObjid = ObjectId(userId)
 
@@ -150,7 +150,7 @@ module.exports = {
 
     } catch (err) {
       console.log({ err })
-      return res.status(400).json('Unable to save images');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 
@@ -159,13 +159,13 @@ module.exports = {
       const { filename } = req.body;
 
       const updatedRecord = await Cat.findOneAndUpdate({ photo: filename }, { $unset: { photo: '' } })
-      if (!updatedRecord) return res.status(404).json('Fail to update cat record');
+      if (!updatedRecord) return res.status(404).json('ERROR/ERROR_OCCURED');
 
       await gfs.remove({ filename, root: 'uploads' });
       return res.status(200).json('Picture successfully deleted');
     } catch (err) {
       console.log({ err })
-      return res.status(404).json('Picture does not exist');
+      return res.status(404).json('ERROR/ERROR_OCCURED');
     }
   }
 };

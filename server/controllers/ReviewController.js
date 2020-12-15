@@ -7,14 +7,14 @@ const { getInfo } = require('../helpers/bookings')
 module.exports = {
   submitReview: async (req, res) => {
     const { userId: reviewerUserId } = req.verifiedData
-    if (!reviewerUserId) return res.status(403).json('User id missing');
+    if (!reviewerUserId) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
     const { review: content, rating } = req.body;
     const { bookingId } = req.params
 
     try {
       const { reviewer, reviewee, error } = await getInfo(bookingId, reviewerUserId);
-      if (error) return res.status(401).json(error)
+      if (error) return res.status(401).json('ERROR/ERROR_OCCURED')
 
       const newReview = new Review({
         reviewer: reviewer._id,
@@ -23,7 +23,7 @@ module.exports = {
         rating
       })
       await newReview.save();
-      if (newReview) return res.status(401).json('Cannot save review')
+      if (!newReview) return res.status(401).json('ERROR/ERROR_OCCURED')
 
       const { firstName, lastName } = reviewer;
 
@@ -47,13 +47,13 @@ module.exports = {
       return res.status(200).json('Successful submitted review')
     } catch (err) {
       console.log({ err })
-      return res.status(401).json('Unable to save review');
+      return res.status(401).json('ERROR/ERROR_OCCURED');
     }
   },
 
   getReviews: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('User id missing');
+    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
     const { type } = req.query;
 
@@ -70,7 +70,7 @@ module.exports = {
       return res.status(200).json(reviews)
     } catch (err) {
       console.log({ err })
-      return res.status(401).json('User id missing');
+      return res.status(401).json('ERROR/ERROR_OCCURED');
     }
   }
 }

@@ -100,7 +100,7 @@ module.exports = {
       return res.status(200).json({ totalResults, paginatedResults });
     } catch (err) {
       console.log({ err });
-      return res.status(404).json('No records found');
+      return res.status(404).json('ERROR/ERROR_OCCURED');
     }
   },
 

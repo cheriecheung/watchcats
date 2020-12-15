@@ -15,7 +15,7 @@ function generateAccountLink(accountID, origin) {
 module.exports = {
   onboardUser: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(404).json('No user found');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     try {
       const account = await stripe.accounts.create({
@@ -44,7 +44,7 @@ module.exports = {
         { $set: { stripeAccountId: account.id } },
         { useFindAndModify: false }
       );
-      if (!userRecord) return res.status(404).json('Fail to update user record');
+      if (!userRecord) return res.status(404).json('ERROR/ERROR_OCCURED');
 
       // const origin = `${req.headers.origin}`;
       const origin = `https://localhost:3000`;
@@ -70,7 +70,7 @@ module.exports = {
 
   getClientSecret: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(404).json('No user found');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     try {
       const { bookingId } = req.body;
@@ -97,7 +97,7 @@ module.exports = {
       return res.status(200).json({ client_secret, stripeAccountId: 'acct_1HYCiyART4JEToPd' });
     } catch (e) {
       console.log({ e });
-      return res.status(401).json('Unsuccessful');
+      return res.status(401).json('ERROR/ERROR_OCCURED');
     }
   },
 };

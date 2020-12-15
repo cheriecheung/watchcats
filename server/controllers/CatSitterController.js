@@ -16,7 +16,7 @@ module.exports = {
         Sitter.findOne({ urlId: req.params.id }),
       ]);
 
-      if (!userRecord || !sitterRecord) return res.status(404).json('No account found');
+      if (!userRecord || !sitterRecord) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
       const { firstName, lastName, profilePicture, coordinates } = userRecord;
 
@@ -73,15 +73,21 @@ module.exports = {
       return res.status(200).json(sitterData);
     } catch (err) {
       console.log({ err });
-      return res.status(500).json({ err });
+      return res.status(401).json('ERROR/ERROR_OCCURED');
     }
   },
 
   getAccount: async (req, res) => {
-    // get by user id from verified token
+    const { userId } = req.verifiedData;
+    if (!userId) return res.status(404).json('No user id');
+
     try {
-      const sitterRecord = await Sitter.findOne({ urlId: req.params.id });
-      if (!sitterRecord) return res.status(404)
+      // populate
+      const user = await User.findById(userId);
+      if (!user) return res.status(404).json('no user')
+
+      const sitterRecord = await Sitter.findById(user.sitter);
+      if (!sitterRecord) return res.status(404).json('no sitter')
 
       const unavailableDates = await getUnavailableDates(sitterRecord.id);
       const sitterData = { ...sitterRecord._doc, unavailableDates };
@@ -89,21 +95,21 @@ module.exports = {
       return res.status(200).json(sitterData);
     } catch (err) {
       console.log({ err });
-      return res.status(500).json({ err });
+      return res.status(401).json('ERROR/ERROR_OCCURED');
     }
   },
 
   postAccount: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(404).json('No user found');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const userRecord = await User.findById(userId);
-    if (!userRecord) return res.status(404).json('No user found');
+    if (!userRecord) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const { unavailableDates: unavailableDatesArr, ...rest } = req.body;
 
     const { error } = catSitterValidation(req.body);
-    if (error) return res.status(401).json(error.details[0].message);
+    if (error) return res.status(401).json('ERROR/CORRECT_INFO_NEEDED');
 
     try {
       if (!userRecord.sitter) {
@@ -133,11 +139,11 @@ module.exports = {
       }
 
       const sitterRecord = await Sitter.findOneAndUpdate(
-        { urlId: req.params.id },
+        { _id: userRecord.sitter },
         { $set: { ...rest } },
         { useFindAndModify: false }
       );
-      if (!sitterRecord) return res.status(400).json('Fail to update');
+      if (!sitterRecord) return res.status(400).json('ERROR/ERROR_OCCURED');
 
       const { id: sitterId } = sitterRecord;
 
@@ -167,7 +173,7 @@ module.exports = {
       return res.status(200).json('Sitter profile successfully saved');
     } catch (err) {
       console.log({ err });
-      return res.status(500).json({ err });
+      return res.status(401).json('ERROR/ERROR_OCCURED');
     }
   },
 };

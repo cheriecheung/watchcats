@@ -9,12 +9,14 @@ const { cleanRecordData, getNewBookingStatus, getInfo } = require('../helpers/bo
 module.exports = {
   getAppointmentTime: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('User id missing');
+    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
     // const userRecord = await User.findById(userId);
     // const {owner} = userRecord
 
     // if (owner) return res.status(404).json('no_owner_profile');
+
+    // TRY CATCH
     User.findById(userId)
       .populate('owner')
       .exec(async (err, user) => {
@@ -53,7 +55,7 @@ module.exports = {
 
   sendRequest: async (req, res) => {
     const { userId: ownerUserId } = req.verifiedData
-    if (!ownerUserId) return res.status(403).json('User id missing');
+    if (!ownerUserId) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
     const { sitterId: sitterShortId, type } = req.body;
 
@@ -74,7 +76,7 @@ module.exports = {
       } = sitter;
 
       if (!ownerObjId || !sitterObjId)
-        return res.status(401).json('Unable to identity sitter or owner profile.');
+        return res.status(401).json('ERROR/ERROR_OCCURED');
 
       let newBooking;
 
@@ -126,19 +128,19 @@ module.exports = {
       return res.status(201).json('Booking request successfully created');
     } catch (e) {
       console.log({ e });
-      return res.status(401).json('Unable to create booking request');
+      return res.status(401).json('ERROR/ERROR_OCCURED');
     }
   },
 
   getRecords: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('User id missing');
+    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
     // if requested / comfirmed booking is expired, change status to 'declined'
 
     try {
       const userRecord = await User.findById(userId);
-      if (!userRecord) return res.status(403).json('User not found');
+      if (!userRecord) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
       const { type } = req.query;
       const { sitter: sitterObjId, owner: ownerObjId } = userRecord
@@ -188,7 +190,7 @@ module.exports = {
       return res.status(200).json(response);
     } catch (err) {
       console.log({ err })
-      return res.status(401).json('Cannot get records');
+      return res.status(401).json('ERROR/ERROR_OCCURED');
     }
   },
 
@@ -203,7 +205,7 @@ module.exports = {
         { $set: { status } },
         { useFindAndModify: false }
       );
-      if (!bookingRecord) return res.status(401).json('No booking record to update')
+      if (!bookingRecord) return res.status(401).json('ERROR/ERROR_OCCURED')
 
       // const [{ phone, email }, { firstName, lastName }] = await Promise.all([
       const [owner, sitter] = await Promise.all([
@@ -220,7 +222,7 @@ module.exports = {
       const { firstName, lastName } = sitter
 
       if (!firstName || !lastName) {
-        return res.status(401).json('Unable to find owner or sitter')
+        return res.status(401).json('ERROR/USER_NOT_FOUND')
       }
 
       const sitterName = `${firstName} ${lastName}`
@@ -238,19 +240,19 @@ module.exports = {
       return res.status(200).json('success')
     } catch (err) {
       console.log({ err })
-      return res.status(401).json('Unable to update')
+      return res.status(401).json('ERROR/ERROR_OCCUTED')
     }
   },
 
   getBookingInfo: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('User id missing');
+    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
     const { bookingId } = req.params;
 
     try {
       const { booking, reviewee, error } = await getInfo(bookingId, userId);
-      if (error) return res.status(401).json(error)
+      if (error) return res.status(401).json('ERROR/USER_NOT_FOUND')
 
       const { appointmentType, location, price } = booking
       const { firstName, lastName, profilePicture } = reviewee
@@ -268,7 +270,7 @@ module.exports = {
       return res.status(200).json(returnData)
     } catch (err) {
       console.log({ err })
-      return res.status(401).json('Unable to update')
+      return res.status(401).json('ERROR/ERROR_OCCURED')
     }
   }
 };
