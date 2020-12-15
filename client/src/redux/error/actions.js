@@ -2,6 +2,12 @@ import ErrorTypes from "./actionTypes";
 
 export function clearError(type) {
   return (dispatch) => {
-    dispatch({ type: ErrorTypes.CLEAR_ERROR, errorType: type });
+    if (Array.isArray(type)) {
+      type.map(item => {
+        dispatch({ type: ErrorTypes.CLEAR_ERROR, errorType: item });
+      })
+    } else {
+      dispatch({ type: ErrorTypes.CLEAR_ERROR, errorType: type });
+    }
   }
 }

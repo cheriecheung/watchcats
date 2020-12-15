@@ -1,14 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
-
-const ErrorMessageComponent = styled.p`
-  color: #E56E5A;
-  align-self: flex-end;
-`
+import { Alert } from 'antd';
 
 function renderMessage(t, type) {
   switch (type) {
+    case 'ERROR/EMAIL_ALREADY_EXISTS':
+      return t('error.email_exists')
     case 'ERROR/LOGIN_FAILED':
       return t('error.login_failed')
     case 'ERROR/LOGIN_CREDENTIALS_INVALID':
@@ -35,9 +32,15 @@ function renderMessage(t, type) {
 
 function ErrorMessage({ type }) {
   const { t } = useTranslation();
+  const message = renderMessage(t, type)
 
   return (
-    <ErrorMessageComponent>{renderMessage(t, type)}</ErrorMessageComponent>
+    <Alert
+      message={message}
+      type="error"
+      showIcon
+      style={{ marginTop: 30 }}
+    />
   )
 }
 

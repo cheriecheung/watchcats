@@ -1,6 +1,8 @@
 export default {
   error: {
-    generic: 'Error occured.',
+    generic: 'Error occured. Please try again.',
+
+    email_exists: 'Email already exists.',
 
     login_failed: 'Unable to login. Please try again.',
     login_credentials_invalid: 'Email and password combination is incorrect.',

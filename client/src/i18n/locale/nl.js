@@ -1,9 +1,11 @@
 export default {
   error: {
-    generic: 'Er is een fout opgetreden.',
+    generic: 'Er is een fout opgetreden. Probeer het opnieuw a.u.b',
+
+    email_exists: 'E-mailadres bestaat al.',
 
     login_failed: 'Unable to login. Please try again.',
-    login_credentials_invalid: 'Email and password combination is incorrect.',
+    login_credentials_invalid: 'De ingegeven combinatie e-mailadres en wachtwoord is ongeldig.',
 
     phone_exists: 'Dit telefoonnummer is al gebruikt.',
     code_verify_failed: 'Kan het code niet verifiëren.',
