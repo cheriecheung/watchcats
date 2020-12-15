@@ -13,8 +13,8 @@ const personalInfoURL = `/personal-info`;
 const imageURL = `/image`;
 const profilePicURL = `/image/profile-picture`;
 
-const sitterURL = id => `/sitter/account/${id}`
-const ownerURL = id => `/owner/account/${id}`
+const sitterURL = `/sitter/account`
+const ownerURL = `/owner/account`
 const catImageURL = `/image/cat`
 
 export function uploadTestPicture(profilePicture) {
@@ -160,10 +160,10 @@ export function deletePicture(filename) {
   };
 }
 
-export function getSitterAccount(id) {
+export function getSitterAccount() {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().get(sitterURL(id), getConfig());
+      const { data } = await axiosInstance().get(sitterURL, getConfig());
       dispatch({ type: AccountActionTypes.GET_SITTER_ACCOUNT, payload: data });
     } catch (e) {
       console.log({ e });
@@ -171,10 +171,10 @@ export function getSitterAccount(id) {
   };
 }
 
-export function saveSitter(id, sitterData) {
+export function saveSitter(sitterData) {
   return async (dispatch) => {
     try {
-      const data = await axiosInstance().post(sitterURL(id), sitterData, getConfig());
+      const data = await axiosInstance().post(sitterURL, sitterData, getConfig());
       dispatch({ type: AccountActionTypes.SITTER_ACCOUNT_SAVED, payload: data });
     } catch (e) {
       console.log({ e });
@@ -182,10 +182,10 @@ export function saveSitter(id, sitterData) {
   };
 }
 
-export function getOwnerAccount(id) {
+export function getOwnerAccount() {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().get(ownerURL(id), getConfig());
+      const { data } = await axiosInstance().get(ownerURL, getConfig());
       dispatch({ type: AccountActionTypes.GET_OWNER_ACCOUNT, payload: data });
     } catch (e) {
       console.log({ e });
@@ -203,11 +203,11 @@ const getCatConfig = () => {
   }
 }
 
-export function saveOwner(id, ownerData, photos) {
+export function saveOwner(ownerData, photos) {
   return async (dispatch) => {
     try {
       console.log({ photos })
-      const { data } = await axiosInstance().post(ownerURL(id), ownerData, getConfig());
+      const { data } = await axiosInstance().post(ownerURL, ownerData, getConfig());
 
       // this should run only after new cat record is saved
       if (data) {

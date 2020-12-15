@@ -51,7 +51,7 @@ function Desktop({
               </LinkButton>
             </Item>
             <Item>
-              <LinkButton to={`/account/${cookies.get('shortId')}`}>
+              <LinkButton to="/account">
                 Account
               </LinkButton>
             </Item>

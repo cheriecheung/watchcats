@@ -6,8 +6,8 @@ const { formLimiter, speedLimiter } = require('../helpers/limiter')
 // verifyAccessTokenUpdate
 router.get('/owner/profile/:id?', CatOwnerController.getProfile);
 
-router.get('/owner/account/:id?', verifyAccessTokenUpdate, CatOwnerController.getAccount);
+router.get('/owner/account', verifyAccessTokenUpdate, CatOwnerController.getAccount);
 
-router.post('/owner/account/:id?', formLimiter, speedLimiter(5), verifyAccessTokenUpdate, CatOwnerController.postAccount);
+router.post('/owner/account', formLimiter, speedLimiter(5), verifyAccessTokenUpdate, CatOwnerController.postAccount);
 
 module.exports = router;

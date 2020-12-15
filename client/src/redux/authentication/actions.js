@@ -54,7 +54,7 @@ export function phoneLogin(code) {
       await setAccessToken(accessToken)
       // dispatch({ type: LOGIN_SUCCESS, user });
 
-      window.location = `/account/${shortId}`;
+      window.location = "/account";
     } catch (e) {
       console.log({ e });
       dispatch({ type: AuthActionTypes.LOGIN_FAIL, err: e });
@@ -73,7 +73,7 @@ export function login(email, password) {
 
       if (shortId, accessToken) {
         await setAccessToken(accessToken)
-        window.location = `/account/${shortId}`;
+        window.location = "/account";
       } else {
         dispatch({ type: AuthActionTypes.PHONE_LOGIN, payload: true });
       }

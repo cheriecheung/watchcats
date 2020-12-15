@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { getSitterAccount, saveSitter } from '../../../redux/account/actions';
+import { DateUtils } from 'react-day-picker';
 import moment from 'moment';
 
 import { useForm, FormProvider } from 'react-hook-form';
@@ -10,14 +10,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { cat_sitter_default_values } from '../_formConfig/_defaultValues';
 import { cat_sitter_schema } from '../_formConfig/_validationSchema'
 
-import { DateUtils } from 'react-day-picker';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 function useCatSitter() {
   const aboutSitterRef = useRef(null);
   const experienceRef = useRef(null);
 
+  const id = cookies.get('shortId')
   const { t } = useTranslation();
-  const { id } = useParams();
 
   const dispatch = useDispatch();
   const { sitterData } = useSelector((state) => state.account);
@@ -41,10 +42,8 @@ function useCatSitter() {
   const selectedUnavailableDays = watch('unavailableDates') || [];
 
   useEffect(() => {
-    if (id) {
-      dispatch(getSitterAccount(id));
-    }
-  }, [dispatch]);
+    dispatch(getSitterAccount());
+  }, []);
 
   useEffect(() => {
     if (sitterData) {
@@ -126,7 +125,7 @@ function useCatSitter() {
       ...rest,
     };
 
-    dispatch(saveSitter(id, cleanedData));
+    dispatch(saveSitter(cleanedData));
   };
 
   function resetForm() {

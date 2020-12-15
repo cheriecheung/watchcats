@@ -73,7 +73,7 @@ function MobileMenu({
             <Icon className="fas fa-envelope fa-2x" />
             <Label>Messages</Label>
           </MenuItemBox>
-          <MenuItemBox to={`/account/${cookies.get('shortId')}`} onClick={closeMenu}>
+          <MenuItemBox to="/account" onClick={closeMenu}>
             <Icon className="fas fa-user fa-2x" />
             <Label>Account</Label>
           </MenuItemBox>

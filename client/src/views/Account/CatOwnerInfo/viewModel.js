@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOwnerAccount, saveOwner, removeCatPhoto } from '../../../redux/account/actions';
 import { catBreedOptions, personalityOptions } from '../../../utility/constants';
@@ -14,14 +13,14 @@ import {
 } from '../_formConfig/_defaultValues'
 import { cat_owner_schema } from '../_formConfig/_validationSchema'
 import { formatDate, formatTime } from '../../../utility'
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 function useCatOwner() {
+  const id = cookies.get('shortId')
   const { t } = useTranslation();
-  const { id } = useParams();
-
   const dispatch = useDispatch();
-
-  const { ownerData, ownerSaved, ownerCompleteSave, catPhotoRemoved } = useSelector((state) => state.account);
+  const { ownerData, catPhotoRemoved } = useSelector((state) => state.account);
 
   const [cleanedData, setCleanedData] = useState([])
   const [photoFields, setPhotoFields] = useState([])
@@ -45,10 +44,8 @@ function useCatOwner() {
   let catFields = catFieldArray.fields
 
   useEffect(() => {
-    if (id) {
-      dispatch(getOwnerAccount(id));
-    }
-  }, [dispatch]);
+    dispatch(getOwnerAccount());
+  }, []);
 
   useEffect(() => {
     if (ownerData) {
@@ -182,7 +179,7 @@ function useCatOwner() {
 
     const photos = watch('cat').map(({ photo }) => photo || {})
 
-    dispatch(saveOwner(id, cleanedData, photos))
+    dispatch(saveOwner(cleanedData, photos))
   };
 
   function resetForm() {

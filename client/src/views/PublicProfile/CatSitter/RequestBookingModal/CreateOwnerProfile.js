@@ -10,7 +10,7 @@ function CreateOwnerProfile({ t }) {
       <br />
       <h6>
         To start creating your cat owner profile, go to the
-        <LinkButton to={`/account/${cookies.get('shortId')}`}>
+        <LinkButton to="/account">
           &nbsp;account page
         </LinkButton>
         , and click on the 'Cat owner profile' tab.
