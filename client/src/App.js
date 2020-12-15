@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import Layout from './components/Layout';
+import NotFound from './components/UIComponents/NotFound'
 import Home from './views/Home';
 import About from './views/About';
 import { EmailVerification, Login, PasswordForgotten, PasswordReset, Register } from './views/Authentication';
@@ -46,8 +47,6 @@ function PrivateRoute({ component: Component, ...rest }) {
 function App() {
   const { language, toggleMobileMenu } = useSelector(state => state.app);
 
-  console.log({ language, toggleMobileMenu })
-
   // const { i18n } = useTranslation();
 
   // useEffect(() => {
@@ -77,6 +76,7 @@ function App() {
             <PrivateRoute path="/messages/:id?" component={Messages} />
             <PrivateRoute path="/account/:id?" component={Account} />
             {/* <Route path="/loading" component={Loading} /> */}
+            <Route path="*" component={NotFound} />
           </Switch>
         </Layout>
       </BrowserRouter>
