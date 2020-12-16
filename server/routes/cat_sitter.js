@@ -3,8 +3,7 @@ const CatSitterController = require('../controllers/CatSitterController');
 const { verifyAccessTokenUpdate } = require('../helpers/token')
 const { formLimiter, speedLimiter } = require('../helpers/limiter')
 
-// verifyAccessTokenUpdate
-router.get('/sitter/profile/:id?', CatSitterController.getProfile);
+router.get('/sitter/profile/:id?', verifyAccessTokenUpdate, CatSitterController.getProfile);
 
 router.get('/sitter/account', verifyAccessTokenUpdate, CatSitterController.getAccount);
 

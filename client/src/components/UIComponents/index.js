@@ -32,6 +32,7 @@ import EllipsisParagraph from './EllipsisParagraph'
 import ErrorMessage from './ErrorMessage'
 import MapContainer from './MapContainer'
 import Modal from './Modal'
+import NotFound from './NotFound'
 import ProfileStats from './ProfileStats'
 import SuccessDisplay from './SuccessDisplay'
 
@@ -70,6 +71,7 @@ export {
   ErrorMessage,
   MapContainer,
   Modal,
+  NotFound,
   ProfileStats,
   SuccessDisplay
 }

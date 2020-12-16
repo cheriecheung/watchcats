@@ -14,8 +14,10 @@ function useCatOwnerProfile() {
   const { id } = useParams();
 
   const dispatch = useDispatch();
+  const { profileError } = useSelector((state) => state.error);
   const { data } = useSelector((state) => state.profile);
-  const [returnedData, setReturnedData] = useState({});
+
+  const [returnedData, setReturnedData] = useState(null);
 
   const reviewListRef = useRef(null);
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
@@ -38,7 +40,8 @@ function useCatOwnerProfile() {
     t,
     returnedData,
     reviewListRef,
-    scrollToRef
+    scrollToRef,
+    profileError
   }
 }
 
@@ -48,8 +51,10 @@ function useCatSitterProfile() {
   const { id } = useParams();
 
   const dispatch = useDispatch();
+  const { profileError } = useSelector((state) => state.error);
   const { data } = useSelector((state) => state.profile);
-  const [cleanedData, setCleanedData] = useState({});
+
+  const [cleanedData, setCleanedData] = useState(null);
 
   const reviewListRef = useRef(null);
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
@@ -82,7 +87,8 @@ function useCatSitterProfile() {
     cleanedData,
     reviewListRef,
     scrollToRef,
-    id
+    id,
+    profileError
   }
 }
 

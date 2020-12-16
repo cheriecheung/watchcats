@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
-import { VerticalCard, WrapLayout } from '../../../components/UIComponents'
+import { NotFound, VerticalCard, WrapLayout } from '../../../components/UIComponents'
 
 import Summary from './Summary';
 import Reviews from '../components/Reviews';
@@ -16,7 +16,13 @@ const Section = styled.div`
 `;
 
 function CatOwner() {
-  const { t, returnedData, reviewListRef, scrollToRef } = useCatOwnerProfile();
+  const {
+    t,
+    returnedData,
+    reviewListRef,
+    scrollToRef,
+    profileError
+  } = useCatOwnerProfile();
 
   const {
     reviews,
@@ -25,54 +31,60 @@ function CatOwner() {
     catsDescription,
     coordinates,
     urlId
-  } = returnedData
+  } = returnedData || {}
 
   return (
-    <WrapLayout style={{ padding: '30px 60px', textAlign: 'left' }}>
-      <VerticalCard style={{ flexBasis: '60%' }}>
+    <>
+      {profileError && <NotFound variant="profile" />}
 
-        {reviews && reviews.length > 0 &&
-          <>
-            <Section>
-              <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
-                Reviews ({reviews.length})
+      {!profileError && returnedData &&
+        <WrapLayout style={{ padding: '30px 60px', textAlign: 'left' }}>
+          <VerticalCard style={{ flexBasis: '60%' }}>
+
+            {reviews && reviews.length > 0 &&
+              <>
+                <Section>
+                  <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
+                    Reviews ({reviews.length})
                    </h5>
-              <Reviews reviews={reviews} scrollToRef={scrollToRef} reviewListRef={reviewListRef} />
+                  <Reviews reviews={reviews} scrollToRef={scrollToRef} reviewListRef={reviewListRef} />
+                </Section>
+                <hr />
+              </>
+            }
+
+            <Section>
+              <h5>About</h5>
+              <AboutMe aboutMe={aboutMe} />
             </Section>
+
             <hr />
-          </>
-        }
 
-        <Section>
-          <h5>About</h5>
-          <AboutMe aboutMe={aboutMe} />
-        </Section>
+            <Section>
+              <h5>About my cat</h5>
+              <AboutCat allCats={cat} />
+            </Section>
 
-        <hr />
+            <hr />
 
-        <Section>
-          <h5>About my cat</h5>
-          <AboutCat allCats={cat} />
-        </Section>
+            <Section>
+              <h5>Responsibility</h5>
+              <Responsibilities descriptions={catsDescription} />
+            </Section>
 
-        <hr />
+            <hr />
 
-        <Section>
-          <h5>Responsibility</h5>
-          <Responsibilities descriptions={catsDescription} />
-        </Section>
+            <Section>
+              <h5>Location</h5>
+              <Location coordinates={coordinates} urlId={urlId} />
+            </Section>
 
-        <hr />
+          </VerticalCard>
 
-        <Section>
-          <h5>Location</h5>
-          <Location coordinates={coordinates} urlId={urlId} />
-        </Section>
-
-      </VerticalCard>
-
-      <Summary t={t} ownerInfo={returnedData} />
-    </WrapLayout>
+          <Summary t={t} ownerInfo={returnedData} />
+        </WrapLayout>
+      }
+    </>
   );
 }
 

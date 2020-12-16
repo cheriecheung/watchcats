@@ -16,7 +16,7 @@ module.exports = {
         Sitter.findOne({ urlId: req.params.id }),
       ]);
 
-      if (!userRecord || !sitterRecord) return res.status(404).json('ERROR/USER_NOT_FOUND');
+      if (!userRecord || !sitterRecord) return res.status(404).json('ERROR/PROFILE_NOT_FOUND');
 
       const { firstName, lastName, profilePicture, coordinates } = userRecord;
 

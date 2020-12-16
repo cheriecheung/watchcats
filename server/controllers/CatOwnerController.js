@@ -19,7 +19,7 @@ module.exports = {
         Owner.findOne({ urlId: req.params.id }),
       ]);
 
-      if (!userRecord || !ownerRecord) return res.status(404).json('ERROR/USER_NOT_FOUND');
+      if (!userRecord || !ownerRecord) return res.status(404).json('ERROR/PROFILE_NOT_FOUND');
 
       const { firstName, lastName, profilePicture, coordinates } = userRecord;
       const ownerId = mongoose.Types.ObjectId(ownerRecord.id);

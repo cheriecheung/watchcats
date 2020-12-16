@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import Layout from './components/Layout';
-import NotFound from './components/UIComponents/NotFound'
+import { NotFound } from './components/UIComponents'
 import Home from './views/Home';
 import About from './views/About';
 import { EmailVerification, Login, PasswordForgotten, PasswordReset, Register } from './views/Authentication';
