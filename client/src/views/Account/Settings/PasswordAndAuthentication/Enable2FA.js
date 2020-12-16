@@ -24,7 +24,7 @@ function Enable2FA({ t }) {
     methods,
     qrCodeImage,
     onVerifyCode,
-    authenticationError
+    appError
   } = useEnable2FA();
 
   return (
@@ -70,8 +70,9 @@ function Enable2FA({ t }) {
             <p>Enter the 6-digit verification code generated.</p>
 
             <TextField name="verificationCode" placeholder="000 000" />
-            {authenticationError && <ErrorMessage type={authenticationError} />}
             <ContainedButton type="button" onClick={onVerifyCode}>Activate</ContainedButton>
+
+            {appError && <ErrorMessage type={appError} />}
           </Description>
         </Section>
       </form>

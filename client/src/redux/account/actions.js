@@ -67,10 +67,10 @@ export function submitPhoneNumber(phone) {
   };
 }
 
-export function resendOtpToInputtedPhoneNumber() {
+export function resendOtpToInputtedPhoneNumber(phone) {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().get(verificationCodeURL, getConfig());
+      const { data } = await axiosInstance().post(verificationCodeURL, { phone }, getConfig());
       dispatch({ type: AccountActionTypes.VERIFICATION_CODE_SENT });
     } catch (e) {
       console.log({ e });
@@ -89,10 +89,10 @@ export function sendOtpToSavedPhoneNumber() {
   };
 }
 
-export function verifyPhoneNumber(code) {
+export function verifyPhoneNumber(code, phone) {
   return async (dispatch) => {
     try {
-      await axiosInstance().patch(phoneNumberURL, { code }, getConfig());
+      await axiosInstance().patch(phoneNumberURL, { code, phone }, getConfig());
       dispatch({ type: AccountActionTypes.VERIFY_PHONE_NUMBER, payload: 'verified' });
     } catch (e) {
       console.log({ e });

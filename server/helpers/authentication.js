@@ -4,25 +4,6 @@ const algorithm = 'aes-256-ctr'
 const key = process.env.TWO_FACTOR_ENCRYPTION_KEY
 const iv = crypto.randomBytes(16);
 
-let code_verifier = '';
-let ssn = '';
-
-const setCodeVerifier = (value) => {
-  code_verifier = value
-}
-
-const getCodeVerifier = () => {
-  return code_verifier;
-}
-
-const setSsn = (value) => {
-  ssn = value
-}
-
-const getSsn = () => {
-  return ssn;
-}
-
 const encryptSecret = (secret) => {
   const cipher = crypto.createCipheriv(algorithm, key, iv);
   const encrypted = Buffer.concat([cipher.update(secret), cipher.final()]);
@@ -58,18 +39,13 @@ const generateCodes = async (req, res, next) => {
 
   req.code_challenge = codeChallenge;
   req.code_verifier = codeVerifier;
-  req.state = csrfToken;
-
-  setCodeVerifier(codeVerifier);
-  setSsn(csrfToken)
+  req.csrf_token = csrfToken;
 
   return next();
 };
 
 module.exports = {
   generateCodes,
-  getCodeVerifier,
-  getSsn,
   encryptSecret,
   decryptSecret
 };

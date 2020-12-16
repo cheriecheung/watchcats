@@ -1,13 +1,14 @@
 import React from 'react';
 import { OtpInput } from '../../../../components/FormComponents';
-import { ContainedButton, Image, ImageContainer } from '../../../../components/UIComponents';
+import { ContainedButton, ErrorMessage, Image, ImageContainer } from '../../../../components/UIComponents';
 import { useDisable2FA } from '../viewModel';
 
 function Disable2FA({ t }) {
   const {
     FormProvider,
     methods,
-    onSubmit
+    onSubmit,
+    appError
   } = useDisable2FA();
 
   const { handleSubmit } = methods;
@@ -31,6 +32,8 @@ function Disable2FA({ t }) {
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <ContainedButton type="submit">Submit</ContainedButton>
         </div>
+
+        {appError && <ErrorMessage type={appError} />}
       </form>
     </FormProvider>
   )

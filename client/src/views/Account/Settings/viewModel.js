@@ -64,7 +64,7 @@ function useContactDetails() {
 
   useEffect(() => {
     dispatch(getContactDetails());
-  }, [dispatch])
+  }, [])
 
   useEffect(() => {
     if (contactDetails) {
@@ -174,21 +174,22 @@ function usePhoneNumberVerification() {
   const dispatch = useDispatch();
   const { changePhoneNumberStep } = useSelector((state) => state.account);
 
-  const defaultValues = { otp: '' }
-  const methods = useForm({ defaultValues });
+  const methods = useForm({ defaultValues: { otp: '' } });
+  const { watch } = methods;
 
-  function onSubmitOtp(data) {
-    const { otp } = data;
+  function onSubmitOtp(phone) {
+    // const { otp, phone } = data;
+    const otp = watch('otp')
 
     if (changePhoneNumberStep === 'verifyToRemove') {
       dispatch(deletePhoneNumber(otp));
     } else {
-      dispatch(verifyPhoneNumber(otp))
+      dispatch(verifyPhoneNumber(otp, phone))
     }
   }
 
-  function resendCode() {
-    dispatch(resendOtpToInputtedPhoneNumber())
+  function resendCode(phone) {
+    dispatch(resendOtpToInputtedPhoneNumber(phone))
   }
 
   return {
@@ -254,8 +255,8 @@ function usePasswordAndAuthentication() {
 function useEnable2FA() {
   const dispatch = useDispatch();
 
-  const { authenticationError } = useSelector((state) => state.error)
-  const { qrCode } = useSelector((state) => state.authentication);
+  const { appError } = useSelector((state) => state.error)
+  const { qrCode } = useSelector((state) => state.app);
 
   const methods = useForm();
   const { watch, reset } = methods;
@@ -274,22 +275,23 @@ function useEnable2FA() {
   }, [qrCode])
 
   useEffect(() => {
-    if (authenticationError === '') {
+    if (appError === '') {
       reset({ verificationCode: '' })
     }
-  }, [authenticationError])
+  }, [appError])
 
   return {
     FormProvider,
     methods,
     qrCodeImage,
     onVerifyCode,
-    authenticationError
+    appError
   }
 }
 
 function useDisable2FA() {
   const dispatch = useDispatch();
+  const { appError } = useSelector((state) => state.error)
 
   const methods = useForm();
 
@@ -301,7 +303,8 @@ function useDisable2FA() {
   return {
     FormProvider,
     methods,
-    onSubmit
+    onSubmit,
+    appError
   }
 }
 

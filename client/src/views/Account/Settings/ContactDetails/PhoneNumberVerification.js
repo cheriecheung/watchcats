@@ -3,7 +3,7 @@ import { ContainedButton, ErrorMessage } from '../../../../components/UIComponen
 import { OtpInput } from '../../../../components/FormComponents'
 import { usePhoneNumberVerification } from '../viewModel';
 
-function PhoneNumberVerification({ t, accountError }) {
+function PhoneNumberVerification({ t, accountError, inputPhoneNumber }) {
   const {
     FormProvider,
     methods,
@@ -11,11 +11,9 @@ function PhoneNumberVerification({ t, accountError }) {
     resendCode
   } = usePhoneNumberVerification();
 
-  const { handleSubmit } = methods;
-
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmitOtp)} style={{ textAlign: 'center' }}>
+      <form style={{ textAlign: 'center' }}>
         <i className="fas fa-sms fa-4x mb-3" />
 
         {/* within timeline? */}
@@ -28,8 +26,18 @@ function PhoneNumberVerification({ t, accountError }) {
         {accountError && <ErrorMessage type={accountError} />}
 
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <ContainedButton type="button" onClick={resendCode}>Resend Code</ContainedButton>
-          <ContainedButton type="submit">Submit</ContainedButton>
+          <ContainedButton
+            type="button"
+            onClick={() => resendCode(inputPhoneNumber)}
+          >
+            Resend Code
+          </ContainedButton>
+          <ContainedButton
+            type="button"
+            onClick={() => onSubmitOtp(inputPhoneNumber)}
+          >
+            Submit
+          </ContainedButton>
         </div>
       </form>
     </FormProvider>

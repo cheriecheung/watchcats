@@ -3,7 +3,6 @@ import AuthActionTypes from './actionTypes'
 
 const initialState = Immutable({
   loginByPhone: false,
-  qrCode: '',
 });
 
 const authentication_reducer = {

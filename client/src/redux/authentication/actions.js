@@ -45,7 +45,7 @@ export function verifyEmail(token) {
 export function phoneLogin(code) {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(phoneLoginURL, { code }, {
+      const { data } = await axios.post(phoneLoginURL, { code, shortId: cookies.get('shortId') }, {
         withCredentials: true,
         // credentials: 'include',
       });
@@ -57,7 +57,9 @@ export function phoneLogin(code) {
       window.location = "/account";
     } catch (e) {
       console.log({ e });
-      dispatch({ type: AuthActionTypes.LOGIN_FAIL, err: e });
+      const { response } = e
+      const { data } = response || {}
+      dispatch({ type: ErrorTypes.AUTHENTICATION_ERROR, payload: data })
     }
   }
 }

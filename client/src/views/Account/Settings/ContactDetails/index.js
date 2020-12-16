@@ -19,7 +19,7 @@ function ContactDetails({ contactDetailsProps }) {
     accountError
   } = contactDetailsProps
 
-  const { changePhoneNumberStep } = phoneNumberInputProps;
+  const { changePhoneNumberStep, inputPhoneNumber } = phoneNumberInputProps;
 
   const renderModalContent = () => {
     switch (changePhoneNumberStep) {
@@ -29,6 +29,7 @@ function ContactDetails({ contactDetailsProps }) {
           <PhoneNumberVerification
             t={t}
             accountError={accountError}
+            inputPhoneNumber={inputPhoneNumber}
           />
         )
       case 'input':

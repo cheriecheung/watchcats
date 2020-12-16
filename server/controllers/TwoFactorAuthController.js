@@ -3,6 +3,8 @@ const speakeasy = require('speakeasy');
 const qrcode = require('qrcode')
 const { createAccessToken, createRefreshToken } = require('../helpers/token');
 const { encryptSecret, decryptSecret } = require('../helpers/authentication')
+const NodeCache = require("node-cache");
+const myCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 
 module.exports = {
   getGoogleAuthenticatorQrCode: async (req, res) => {
@@ -17,7 +19,7 @@ module.exports = {
 
       const secret = speakeasy.generateSecret({ name })
       const { ascii, otpauth_url } = secret;
-      req.session.ascii_secret = ascii
+      myCache.set("ascii_secret", ascii)
 
       const qrcodeImage = await qrcode.toDataURL(otpauth_url)
       return res.status(200).json(qrcodeImage)
@@ -32,7 +34,8 @@ module.exports = {
     if (!userId) return res.status(400).json('ERROR/2FA_ACTIVATION_FAILED');
 
     const { code } = req.body
-    const { ascii_secret } = req.session;
+    const ascii_secret = myCache.take("ascii_secret")
+
     console.log({ ascii_secret, code })
 
     try {
@@ -60,13 +63,13 @@ module.exports = {
 
   disableTwoFactor: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const { code } = req.body;
 
     try {
       const user = await User.findById(userId);
-      if (!user) return res.status(401).json("ERROR/USER_NOT_FOUND");
+      if (!user) return res.status(404).json("ERROR/USER_NOT_FOUND");
 
       const decrypted = decryptSecret(user.twoFactorSecret)
 
@@ -75,7 +78,7 @@ module.exports = {
         encoding: 'ascii',
         token: code
       })
-      if (!verified) return res.status(401).json('ERROR/INVALID_CODE')
+      if (!verified) return res.status(400).json('ERROR/OTP_INVALID')
 
       await User.findOneAndUpdate(
         { _id: userId },
@@ -86,16 +89,15 @@ module.exports = {
       return res.status(200).json('verification successful')
     } catch (err) {
       console.log({ err })
-      return res.status(401).json('ERROR/ERROR_OCCURED')
+      return res.status(400).json('ERROR/ERROR_OCCURED')
     }
   },
 
   phoneLogin: async (req, res) => {
-    const { code } = req.body;
-    const { email } = req.session;
+    const { code, shortId } = req.body;
 
     try {
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ urlId: shortId });
       if (!user) return res.status(401).json("ERROR/ERROR_OCCURED");
 
       const decrypted = decryptSecret(user.twoFactorSecret)
@@ -106,7 +108,7 @@ module.exports = {
         encoding: 'ascii',
         token: code
       })
-      if (!verified) return res.status(401).json('ERROR/INVALID_CODE')
+      if (!verified) return res.status(401).json('ERROR/OTP_INVALID')
 
       const accessToken = createAccessToken(user);
       const refreshToken = createRefreshToken(user);

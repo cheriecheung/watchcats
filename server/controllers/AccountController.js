@@ -140,7 +140,6 @@ module.exports = {
     if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const { phone } = req.body;
-    req.session.phone = phone;
 
     try {
       const phoneExists = await User.findOne({ phone });
@@ -160,7 +159,7 @@ module.exports = {
     const { userId } = req.verifiedData;
     if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
-    const { phone } = req.session
+    const { phone } = req.body;
 
     try {
       const { otp } = await generateOTP(userId);
@@ -195,8 +194,7 @@ module.exports = {
     const { userId } = req.verifiedData;
     if (!userId) return res.status(404).json('ERROR/PHONE_VERIFICATION_FAILED');
 
-    const { code } = req.body;
-    const { phone } = req.session
+    const { code, phone } = req.body;
 
     try {
       const { otp, otpExpiryTime } = await User.findById(userId)
@@ -216,12 +214,12 @@ module.exports = {
         },
         { useFindAndModify: false }
       );
-      if (!user) return res.status(401).json('ERROR/PHONE_SAVING_FAILED');
+      if (!user) return res.status(400).json('ERROR/PHONE_SAVING_FAILED');
 
       return res.status(200).json('')
     } catch (err) {
       console.log({ err })
-      return res.status(403).json('ERROR/PHONE_VERIFICATION_FAILED')
+      return res.status(400).json('ERROR/PHONE_VERIFICATION_FAILED')
     }
   },
 

@@ -5,7 +5,8 @@ const initialState = Immutable({
   appActionStatus: '',
   language: 'en',
   isLoggedIn: false,
-  toggleMobileMenu: false
+  toggleMobileMenu: false,
+  qrCode: ''
 });
 
 const app_reducer = {

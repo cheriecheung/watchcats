@@ -125,11 +125,13 @@ export function verifyGoogleAuthenticatorCode(code) {
 export function disableTwoFactor(code) {
   return async (dispatch) => {
     try {
-      // pass token too?
-      const { data } = await axiosInstance().delete(phoneLoginURL, { ...getConfig(), data: { code } });
+      await axiosInstance().delete(phoneLoginURL, { ...getConfig(), data: { code } });
       dispatch({ type: AppActionTypes.TWO_FACTOR_DISABLED });
     } catch (e) {
       console.log({ e });
+      const { response } = e
+      const { data } = response || {}
+      dispatch({ type: ErrorTypes.APP_ERROR, payload: data })
     }
   };
 }
