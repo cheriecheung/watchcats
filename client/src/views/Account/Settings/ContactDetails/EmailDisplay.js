@@ -1,9 +1,14 @@
 import React from 'react'
 import { FieldLabel } from '../../../../components/FormComponents';
-import { Alert, TextButton } from '../../../../components/UIComponents'
+import { Alert, ErrorMessage, TextButton } from '../../../../components/UIComponents'
 import { Switch } from 'antd';
 
-function EmailDisplay({ emailProps, onChangeNotification, prevSettings }) {
+function EmailDisplay({
+  emailProps,
+  onChangeNotification,
+  prevSettings,
+  accountError
+}) {
   const {
     email,
     revealEmail,
@@ -35,6 +40,11 @@ function EmailDisplay({ emailProps, onChangeNotification, prevSettings }) {
           onChange={(checked) => onChangeNotification('email')}
         />
       </div>
+
+      {accountError &&
+        accountError === 'ERROR/SET_EMAIL_NOTIFICATION_FAILED' &&
+        <ErrorMessage type={accountError} />
+      }
 
       {prevSettings &&
         prevSettings.getEmailNotification !== getEmailNotification &&

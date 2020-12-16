@@ -103,13 +103,17 @@ module.exports = {
 
   changeNotification: async (req, res) => {
     const { userId } = req.verifiedData;
-    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
+    if (!userId) return res.status(404).json(error);
 
     const { contactType } = req.body;
 
+    const error = contactType === 'email' ?
+      'ERROR/SET_EMAIL_NOTIFICATION_FAILED' :
+      'ERROR/SET_PHONE_NOTIFICATION_FAILED'
+
     try {
       const user = await User.findById(userId);
-      if (!user) return res.status(404).json('ERROR/USER_NOT_FOUND');
+      if (!user) return res.status(404).json(error);
 
       const { getEmailNotification, getSmsNotification } = user
 
@@ -131,7 +135,7 @@ module.exports = {
       })
     } catch (err) {
       console.log({ err })
-      return res.status(403).json('ERROR/ERROR_OCCURED')
+      return res.status(400).json(error)
     }
   },
 

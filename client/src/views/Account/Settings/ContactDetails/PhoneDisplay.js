@@ -1,15 +1,16 @@
 import React from 'react'
 import { FieldLabel } from '../../../../components/FormComponents';
-import { Alert, TextButton } from '../../../../components/UIComponents'
+import { Alert, ErrorMessage, TextButton } from '../../../../components/UIComponents'
 import { Switch } from 'antd';
 
 function PhoneDisplay({
   phoneProps,
-  onChangeNotification,
-  prevSettings,
   addPhone,
   editPhone,
-  removePhone
+  removePhone,
+  onChangeNotification,
+  prevSettings,
+  accountError
 }) {
   const {
     phone,
@@ -67,6 +68,11 @@ function PhoneDisplay({
           onChange={() => onChangeNotification('sms')}
         />
       </div>
+
+      {accountError &&
+        accountError === 'ERROR/SET_PHONE_NOTIFICATION_FAILED' &&
+        <ErrorMessage type={accountError} />
+      }
 
       {prevSettings &&
         prevSettings.getSmsNotification !== getSmsNotification &&

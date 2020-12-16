@@ -75,6 +75,7 @@ function ContactDetails({ contactDetailsProps }) {
           emailProps={emailProps}
           onChangeNotification={onChangeNotification}
           prevSettings={prevSettings}
+          accountError={accountError}
         />
       </div>
 
@@ -88,6 +89,7 @@ function ContactDetails({ contactDetailsProps }) {
           addPhone={() => onHandlePhoneNumber('add')}
           editPhone={() => onHandlePhoneNumber('edit')}
           removePhone={() => onHandlePhoneNumber('remove')}
+          accountError={accountError}
         />
       </div>
     </WrapLayout>

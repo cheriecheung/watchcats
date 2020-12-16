@@ -47,6 +47,9 @@ export function changeNotification(contactType) {
       dispatch({ type: AccountActionTypes.NOTIFICATION_SETTINGS_CHANGED, payload: data });
     } catch (e) {
       console.log({ e });
+      const { response } = e
+      const { data } = response || {}
+      dispatch({ type: ErrorTypes.ACCOUNT_ERROR, payload: data })
     }
   };
 }

@@ -25,6 +25,9 @@ function renderMessage(t, type) {
       return t('error.otp_invalid')
     case 'ERROR/2FA_ACTIVATION_FAILED':
       return t('error.two_factor_activation_failed')
+    case 'ERROR/SET_EMAIL_NOTIFICATION_FAILED':
+    case 'ERROR/SET_PHONE_NOTIFICATION_FAILED':
+      return t('error.generic')
     default:
       return t('error.generic')
   }
@@ -36,10 +39,11 @@ function ErrorMessage({ type }) {
 
   return (
     <Alert
-      message={message}
       type="error"
+      message={message}
+      style={{ margin: '10px 0' }}
       showIcon
-      style={{ marginTop: 30 }}
+      closable
     />
   )
 }
