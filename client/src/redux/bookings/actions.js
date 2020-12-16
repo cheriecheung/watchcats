@@ -1,6 +1,7 @@
 import axiosInstance from '../../utility/axiosInstance';
 import { getConfig } from '../../utility/api'
 import BookingActionTypes from './actionTypes'
+import ErrorTypes from '../error/actionTypes'
 
 const appointmentTimeUrl = `/booking-time`;
 const bookingUrl = `/booking`;
@@ -26,10 +27,13 @@ export function getAppointmentTime() {
 export function sendRequest(bookingData) {
   return async (dispatch) => {
     try {
-      const { data } = axiosInstance().post(bookingUrl, bookingData, getConfig());
+      const { data } = await axiosInstance().post(bookingUrl, bookingData, getConfig());
       dispatch({ type: BookingActionTypes.BOOKING_REQUEST_SENT, payload: data });
     } catch (e) {
       console.log({ e });
+      const { response } = e
+      const { data } = response || {}
+      dispatch({ type: ErrorTypes.BOOKINGS_ERROR, payload: data })
     }
   };
 }

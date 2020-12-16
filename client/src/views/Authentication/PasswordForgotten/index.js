@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, ContainedButton, VerticalCard } from '../../../components/UIComponents';
+import { Alert, ContainedButton, ErrorMessage, VerticalCard } from '../../../components/UIComponents';
 import { TextField } from '../../../components/FormComponents'
 import { useAuthentication, useForgotPassword } from '../viewModel';
 
@@ -8,8 +8,8 @@ function PasswordForgotten() {
     const {
         FormProvider,
         methods,
-        emailSubmitted,
-        onSubmitEmail
+        onSubmitEmail,
+        appActionStatus
     } = useForgotPassword();
 
     const { handleSubmit } = methods;
@@ -24,13 +24,14 @@ function PasswordForgotten() {
 
                 <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(onSubmitEmail)}>
-                        {emailSubmitted ?
+                        {appActionStatus === 'resetPasswordEmailRequested' ?
                             <Alert type="success">
                                 If the provided email is in our database, a password reset link will be sent to it. Please be sure to check the spam / junk mailbox if it is not found in the main inbox
                             </Alert>
                             :
                             <>
                                 <TextField name="email" />
+                                {appError && <ErrorMessage type={appError} />}
                                 <ContainedButton>Submit</ContainedButton>
                             </>
                         }

@@ -130,6 +130,7 @@ function useLogin() {
 function useForgotPassword() {
   const dispatch = useDispatch();
 
+  const { appActionStatus } = useSelector((state) => state.app)
   const [emailSubmitted, setEmailSubmitted] = useState(false)
 
   const defaultValues = email_verification_default_values;
@@ -139,14 +140,13 @@ function useForgotPassword() {
   function onSubmitEmail(data) {
     const { email } = data;
     dispatch(getPasswordResetEmail(email))
-    setEmailSubmitted(true)
   }
 
   return {
     FormProvider,
     methods,
-    emailSubmitted,
     onSubmitEmail,
+    appActionStatus
   }
 }
 

@@ -25,11 +25,11 @@ function Local({ t, localRegisterProps, appError }) {
         <FieldLabel>{t('form.password')}</FieldLabel>
         <PasswordField name="password" />
 
+        {appError && <ErrorMessage type={appError} />}
+
         <OutlinedButton type="submit" style={{ width: '100%' }}>
           {t('register.register')}
         </OutlinedButton>
-
-        {appError && <ErrorMessage type={appError} />}
       </form>
     </FormProvider>
   )

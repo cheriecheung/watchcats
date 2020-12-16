@@ -16,6 +16,8 @@ const app_reducer = {
         return { ...state, language: action.payload };
       case AppActionTypes.TOGGLE_MOBILE_MENU:
         return { ...state, toggleMobileMenu: action.payload }
+      case AppActionTypes.PASSWORD_RESET_EMAIL_REQUESTED:
+        return { ...state, appActionStatus: 'resetPasswordEmailRequested' }
       case AppActionTypes.PASSWORD_RESET:
         return { ...state, appActionStatus: 'resetPasswordSuccess' }
       case AppActionTypes.QR_CODE_RETURNED:

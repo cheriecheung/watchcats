@@ -23,15 +23,15 @@ function LocalLogin({ t, authenticationError, localLoginProps }) {
         <FieldLabel>{t('form.password')}</FieldLabel>
         <TextField name="password" type="password" />
 
-        <LinkButton to="/forgot_password" style={{ textAlign: 'right' }}>
+        <LinkButton to="/forgot_password" style={{ textAlign: 'right', marginBottom: 10 }}>
           Forgot password?
         </LinkButton>
+
+        {authenticationError && <ErrorMessage type={authenticationError} />}
 
         <OutlinedButton type="submit">
           {t('login.login')}
         </OutlinedButton>
-
-        {authenticationError && <ErrorMessage type={authenticationError} />}
       </form>
     </FormProvider>
   )
