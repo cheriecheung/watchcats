@@ -30,7 +30,7 @@ function SitterProfile() {
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 20 }}>
-        <LinkButton to={`/profile/catsitter/${id}`} target="_blank">
+        <LinkButton to={`/profile/catsitter/${id}`}>
           {t('sitter_form.view_profile')}
         </LinkButton>
       </div>

@@ -36,7 +36,7 @@ function Card({ screenWidth, t, item, setHoveredResultId }) {
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div style={{ width: '80%', height: '50px', overflow: 'hidden' }}>{aboutSitter.slice(0, wordCount).trim().replace(/("[^"]+"|\w+)$/, "...")}</div>
 
-        <LinkButton to={`/profile/catsitter/${urlId}`} target="_blank" style={{ width: '17%' }}>
+        <LinkButton to={`/profile/catsitter/${urlId}`} style={{ width: '17%' }}>
           {t('find_sitter.view_profile')}
         </LinkButton>
       </div>

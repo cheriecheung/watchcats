@@ -25,7 +25,7 @@ function CatOwnerInfo() {
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 20 }}>
-        <LinkButton to={`/profile/catowner/${id}`} target="_blank">
+        <LinkButton to={`/profile/catowner/${id}`}>
           {t('owner_form.view_profile')}
         </LinkButton>
       </div>
