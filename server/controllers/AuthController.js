@@ -2,10 +2,11 @@ const axios = require('axios');
 const qs = require('querystring');
 const User = require('../model/User');
 const bcrypt = require('bcryptjs');
-const { getCodeVerifier, getSsn } = require('../helpers/authentication');
 const { loginValidation } = require('../helpers/validation');
 const { createAccessToken, createRefreshToken } = require('../helpers/token');
 const { verify } = require('jsonwebtoken')
+const NodeCache = require("node-cache");
+const myCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 
 module.exports = {
   getNewAccessToken: async (req, res) => {
@@ -39,9 +40,9 @@ module.exports = {
     const { error } = loginValidation(req.body);
     if (error) return res.status(400).json('ERROR/LOGIN_FAILED');
 
-    const { email, password } = req.body;
+    const { email: emailValue, password } = req.body;
+    const email = emailValue.toLowerCase()
 
-    // email to lowercase
     try {
       const user = await User.findOne({ email });
       // dev purpose: error remains "no user found"
@@ -54,7 +55,7 @@ module.exports = {
       if (!validPass) return res.status(400).json("ERROR/LOGIN_CREDENTIALS_INVALID");
 
       if (user.twoFactorSecret) {
-        req.session.email = email;
+        res.cookie('shortId', user.urlId);
         return res.status(200).json('enter google authenticator code')
       }
 
@@ -109,7 +110,13 @@ module.exports = {
   },
 
   googleLogin: async (req, res) => {
-    const authenticationURI = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${process.env.GOOGLE_OAUTH_CLIENT_ID}&scope=openid%20profile%20email&redirect_uri=${process.env.GOOGLE_OAUTH_CALLBACK_URL}&state=${req.state}&code_challenge=${req.code_challenge}&code_challenge_method=S256&access_type=offline`;
+    const { GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CALLBACK_URL } = process.env
+    const { code_challenge, code_verifier, csrf_token } = req;
+
+    myCache.set("code_verifier", code_verifier)
+    myCache.set("csrf_token", csrf_token)
+
+    const authenticationURI = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${GOOGLE_OAUTH_CLIENT_ID}&scope=openid%20profile%20email&redirect_uri=${GOOGLE_OAUTH_CALLBACK_URL}&state=${csrf_token}&code_challenge=${code_challenge}&code_challenge_method=S256&access_type=offline`;
     // add nonce parameter
 
     return res.status(200).json(authenticationURI);
@@ -119,10 +126,10 @@ module.exports = {
     const code = req.query.code;
     const state = req.query.state.split(' ').join('+');
 
-    const ssn = getSsn();
-    const code_verifier = getCodeVerifier();
+    const code_verifier = myCache.take("code_verifier")
+    const csrf_token = myCache.take("csrf_token")
 
-    if (state !== ssn) {
+    if (state !== csrf_token) {
       // create page on front end: "please go back and try again"
       return res.status(401).json('ERROR/GOOGLE_LOGIN_FAILED');
     }
@@ -163,6 +170,7 @@ module.exports = {
       let shortId;
       let userObj;
 
+      // if user logs in with google but registered locally
       const user = await User.findOne({ email });
 
       if (!user) {

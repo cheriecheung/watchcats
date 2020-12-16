@@ -36,9 +36,11 @@ module.exports = {
     const { error } = registerValidation(req.body);
     if (error) return res.status(400).json('ERROR/ERROR_OCCURED');
 
-    const { name, email, password } = req.body;
+    const { name, email: emailValue, password } = req.body;
+    const email = emailValue.toLowerCase()
 
     console.log({ name, email, password })
+
     try {
       const emailExists = await User.findOne({ email });
       if (emailExists) return res.status(400).json('ERROR/EMAIL_ALREADY_EXISTS');
@@ -62,7 +64,8 @@ module.exports = {
   },
 
   getActivationEmail: async (req, res) => {
-    const { email } = req.body;
+    const { email: emailValue } = req.body;
+    const email = emailValue.toLowerCase()
 
     try {
       const user = await User.findOne({ email });
@@ -81,7 +84,8 @@ module.exports = {
   },
 
   getPasswordResetEmail: async (req, res) => {
-    const { email } = req.body;
+    const { email: emailValue } = req.body;
+    const email = emailValue.toLowerCase()
 
     console.log({ email })
 
