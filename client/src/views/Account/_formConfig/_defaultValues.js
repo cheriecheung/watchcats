@@ -19,7 +19,6 @@ export const general_default_values = {
 
 export const cat_sitter_default_values = {
     aboutSitter: '',
-    //photos: [],
     experience: '',
     hasCat: false,
     hasMedicationSkills: false,
@@ -29,8 +28,6 @@ export const cat_sitter_default_values = {
     hourlyRate: hourlyRateOptions[0],
     nightlyRate: nightlyRateOptions[0],
     unavailableDates: [],
-    // emergencyName: '',
-    // emergencyNumber: '',
 };
 
 // Cat owner field array data

@@ -27,7 +27,7 @@ import TabBar from './Tab/TabBar'
 import TabItem from './Tab/TabItem'
 
 import Alert from './Alert'
-import CheckSquareIcon from './CheckSquareIcon'
+import CheckedIcon from './CheckedIcon'
 import EllipsisParagraph from './EllipsisParagraph'
 import ErrorMessage from './ErrorMessage'
 import MapContainer from './MapContainer'
@@ -66,7 +66,7 @@ export {
   TabItem,
 
   Alert,
-  CheckSquareIcon,
+  CheckedIcon,
   EllipsisParagraph,
   ErrorMessage,
   MapContainer,

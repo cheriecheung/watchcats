@@ -23,12 +23,12 @@ const Icon = styled.i`
   ${catInfo}
 `
 
-function CheckSquareIcon({ isShown }) {
+function CheckedIcon({ isShown }) {
   return <Icon className="far fa-check-square" isShown={isShown} />
 }
 
-export default CheckSquareIcon
+export default CheckedIcon
 
-CheckSquareIcon.propTypes = {
+CheckedIcon.propTypes = {
   isShown: PropTypes.bool.isRequired
 };

@@ -15,11 +15,11 @@ const CheckboxComponent = styled(AntCheckbox)`
   width: ${props => props.width ? props.width : '100%'};
 `
 
-function Checkbox({ name, children, width }) {
+function Checkbox({ name, children, width, containerStyle }) {
   const { control, errors } = useFormContext();
 
   return (
-    <Container>
+    <Container style={containerStyle}>
       <Controller
         control={control}
         name={name}

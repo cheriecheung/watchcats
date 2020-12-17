@@ -57,7 +57,7 @@ function useCatOwner() {
         catsDescription,
       } = ownerData;
 
-      const catUpdated = cat.map(({ breed, personality, ...rest }, index) => {
+      const cleanedCat = cat.map(({ breed, personality, ...rest }, index) => {
 
         const breedName = catBreedOptions.filter(({ value }) => value === breed)[0].label
         const personalityName = personalityOptions.filter(({ value }) => value === personality)[0].label
@@ -73,21 +73,18 @@ function useCatOwner() {
         aboutMe,
         bookingOneDay,
         bookingOvernight,
-        cat: catUpdated,
+        cat: cleanedCat,
         catsDescription,
       })
     }
   }, [ownerData])
 
   useEffect(() => {
-    if (cleanedData) {
-      reset(cleanedData)
-    }
-
     if (cleanedData && cleanedData.cat) {
+      Object.entries(cleanedData).map(([key, value]) => setValue(key, value))
+
       const { cat } = cleanedData
       const allPhotoFields = cat.map(({ photo }, index) => photo);
-
       setPhotoFields(allPhotoFields);
     }
   }, [cleanedData]);
@@ -125,7 +122,7 @@ function useCatOwner() {
 
   function onSubmit(data) {
     const { cat, bookingOneDay, bookingOvernight, ...rest } = data;
-    console.log({ data })
+
     const cleanedCat = cat.map(({ breed, personality, ...restCat }) => {
       const { value: breedValue } = breed || {};
       const { value: personalityValue } = personality || {};
