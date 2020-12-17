@@ -39,10 +39,16 @@ export default function PlaceAutocomplete({
     };
 
     const handleScriptLoad = (ref) => {
-        autoComplete = new window.google.maps.places.Autocomplete(ref.current, {
-            // add bounds (limits of amsterdam)
-            componentRestrictions: { country: 'nl' },
-        });
+        const input = ref.current;
+        const options = {
+            bounds: new window.google.maps.LatLngBounds(
+                new window.google.maps.LatLng(52.3105, 4.7683),
+                new window.google.maps.LatLng(52.4321, 5.0337)
+            ),
+            strictBounds: true
+        }
+
+        autoComplete = new window.google.maps.places.Autocomplete(input, options);
         autoComplete.setFields(['address_components', 'formatted_address', 'geometry']);
         autoComplete.addListener('place_changed', () => handlePlaceSelect());
     };
