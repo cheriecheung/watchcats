@@ -55,7 +55,7 @@ module.exports = {
 
   sendRequest: async (req, res) => {
     const { userId: ownerUserId } = req.verifiedData
-    if (!ownerUserId) return res.status(403).json('ERROR/USER_NOT_FOUND');
+    if (!ownerUserId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const { sitterId: sitterShortId, type } = req.body;
 
@@ -76,7 +76,7 @@ module.exports = {
       } = sitter;
 
       if (!ownerObjId || !sitterObjId)
-        return res.status(401).json('ERROR/ERROR_OCCURED');
+        return res.status(404).json('ERROR/ERROR_OCCURED');
 
       let newBooking;
 
@@ -128,7 +128,7 @@ module.exports = {
       return res.status(201).json('Booking request successfully created');
     } catch (e) {
       console.log({ e });
-      return res.status(401).json('ERROR/ERROR_OCCURED');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 

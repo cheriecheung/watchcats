@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
 import { DatePicker, FieldLabel, TimePicker } from '../../../../components/FormComponents';
-import { ContainedButton } from '../../../../components/UIComponents'
+import { ContainedButton, ErrorMessage } from '../../../../components/UIComponents'
 import { useCreateAppointmentTime } from '../../viewModel'
 
 function CreateAppointmentTime({ t, modalVisible }) {
@@ -13,7 +13,8 @@ function CreateAppointmentTime({ t, modalVisible }) {
     onSendRequest,
     resetForm,
     oneDayStyle,
-    overnightStyle
+    overnightStyle,
+    bookingsError
   } = useCreateAppointmentTime();
 
   const { handleSubmit, reset } = methods;
@@ -109,6 +110,8 @@ function CreateAppointmentTime({ t, modalVisible }) {
           <h6>{price}</h6>
         </Col>
       </Row>
+
+      {bookingsError && <ErrorMessage type={bookingsError} />}
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <ContainedButton onClick={onSendRequest}>Submit</ContainedButton>

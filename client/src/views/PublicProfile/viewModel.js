@@ -141,9 +141,10 @@ function useCreateAppointmentTime() {
   const [oneDayStyle, setOneDayStyle] = useState(defaultButtonStyle);
   const [overnightStyle, setOvernightStyle] = useState(defaultButtonStyle);
 
+  const { bookingsError } = useSelector((state) => state.error);
   const { data } = useSelector((state) => state.profile);
-  const [rate, setRate] = useState({});
 
+  const [rate, setRate] = useState({});
   const [appointmentData, setAppointmentData] = useState({});
 
   const defaultValues = {
@@ -251,6 +252,7 @@ function useCreateAppointmentTime() {
     resetForm,
     oneDayStyle,
     overnightStyle,
+    bookingsError
   }
 }
 
@@ -258,12 +260,13 @@ function useSelectAppointmentTime() {
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  const { data } = useSelector((state) => state.profile);
-  const [rate, setRate] = useState({});
-
   const { appointmentTime } = useSelector((state) => state.bookings);
   const { allOneDays = [], allOvernight = [] } = appointmentTime || {};
 
+  const { bookingsError } = useSelector((state) => state.error);
+  const { data } = useSelector((state) => state.profile);
+
+  const [rate, setRate] = useState({});
   const [appointmentData, setAppointmentData] = useState({});
 
   useEffect(() => {
@@ -323,7 +326,8 @@ function useSelectAppointmentTime() {
     allOvernight,
     handleSelectTime,
     price,
-    onSendRequest
+    onSendRequest,
+    bookingsError
   }
 }
 

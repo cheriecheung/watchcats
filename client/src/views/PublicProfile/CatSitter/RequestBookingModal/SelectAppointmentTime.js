@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import moment from 'moment';
-import { ContainedButton } from '../../../../components/UIComponents'
+import { ContainedButton, ErrorMessage } from '../../../../components/UIComponents'
 import { useSelectAppointmentTime } from '../../viewModel'
 
 function SelectAppointmentTime({ t }) {
@@ -10,7 +10,8 @@ function SelectAppointmentTime({ t }) {
     allOvernight,
     handleSelectTime,
     price,
-    onSendRequest
+    onSendRequest,
+    bookingsError
   } = useSelectAppointmentTime();
 
   return (
@@ -94,6 +95,8 @@ function SelectAppointmentTime({ t }) {
           <h6>{price}</h6>
         </Col>
       </Row>
+
+      {bookingsError && <ErrorMessage type={bookingsError} />}
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <ContainedButton onClick={onSendRequest}>Submit</ContainedButton>
