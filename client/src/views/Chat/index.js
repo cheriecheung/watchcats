@@ -82,6 +82,7 @@ function Chat() {
       </ListContainer>
       <InboxPartContainer width={ChatWidth} backgroundOpacity={0.2} hoverOverflowY="hidden">
         <Conversation
+          conversationInfo={conversationInfo}
           allMessages={allMessages}
           onSubmitMessage={onSubmitMessage}
           chatContainerRef={chatContainerRef}

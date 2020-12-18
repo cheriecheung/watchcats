@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getChatList, getChatConversation, concatLatestMessage } from '../../redux/chat/actions';
 import io from "socket.io-client";
+import { getAccessToken } from '../../utility/accessToken';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
@@ -15,7 +16,7 @@ function useChat() {
   const chatContainerRef = useRef(null);
 
   const dispatch = useDispatch();
-  const { chatList, conversationInfo, allMessages } = useSelector((state) => state.chat);
+  const { chatList, conversationInfo, messages: allMessages } = useSelector((state) => state.chat);
   const [currentMessage, setCurrentMessage] = useState('')
 
   useEffect(() => {
@@ -23,7 +24,8 @@ function useChat() {
 
     dispatch(getChatList());
 
-    socket = io(server);
+    const token = getAccessToken();
+    socket = io(server, { query: { token } });
 
     socket.on("Output Chat Message", messageFromBackend => {
       console.log({ messageFromBackend })
@@ -53,6 +55,7 @@ function useChat() {
 
   useEffect(() => {
     scrollToBottom();
+    console.log({ conversationInfo, allMessages })
   }, [allMessages]);
 
   const onChangeMessageContent = (e) => {
@@ -62,7 +65,6 @@ function useChat() {
   const onSubmitMessage = (data) => {
     socket.emit('Input Chat Message', {
       message: data.messageInput,
-      sender: cookies.get('shortId'),
       recipient: recipientId,
     });
 

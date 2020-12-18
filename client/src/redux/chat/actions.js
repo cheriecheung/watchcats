@@ -9,7 +9,7 @@ const conversationUrl = (id) => `/chat/conversation?recipient=${id}`;
 export function getChatList() {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().get(contactsUrl(), getConfig());
+      const { data } = await axiosInstance().get(contactsUrl, getConfig());
       dispatch({ type: ChatActionTypes.CHAT_LIST_RETURNED, payload: data });
     } catch (e) {
       console.log({ e });

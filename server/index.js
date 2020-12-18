@@ -10,11 +10,17 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
+const socketio = require('socket.io');
+const Conversation = require('./model/Conversation')
+const Message = require('./model/Message')
+const User = require('./model/User')
 const { baseRouter } = require('./routes');
+const { verify } = require('jsonwebtoken');
+const { decode } = require('js-base64');
 
-const { DB_CONNECT, SESS_NAME, SESS_SECRET, SESS_LIFETIME, PASSPHRASE, PORT } = process.env;
+const { DB_CONNECT, SESS_NAME, SESS_SECRET, SESS_LIFETIME, PASSPHRASE, PORT, JWT_ACCESS_TOKEN_SECRET } = process.env;
 
-mongoose
+const connect = mongoose
   .connect(DB_CONNECT, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -31,6 +37,7 @@ const port = PORT || 5000
 const server = https.createServer(credentials, app).listen(port, () => {
   console.log('SERVER RUNNING AT ' + port);
 });
+const io = socketio(server);
 
 app.use(
   cors({
@@ -76,6 +83,112 @@ app.get('/test-api', (req, res) => {
 app.get('/test-again', (req, res) => {
   return res.status(200).send('your api is working again!!!!!!!!!!!');
 });
+
+io.use((socket, next) => {
+  const query = socket.handshake.query
+  const token = socket.handshake.query.token
+
+  if (query && token) {
+    verify(token, JWT_ACCESS_TOKEN_SECRET, (err, decoded) => {
+      console.log({ socket_token: token, decoded })
+      if (err) return next(new Error('Authentication error'));
+      // socket.userId = decoded.userId;
+      socket.decoded = decoded;
+      next();
+    });
+  } else {
+    next(new Error('Authentication error'));
+  }
+});
+
+io.on("connection", socket => {
+  socket.on("Input Chat Message", async (incomingData) => {
+
+    // connect.then(db => {
+    const { message, recipient } = incomingData
+    const { decoded } = socket
+    const { userId: senderId } = decoded || {}
+
+    try {
+      const recipientUserRecord = await User.findOne({ urlId: recipient });
+      if (!recipientUserRecord) {
+        console.log({ recipientUserRecord })
+        console.log('recipient not found..')
+        // //   socket.on('disconnect', () => {
+        // //     console.log('<<<<<<<<<<< user is now disconnected');
+        // return res.status(404).json('ERROR/USER_NOT_FOUND')
+      }
+
+      const recipientObjId = mongoose.Types.ObjectId(recipientUserRecord._id);
+      const senderObjId = mongoose.Types.ObjectId(senderId)
+
+      const conversation = await Conversation.findOne({
+        participant1: [recipientObjId, senderObjId],
+        participant2: [recipientObjId, senderObjId],
+      });
+
+      if (!conversation) {
+        const newConversation = new Conversation({
+          lastMessage: message,
+          lastMessageDate: Date.now(),
+          participant1: recipientObjId,
+          participant2: senderObjId,
+        });
+
+        const newMessage = new Message({
+          sender: senderObjId,
+          content: message,
+        });
+
+        await newConversation.save((err) => {
+          if (err) return err;
+          newMessage.conversation = newConversation._id;
+          newMessage.save();
+
+          Conversation.findById(newConversation._id)
+            .populate("sender")
+            .exec((err, doc) => {
+              console.log({ new_convo_message_doc: doc })
+              return io.emit("Output Chat Message", { ...doc, sender: senderId });
+            })
+        });
+
+        return;
+      }
+
+      conversation.lastMessage = message;
+      conversation.lastMessageDate = Date.now()
+
+      await conversation.save();
+
+      const newMessage = new Message({
+        sender: senderObjId,
+        content: message,
+        conversation: conversation._id
+      });
+
+      await newMessage.save();
+
+      console.log({ newMessageInExistingConvo: newMessage }
+      )
+
+      return io.emit("Output Chat Message", {
+        date: Date.now(),
+        content: message,
+        sender: senderId
+      });
+    } catch (error) {
+      console.error({ error });
+      // //   socket.on('disconnect', () => {
+      // //     console.log('<<<<<<<<<<< user is now disconnected');
+    }
+    // })
+  })
+
+})
+
+//  =============================
+//  =============================
 
 // const mongoose = require('mongoose');
 // const express = require('express');
@@ -144,105 +257,4 @@ app.get('/test-again', (req, res) => {
 // //   res.header('Access-Control-Allow-Origin', 'YOUR-DOMAIN.TLD'); // update to match the domain you will make the request from
 // //   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 // //   next();
-// // });
-
-// app.use('/', baseRouter);
-
-// app.get('/', (req, res) => {
-//   return res.status(200).json('You did it. You deployed your actual backend app!')
-// });
-
-
-// app.get('/test-api', (req, res) => {
-//   return res.status(200).json('testing the first time')
-// })
-
-// app.get('/test-again', (req, res) => {
-//   return res.status(200).json('testing the SECOND time')
-// })
-
-// const port = process.env.port || 5000;
-
-// const httpsOptions = {
-//   key: fs.readFileSync('./server/certificate/localhost.key'),
-//   cert: fs.readFileSync('./server/certificate/localhost.crt'),
-//   passphrase: PASSPHRASE,
-// };
-
-// const server = https.createServer(httpsOptions, app).listen(port, () => {
-//   console.log('SERVER RUNNING AT ' + port);
-// });
-
-// // ------------- CHAT ------------- //
-
-// // const io = socketio(server);
-
-// // const checkHeader = () => {
-// //   io.use((socket, next) => {
-// //     console.log({ cookie: socket.request.headers.cookie });
-// //     if (socket.request.headers.cookie) return next();
-// //     next(new Error('Authentication error'));
-// //   });
-// // };
-
-// // io.use((socket, next) => {
-// //   // if (socket.request.headers.cookie) return next();
-// //   // next(new Error('Authentication error'));
-// //   const userId = socket.handshake.query.userId;
-
-// //   // 1. steps to verify incoming userId
-// //   // 2. throw err if wrong userId / no userId
-
-// //   socket.userId = userId;
-// //   return next();
-// // });
-
-// // io.on('connection', (socket) => {
-// //   console.log('>>>>>>>>>>> we have a connection');
-
-// //   socket.on('send', async ({ message, recipient }) => {
-// //     console.log({ message, recipient });
-
-// //     const recipientUser = await User.findOne({ urlId: recipient });
-// //     const recipientObjId = mongoose.Types.ObjectId(recipientUser._id);
-
-// //     const senderObjId = mongoose.Types.ObjectId(socket.userId);
-
-// //     const currentConversation = await Conversation.findOne({
-// //       participant1: [recipientObjId, senderObjId],
-// //       participant2: [recipientObjId, senderObjId],
-// //     });
-
-// //     if (currentConversation) {
-// //       console.log({ currentConversation });
-// //       console.log('see, this conversation exists');
-// //     }
-
-// //     if (!currentConversation) {
-// //       const newConversation = new Conversation({
-// //         lastMessage: message,
-// //         lastMessageDate: Date.now(),
-// //         participant1: recipientObjId,
-// //         participant2: senderObjId,
-// //       });
-
-// //       // save new message in Message model
-
-// //       const newMessage = new Message({
-// //         // displays as plain string, not obj id
-// //         sender: senderObjId,
-// //         content: message,
-// //       });
-
-// //       await newConversation.save((err) => {
-// //         if (err) return err;
-// //         newMessage.conversation = newConversation._id;
-// //         newMessage.save();
-// //       });
-// //     }
-// //   });
-
-// //   socket.on('disconnect', () => {
-// //     console.log('<<<<<<<<<<< user is now disconnected');
-// //   });
 // // });

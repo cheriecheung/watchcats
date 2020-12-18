@@ -35,10 +35,13 @@ const defaultValues = {
 };
 
 function Chat({
+  conversationInfo,
   allMessages,
   onSubmitMessage,
   chatContainerRef
 }) {
+
+  const { sender } = conversationInfo
   // const chatContainerRef = useRef(null);
   const methods = useForm({ defaultValues });
   const { register, handleSubmit, watch, reset } = methods;
@@ -65,7 +68,7 @@ function Chat({
           ref={chatContainerRef}
         >
           <ChatContent>
-            <Messages allMessages={allMessages} />
+            <Messages allMessages={allMessages} sender={sender} />
           </ChatContent>
         </ChatContainer>
         <MessageInputContainer style={{ height: `${messageInputHeight}vh` }}>
@@ -98,7 +101,7 @@ function Chat({
 
 export default Chat;
 
-function Messages({ allMessages }) {
+function Messages({ allMessages, sender }) {
   return (
     <>
       <AutomatedMessage
@@ -106,12 +109,23 @@ function Messages({ allMessages }) {
         date="2020-08-02"
         time="14:07"
       />
-      {allMessages && allMessages.map(({ id, userId, name, image, date, time, content }, index) => {
-        const messageFlexDirection = userId === '002' ? 'row-reverse' : 'row';
+      {allMessages && allMessages.map((item, index) => {
+        const {
+          id,
+          userId,
+          name,
+          image,
+          date,
+          time,
+          content,
+          sender: messageSender
+        } = item
+
+        const messageFlexDirection = sender === messageSender ? 'row-reverse' : 'row';
         const messageBorderRadius =
-          userId === '002' ? { borderBottomRightRadius: 0 } : { borderBottomLeftRadius: 0 };
-        const messageBackgroundColor = userId === '002' ? 'rgba(219, 254, 224, 0.8)' : '#fff';
-        const imageBubbleDisplay = userId === '002' ? 'none' : 'block';
+          sender === messageSender ? { borderBottomRightRadius: 0 } : { borderBottomLeftRadius: 0 };
+        const messageBackgroundColor = sender === messageSender ? 'rgba(219, 254, 224, 0.8)' : '#fff';
+        const imageBubbleDisplay = sender === messageSender ? 'none' : 'block';
 
         return (
           <div key={id}>
