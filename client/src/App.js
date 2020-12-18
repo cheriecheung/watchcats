@@ -9,9 +9,9 @@ import Home from './views/Home';
 import About from './views/About';
 import { EmailVerification, Login, PasswordForgotten, PasswordReset, Register } from './views/Authentication';
 import Bookings from './views/Bookings';
+import Chat from './views/Chat';
 import Payment from './views/Bookings/containers/Payment';
 import WriteReview from './views/Bookings/containers/WriteReview';
-import Messages from './views/Messages';
 import Account from './views/Account';
 import FindCatSitter from './views/FindCatSitter';
 import { CatSitter, CatOwner } from './views/PublicProfile';
@@ -73,7 +73,7 @@ function App() {
             <PrivateRoute path="/bookings" component={Bookings} />
             <PrivateRoute path="/payment" component={Payment} />
             <PrivateRoute path="/writereivew/:bookingId?" component={WriteReview} />
-            <PrivateRoute path="/messages/:id?" component={Messages} />
+            <PrivateRoute path="/messages/:id?" component={Chat} />
             <PrivateRoute path="/account/:id?" component={Account} />
             {/* <Route path="/loading" component={Loading} /> */}
             <Route path="*" component={NotFound} />

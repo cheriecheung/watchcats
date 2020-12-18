@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getOwnerProfile, getSitterProfile } from '../../redux/profile/actions';
 import { getAppointmentTime, sendRequest } from '../../redux/bookings/actions';
-import { getChatContacts, getChatConversation } from '../../redux/chat/actions';
+import { getChatList, getChatConversation } from '../../redux/chat/actions';
 import { calculateOneDayPrice, calculateOvernightPrice } from '../../utility';
 import { useForm, FormProvider } from 'react-hook-form';
 
@@ -106,7 +106,7 @@ function useCatSitterSummary() {
   }, [modalVisible]);
 
   function onSendMessage() {
-    dispatch(getChatContacts);
+    dispatch(getChatList);
     dispatch(getChatConversation);
   };
 

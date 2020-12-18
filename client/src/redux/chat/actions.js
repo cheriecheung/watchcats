@@ -1,27 +1,21 @@
-import axios from 'axios';
+import axiosInstance from '../../utility/axiosInstance';
+import { getConfig } from '../../utility/api'
 import ChatActionTypes from './actionTypes'
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+import ErrorTypes from '../error/actionTypes'
 
-const { REACT_APP_API_DOMAIN } = process.env;
+const contactsUrl = `/chat/list`;
+const conversationUrl = (id) => `/chat/conversation?recipient=${id}`;
 
-const contactsUrl = (id) => `${REACT_APP_API_DOMAIN}/chat/contact/${id}`;
-const conversationUrl = (id) => `${REACT_APP_API_DOMAIN}/chat/conversation/${id}`;
-
-const config = {
-  withCredentials: true,
-  headers: {
-    Authorization: cookies.get('userId'),
-  },
-};
-
-export function getChatContacts(id) {
+export function getChatList() {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(contactsUrl(id), config);
-      dispatch({ type: ChatActionTypes.GET_CHAT_CONTACTS, payload: data });
+      const { data } = await axiosInstance().get(contactsUrl(), getConfig());
+      dispatch({ type: ChatActionTypes.CHAT_LIST_RETURNED, payload: data });
     } catch (e) {
       console.log({ e });
+      const { response } = e
+      const { data } = response || {}
+      dispatch({ type: ErrorTypes.CHAT_ERROR, payload: data })
     }
   };
 }
@@ -29,10 +23,20 @@ export function getChatContacts(id) {
 export function getChatConversation(id) {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(conversationUrl(id), config);
-      dispatch({ type: ChatActionTypes.GET_CHAT_CONVERSATION, payload: data });
+      const { data } = await axiosInstance().get(conversationUrl(id), getConfig());
+      dispatch({ type: ChatActionTypes.CHAT_CONVERSATION_RETURNED, payload: data });
     } catch (e) {
-      console.log({ e });
+      const { response } = e
+      const { data } = response || {}
+      dispatch({ type: ErrorTypes.CHAT_ERROR, payload: data })
     }
   };
+}
+
+
+export function concatLatestMessage(data) {
+  return {
+    type: ChatActionTypes.LATEST_MESSAGE_RETURNED,
+    payload: data
+  }
 }

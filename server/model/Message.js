@@ -5,21 +5,28 @@ const messageSchema = new Schema({
   conversation: {
     type: Schema.Types.ObjectId,
     ref: 'Conversation',
+    default: true
   },
   sender: {
     type: Schema.Types.ObjectId,
+    default: true
   },
   content: {
     type: String,
+    default: true
+  },
+  isAutoMessage: {
+    type: String,
+    default: true
   },
   isRead: {
     type: Boolean,
-    default: false
+    default: true
   },
   createdAt: {
     type: Date,
     default: Date.now(),
-    required: false,
+    required: true,
   },
 });
 

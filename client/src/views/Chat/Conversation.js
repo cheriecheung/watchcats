@@ -1,11 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { TextArea } from '../../components/FormComponents';
-import io from 'socket.io-client';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
 
 const NavHeight = 7;
 
@@ -34,69 +30,36 @@ const MessageInputContainer = styled.div`
   display: flex;
 `;
 
-const allMessagesFake = [];
-for (let i = 0; i < 31; i++) {
-  allMessagesFake.push({
-    id: i,
-    userId: i % 3 === 0 ? '002' : '001',
-    image:
-      'https://images.pexels.com/photos/569170/pexels-photo-569170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-    date: `2020-05-${i}`,
-    time: '12:10',
-    content: 'Lorem ipsum dolor sit ame? ',
-  });
-}
-
 const defaultValues = {
   messageInput: '',
 };
 
-let socket;
-
-function Chat() {
-  const { id: recipientId } = useParams();
-  const chatContainerRef = useRef(null);
+function Chat({
+  allMessages,
+  onSubmitMessage,
+  chatContainerRef
+}) {
+  // const chatContainerRef = useRef(null);
   const methods = useForm({ defaultValues });
   const { register, handleSubmit, watch, reset } = methods;
 
   const [messageInputHeight, setMessageInputHeight] = useState(10);
   const [textAreaRows, setTextAreaRows] = useState(1);
 
-  const [allMessages, setAllMessages] = useState(allMessagesFake);
+  // const scrollToBottom = () => {
+  //   const scroll = chatContainerRef.current.scrollHeight - chatContainerRef.current.clientHeight;
 
-  const scrollToBottom = () => {
-    const scroll = chatContainerRef.current.scrollHeight - chatContainerRef.current.clientHeight;
-
-    chatContainerRef.current.scrollTo(0, scroll);
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [allMessages]);
+  //   chatContainerRef.current.scrollTo(0, scroll);
+  // };
 
   // retrieve data
-  useEffect(() => {
-    socket = io(process.env.REACT_APP_API_DOMAIN, { query: { userId: cookies.get('userId') } });
-
-    return () => {
-      // does not disconnect here
-      socket.emit('disconnect');
-      socket.off();
-    };
-  }, []);
-
-  const onSubmit = (data) => {
-    socket.emit('send', {
-      message: data.messageInput,
-      sender: cookies.get('shortId'),
-      recipient: recipientId,
-    });
-    reset(defaultValues);
-  };
+  // useEffect(() => {
+  //   socket = io(process.env.REACT_APP_API_DOMAIN, { query: { userId: cookies.get('userId') } });
+  // }, []);
 
   return (
     <FormProvider {...methods}>
-      <form className="m-0" onSubmit={handleSubmit(onSubmit)}>
+      <form className="m-0" onSubmit={handleSubmit(onSubmitMessage)}>
         <ChatContainer
           style={{ height: `${100 - NavHeight - messageInputHeight}vh` }}
           ref={chatContainerRef}
@@ -143,7 +106,7 @@ function Messages({ allMessages }) {
         date="2020-08-02"
         time="14:07"
       />
-      {allMessagesFake.map(({ id, userId, name, image, date, time, content }, index) => {
+      {allMessages && allMessages.map(({ id, userId, name, image, date, time, content }, index) => {
         const messageFlexDirection = userId === '002' ? 'row-reverse' : 'row';
         const messageBorderRadius =
           userId === '002' ? { borderBottomRightRadius: 0 } : { borderBottomLeftRadius: 0 };

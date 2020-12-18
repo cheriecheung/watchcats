@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import List from './List';
-import Chat from './Chat';
-import ChatDetails from './ChatDetails';
+import Conversation from './Conversation';
+import ConversationInfo from './ConversationInfo';
+import { useChat } from './viewModel'
 
 const NavHeight = 7;
 
@@ -55,45 +56,47 @@ const ListContent = styled.div`
   visibility: visible;
 `;
 
-const allChats = [];
-for (let i = 0; i < 8; i++) {
-  allChats.push({
-    id: i,
-    name: `Person 00${i}`,
-    image: '',
-    message: 'Hi id like you to look after my cat',
-    isSelected: i === 2,
-  });
-}
+function Chat() {
+  const {
+    t,
+    chatList,
+    conversationInfo,
+    allMessages,
+    currentMessage,
+    onChangeMessageContent,
+    onSubmitMessage,
+    chatContainerRef
+  } = useChat();
 
-function Messages() {
   return (
-    <>
-      <InboxContainer className="message-inbox">
-        <ListContainer
-          width={ListWidth}
-          backgroundOpacity={0.8}
-          borderRight="1px solid #E8E8E8"
-          hoverOverflowY="auto"
-        >
-          <ListContent>
-            <List allChats={allChats} />
-          </ListContent>
-        </ListContainer>
-        <InboxPartContainer width={ChatWidth} backgroundOpacity={0.2} hoverOverflowY="hidden">
-          <Chat />
-        </InboxPartContainer>
-        <InboxPartContainer
-          width={ChatDetailsWidth}
-          backgroundOpacity={0.8}
-          borderLeft="1px solid #E8E8E8"
-          hoverOverflowY="auto"
-        >
-          <ChatDetails />
-        </InboxPartContainer>
-      </InboxContainer>
-    </>
+    <InboxContainer className="message-inbox">
+      <ListContainer
+        width={ListWidth}
+        backgroundOpacity={0.8}
+        borderRight="1px solid #E8E8E8"
+        hoverOverflowY="auto"
+      >
+        <ListContent>
+          <List chatList={chatList} />
+        </ListContent>
+      </ListContainer>
+      <InboxPartContainer width={ChatWidth} backgroundOpacity={0.2} hoverOverflowY="hidden">
+        <Conversation
+          allMessages={allMessages}
+          onSubmitMessage={onSubmitMessage}
+          chatContainerRef={chatContainerRef}
+        />
+      </InboxPartContainer>
+      <InboxPartContainer
+        width={ChatDetailsWidth}
+        backgroundOpacity={0.8}
+        borderLeft="1px solid #E8E8E8"
+        hoverOverflowY="auto"
+      >
+        <ConversationInfo info={conversationInfo} />
+      </InboxPartContainer>
+    </InboxContainer>
   );
 }
 
-export default Messages;
+export default Chat;

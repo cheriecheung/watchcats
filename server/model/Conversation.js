@@ -14,15 +14,11 @@ const conversationSchema = new Schema({
   },
   participant1: {
     type: Schema.Types.ObjectId,
-  },
-  participant1Photo: {
-    type: String,
+    ref: 'User',
   },
   participant2: {
     type: Schema.Types.ObjectId,
-  },
-  participant2Photo: {
-    type: String,
+    ref: 'User',
   },
   createdAt: {
     type: Date,

@@ -16,8 +16,19 @@ const TextContainer = styled.div`
   text-overflow: ellipsis;
 `;
 
-function List({ allChats }) {
-  return allChats.map((item, index) => {
+const allChats = [];
+for (let i = 0; i < 8; i++) {
+  allChats.push({
+    id: i,
+    name: `Person 00${i}`,
+    image: '',
+    message: 'Hi id like you to look after my cat',
+    isSelected: i === 2,
+  });
+}
+
+function List({ chatList }) {
+  return allChats && allChats.map((item, index) => {
     const { id, name, image, message, isSelected } = item;
 
     return (
