@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import List from './List';
-import Conversation from './Conversation';
-import ConversationInfo from './ConversationInfo';
+import Conversation from './containers/Conversation';
+import ConversationInfo from './containers/ConversationInfo';
+import List from './containers/List';
 import { useChat } from './viewModel'
 
 const NavHeight = 7;
@@ -59,11 +59,11 @@ const ListContent = styled.div`
 function Chat() {
   const {
     t,
+    FormProvider,
+    methods,
     chatList,
     conversationInfo,
     allMessages,
-    currentMessage,
-    onChangeMessageContent,
     onSubmitMessage,
     chatContainerRef
   } = useChat();
@@ -82,6 +82,8 @@ function Chat() {
       </ListContainer>
       <InboxPartContainer width={ChatWidth} backgroundOpacity={0.2} hoverOverflowY="hidden">
         <Conversation
+          FormProvider={FormProvider}
+          methods={methods}
           conversationInfo={conversationInfo}
           allMessages={allMessages}
           onSubmitMessage={onSubmitMessage}

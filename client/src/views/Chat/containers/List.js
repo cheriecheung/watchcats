@@ -1,20 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Image, ImageContainer } from '../../components/UIComponents'
-
-const ListItemContainer = styled.div`
-  display: flex;
-  min-height: 65px;
-  padding: 15px 20px;
-  border-bottom: 1px solid #f1f1f1;
-  cursor: pointer;
-`;
-
-const TextContainer = styled.div`
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-`;
+import { Image, ImageContainer } from '../../../components/UIComponents'
+import { ListItemContainer, TextContainer } from '../components/styledComponents'
 
 const allChats = [];
 for (let i = 0; i < 8; i++) {

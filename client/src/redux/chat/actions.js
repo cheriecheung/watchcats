@@ -3,13 +3,13 @@ import { getConfig } from '../../utility/api'
 import ChatActionTypes from './actionTypes'
 import ErrorTypes from '../error/actionTypes'
 
-const contactsUrl = `/chat/list`;
+const chatListUrl = `/chat/list`;
 const conversationUrl = (id) => `/chat/conversation?recipient=${id}`;
 
 export function getChatList() {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().get(contactsUrl, getConfig());
+      const { data } = await axiosInstance().get(chatListUrl, getConfig());
       dispatch({ type: ChatActionTypes.CHAT_LIST_RETURNED, payload: data });
     } catch (e) {
       console.log({ e });

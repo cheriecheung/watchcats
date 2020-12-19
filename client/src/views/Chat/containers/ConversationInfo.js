@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ImageContainer, LinkButton } from '../../components/UIComponents'
+import { Image, ImageContainer, LinkButton } from '../../../components/UIComponents'
 
 function ConversationInfo({ info }) {
   const { shortId } = info || {}
