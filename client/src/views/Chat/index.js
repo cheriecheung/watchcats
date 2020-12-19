@@ -16,6 +16,9 @@ function Chat() {
     methods,
     chatList,
     clickedChat,
+    hoveredChat,
+    setHoveredChat,
+    onFetchConversation,
     conversationInfo,
     allMessages,
     onSubmitMessage,
@@ -24,24 +27,24 @@ function Chat() {
 
   return (
     <InboxContainer className="message-inbox">
-      <ListContainer
-        width={ListWidth}
-        backgroundOpacity={0.8}
-        borderRight="1px solid #E8E8E8"
-        hoverOverflowY="auto"
-      >
-        <ListContent>
-          {chatList &&
-            chatList.map(item =>
-              <ChatListItem
-                key={item.id}
-                item={item}
-                clickedChat={clickedChat}
-              />
-            )
-          }
-        </ListContent>
-      </ListContainer>
+      <div style={{ width: '25%', height: '100vh', background: '#fff' }}>
+        <ListContainer hoverOverflowY="auto">
+          <ListContent>
+            {chatList &&
+              chatList.map(item =>
+                <ChatListItem
+                  key={item.id}
+                  item={item}
+                  clickedChat={clickedChat}
+                  hoveredChat={hoveredChat}
+                  setHoveredChat={setHoveredChat}
+                  onFetchConversation={onFetchConversation}
+                />
+              )
+            }
+          </ListContent>
+        </ListContainer>
+      </div>
       <InboxPartContainer width={ChatWidth} backgroundOpacity={0.2} hoverOverflowY="hidden">
         <Conversation
           FormProvider={FormProvider}

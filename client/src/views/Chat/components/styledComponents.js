@@ -23,31 +23,31 @@ export const InboxPartContainer = styled.div`
 `;
 
 export const ListContainer = styled.div`
-  width: ${(props) => props.width}%;
-  background: rgba(255, 255, 255, ${(props) => props.backgroundOpacity});
+  height: 100vh;
   border-left: ${(props) => props.borderLeft};
   border-right: ${(props) => props.borderRight};
   overflow: auto;
   visibility: hidden;
   transition: visibility 0.6s;
+
   &::-webkit-transition {
     visibility 0.6s;
   }
+
   &:hover {
     visibility: visible;
   }
+
   &:focus {
     visibility: visible;
   }
 `;
 
 export const ListContent = styled.div`
-  border-right: 1px solid #e8e8e8;
   visibility: visible;
 `;
 
 // Chat List
-// background-color: ${props => props.isClicked ? 'blue' : 'pink'};
 
 export const ListItemContainer = styled.div`
   display: flex;
@@ -55,9 +55,12 @@ export const ListItemContainer = styled.div`
   padding: 15px 20px;
   border-bottom: 1px solid #f1f1f1;
   cursor: pointer;
+  transition: 0.3s;
 `;
 
 export const TextContainer = styled.div`
+  flex-basis: 80%;
+  width: 100%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

@@ -21,6 +21,7 @@ function useChat() {
   const { chatList, conversationInfo, messages: allMessages } = useSelector((state) => state.chat);
 
   const [clickedChat, setClickedChat] = useState('');
+  const [hoveredChat, setHoveredChat] = useState('');
 
   const defaultValues = { messageInput: '' };
   const methods = useForm({ defaultValues });
@@ -69,6 +70,11 @@ function useChat() {
     // if no id, redirect to where?
   }, [recipientId])
 
+  function onFetchConversation(recipientShortId, conversationId) {
+    history.push(`/messages/${recipientShortId}`)
+    setClickedChat(conversationId)
+  }
+
   const scrollToBottom = () => {
     const scroll = chatContainerRef.current.scrollHeight - chatContainerRef.current.clientHeight;
 
@@ -96,6 +102,9 @@ function useChat() {
     methods,
     chatList,
     clickedChat,
+    hoveredChat,
+    setHoveredChat,
+    onFetchConversation,
     conversationInfo,
     allMessages,
     onSubmitMessage,
