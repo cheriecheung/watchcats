@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -51,7 +52,9 @@ const renderApp = (preloadedState) => {
     <I18nextProvider i18n={i18n}>
       <React.StrictMode>
         <Provider store={store}>
-          <App />
+          <BrowserRouter basename={'/'}>
+            <App />
+          </BrowserRouter>
         </Provider>
       </React.StrictMode>
     </I18nextProvider>,

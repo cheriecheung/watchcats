@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import {
+  // BrowserRouter,
+  Switch,
+  Route,
+  Redirect,
+  useLocation
+} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -25,6 +31,10 @@ const GlobalStyle = createGlobalStyle`
   html {
     overflow: ${props => props.toggleMobileMenu ? 'hidden' : 'unset'};
   }
+
+  body {
+    overflow: ${props => props.isChatPage ? 'hidden' : 'unset'}
+  }
 `
 
 function PrivateRoute({ component: Component, ...rest }) {
@@ -45,6 +55,9 @@ function PrivateRoute({ component: Component, ...rest }) {
 }
 
 function App() {
+  const location = useLocation();
+  const { pathname } = location || {}
+
   const { language, toggleMobileMenu } = useSelector(state => state.app);
 
   // const { i18n } = useTranslation();
@@ -55,31 +68,32 @@ function App() {
 
   return (
     <div className="App">
-      <GlobalStyle toggleMobileMenu={toggleMobileMenu} />
+      <GlobalStyle
+        toggleMobileMenu={toggleMobileMenu}
+        isChatPage={pathname.includes('messages')}
+      />
 
-      <BrowserRouter basename={'/'}>
-        <Layout>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/find" component={FindCatSitter} />
-            <Route path="/about" component={About} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Route path="/forgot_password" component={PasswordForgotten} />
-            <Route path="/reset_password/:token" component={PasswordReset} />
-            <Route path="/activate/:token?" component={EmailVerification} />
-            <PrivateRoute path="/profile/catsitter/:id" component={CatSitter} />
-            <PrivateRoute path="/profile/catowner/:id" component={CatOwner} />
-            <PrivateRoute path="/bookings" component={Bookings} />
-            <PrivateRoute path="/payment" component={Payment} />
-            <PrivateRoute path="/writereivew/:bookingId?" component={WriteReview} />
-            <PrivateRoute path="/messages/:id?" component={Chat} />
-            <PrivateRoute path="/account/:id?" component={Account} />
-            {/* <Route path="/loading" component={Loading} /> */}
-            <Route path="*" component={NotFound} />
-          </Switch>
-        </Layout>
-      </BrowserRouter>
+      <Layout>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/find" component={FindCatSitter} />
+          <Route path="/about" component={About} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/forgot_password" component={PasswordForgotten} />
+          <Route path="/reset_password/:token" component={PasswordReset} />
+          <Route path="/activate/:token?" component={EmailVerification} />
+          <PrivateRoute path="/profile/catsitter/:id" component={CatSitter} />
+          <PrivateRoute path="/profile/catowner/:id" component={CatOwner} />
+          <PrivateRoute path="/bookings" component={Bookings} />
+          <PrivateRoute path="/payment" component={Payment} />
+          <PrivateRoute path="/writereivew/:bookingId?" component={WriteReview} />
+          <PrivateRoute path="/messages/:id?" component={Chat} />
+          <PrivateRoute path="/account/:id?" component={Account} />
+          {/* <Route path="/loading" component={Loading} /> */}
+          <Route path="*" component={NotFound} />
+        </Switch>
+      </Layout>
     </div>
   );
 }
