@@ -1,8 +1,23 @@
 import React from 'react';
 import { Image, ImageContainer, LinkButton } from '../../../components/UIComponents'
+import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
+
+const { REACT_APP_API_DOMAIN } = process.env;
 
 function ConversationInfo({ info }) {
-  const { shortId } = info || {}
+  const { recipient } = info || {}
+  const {
+    firstName,
+    lastName,
+    lastSeen,
+    profilePicture,
+    shortId,
+    hasSitterProfile,
+    hasOwnerProfile
+  } = recipient || {}
+
+  const pictureUrl = profilePicture ?
+    `${REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
 
   return (
     <div
@@ -15,13 +30,24 @@ function ConversationInfo({ info }) {
       }}
     >
       <ImageContainer>
-        <Image url="https://images.pexels.com/photos/569170/pexels-photo-569170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" />
+        <Image url={pictureUrl} />
       </ImageContainer>
-      <h5 style={{ margin: '15px 0 3px 0' }}>Anna C</h5>
-      <span style={{ color: '#929292' }}>Active 1h ago</span>
+      <h5 style={{ margin: '15px 0 3px 0' }}>
+        {firstName} {lastName && lastName.charAt(0)}
+      </h5>
 
-      <LinkButton to={`/profile/catsitter/${shortId}`}>View cat sitter profile</LinkButton>
-      <LinkButton to={`/profile/catowner/${shortId}`}>View cat owner profile</LinkButton>
+      {/* <span style={{ color: '#929292' }}>Active 1h ago</span> */}
+
+      {hasSitterProfile &&
+        <LinkButton to={`/profile/catsitter/${shortId}`}>
+          View cat sitter profile
+        </LinkButton>
+      }
+      {hasOwnerProfile &&
+        <LinkButton to={`/profile/catowner/${shortId}`}>
+          View cat owner profile
+        </LinkButton>
+      }
     </div>
   );
 }

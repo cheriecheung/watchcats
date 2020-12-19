@@ -1,6 +1,10 @@
 import React from 'react';
+import { Image } from '../../../components/UIComponents'
+import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
-function MessageBubble({ message, sender }) {
+const { REACT_APP_API_DOMAIN } = process.env;
+
+function MessageBubble({ message, conversationInfo }) {
   const {
     id,
     userId,
@@ -10,21 +14,28 @@ function MessageBubble({ message, sender }) {
     time,
     content,
     sender: messageSender
-  } = message
+  } = message || {}
+
+  const { sender, recipient } = conversationInfo || {}
+  const { id: senderId, profilePicture: senderPicture } = sender || {}
+  const { profilePicture: recipientPicture } = recipient || {}
+
+  const pictureType =
+    senderId === messageSender ? senderPicture : recipientPicture;
+
+  const pictureUrl = senderPicture && recipientPicture ?
+    `${REACT_APP_API_DOMAIN}/image/${pictureType}` : defaultProfilePic
 
   const messageFlexDirection =
-    sender === messageSender ? 'row-reverse' : 'row';
+    senderId === messageSender ? 'row-reverse' : 'row';
 
   const messageBorderRadius =
-    sender === messageSender ?
+    senderId === messageSender ?
       { borderBottomRightRadius: 0 } :
       { borderBottomLeftRadius: 0 };
 
   const messageBackgroundColor =
-    sender === messageSender ? 'rgba(219, 254, 224, 0.8)' : '#fff';
-
-  const imageBubbleDisplay =
-    sender === messageSender ? 'none' : 'block';
+    senderId === messageSender ? 'rgba(219, 254, 224, 0.8)' : '#fff';
 
   return (
     <div key={id}>
@@ -53,14 +64,15 @@ function MessageBubble({ message, sender }) {
       >
         <div
           style={{
-            width: 25,
-            height: 25,
-            background: 'pink',
+            width: 30,
+            height: 30,
             borderRadius: '50%',
             alignSelf: 'flex-end',
-            display: imageBubbleDisplay,
+            overflow: 'hidden',
           }}
-        />
+        >
+          <Image url={pictureUrl} />
+        </div>
 
         <div
           style={{

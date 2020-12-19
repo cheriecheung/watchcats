@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { getChatList, getChatConversation, concatLatestMessage } from '../../redux/chat/actions';
@@ -12,12 +12,15 @@ const cookies = new Cookies();
 let socket;
 
 function useChat() {
+  const history = useHistory();
   const { t } = useTranslation();
   const { id: recipientId } = useParams();
   const chatContainerRef = useRef(null);
 
   const dispatch = useDispatch();
   const { chatList, conversationInfo, messages: allMessages } = useSelector((state) => state.chat);
+
+  const [clickedChat, setClickedChat] = useState('');
 
   const defaultValues = { messageInput: '' };
   const methods = useForm({ defaultValues });
@@ -44,6 +47,19 @@ function useChat() {
       socket.off();
     };
   }, [])
+
+  useEffect(() => {
+    console.log({ chatList })
+
+    if (chatList && chatList.length > 0) {
+      setClickedChat(chatList[0].id)
+    }
+
+    if (!recipientId && chatList && chatList.length > 0) {
+      const shortId = chatList[0].recipient.shortId
+      history.push(`/messages/${shortId}`)
+    }
+  }, [chatList])
 
   useEffect(() => {
     if (recipientId) {
@@ -79,6 +95,7 @@ function useChat() {
     FormProvider,
     methods,
     chatList,
+    clickedChat,
     conversationInfo,
     allMessages,
     onSubmitMessage,

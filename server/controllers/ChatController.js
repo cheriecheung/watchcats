@@ -1,10 +1,86 @@
 const Conversation = require('../model/Conversation');
 const Message = require('../model/Message');
+const Owner = require('../model/Owner');
+const Sitter = require('../model/Sitter');
 const User = require('../model/User');
+const ObjectId = require('mongodb').ObjectID;
+
+async function getPartificpantsInfo(conversations, senderId) {
+  const chatList = await Promise.all(
+    conversations.map(async (item) => {
+      const {
+        _id: conversationId,
+        lastMessage,
+        lastMessageDate,
+        participant1,
+        participant2
+      } = item
+
+      const [user1, user2] = await Promise.all([
+        User.findById(participant1),
+        User.findById(participant2),
+      ]);
+      if (!user1 || !user2) return { err: 'Cannot find user(s)' }
+
+      const recipientObj = user1._id.equals(ObjectId(senderId)) ? user2 : user1
+
+      const {
+        _id: recipientId,
+        firstName,
+        lastName,
+        profilePicture,
+        urlId
+      } = recipientObj
+
+      const recipient = {
+        id: recipientId,
+        firstName,
+        lastName,
+        profilePicture,
+        shortId: urlId
+      }
+
+      return {
+        id: conversationId,
+        lastMessage,
+        lastMessageDate,
+        recipient
+      }
+    })
+  )
+
+  return { chatList }
+}
 
 module.exports = {
   getChatList: async (req, res) => {
-    console.log('going to chatlist')
+    const { userId: senderId } = req.verifiedData
+    if (!senderId) return res.status(400).json('ERROR/USER_NOT_FOUND');
+
+    try {
+      const sorted = await Conversation.find({
+        $or: [
+          { participant1: senderId },
+          { participant2: senderId }
+        ]
+      })
+        .sort({ lastMessageDate: -1 })
+      if (!sorted || sorted.length === 0) return res.status(204).json()
+
+      const { chatList, err } = await getPartificpantsInfo(sorted, senderId)
+      if (err) return res.status(400).json('ERROR/ERROR_OCCURED')
+
+      // const recipientShortId = chatList[0].recipient.shortId
+
+      return res.status(200).json({ chatList })
+
+      // `/messages/${recipientShortId}` automatically redirects to
+      // https://watchcats.nl/messages/:recipientShortId
+      // return res.redirect(`/messages/${recipientShortId}`);
+    } catch (err) {
+      console.log({ err })
+      return res.status(400).json('ERROR/ERROR_OCCURED')
+    }
   },
 
   getChatConversation: async (req, res) => {
@@ -16,14 +92,18 @@ module.exports = {
 
     const { recipient } = req.query;
 
-    const { _id: recipientObjId } = await User.findOne({ urlId: recipient })
-    if (!recipientObjId) return res.status(400).json('ERROR/USER_NOT_FOUND');
+    // const recipientUser = await User.findOne({ urlId: recipient })
+    const [senderUser, recipientUser] = await Promise.all([
+      User.findById(senderObjId),
+      User.findOne({ urlId: recipient }),
+    ]);
+    if (!senderUser || !recipientUser) return res.status(400).json('ERROR/USER_NOT_FOUND');
 
-    console.log({ recipientObjId, senderObjId })
+    const { _id: recipientObjId } = recipientUser
 
     try {
       // query everything in one go
-
+      // populate exec
       const conversation = await Conversation.findOne({
         participant1: [recipientObjId, senderObjId],
         participant2: [recipientObjId, senderObjId],
@@ -36,16 +116,49 @@ module.exports = {
       //   ],
       // })
 
-      if (!conversation) return res.status(404).json('ERROR/CONVERSATION_NOT_FOUND')
+      const {
+        profilePicture: senderPicture
+      } = senderUser
 
-      console.log({ conversation })
+      const sender = {
+        id: senderObjId,
+        profilePicture: senderPicture
+      }
 
-      // populate exec
+      const {
+        firstName,
+        lastName,
+        lastSeen,
+        profilePicture: recipientPicture,
+        urlId,
+        sitter,
+        owner
+      } = recipientUser
+
+      const [sitterProfile, ownerProfile] = await Promise.all([
+        Sitter.findById(sitter),
+        Owner.findById(owner),
+      ]);
+
+      const recipient = {
+        firstName,
+        lastName,
+        lastSeen,
+        profilePicture: recipientPicture,
+        shortId: urlId,
+        hasSitterProfile: sitterProfile ? true : false,
+        hasOwnerProfile: ownerProfile ? true : false,
+      }
+
+      if (!conversation) return res.status(200).json({
+        conversationInfo: { sender, recipient }
+      })
+
       const messages = await Message.find({ conversation: conversation._id })
       if (!messages) return res.status(404).json('ERROR/MESSAGES_NOT_FOUND')
 
       return res.status(200).json({
-        conversationInfo: { ...conversation._doc, sender: senderObjId },
+        conversationInfo: { sender, recipient },
         messages
       })
     } catch (err) {

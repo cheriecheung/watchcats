@@ -11,7 +11,7 @@ const chat_reducer = {
   chat: (state = initialState, action) => {
     switch (action.type) {
       case ChatActionTypes.CHAT_LIST_RETURNED:
-        return { ...state, chatListContacts: action.payload };
+        return { ...state, chatList: action.payload.chatList };
       case ChatActionTypes.CHAT_CONVERSATION_RETURNED:
         return {
           ...state,

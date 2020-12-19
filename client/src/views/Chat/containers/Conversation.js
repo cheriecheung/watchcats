@@ -35,7 +35,9 @@ function Conversation({
               time="14:07"
             />
             {allMessages &&
-              allMessages.map(message => <MessageBubble message={message} sender={sender} />)
+              allMessages.map(message =>
+                <MessageBubble message={message} conversationInfo={conversationInfo} />
+              )
             }
             {/* <Messages allMessages={allMessages} sender={sender} /> */}
             <AutomatedMessage
