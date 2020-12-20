@@ -66,9 +66,10 @@ function MessageBubble({ message, conversationInfo }) {
           style={{
             width: 30,
             height: 30,
-            borderRadius: '50%',
+            borderRadius: 10,
             alignSelf: 'flex-end',
             overflow: 'hidden',
+            display: senderId === messageSender ? 'none' : 'block'
           }}
         >
           <Image url={pictureUrl} />

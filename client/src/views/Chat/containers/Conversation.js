@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { TextArea } from '../../../components/FormComponents';
-import { ChatContainer, ChatContent, MessageInputContainer } from '../components/styledComponents'
+import {
+  ConversationLayer,
+  ConversationSubLayer,
+  MessageInputContainer,
+  SubmitButton
+} from '../components/styledComponents'
 import AutomatedMessage from './AutomatedMessage'
 import MessageBubble from './MessageBubble';
 
@@ -23,12 +28,12 @@ function Conversation({
 
   return (
     <FormProvider {...methods}>
-      <form className="m-0" onSubmit={handleSubmit(onSubmitMessage)}>
-        <ChatContainer
+      <form onSubmit={handleSubmit(onSubmitMessage)}>
+        <ConversationLayer
           style={{ height: `${100 - NavHeight - messageInputHeight}vh` }}
           ref={chatContainerRef}
         >
-          <ChatContent>
+          <ConversationSubLayer>
             <AutomatedMessage
               content="Your conversation with Anna C begins"
               date="2020-08-02"
@@ -39,14 +44,14 @@ function Conversation({
                 <MessageBubble message={message} conversationInfo={conversationInfo} />
               )
             }
-            {/* <Messages allMessages={allMessages} sender={sender} /> */}
             <AutomatedMessage
               content="Reminder - leave a review"
               date="2020-08-23"
               time="20:23"
             />
-          </ChatContent>
-        </ChatContainer>
+          </ConversationSubLayer>
+        </ConversationLayer>
+
         <MessageInputContainer style={{ height: `${messageInputHeight}vh` }}>
           <TextArea
             name="messageInput"
@@ -54,21 +59,9 @@ function Conversation({
             rows={textAreaRows}
             customStyle={{ margin: '0 5px', overflowY: 'auto' }}
           />
-          <button
-            style={{
-              // background: '#ffa195',
-              background: 'none',
-              color: '#ffa195',
-              border: 'none',
-              outline: 'none',
-              padding: '0 10px',
-              //borderRadius: 10,
-              //border: '1px solid #d9d9d9',
-            }}
-            type="submit"
-          >
+          <SubmitButton type="submit">
             <i className="fas fa-paper-plane fa-lg" />
-          </button>
+          </SubmitButton>
         </MessageInputContainer>
       </form>
     </FormProvider>

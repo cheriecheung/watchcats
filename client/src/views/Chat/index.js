@@ -1,5 +1,12 @@
 import React from 'react';
-import { InboxContainer, InboxPartContainer, ListContainer, ListContent } from './components/styledComponents'
+import {
+  ChatListContainer,
+  ChatListLayer,
+  ChatListSubLayer,
+  ConversationContainer,
+  ConversationInfoContainer,
+  MainContainer,
+} from './components/styledComponents'
 import ChatListItem from './containers/ChatListItem';
 import Conversation from './containers/Conversation';
 import ConversationInfo from './containers/ConversationInfo';
@@ -26,26 +33,25 @@ function Chat() {
   } = useChat();
 
   return (
-    <InboxContainer className="message-inbox">
-      <div style={{ width: '25%', height: '100vh', background: '#fff' }}>
-        <ListContainer hoverOverflowY="auto">
-          <ListContent>
-            {chatList &&
-              chatList.map(item =>
-                <ChatListItem
-                  key={item.id}
-                  item={item}
-                  clickedChat={clickedChat}
-                  hoveredChat={hoveredChat}
-                  setHoveredChat={setHoveredChat}
-                  onFetchConversation={onFetchConversation}
-                />
-              )
-            }
-          </ListContent>
-        </ListContainer>
-      </div>
-      <InboxPartContainer width={ChatWidth} backgroundOpacity={0.2} hoverOverflowY="hidden">
+    <MainContainer>
+      <ChatListContainer>
+        <ChatListLayer>
+          <ChatListSubLayer>
+            {chatList && chatList.map(item =>
+              <ChatListItem
+                key={item.id}
+                item={item}
+                clickedChat={clickedChat}
+                hoveredChat={hoveredChat}
+                setHoveredChat={setHoveredChat}
+                onFetchConversation={onFetchConversation}
+              />
+            )}
+          </ChatListSubLayer>
+        </ChatListLayer>
+      </ChatListContainer>
+
+      <ConversationContainer>
         <Conversation
           FormProvider={FormProvider}
           methods={methods}
@@ -54,16 +60,12 @@ function Chat() {
           onSubmitMessage={onSubmitMessage}
           chatContainerRef={chatContainerRef}
         />
-      </InboxPartContainer>
-      <InboxPartContainer
-        width={ChatDetailsWidth}
-        backgroundOpacity={0.8}
-        borderLeft="1px solid #E8E8E8"
-        hoverOverflowY="auto"
-      >
+      </ConversationContainer>
+
+      <ConversationInfoContainer>
         <ConversationInfo info={conversationInfo} />
-      </InboxPartContainer>
-    </InboxContainer>
+      </ConversationInfoContainer>
+    </MainContainer>
   );
 }
 
