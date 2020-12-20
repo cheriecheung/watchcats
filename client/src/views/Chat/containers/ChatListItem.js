@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, ImageContainer } from '../../../components/UIComponents'
-import { ListItemContainer, TextContainer } from '../components/styledComponents'
+import { ChatListItemContainer, TextContainer } from '../components/styledComponents'
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 import { formatDate } from '../../../utility';
 
@@ -31,7 +31,7 @@ function ChatListItem({
     `${REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
 
   return (
-    <ListItemContainer
+    <ChatListItemContainer
       // isClicked={clickedChat === chatId} 
       onClick={() => onFetchConversation(shortId, chatId)}
       onMouseOver={() => setHoveredChat(chatId)}
@@ -52,7 +52,7 @@ function ChatListItem({
         </div>
         <span>{lastMessage}</span>
       </TextContainer>
-    </ListItemContainer>
+    </ChatListItemContainer>
   );
 }
 

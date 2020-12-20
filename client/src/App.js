@@ -29,7 +29,7 @@ import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
   html {
-    overflow: ${props => props.toggleMobileMenu ? 'hidden' : 'unset'};
+    overflow: ${props => props.toggleMobileMenu || props.isChatPage ? 'hidden' : 'unset'};
   }
 
   body {

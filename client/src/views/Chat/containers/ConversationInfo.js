@@ -1,10 +1,11 @@
 import React from 'react';
 import { Image, ImageContainer, LinkButton } from '../../../components/UIComponents'
+import { IconButton, MobileViewTab } from '../components/styledComponents'
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
-function ConversationInfo({ info }) {
+function ConversationInfo({ info, backToConversation }) {
   const { recipient } = info || {}
   const {
     firstName,
@@ -20,35 +21,45 @@ function ConversationInfo({ info }) {
     `${REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: 20,
-        borderBottom: '1px solid #E8E8E8',
-      }}
-    >
-      <ImageContainer>
-        <Image url={pictureUrl} />
-      </ImageContainer>
-      <h5 style={{ margin: '15px 0 3px 0' }}>
-        {firstName} {lastName && lastName.charAt(0)}
-      </h5>
+    <>
+      <MobileViewTab>
+        <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+          <IconButton type="button" onClick={backToConversation}>
+            <i className="fas fa-arrow-left" />
+          </IconButton>
+        </div>
+      </MobileViewTab>
 
-      {/* <span style={{ color: '#929292' }}>Active 1h ago</span> */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: 20,
+          borderBottom: '1px solid #E8E8E8',
+        }}
+      >
+        <ImageContainer>
+          <Image url={pictureUrl} />
+        </ImageContainer>
+        <h5 style={{ margin: '15px 0 3px 0' }}>
+          {firstName} {lastName && lastName.charAt(0)}
+        </h5>
 
-      {hasSitterProfile &&
-        <LinkButton to={`/profile/catsitter/${shortId}`}>
-          View cat sitter profile
+        {/* <span style={{ color: '#929292' }}>Active 1h ago</span> */}
+
+        {hasSitterProfile &&
+          <LinkButton to={`/profile/catsitter/${shortId}`}>
+            View cat sitter profile
         </LinkButton>
-      }
-      {hasOwnerProfile &&
-        <LinkButton to={`/profile/catowner/${shortId}`}>
-          View cat owner profile
+        }
+        {hasOwnerProfile &&
+          <LinkButton to={`/profile/catowner/${shortId}`}>
+            View cat owner profile
         </LinkButton>
-      }
-    </div>
+        }
+      </div>
+    </>
   );
 }
 

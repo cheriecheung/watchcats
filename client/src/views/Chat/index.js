@@ -1,11 +1,11 @@
 import React from 'react';
 import {
   ChatListContainer,
-  ChatListLayer,
-  ChatListSubLayer,
   ConversationContainer,
   ConversationInfoContainer,
   MainContainer,
+  ScrollableLayer,
+  ScrollableSubLayer
 } from './components/styledComponents'
 import ChatListItem from './containers/ChatListItem';
 import Conversation from './containers/Conversation';
@@ -29,14 +29,21 @@ function Chat() {
     conversationInfo,
     allMessages,
     onSubmitMessage,
-    chatContainerRef
+    chatContainerRef,
+    mobileScreenView,
+    backToList,
+    backToConversation,
+    goToInfo
   } = useChat();
 
   return (
     <MainContainer>
-      <ChatListContainer>
-        <ChatListLayer>
-          <ChatListSubLayer>
+      <ChatListContainer
+        //isShown={mobileScreenView === 'list'}
+        mobileScreenView={mobileScreenView}
+      >
+        <ScrollableLayer>
+          <ScrollableSubLayer>
             {chatList && chatList.map(item =>
               <ChatListItem
                 key={item.id}
@@ -47,11 +54,11 @@ function Chat() {
                 onFetchConversation={onFetchConversation}
               />
             )}
-          </ChatListSubLayer>
-        </ChatListLayer>
+          </ScrollableSubLayer>
+        </ScrollableLayer>
       </ChatListContainer>
 
-      <ConversationContainer>
+      <ConversationContainer mobileScreenView={mobileScreenView}>
         <Conversation
           FormProvider={FormProvider}
           methods={methods}
@@ -59,11 +66,23 @@ function Chat() {
           allMessages={allMessages}
           onSubmitMessage={onSubmitMessage}
           chatContainerRef={chatContainerRef}
+          backToList={backToList}
+          goToInfo={goToInfo}
         />
       </ConversationContainer>
 
-      <ConversationInfoContainer>
-        <ConversationInfo info={conversationInfo} />
+      <ConversationInfoContainer
+        isShown={mobileScreenView === 'info'}
+        mobileScreenView={mobileScreenView}
+      >
+        <ScrollableLayer>
+          <ScrollableSubLayer>
+            <ConversationInfo
+              info={conversationInfo}
+              backToConversation={backToConversation}
+            />
+          </ScrollableSubLayer>
+        </ScrollableLayer>
       </ConversationInfoContainer>
     </MainContainer>
   );

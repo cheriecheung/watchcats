@@ -3,7 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { useParams, useHistory } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { getChatList, getChatConversation, concatLatestMessage } from '../../redux/chat/actions';
+import {
+  getChatList,
+  getChatConversation,
+  concatLatestMessage,
+  emptyConversation
+} from '../../redux/chat/actions';
 import io from "socket.io-client";
 import { getAccessToken } from '../../utility/accessToken';
 import Cookies from 'universal-cookie';
@@ -22,6 +27,9 @@ function useChat() {
 
   const [clickedChat, setClickedChat] = useState('');
   const [hoveredChat, setHoveredChat] = useState('');
+
+  // list, conversation, info
+  const [mobileScreenView, setMobileScreenView] = useState('list')
 
   const defaultValues = { messageInput: '' };
   const methods = useForm({ defaultValues });
@@ -73,6 +81,20 @@ function useChat() {
   function onFetchConversation(recipientShortId, conversationId) {
     history.push(`/messages/${recipientShortId}`)
     setClickedChat(conversationId)
+    setMobileScreenView('conversation')
+    dispatch(emptyConversation())
+  }
+
+  function backToList() {
+    setMobileScreenView('list')
+  }
+
+  function backToConversation() {
+    setMobileScreenView('conversation')
+  }
+
+  function goToInfo() {
+    setMobileScreenView('info')
   }
 
   const scrollToBottom = () => {
@@ -108,7 +130,11 @@ function useChat() {
     conversationInfo,
     allMessages,
     onSubmitMessage,
-    chatContainerRef
+    chatContainerRef,
+    mobileScreenView,
+    backToList,
+    backToConversation,
+    goToInfo
   }
 }
 
