@@ -13,6 +13,13 @@ import { themeColor } from '../../../style/theme'
 // - extend ConversationtContainer
 // - show MobileViewTab (ConversationContiner)
 
+const buttonStyle = css`
+  background: none;
+  color: ${themeColor.peach};
+  border: none;
+  outline: none !important;
+`
+
 const transitionStyle = css`
   transition: all .3s;
 `
@@ -63,13 +70,7 @@ export const ScrollableSubLayer = styled.div`
   visibility: visible;
 `
 
-export const MainContainer = styled.div`
-  text-align: left;
-  width: 100%;
-  display: flex;
-`;
-
-const getChatListPositionX = (view) => {
+const getPositionX = (view) => {
   switch (view) {
     case "list":
       return "translateX(0)"
@@ -81,6 +82,17 @@ const getChatListPositionX = (view) => {
       return "unset";
   }
 }
+
+export const MainContainer = styled.div`
+  text-align: left;
+  width: 100%;
+  display: flex;
+  ${transitionStyle}
+
+  @media (max-width: 735px) {
+    transform: ${({ mobileScreenView }) => getPositionX(mobileScreenView)};
+  }
+`;
 
 export const ChatListContainer = styled.div`
   width: 25vw; 
@@ -94,7 +106,21 @@ export const ChatListContainer = styled.div`
 
   @media (max-width: 735px) {
     width: 100vw;
-    transform: ${({ mobileScreenView }) => getChatListPositionX(mobileScreenView)};
+  }
+`
+
+export const ChatListScrollableLayer = styled.div`
+  height: 100vh;
+
+  ${scrollableLayerStyle}
+  ${scrollBarWidth}
+
+  @media (max-width: 920px) {
+    width: 35vw;
+  }
+
+  @media (max-width: 735px) {
+    width: 100vw;
   }
 `
 
@@ -117,19 +143,6 @@ export const TextContainer = styled.div`
   text-overflow: ellipsis;
 `;
 
-const getConversationPositionX = (view) => {
-  switch (view) {
-    case "list":
-      return "translateX(100vw)"
-    case "conversation":
-      return "translateX(-100vw)"
-    case "info":
-      return "translateX(-200vw)"
-    default:
-      return "unset";
-  }
-}
-
 // Chat box
 export const ConversationContainer = styled.div`
   width: 50vw;
@@ -143,7 +156,6 @@ export const ConversationContainer = styled.div`
 
   @media (max-width: 735px) {
     width: 100vw;
-    transform: ${({ mobileScreenView }) => getConversationPositionX(mobileScreenView)};
   }
 `
 
@@ -154,28 +166,46 @@ export const MobileViewTab = styled.div`
   height: 7vh;
   background-color: #fff;
 
-  @media (min-width: 735px){
+  @media (min-width: 920px){
     display: none;
   }
 
-  @media (max-width: 735px){
+  @media (max-width: 920px){
     display: flex;
     justify-content: space-between;
   }
 `
 
 export const IconButton = styled.button`
-  background: none;
-  color: ${themeColor.peach};
-  border: none;
-  outline: none !important;
+  ${buttonStyle}
+
+
+  @media (max-width: 920px){
+    :first-child {
+      visibility: hidden;
+    }
+  }
+
+  @media (max-width: 735px){
+    :first-child {
+      visibility: visible;
+    }
+  }
+`
+
+export const BackButton = styled.button`
+  ${buttonStyle}
 `
 
 export const ConversationScrollableLayer = styled.div`
-  height: 100vh;
+  height: 83vh;
 
   ${scrollableLayerStyle}
   ${scrollBarWidth}
+
+  @media (max-width: 920px) {
+    height: 75vh;
+  }
 
   @media (max-width: 735px) {
     height: 75vh;
@@ -183,6 +213,7 @@ export const ConversationScrollableLayer = styled.div`
 `
 
 export const FormContainer = styled.form`
+  height: 100%;
   ${transitionStyle}
 
   @media (max-width: 920px) {
@@ -196,30 +227,17 @@ export const FormContainer = styled.form`
 `
 
 export const MessageInputContainer = styled.div`
-  padding: 13px 20px;
   display: flex;
+  padding: 13px 20px;
 `;
 
 export const SubmitButton = styled.button`
+  padding: 0 10px;
   background: none;
   color: #ffa195;
   border: none;
   outline: none;
-  padding: 0 10px;
 `
-
-const getInfoPositionX = (view) => {
-  switch (view) {
-    case "list":
-      return "translateX(0)"
-    case "conversation":
-      return "translateX(-100vw)"
-    case "info":
-      return "translateX(-200vw)"
-    default:
-      return "unset";
-  }
-}
 
 export const ConversationInfoContainer = styled.div`
   width: 25vw;
@@ -228,11 +246,29 @@ export const ConversationInfoContainer = styled.div`
   ${transitionStyle}
 
   @media (max-width: 920px) {
-    transform: translateX(25vw);
+    width: ${({ isTranslateX }) => isTranslateX ? '65vw' : 'unset'};
+    transform: ${({ isTranslateX }) => isTranslateX ? 'translateX(-65vw)}' : 'unset'};
   }
 
   @media (max-width: 735px) {
     width: 100vw;
-    transform: ${({ mobileScreenView }) => getInfoPositionX(mobileScreenView)};  
+    transform: ${({ isTranslateX }) => isTranslateX ? 'translateX(0vw)}' : 'unset'};
   }
 `;
+
+// @media (max-width: 920px) {
+//   transform: translateX(25vw);
+// }
+
+export const ConversationInfoLayer = styled.div`
+  ${scrollableLayerStyle}
+  ${scrollBarWidth}
+
+  @media (max-width: 920px) {
+    width: 65vw;
+  }
+
+  @media (max-width: 735px) {
+    width: 100vw;
+  }
+`

@@ -11,12 +11,15 @@ import {
 } from '../../redux/chat/actions';
 import io from "socket.io-client";
 import { getAccessToken } from '../../utility/accessToken';
+import ScreenWidthListener from '../../components/Layout/ScreenWidthListener'
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 let socket;
 
 function useChat() {
+  const { screenWidth } = ScreenWidthListener();
+
   const history = useHistory();
   const { t } = useTranslation();
   const { id: recipientId } = useParams();
@@ -35,6 +38,8 @@ function useChat() {
   const methods = useForm({ defaultValues });
   const { register, handleSubmit, watch, reset } = methods;
 
+  // console.log({ chatList, conversationInfo, allMessages })
+
   useEffect(() => {
     // chat container should start at bottom
 
@@ -51,6 +56,8 @@ function useChat() {
     })
 
     return () => {
+      // does not unmount here 
+      dispatch(emptyConversation())
       // does not disconnect here
       socket.emit('disconnect');
       socket.off();
@@ -58,13 +65,11 @@ function useChat() {
   }, [])
 
   useEffect(() => {
-    console.log({ chatList })
-
-    if (chatList && chatList.length > 0) {
+    if (screenWidth >= 735 && Array.isArray(chatList) && chatList.length > 0) {
       setClickedChat(chatList[0].id)
     }
 
-    if (!recipientId && chatList && chatList.length > 0) {
+    if (screenWidth >= 735 && !recipientId && Array.isArray(chatList) && chatList.length > 0) {
       const shortId = chatList[0].recipient.shortId
       history.push(`/messages/${shortId}`)
     }
@@ -82,11 +87,11 @@ function useChat() {
     history.push(`/messages/${recipientShortId}`)
     setClickedChat(conversationId)
     setMobileScreenView('conversation')
-    dispatch(emptyConversation())
   }
 
   function backToList() {
     setMobileScreenView('list')
+    dispatch(emptyConversation())
   }
 
   function backToConversation() {
@@ -105,7 +110,6 @@ function useChat() {
 
   useEffect(() => {
     scrollToBottom();
-    console.log({ conversationInfo, allMessages })
   }, [allMessages]);
 
   const onSubmitMessage = (data) => {

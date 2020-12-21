@@ -1,8 +1,10 @@
 import React from 'react';
 import {
   ChatListContainer,
+  ChatListScrollableLayer,
   ConversationContainer,
   ConversationInfoContainer,
+  ConversationInfoLayer,
   MainContainer,
   ScrollableLayer,
   ScrollableSubLayer
@@ -36,13 +38,13 @@ function Chat() {
     goToInfo
   } = useChat();
 
+  console.log({ mobileScreenView })
+
   return (
-    <MainContainer>
-      <ChatListContainer
-        //isShown={mobileScreenView === 'list'}
-        mobileScreenView={mobileScreenView}
-      >
-        <ScrollableLayer>
+    <MainContainer mobileScreenView={mobileScreenView}>
+      <ChatListContainer>
+        {/* <ScrollableLayer> */}
+        <ChatListScrollableLayer>
           <ScrollableSubLayer>
             {chatList && chatList.map(item =>
               <ChatListItem
@@ -55,10 +57,11 @@ function Chat() {
               />
             )}
           </ScrollableSubLayer>
-        </ScrollableLayer>
+        </ChatListScrollableLayer>
+        {/* </ScrollableLayer> */}
       </ChatListContainer>
 
-      <ConversationContainer mobileScreenView={mobileScreenView}>
+      <ConversationContainer>
         <Conversation
           FormProvider={FormProvider}
           methods={methods}
@@ -71,18 +74,17 @@ function Chat() {
         />
       </ConversationContainer>
 
-      <ConversationInfoContainer
-        isShown={mobileScreenView === 'info'}
-        mobileScreenView={mobileScreenView}
-      >
-        <ScrollableLayer>
+      <ConversationInfoContainer isTranslateX={mobileScreenView === 'info'}>
+        {/* <ScrollableLayer> */}
+        <ConversationInfoLayer>
           <ScrollableSubLayer>
             <ConversationInfo
               info={conversationInfo}
               backToConversation={backToConversation}
             />
           </ScrollableSubLayer>
-        </ScrollableLayer>
+        </ConversationInfoLayer>
+        {/* </ScrollableLayer> */}
       </ConversationInfoContainer>
     </MainContainer>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, ImageContainer, LinkButton } from '../../../components/UIComponents'
-import { IconButton, MobileViewTab } from '../components/styledComponents'
+import { BackButton, MobileViewTab } from '../components/styledComponents'
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
 const { REACT_APP_API_DOMAIN } = process.env;
@@ -24,9 +24,9 @@ function ConversationInfo({ info, backToConversation }) {
     <>
       <MobileViewTab>
         <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-          <IconButton type="button" onClick={backToConversation}>
+          <BackButton type="button" onClick={backToConversation}>
             <i className="fas fa-arrow-left" />
-          </IconButton>
+          </BackButton>
         </div>
       </MobileViewTab>
 
