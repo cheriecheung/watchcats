@@ -27,7 +27,9 @@ function GeneralInfo() {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <HorizontalCard>
-          <CardTitle>{t('general_info.profile_picture')}</CardTitle>
+          <CardTitle style={{ display: 'inline-block' }}>
+            {t('general_info.profile_picture')}
+          </CardTitle>
 
           <ProfilePicture
             t={t}
@@ -45,7 +47,10 @@ function GeneralInfo() {
         </HorizontalCard>
 
         <HorizontalCard>
-          <CardTitle>{t('general_info.social_media')}</CardTitle>
+          <div style={{ display: 'flex' }}>
+            <CardTitle>{t('general_info.social_media')}</CardTitle>
+            <span style={{ fontSize: '0.9rem', marginLeft: 5 }}>(Optional)</span>
+          </div>
           <SocialMedia t={t} />
         </HorizontalCard>
 

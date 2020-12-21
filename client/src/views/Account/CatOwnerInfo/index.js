@@ -26,6 +26,7 @@ function CatOwnerInfo() {
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 20 }}>
         <LinkButton to={`/profile/catowner/${id}`}>
+          <i className="fas fa-search mr-2" />
           {t('owner_form.view_profile')}
         </LinkButton>
       </div>

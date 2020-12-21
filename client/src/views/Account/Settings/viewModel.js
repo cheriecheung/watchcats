@@ -200,7 +200,7 @@ function usePhoneNumberVerification() {
   }
 }
 
-function usePasswordAndAuthentication() {
+function useAuthentication() {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
@@ -334,7 +334,7 @@ export {
   usePrevious,
   useContactDetails,
   usePhoneNumberVerification,
-  usePasswordAndAuthentication,
+  useAuthentication,
   useEnable2FA,
   useDisable2FA,
   useChangePassword

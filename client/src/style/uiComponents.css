@@ -5,6 +5,13 @@
 
   --theme-border-radius: 10px !important;
 }
+
+/* ------------------- ant tooltip ------------------- */
+
+.ant-tooltip.ant-tooltip-placement-top .ant-tooltip-content .ant-tooltip-inner{
+  font-size: 0.9rem;
+}
+
 /* ------------------- ant switch button ------------------- */
 
 .ant-switch-checked {

@@ -31,6 +31,7 @@ function SitterProfile() {
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 20 }}>
         <LinkButton to={`/profile/catsitter/${id}`}>
+          <i className="fas fa-search mr-2" />
           {t('sitter_form.view_profile')}
         </LinkButton>
       </div>

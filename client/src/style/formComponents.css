@@ -241,6 +241,7 @@ select:-webkit-autofill:focus {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  margin-bottom: 25px;
 }
 
 .sitter-skills > div {
@@ -248,7 +249,7 @@ select:-webkit-autofill:focus {
   box-sizing: border-box;
 }
 
-@media only screen and (max-width: 950px) {
+@media only screen and (max-width: 875px) {
   .sitter-skills > div {
     flex: 0 100%;
     box-sizing: border-box;

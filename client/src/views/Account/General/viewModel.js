@@ -25,7 +25,7 @@ function useGeneral() {
 
   useEffect(() => {
     dispatch(getPersonalInfo());
-  }, [dispatch])
+  }, [])
 
   useEffect(() => {
     if (data) {

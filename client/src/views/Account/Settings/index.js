@@ -1,16 +1,16 @@
 import React from 'react';
-import { CardTitle, HorizontalCard } from '../../../components/UIComponents'
+import { CardTitle, HorizontalCard, Tooltip } from '../../../components/UIComponents'
 
 import ContactDetails from './ContactDetails'
 import PaymentSetup from './PaymentSetup'
-import PasswordAndAuthentication from './PasswordAndAuthentication';
+import Authentication from './Authentication';
 
-import { useContactDetails, usePasswordAndAuthentication } from './viewModel'
+import { useContactDetails, useAuthentication } from './viewModel'
 
 function Settings() {
     const contactDetailsProps = useContactDetails();
 
-    const passwordAndAuthenticationProps = usePasswordAndAuthentication();
+    const authenticationProps = useAuthentication();
 
     return (
         <>
@@ -28,9 +28,18 @@ function Settings() {
             </HorizontalCard>
 
             <HorizontalCard>
-                <CardTitle>Password and Authentication</CardTitle>
-                <PasswordAndAuthentication
-                    passwordAndAuthenticationProps={passwordAndAuthenticationProps}
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <CardTitle>
+                        Authentication
+
+                        <Tooltip content="Not available for accounts login via Google">
+                            <i className="fas fa-info-circle ml-2" style={{ alignSelf: 'center' }} />
+                        </Tooltip>
+                    </CardTitle>
+
+                </div>
+                <Authentication
+                    authenticationProps={authenticationProps}
                 />
             </HorizontalCard>
         </>

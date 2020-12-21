@@ -1,11 +1,16 @@
 import React from 'react';
-import { ContainedButton, Modal, OutlinedButton, SuccessDisplay } from '../../../../components/UIComponents'
-
+import { FieldLabel } from '../../../../components/FormComponents'
+import {
+  ContainedButton,
+  Modal,
+  OutlinedButton,
+  SuccessDisplay
+} from '../../../../components/UIComponents'
 import ChangePassword from './ChangePassword'
 import Enable2FA from './Enable2FA'
 import Disable2FA from './Disable2FA'
 
-function PasswordAndAuthentication({ passwordAndAuthenticationProps }) {
+function Authentication({ authenticationProps }) {
   const {
     t,
     isTwoFactorEnabled,
@@ -16,7 +21,7 @@ function PasswordAndAuthentication({ passwordAndAuthenticationProps }) {
     showModal,
     closeModal,
     content
-  } = passwordAndAuthenticationProps
+  } = authenticationProps
 
   console.log({ isTwoFactorEnabled, appActionStatus })
 
@@ -50,7 +55,9 @@ function PasswordAndAuthentication({ passwordAndAuthenticationProps }) {
         {renderModalContent()}
       </Modal>
 
-      {/* disable if registered / signed in by google */}
+      <FieldLabel>Password</FieldLabel>
+
+      <p>Update your password for the next time you log in.</p>
       <ContainedButton
         type="button"
         onClick={showChangePasswordModal}
@@ -58,9 +65,9 @@ function PasswordAndAuthentication({ passwordAndAuthenticationProps }) {
         {t('settings.change_password')}
       </ContainedButton>
 
-      <h6 style={{ marginTop: 40 }}>Two-Factor Authentication</h6>
-            (Only for accounts registered by email and password)
-
+      <br />
+      <br />
+      <FieldLabel>Two-Factor Authentication</FieldLabel>
       {
         isTwoFactorEnabled || appActionStatus === '2faEnabled' ?
           <>
@@ -72,10 +79,9 @@ function PasswordAndAuthentication({ passwordAndAuthenticationProps }) {
             <p>
               Protect your account with an extra layer of security. Once configured, you'll be required
               to enter both your password and an authentication code from your mobile phone in order to
-              sign in
+              sign in.
           </p>
 
-            {/* disable button if register via google */}
             <ContainedButton
               type="button"
               onClick={showEnable2faModal}
@@ -88,4 +94,4 @@ function PasswordAndAuthentication({ passwordAndAuthenticationProps }) {
   )
 }
 
-export default PasswordAndAuthentication
+export default Authentication

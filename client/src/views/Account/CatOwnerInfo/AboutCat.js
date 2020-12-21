@@ -10,7 +10,7 @@ import {
   SelectField,
   TextField,
 } from '../../../components/FormComponents';
-import { CheckedIcon, TextButton } from '../../../components/UIComponents'
+import { CheckedIcon, OutlinedButton, TextButton } from '../../../components/UIComponents'
 import { catBreedOptions, personalityOptions } from '../../../utility/constants';
 
 const color = '#252525';
@@ -38,27 +38,28 @@ function AboutCat({ t, setValue, catProps }) {
               </TextButton>
             </div>
 
-            <div>
-              <br />
-              {photoFields[index] ?
-                <FileDisplayField
-                  name={`cat[${index}].photo`}
-                  fileName={photoFields[index]}
-                  handleRemovePhoto={() => handleRemovePhoto(photoFields[index], index)}
-                />
-                :
-                <FileUploader
-                  name={`cat[${index}].photo`}
-                  fileType="image/x-png,image/jpeg"
-                  setFileData={(data) => setValue(`cat[${index}].photo`, data)}
-                  setDisplayPreview={(data) => handlePreview(data, index)}
-                />
-              }
-            </div>
-
-            <br />
-
             <Row>
+              <Col md={6} className="mb-4">
+                <FieldLabel>Picture</FieldLabel>
+                <p>Share a picture of your cat with your future cat sitter!</p>
+              </Col>
+              <Col md={6} className="mb-4" style={{ display: 'flex', justifyContent: 'center' }}>
+                {photoFields[index] ?
+                  <FileDisplayField
+                    name={`cat[${index}].photo`}
+                    fileName={photoFields[index]}
+                    handleRemovePhoto={() => handleRemovePhoto(photoFields[index], index)}
+                  />
+                  :
+                  <FileUploader
+                    name={`cat[${index}].photo`}
+                    fileType="image/x-png,image/jpeg"
+                    setFileData={(data) => setValue(`cat[${index}].photo`, data)}
+                    setDisplayPreview={(data) => handlePreview(data, index)}
+                  />
+                }
+              </Col>
+
               <Col md={6} className="mb-4">
                 <FieldLabel>{t('owner_form.name')}</FieldLabel>
                 <TextField name={`cat[${index}].name`} />
@@ -164,15 +165,16 @@ function AboutCat({ t, setValue, catProps }) {
         );
       })}
 
-      <TextButton
-        type="button"
-        hidden={cat && cat.length > 4}
-        onClick={addCat}
-        style={{ color: '#5FBB96' }}
-      >
-        <i className="fas fa-plus mr-1" />
-        {t('owner_form.add_cat')}
-      </TextButton>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <OutlinedButton
+          type="button"
+          hidden={cat && cat.length > 4}
+          onClick={addCat}
+        >
+          <i className="fas fa-plus mr-1" />
+          {t('owner_form.add_cat')}
+        </OutlinedButton>
+      </div>
 
       <span hidden={cat && cat.length <= 4}>
         If you have 5 or more cats, perhaps you would want to consider having them stay at a pet

@@ -5,7 +5,7 @@ const TabItem = styled.button`
   color: ${props => props.isSelected ? '#fff' : '#666'};
   font-weight: ${props => props.isSelected ? 'bold' : 'normal'};
   height: 100%;
-  border-radius: 40px;
+  border-radius: 10px;
   border: none;
   outline: none !important;
   padding: 0 15px;

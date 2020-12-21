@@ -1,11 +1,10 @@
 import styled from 'styled-components';
-
-const color = '#487364';
+import { themeColor } from '../../../style/theme'
 
 const CardTitle = styled.div`
   font-size: 1.1rem;
   font-weight: 800;
-  color: ${color};
+  color: ${themeColor.peach};
   margin-bottom: 20px;
 `;
 

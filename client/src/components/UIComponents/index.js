@@ -35,6 +35,7 @@ import Modal from './Modal'
 import NotFound from './NotFound'
 import ProfileStats from './ProfileStats'
 import SuccessDisplay from './SuccessDisplay'
+import Tooltip from './Tooltip'
 
 export {
   ContainedButton,
@@ -73,5 +74,6 @@ export {
   Modal,
   NotFound,
   ProfileStats,
-  SuccessDisplay
+  SuccessDisplay,
+  Tooltip
 }

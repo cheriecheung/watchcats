@@ -6,7 +6,7 @@ const ContainedButton = styled.button`
   border: none;
   outline: none !important;
   padding: 5px 25px;
-  border-radius: 15px;
+  border-radius: 10px;
   color: #fff;
   height: 35px;
   font-weight: 600;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { themeColor } from '../../../style/theme';
 import { DatePicker, TimePicker, FieldLabel } from '../../../components/FormComponents';
-import { TextButton } from '../../../components/UIComponents';
+import { OutlinedButton, TextButton } from '../../../components/UIComponents';
 
 const color = '#252525';
 
@@ -65,15 +65,19 @@ function AppointmentTime({ t, bookingOneDayProps, bookingOvernightProps }) {
           </div>
         );
       })}
-      <TextButton
-        type="button"
-        hidden={bookingOneDay && bookingOneDay.length >= 2}
-        onClick={addOneDay}
-        style={{ color: '#5FBB96' }}
-      >
-        <i className="fas fa-plus mr-1" />
-        {t('owner_form.add_period')}
-      </TextButton>
+
+      <br />
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <OutlinedButton
+          type="button"
+          hidden={bookingOneDay && bookingOneDay.length >= 2}
+          onClick={addOneDay}
+        >
+          <i className="fas fa-plus mr-1" />
+          {t('owner_form.add_period')}
+        </OutlinedButton>
+      </div>
+
       <span hidden={bookingOneDay && bookingOneDay.length < 2}>
         You can at most request 2 one-day appointments at the same time!
       </span>
@@ -119,15 +123,18 @@ function AppointmentTime({ t, bookingOneDayProps, bookingOvernightProps }) {
         );
       })}
 
-      <TextButton
-        type="button"
-        hidden={bookingOvernight && bookingOvernight.length >= 2}
-        onClick={addOvernight}
-        style={{ color: '#5FBB96' }}
-      >
-        <i className="fas fa-plus mr-1" />
-        {t('owner_form.add_period')}
-      </TextButton>
+      <br />
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <OutlinedButton
+          type="button"
+          hidden={bookingOvernight && bookingOvernight.length >= 2}
+          onClick={addOvernight}
+        >
+          <i className="fas fa-plus mr-1" />
+          {t('owner_form.add_period')}
+        </OutlinedButton>
+      </div>
+
       <span hidden={bookingOvernight && bookingOvernight.length < 2}>
         You can at most request 2 overnight sitting appointments at the same time!
       </span>

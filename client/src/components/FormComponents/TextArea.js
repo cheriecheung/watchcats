@@ -13,7 +13,7 @@ const Input = styled.textarea`
   resize: none;
 `
 
-function TextArea({ name, placeholder, rows = 10, customStyle }) {
+function TextArea({ name, placeholder, rows = 7, customStyle }) {
   const { control, errors } = useFormContext();
   const error = errors[name]
   const message = error && error.message || 'Required field'
