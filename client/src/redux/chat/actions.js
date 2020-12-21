@@ -40,3 +40,7 @@ export function concatLatestMessage(data) {
     payload: data
   }
 }
+
+export function emptyConversation() {
+  return { type: ChatActionTypes.CONVERSATION_EMPTIED }
+}

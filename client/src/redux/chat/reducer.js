@@ -23,6 +23,12 @@ const chat_reducer = {
           ...state,
           messages: state.messages.concat(action.payload)
         };
+      case ChatActionTypes.CONVERSATION_EMPTIED:
+        return {
+          ...state,
+          conversationInfo: {},
+          messages: []
+        }
       default:
         return state;
     }
