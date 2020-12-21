@@ -2,15 +2,15 @@ import { themeColor } from '../../../style/theme';
 import styled from 'styled-components';
 
 const ContainedButton = styled.button`
+  margin: 5px 0;
+  padding: 5px 25px;
+  height: 35px;
+  color: #fff;
   background: ${themeColor.peach};
   border: none;
-  outline: none !important;
-  padding: 5px 25px;
   border-radius: 10px;
-  color: #fff;
-  height: 35px;
+  outline: none !important;
   font-weight: 600;
-  margin: 5px 0;
 `;
 
 export default ContainedButton;

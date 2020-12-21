@@ -184,16 +184,25 @@ export const LinkButton = styled(Link)`
   @media (max-width: 920px) {
     color: grey;
   }
+
+  &:hover {
+    color: ${themeColor.peach}
+  }
 `
 
 export const LogoutButton = styled.button`
   color: #9d9d9d;
   font-weight: 400;
-  outline: none;
+  outline: none !important;
   border: none;
   background: none;
+  transition: all 0.3s;
 
   @media (max-width: 920px) {
     color: grey;
+  }
+
+  &:hover {
+    color: ${themeColor.peach}
   }
 `

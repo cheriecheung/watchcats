@@ -30,6 +30,7 @@ function Mobile({
 
         <OverlayMenu open={toggle}>
           <MobileMenu
+            t={t}
             setLanguage={setLanguage}
             currentLanguage={currentLanguage}
             isLoggedIn={isLoggedIn}
@@ -47,6 +48,7 @@ function Mobile({
 export default Mobile;
 
 function MobileMenu({
+  t,
   setLanguage,
   currentLanguage,
   closeMenu,
@@ -63,55 +65,54 @@ function MobileMenu({
           <h4 style={{ marginBottom: 30 }}>Cherie C</h4>
           <MenuItemBox to="/find" onClick={closeMenu}>
             <Icon className="fas fa-search fa-2x" />
-            <Label>Find Cat Sitter</Label>
+            <Label>{t('header.find_sitter')}</Label>
           </MenuItemBox>
           <MenuItemBox to="/bookings" onClick={closeMenu}>
             <Icon className="fas fa-calendar-minus fa-2x" />
-            <Label>Bookings</Label>
+            <Label>{t('header.bookings')}</Label>
           </MenuItemBox>
           <MenuItemBox to="/messages" onClick={closeMenu}>
             <Icon className="fas fa-envelope fa-2x" />
-            <Label>Messages</Label>
+            <Label>{t('header.messages')}</Label>
           </MenuItemBox>
           <MenuItemBox to="/account" onClick={closeMenu}>
             <Icon className="fas fa-user fa-2x" />
-            <Label>Account</Label>
+            <Label>{t('header.account')}</Label>
           </MenuItemBox>
           <MenuItemBox onClick={onMobileLogout}>
             <Icon className="fas fa-sign-out-alt fa-2x" />
-            <Label>Log Out</Label>
+            <Label>{t('header.logout')}</Label>
           </MenuItemBox>
         </>
         :
         <>
           <MenuItemBox to="/login" onClick={closeMenu}>
             <Icon className="fas fa-sign-in-alt fa-2x" />
-            <Label>Log In</Label>
+            <Label>{t('header.login')}</Label>
           </MenuItemBox>
           <MenuItemBox to="/find" onClick={closeMenu}>
             <Icon className="fas fa-search fa-2x" />
-            <Label>Find Cat Sitter</Label>
+            <Label>{t('header.find_sitter')}</Label>
           </MenuItemBox>
         </>
       }
-
 
       <br /><br />
 
       <MenuItemBox to="/about" onClick={() => closeMenu && closeMenu()}>
         <Icon className="fas fa-info-circle fa-2x" />
-        <Label>About</Label>
+        <Label>{t('header.about')}</Label>
       </MenuItemBox>
       <MenuItemBox to="/" onClick={() => closeMenu && closeMenu()}>
         <Icon className="fas fa-home fa-2x" />
-        <Label>Home</Label>
+        <Label>{t('header.home')}</Label>
       </MenuItemBox>
       <MenuItemBox onClick={() => {
         closeMenu && closeMenu()
         setLanguage(currentLanguage === 'en' ? 'nl' : 'en')
       }}>
         <Icon className="fas fa-globe-americas fa-2x" />
-        <Label>{currentLanguage === 'en' ? 'Nederlands' : 'English'}</Label>
+        <Label>{currentLanguage === 'en' ? 'NL' : 'EN'}</Label>
       </MenuItemBox>
     </>
   )

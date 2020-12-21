@@ -15,10 +15,16 @@ import styled from 'styled-components';
 //   }
 // `
 
-const MainContainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+// const MainContainer = styled.div`
+//   display: flex;
+//   align-items: center;
+//   flex-direction: column;
+// `
+
+// height: ${props => props.isChatPage ? '50vh' : 'unset'};
+
+const Container = styled.div`
+  font-family: 'Source Sans Pro', sans-serif !important;
 `
 
 function Layout({ children }) {
@@ -26,9 +32,11 @@ function Layout({ children }) {
     <>
       <Header />
       {/* <MainContainer> */}
-      <div className="content">
+      <Container
+        className="content"
+      >
         {children}
-      </div>
+      </Container>
       {/* </MainContainer> */}
       {/* <Footer /> */}
     </>

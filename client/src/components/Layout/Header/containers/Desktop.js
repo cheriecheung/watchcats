@@ -47,17 +47,17 @@ function Desktop({
             </Item>
             <Item>
               <LinkButton to="/messages">
-                Messages
+                {t('header.messages')}
               </LinkButton>
             </Item>
             <Item>
               <LinkButton to="/account">
-                Account
+                {t('header.account')}
               </LinkButton>
             </Item>
             <Item>
               <LogoutButton type="button" onClick={onLogout}>
-                Logout
+                {t('header.logout')}
               </LogoutButton>
             </Item>
           </>
@@ -72,7 +72,7 @@ function Desktop({
         <Item>
           <TextButton onClick={() => setLanguage(currentLanguage === 'en' ? 'nl' : 'en')}>
             <Icon className="fas fa-globe-americas" style={{ fontSize: 13, marginRight: 5 }} />
-            <span>{currentLanguage === 'en' ? 'Nederlands' : 'English'}</span>
+            <span>{currentLanguage === 'en' ? 'NL' : 'EN'}</span>
           </TextButton>
         </Item>
       </ItemContainer>

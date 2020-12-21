@@ -32,8 +32,8 @@ function useHeader() {
   }
 
   function renderPageTitle() {
-    if (pathname.includes('/account')) {
-      return t('header.account')
+    if (pathname.includes('/messages')) {
+      return t('header.messages')
     }
 
     switch (pathname) {
