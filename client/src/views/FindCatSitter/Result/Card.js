@@ -34,10 +34,24 @@ function Card({ screenWidth, t, item, setHoveredResultId }) {
       <HorizontalDivider />
 
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div style={{ width: '80%', height: '50px', overflow: 'hidden' }}>{aboutSitter.slice(0, wordCount).trim().replace(/("[^"]+"|\w+)$/, "...")}</div>
+        <div style={{ width: '85%', height: '50px', overflow: 'hidden' }}>
+          {aboutSitter.slice(0, wordCount).trim().replace(/("[^"]+"|\w+)$/, "...")}
+        </div>
 
-        <LinkButton to={`/profile/catsitter/${urlId}`} style={{ width: '17%' }}>
-          {t('find_sitter.view_profile')}
+        <LinkButton to={`/profile/catsitter/${urlId}`}
+          style={{
+            width: '15%',
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
+          <i className="fas fa-search-plus"
+            style={{
+              fontSize: 20,
+              alignSelf: 'center',
+              color: '#7e7e7e'
+            }}
+          />
         </LinkButton>
       </div>
     </>
@@ -62,25 +76,13 @@ function Card({ screenWidth, t, item, setHoveredResultId }) {
               justifyContent: 'space-between',
             }}
           >
-            <h5>{firstName} {lastName.charAt(0)}</h5>
+            <h5>{firstName} {lastName && lastName.charAt(0)}</h5>
+
             <div>
-              <div>
-                {/* <i className="fas fa-euro-sign icon-sort-price" /> */}
-                <span>&euro;	{hourlyRate} / hour</span>
-              </div>
-              <div>
-                {/* <i className="fas fa-euro-sign icon-sort-price" /> */}
-                <span>&euro;	{nightlyRate} / night</span>
-              </div>
+              <span>&euro;	{hourlyRate} / hour</span>
+              <span>&euro;	{nightlyRate} / night</span>
             </div>
           </div>
-          {/* <div className="mb-2">
-          <span className="mr-2">Verified by: </span>
-          <i className="fas fa-address-card icon-verified" />
-          <i className="fas fa-home icon-verified" />
-          <i className="fas fa-phone icon-verified" />
-          <i className="fab fa-facebook-square icon-verified" />
-        </div> */}
 
           <ProfileStats
             totalReviews={totalReviews}
@@ -88,11 +90,11 @@ function Card({ screenWidth, t, item, setHoveredResultId }) {
             totalRepeatedCustomers={totalRepeatedCustomers}
           />
 
-          {screenWidth > 600 && renderDescription(100)}
+          {screenWidth > 600 && renderDescription(110)}
         </ContentContainer>
       </div>
 
-      {screenWidth < 600 && renderDescription(70)}
+      {screenWidth < 600 && renderDescription(100)}
     </HorizontalCard>
   );
 }

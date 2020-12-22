@@ -30,7 +30,7 @@ function Search({ t, searchProps }) {
   const { reset } = methods;
 
   return (
-    <HorizontalCard variant="findCatSitter">
+    <HorizontalCard>
       <FormProvider {...methods}>
         <form>
           <div style={{

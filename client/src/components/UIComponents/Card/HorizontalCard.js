@@ -31,7 +31,7 @@ const findCatSitter = props => {
     flex-direction: column;
     padding: 20px;
     width: 100%;
-    height: ${props.hover ? '190px' : 'unset'};
+    height: 215px;
     transition: all .3s ease-in-out;
 
     &:hover {

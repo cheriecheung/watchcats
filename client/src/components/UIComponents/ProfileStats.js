@@ -1,16 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components'
-
-const ReponsiveContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-  }
-`
 
 const fiveStarDisplay = (number) => {
   return (
@@ -27,31 +17,58 @@ const fiveStarDisplay = (number) => {
   );
 };
 
-
-function ProfileStats({ type = "sitter", totalReviews, totalCompletedBookings, totalRepeatedCustomers }) {
+function ProfileStats({
+  type = "sitter",
+  totalReviews,
+  totalCompletedBookings,
+  totalRepeatedCustomers
+}) {
   const { t } = useTranslation();
+  const isProfilePage = window.location.pathname.includes('profile');
 
   return (
     <>
-      <div style={{ marginTop: -15, marginRight: 10, visibility: totalReviews > 0 ? 'visible' : 'hidden' }}>
+      <div style={{ marginRight: 10, visibility: totalReviews > 0 ? 'visible' : 'hidden' }}>
         {fiveStarDisplay(totalReviews)}
       </div>
 
-      <ReponsiveContainer>
-        <div style={{ color: '#00C68E', marginRight: 10, visibility: totalCompletedBookings > 0 ? 'visible' : 'hidden' }}>
-          <i className="far fa-calendar-alt mr-2" />
-          <span>
-            {totalCompletedBookings} {t('find_sitter.completed_bookings')}
-          </span>
-        </div>
+      {isProfilePage ?
+        <>
+          {totalCompletedBookings > 0 &&
+            <div style={{ color: '#00C68E', marginRight: 10 }}>
+              <i className="far fa-calendar-alt mr-2" />
+              <span>
+                {totalCompletedBookings} {t('find_sitter.completed_bookings')}
+              </span>
+            </div>
+          }
 
-        <div style={{ color: '#00C68E', visibility: totalRepeatedCustomers > 0 ? 'visible' : 'hidden' }}>
-          <i className="fas fa-redo-alt mr-2" />
-          <span>
-            {totalRepeatedCustomers} {type === 'sitter' ? t('find_sitter.repeated_customers') : 'sitters\' repeated customer '}
-          </span>
-        </div>
-      </ReponsiveContainer>
+          {totalRepeatedCustomers > 0 &&
+            <div style={{ color: '#00C68E' }}>
+              <i className="fas fa-redo-alt mr-2" />
+              <span>
+                {totalRepeatedCustomers} {type === 'sitter' ? t('find_sitter.repeated_customers') : 'sitters\' repeated customer '}
+              </span>
+            </div>
+          }
+        </>
+        :
+        <>
+          <div style={{ color: '#00C68E', marginRight: 10, visibility: totalCompletedBookings > 0 ? 'visible' : 'hidden' }}>
+            <i className="far fa-calendar-alt mr-2" />
+            <span>
+              {totalCompletedBookings} {t('find_sitter.completed_bookings')}
+            </span>
+          </div>
+
+          <div style={{ color: '#00C68E', visibility: totalRepeatedCustomers > 0 ? 'visible' : 'hidden' }}>
+            <i className="fas fa-redo-alt mr-2" />
+            <span>
+              {totalRepeatedCustomers} {type === 'sitter' ? t('find_sitter.repeated_customers') : 'sitters\' repeated customer '}
+            </span>
+          </div>
+        </>
+      }
     </>
   )
 }
