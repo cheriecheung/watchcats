@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, ImageContainer } from '../../../components/UIComponents'
-import { ChatListItemContainer, TextContainer } from '../components/styledComponents'
+import { ChatListItemContainer, TextContainer } from '../styledComponents'
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 import { formatDate } from '../../../utility';
 

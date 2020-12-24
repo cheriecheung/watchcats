@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { themeColor } from '../../../style/theme'
+import { themeColor } from '../../style/theme'
 
 // const NavHeight = 7;
 // const MainContainerHeight = 100 - NavHeight;
@@ -159,7 +159,7 @@ export const ConversationContainer = styled.div`
   }
 `
 
-export const MobileViewTab = styled.div`
+export const MobileViewTabContainer = styled.div`
   padding: 0 13px 0 10px;
   width: 100%;
   min-height: 40px;
