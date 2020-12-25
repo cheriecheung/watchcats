@@ -45,21 +45,20 @@ function Experience({ sitterInfo }) {
 
       {hasSkills &&
         <>
-          <span>Summary:</span>
+          <br />
+          <span>Summary of skills:</span>
           <br />
           <br />
 
-          <WrapLayout>
-            {skillSet.map(({ value, icon, title }) => {
-              return (
-                value &&
-                <div style={{ display: 'flex', flex: '0 49%', marginBottom: 15 }}>
-                  {icon}
-                  <span>{title}</span>
-                </div>
-              )
-            })}
-          </WrapLayout>
+          {skillSet.map(({ value, icon, title }) => {
+            return (
+              value &&
+              <div style={{ marginBottom: 15 }}>
+                {icon}
+                <span>{title}</span>
+              </div>
+            )
+          })}
         </>
       }
     </>

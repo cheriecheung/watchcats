@@ -14,7 +14,7 @@ function AvailabilityCalendar({ t, unavailableDates }) {
 
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div className="calendar-available-date-box" />
-        <span>{t('sitter_form.available')}</span>
+        <span style={{ marginRight: 35 }}>{t('sitter_form.available')}</span>
         <div className="calendar-unavailable-date-box" />
         <span>{t('sitter_form.unavailable')}</span>
       </div>

@@ -39,8 +39,8 @@ function CatSitter() {
       {profileError && <NotFound variant="profile" />}
 
       {!profileError && cleanedData &&
-        <WrapLayout style={{ padding: '30px 60px', textAlign: 'left' }}>
-          <VerticalCard style={{ flexBasis: '60%' }}>
+        <WrapLayout variant="profile">
+          <VerticalCard variant="profileDetails">
             {reviews && reviews.length > 0 &&
               <>
                 <Section>

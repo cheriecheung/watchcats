@@ -20,18 +20,8 @@ function Summary({ t, ownerInfo }) {
   const pictureUrl = profilePicture ? `${REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
 
   return (
-    <VerticalCard
-      style={{
-        display: 'inline-table',
-        flexBasis: '35%',
-        // maxHeight: 400,
-        position: 'sticky',
-        top: 20,
-      }}
-    >
-      {firstName && lastName &&
-        <h4>{firstName} {lastName.charAt(0)}</h4>
-      }
+    <VerticalCard variant="profileSummary">
+      <h4>{firstName} {lastName && lastName.charAt(0)}</h4>
 
       <ImageContainer>
         <Image url={pictureUrl} />
@@ -48,10 +38,15 @@ function Summary({ t, ownerInfo }) {
 
       <hr />
       <h6>Verified</h6>
-      <hr />
 
-      <h6>Sitter needed:</h6>
-      <AppointmentTime oneDay={bookingOneDay} overnight={bookingOvernight} />
+      {(Array.isArray(bookingOneDay) && bookingOneDay.length > 0) ||
+        Array.isArray(bookingOvernight) && bookingOvernight.length > 0 &&
+        <>
+          <hr />
+          <h6>Sitter needed:</h6>
+          <AppointmentTime oneDay={bookingOneDay} overnight={bookingOvernight} />
+        </>
+      }
     </VerticalCard>
   );
 }

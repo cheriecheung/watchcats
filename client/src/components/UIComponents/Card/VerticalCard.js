@@ -23,10 +23,39 @@ const authentication = props => {
   `;
 };
 
+const profileSummary = ({ variant }) => {
+  if (variant !== 'profileSummary') return css``;
+
+  return css`
+    position: sticky;
+    top: 20px;
+    display: inline-block;
+    flex-basis: 35%;
+    height: 100%;
+
+    @media (max-width: 900px) {
+      position: initial;
+      margin-bottom: 35px;
+      padding: 25px;
+    }
+  `;
+}
+
+const profileDetails = ({ variant }) => {
+  if (variant !== 'profileDetails') return css``;
+
+  return css`
+    flex-basis: 60%;
+    padding: 25px;
+  `
+}
+
 const VerticalCard = styled.div`
   ${defaultStyle}
 
   ${authentication}
+  ${profileSummary}
+  ${profileDetails}
 `;
 
 export default VerticalCard;

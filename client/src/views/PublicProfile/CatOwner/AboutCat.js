@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldContainer, FieldLabel } from '../../../components/FormComponents'
-import { Image, ImageContainer } from '../../../components/UIComponents'
+import { Image, ImageContainer, WrapLayout } from '../../../components/UIComponents'
 import { capitalize } from '../../../utility'
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
@@ -29,16 +29,16 @@ function AboutCat({ allCats }) {
       const pictureUrl = cat.photo ? `${REACT_APP_API_DOMAIN}/image/${cat.photo}` : defaultProfilePic
 
       return (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-          }}
+        <WrapLayout
           key={id}
+          variant="catInfo"
+          style={{ marginBottom: index + 1 === allCats.length ? 0 : 30 }}
         >
           <ImageContainer>
             <Image url={pictureUrl} />
           </ImageContainer>
+
+          <br />
 
           <div style={{ flexBasis: '70%', display: 'flex', flexWrap: 'wrap' }}>
             <FieldContainer>
@@ -62,10 +62,7 @@ function AboutCat({ allCats }) {
               <div>
                 {!needsInjection &&
                   !needsPill &&
-                  <>
-                    <i className="fas fa-times fa-2x" />
-                    <span>None</span>
-                  </>
+                  <span>None</span>
                 }
                 {needsInjection &&
                   <>
@@ -118,12 +115,12 @@ function AboutCat({ allCats }) {
               {/* <span>{personality.label}</span> */}
             </FieldContainer>
 
-            <FieldContainer>
+            <FieldContainer style={{ marginBottom: 0 }}>
               <FieldLabel>Favorite treat</FieldLabel>
               <span>{favoriteTreat}</span>
             </FieldContainer>
           </div>
-        </div>
+        </WrapLayout>
       );
     })
   );

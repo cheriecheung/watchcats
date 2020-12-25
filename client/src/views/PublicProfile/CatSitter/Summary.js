@@ -28,23 +28,12 @@ function Summary({ t, sitterInfo, summaryProps }) {
   const pictureUrl = profilePicture ? `${REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
 
   return (
-    <VerticalCard
-      style={{
-        flexBasis: '35%',
-        maxHeight: 400,
-        position: 'sticky',
-        top: 20,
-      }}
-    >
-      {firstName && lastName &&
-        <h4>{firstName} {lastName.charAt(0)}</h4>
-      }
+    <VerticalCard variant="profileSummary">
+      <h4>{firstName} {lastName && lastName.charAt(0)}</h4>
 
       <ImageContainer>
         <Image url={pictureUrl} />
       </ImageContainer>
-
-      <br />
 
       <ProfileStats
         totalReviews={totalReviews}
@@ -52,8 +41,6 @@ function Summary({ t, sitterInfo, summaryProps }) {
         totalRepeatedCustomers={totalRepeatedCustomers}
       />
 
-      <hr />
-      <h6>Verified</h6>
       <hr />
 
       <span style={{ display: 'flex' }}>
