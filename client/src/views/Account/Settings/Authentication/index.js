@@ -28,15 +28,15 @@ function Authentication({ authenticationProps }) {
   const renderModalContent = () => {
     switch (content) {
       case 'resetPassword':
-        return <ChangePassword t={t} closeModal={closeModal} />
+        return <ChangePassword t={t} />
       case 'resetPasswordSuccess':
         return <SuccessDisplay message="You have successfully reset your password." onClick={closeModal} />
       case 'enable2FA':
-        return <Enable2FA t={t} closeModal={closeModal} />
+        return <Enable2FA t={t} />
       case 'enable2FASuccess':
         return <SuccessDisplay message="You have enabled 2-factor authentication. You will now need to login by phone on top of logging in by email and password." onClick={closeModal} />
       case 'disable2FA':
-        return <Disable2FA t={t} closeModal={closeModal} />
+        return <Disable2FA />
       case 'disable2FASuccess':
         return <SuccessDisplay message="You have disabled 2-factor authentication. You will now only log in by email and password." onClick={closeModal} />
       default:

@@ -1,8 +1,7 @@
 import React from 'react'
-import { FieldLabel, OtpInput } from '../../../../components/FormComponents'
-import { ContainedButton } from '../../../../components/UIComponents'
+import { AuthenticatorModal } from '../../../../components/Google'
 
-function PhoneLogin({ t, phoneLoginProps }) {
+function PhoneLogin({ phoneLoginProps, authenticationError }) {
   const {
     FormProvider,
     phoneLoginMethods: methods,
@@ -14,10 +13,10 @@ function PhoneLogin({ t, phoneLoginProps }) {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onPhoneLogin)}>
-        <FieldLabel>Code</FieldLabel>
-        <OtpInput name="code" />
-
-        <ContainedButton type="submit">submit</ContainedButton>
+        <AuthenticatorModal
+          name="code"
+          error={authenticationError}
+        />
       </form>
     </FormProvider>
   )

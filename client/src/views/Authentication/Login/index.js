@@ -24,7 +24,10 @@ function Login() {
           variant="authentication"
           style={{ display: 'flex', justifyContent: 'center' }}
         >
-          <Phone t={t} phoneLoginProps={phoneLoginProps} />
+          <Phone
+            phoneLoginProps={phoneLoginProps}
+            authenticationError={authenticationError}
+          />
         </VerticalCard>
         :
         <VerticalCard variant="authentication">
