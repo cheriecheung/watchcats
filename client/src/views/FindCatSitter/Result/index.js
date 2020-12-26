@@ -16,28 +16,25 @@ function Result({
   setHoveredResultId,
   screenWidth,
 }) {
+  const { from, to } = pagination
+
+  console.log({ totalResults })
+
   return (
     <>
-      {/* create display when none is found in bounds */}
-
-      {totalResults && paginatedResults ?
-        <p
-          // ref={resultsRef}
-          style={{ textAlign: 'left', marginBottom: 20 }}
-        >
-          Showing {pagination.from} - {pagination.to} of {totalResults} matches!
+      {totalResults && paginatedResults &&
+        <p style={{ textAlign: 'left', marginBottom: 20 }}>
+          {t('find_sitter.showing', { from, to, totalResults })}
         </p>
-        :
-        []
       }
-      {totalResults && totalResults === 0 ?
+
+      {totalResults && totalResults === 0 &&
         <p
-          // ref={resultsRef}
           style={{ textAlign: 'left', marginBottom: 20 }}>
-          0 matches found
-      </p>
-        : []
+          {t('find_sitter.no_results')}
+        </p>
       }
+
       <List
         itemLayout="vertical"
         size="large"

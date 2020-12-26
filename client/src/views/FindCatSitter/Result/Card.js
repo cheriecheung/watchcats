@@ -1,16 +1,7 @@
 import React from 'react';
 import { HorizontalCard, HorizontalDivider, Image, ImageContainer, LinkButton, ProfileStats } from '../../../components/UIComponents';
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
-
-import styled from 'styled-components'
-
-const ContentContainer = styled.div`
-  flex-basis: 75%;
-
-  @media (max-width: 680px) {
-    flex-basis: 80%;
-  }
-`
+import { ContentContainer } from '../styledComponents'
 
 function Card({ screenWidth, t, item, setHoveredResultId }) {
   const {
@@ -78,9 +69,10 @@ function Card({ screenWidth, t, item, setHoveredResultId }) {
           >
             <h5>{firstName} {lastName && lastName.charAt(0)}</h5>
 
-            <div>
-              <span>&euro;	{hourlyRate} / hour</span>
-              <span>&euro;	{nightlyRate} / night</span>
+            <div style={{ float: 'right' }}>
+              <span>&euro;	{hourlyRate} {t('find_sitter.per_hour')}</span>
+              <br />
+              <span>&euro;	{nightlyRate} {t('find_sitter.per_night')}</span>
             </div>
           </div>
 

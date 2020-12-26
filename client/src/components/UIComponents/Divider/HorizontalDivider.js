@@ -9,7 +9,7 @@ function HorizontalDivider({ children }) {
         {children}
       </Divider>
       :
-      <hr style={{ margin: '15px 0' }} />
+      <hr style={{ margin: '10px 0' }} />
   )
 }
 

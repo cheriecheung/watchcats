@@ -98,10 +98,12 @@ export default {
     reviews: 'Reviews',
     distance: 'Distance',
     price: 'Price',
+    per_hour: '/ hour',
+    per_night: '/ night',
     reset: 'Reset',
 
     // no 's if only one result
-    showing: '{{total}} cat sitters found',
+    showing: 'Showing {{from}} - {{to}} of {{totalResults}} matches',
     no_results: 'No cat sitters found',
     new_member: 'New member',
     completed_booking: 'Completed booking',

@@ -99,10 +99,12 @@ export default {
     reviews: 'Recensies',
     distance: 'Afstand',
     price: 'Prijs',
+    per_hour: '/ uur',
+    per_night: '/ nacht',
     reset: 'Resetten',
 
     // no 's if only one result
-    showing: '{{total}} oppassers gevonden',
+    showing: 'Showing {{from}} - {{to}} of {{totalResults}} matches',
     no_results: 'Geen oppas gevonden',
     new_member: 'Nieuw lid',
     completed_booking: 'Voltooide afspraak',

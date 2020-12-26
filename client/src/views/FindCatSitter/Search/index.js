@@ -1,32 +1,22 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import styled from 'styled-components';
 
 import { PlaceAutocomplete } from '../../../components/Google'
 import { HorizontalCard, TextButton } from '../../../components/UIComponents'
 import AppointmentPeriodPicker from './AppointmentPeriodPicker';
 import Sorting from './Sorting';
-
-const FieldContainer = styled.div`
-  flex: ${props => props.flex};
-  padding: 0 15px;
-  align-self: center;
-
-  @media (max-width: 770px) {
-    flex: 100%;
-    margin-bottom: 20px;
-    padding: 0;
-  }
-
-  :last-child{
-    @media (max-width: 770px) {
-      margin: -5px 0 -10px 0;
-    }
-  }
-`
+import { FieldContainer } from '../styledComponents'
 
 function Search({ t, searchProps }) {
-  const { FormProvider, methods, resetSearch, defaultValues, setLoading, setZoom, setCenter } = searchProps;
+  const {
+    FormProvider,
+    methods,
+    resetSearch,
+    defaultValues,
+    setLoading,
+    setZoom,
+    setCenter
+  } = searchProps;
   const { reset } = methods;
 
   return (
