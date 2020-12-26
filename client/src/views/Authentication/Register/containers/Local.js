@@ -28,7 +28,7 @@ function Local({ t, localRegisterProps, appError }) {
         {appError && <ErrorMessage type={appError} />}
 
         <OutlinedButton type="submit" style={{ width: '100%' }}>
-          {t('register.register')}
+          {t('register.title')}
         </OutlinedButton>
       </form>
     </FormProvider>

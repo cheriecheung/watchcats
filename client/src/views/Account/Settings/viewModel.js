@@ -291,6 +291,7 @@ function useEnable2FA() {
 }
 
 function useDisable2FA() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { appError } = useSelector((state) => state.error)
 
@@ -302,6 +303,7 @@ function useDisable2FA() {
   }
 
   return {
+    t,
     FormProvider,
     methods,
     onSubmit,

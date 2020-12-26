@@ -45,8 +45,6 @@ export default {
   },
 
   form: {
-    no_empty: "Field can't be empty",
-    only_alphabet: 'Enter alphabets only',
     or: 'OR',
     email: 'Email address',
     password: 'Password',
@@ -58,17 +56,36 @@ export default {
   },
 
   login: {
-    login: 'Login',
+    title: 'Login',
+    log_in: 'log in',
+    demo_user: 'Login as a demo user',
+    forgot_password: 'Forgot password?',
+    google_login: 'Login with Google',
+    '2FA_login': 'Enter the 6-digit code in the Google Authenticator app on your phone.',
   },
 
   register: {
-    register: 'Register',
+    title: 'Register',
     password_instruction: 'Password should be 8 to 12 characters',
   },
 
+  email_verification: {
+    success: 'You have sucecssfully activated your account. You are now able to ',
+    error_title: 'Expired or invalid verification link',
+    error_desription: 'Please enter your registered email below to get another link to activate your account.',
+    response: 'If the provided email is in our database, a new verification link will be sent to it. Please be sure to check the spam / junk mailbox if it is not found in the main inbox'
+  },
+
+  reset_password: {
+    title: 'Reset your password',
+    enter_new_password: 'Please enter your new password',
+    new_password: 'New Password',
+    repeat_password: 'Repeat password'
+  },
+
   forgot_password: {
-    response:
-      'If that email address is in our database, we will send you an email to reset your password.',
+    instruction: 'To reset your password, enter your email below and submit. An email will be sent to you with instructions about how to complete the process.',
+    response: 'If the provided email is in our database, a password reset link will be sent to it. Please be sure to check the spam / junk mailbox if it is not found in the main inbox'
   },
 
   find_sitter: {

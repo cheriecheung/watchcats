@@ -9,25 +9,25 @@ function Unsuccessful({ t, unsuccessfulProps }) {
 
   return (
     <>
-      {/* show text when account has already been activated */}
+      {/* rediret to login page when already activated */}
 
-      <h5>Expired or invalid verification link</h5>
-      <p >Please enter your registered email below to get another link to activate your account.</p>
+      <h5>{t('email_verification.error_title')}</h5>
+      <p>{t('email_verification.error_description')}</p>
       <br />
 
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {emailSubmitted ?
             <Alert type="success">
-              If the provided email is in our database, a password reset link will be sent to it. Please be sure to check the spam / junk mailbox if it is not found in the main inbox
+              {t('email_verification.response')}
             </Alert>
             :
             <>
               <TextField name="email" />
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <ContainedButton>
-                  Submit
-              </ContainedButton>
+                  {t('form.submit')}
+                </ContainedButton>
               </div>
             </>
           }

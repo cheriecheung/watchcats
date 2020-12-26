@@ -4,7 +4,7 @@ import { ContainedButton } from '../../../../components/UIComponents'
 function DemoUserLogin({ t }) {
   return (
     <ContainedButton type="button" style={{ width: '100%' }}>
-      Continue as DEMO USER
+      {t('login.demo_user')}
     </ContainedButton>
   )
 }

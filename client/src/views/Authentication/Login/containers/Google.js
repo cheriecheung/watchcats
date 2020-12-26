@@ -1,16 +1,8 @@
 import React from 'react'
-import { OutlinedButton } from '../../../../components/UIComponents'
+import { GoogleLoginButton } from '../../../../components/Google'
 
 function Google({ t, onGoogleLogin }) {
-  return (
-    <OutlinedButton
-      type="button"
-      style={{ width: '100%', marginTop: 10 }}
-      onClick={onGoogleLogin}
-    >
-      Google
-    </OutlinedButton>
-  )
+  return <GoogleLoginButton t={t} onClick={onGoogleLogin} />
 }
 
 export default Google

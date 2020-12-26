@@ -15,9 +15,9 @@ function Register() {
 
       <VerticalCard variant="authentication">
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <h4>{t('register.register')}</h4>
+          <h4>{t('register.title')}</h4>
           <LinkButton to="/login">
-            {t('login.login')}
+            {t('login.title')}
           </LinkButton>
         </div>
 

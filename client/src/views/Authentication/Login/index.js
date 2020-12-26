@@ -25,6 +25,7 @@ function Login() {
           style={{ display: 'flex', justifyContent: 'center' }}
         >
           <Phone
+            t={t}
             phoneLoginProps={phoneLoginProps}
             authenticationError={authenticationError}
           />
@@ -32,9 +33,9 @@ function Login() {
         :
         <VerticalCard variant="authentication">
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <h4>{t('login.login')}</h4>
+            <h4>{t('login.title')}</h4>
             <LinkButton to="/register">
-              {t('register.register')}
+              {t('register.title')}
             </LinkButton>
           </div>
 

@@ -4,6 +4,7 @@ import { useDisable2FA } from '../viewModel';
 
 function Disable2FA() {
   const {
+    t,
     FormProvider,
     methods,
     onSubmit,
@@ -16,6 +17,7 @@ function Disable2FA() {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} style={{ textAlign: 'left' }}>
         <AuthenticatorModal
+          t={t}
           name="code"
           error={appError}
         />

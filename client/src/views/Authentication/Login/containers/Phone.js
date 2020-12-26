@@ -1,7 +1,7 @@
 import React from 'react'
 import { AuthenticatorModal } from '../../../../components/Google'
 
-function PhoneLogin({ phoneLoginProps, authenticationError }) {
+function PhoneLogin({ t, authenticationError, phoneLoginProps }) {
   const {
     FormProvider,
     phoneLoginMethods: methods,
@@ -14,6 +14,7 @@ function PhoneLogin({ phoneLoginProps, authenticationError }) {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onPhoneLogin)}>
         <AuthenticatorModal
+          t={t}
           name="code"
           error={authenticationError}
         />

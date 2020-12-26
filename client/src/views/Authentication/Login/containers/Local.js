@@ -1,5 +1,5 @@
 import React from 'react'
-import { FieldLabel, TextField } from '../../../../components/FormComponents'
+import { BasicCheckbox, FieldLabel, TextField } from '../../../../components/FormComponents'
 import { ErrorMessage, LinkButton, OutlinedButton } from '../../../../components/UIComponents'
 
 function LocalLogin({ t, authenticationError, localLoginProps }) {
@@ -24,13 +24,15 @@ function LocalLogin({ t, authenticationError, localLoginProps }) {
         <TextField name="password" type="password" />
 
         <LinkButton to="/forgot_password" style={{ textAlign: 'right', marginBottom: 10 }}>
-          Forgot password?
+          {t('login.forgot_password')}
         </LinkButton>
 
         {authenticationError && <ErrorMessage type={authenticationError} />}
 
+        <br />
+
         <OutlinedButton type="submit">
-          {t('login.login')}
+          {t('form.submit')}
         </OutlinedButton>
       </form>
     </FormProvider>

@@ -13,7 +13,7 @@ function GoogleLoginButton({ t, onClick }) {
         src={google_logo}
         style={{ width: 'auto', height: '70%', marginLeft: '-10px', marginRight: 10 }}
       />
-      Log in with Google
+      {t('login.google_login')}
     </OutlinedButton>
   )
 }

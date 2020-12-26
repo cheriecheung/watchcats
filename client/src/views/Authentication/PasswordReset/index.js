@@ -16,18 +16,18 @@ function PasswordReset() {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
             <VerticalCard variant="authentication">
-                <h4>Reset your password</h4>
-                <p>Please enter your new password</p>
+                <h5>{t('reset_password.title')}</h5>
+                <p>{t('reset_password.enter_new_password')}</p>
 
                 <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(onSubmitNewPassword)}>
-                        <FieldLabel>New password</FieldLabel>
+                        <FieldLabel>{t('reset_password.new_password')}</FieldLabel>
                         <TextField name="newPassword" />
 
-                        <FieldLabel>Repeat password</FieldLabel>
+                        <FieldLabel>{t('reset_password.repeat_password')}</FieldLabel>
                         <TextField name="newPasswordRepeat" />
 
-                        <ContainedButton>Submit</ContainedButton>
+                        <ContainedButton>{t('form.submit')}</ContainedButton>
                     </form>
                 </FormProvider>
             </VerticalCard>

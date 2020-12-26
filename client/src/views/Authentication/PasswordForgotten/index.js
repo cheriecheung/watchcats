@@ -17,8 +17,8 @@ function PasswordForgotten() {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
             <VerticalCard variant="authentication">
-                <h5>Reset your password</h5>
-                <p>To reset your password, enter your email below and submit. An email will be sent to you with instructions about how to complete the process.</p>
+                <h5>{t('reset_password.title')}</h5>
+                <p>{t('forgot_password.instruction')}</p>
 
                 <br />
 
@@ -26,13 +26,13 @@ function PasswordForgotten() {
                     <form onSubmit={handleSubmit(onSubmitEmail)}>
                         {appActionStatus === 'resetPasswordEmailRequested' ?
                             <Alert type="success">
-                                If the provided email is in our database, a password reset link will be sent to it. Please be sure to check the spam / junk mailbox if it is not found in the main inbox
+                                {t('forgot_password.response')}
                             </Alert>
                             :
                             <>
                                 <TextField name="email" />
                                 {appError && <ErrorMessage type={appError} />}
-                                <ContainedButton>Submit</ContainedButton>
+                                <ContainedButton>{t('form.submit')}</ContainedButton>
                             </>
                         }
                     </form>
