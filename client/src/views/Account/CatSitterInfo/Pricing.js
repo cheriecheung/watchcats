@@ -19,6 +19,7 @@ function Pricing({ t }) {
       <Col md={6}>
         <FieldLabel>{t('sitter_form.one_day')}</FieldLabel>
         <Container>
+          {/* you will receive ____ */}
           <SelectField name="hourlyRate" options={hourlyRateOptions} />
           <Type>{t('sitter_form.per_hour')}</Type>
         </Container>
@@ -26,6 +27,7 @@ function Pricing({ t }) {
       <Col md={6}>
         <FieldLabel>{t('sitter_form.overnight')}</FieldLabel>
         <Container>
+          {/* you will receive ____ */}
           <SelectField name="nightlyRate" options={nightlyRateOptions} />
           <Type>{t('sitter_form.per_night')}</Type>
         </Container>

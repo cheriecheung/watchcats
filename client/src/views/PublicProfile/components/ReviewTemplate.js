@@ -2,10 +2,24 @@ import React from 'react';
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 import { EllipsisParagraph, ClickableImageContainer, Image, LinkButton } from '../../../components/UIComponents';
 
-function ReviewTemplate({ review }) {
-  const profilePicURL = review.reviewerPicture ? `${process.env.REACT_APP_API_DOMAIN}/image/${review.reviewerPicture}` : defaultProfilePic
+const { REACT_APP_API_DOMAIN } = process.env
 
-  const pathname = window.location.pathname.includes('catsitter') ? `/profile/catowner/${review.reviewerUrlId}` : `/profile/catsitter/${review.reviewerUrlId}`
+function ReviewTemplate({ review }) {
+  const {
+    content,
+    rating,
+    reviewerPicture,
+    reviewerUrlId,
+    reviewerName,
+  } = review
+
+  const profilePicURL = reviewerPicture ?
+    `${REACT_APP_API_DOMAIN}/image/${reviewerPicture}` :
+    defaultProfilePic
+
+  const pathname = window.location.pathname.includes('catsitter') ?
+    `/profile/catowner/${reviewerUrlId}` :
+    `/profile/catsitter/${reviewerUrlId}`
 
   return (
     <div style={{ margin: '20px 0' }}>
@@ -18,19 +32,16 @@ function ReviewTemplate({ review }) {
 
         <div style={{ marginLeft: 20 }}>
           <LinkButton to={pathname} style={{ fontWeight: 'bold' }}>
-            {review.reviewerName}
+            {reviewerName}
           </LinkButton>
           <br />
-          {[...Array(review.rating).keys()].map((item, index) => {
+          {[...Array(rating).keys()].map((item, index) => {
             return (
               <i key={index} className="fas fa-star icon-sort-review" />
             )
           })}
-          <p>
-            <EllipsisParagraph>
-              {review.content}
-            </EllipsisParagraph>
-          </p>
+
+          <EllipsisParagraph>{content}</EllipsisParagraph>
         </div>
       </div>
     </div>

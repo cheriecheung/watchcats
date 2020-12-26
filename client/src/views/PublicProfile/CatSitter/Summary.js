@@ -44,13 +44,11 @@ function Summary({ t, sitterInfo, summaryProps }) {
       <hr />
 
       <span style={{ display: 'flex' }}>
-        <h5>€ {hourlyRate} </h5>per day
-        {/* you will receive ___  */}
+        <h5>€ {hourlyRate} {t('sitter_form.per_hour')}</h5>
       </span>
 
       <span style={{ display: 'flex' }}>
-        <h5>€ {nightlyRate}</h5> per night
-        {/* you will receive ___  */}
+        <h5>€ {nightlyRate} {t('sitter_form.per_night')}</h5>
       </span>
 
       <ContainedButton onClick={onSendMessage}>{t('sitter_profile.send_message')}</ContainedButton>

@@ -27,10 +27,7 @@ function CreateAppointmentTime({ t, modalVisible }) {
 
   return (
     <div style={{ textAlign: 'left' }}>
-      <p>
-        As you haven't set an appointment time in your owner profile, please select a time in the
-        following.
-      </p>
+      <p>{t('sitter_profile.create_appointment_time')}</p>
 
       <Row>
         <Col md={3}>
@@ -40,10 +37,10 @@ function CreateAppointmentTime({ t, modalVisible }) {
         </Col>
         <Col md={9} style={{ marginBottom: 25 }}>
           <button style={oneDayStyle} onClick={() => reset({ type: 'oneDay' })}>
-            One day
+            {t('sitter_profile.one_day')}
           </button>
           <button style={overnightStyle} onClick={() => reset({ type: 'overnight' })}>
-            Overnight
+            {t('sitter_profile.overnight')}
           </button>
         </Col>
       </Row>
@@ -114,7 +111,9 @@ function CreateAppointmentTime({ t, modalVisible }) {
       {bookingsError && <ErrorMessage type={bookingsError} />}
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <ContainedButton onClick={onSendRequest}>Submit</ContainedButton>
+        <ContainedButton onClick={onSendRequest}>
+          {t('form.submit')}
+        </ContainedButton>
       </div>
     </div>
   );

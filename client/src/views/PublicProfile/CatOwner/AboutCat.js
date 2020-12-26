@@ -6,7 +6,7 @@ import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
-function AboutCat({ allCats }) {
+function AboutCat({ t, allCats }) {
   return (
     Array.isArray(allCats) &&
     allCats.length > 0 &&
@@ -26,7 +26,7 @@ function AboutCat({ allCats }) {
         photo
       } = cat;
 
-      const pictureUrl = cat.photo ? `${REACT_APP_API_DOMAIN}/image/${cat.photo}` : defaultProfilePic
+      const pictureUrl = photo ? `${REACT_APP_API_DOMAIN}/image/${photo}` : defaultProfilePic
 
       return (
         <WrapLayout
@@ -42,81 +42,88 @@ function AboutCat({ allCats }) {
 
           <div style={{ flexBasis: '70%', display: 'flex', flexWrap: 'wrap' }}>
             <FieldContainer>
-              <FieldLabel>Name</FieldLabel>
+              <FieldLabel>{t('owner_form.name')}</FieldLabel>
               <span>{name}</span>
             </FieldContainer>
             <FieldContainer>
-              <FieldLabel>Age</FieldLabel>
+              <FieldLabel>{t('owner_form.age')}</FieldLabel>
               <span>{age}</span>
             </FieldContainer>
 
             <FieldContainer>
-              <FieldLabel>Gender</FieldLabel>
+              <FieldLabel>{t('owner_form.gender')}</FieldLabel>
               <div>
                 <i className="fas fa-mars fa-2x icon-gender profile" />
-                <span>{gender === 'F' ? 'Female' : 'Male'}</span>
+                <span>
+                  {gender === 'F' ?
+                    t('owner_form.female') :
+                    t('owner_form.male')
+                  }
+                </span>
               </div>
             </FieldContainer>
             <FieldContainer>
-              <FieldLabel>Medical needs</FieldLabel>
+              <FieldLabel>{t('owner_form.medical_needs')}</FieldLabel>
               <div>
                 {!needsInjection &&
                   !needsPill &&
-                  <span>None</span>
+                  <span>{t('owner_form.none')}</span>
                 }
+
                 {needsInjection &&
                   <>
                     <i className="fas fa-syringe fa-2x" />
-                    <span>Injection</span>
+                    <span>{t('owner_form.injection')}</span>
                   </>}
+
                 {needsPill &&
                   <>
                     <i className="fas fa-pills fa-2x" />
-                    <span>Pill</span>
+                    <span>{t('owner_form.pill')}</span>
                   </>}
               </div>
             </FieldContainer>
 
             <FieldContainer>
-              <FieldLabel>Vaccinated</FieldLabel>
+              <FieldLabel>{t('owner_form.vaccinated')}</FieldLabel>
               {isVaccinated ? (
                 <div>
                   <i className="fas fa-check fa-2x icon-yes-no profile" />
-                  <span>Yes</span>
+                  <span>{t('owner_form.yes')}</span>
                 </div>
               ) : (
                   <div>
                     <i className="fas fa-times fa-2x icon-yes-no profile" />
-                    <span>No</span>
+                    <span>{t('owner_form.no')}</span>
                   </div>
                 )}
             </FieldContainer>
             <FieldContainer>
-              <FieldLabel>Insured</FieldLabel>
+              <FieldLabel>{t('owner_form.insured')}</FieldLabel>
               {isInsured ? (
                 <div>
                   <i className="fas fa-check fa-2x icon-yes-no profile" />
-                  <span>Yes</span>
+                  <span>{t('owner_form.yes')}</span>
                 </div>
               ) : (
                   <div>
                     <i className="fas fa-times fa-2x icon-yes-no profile" />
-                    <span>No</span>
+                    <span>{t('owner_form.no')}</span>
                   </div>
                 )}
             </FieldContainer>
 
             <FieldContainer>
-              <FieldLabel>Breed</FieldLabel>
+              <FieldLabel>{t('owner_form.breed')}</FieldLabel>
               {/* <span>{breed.label}</span> */}
             </FieldContainer>
             <FieldContainer>
-              <FieldLabel>Personality</FieldLabel>
+              <FieldLabel>{t('owner_form.personality')}</FieldLabel>
               {/* <span>{personality.label}</span> */}
             </FieldContainer>
 
             <FieldContainer style={{ marginBottom: 0 }}>
-              <FieldLabel>Favorite treat</FieldLabel>
+              <FieldLabel>{t('owner_form.favourite_treat')}</FieldLabel>
               <span>{favoriteTreat}</span>
             </FieldContainer>
           </div>

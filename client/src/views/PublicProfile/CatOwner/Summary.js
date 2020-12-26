@@ -37,14 +37,16 @@ function Summary({ t, ownerInfo }) {
       />
 
       <hr />
+      {/* email verified */}
+      {/* phone verified */}
       <h6>Verified</h6>
 
       {(Array.isArray(bookingOneDay) && bookingOneDay.length > 0) ||
         Array.isArray(bookingOvernight) && bookingOvernight.length > 0 &&
         <>
           <hr />
-          <h6>Sitter needed:</h6>
-          <AppointmentTime oneDay={bookingOneDay} overnight={bookingOvernight} />
+          <h6>{t('owner_form.sitter_needed')}:</h6>
+          <AppointmentTime t={t} oneDay={bookingOneDay} overnight={bookingOvernight} />
         </>
       }
     </VerticalCard>
@@ -53,12 +55,12 @@ function Summary({ t, ownerInfo }) {
 
 export default Summary;
 
-function AppointmentTime({ oneDay, overnight }) {
+function AppointmentTime({ t, oneDay, overnight }) {
   return (
     <>
       {Array.isArray(oneDay) && oneDay.length > 0 && (
         <>
-          <h6>One-day appointment: </h6>
+          <h6>{t('owner_profile.one_day_appointment')}: </h6>
 
           {oneDay.map(({ id, date, endTime, startTime }) => {
             const dateConverted = moment(date).format('DD MMM YYYY');
@@ -78,7 +80,7 @@ function AppointmentTime({ oneDay, overnight }) {
 
       {Array.isArray(overnight) && overnight.length > 0 && (
         <>
-          <h6>Overnight appointment: </h6>
+          <h6>{t('owner_profile.overnight_appointment')}: </h6>
 
           {overnight.map(({ id, startDate, endDate }) => {
             const startDateConverted = moment(startDate, 'YYYY-MM-DD').format('DD MMM YYYY');

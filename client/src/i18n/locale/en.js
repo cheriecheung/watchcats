@@ -25,6 +25,7 @@ export default {
     password_reset: 'You have successfully reset your password.',
     '2FA_enabled': 'You have enabled 2-factor authentication. You will now need to login by phone on top of logging in by email and password.',
     '2FA_disabled': 'You have disabled 2-factor authentication. You will now only log in by email and password.',
+    booking_request: 'You have successfully sent your booking request.',
     review: 'You have successfully submitted a review. You will now be redirected back to the booking page.'
   },
 
@@ -111,10 +112,8 @@ export default {
   },
 
   profile_summary: {
-    verified: 'Verified',
-    id_verified: 'ID verified',
+    email_verified: 'Email verified',
     phone_verified: 'Phone verified',
-    address_verified: 'Address verified',
   },
 
   sitter_profile: {
@@ -125,14 +124,25 @@ export default {
     overnight: 'Overnight',
     send_request: 'Send request',
     appointment_fee: 'Appointment fee',
-
+    skills_summary: 'Summary of skills',
     location: 'Location',
     feedback: 'Feedback from cat owners',
+
+    create_appointment_time: 'As you haven\'t set an appointment time in your owner profile, please select a time in the following.',
+    no_owner_profile: 'You can only send a request to a cat sitter when you have a cat owner profile.',
+    create_owner_profile1: 'To start creating your cat owner profile, go to the',
+    create_owner_profile2: 'account',
+    create_owner_profile3: 'page, and click on the \'Cat owner profile\' tab.',
+    select_time: 'Select a time',
+    existing_time: ' The following is/are the appointment time you previously filled out in your cat owner profile.',
+    one_day_appointment: 'One-day appointment',
+    overnight_appointment: 'Overnight appointment',
   },
 
   owner_profile: {
     sitter_needed: 'Sitter needed',
-
+    one_day_appointment: 'One-day appointment',
+    overnight_appointment: 'Overnight appointment',
     location: 'Location',
     feedback: 'Feedback from cat sitters',
   },
@@ -220,7 +230,7 @@ export default {
     about_me_description:
       'Tell cat owners about yourself. Start with a little description of yourself - What do you do for a living? Why do you want to be a cat sitter?',
 
-    experience_serivce: 'Experience and service',
+    experience: 'Experience',
     experience_description:
       'Please select relevant experience / skills you possess. For every item selected, please briefly explain the details in the text box below.',
     has_cat: 'Owns / owned a cat',
@@ -271,6 +281,7 @@ export default {
     male: 'Male',
     female: 'Female',
     medical_needs: 'Medical needs',
+    none: 'None',
     injection: 'Injection',
     pill: 'Pill',
     vaccinated: 'Vaccinated',
@@ -279,15 +290,15 @@ export default {
     no: 'No',
     breed: 'Breed',
     favourite_treat: 'Favourite treat',
-    personality: 'Personality that fits your cat the best',
+    personality: 'Personality',
     pictures: 'Pictures of your cat',
     upload: 'Upload',
     add_cat: 'Add cat',
     cat_index: 'And my #{{index}} cat',
     maximum_cat: 'If you have 5 or more cats, perhaps you would want to consider having them stay at a pet hotel, so they can all be taken care of by full time staff!',
 
-    cat_description: 'Description of my cat(s)',
-    cat_description_text:
+    responsibilities: 'Responsibilities',
+    responsibilities_text:
       'Please write a description about your cat(s) - include their feeing, litter, playtime routine, and other needs. It is also important to include your vets details should the cat sitter needs to get hold if them.',
 
   },
@@ -310,8 +321,6 @@ export default {
     tabby: 'Tabby',
     other: 'Other',
   },
-
-
 
   bookings: {
     as_cat_sitter: 'As a cat sitter',

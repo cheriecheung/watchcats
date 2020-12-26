@@ -45,7 +45,7 @@ function SitterProfile() {
           </HorizontalCard>
 
           <HorizontalCard ref={experienceRef}>
-            <CardTitle>{t('sitter_form.experience_serivce')}</CardTitle>
+            <CardTitle>{t('sitter_form.experience')}</CardTitle>
 
             <Experience t={t} experienceData={experienceData} />
           </HorizontalCard>

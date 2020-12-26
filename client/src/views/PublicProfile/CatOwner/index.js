@@ -41,41 +41,46 @@ function CatOwner() {
         <WrapLayout variant="profile">
           <VerticalCard variant="profileDetails">
 
-            {reviews && reviews.length > 0 &&
+            {Array.isArray(reviews) &&
+              reviews.length > 0 &&
               <>
                 <Section>
                   <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
-                    Reviews ({reviews.length})
+                    {t('owner_profile.feedback')} ({reviews.length})
                    </h5>
-                  <Reviews reviews={reviews} scrollToRef={scrollToRef} reviewListRef={reviewListRef} />
+                  <Reviews
+                    reviews={reviews}
+                    scrollToRef={scrollToRef}
+                    reviewListRef={reviewListRef}
+                  />
                 </Section>
                 <hr />
               </>
             }
 
             <Section>
-              <h5>About</h5>
+              <h5>{t('owner_form.about_me')}</h5>
               <AboutMe aboutMe={aboutMe} />
             </Section>
 
             <hr />
 
             <Section>
-              <h5>About my cat</h5>
-              <AboutCat allCats={cat} />
+              <h5>{t('owner_form.about_cat')}</h5>
+              <AboutCat t={t} allCats={cat} />
             </Section>
 
             <hr />
 
             <Section>
-              <h5>Responsibility</h5>
+              <h5>{t('owner_form.responsibilities')}</h5>
               <Responsibilities descriptions={catsDescription} />
             </Section>
 
             <hr />
 
             <Section>
-              <h5>Location</h5>
+              <h5>{t('owner_profile.location')}</h5>
               <Location coordinates={coordinates} urlId={urlId} />
             </Section>
 

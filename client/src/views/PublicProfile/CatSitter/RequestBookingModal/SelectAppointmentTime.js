@@ -16,16 +16,15 @@ function SelectAppointmentTime({ t }) {
 
   return (
     <div style={{ textAlign: 'left' }}>
-      <b style={{ fontSize: '1.1rem', flexBasis: '25%' }}>Select a time</b>
-      <p>
-        The following is/are the appointment time you previously filled out in your cat owner
-        profile.
-      </p>
+      <b style={{ fontSize: '1.1rem', flexBasis: '25%' }}>
+        {t('sitter_profile.select_time')}
+      </b>
+      <p>{t('sitter_profile.existing_time')}</p>
 
       {allOneDays.length > 0 && (
         <Row style={{ marginTop: 25 }}>
           <Col md={4} style={{ marginBottom: 15 }}>
-            <b>One day appointment:</b>
+            <b>{t('sitter_profile.one_day_appointment')}:</b>
           </Col>
           <Col md={8}>
             {allOneDays.map(({ id, date, startTime, endTime }, index) => {
@@ -57,7 +56,7 @@ function SelectAppointmentTime({ t }) {
       {[allOvernight].length > 0 && (
         <Row style={{ marginTop: 15 }}>
           <Col md={4} style={{ marginBottom: 15 }}>
-            <b>Overnight appointment:</b>
+            <b>{t('sitter_profile.overnight_appointment')}:</b>
           </Col>
           <Col md={8}>
             {allOvernight.map(({ id, startDate, endDate }, index) => {
@@ -99,7 +98,9 @@ function SelectAppointmentTime({ t }) {
       {bookingsError && <ErrorMessage type={bookingsError} />}
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <ContainedButton onClick={onSendRequest}>Submit</ContainedButton>
+        <ContainedButton onClick={onSendRequest}>
+          {t('form.submit')}
+        </ContainedButton>
       </div>
     </div>
   );

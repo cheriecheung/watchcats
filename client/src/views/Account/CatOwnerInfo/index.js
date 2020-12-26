@@ -61,7 +61,7 @@ function CatOwnerInfo() {
           </HorizontalCard>
 
           <HorizontalCard>
-            <CardTitle>{t('owner_form.cat_description')}</CardTitle>
+            <CardTitle>{t('owner_form.responsibilities')}</CardTitle>
 
             <Responsibilities t={t} />
           </HorizontalCard>

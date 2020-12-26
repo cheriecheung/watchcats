@@ -45,37 +45,41 @@ function CatSitter() {
               <>
                 <Section>
                   <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
-                    Reviews ({reviews.length})
-              </h5>
-                  <Reviews reviews={reviews} crollToRef={scrollToRef} reviewListRef={reviewListRef} />
+                    {t('sitter_profile.feedback')} ({reviews.length})
+                  </h5>
+                  <Reviews
+                    reviews={reviews}
+                    scrollToRef={scrollToRef}
+                    reviewListRef={reviewListRef}
+                  />
                 </Section>
                 <hr />
               </>
             }
 
             <Section>
-              <h5>About</h5>
+              <h5>{t('sitter_form.about_me')}</h5>
               <AboutMe aboutMe={aboutSitter} />
             </Section>
 
             <hr />
 
             <Section>
-              <h5>Experience</h5>
-              <Experience sitterInfo={cleanedData} />
+              <h5>{t('sitter_form.experience')}</h5>
+              <Experience t={t} sitterInfo={cleanedData} />
             </Section>
 
             <hr />
 
             <Section>
-              <h5>Availability</h5>
+              <h5>{t('sitter_form.availability')}</h5>
               <AvailabilityCalendar t={t} unavailableDates={unavailableDates} />
             </Section>
 
             <hr />
 
             <Section>
-              <h5>Location</h5>
+              <h5>{t('sitter_profile.location')}</h5>
               <Location coordinates={coordinates} urlId={urlId} />
             </Section>
           </VerticalCard>

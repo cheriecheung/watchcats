@@ -1,43 +1,57 @@
 import React from 'react';
 import { EllipsisParagraph, WrapLayout } from '../../../components/UIComponents'
 
-function Experience({ sitterInfo }) {
-  const { experience, hasCat, hasVolunteered, hasMedicationSkills, hasInjectionSkills, hasCertification, hasGroomingSkills } = sitterInfo;
+function Experience({ t, sitterInfo }) {
+  const {
+    experience,
+    hasCat,
+    hasVolunteered,
+    hasMedicationSkills,
+    hasInjectionSkills,
+    hasCertification,
+    hasGroomingSkills
+  } = sitterInfo;
 
   const skillSet = [
     {
       value: hasCat,
       icon: <i className="fas fa-cat sitter-profile" />,
-      title: 'Owns / owned a cat'
+      title: t('sitter_form.has_cat')
     },
     {
       value: hasVolunteered,
       icon: <i className="fas fa-hand-holding-heart sitter-profile" />,
-      title: 'Has done volunteer work'
+      title: t('sitter_form.volunteer')
     },
     {
       value: hasMedicationSkills,
       icon: <i className="fas fa-pills sitter-profile" />,
-      title: 'Able to administer medication'
+      title: t('sitter_form.medication')
     },
     {
       value: hasInjectionSkills,
       icon: <i className="fas fa-syringe sitter-profile" />,
-      title: 'Able to do injections'
+      title: t('sitter_form.injection')
     },
     {
       value: hasCertification,
       icon: <i className="fas fa-award sitter-profile" />,
-      title: 'Has pet sitting certification'
+      title: t('sitter_form.certificate')
     },
     {
       value: hasGroomingSkills,
       icon: <i className="fas fa-cut sitter-profile" />,
-      title: 'Has pet grooming skills'
+      title: t('sitter_form.grooming')
     },
   ]
 
-  const hasSkills = hasCat || hasVolunteered || hasMedicationSkills || hasInjectionSkills || hasCertification || hasGroomingSkills
+  const hasSkills =
+    hasCat ||
+    hasVolunteered ||
+    hasMedicationSkills ||
+    hasInjectionSkills ||
+    hasCertification ||
+    hasGroomingSkills
 
   return (
     <>
@@ -46,7 +60,7 @@ function Experience({ sitterInfo }) {
       {hasSkills &&
         <>
           <br />
-          <span>Summary of skills:</span>
+          <span>{t('sitter_profile.skills_summary')}:</span>
           <br />
           <br />
 

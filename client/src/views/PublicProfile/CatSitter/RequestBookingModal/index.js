@@ -17,7 +17,7 @@ function RequestBookingModal({
       case 'OWNER_PROFILE_NOT_FOUND':
         return <CreateOwnerProfile t={t} />
       case 'BOOKING_REQUEST_SENT':
-        return <SuccessDisplay message="You have successfully sent your booking request." onClick={closeModal} />
+        return <SuccessDisplay message={t('success.booking_request')} onClick={closeModal} />
       default:
         return <SelectAppointmentTime t={t} />
     }

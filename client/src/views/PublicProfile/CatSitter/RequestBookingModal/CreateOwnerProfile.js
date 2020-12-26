@@ -1,19 +1,17 @@
 import React from 'react';
 import { LinkButton } from '../../../../components/UIComponents'
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
 
 function CreateOwnerProfile({ t }) {
   return (
     <div style={{ margin: '50px 0' }}>
-      <h6>You can only send a request to a cat sitter when you have a cat owner profile.</h6>
+      <h6>{t('sitter_profile.no_owner_profile')}</h6>
       <br />
       <h6>
-        To start creating your cat owner profile, go to the
+        {t('sitter_profile.create_owner_profile1')}
         <LinkButton to="/account">
-          &nbsp;account page
+          {t('sitter_profile.create_owner_profile2')}
         </LinkButton>
-        , and click on the 'Cat owner profile' tab.
+        {t('sitter_profile.create_owner_profile3')}
       </h6>
     </div>
   );

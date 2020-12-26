@@ -10,6 +10,7 @@ function AvailabilityCalendar({ t, unavailableDates }) {
       marginTop: 15,
     }}
     >
+      {/* enable dutch version */}
       <DayPicker disabledDays={{ before: new Date() }} selectedDays={unavailableDates} />
 
       <div style={{ display: 'flex', flexDirection: 'row' }}>

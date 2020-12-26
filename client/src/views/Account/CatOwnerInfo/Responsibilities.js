@@ -8,7 +8,7 @@ function Responsibilities({ t }) {
     <Row>
       <Col md={6}>
         <p>
-          {t('owner_form.cat_description_text')}
+          {t('owner_form.responsibilities_text')}
         </p>
       </Col>
       <Col md={6}>
