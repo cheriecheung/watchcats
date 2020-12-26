@@ -49,13 +49,7 @@ function Experience({ t, experienceData }) {
         </Checkbox>
       </div>
 
-      {/* <Col md={12}>  */}
-      <TextArea
-        name="experience"
-        placeholder="Tell cat owners about your service. What type of services can you offer as a cat sitter? Why should a cat sitter invite you to take care of their cats?"
-      />
-      {/* </Col> */}
-      {/* </Row> */}
+      <TextArea name="experience" />
     </>
   );
 }

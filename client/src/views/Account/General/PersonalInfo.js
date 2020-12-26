@@ -17,14 +17,14 @@ function PersonalInfo({ t }) {
         </Col>
         <Col md={6}>
           <FieldLabel>{t('general_info.address')}</FieldLabel>
-          <Tooltip content="Your address will not be shared with anyone in any manner">
+          <Tooltip content={t('general_info.address_tooltip')}>
             <i className="fas fa-info-circle ml-2" />
           </Tooltip>
           <TextField name="address" />
         </Col>
         <Col md={6}>
           <FieldLabel>{t('general_info.postcode')}</FieldLabel>
-          <Tooltip content="Once submitted, your location will appear in the map on 'Find Cat Sitter' page">
+          <Tooltip content={t('general_info.address')}>
             <i className="fas fa-info-circle ml-2" />
           </Tooltip>
           <TextField name="postcode" />

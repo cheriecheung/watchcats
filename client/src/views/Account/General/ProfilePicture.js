@@ -13,11 +13,11 @@ function ProfilePicture({
     <Row>
       <Col md={6}>
         <div style={{ fontSize: '0.80rem' }}>
-          <span>Please choose a high quality picture of yourself:</span>
+          <span>{t('owner_form.picture_requirement_1')}</span>
           <ul style={{ padding: '0px 20px' }}>
-            <li>No filters, effects or stickers applied to the image</li>
-            <li>Best image format JPG, JPEG, PNG</li>
-            <li>Minimum size 360 x 254 pixels</li>
+            <li>{t('owner_form.picture_requirement_2')}</li>
+            <li>{t('owner_form.picture_requirement_3')}</li>
+            <li>{t('owner_form.picture_requirement_4')}</li>
           </ul>
         </div>
       </Col>

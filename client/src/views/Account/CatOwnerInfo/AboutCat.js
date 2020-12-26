@@ -27,7 +27,7 @@ function AboutCat({ t, setValue, catProps }) {
           <div key={id}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <h6 hidden={index === 0} style={{ color, fontWeight: 800 }}>
-                And my #{index + 1} cat
+                {t('owner_form.cat_index', { index: index + 1 })}
               </h6>
               <TextButton
                 hidden={index === 0}
@@ -40,8 +40,8 @@ function AboutCat({ t, setValue, catProps }) {
 
             <Row>
               <Col md={6} className="mb-4">
-                <FieldLabel>Picture</FieldLabel>
-                <p>Share a picture of your cat with your future cat sitter!</p>
+                <FieldLabel>{t('owner_form.picture')}</FieldLabel>
+                <p>{t('owner_form.share_picture')}</p>
               </Col>
               <Col md={6} className="mb-4" style={{ display: 'flex', justifyContent: 'center' }}>
                 {photoFields[index] ?
@@ -150,7 +150,7 @@ function AboutCat({ t, setValue, catProps }) {
                 <SelectField name={`cat[${index}].breed`} options={catBreedOptions} />
               </Col>
               <Col md={6} className="mb-4">
-                <FieldLabel>Personality that fits your cat the best</FieldLabel>
+                <FieldLabel>{t('owner_form.personality')}</FieldLabel>
                 <SelectField name={`cat[${index}].personality`} options={personalityOptions} />
               </Col>
 
@@ -177,8 +177,7 @@ function AboutCat({ t, setValue, catProps }) {
       </div>
 
       <span hidden={cat && cat.length <= 4}>
-        If you have 5 or more cats, perhaps you would want to consider having them stay at a pet
-        hotel, so they can all be taken care of by full time staff!
+        {t('owner_form.maximum_cat')}
       </span>
     </>
   );

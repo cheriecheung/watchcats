@@ -17,7 +17,7 @@ function AppointmentTime({ t, bookingOneDayProps, bookingOvernightProps }) {
           <div key={item.id}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <h6 hidden={index === 0}>
-                {t('owner_form.one_day')} #{index + 1}
+                {t('owner_form.one_day', { index: index + 1 })}
               </h6>
               <TextButton
                 hidden={index === 0}
@@ -79,7 +79,7 @@ function AppointmentTime({ t, bookingOneDayProps, bookingOvernightProps }) {
       </div>
 
       <span hidden={bookingOneDay && bookingOneDay.length < 2}>
-        You can at most request 2 one-day appointments at the same time!
+        {t('owner_form.maximum_one_day')}
       </span>
 
       <h6 style={{ marginTop: 40 }}> {t('owner_form.overnight')}</h6>
@@ -89,7 +89,7 @@ function AppointmentTime({ t, bookingOneDayProps, bookingOvernightProps }) {
           <div key={item.id}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <h6 hidden={index === 0} style={{ color }}>
-                {t('owner_form.overnight')} visit #{index + 1}
+                {t('owner_form.overnight', { index: index + 1 })}
               </h6>
               <TextButton
                 hidden={index === 0}
@@ -136,7 +136,7 @@ function AppointmentTime({ t, bookingOneDayProps, bookingOvernightProps }) {
       </div>
 
       <span hidden={bookingOvernight && bookingOvernight.length < 2}>
-        You can at most request 2 overnight sitting appointments at the same time!
+        {t('owner_form.maximum_overnight')}
       </span>
     </>
   );

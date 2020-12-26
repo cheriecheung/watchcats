@@ -6,6 +6,9 @@ import DayPicker from 'react-day-picker';
 function Calendar({ name, selectedDays = [], handleDayClick }) {
   const { control, errors } = useFormContext();
 
+  {/* support dutch language */ }
+  {/* https://react-day-picker.js.org/docs/localization/ */ }
+
   return (
     <Controller
       name={name}

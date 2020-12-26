@@ -49,7 +49,9 @@ function GeneralInfo() {
         <HorizontalCard>
           <div style={{ display: 'flex' }}>
             <CardTitle>{t('general_info.social_media')}</CardTitle>
-            <span style={{ fontSize: '0.9rem', marginLeft: 5 }}>(Optional)</span>
+            <span style={{ fontSize: '0.9rem', marginLeft: 5 }}>
+              ({t('general_info.optional')})
+              </span>
           </div>
           <SocialMedia t={t} />
         </HorizontalCard>

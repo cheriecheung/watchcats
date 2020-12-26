@@ -20,6 +20,8 @@ function renderMessage(t, type) {
       return t('error.phone_submission_failed')
     case 'ERROR/PASSOWORD_RESET_FAILED':
       return t('error.password_reset_failed')
+    case 'ERROR/OTP_EXPIRED':
+      return t('error.otp_expired')
     case 'ERROR/OTP_INVALID':
     case 'ERROR/GOOGLE_OTP_INVALID':
       return t('error.otp_invalid')
