@@ -21,7 +21,7 @@ function Register() {
           </LinkButton>
         </div>
 
-        <Google onGoogleLogin={onGoogleLogin} />
+        <Google t={t} onGoogleLogin={onGoogleLogin} />
 
         <HorizontalDivider>{t('form.or')}</HorizontalDivider>
 

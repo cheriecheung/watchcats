@@ -32,7 +32,7 @@ function LocalLogin({ t, authenticationError, localLoginProps }) {
         <br />
 
         <OutlinedButton type="submit">
-          {t('form.submit')}
+          {t('login.title')}
         </OutlinedButton>
       </form>
     </FormProvider>

@@ -41,9 +41,7 @@ export default {
   },
 
   home: {
-    i_am: 'I am a...',
-    owner_finds_sitter: 'Cat owner looking for a cat sitter',
-    sitter_finds_owner: 'Cat sitter looking for homes to sit.',
+    find_sitter: 'Find your ideal cat sitter in town today!',
   },
 
   form: {

@@ -40,14 +40,10 @@ export default {
   },
 
   home: {
-    i_am: 'Ik ben een...',
-    owner_finds_sitter: 'Kat eigenaar op zoek naar een oppas',
-    sitter_finds_owner: 'Oppas op zoek naar een kat',
+    find_sitter: 'Find your ideal cat sitter in town today!',
   },
 
   form: {
-    no_empty: 'Kan niet leeg blijven',
-    only_alphabet: 'Alleen alfabetische tekens',
     or: 'OF',
     email: 'E-mailadres',
     password: 'Wachtwoord',
