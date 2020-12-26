@@ -29,37 +29,57 @@ function Requested({
     <>
       {Array.isArray(bookings) &&
         bookings.length > 0 &&
-        bookings.map((data, index) => (
-          <ItemCard
-            key={index} // data.id
-            t={t}
-            data={data}
-            renderActionButtons={(id) => renderSection(id)}
-            bookingType={bookingType}
-            status='requested'
-          />
-        ))}
+        bookings.map(data => {
+          const { id } = data || {}
 
-      {bookingType === 'sitting_jobs' && bookings.length === 0 && (
-        <span>
-          You have no requested sitting jobs at the moment. You will only receive sitting jobs
-          requests when a cat sitter sends you want.
-        </span>
-      )}
+          return (
+            <ItemCard
+              key={id}
+              t={t}
+              data={data}
+              renderActionButtons={(id) => renderSection(id)}
+              bookingType={bookingType}
+              status='requested'
+            />
+          )
+        })}
 
-      {bookingType === 'sitting_service' && bookings.length === 0 && (
-        <span>
-          You have no requested sitting service at the moment. Go to&nbsp;
-          <LinkButton to="/find">Find a cat sitter</LinkButton> page to start looking for a cat sitter now!
-        </span>
-      )}
+      {bookingType === 'sitting_jobs' &&
+        bookings &&
+        Array.isArray(bookings) &&
+        bookings.length === 0 && (
+          <>
+            <span>{t('bookings.no_jobs', { status: t('bookings.status_confirmed') })}</span>
+            <span>{t('bookings.receive_sitting_jobs')}</span>
+          </>
+        )}
+
+      {bookingType === 'sitting_service' &&
+        bookings &&
+        Array.isArray(bookings) &&
+        bookings.length === 0 && (
+          <>
+            <span>{t('bookings.no_jobs', { status: t('bookings.status_confirmed') })}</span>
+
+            <span>
+              {t('bookings.go_to')}
+              <LinkButton to="/find">{t('header.find_sitter')}</LinkButton>
+              {t('bookings.find_sitter')}
+            </span>
+          </>
+        )}
     </>
   );
 }
 
 export default Requested;
 
-function RequestedJob({ openModal, setModalContent, setActionType, setBookingId }) {
+function RequestedJob({
+  openModal,
+  setModalContent,
+  setActionType,
+  setBookingId
+}) {
   const { t } = useTranslation();
 
   return (
@@ -96,7 +116,7 @@ function RequestedService() {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <span>Currently waiting on reply from cat sitter</span>
+      <span>{t('bookings.await_acceptance')}</span>
     </div>
   );
 }

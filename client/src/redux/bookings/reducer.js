@@ -2,8 +2,14 @@ import Immutable from 'seamless-immutable';
 import BookingActionTypes from './actionTypes'
 
 const initialState = Immutable({
+  bookings: {
+    requested: [],
+    confirmed: [],
+    completed: [],
+    declined: []
+  },
+  bookingInfo: {},
   reviewSubmitted: false,
-  bookingInfo: {}
 });
 
 const bookings_reducer = {

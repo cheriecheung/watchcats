@@ -4,11 +4,13 @@ const Schema = mongoose.Schema;
 const reviewSchema = new Schema({
   reviewer: {
     type: Schema.Types.ObjectId,
-    required: false,
+    ref: 'User',
+    required: true,
   },
   reviewee: {
     type: Schema.Types.ObjectId,
-    required: false,
+    ref: 'User',
+    required: true,
   },
   content: {
     type: String,
@@ -21,7 +23,7 @@ const reviewSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now(),
-    required: false,
+    required: true,
   },
 });
 

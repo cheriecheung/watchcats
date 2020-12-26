@@ -24,7 +24,12 @@ function useBookings() {
   const dispatch = useDispatch();
   const { bookings: returnedBookings } = useSelector((state) => state.bookings);
 
+  console.log({ returnedBookings })
+
   const [loading, setLoading] = useState(false)
+
+  const [bookings, setBookings] = useState({})
+  const [bookingStatusTabs, setBookingStatusTabs] = useState([]);
 
   const [bookingTypeActiveKey, setBookingTypeActiveKey] = useState(defaultKeyBookingType);
   const [bookingStatusActiveKey, setBookingStatusActiveKey] = useState(defaultKeyBookingStatus);
@@ -35,31 +40,37 @@ function useBookings() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState('');
 
-  const [bookings, setBookings] = useState({ requested: [], confirmed: [], completed: [], declined: [] })
-
   const bookingTypeTabs = [
     { key: 'sitting_jobs', tab: t('bookings.as_cat_sitter') },
     { key: 'sitting_service', tab: t('bookings.as_cat_owner') },
   ];
 
-  const bookingStatusTabs = [
-    {
-      key: 'requested',
-      tab: `${t('bookings.requested')} (${bookings.requested.length})`
-    },
-    {
-      key: 'confirmed',
-      tab: `${t('bookings.confirmed')}  (${bookings.confirmed.length})`
-    },
-    {
-      key: 'completed',
-      tab: `${t('bookings.completed')}  (${bookings.completed.length})`
-    },
-    {
-      key: 'declined',
-      tab: `${t('bookings.declined')}  (${bookings.declined.length})`
-    },
-  ]
+  useEffect(() => {
+    const { requested, confirmed, completed, declined } = bookings || {}
+
+    if (bookings && requested && confirmed && completed && declined) {
+      const statusTabs = [
+        {
+          key: 'requested',
+          tab: `${t('bookings.requested')} (${bookings.requested.length})`
+        },
+        {
+          key: 'confirmed',
+          tab: `${t('bookings.confirmed')}  (${bookings.confirmed.length})`
+        },
+        {
+          key: 'completed',
+          tab: `${t('bookings.completed')}  (${bookings.completed.length})`
+        },
+        {
+          key: 'declined',
+          tab: `${t('bookings.declined')}  (${bookings.declined.length})`
+        },
+      ]
+
+      setBookingStatusTabs(statusTabs)
+    }
+  }, [bookings])
 
   useEffect(() => {
     setLoading(false)

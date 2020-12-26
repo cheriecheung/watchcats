@@ -1,7 +1,7 @@
 import React from 'react';
 import { RateField, TextArea } from '../../../components/FormComponents';
 import { ContainedButton, HorizontalCard, Modal, SuccessDisplay } from '../../../components/UIComponents'
-import { MainContainer } from '../components/styledComponents'
+import { MainContainer } from '../styledComponents'
 import { useWriteReview } from '../viewModel'
 import ItemContent from '../components/ItemContent'
 
@@ -15,28 +15,30 @@ function WriteReview() {
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)} style={{ textAlign: 'left' }}>
             <div>
-              <h5>Rate & Review</h5>
-              <h6>Booking Information</h6>
+              <h5>{t('review.title')}</h5>
+              <h6>{t('review.booking_information')}</h6>
 
               <ItemContent t={t} data={bookingInfo} />
 
               <hr />
 
               <br />
-              <h6>Describe your experience</h6>
-              <p>Your review will be public on the reviewee's public profile</p>
+              <h6>{t('review.describe_experience')}</h6>
+              <p>{t('review.reminder')}</p>
             </div>
             <TextArea name="review" rows={6} />
 
             <br />
 
             <div>
-              <h6>Give your rating</h6>
+              <h6>{t('review.give_rating')}</h6>
               <RateField name="rating" />
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <ContainedButton type="submit">Submit</ContainedButton>
+              <ContainedButton type="submit">
+                {t('form.submit')}
+              </ContainedButton>
             </div>
           </form>
         </FormProvider>
@@ -48,7 +50,7 @@ function WriteReview() {
         onCancel={closeModal}
         footer={null}
       >
-        <SuccessDisplay message="You have successfully submitted a review. You will now be redirected back to the booking page." onClick={closeModal} />
+        <SuccessDisplay message={t('success.review')} onClick={closeModal} />
       </Modal>
     </MainContainer>
   );

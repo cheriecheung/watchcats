@@ -5,15 +5,19 @@ function Declined({ t, bookings }) {
   return (
     <>
       {Array.isArray(bookings) && bookings.length > 0 ? (
-        bookings.map((data, index) =>
-          <ItemCard
-            key={index} // data.id
-            t={t}
-            data={data}
-          />
-        )
+        bookings.map(data => {
+          const { id } = data || {}
+
+          return (
+            <ItemCard
+              key={id}
+              t={t}
+              data={data}
+            />
+          )
+        })
       ) : (
-          <span>You have no declined bookings at the moment</span>
+          <span>{t('bookings.no_service', { status: t('bookings.status_declined') })}</span>
         )}
     </>
   );

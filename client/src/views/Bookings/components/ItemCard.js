@@ -1,6 +1,6 @@
 import React from 'react';
 import { HorizontalCard } from '../../../components/UIComponents'
-import { BrowseLink } from './styledComponents'
+import { BrowseLink } from '../styledComponents'
 import ItemContent from './ItemContent'
 
 const Item = ({ t, data, bookingType, renderActionButtons, status }) => {

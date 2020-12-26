@@ -9,19 +9,14 @@ function Completed({ t, bookingType, bookings }) {
       {hasWrittenReview ? (
         <h5>Show review here</h5>
       ) : (
-          <>
-            <LinkButton
-              to={{
-                pathname: `/writereivew/${data.id}`,
-                state: { booking: { ...data, bookingType } }
-              }}
-            >
-              {t('bookings.write_review')}
-            </LinkButton>
-            {/* <LinkButton to={`/writereivew/${bookingId}`} >
-            { t('bookings.write_review')}
-          </LinkButton> */}
-          </>
+          <LinkButton
+            to={{
+              pathname: `/writereivew/${data.id}`,
+              state: { booking: { ...data, bookingType } }
+            }}
+          >
+            {t('bookings.write_review')}
+          </LinkButton>
         )
       }
     </div>
@@ -31,15 +26,14 @@ function Completed({ t, bookingType, bookings }) {
     <>
       {Array.isArray(bookings) &&
         bookings.length > 0 &&
-        bookings.map((data, index) => {
-          // data.hasWrittenReview
-          const hasWrittenReview = false;
+        bookings.map(data => {
+          const { id } = data || {}
+
           return (
             <ItemCard
-              key={index} // data.id
+              key={id}
               t={t}
               data={data}
-              // renderActionButtons={() => renderActionButtons(hasWrittenReview, 123)}
               renderActionButtons={renderActionButtons}
               status="completed"
             />
@@ -47,14 +41,21 @@ function Completed({ t, bookingType, bookings }) {
         })}
 
       {bookingType === 'sitting_jobs' && bookings.length === 0 && (
-        <span>You have no completed sitting jobs at the moment.</span>
+        <span>{t('bookings.no_jobs', { status: t('bookings.status_completed') })}</span>
       )}
 
       {bookingType === 'sitting_service' && bookings.length === 0 && (
-        <span>
-          You have no completed sitting service at the moment. Go to&nbsp;
-          <LinkButton to="/find">Find a cat sitter</LinkButton> page to start looking for a cat sitter now!
-        </span>
+        <>
+          <span>
+            {t('bookings.no_service', { status: t('bookings.status_completed') })}
+          </span>
+
+          <span>
+            {t('bookings.go_to')}
+            <LinkButton to="/find">{t('header.find_sitter')}</LinkButton>
+            {t('bookings.find_sitter')}
+          </span>
+        </>
       )}
     </>
   );

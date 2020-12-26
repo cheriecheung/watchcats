@@ -40,7 +40,7 @@ function CheckoutForm() {
 
   useEffect(() => {
     dispatch(getPaymentIntent(3));
-  }, [dispatch]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

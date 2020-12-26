@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, ImageContainer } from '../../../components/UIComponents'
-import { Field, FieldLabel, FieldItem, } from './styledComponents'
+import { Field, FieldLabel, FieldItem, } from '../styledComponents'
 import { formatDate, formatTime } from '../../../utility'
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 

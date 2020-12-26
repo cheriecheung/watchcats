@@ -23,8 +23,8 @@ export default {
     password_reset: 'You have successfully reset your password.',
     notification_setting: 'Meldingsinstelling bijgewerkt',
     '2FA_enabled': 'You have enabled 2-factor authentication. You will now need to login by phone on top of logging in by email and password.',
-    '2FA_disabled': 'You have disabled 2-factor authentication. You will now only log in by email and password.'
-
+    '2FA_disabled': 'You have disabled 2-factor authentication. You will now only log in by email and password.',
+    review: 'You have successfully submitted a review. You will now be redirected back to the booking page.'
   },
 
   header: {
@@ -307,12 +307,21 @@ export default {
   },
 
   bookings: {
-    // sitting_jobs: 'Oppas jobs voor mij',
-    // sitting_service: 'Oppas diensten voor mijn kat',
     as_cat_sitter: 'Als een oppas',
     as_cat_owner: 'Als een eigenaar',
 
+    status_requested: 'aangevraagd',
+    status_confirmed: 'bevestigd',
+    status_completed: 'voltooid',
+    status_declined: 'geweigerd',
+    no_jobs: 'U hebt geen oppas jobs {{status}} op het moment.',
+    receive_sitting_jobs: 'You will only receive sitting jobs requests when a cat owner  sends you one.',
+    no_service: 'U hebt geen afspraak {{status}} op het moment',
+    go_to: 'Ga naar de',
+    find_sitter: 'pagina om een katoppas te zoeken.',
+
     requested: 'Aangevraagd',
+    await_acceptance: 'Currently waiting for cat sitter to accept booking',
     decline: 'Weigeren',
     decline_confirm:
       'Click "OK" to confirm the booking decline. It is recommended that you write the cat owner about the reason you reject the booking',
@@ -321,6 +330,7 @@ export default {
       'Click "OK" to confirm the booking acceptance. The status of this booking will be changed from "Requested" to "Confirmed".',
 
     confirmed: 'Bevestigd',
+    await_payment: 'Waiting for cat owner to pay',
     cancel: 'Annuleren',
     cancel_confirm:
       'Click "OK" to confirm the booking cancellation. Make sure to inform the cat owner about the cancellation and the reason.',
@@ -330,6 +340,7 @@ export default {
       'Click "OK" to confirm the booking completion. The status of this booking will be changed from "Confirmed" to "Completed". You will be able to write the cat sitter a review.',
 
     completed: 'Voltooid',
+    await_completion: 'Waiting for cat sitter to confirm completion of sitting job',
     write_review: 'Schrijf een recensie',
 
     declined: 'Geweigerd',
@@ -343,4 +354,12 @@ export default {
     time: 'Tijd',
     price: 'Prjs',
   },
+
+  review: {
+    title: 'Beoordeel en recenseer',
+    booking_information: 'Booking information',
+    describe_experience: 'Describe your experience',
+    reminder: 'Your review will be public on the reviewee\'s public profile',
+    give_rating: 'Give your rating'
+  }
 };

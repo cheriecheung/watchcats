@@ -146,11 +146,13 @@ module.exports = {
       const { sitter: sitterObjId, owner: ownerObjId } = userRecord
       let bookingRecords, filter;
 
+      const defaultRecords = { requested: [], confirmed: [], completed: [], declined: [] }
+
       if (type === 'jobs') {
-        if (!sitterObjId) return res.status(200).json([]);
+        if (!sitterObjId) return res.status(200).json(defaultRecords);
         filter = { sitter: sitterObjId }
       } else {
-        if (!ownerObjId) return res.status(200).json([]);
+        if (!ownerObjId) return res.status(200).json(defaultRecords);
         filter = { owner: ownerObjId }
       }
 
