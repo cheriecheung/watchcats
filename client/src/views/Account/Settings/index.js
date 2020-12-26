@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardTitle, HorizontalCard, Tooltip } from '../../../components/UIComponents'
+import { CardTitle, HorizontalCard } from '../../../components/UIComponents'
 
 import ContactDetails from './ContactDetails'
 import PaymentSetup from './PaymentSetup'
@@ -9,13 +9,13 @@ import { useContactDetails, useAuthentication } from './viewModel'
 
 function Settings() {
     const contactDetailsProps = useContactDetails();
-
+    const { t } = contactDetailsProps
     const authenticationProps = useAuthentication();
 
     return (
         <>
             <HorizontalCard style={{ width: '100%' }}>
-                <CardTitle>Contact Details</CardTitle>
+                <CardTitle>{t('settings.contact_details')}</CardTitle>
                 <ContactDetails
                     contactDetailsProps={contactDetailsProps}
                 />
@@ -23,21 +23,18 @@ function Settings() {
 
             <HorizontalCard>
                 {/* give redirecting loading notice */}
-                <CardTitle>Stripe Account</CardTitle>
-                <PaymentSetup />
+                <CardTitle>{t('settings.stripe_account')}</CardTitle>
+                <PaymentSetup t={t} />
             </HorizontalCard>
 
             <HorizontalCard>
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <CardTitle>
-                        Authentication
+                <CardTitle style={{ marginBottom: 0 }}>
+                    {t('settings.authentication')}
+                </CardTitle>
+                <p style={{ fontSize: '0.9rem' }}>
+                    ({t('settings.not_available')})
+                </p>
 
-                        <Tooltip content="Not available for accounts login via Google">
-                            <i className="fas fa-info-circle ml-2" style={{ alignSelf: 'center' }} />
-                        </Tooltip>
-                    </CardTitle>
-
-                </div>
                 <Authentication
                     authenticationProps={authenticationProps}
                 />

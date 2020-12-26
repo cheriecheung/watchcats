@@ -14,8 +14,8 @@ function PhoneNumberInput({ t, phoneNumberInputProps, accountError }) {
     <div style={{ textAlign: 'center' }}>
       <i className="fas fa-mobile-alt fa-4x mb-3" />
 
-      <p>You will receive an SMS with a verification code.</p>
-      <p>Your phone number is only used for verification and notifications. It will not be shared to anyone on this application.</p>
+      <p>{t('settings.receive_sms_code')}</p>
+      <p>{t('settings.save_phone_description')}</p>
 
       <PhoneInput
         country={'nl'}
@@ -26,8 +26,12 @@ function PhoneNumberInput({ t, phoneNumberInputProps, accountError }) {
       />
       {accountError && <ErrorMessage type={accountError} />}
 
+      <br />
+
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <ContainedButton type="button" onClick={onSubmitPhoneNumber}>Submit</ContainedButton>
+        <ContainedButton type="button" onClick={onSubmitPhoneNumber}>
+          {t('form.submit')}
+        </ContainedButton>
       </div>
     </div>
   )

@@ -14,14 +14,25 @@ export default {
 
     password_reset_failed: 'Unable to reset password. Please try again.',
 
-    otp_invalid: 'erkeerde verificatiecode.',
+    otp_expired: 'You enter an expired code. Click "Resend code" to get a new one.',
+    otp_invalid: 'Invalid code.',
     two_factor_activation_failed: 'Unable to activate 2FA. Please try again.',
   },
 
+  success: {
+    register: 'Registration successful. A link to activate your account has been sent to the email provided.',
+    notification_setting: 'Notification setting updated',
+    password_reset: 'You have successfully reset your password.',
+    '2FA_enabled': 'You have enabled 2-factor authentication. You will now need to login by phone on top of logging in by email and password.',
+    '2FA_disabled': 'You have disabled 2-factor authentication. You will now only log in by email and password.'
+  },
+
   header: {
+    home: 'Home',
     find_sitter: 'Find a cat sitter',
     about: 'About',
     bookings: 'Bookings',
+    messages: 'Chats',
     account: 'Account',
     login: 'Login',
     logout: 'Logout',
@@ -42,19 +53,16 @@ export default {
     first_name: 'First name',
     last_name: 'Last name',
     save: 'Save',
+    submit: 'Submit',
     reset: 'Reset',
   },
 
   login: {
     login: 'Login',
-    // response: 'Login failed; Invalid user ID or password.',
-    error_message: '',
   },
 
   register: {
     register: 'Register',
-    // response: 'A link to activate your account has been emailed to the address provided.',
-    success_message: '',
     password_instruction: 'Password should be 8 to 12 characters',
   },
 
@@ -73,8 +81,9 @@ export default {
     price: 'Price',
     reset: 'Reset',
 
-    showing: (total) => `Showing ${total} cat sitter`,
-    no_results: 'No cat sitters can be found',
+    // no 's if only one result
+    showing: '{{total}} cat sitters found',
+    no_results: 'No cat sitters found',
     new_member: 'New member',
     completed_booking: 'Completed booking',
     completed_bookings: 'Completed bookings',
@@ -111,14 +120,63 @@ export default {
   },
 
   account: {
+    settings: 'Settings',
     general_info: 'General info',
     sitter_profile: 'Cat sitter profile',
     owner_profile: 'Cat owner profile',
-    settings: 'Settings',
+  },
+
+  settings: {
+    contact_details: 'Contact details',
+    reveal: 'Reveal',
+    hide: 'Hide',
+    edit: 'Edit',
+    add: 'Add',
+    remove: 'Remove',
+    receive_notifications: 'Receive notifications',
+    email: 'Email',
+    phone: 'Phone number',
+    receive_sms_code: 'You will receive an SMS with a verification code.',
+    save_phone_description: 'Your phone number is only used for verification and notifications. It will not be shared to anyone on this application',
+    enter_sms_code: 'Enter the 6-digit code we sent to your phone via SMS.',
+    code_to_expire: ' The code will expire in 2 minutes.',
+    resend_code: 'Resend code',
+
+    stripe_account: 'Stripe Account',
+    payment_description: 'To send and / or receive payments, please set up payouts on Stripe. Clicking below will guide you to a secure online form which will guide you to connect your bank account.',
+    setup_payouts: 'Set up payouts',
+
+    authentication: 'Password and Authentication',
+    not_available: 'Not available for accounts login via Google',
+    password: 'Password',
+    password_description: 'Update your password for the next time you log in.',
+    change_password: 'Change password',
+    current_password: 'Current password',
+    new_password: 'New password',
+    repeat_new_password: 'Repeat new password',
+
+    two_factor_auth: 'Two-factor authentication',
+    '2FA_description': ' Protect your account with an extra layer of security. Once configured, you\'ll be required to enter both your password and an authentication code from your mobile phone in order to sign in.',
+    '2FA_enabled': 'You have already enabled two factor authentication',
+    disable_2FA: 'Disable 2FA',
+    enable_2FA: 'Enable 2FA',
+    enable_2FA_description: 'Make your account safer in three easy steps',
+    enable_2FA_step1: '1. Download an authenticator app',
+    enable_2FA_step1_detail1: 'Download and install ',
+    enable_2FA_step1_detail2: ' for your phone or tablet.',
+    enable_2FA_step2: '2. Scan the QR code',
+    enable_2FA_step2_detail: 'Open the authenticator app and scan the image to the left using your phone\'s camera.',
+    enable_2FA_step3: '3. Log in met je code',
+    enable_2FA_step3_detail: 'Enter the 6-digit verification code generated.',
+    activate: 'Activate'
   },
 
   general_info: {
     profile_picture: 'Profile picture',
+    picture_requirement_1: 'Please choose a high quality picture of yourself',
+    picture_requirement_2: 'No filters, effects or stickers applied to the image',
+    picture_requirement_3: 'Best image format JPG, JPEG, PNG',
+    picture_requirement_4: 'Minimum size 360 x 254 pixels',
 
     personal_info: 'Personal info',
     first_name: 'First name',
@@ -126,9 +184,12 @@ export default {
     phone: 'Phone',
     email: 'Email',
     address: 'Address',
+    address_tooltip: 'Your address will not be shared with anyone in any manner',
     postcode: 'Postcode',
+    postcode_tooltip: "Once submitted, your location will appear in the map on 'Find Cat Sitter' page",
 
     social_media: 'Social media',
+    optional: 'Optional',
     facebook: 'Facebook profile',
     instagram: 'Instagram profile',
     other: 'Other profile',
@@ -171,17 +232,21 @@ export default {
     about_me_description: 'Tell cat sitters about yourself. Start with a little description of yourself - What do you do for a living? Why are you looking for a cat sitter?',
 
     appointment: 'Cat sitting appointment',
-    one_day: 'One day visit',
+    one_day: 'One day visit {{index}}',
+    maximum_one_day: 'You can at most request 2 one-day appointments at the same time!',
     date: 'Date',
     start_time: 'Start time',
     end_time: 'End time',
-    overnight: 'Overnight visit',
+    overnight: 'Overnight visit {{index}}',
+    maximum_overnight: 'You can at most request 2 overnight sitting appointments at the same time!',
     start_date: 'Start date',
     end_date: 'End date',
-    add_period: 'Add another period',
+    add_period: 'Add period',
     remove: 'Remove',
 
     about_cat: 'About my cat',
+    picture: 'Picture',
+    share_picture: 'Show a picture of your cat to cat sitters!',
     name: 'Name',
     age: 'Age',
     gender: 'Gender',
@@ -196,13 +261,17 @@ export default {
     no: 'No',
     breed: 'Breed',
     favourite_treat: 'Favourite treat',
+    personality: 'Personality that fits your cat the best',
     pictures: 'Pictures of your cat',
     upload: 'Upload',
-    add_cat: 'Add another cat',
+    add_cat: 'Add cat',
+    cat_index: 'And my #{{index}} cat',
+    maximum_cat: 'If you have 5 or more cats, perhaps you would want to consider having them stay at a pet hotel, so they can all be taken care of by full time staff!',
 
     cat_description: 'Description of my cat(s)',
     cat_description_text:
       'Please write a description about your cat(s) - include their feeing, litter, playtime routine, and other needs. It is also important to include your vets details should the cat sitter needs to get hold if them.',
+
   },
 
   cat_breed: {
@@ -224,21 +293,7 @@ export default {
     other: 'Other',
   },
 
-  settings: {
-    payment_method: 'Payment method',
-    add_card: 'Add credit / debit card',
-    card_number: 'Card number',
-    expiry_date: 'Expiry date',
-    add_bank_account: 'Add bank account',
 
-    change_password: 'Change password',
-    current_password: 'Current password',
-    new_password: 'New password',
-    repeat_new_password: 'Repeat new password',
-
-    two_factor_auth: 'Two-factor authentication',
-    two_factor_auth_description: '',
-  },
 
   bookings: {
     // sitting_jobs: 'Sitting jobs for me',

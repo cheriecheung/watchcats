@@ -16,24 +16,24 @@ function ChangePassword({ t }) {
 
   return (
     <>
-      <h6>Change password</h6>
+      <h6>{t('settings.change_password')}</h6>
 
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} style={{ textAlign: 'left' }}>
 
-          <FieldLabel> {t('settings.current_password')}</FieldLabel>
+          <FieldLabel>{t('settings.current_password')}</FieldLabel>
           <PasswordField name="currentPassword" />
 
-          <FieldLabel> {t('settings.new_password')}</FieldLabel>
+          <FieldLabel>{t('settings.new_password')}</FieldLabel>
           <PasswordField name="newPassword" />
 
-          <FieldLabel> {t('settings.repeat_new_password')}</FieldLabel>
+          <FieldLabel>{t('settings.repeat_new_password')}</FieldLabel>
           <PasswordField name="newPasswordRepeat" />
 
           {authenticationError && <ErrorMessage type={authenticationError} />}
 
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <ContainedButton type="submit">Submit</ContainedButton>
+            <ContainedButton type="submit">{t('form.submit')}</ContainedButton>
           </div>
         </form>
       </FormProvider>

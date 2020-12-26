@@ -12,7 +12,7 @@ async function generateOTP(userId) {
   const hashedOtp = await bcrypt.hash(otp, salt);
 
   const currentTime = new Date();
-  const expiryTime = new Date(currentTime.getTime() + (1 * 60 * 1000))
+  const expiryTime = new Date(currentTime.getTime() + (2 * 60 * 1000))
 
   await User.findOneAndUpdate(
     { _id: userId },
@@ -83,17 +83,20 @@ module.exports = {
         getEmailNotification,
         phone,
         getSmsNotification,
-        twoFactorSecret
+        twoFactorSecret,
+        password
       } = user;
 
       const isTwoFactorEnabled = twoFactorSecret ? true : false;
+      const isGoogleLogin = password ? false : true
 
       return res.status(200).json({
         email,
         getEmailNotification,
         phone,
         getSmsNotification,
-        isTwoFactorEnabled
+        isTwoFactorEnabled,
+        isGoogleLogin
       })
     } catch (err) {
       console.log({ err })
@@ -205,10 +208,10 @@ module.exports = {
       if (!otp || !otpExpiryTime) return res.status(404).json('ERROR/OTP_INVALID');
 
       const validOtp = await bcrypt.compare(code, otp)
-      const unexpired = new Date() < otpExpiryTime
+      const expired = new Date() > otpExpiryTime
 
       if (!validOtp) return res.status(400).json('ERROR/OTP_INVALID')
-      if (!unexpired) return res.status(400).json('ERROR/OTP_INVALID')
+      if (expired) return res.status(400).json('ERROR/OTP_EXPIRED')
 
       const user = await User.findOneAndUpdate(
         { _id: userId },
@@ -240,10 +243,10 @@ module.exports = {
       const { otp, otpExpiryTime } = user;
 
       const validOtp = await bcrypt.compare(submittedOtp, otp)
-      const unexpired = new Date() < otpExpiryTime
+      const expired = new Date() > otpExpiryTime
 
       if (!validOtp) return res.status(401).json('ERROR/OTP_INVALID')
-      if (!unexpired) return res.status(401).json('ERROR/OTP_INVALID')
+      if (expired) return res.status(401).json('ERROR/OTP_EXPIRED')
 
       await user.updateOne({
         $unset: {

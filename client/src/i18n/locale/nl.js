@@ -14,14 +14,25 @@ export default {
 
     password_reset_failed: 'Kan wachtwoord niet resetten. Probeer het opnieuw a.u.b.',
 
+    otp_expired: 'You enter an expired code. Click "Resend code" to get a new one.',
     otp_invalid: 'Verkeerde verificatiecode.',
     two_factor_activation_failed: 'Kan het 2FA niet activeren. Probeer het opnieuw a.u.b.',
   },
 
+  success: {
+    password_reset: 'You have successfully reset your password.',
+    notification_setting: 'Meldingsinstelling bijgewerkt',
+    '2FA_enabled': 'You have enabled 2-factor authentication. You will now need to login by phone on top of logging in by email and password.',
+    '2FA_disabled': 'You have disabled 2-factor authentication. You will now only log in by email and password.'
+
+  },
+
   header: {
+    home: 'Startpagina',
     find_sitter: 'Oppas zoeken',
     about: 'Over',
-    bookings: 'Bookings',
+    bookings: 'Boeking',
+    messages: 'Chats',
     account: 'Account',
     login: 'Inloggen',
     logout: 'Uitloggen',
@@ -42,19 +53,16 @@ export default {
     first_name: 'Voornaam',
     last_name: 'Achternaam',
     save: 'Save',
+    submit: 'Submit',
     reset: 'Resetten',
   },
 
   login: {
     login: 'Inloggen',
-    // response: 'Login failed; Invalid user ID or password.',
-    error_message: '',
   },
 
   register: {
     register: 'Registreren',
-    // response: 'A link to activate your account has been emailed to the address provided.',
-    success_message: '',
     password_instruction: 'Password should be 8 to 12 characters',
   },
 
@@ -73,7 +81,8 @@ export default {
     price: 'Prijs',
     reset: 'Resetten',
 
-    showing: (total) => `Showing ${total} cat sitter`,
+    // no 's if only one result
+    showing: '{{total}} oppassers gevonden',
     no_results: 'Geen oppas gevonden',
     new_member: 'Nieuw lid',
     completed_booking: 'Voltooide afspraak',
@@ -108,14 +117,63 @@ export default {
   },
 
   account: {
+    settings: 'Instellingen',
     general_info: 'Algemene informatie',
     sitter_profile: 'Oppasprofiel',
     owner_profile: 'Eigenaarsprofiel',
-    settings: 'Instellingen',
+  },
+
+  settings: {
+    contact_details: 'Contactgegevens',
+    reveal: 'Onthullen',
+    hide: 'Verbergen',
+    edit: 'Bewerken',
+    add: 'Toevoegen',
+    remove: 'Verwijderen',
+    receive_notifications: 'Meldingen inschakelen',
+    email: 'Email',
+    phone: 'Telefoonnummer',
+    receive_sms_code: 'You will receive an SMS with a verification code.',
+    save_phone_description: 'Your phone number is only used for verification and notifications. It will not be shared to anyone on this application',
+    enter_sms_code: 'Enter the 6-digit code we sent to your phone via SMS.',
+    code_to_expire: ' The code will expire in 2 minutes.',
+    resend_code: 'Resend code',
+
+    stripe_account: 'Stripe-account',
+    payment_description: 'To send and / or receive payments, please set up payouts on Stripe. Clicking below will guide you to a secure online form which will guide you to connect your bank account.',
+    setup_payouts: 'Set up payouts',
+
+    authentication: 'Wachtwoord en authenticatie',
+    not_available: 'Not available for accounts login via Google',
+    password: 'Wachtwoord',
+    password_description: 'Update your password for the next time you log in.',
+    change_password: 'Wachtwoord wijzigen',
+    current_password: 'Huidig wachtwoord',
+    new_password: 'Nieuw wachtwoord',
+    repeat_new_password: 'Herhaal nieuw wachtwoord',
+
+    two_factor_auth: 'Tweefactor-authenticatie',
+    '2FA_description': 'Bescherm je Watchcats-account met een extra beveiligingslaag. Na de configuratie ben je verplicht om zowel je wachtwoord als een authentiatiecode van je mobiele telefoon in te voeren om in te loggen.',
+    '2FA_enabled': 'You have already enabled two factor authentication',
+    disable_2FA: 'Disable Two-Factor Auth',
+    enable_2FA: 'Tweefactor-authenticatie inschakelen',
+    enable_2FA_description: 'Maak je account veiliger in 3 eenvoudige stappen',
+    enable_2FA_step1: 'Download een authenticator-app',
+    enable_2FA_step1_detail1: 'Download en installeer ',
+    enable_2FA_step1_detail2: ' voor je telefoon of je tablet.',
+    enable_2FA_step2: '2. Scan de QR code',
+    enable_2FA_step2_detail: 'Open de authenticator-app en scan de afbeelding links met de camera van je telefoon.',
+    enable_2FA_step3: '3. Log in met je code',
+    enable_2FA_step3_detail: 'Voer de gegenereerde 6-cijferige verificatecode in.',
+    activate: 'Activeren'
   },
 
   general_info: {
     profile_picture: 'Profielfoto',
+    picture_requirement_1: 'Please choose a high quality picture of yourself',
+    picture_requirement_2: 'No filters, effects or stickers applied to the image',
+    picture_requirement_3: 'Best image format JPG, JPEG, PNG',
+    picture_requirement_4: 'Minimum size 360 x 254 pixels',
 
     personal_info: 'Persoonsgegevens',
     first_name: 'Voornaam',
@@ -123,9 +181,12 @@ export default {
     phone: 'Telefoon',
     email: 'Email',
     address: 'Adres',
+    address_tooltip: 'Your address will not be shared with anyone in any manner',
     postcode: 'Postcode',
+    postcode_tooltip: "Once submitted, your location will appear in the map on 'Find Cat Sitter' page",
 
     social_media: 'Sociale media',
+    optional: 'Optioneel',
     facebook: 'Facebook profiel',
     instagram: 'Instagram profiel',
     other: 'Andere profiel',
@@ -168,17 +229,21 @@ export default {
     about_me_description: 'Tell cat sitters about yourself. Start with a little description of yourself - What do you do for a living? Why are you looking for a cat sitter?',
 
     appointment: 'Cat sitting appointment',
-    one_day: 'Eendaags bezoek',
+    one_day: 'Eendaags bezoek {{index}}',
+    maximum_one_day: 'You can at most request 2 one-day appointments at the same time!',
     date: 'Datum',
     start_time: 'Starttijd',
     end_time: 'Eindtijd',
-    overnight: 'Overnachting',
+    overnight: 'Overnachting bezoek {{index}}',
+    maximum_overnight: 'You can at most request 2 overnight sitting appointments at the same time!',
     start_date: 'Startdatum',
     end_date: 'Einddatum',
     add_period: 'Periode toevoegen',
     remove: 'Verwijderen',
 
     about_cat: 'Over mijn kat',
+    picture: 'Afbeelding',
+    share_picture: 'Show a picture of your cat to cat sitters!',
     name: 'Naam',
     age: 'Leeftijd',
     gender: 'Geslacht',
@@ -193,9 +258,11 @@ export default {
     no: 'Nee',
     breed: 'Ras',
     favourite_treat: 'Favoriete traktatie',
+    personality: 'Personality that fits your cat the best',
     pictures: "Foto's van je kat",
     upload: 'Uploaden',
     add_cat: 'Kat toevoegen',
+    maximum_cat: 'If you have 5 or more cats, perhaps you would want to consider having them stay at a pet hotel, so they can all be taken care of by full time staff!',
 
     cat_description: 'Description of my cat(s)',
     cat_description_text: 'Please write a description about your cat(s) - include their feeing, litter, playtime routine, and other needs. It is also important to include your vets details should the cat sitter needs to get hold if them.',
@@ -218,22 +285,6 @@ export default {
     sphynx: 'Sphynx',
     tabby: 'Tabby',
     other: 'Andere',
-  },
-
-  settings: {
-    payment_method: 'Betalingsmiddel',
-    add_card: 'Kredietkaart / debetkaart toevoegen',
-    card_number: 'Kaartnummer',
-    expiry_date: 'Vervaldatum',
-    add_bank_account: 'Bankrekening toevoegen',
-
-    change_password: 'Wachtwoord wijzigen',
-    current_password: 'Huidig wachtwoord',
-    new_password: 'Nieuw wachtwoord',
-    repeat_new_password: 'Herhaal nieuw wachtwoord',
-
-    two_factor_auth: 'Tweefactorauthenticatie',
-    two_factor_auth_description: '',
   },
 
   bookings: {

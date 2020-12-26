@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, SuccessDisplay, VerticalDivider, WrapLayout } from '../../../../components/UIComponents';
+import { Modal, SuccessDisplay, ResponsiveDivider, WrapLayout } from '../../../../components/UIComponents';
 import EmailDisplay from './EmailDisplay'
 import PhoneDisplay from './PhoneDisplay'
 import PhoneNumberInput from './PhoneNumberInput'
@@ -60,7 +60,7 @@ function ContactDetails({ contactDetailsProps }) {
   }
 
   return (
-    <WrapLayout>
+    <>
       <Modal
         centered
         visible={showModal}
@@ -70,29 +70,33 @@ function ContactDetails({ contactDetailsProps }) {
         {renderModalContent()}
       </Modal>
 
-      <div style={{ flexBasis: '45%' }}>
-        <EmailDisplay
-          emailProps={emailProps}
-          onChangeNotification={onChangeNotification}
-          prevSettings={prevSettings}
-          accountError={accountError}
-        />
-      </div>
+      <WrapLayout variant="contact">
+        <div style={{ flexBasis: '48%' }}>
+          <EmailDisplay
+            t={t}
+            emailProps={emailProps}
+            onChangeNotification={onChangeNotification}
+            prevSettings={prevSettings}
+            accountError={accountError}
+          />
+        </div>
 
-      <VerticalDivider />
+        <ResponsiveDivider />
 
-      <div style={{ flexBasis: '45%' }}>
-        <PhoneDisplay
-          phoneProps={phoneProps}
-          onChangeNotification={onChangeNotification}
-          prevSettings={prevSettings}
-          addPhone={() => onHandlePhoneNumber('add')}
-          editPhone={() => onHandlePhoneNumber('edit')}
-          removePhone={() => onHandlePhoneNumber('remove')}
-          accountError={accountError}
-        />
-      </div>
-    </WrapLayout>
+        <div style={{ flexBasis: '48%' }}>
+          <PhoneDisplay
+            t={t}
+            phoneProps={phoneProps}
+            onChangeNotification={onChangeNotification}
+            prevSettings={prevSettings}
+            addPhone={() => onHandlePhoneNumber('add')}
+            editPhone={() => onHandlePhoneNumber('edit')}
+            removePhone={() => onHandlePhoneNumber('remove')}
+            accountError={accountError}
+          />
+        </div>
+      </WrapLayout>
+    </>
   )
 }
 

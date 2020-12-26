@@ -4,6 +4,7 @@ import { Alert, ErrorMessage, TextButton } from '../../../../components/UICompon
 import { Switch } from 'antd';
 
 function PhoneDisplay({
+  t,
   phoneProps,
   addPhone,
   editPhone,
@@ -23,7 +24,7 @@ function PhoneDisplay({
 
   return (
     <>
-      <FieldLabel>Phone number</FieldLabel>
+      <FieldLabel>{t('settings.phone')}</FieldLabel>
 
       {phone ?
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -31,21 +32,25 @@ function PhoneDisplay({
 
           <div style={{ display: 'flex' }}>
             {revealPhone ?
-              <TextButton onClick={() => setRevealPhone(false)}>Hide</TextButton>
+              <TextButton onClick={() => setRevealPhone(false)}>
+                {t('settings.hide')}
+              </TextButton>
               :
-              <TextButton onClick={() => setRevealPhone(true)}>Reveal</TextButton>
+              <TextButton onClick={() => setRevealPhone(true)}>
+                {t('settings.reveal')}
+              </TextButton>
             }
             <TextButton
               style={{ float: 'right' }}
               onClick={removePhone}
             >
-              Remove
-              </TextButton>
+              {t('settings.remove')}
+            </TextButton>
             <TextButton
-              style={{ float: 'right' }}
+              style={{ float: 'right', paddingRight: 0 }}
               onClick={editPhone}>
-              Edit
-              </TextButton>
+              {t('settings.edit')}
+            </TextButton>
           </div>
         </div>
         :
@@ -54,13 +59,13 @@ function PhoneDisplay({
           <TextButton
             onClick={addPhone}
           >
-            Add
-            </TextButton>
+            {t('settings.add')}
+          </TextButton>
         </div>
       }
 
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 }}>
-        <span>Receive notifications</span>
+        <span>{t('settings.receive_notifications')}</span>
         <Switch
           defaultChecked={getSmsNotification}
           checked={getSmsNotification}
@@ -77,8 +82,8 @@ function PhoneDisplay({
       {prevSettings &&
         prevSettings.getSmsNotification !== getSmsNotification &&
         <Alert type="success" closable={true} style={{ marginTop: 10 }}>
-          Notification setting updated
-          </Alert>
+          {t('success.notification_setting')}
+        </Alert>
       }
     </>
   )

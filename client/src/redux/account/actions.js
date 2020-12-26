@@ -84,7 +84,7 @@ export function resendOtpToInputtedPhoneNumber(phone) {
 export function sendOtpToSavedPhoneNumber() {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().post(verificationCodeURL, getConfig());
+      const { data } = await axiosInstance().patch(verificationCodeURL, getConfig());
       dispatch({ type: AccountActionTypes.VERIFICATION_CODE_SENT });
     } catch (e) {
       console.log({ e });

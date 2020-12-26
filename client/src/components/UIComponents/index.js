@@ -8,7 +8,7 @@ import HorizontalCard from './Card/HorizontalCard'
 import VerticalCard from './Card/VerticalCard'
 
 import HorizontalDivider from './Divider/HorizontalDivider'
-import VerticalDivider from './Divider/VerticalDivider'
+import ResponsiveDivider from './Divider/ResponsiveDivider'
 
 import Image from './Image/Image'
 import ImageContainer from './Image/ImageContainer'
@@ -48,7 +48,7 @@ export {
   VerticalCard,
 
   HorizontalDivider,
-  VerticalDivider,
+  ResponsiveDivider,
 
   Image,
   ImageContainer,

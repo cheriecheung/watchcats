@@ -6,10 +6,11 @@ const ContainedButton = styled.button`
   padding: 5px 25px;
   height: 35px;
   color: #fff;
-  background: ${themeColor.peach};
+  background-color: ${({ disabled }) => disabled ? themeColor.lightGrey : themeColor.peach};
   border: none;
   border-radius: 10px;
   outline: none !important;
+  cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'unset'};
   font-weight: 600;
 `;
 

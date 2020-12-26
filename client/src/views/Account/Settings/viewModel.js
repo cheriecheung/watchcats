@@ -205,7 +205,7 @@ function useAuthentication() {
 
   const dispatch = useDispatch();
 
-  const { isTwoFactorEnabled } = useSelector((state) => state.account);
+  const { isTwoFactorEnabled, isGoogleLogin } = useSelector((state) => state.account);
   const { appActionStatus } = useSelector((state) => state.app);
 
   const [showModal, setShowModal] = useState(false);
@@ -242,6 +242,7 @@ function useAuthentication() {
   return {
     t,
     isTwoFactorEnabled,
+    isGoogleLogin,
     appActionStatus,
     showChangePasswordModal,
     showEnable2faModal,

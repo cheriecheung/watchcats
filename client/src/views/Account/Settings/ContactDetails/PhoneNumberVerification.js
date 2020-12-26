@@ -16,8 +16,11 @@ function PhoneNumberVerification({ t, accountError, inputPhoneNumber }) {
       <form style={{ textAlign: 'center' }}>
         <i className="fas fa-sms fa-4x mb-3" />
 
-        {/* within timeline? */}
-        <p>Enter the 6-digit code we sent to your phone via SMS.</p>
+        <p>
+          {t('settings.enter_sms_code')}
+          <br />
+          {t('settings.code_to_expire')}
+        </p>
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <OtpInput name="otp" />
@@ -25,18 +28,20 @@ function PhoneNumberVerification({ t, accountError, inputPhoneNumber }) {
 
         {accountError && <ErrorMessage type={accountError} />}
 
+        <br />
+
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <ContainedButton
             type="button"
             onClick={() => resendCode(inputPhoneNumber)}
           >
-            Resend Code
+            {t('settings.resend_code')}
           </ContainedButton>
           <ContainedButton
             type="button"
             onClick={() => onSubmitOtp(inputPhoneNumber)}
           >
-            Submit
+            {t('form.submit')}
           </ContainedButton>
         </div>
       </form>

@@ -4,6 +4,7 @@ import { Alert, ErrorMessage, TextButton } from '../../../../components/UICompon
 import { Switch } from 'antd';
 
 function EmailDisplay({
+  t,
   emailProps,
   onChangeNotification,
   prevSettings,
@@ -19,21 +20,28 @@ function EmailDisplay({
 
   return (
     <>
-      <FieldLabel>Email</FieldLabel>
+      <FieldLabel>{t('settings.email')}</FieldLabel>
 
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        {revealEmail ? <span>{email}</span> : <span>{asteriskedEmail}</span>}
+        {revealEmail ?
+          <span>{email}</span> :
+          <span>{asteriskedEmail}</span>
+        }
 
         <div style={{ display: 'flex' }}>
           {revealEmail ?
-            <TextButton onClick={() => setRevealEmail(false)}>Hide</TextButton>
+            <TextButton onClick={() => setRevealEmail(false)}>
+              {t('settings.hide')}
+            </TextButton>
             :
-            <TextButton onClick={() => setRevealEmail(true)}>Reveal</TextButton>
+            <TextButton onClick={() => setRevealEmail(true)}>
+              {t('settings.reveal')}
+            </TextButton>
           }
         </div>
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 }}>
-        <span>Receive notifications</span>
+        <span>{t('settings.receive_notifications')}</span>
         <Switch
           defaultChecked={getEmailNotification}
           checked={getEmailNotification}
@@ -49,8 +57,8 @@ function EmailDisplay({
       {prevSettings &&
         prevSettings.getEmailNotification !== getEmailNotification &&
         <Alert type="success" closable={true} style={{ marginTop: 10 }}>
-          Notification setting updated
-       </Alert>
+          {t('success.notification_setting')}
+        </Alert>
       }
     </>
   )

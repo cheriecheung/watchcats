@@ -4,7 +4,8 @@ import AccountActionTypes from './actionTypes'
 const initialState = Immutable({
   changePhoneNumberStep: 'input',
   email: '',
-  getEmailNotifiation: '',
+  getSmsNotification: false,
+  getEmailNotification: false,
   phone: '',
   changePhoneNotifiation: ''
 });

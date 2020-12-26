@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContainedButton } from '../../../../components/UIComponents'
+import { ContainedButton, WrapLayout } from '../../../../components/UIComponents'
 import { onboardUser } from '../../../../redux/payment/actions';
 import { useDispatch } from 'react-redux';
 
@@ -7,11 +7,13 @@ function PaymentSetup({ t }) {
     const dispatch = useDispatch();
 
     return (
-        <>
-            <p>To send and / or receive payments, please set up payouts on Stripe. Clicking below will guide you to a secure online form which will guide you to connect your bank account.</p>
+        <WrapLayout variant="settings">
+            <p>{t('settings.payment_description')}</p>
 
-            <ContainedButton type="button" onClick={() => dispatch(onboardUser())}>Set up payouts</ContainedButton>
-        </>
+            <ContainedButton type="button" onClick={() => dispatch(onboardUser())}>
+                {t('settings.setup_payouts')}
+            </ContainedButton>
+        </WrapLayout>
     )
 }
 

@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 const defaultStyle = css`
-  display:flex;
+  display: flex;
   justify-content: space-between;
 `
 
@@ -50,12 +50,53 @@ const profile = ({ variant }) => {
 
 const catInfo = ({ variant }) => {
   if (variant === 'catInfo') return css`
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-  }
+    @media (max-width: 600px) {
+      flex-direction: column;
+    }
   `
+
+  return css``;
 }
+
+const settings = ({ variant }) => {
+  if (variant === 'settings') return css`
+    flex-wrap: wrap;
+    text-align: justify;
+
+    & > p {
+      flex: 0 50%;
+    }
+
+    @media (max-width: 700px) {
+      flex-direction: column;
+      align-items: center;
+
+      & > button {
+        width: 50%;
+      }
+    }
+
+    @media (max-width: 450px) {
+      & > button {
+        width: 70%;
+      }
+    }
+  `
+
+  return css``;
+}
+
+const contact = ({ variant }) => {
+  if (variant === 'contact') return css`
+    flex-direction: column;
+
+    @media (min-width: 800px) {
+      flex-direction: row;
+    }
+  `;
+
+  return css``;
+};
 
 const WrapLayout = styled.div`
   ${defaultStyle}
@@ -63,6 +104,8 @@ const WrapLayout = styled.div`
 
   ${profile}
   ${catInfo}
+  ${settings}
+  ${contact}
 `
 
 export default WrapLayout

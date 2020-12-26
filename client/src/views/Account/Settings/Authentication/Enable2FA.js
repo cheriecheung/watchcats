@@ -1,6 +1,7 @@
 import React from 'react';
 import { FieldLabel, TextField } from '../../../../components/FormComponents';
 import { ContainedButton, ErrorMessage, Image, ImageContainer, LinkButton } from '../../../../components/UIComponents';
+import { themeColor } from '../../../../style/theme'
 import styled from 'styled-components'
 
 import { useEnable2FA } from '../viewModel';
@@ -27,21 +28,36 @@ function Enable2FA({ t }) {
     appError
   } = useEnable2FA();
 
+  const url = "https://support.google.com/accounts/answer/1066447?hl=en"
+
   return (
     <FormProvider {...methods}>
       <form style={{ textAlign: 'left' }}>
 
-        <p>Make your account safer in three easy steps:</p>
+        <p>{t('settings.enable_2FA_description')}:</p>
 
         <Section>
-          <ImageContainer>
-            <Image url="https://whooptous.com/wp-content/uploads/2020/05/unnamed.png" />
+          <ImageContainer
+            style={{ display: 'flex', justifyContent: 'center' }}
+          >
+            <Image
+              url="https://whooptous.com/wp-content/uploads/2020/05/unnamed.png"
+              style={{ width: 70, height: 70 }}
+            />
           </ImageContainer>
           <Description>
-            <FieldLabel>1. Download an authenticator app</FieldLabel>
+            <FieldLabel>{t('settings.enable_2FA_step1')}</FieldLabel>
             <p>
-              Download and install <LinkButton to="https://support.google.com/accounts/answer/1066447?hl=en" target="_blank">Google Authenticator</LinkButton> for your phone or tablet.
-                         </p>
+              {t('settings.enable_2FA_step1_detail1')}
+              <LinkButton
+                to={url}
+                target="_blank"
+                style={{ color: themeColor.peach }}
+              >
+                Google Authenticator
+              </LinkButton>
+              {t('settings.enable_2FA_step1_detail2')}
+            </p>
           </Description>
         </Section>
 
@@ -52,25 +68,28 @@ function Enable2FA({ t }) {
             <Image url={qrCodeImage} />
           </ImageContainer>
           <Description>
-            <FieldLabel>2. Scan the QR code</FieldLabel>
-            <p>
-              Open the authenticator app and scan the image to the left using your phone's camera.
-             </p>
+            <FieldLabel>{t('settings.enable_2FA_step2')}</FieldLabel>
+            <p>{t('settings.enable_2FA_step2_detail')}</p>
           </Description>
         </Section>
 
         <hr />
 
         <Section>
-          <ImageContainer>
+          <ImageContainer
+            style={{ display: 'flex', justifyContent: 'center' }}
+          >
             <i className="fas fa-mobile-alt fa-4x mb-3" />
           </ImageContainer>
           <Description>
-            <FieldLabel>3. Login with your code</FieldLabel>
-            <p>Enter the 6-digit verification code generated.</p>
+            <FieldLabel>{t('settings.enable_2FA_step3')}</FieldLabel>
+            <p>{t('settings.enable_2FA_step3_detail')}</p>
+
 
             <TextField name="verificationCode" placeholder="000 000" />
-            <ContainedButton type="button" onClick={onVerifyCode}>Activate</ContainedButton>
+            <ContainedButton type="button" onClick={onVerifyCode}>
+              {t('settings.activate')}
+            </ContainedButton>
 
             {appError && <ErrorMessage type={appError} />}
           </Description>

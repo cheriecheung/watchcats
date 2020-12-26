@@ -6,6 +6,28 @@
   --theme-border-radius: 10px !important;
 }
 
+/* ------------------- account page | settings ------------------- */
+@media (max-width: 600px) {
+  .settings {
+    flex-direction: column;
+  }
+
+  .settings > button {
+    flex: 0;
+  }
+}
+
+.settings {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  text-align: justify;
+}
+
+.settings > p {
+  flex: 0 50%;
+}
+
 /* ------------------- ant tooltip ------------------- */
 
 .ant-tooltip.ant-tooltip-placement-top .ant-tooltip-content .ant-tooltip-inner{
