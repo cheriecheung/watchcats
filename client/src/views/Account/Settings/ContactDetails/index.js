@@ -5,9 +5,15 @@ import PhoneDisplay from './PhoneDisplay'
 import PhoneNumberInput from './PhoneNumberInput'
 import PhoneNumberVerification from './PhoneNumberVerification'
 
-function ContactDetails({ contactDetailsProps }) {
+function ContactDetails({
+  t,
+  accountError,
+  contactDetailsProps,
+  isLoadingSendSmsOtp,
+  isLoadingSubmitPhoneNumber,
+  isLoadingVerifyPhoneNumber
+}) {
   const {
-    t,
     showModal,
     closeModal,
     onHandlePhoneNumber,
@@ -16,7 +22,6 @@ function ContactDetails({ contactDetailsProps }) {
     emailProps,
     phoneProps,
     phoneNumberInputProps,
-    accountError
   } = contactDetailsProps
 
   const { changePhoneNumberStep, inputPhoneNumber } = phoneNumberInputProps;
@@ -30,27 +35,30 @@ function ContactDetails({ contactDetailsProps }) {
             t={t}
             accountError={accountError}
             inputPhoneNumber={inputPhoneNumber}
+            isLoadingSendSmsOtp={isLoadingSendSmsOtp}
+            isLoadingVerifyPhoneNumber={isLoadingVerifyPhoneNumber}
           />
         )
       case 'input':
         return (
           <PhoneNumberInput
             t={t}
-            phoneNumberInputProps={phoneNumberInputProps}
             accountError={accountError}
+            isLoading={isLoadingSubmitPhoneNumber}
+            phoneNumberInputProps={phoneNumberInputProps}
           />
         )
       case 'verified':
         return (
           <SuccessDisplay
-            message="You have successfully verified your phone"
+            message={t('success.phone_verified')}
             onClick={closeModal}
           />
         )
       case 'removed':
         return (
           <SuccessDisplay
-            message="You have successfully removed your phone"
+            message={t('success.phone_removed')}
             onClick={closeModal}
           />
         )

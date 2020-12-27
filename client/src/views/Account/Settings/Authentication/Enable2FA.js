@@ -1,6 +1,13 @@
 import React from 'react';
 import { FieldLabel, TextField } from '../../../../components/FormComponents';
-import { ContainedButton, ErrorMessage, Image, ImageContainer, LinkButton } from '../../../../components/UIComponents';
+import {
+  ContainedButton,
+  ErrorMessage,
+  Image,
+  ImageContainer,
+  LinkButton,
+  Spinner
+} from '../../../../components/UIComponents';
 import { themeColor } from '../../../../style/theme'
 import styled from 'styled-components'
 
@@ -19,13 +26,12 @@ const Description = styled.div`
   flex: 50%;
 `;
 
-function Enable2FA({ t }) {
+function Enable2FA({ t, appError, isLoading }) {
   const {
     FormProvider,
     methods,
     qrCodeImage,
     onVerifyCode,
-    appError
   } = useEnable2FA();
 
   const url = "https://support.google.com/accounts/answer/1066447?hl=en"
@@ -89,6 +95,7 @@ function Enable2FA({ t }) {
             <TextField name="verificationCode" placeholder="000 000" />
             <ContainedButton type="button" onClick={onVerifyCode}>
               {t('settings.activate')}
+              {isLoading && <Spinner />}
             </ContainedButton>
 
             {appError && <ErrorMessage type={appError} />}

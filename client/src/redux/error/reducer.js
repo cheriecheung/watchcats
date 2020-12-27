@@ -15,6 +15,8 @@ const initialState = Immutable({
 const error_reducer = {
   error: (state = initialState, action) => {
     switch (action.type) {
+      case ErrorTypes.CLEAR_ALL_ERRORS:
+        return initialState
       case ErrorTypes.CLEAR_ERROR:
         return { ...state, [action.errorType]: '' }
       case ErrorTypes.ACCOUNT_ERROR:

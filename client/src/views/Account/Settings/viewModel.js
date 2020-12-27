@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-
 import {
   getContactDetails,
   changeNotification,
@@ -12,13 +11,15 @@ import {
   sendOtpToSavedPhoneNumber
 } from '../../../redux/account/actions';
 import {
+  clearAppActionStatus,
   resetPassword,
   getGoogleAuthenticatorQrCode,
-  verifyGoogleAuthenticatorCode,
+  enableTwoFactor,
   disableTwoFactor
 } from '../../../redux/app/actions'
 import { clearError } from '../../../redux/error/actions'
-
+import { clearLoading } from '../../../redux/loading/actions'
+import { onboardUser } from '../../../redux/payment/actions'
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { reset_password_default_values } from '../_formConfig/_defaultValues'
@@ -34,9 +35,46 @@ function usePrevious(value) {
   return ref.current;
 }
 
-function useContactDetails() {
+function useSettings() {
   const { t } = useTranslation();
+  const { appError, accountError } = useSelector((state) => state.error);
+  const { appLoading, accountLoading, paymentLoading } = useSelector((state) => state.loading);
 
+  let isLoadingChangePassword = appLoading === 'LOADING/CHANGE_PASSWORD'
+  let isLoadingDisable2fa = appLoading === 'LOADING/DISABLE_2FA'
+  let isLoadingEnable2fa = appLoading === 'LOADING/ENABLE_2FA'
+  let isLoadingSendSmsOtp = accountLoading === 'LOADING/SEND_SMS_OTP'
+  let isLoadingSetPayouts = paymentLoading === 'LOADING/TO_SETUP_PAYOUTS';
+  let isLoadingSubmitPhoneNumber = accountLoading === 'LOADING/SUBMIT_PHONE_NUMBER'
+  let isLoadingVerifyPhoneNumber = accountLoading === 'LOADING/VERIFY_PHONE_NUMBER'
+
+  return {
+    t,
+    appError,
+    accountError,
+    isLoadingChangePassword,
+    isLoadingDisable2fa,
+    isLoadingEnable2fa,
+    isLoadingSendSmsOtp,
+    isLoadingSetPayouts,
+    isLoadingSubmitPhoneNumber,
+    isLoadingVerifyPhoneNumber
+  }
+}
+
+function usePaymentSetup() {
+  const dispatch = useDispatch();
+
+  function onHandleOnboardUser() {
+    dispatch(onboardUser())
+  }
+
+  return {
+    onHandleOnboardUser
+  }
+}
+
+function useContactDetails() {
   const dispatch = useDispatch();
   const contactDetails = useSelector((state) => state.account);
   const {
@@ -46,7 +84,6 @@ function useContactDetails() {
     getSmsNotification,
     changePhoneNumberStep
   } = contactDetails
-  const { accountError } = useSelector((state) => state.error);
 
   const prevSettings = usePrevious({ getEmailNotification, getSmsNotification });
 
@@ -130,6 +167,7 @@ function useContactDetails() {
     setShowModal(false)
     setInputPhoneNumber('')
     dispatch(clearError('accountError'))
+    dispatch(clearLoading('accountLoading'))
   }
 
   const emailProps = {
@@ -156,7 +194,6 @@ function useContactDetails() {
   }
 
   return {
-    t,
     showModal,
     setShowModal,
     closeModal,
@@ -166,7 +203,6 @@ function useContactDetails() {
     emailProps,
     phoneProps,
     phoneNumberInputProps,
-    accountError
   };
 }
 
@@ -189,7 +225,11 @@ function usePhoneNumberVerification() {
   }
 
   function resendCode(phone) {
-    dispatch(resendOtpToInputtedPhoneNumber(phone))
+    if (changePhoneNumberStep === 'verifyToRemove') {
+      dispatch(sendOtpToSavedPhoneNumber())
+    } else {
+      dispatch(resendOtpToInputtedPhoneNumber(phone))
+    }
   }
 
   return {
@@ -201,8 +241,6 @@ function usePhoneNumberVerification() {
 }
 
 function useAuthentication() {
-  const { t } = useTranslation();
-
   const dispatch = useDispatch();
 
   const { isTwoFactorEnabled, isGoogleLogin } = useSelector((state) => state.account);
@@ -235,12 +273,11 @@ function useAuthentication() {
 
   function closeModal() {
     setShowModal(false)
-
     dispatch(clearError('authenticationError'))
+    dispatch(clearAppActionStatus())
   }
 
   return {
-    t,
     isTwoFactorEnabled,
     isGoogleLogin,
     appActionStatus,
@@ -266,7 +303,7 @@ function useEnable2FA() {
 
   const onVerifyCode = () => {
     const code = watch('verificationCode')
-    dispatch(verifyGoogleAuthenticatorCode(code))
+    dispatch(enableTwoFactor(code))
   }
 
   useEffect(() => {
@@ -286,15 +323,11 @@ function useEnable2FA() {
     methods,
     qrCodeImage,
     onVerifyCode,
-    appError
   }
 }
 
 function useDisable2FA() {
-  const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { appError } = useSelector((state) => state.error)
-
   const methods = useForm();
 
   function onSubmit(data) {
@@ -303,38 +336,35 @@ function useDisable2FA() {
   }
 
   return {
-    t,
     FormProvider,
     methods,
     onSubmit,
-    appError
   }
 }
 
 function useChangePassword() {
   const dispatch = useDispatch();
 
-  const { authenticationError } = useSelector((state) => state.authentication)
-
   const defaultValues = reset_password_default_values;
   const resolver = yupResolver(reset_password_schema)
   const methods = useForm({ defaultValues, resolver });
 
   function onSubmit(data) {
-    const { newPassword } = data;
-    dispatch(resetPassword(newPassword))
+    const { currentPassword, newPassword } = data;
+    dispatch(resetPassword(currentPassword, newPassword))
   }
 
   return {
     FormProvider,
     methods,
     onSubmit,
-    authenticationError
   }
 }
 
 export {
+  useSettings,
   usePrevious,
+  usePaymentSetup,
   useContactDetails,
   usePhoneNumberVerification,
   useAuthentication,

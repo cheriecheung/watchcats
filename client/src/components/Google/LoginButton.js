@@ -1,8 +1,8 @@
 import React from 'react'
 import google_logo from '../../assets/images/google_logo.png'
-import { OutlinedButton } from '../UIComponents'
+import { OutlinedButton, Spinner } from '../UIComponents'
 
-function GoogleLoginButton({ t, onClick }) {
+function GoogleLoginButton({ t, onClick, isLoading }) {
   return (
     <OutlinedButton
       type="button"
@@ -14,6 +14,7 @@ function GoogleLoginButton({ t, onClick }) {
         style={{ width: 'auto', height: '70%', marginLeft: '-10px', marginRight: 10 }}
       />
       {t('login.google_login')}
+      {isLoading && <Spinner isOutlinedButton={true} />}
     </OutlinedButton>
   )
 }

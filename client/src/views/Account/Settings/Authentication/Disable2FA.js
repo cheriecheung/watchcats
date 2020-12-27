@@ -2,13 +2,11 @@ import React from 'react';
 import { AuthenticatorModal } from '../../../../components/Google'
 import { useDisable2FA } from '../viewModel';
 
-function Disable2FA() {
+function Disable2FA({ t, appError, isLoading }) {
   const {
-    t,
     FormProvider,
     methods,
     onSubmit,
-    appError
   } = useDisable2FA();
 
   const { handleSubmit } = methods;
@@ -20,6 +18,7 @@ function Disable2FA() {
           t={t}
           name="code"
           error={appError}
+          isLoading={isLoading}
         />
       </form>
     </FormProvider>

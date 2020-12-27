@@ -1,12 +1,18 @@
 import React from 'react';
 import { OtpInput } from '../FormComponents'
-import { ContainedButton, ErrorMessage, Image, ImageContainer } from '../UIComponents'
+import {
+  ContainedButton,
+  ErrorMessage,
+  Image,
+  ImageContainer,
+  Spinner
+} from '../UIComponents'
 
-function AuthenticatorModal({ t, name, error }) {
+function AuthenticatorModal({ t, name, error, isLoading }) {
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <ImageContainer>
+        <ImageContainer style={{ width: 80, height: 80 }}>
           <Image url="https://whooptous.com/wp-content/uploads/2020/05/unnamed.png" />
         </ImageContainer>
 
@@ -20,13 +26,14 @@ function AuthenticatorModal({ t, name, error }) {
 
       <br />
 
+      {error && <ErrorMessage type={error} />}
+
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <ContainedButton type="submit">
           {t('form.submit')}
+          {isLoading && <Spinner />}
         </ContainedButton>
       </div>
-
-      {error && <ErrorMessage type={error} />}
     </>
   )
 }

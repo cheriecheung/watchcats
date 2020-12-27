@@ -35,6 +35,12 @@ function useAuthentication() {
 
   const dispatch = useDispatch();
   const { appError, authenticationError } = useSelector((state) => state.error)
+  const { appLoading, authenticationLoading } = useSelector((state) => state.loading)
+
+  let isLoadingGoogleLogin = authenticationLoading === 'LOADING/GOOGLE_LOGIN'
+  let isLoadingLocalLogin = authenticationLoading === 'LOADING/LOCAL_LOGIN'
+  let isLoadingPhoneLogin = authenticationLoading === 'LOADING/PHONE_LOGIN'
+  let isLoadingRegister = appLoading === 'LOADING/REGISTER'
 
   useEffect(() => {
     dispatch(clearError(['appError', 'authenticationError']))
@@ -43,7 +49,11 @@ function useAuthentication() {
   return {
     t,
     appError,
-    authenticationError
+    authenticationError,
+    isLoadingGoogleLogin,
+    isLoadingLocalLogin,
+    isLoadingPhoneLogin,
+    isLoadingRegister
   }
 }
 
@@ -94,6 +104,8 @@ function useLogin() {
   });
 
   function onLocalLogin(data) {
+    dispatch(clearError('authenticationError'))
+
     const { email, password } = data;
     dispatch(login(email, password));
   };
@@ -171,7 +183,6 @@ function useResetPassword() {
 
 function useRegister() {
   const dispatch = useDispatch();
-  // const { } = useSelector((state) => state.authentication);
 
   const defaultValues = register_default_values;
   const resolver = yupResolver(register_schema)

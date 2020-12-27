@@ -1,6 +1,8 @@
 import axios from 'axios';
 import AppActionTypes from './actionTypes'
 import ErrorTypes from '../error/actionTypes'
+import LoadingTypes from '../loading/actionTypes'
+import { clearLoading } from '../loading/actions'
 import axiosInstance from '../../utility/axiosInstance';
 import { getConfig } from '../../utility/api'
 
@@ -30,8 +32,16 @@ const googleAuthenticatorVerifyCodeURL = `google-authenticator-verify-code`
 //   };
 // }
 
+export function clearAppActionStatus() {
+  return async (dispatch) => {
+    dispatch({ type: AppActionTypes.CLEAR_STATUS });
+  }
+}
+
 export function register(firstName, lastName, email, password) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.APP_LOADING, payload: 'LOADING/REGISTER' });
+
     try {
       const { data } = await axios.post(registerURL, {
         name: `${firstName} ${lastName}`,
@@ -50,14 +60,18 @@ export function register(firstName, lastName, email, password) {
       const { response } = e
       const { data } = response || {}
       dispatch({ type: ErrorTypes.APP_ERROR, payload: data });
+    } finally {
+      dispatch(clearLoading('appLoading'))
     }
   };
 }
 
-export function resetPassword(newPassword) {
+export function resetPassword(currentPassword, newPassword) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.APP_LOADING, payload: 'LOADING/CHANGE_PASSWORD' });
+
     try {
-      await axiosInstance().put(passwordURL, { newPassword }, getConfig());
+      await axiosInstance().put(passwordURL, { currentPassword, newPassword }, getConfig());
 
       dispatch({ type: AppActionTypes.PASSWORD_RESET });
     } catch (e) {
@@ -65,6 +79,8 @@ export function resetPassword(newPassword) {
       const { response } = e
       const { data } = response || {}
       dispatch({ type: ErrorTypes.APP_ERROR, payload: data })
+    } finally {
+      dispatch(clearLoading('appLoading'))
     }
   };
 }
@@ -86,11 +102,12 @@ export function getPasswordResetEmail(email) {
   return async (dispatch) => {
     try {
       await axios.post(resetPasswordEmailURL, { email });
-
-      dispatch({ type: AppActionTypes.PASSWORD_RESET_EMAIL_REQUESTED, payload: 'Email requested' });
+      dispatch({ type: AppActionTypes.PASSWORD_RESET_EMAIL_REQUESTED });
     } catch (e) {
       console.log({ e });
-      dispatch({ type: AppActionTypes.PASSWORD_RESET_EMAIL_REQUESTED, payload: 'Email requested' });
+      const { response } = e
+      const { data } = response || {}
+      dispatch({ type: ErrorTypes.APP_ERROR, payload: data });
     }
   };
 }
@@ -107,9 +124,10 @@ export function getGoogleAuthenticatorQrCode() {
   };
 }
 
-// enable 2FA
-export function verifyGoogleAuthenticatorCode(code) {
+export function enableTwoFactor(code) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.APP_LOADING, payload: 'LOADING/ENABLE_2FA' });
+
     try {
       await axiosInstance().post(googleAuthenticatorVerifyCodeURL, { code }, getConfig());
       dispatch({ type: AppActionTypes.TWO_FACTOR_ENABLED });
@@ -118,12 +136,16 @@ export function verifyGoogleAuthenticatorCode(code) {
       const { response } = e
       const { data } = response || {}
       dispatch({ type: ErrorTypes.APP_ERROR, payload: data })
+    } finally {
+      dispatch(clearLoading('appLoading'))
     }
   };
 }
 
 export function disableTwoFactor(code) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.APP_LOADING, payload: 'LOADING/DISABLE_2FA' });
+
     try {
       await axiosInstance().delete(phoneLoginURL, { ...getConfig(), data: { code } });
       dispatch({ type: AppActionTypes.TWO_FACTOR_DISABLED });
@@ -132,6 +154,8 @@ export function disableTwoFactor(code) {
       const { response } = e
       const { data } = response || {}
       dispatch({ type: ErrorTypes.APP_ERROR, payload: data })
+    } finally {
+      dispatch(clearLoading('appLoading'))
     }
   };
 }

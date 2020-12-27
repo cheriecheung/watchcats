@@ -11,9 +11,10 @@ const Input = styled.textarea`
   border-radius: 10px !important;
   outline: none;
   resize: none;
+  transition: all 0.3s ease-out;
 `
 
-function TextArea({ name, placeholder, rows = 7, customStyle }) {
+function TextArea({ name, placeholder, rows = 7 }) {
   const { control, errors } = useFormContext();
   const error = errors[name]
   const message = error && error.message || 'Required field'
@@ -27,7 +28,6 @@ function TextArea({ name, placeholder, rows = 7, customStyle }) {
             error={error}
             rows={rows}
             placeholder={placeholder}
-            style={customStyle}
           />
         }
         control={control}
@@ -43,5 +43,4 @@ TextArea.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   rows: PropTypes.number,
-  customStyle: PropTypes.object,
 };

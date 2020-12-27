@@ -1,10 +1,17 @@
 import React from 'react'
 import { FieldLabel, PasswordField, TextField } from '../../../../components/FormComponents'
-import { ErrorMessage, OutlinedButton } from '../../../../components/UIComponents'
+import { ErrorMessage, OutlinedButton, Spinner } from '../../../../components/UIComponents'
 
-function Local({ t, localRegisterProps, appError }) {
+function Local({
+  t,
+  localRegisterProps,
+  appError,
+  isLoading
+}) {
   const { FormProvider, methods, onRegister } = localRegisterProps
   const { handleSubmit } = methods;
+
+  console.log({ appError })
 
   return (
     <FormProvider {...methods}>
@@ -29,6 +36,7 @@ function Local({ t, localRegisterProps, appError }) {
 
         <OutlinedButton type="submit" style={{ width: '100%' }}>
           {t('register.title')}
+          {isLoading && <Spinner isOutlinedButton={true} />}
         </OutlinedButton>
       </form>
     </FormProvider>

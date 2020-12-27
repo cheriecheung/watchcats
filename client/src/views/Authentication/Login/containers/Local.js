@@ -1,8 +1,18 @@
 import React from 'react'
-import { BasicCheckbox, FieldLabel, TextField } from '../../../../components/FormComponents'
-import { ErrorMessage, LinkButton, OutlinedButton } from '../../../../components/UIComponents'
+import { FieldLabel, TextField } from '../../../../components/FormComponents'
+import {
+  ErrorMessage,
+  LinkButton,
+  OutlinedButton,
+  Spinner
+} from '../../../../components/UIComponents'
 
-function LocalLogin({ t, authenticationError, localLoginProps }) {
+function LocalLogin({
+  t,
+  authenticationError,
+  localLoginProps,
+  isLoading
+}) {
   const {
     FormProvider,
     localLoginMethods: methods,
@@ -33,6 +43,7 @@ function LocalLogin({ t, authenticationError, localLoginProps }) {
 
         <OutlinedButton type="submit">
           {t('login.title')}
+          {isLoading && <Spinner isOutlinedButton={true} />}
         </OutlinedButton>
       </form>
     </FormProvider>

@@ -1,6 +1,8 @@
 import axiosInstance from '../../utility/axiosInstance';
 import { getConfig } from '../../utility/api'
 import PaymentActionTypes from './actionTypes'
+import LoadingTypes from '../loading/actionTypes'
+import { clearLoading } from '../loading/actions'
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
@@ -9,6 +11,8 @@ const paymentURL = `${REACT_APP_API_DOMAIN}/payment`;
 
 export function onboardUser() {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.PAYMENT_LOADING, payload: 'LOADING/TO_SETUP_PAYOUTS' });
+
     try {
       const {
         data: { url },
@@ -16,6 +20,7 @@ export function onboardUser() {
       dispatch({ type: PaymentActionTypes.ONBOARD_USER, payload: url });
     } catch (e) {
       console.log({ e });
+      dispatch(clearLoading('paymentLoading'))
     }
   };
 }

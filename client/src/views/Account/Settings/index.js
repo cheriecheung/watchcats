@@ -1,30 +1,53 @@
 import React from 'react';
 import { CardTitle, HorizontalCard } from '../../../components/UIComponents'
-
 import ContactDetails from './ContactDetails'
 import PaymentSetup from './PaymentSetup'
 import Authentication from './Authentication';
-
-import { useContactDetails, useAuthentication } from './viewModel'
+import {
+    useAuthentication,
+    useContactDetails,
+    usePaymentSetup,
+    useSettings
+} from './viewModel'
 
 function Settings() {
-    const contactDetailsProps = useContactDetails();
-    const { t } = contactDetailsProps
+    const {
+        t,
+        appError,
+        accountError,
+        isLoadingChangePassword,
+        isLoadingDisable2fa,
+        isLoadingEnable2fa,
+        isLoadingSendSmsOtp,
+        isLoadingSetPayouts,
+        isLoadingSubmitPhoneNumber,
+        isLoadingVerifyPhoneNumber
+    } = useSettings()
     const authenticationProps = useAuthentication();
+    const contactDetailsProps = useContactDetails();
+    const paymentSetupProps = usePaymentSetup();
 
     return (
         <>
             <HorizontalCard style={{ width: '100%' }}>
                 <CardTitle>{t('settings.contact_details')}</CardTitle>
                 <ContactDetails
+                    t={t}
+                    accountError={accountError}
                     contactDetailsProps={contactDetailsProps}
+                    isLoadingSendSmsOtp={isLoadingSendSmsOtp}
+                    isLoadingSubmitPhoneNumber={isLoadingSubmitPhoneNumber}
+                    isLoadingVerifyPhoneNumber={isLoadingVerifyPhoneNumber}
                 />
             </HorizontalCard>
 
             <HorizontalCard>
-                {/* give redirecting loading notice */}
                 <CardTitle>{t('settings.stripe_account')}</CardTitle>
-                <PaymentSetup t={t} />
+                <PaymentSetup
+                    t={t}
+                    isLoading={isLoadingSetPayouts}
+                    paymentSetupProps={paymentSetupProps}
+                />
             </HorizontalCard>
 
             <HorizontalCard>
@@ -36,7 +59,12 @@ function Settings() {
                 </p>
 
                 <Authentication
+                    t={t}
+                    appError={appError}
                     authenticationProps={authenticationProps}
+                    isLoadingChangePassword={isLoadingChangePassword}
+                    isLoadingDisable2fa={isLoadingDisable2fa}
+                    isLoadingEnable2fa={isLoadingEnable2fa}
                 />
             </HorizontalCard>
         </>

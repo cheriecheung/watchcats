@@ -209,25 +209,35 @@ module.exports = {
     const { userId } = req.verifiedData;
     if (!userId) return res.status(404).json('ERROR/PASSOWORD_RESET_FAILED');
 
-    const { newPassword } = req.body;
+    const { currentPassword, newPassword } = req.body;
 
     try {
+      const user = await User.findById(userId);
+      if (!user || !user.password) return res.status(400).json('ERROR/PASSOWORD_RESET_FAILED');
+
+      const validPass = await bcrypt.compare(currentPassword, user.password);
+      if (!validPass) return res.status(400).json("ERROR/PASSWORD_INCORRECT");
+
       const salt = await bcrypt.genSalt(12);
-      const hashedPassword = await bcrypt.hash(newPassword, salt);
+      const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+      user.password = hashedNewPassword;
+
+      await user.save();
 
       // joi fulfill password requirement
 
-      const userRecord = await User.findOneAndUpdate(
-        { _id: userId },
-        { $set: { password: hashedPassword } },
-        { useFindAndModify: false }
-      );
-      if (!userRecord) return res.status(400).json('ERROR/PASSOWORD_RESET_FAILED');
+      // const userRecord = await User.findOneAndUpdate(
+      //   { _id: userId },
+      //   { $set: { password: hashedNewPassword } },
+      //   { useFindAndModify: false }
+      // );
+      // if (!userRecord) return res.status(400).json('ERROR/PASSOWORD_RESET_FAILED');
 
-      return res.status(200).json('')
+      return res.status(200).json('');
     } catch (err) {
-      console.log({ err })
-      return res.status(400).json('ERROR/PASSOWORD_RESET_FAILED')
+      console.log({ err });
+      return res.status(400).json('ERROR/PASSOWORD_RESET_FAILED');
     }
   }
 };

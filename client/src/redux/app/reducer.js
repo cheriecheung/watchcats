@@ -12,6 +12,8 @@ const initialState = Immutable({
 const app_reducer = {
   app: (state = initialState, action) => {
     switch (action.type) {
+      case AppActionTypes.CLEAR_STATUS:
+        return { ...state, appActionStatus: '' }
       case AppActionTypes.CHANGE_LANGUAGE:
         return { ...state, language: action.payload };
       case AppActionTypes.TOGGLE_MOBILE_MENU:

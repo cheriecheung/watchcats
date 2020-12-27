@@ -1,7 +1,12 @@
 import React from 'react'
 import { AuthenticatorModal } from '../../../../components/Google'
 
-function PhoneLogin({ t, authenticationError, phoneLoginProps }) {
+function PhoneLogin({
+  t,
+  authenticationError,
+  isLoadingPhoneLogin,
+  phoneLoginProps
+}) {
   const {
     FormProvider,
     phoneLoginMethods: methods,
@@ -17,6 +22,7 @@ function PhoneLogin({ t, authenticationError, phoneLoginProps }) {
           t={t}
           name="code"
           error={authenticationError}
+          isLoading={isLoadingPhoneLogin}
         />
       </form>
     </FormProvider>

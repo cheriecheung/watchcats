@@ -19,7 +19,7 @@ const OtpInputComponent = styled(OtpInput)`
 
   & > input:focus {
     outline: none;
-    box-shadow: 0 0 3pt 2pt pink;
+    box-shadow: 0 0 3pt 2pt rgba(255, 161, 149, 0.4);
   }
 `;
 

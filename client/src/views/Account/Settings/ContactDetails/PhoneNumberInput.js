@@ -1,9 +1,14 @@
 import React from 'react';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
-import { ContainedButton, ErrorMessage } from '../../../../components/UIComponents'
+import { ContainedButton, ErrorMessage, Spinner } from '../../../../components/UIComponents'
 
-function PhoneNumberInput({ t, phoneNumberInputProps, accountError }) {
+function PhoneNumberInput({
+  t,
+  accountError,
+  isLoading,
+  phoneNumberInputProps
+}) {
   const {
     inputPhoneNumber,
     setInputPhoneNumber,
@@ -31,6 +36,7 @@ function PhoneNumberInput({ t, phoneNumberInputProps, accountError }) {
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <ContainedButton type="button" onClick={onSubmitPhoneNumber}>
           {t('form.submit')}
+          {isLoading && <Spinner />}
         </ContainedButton>
       </div>
     </div>

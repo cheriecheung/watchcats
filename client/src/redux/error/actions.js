@@ -11,3 +11,9 @@ export function clearError(type) {
     }
   }
 }
+
+export function clearAllErrors() {
+  return (dispatch) => {
+    dispatch({ type: ErrorTypes.CLEAR_ALL_ERRORS });
+  }
+}

@@ -1,22 +1,22 @@
 import React from 'react';
 import { FieldLabel, PasswordField } from '../../../../components/FormComponents';
-import { ContainedButton, ErrorMessage } from '../../../../components/UIComponents';
+import { ContainedButton, ErrorMessage, Spinner } from '../../../../components/UIComponents';
 
 import { useChangePassword } from '../viewModel';
 
-function ChangePassword({ t }) {
+function ChangePassword({ t, appError, isLoading }) {
   const {
     FormProvider,
     methods,
     onSubmit,
-    authenticationError
   } = useChangePassword();
 
   const { handleSubmit } = methods;
 
   return (
     <>
-      <h6>{t('settings.change_password')}</h6>
+      <h5>{t('settings.change_password')}</h5>
+      <br />
 
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} style={{ textAlign: 'left' }}>
@@ -30,10 +30,13 @@ function ChangePassword({ t }) {
           <FieldLabel>{t('settings.repeat_new_password')}</FieldLabel>
           <PasswordField name="newPasswordRepeat" />
 
-          {authenticationError && <ErrorMessage type={authenticationError} />}
+          {appError && <ErrorMessage type={appError} />}
 
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <ContainedButton type="submit">{t('form.submit')}</ContainedButton>
+            <ContainedButton type="submit">
+              {t('form.submit')}
+              {isLoading && <Spinner />}
+            </ContainedButton>
           </div>
         </form>
       </FormProvider>

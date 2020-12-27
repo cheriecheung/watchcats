@@ -11,9 +11,15 @@ import ChangePassword from './ChangePassword'
 import Enable2FA from './Enable2FA'
 import Disable2FA from './Disable2FA'
 
-function Authentication({ authenticationProps }) {
+function Authentication({
+  t,
+  appError,
+  authenticationProps,
+  isLoadingChangePassword,
+  isLoadingDisable2fa,
+  isLoadingEnable2fa
+}) {
   const {
-    t,
     isTwoFactorEnabled,
     isGoogleLogin,
     appActionStatus,
@@ -30,17 +36,50 @@ function Authentication({ authenticationProps }) {
   const renderModalContent = () => {
     switch (content) {
       case 'resetPassword':
-        return <ChangePassword t={t} />
+        return (
+          <ChangePassword
+            t={t}
+            appError={appError}
+            isLoading={isLoadingChangePassword}
+          />
+        )
       case 'resetPasswordSuccess':
-        return <SuccessDisplay message={t('success.password_reset')} onClick={closeModal} />
+        return (
+          <SuccessDisplay
+            message={t('success.password_reset')}
+            onClick={closeModal}
+          />
+        )
       case 'enable2FA':
-        return <Enable2FA t={t} />
+        return (
+          <Enable2FA
+            t={t}
+            appError={appError}
+            isLoading={isLoadingEnable2fa}
+          />
+        )
       case 'enable2FASuccess':
-        return <SuccessDisplay message={t('success.2FA_enabled')} onClick={closeModal} />
+        return (
+          <SuccessDisplay
+            message={t('success.2FA_enabled')}
+            onClick={closeModal}
+          />
+        )
       case 'disable2FA':
-        return <Disable2FA />
+        return (
+          <Disable2FA
+            t={t}
+            appError={appError}
+            isLoading={isLoadingDisable2fa}
+          />
+        )
       case 'disable2FASuccess':
-        return <SuccessDisplay message={t('success.2FA_disabled')} onClick={closeModal} />
+        return (
+          <SuccessDisplay
+            message={t('success.2FA_disabled')}
+            onClick={closeModal}
+          />
+        )
       default:
         break;
     }
@@ -76,7 +115,7 @@ function Authentication({ authenticationProps }) {
         {
           isTwoFactorEnabled || appActionStatus === '2faEnabled' ?
             <>
-              <h6>{t('settings.2FA_enabled')}</h6>
+              <p>{t('settings.2FA_enabled')}</p>
               <OutlinedButton onClick={showDisable2faModal}>
                 {t('settings.disable_2FA')}
               </OutlinedButton>

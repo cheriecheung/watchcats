@@ -1,9 +1,15 @@
 import React from 'react';
-import { ContainedButton, ErrorMessage } from '../../../../components/UIComponents'
+import { ContainedButton, ErrorMessage, Spinner } from '../../../../components/UIComponents'
 import { OtpInput } from '../../../../components/FormComponents'
 import { usePhoneNumberVerification } from '../viewModel';
 
-function PhoneNumberVerification({ t, accountError, inputPhoneNumber }) {
+function PhoneNumberVerification({
+  t,
+  accountError,
+  inputPhoneNumber,
+  isLoadingSendSmsOtp,
+  isLoadingVerifyPhoneNumber
+}) {
   const {
     FormProvider,
     methods,
@@ -36,12 +42,15 @@ function PhoneNumberVerification({ t, accountError, inputPhoneNumber }) {
             onClick={() => resendCode(inputPhoneNumber)}
           >
             {t('settings.resend_code')}
+            {isLoadingSendSmsOtp && <Spinner />}
           </ContainedButton>
+
           <ContainedButton
             type="button"
             onClick={() => onSubmitOtp(inputPhoneNumber)}
           >
             {t('form.submit')}
+            {isLoadingVerifyPhoneNumber && <Spinner />}
           </ContainedButton>
         </div>
       </form>

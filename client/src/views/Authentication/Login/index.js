@@ -9,7 +9,14 @@ import Phone from './containers/Phone'
 import { useAuthentication, useLogin } from '../viewModel'
 
 function Login() {
-  const { t, authenticationError } = useAuthentication();
+  const {
+    t,
+    authenticationError,
+    isLoadingGoogleLogin,
+    isLoadingLocalLogin,
+    isLoadingPhoneLogin
+  } = useAuthentication();
+
   const {
     localLoginProps,
     phoneLoginProps,
@@ -28,6 +35,7 @@ function Login() {
             t={t}
             phoneLoginProps={phoneLoginProps}
             authenticationError={authenticationError}
+            isLoadingPhoneLogin={isLoadingPhoneLogin}
           />
         </VerticalCard>
         :
@@ -40,7 +48,11 @@ function Login() {
           </div>
 
           <DemoUser t={t} />
-          <Google t={t} onGoogleLogin={onGoogleLogin} />
+          <Google
+            t={t}
+            onGoogleLogin={onGoogleLogin}
+            isLoading={isLoadingGoogleLogin}
+          />
 
           <HorizontalDivider>{t('form.or')}</HorizontalDivider>
 
@@ -48,6 +60,7 @@ function Login() {
             t={t}
             authenticationError={authenticationError}
             localLoginProps={localLoginProps}
+            isLoading={isLoadingLocalLogin}
           />
         </VerticalCard>
       }

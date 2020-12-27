@@ -1,5 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { clearAllErrors } from '../../redux/error/actions'
 import { Alert } from 'antd';
 
 function renderMessage(t, type) {
@@ -27,6 +29,8 @@ function renderMessage(t, type) {
       return t('error.otp_invalid')
     case 'ERROR/2FA_ACTIVATION_FAILED':
       return t('error.two_factor_activation_failed')
+    case 'ERROR/PASSWORD_INCORRECT':
+      return t('error.password_incorrect')
     case 'ERROR/SET_EMAIL_NOTIFICATION_FAILED':
     case 'ERROR/SET_PHONE_NOTIFICATION_FAILED':
       return t('error.generic')
@@ -37,6 +41,7 @@ function renderMessage(t, type) {
 
 function ErrorMessage({ type }) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const message = renderMessage(t, type)
 
   return (
@@ -46,6 +51,7 @@ function ErrorMessage({ type }) {
       style={{ margin: '10px 0' }}
       showIcon
       closable
+      onClose={() => dispatch(clearAllErrors())}
     />
   )
 }

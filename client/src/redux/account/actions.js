@@ -4,6 +4,8 @@ import { getAccessToken } from '../../utility/accessToken'
 import { getConfig } from '../../utility/api'
 import AccountActionTypes from './actionTypes'
 import ErrorTypes from '../error/actionTypes'
+import LoadingTypes from '../loading/actionTypes'
+import { clearLoading } from '../loading/actions'
 
 const contactDetailsURL = `/contact-details`;
 const notificationURL = `/notification`
@@ -57,26 +59,33 @@ export function changeNotification(contactType) {
 
 export function submitPhoneNumber(phone) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.ACCOUNT_LOADING, payload: 'LOADING/SUBMIT_PHONE_NUMBER' });
+
     try {
       await axiosInstance().post(phoneNumberURL, { phone }, getConfig());
       dispatch({ type: AccountActionTypes.PHONE_NUMBER_SUBMITTED, payload: 'verifyToSave' });
+      dispatch(clearLoading('accountLoading'))
     } catch (e) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      // dispatch({ type: AccountActionTypes.ERROR_OCCURED, payload: data });
       dispatch({ type: ErrorTypes.ACCOUNT_ERROR, payload: data });
+      dispatch(clearLoading('accountLoading'))
     }
   };
 }
 
 export function resendOtpToInputtedPhoneNumber(phone) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.ACCOUNT_LOADING, payload: 'LOADING/SEND_SMS_OTP' });
+
     try {
-      const { data } = await axiosInstance().post(verificationCodeURL, { phone }, getConfig());
+      await axiosInstance().post(verificationCodeURL, { phone }, getConfig());
       dispatch({ type: AccountActionTypes.VERIFICATION_CODE_SENT });
+      dispatch(clearLoading('accountLoading'))
     } catch (e) {
       console.log({ e });
+      dispatch(clearLoading('accountLoading'))
     }
   };
 }
@@ -84,7 +93,7 @@ export function resendOtpToInputtedPhoneNumber(phone) {
 export function sendOtpToSavedPhoneNumber() {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().patch(verificationCodeURL, getConfig());
+      await axiosInstance().patch(verificationCodeURL, getConfig());
       dispatch({ type: AccountActionTypes.VERIFICATION_CODE_SENT });
     } catch (e) {
       console.log({ e });
@@ -94,30 +103,36 @@ export function sendOtpToSavedPhoneNumber() {
 
 export function verifyPhoneNumber(code, phone) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.ACCOUNT_LOADING, payload: 'LOADING/VERIFY_PHONE_NUMBER' });
+
     try {
       await axiosInstance().patch(phoneNumberURL, { code, phone }, getConfig());
       dispatch({ type: AccountActionTypes.VERIFY_PHONE_NUMBER, payload: 'verified' });
+      dispatch(clearLoading('accountLoading'))
     } catch (e) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      // dispatch({ type: AccountActionTypes.ERROR_OCCURED, payload: data });
       dispatch({ type: ErrorTypes.ACCOUNT_ERROR, payload: data });
+      dispatch(clearLoading('accountLoading'))
     }
   };
 }
 
 export function deletePhoneNumber(otp) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.ACCOUNT_LOADING, payload: 'LOADING/VERIFY_PHONE_NUMBER' });
+
     try {
-      const { data } = await axiosInstance().delete(phoneNumberURL, { ...getConfig(), data: { otp } });
+      await axiosInstance().delete(phoneNumberURL, { ...getConfig(), data: { otp } });
       dispatch({ type: AccountActionTypes.PHONE_NUMBER_DELETED, payload: 'removed' });
+      dispatch(clearLoading('accountLoading'))
     } catch (e) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
       dispatch({ type: ErrorTypes.ACCOUNT_ERROR, payload: data });
-
+      dispatch(clearLoading('accountLoading'))
     }
   };
 }

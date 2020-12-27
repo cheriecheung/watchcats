@@ -7,7 +7,12 @@ import Local from './containers/Local'
 import { useAuthentication, useRegister } from '../viewModel';
 
 function Register() {
-  const { t, appError } = useAuthentication();
+  const {
+    t,
+    appError,
+    isLoadingGoogleLogin,
+    isLoadingRegister
+  } = useAuthentication();
   const { onGoogleLogin, localRegisterProps } = useRegister()
 
   return (
@@ -21,7 +26,11 @@ function Register() {
           </LinkButton>
         </div>
 
-        <Google t={t} onGoogleLogin={onGoogleLogin} />
+        <Google
+          t={t}
+          onGoogleLogin={onGoogleLogin}
+          isLoading={isLoadingGoogleLogin}
+        />
 
         <HorizontalDivider>{t('form.or')}</HorizontalDivider>
 
@@ -29,6 +38,7 @@ function Register() {
           t={t}
           localRegisterProps={localRegisterProps}
           appError={appError}
+          isLoading={isLoadingRegister}
         />
       </VerticalCard>
     </div>
