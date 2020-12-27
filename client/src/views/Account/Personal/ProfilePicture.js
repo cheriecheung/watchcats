@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { FileDisplayField, FileUploader } from '../../../components/FormComponents';
 
@@ -7,17 +7,18 @@ function ProfilePicture({
   reset,
   photoField,
   handlePreview,
-  handleRemovePhoto
+  handleRemovePhoto,
+  isLoading
 }) {
   return (
     <Row>
       <Col md={6}>
         <div style={{ fontSize: '0.80rem' }}>
-          <span>{t('owner_form.picture_requirement_1')}</span>
+          <span>{t('personal_info.picture_requirement_1')}</span>
           <ul style={{ padding: '0px 20px' }}>
-            <li>{t('owner_form.picture_requirement_2')}</li>
-            <li>{t('owner_form.picture_requirement_3')}</li>
-            <li>{t('owner_form.picture_requirement_4')}</li>
+            <li>{t('personal_info.picture_requirement_2')}</li>
+            <li>{t('personal_info.picture_requirement_3')}</li>
+            <li>{t('personal_info.picture_requirement_4')}</li>
           </ul>
         </div>
       </Col>
@@ -29,6 +30,7 @@ function ProfilePicture({
               name="profilePicture"
               fileName={photoField}
               handleRemovePhoto={() => handleRemovePhoto(photoField)}
+              isLoading={isLoading}
             />
           ) : (
               <FileUploader

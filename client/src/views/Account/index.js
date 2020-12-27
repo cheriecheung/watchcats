@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Modal, TabBar, TabItem } from '../../components/UIComponents'
 
 import Settings from './Settings';
-import General from './General';
+import Personal from './Personal';
 import CatSitterInfo from './CatSitterInfo';
 import CatOwnerInfo from './CatOwnerInfo';
 
@@ -39,8 +39,8 @@ function Account() {
 
   const renderTabContent = () => {
     switch (activeKey) {
-      case 'general':
-        return <General />
+      case 'personal':
+        return <Personal />
       case 'sitter':
         return <CatSitterInfo />
       case 'owner':

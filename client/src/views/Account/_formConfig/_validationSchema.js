@@ -40,9 +40,9 @@ export const reset_password_schema = yup.object().shape({
 })
 
 
-// ----- General Schema ----- //
+// ----- Personal Schema ----- //
 
-export const general_schema = yup.object().shape({
+export const personal_schema = yup.object().shape({
     // // max length
     profilePicture: yup.mixed()
         .required(defaultError),

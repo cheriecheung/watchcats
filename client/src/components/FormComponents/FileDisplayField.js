@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
+import { Spinner } from '../UIComponents'
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
@@ -29,7 +30,12 @@ const RemoveText = styled.span`
     align-self: center;
 `
 
-function FileDisplayField({ name, fileName, handleRemovePhoto }) {
+function FileDisplayField({
+    name,
+    fileName,
+    handleRemovePhoto,
+    isLoading
+}) {
     const { control } = useFormContext();
 
     return (
@@ -40,6 +46,7 @@ function FileDisplayField({ name, fileName, handleRemovePhoto }) {
                 <Display
                     fileName={fileName}
                     handleRemovePhoto={handleRemovePhoto}
+                    isLoading={isLoading}
                 />
             }
         />
@@ -48,7 +55,7 @@ function FileDisplayField({ name, fileName, handleRemovePhoto }) {
 
 export default FileDisplayField
 
-function Display({ fileName, handleRemovePhoto }) {
+function Display({ fileName, handleRemovePhoto, isLoading }) {
     const { t } = useTranslation();
 
     const [hideRemove, setHideRemove] = useState(true);
@@ -63,7 +70,10 @@ function Display({ fileName, handleRemovePhoto }) {
                 image={photoURL}
             >
                 <RemoveButton type="button" onClick={handleRemovePhoto} hide={hideRemove}>
-                    <RemoveText>Remove</RemoveText>
+                    {isLoading ?
+                        <Spinner /> :
+                        <RemoveText>{t('settings.remove')}</RemoveText>
+                    }
                 </RemoveButton>
             </ImageContainer>
         </div>

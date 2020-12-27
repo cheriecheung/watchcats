@@ -64,7 +64,6 @@ export function submitPhoneNumber(phone) {
     try {
       await axiosInstance().post(phoneNumberURL, { phone }, getConfig());
       dispatch({ type: AccountActionTypes.PHONE_NUMBER_SUBMITTED, payload: 'verifyToSave' });
-      dispatch(clearLoading('accountLoading'))
     } catch (e) {
       console.log({ e });
       const { response } = e
@@ -90,13 +89,19 @@ export function resendOtpToInputtedPhoneNumber(phone) {
   };
 }
 
-export function sendOtpToSavedPhoneNumber() {
+export function sendOtpToSavedPhoneNumber(isResend) {
   return async (dispatch) => {
+    if (isResend) {
+      dispatch({ type: LoadingTypes.ACCOUNT_LOADING, payload: 'LOADING/SEND_SMS_OTP' });
+    }
+
     try {
       await axiosInstance().patch(verificationCodeURL, getConfig());
       dispatch({ type: AccountActionTypes.VERIFICATION_CODE_SENT });
+      dispatch(clearLoading('accountLoading'))
     } catch (e) {
       console.log({ e });
+      dispatch(clearLoading('accountLoading'))
     }
   };
 }
@@ -108,7 +113,6 @@ export function verifyPhoneNumber(code, phone) {
     try {
       await axiosInstance().patch(phoneNumberURL, { code, phone }, getConfig());
       dispatch({ type: AccountActionTypes.VERIFY_PHONE_NUMBER, payload: 'verified' });
-      dispatch(clearLoading('accountLoading'))
     } catch (e) {
       console.log({ e });
       const { response } = e
@@ -126,7 +130,6 @@ export function deletePhoneNumber(otp) {
     try {
       await axiosInstance().delete(phoneNumberURL, { ...getConfig(), data: { otp } });
       dispatch({ type: AccountActionTypes.PHONE_NUMBER_DELETED, payload: 'removed' });
-      dispatch(clearLoading('accountLoading'))
     } catch (e) {
       console.log({ e });
       const { response } = e
@@ -150,6 +153,8 @@ export function getPersonalInfo() {
 
 export function postPersonalInfo(userData, profilePicture) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.ACCOUNT_LOADING, payload: 'LOADING/SAVE_PERSONAL_INFO' });
+
     try {
       const { data } = await axiosInstance().post(personalInfoURL, userData, getConfig());
 
@@ -158,22 +163,26 @@ export function postPersonalInfo(userData, profilePicture) {
         formData.append('profilePic', profilePicture);
         await axiosInstance().post(profilePicURL, formData, getConfig());
       }
-
-      dispatch({ type: AccountActionTypes.GENERAL_INFO_SAVED, payload: data });
+      dispatch(clearLoading('accountLoading'))
+      dispatch({ type: AccountActionTypes.PERSONAL_INFO_SAVED, payload: data });
     } catch (e) {
       console.log({ e });
+      dispatch(clearLoading('accountLoading'))
     }
   };
 }
 
-export function deletePicture(filename) {
+export function removeProfilePicture(filename) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.ACCOUNT_LOADING, payload: 'LOADING/REMOVE_PROFILE_PICTURE' });
+
     try {
-      // image/profile-picture ?
       await axiosInstance().delete(imageURL, { ...getConfig(), data: { filename } });
       dispatch({ type: AccountActionTypes.PROFILE_PIC_REMOVED, payload: 'removed' });
+      dispatch(clearLoading('accountLoading'))
     } catch (e) {
       console.log({ e });
+      dispatch(clearLoading('accountLoading'))
     }
   };
 }
@@ -191,11 +200,15 @@ export function getSitterAccount() {
 
 export function saveSitter(sitterData) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.ACCOUNT_LOADING, payload: 'LOADING/SAVE_SITTER' });
+
     try {
       const data = await axiosInstance().post(sitterURL, sitterData, getConfig());
       dispatch({ type: AccountActionTypes.SITTER_ACCOUNT_SAVED, payload: data });
+      dispatch(clearLoading('accountLoading'))
     } catch (e) {
       console.log({ e });
+      dispatch(clearLoading('accountLoading'))
     }
   };
 }
@@ -223,6 +236,8 @@ const getCatConfig = () => {
 
 export function saveOwner(ownerData, photos) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.ACCOUNT_LOADING, payload: 'LOADING/SAVE_OWNER' });
+
     try {
       console.log({ photos })
       const { data } = await axiosInstance().post(ownerURL, ownerData, getConfig());
@@ -246,19 +261,25 @@ export function saveOwner(ownerData, photos) {
       }
 
       dispatch({ type: AccountActionTypes.OWNER_ACCOUNT_SAVED, payload: data });
+      dispatch(clearLoading('accountLoading'))
     } catch (e) {
       console.log({ eSaveOwner: e.response });
+      dispatch(clearLoading('accountLoading'))
     }
   };
 }
 
 export function removeCatPhoto(filename, index) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.ACCOUNT_LOADING, payload: 'LOADING/REMOVE_CAT_PHOTO' });
+
     try {
       await axiosInstance().delete(catImageURL, { ...getConfig(), data: { filename } });
       dispatch({ type: AccountActionTypes.CAT_PIC_REMOVED, payload: index });
+      dispatch(clearLoading('accountLoading'))
     } catch (e) {
       console.log({ e });
+      dispatch(clearLoading('accountLoading'))
     }
   };
 }

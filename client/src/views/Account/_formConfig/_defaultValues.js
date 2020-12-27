@@ -6,7 +6,7 @@ export const reset_password_default_values = {
     newPasswordRepeat: ''
 }
 
-export const general_default_values = {
+export const personal_default_values = {
     profilePicture: null,
     firstName: '',
     lastName: '',

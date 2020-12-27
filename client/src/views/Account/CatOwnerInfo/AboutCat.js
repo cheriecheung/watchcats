@@ -15,13 +15,34 @@ import { catBreedOptions, personalityOptions } from '../../../utility/constants'
 
 const color = '#252525';
 
-function AboutCat({ t, setValue, catProps }) {
-  const { cat, catFields, addCat, removeCat, photoFields, handlePreview, handleRemovePhoto } = catProps;
+function AboutCat({
+  t,
+  catProps,
+  setValue,
+  isLoading
+}) {
+  const {
+    cat,
+    catFields,
+    addCat,
+    removeCat,
+    photoFields,
+    handlePreview,
+    handleRemovePhoto
+  } = catProps;
+
+  console.log({ cat })
 
   return (
     <>
       {catFields.map(({ id }, index) => {
-        const { gender, needsInjection, needsPill, isVaccinated, isInsured } = cat[index] || {}
+        const {
+          gender,
+          needsInjection,
+          needsPill,
+          isVaccinated,
+          isInsured
+        } = cat[index] || {}
 
         return (
           <div key={id}>
@@ -49,6 +70,7 @@ function AboutCat({ t, setValue, catProps }) {
                     name={`cat[${index}].photo`}
                     fileName={photoFields[index]}
                     handleRemovePhoto={() => handleRemovePhoto(photoFields[index], index)}
+                    isLoading={isLoading}
                   />
                   :
                   <FileUploader

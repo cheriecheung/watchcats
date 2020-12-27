@@ -17,7 +17,9 @@ function CatOwnerInfo() {
     resetForm,
     bookingOneDayProps,
     bookingOvernightProps,
-    catProps
+    catProps,
+    isLoadingRemoveCatPhoto,
+    isLoadingSaveOwner
   } = useCatOwner();
 
   const { handleSubmit, watch, setValue } = methods;
@@ -42,7 +44,7 @@ function CatOwnerInfo() {
           <HorizontalCard>
             <CardTitle>{t('owner_form.appointment')}</CardTitle>
 
-            <h6 style={{ marginTop: 30 }}>{t('owner_form.one_day')}</h6>
+            <h6 style={{ marginTop: 30 }}>{t('owner_form.one_day', { index: null })}</h6>
             <AppointmentTime
               t={t}
               bookingOneDayProps={bookingOneDayProps}
@@ -57,6 +59,7 @@ function CatOwnerInfo() {
               setValue={setValue}
               watch={watch}
               catProps={catProps}
+              isLoading={isLoadingRemoveCatPhoto}
             />
           </HorizontalCard>
 
@@ -66,7 +69,7 @@ function CatOwnerInfo() {
             <Responsibilities t={t} />
           </HorizontalCard>
 
-          <FormButtons onClick={resetForm} />
+          <FormButtons onClick={resetForm} isLoading={isLoadingSaveOwner} />
         </form>
       </FormProvider>
     </>

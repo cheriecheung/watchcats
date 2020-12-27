@@ -21,6 +21,10 @@ function useCatOwner() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { ownerData, catPhotoRemoved } = useSelector((state) => state.account);
+  const { accountLoading } = useSelector((state) => state.loading)
+
+  let isLoadingRemoveCatPhoto = accountLoading === 'LOADING/REMOVE_CAT_PHOTO'
+  let isLoadingSaveOwner = accountLoading === 'LOADING/SAVE_OWNER'
 
   const [cleanedData, setCleanedData] = useState([])
   const [photoFields, setPhotoFields] = useState([])
@@ -29,7 +33,7 @@ function useCatOwner() {
   const defaultValues = cat_owner_default_values;
   const resolver = yupResolver(cat_owner_schema)
   const methods = useForm({ defaultValues, resolver });
-  const { control, reset, watch, setValue } = methods;
+  const { control, reset, watch, setValue, errors } = methods;
 
   const oneDayFieldArray = useFieldArray({ control, name: 'bookingOneDay' });
   const bookingOneDay = watch('bookingOneDay');
@@ -80,8 +84,10 @@ function useCatOwner() {
   }, [ownerData])
 
   useEffect(() => {
+    console.log({ cleanedData })
     if (cleanedData && cleanedData.cat) {
-      Object.entries(cleanedData).map(([key, value]) => setValue(key, value))
+      // Object.entries(cleanedData).map(([key, value]) => setValue(key, value))
+      reset(cleanedData)
 
       const { cat } = cleanedData
       const allPhotoFields = cat.map(({ photo }, index) => photo);
@@ -264,7 +270,9 @@ function useCatOwner() {
     resetForm,
     bookingOneDayProps,
     bookingOvernightProps,
-    catProps
+    catProps,
+    isLoadingRemoveCatPhoto,
+    isLoadingSaveOwner
   }
 }
 

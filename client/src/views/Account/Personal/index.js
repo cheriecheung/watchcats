@@ -6,20 +6,21 @@ import ProfilePicture from './ProfilePicture';
 import PersonalInfo from './PersonalInfo';
 import SocialMedia from './SocialMedia';
 
-import { useGeneral } from './viewModel'
+import { usePersonal } from './viewModel'
 
-function GeneralInfo() {
+function Personal() {
   const {
     t,
     FormProvider,
     methods,
     onSubmit,
-    resetForm,
     photoField,
     handlePreview,
     handleRemovePhoto,
-    personalInfoRef
-  } = useGeneral();
+    personalInfoRef,
+    isLoadingRemoveProfilePicture,
+    isLoadingSubmit
+  } = usePersonal();
 
   const { handleSubmit, reset } = methods;
 
@@ -28,7 +29,7 @@ function GeneralInfo() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <HorizontalCard>
           <CardTitle style={{ display: 'inline-block' }}>
-            {t('general_info.profile_picture')}
+            {t('personal_info.profile_picture')}
           </CardTitle>
 
           <ProfilePicture
@@ -37,29 +38,30 @@ function GeneralInfo() {
             photoField={photoField}
             handlePreview={handlePreview}
             handleRemovePhoto={handleRemovePhoto}
+            isLoading={isLoadingRemoveProfilePicture}
           />
         </HorizontalCard>
 
         <HorizontalCard ref={personalInfoRef}>
-          <CardTitle>{t('general_info.personal_info')}</CardTitle>
+          <CardTitle>{t('personal_info.personal_info')}</CardTitle>
 
           <PersonalInfo t={t} />
         </HorizontalCard>
 
         <HorizontalCard>
           <div style={{ display: 'flex' }}>
-            <CardTitle>{t('general_info.social_media')}</CardTitle>
+            <CardTitle>{t('personal_info.social_media')}</CardTitle>
             <span style={{ fontSize: '0.9rem', marginLeft: 5 }}>
-              ({t('general_info.optional')})
+              ({t('personal_info.optional')})
               </span>
           </div>
           <SocialMedia t={t} />
         </HorizontalCard>
 
-        <FormButtons onClick={resetForm} />
+        <FormButtons isLoading={isLoadingSubmit} />
       </form>
     </FormProvider>
   );
 }
 
-export default GeneralInfo;
+export default Personal;

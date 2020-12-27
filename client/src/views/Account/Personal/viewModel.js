@@ -1,25 +1,29 @@
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPersonalInfo, postPersonalInfo, deletePicture } from '../../../redux/account/actions';
+import { getPersonalInfo, postPersonalInfo, removeProfilePicture } from '../../../redux/account/actions';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { general_default_values } from '../_formConfig/_defaultValues'
-import { general_schema } from '../_formConfig/_validationSchema'
+import { personal_default_values } from '../_formConfig/_defaultValues'
+import { personal_schema } from '../_formConfig/_validationSchema'
 
-function useGeneral() {
+function usePersonal() {
   const personalInfoRef = useRef(null);
 
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const { data, profilePicRemoved } = useSelector((state) => state.account);
+  const { accountLoading } = useSelector((state) => state.loading);
+
+  let isLoadingRemoveProfilePicture = accountLoading === 'LOADING/REMOVE_PROFILE_PICTURE'
+  let isLoadingSubmit = accountLoading === 'LOADING/SAVE_PERSONAL_INFO'
 
   const [photoField, setPhotoField] = useState()
 
-  const defaultValues = general_default_values;
-  const resolver = yupResolver(general_schema)
+  const defaultValues = personal_default_values;
+  const resolver = yupResolver(personal_schema)
   const methods = useForm({ defaultValues, resolver });
   const { reset, setValue, errors } = methods;
 
@@ -60,7 +64,7 @@ function useGeneral() {
       setPhotoField(null)
       setValue("profilePicture", null)
     } else {
-      dispatch(deletePicture(fileName));
+      dispatch(removeProfilePicture(fileName));
     }
   };
 
@@ -69,22 +73,19 @@ function useGeneral() {
     dispatch(postPersonalInfo(rest, profilePicture.file));
   }
 
-  function resetForm() {
-    reset(defaultValues)
-  }
-
   return {
     t,
     data,
     FormProvider,
     methods,
     onSubmit,
-    resetForm,
     photoField,
     handlePreview,
     handleRemovePhoto,
-    personalInfoRef
+    personalInfoRef,
+    isLoadingRemoveProfilePicture,
+    isLoadingSubmit
   };
 }
 
-export { useGeneral };
+export { usePersonal };

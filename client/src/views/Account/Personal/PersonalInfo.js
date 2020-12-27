@@ -8,23 +8,23 @@ function PersonalInfo({ t }) {
     <>
       <Row>
         <Col md={6}>
-          <FieldLabel>{t('general_info.first_name')}</FieldLabel>
+          <FieldLabel>{t('personal_info.first_name')}</FieldLabel>
           <TextField name="firstName" />
         </Col>
         <Col md={6}>
-          <FieldLabel>{t('general_info.last_name')}</FieldLabel>
+          <FieldLabel>{t('personal_info.last_name')}</FieldLabel>
           <TextField name="lastName" />
         </Col>
         <Col md={6}>
-          <FieldLabel>{t('general_info.address')}</FieldLabel>
-          <Tooltip content={t('general_info.address_tooltip')}>
+          <FieldLabel>{t('personal_info.address')}</FieldLabel>
+          <Tooltip content={t('personal_info.address_tooltip')}>
             <i className="fas fa-info-circle ml-2" />
           </Tooltip>
           <TextField name="address" />
         </Col>
         <Col md={6}>
-          <FieldLabel>{t('general_info.postcode')}</FieldLabel>
-          <Tooltip content={t('general_info.address')}>
+          <FieldLabel>{t('personal_info.postcode')}</FieldLabel>
+          <Tooltip content={t('personal_info.address')}>
             <i className="fas fa-info-circle ml-2" />
           </Tooltip>
           <TextField name="postcode" />

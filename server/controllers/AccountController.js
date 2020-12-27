@@ -63,7 +63,7 @@ module.exports = {
         await user.save();
       }
 
-      return res.status(200).json('');
+      return res.status(200).json('Success');
     } catch (e) {
       console.log({ e });
       return res.status(401).json('ERROR/FAIL_TO_SAVE');

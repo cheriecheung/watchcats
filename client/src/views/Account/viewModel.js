@@ -16,7 +16,7 @@ function useAccount() {
   const [modalContent, setModalContent] = useState('');
   const [newAccountTab, setNewAccountTab] = useState('');
 
-  const { generalInfo, sitter, ownerSaved } = useSelector((state) => state.account);
+  const { personalInfoSaved, sitterSaved, ownerSaved } = useSelector((state) => state.account);
 
   useEffect(() => {
     if (window.scrollTo) window.scrollTo(0, 0);
@@ -31,20 +31,20 @@ function useAccount() {
 
   const tabs = [
     { key: 'settings', tab: t('account.settings') },
-    { key: 'general', tab: t('account.general_info') },
+    { key: 'personal', tab: t('account.personal_info') },
     { key: 'sitter', tab: t('account.sitter_profile') },
     { key: 'owner', tab: t('account.owner_profile') }
   ];
 
   useEffect(() => {
-    console.log({ generalInfo, sitter, ownerSaved })
-    if (generalInfo) {
-      setModalContent('You have successfully saved your general information');
-      setNewAccountTab('general');
+    console.log({ personalInfoSaved, sitterSaved, ownerSaved })
+    if (personalInfoSaved) {
+      setModalContent('You have successfully saved your personal information');
+      setNewAccountTab('personal');
       setModalVisible(true);
     }
 
-    if (sitter) {
+    if (sitterSaved) {
       setModalContent('You have successfully saved your sitter account');
       setNewAccountTab('sitter');
       setModalVisible(true);
@@ -55,7 +55,7 @@ function useAccount() {
       setNewAccountTab('owner');
       setModalVisible(true);
     }
-  }, [generalInfo, sitter, ownerSaved]);
+  }, [personalInfoSaved, sitterSaved, ownerSaved]);
 
   function onOk() {
     history.push({ state: { accountTab: newAccountTab } });

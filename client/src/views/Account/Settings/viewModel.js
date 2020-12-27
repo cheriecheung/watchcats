@@ -156,7 +156,8 @@ function useContactDetails() {
       dispatch({ type: 'PHONE_NUMBER_DELETED', payload: 'input' });
     }
     if (action === 'remove') {
-      dispatch(sendOtpToSavedPhoneNumber())
+      const isResend = false;
+      dispatch(sendOtpToSavedPhoneNumber(isResend))
       dispatch({ type: 'VERIFY_PHONE_NUMBER', payload: 'verifyToRemove' });
     }
 
@@ -226,7 +227,8 @@ function usePhoneNumberVerification() {
 
   function resendCode(phone) {
     if (changePhoneNumberStep === 'verifyToRemove') {
-      dispatch(sendOtpToSavedPhoneNumber())
+      const isResend = true;
+      dispatch(sendOtpToSavedPhoneNumber(isResend))
     } else {
       dispatch(resendOtpToInputtedPhoneNumber(phone))
     }

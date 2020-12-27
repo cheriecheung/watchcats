@@ -22,6 +22,9 @@ function useCatSitter() {
 
   const dispatch = useDispatch();
   const { sitterData } = useSelector((state) => state.account);
+  const { accountLoading } = useSelector((state) => state.loading)
+
+  let isLoadingSaveSitter = accountLoading === 'LOADING/SAVE_SITTER'
 
   const [cleanedData, setCleanedData] = useState([])
 
@@ -152,7 +155,8 @@ function useCatSitter() {
     resetForm,
     aboutSitterRef,
     experienceRef,
-    experienceData
+    experienceData,
+    isLoadingSaveSitter
   }
 }
 

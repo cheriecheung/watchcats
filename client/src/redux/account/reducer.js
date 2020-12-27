@@ -28,12 +28,12 @@ const account_reducer = {
         return { ...state, changePhoneNumberStep: action.payload, phone: '' };
       case AccountActionTypes.GET_USER:
         return { ...state, data: action.payload };
-      case AccountActionTypes.GENERAL_INFO_SAVED:
-        return { ...state, generalInfo: action.payload };
+      case AccountActionTypes.PERSONAL_INFO_SAVED:
+        return { ...state, personalInfoSaved: action.payload };
       case AccountActionTypes.PROFILE_PIC_REMOVED:
         return { ...state, profilePicRemoved: action.payload }
       case AccountActionTypes.SITTER_ACCOUNT_SAVED:
-        return { ...state, sitter: action.payload };
+        return { ...state, sitterSaved: action.payload };
       case AccountActionTypes.OWNER_ACCOUNT_SAVED:
         return { ...state, ownerSaved: action.payload };
       case AccountActionTypes.GET_SITTER_ACCOUNT:

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { ContainedButton, TextButton } from '../UIComponents'
+import { ContainedButton, TextButton, Spinner } from '../UIComponents'
 
-function FormButtons({ onClick }) {
+function FormButtons({ onClick, isLoading }) {
   const { t } = useTranslation();
 
   const handleReset = (resetFunction) => {
@@ -14,15 +14,18 @@ function FormButtons({ onClick }) {
 
   return (
     <div className="float-right">
-      <TextButton
-        style={{ marginRight: 10 }}
-        onClick={() => handleReset(onClick)}
-      >
-        {t('form.reset')}
-      </TextButton>
+      {onClick &&
+        <TextButton
+          style={{ marginRight: 10 }}
+          onClick={() => handleReset(onClick)}
+        >
+          {t('form.reset')}
+        </TextButton>
+      }
 
       <ContainedButton type="submit">
         {t('form.save')}
+        {isLoading && <Spinner />}
       </ContainedButton>
     </div>
   );

@@ -22,7 +22,8 @@ function SitterProfile() {
     resetForm,
     aboutSitterRef,
     experienceRef,
-    experienceData
+    experienceData,
+    isLoadingSaveSitter
   } = useCatSitter()
 
   const { handleSubmit } = methods;
@@ -66,7 +67,7 @@ function SitterProfile() {
             />
           </HorizontalCard>
 
-          <FormButtons onClick={resetForm} />
+          <FormButtons onClick={resetForm} isLoading={isLoadingSaveSitter} />
         </form>
       </FormProvider>
     </>
