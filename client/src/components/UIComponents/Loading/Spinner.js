@@ -14,7 +14,7 @@ const Spinner = styled(Spin)`
   }
 
   & > span > i {
-    background-color: ${({ isOutlinedButton }) => isOutlinedButton ? themeColor.peach : '#fff'};
+    background-color: ${({ isoutlinedbutton }) => isoutlinedbutton === "true" ? themeColor.peach : '#fff'};
   }
 `
 

@@ -12,6 +12,7 @@ export default {
     phone_submission_failed: 'Unable to submit phone number. Please try again.',
     phone_saving_failed: 'Unable to save phone. Please try again.',
 
+    password_incorrect: 'You submitted the incorrect password.',
     password_reset_failed: 'Unable to reset password. Please try again.',
 
     otp_expired: 'You enter an expired code. Click "Resend code" to get a new one.',
@@ -23,6 +24,8 @@ export default {
     register: 'Registration successful. A link to activate your account has been sent to the email provided.',
     notification_setting: 'Notification setting updated',
     password_reset: 'You have successfully reset your password.',
+    phone_verified: 'You have successfully verified your phone',
+    phone_removed: 'You have successfully removed your phone',
     '2FA_enabled': 'You have enabled 2-factor authentication. You will now need to login by phone on top of logging in by email and password.',
     '2FA_disabled': 'You have disabled 2-factor authentication. You will now only log in by email and password.',
     booking_request: 'You have successfully sent your booking request.',
@@ -149,7 +152,7 @@ export default {
 
   account: {
     settings: 'Settings',
-    general_info: 'General info',
+    personal_info: 'Personal info',
     sitter_profile: 'Cat sitter profile',
     owner_profile: 'Cat owner profile',
   },
@@ -194,15 +197,15 @@ export default {
     enable_2FA_step1_detail2: ' for your phone or tablet.',
     enable_2FA_step2: '2. Scan the QR code',
     enable_2FA_step2_detail: 'Open the authenticator app and scan the image to the left using your phone\'s camera.',
-    enable_2FA_step3: '3. Log in met je code',
+    enable_2FA_step3: '3. Log in with your code',
     enable_2FA_step3_detail: 'Enter the 6-digit verification code generated.',
     activate: 'Activate'
   },
 
-  general_info: {
+  personal_info: {
     profile_picture: 'Profile picture',
     picture_requirement_1: 'Please choose a high quality picture of yourself',
-    picture_requirement_2: 'No filters, effects or stickers applied to the image',
+    picture_requirement_2: 'No filters, effects or stickers applied',
     picture_requirement_3: 'Best image format JPG, JPEG, PNG',
     picture_requirement_4: 'Minimum size 360 x 254 pixels',
 

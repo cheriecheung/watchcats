@@ -60,7 +60,6 @@ export function register(firstName, lastName, email, password) {
       const { response } = e
       const { data } = response || {}
       dispatch({ type: ErrorTypes.APP_ERROR, payload: data });
-    } finally {
       dispatch(clearLoading('appLoading'))
     }
   };
@@ -79,7 +78,6 @@ export function resetPassword(currentPassword, newPassword) {
       const { response } = e
       const { data } = response || {}
       dispatch({ type: ErrorTypes.APP_ERROR, payload: data })
-    } finally {
       dispatch(clearLoading('appLoading'))
     }
   };
@@ -136,7 +134,6 @@ export function enableTwoFactor(code) {
       const { response } = e
       const { data } = response || {}
       dispatch({ type: ErrorTypes.APP_ERROR, payload: data })
-    } finally {
       dispatch(clearLoading('appLoading'))
     }
   };
@@ -154,7 +151,6 @@ export function disableTwoFactor(code) {
       const { response } = e
       const { data } = response || {}
       dispatch({ type: ErrorTypes.APP_ERROR, payload: data })
-    } finally {
       dispatch(clearLoading('appLoading'))
     }
   };

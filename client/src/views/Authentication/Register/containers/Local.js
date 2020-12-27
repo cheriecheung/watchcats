@@ -36,7 +36,7 @@ function Local({
 
         <OutlinedButton type="submit" style={{ width: '100%' }}>
           {t('register.title')}
-          {isLoading && <Spinner isOutlinedButton={true} />}
+          {isLoading && <Spinner isoutlinedbutton="true" />}
         </OutlinedButton>
       </form>
     </FormProvider>

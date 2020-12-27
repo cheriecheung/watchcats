@@ -28,7 +28,6 @@ export function googleLogin() {
       dispatch({ type: AuthActionTypes.GOOGLE_LOGIN, payload: data });
     } catch (e) {
       console.log({ e });
-    } finally {
       dispatch(clearLoading('authenticationLoading'))
     }
   };
@@ -67,7 +66,6 @@ export function phoneLogin(code) {
       const { response } = e
       const { data } = response || {}
       dispatch({ type: ErrorTypes.AUTHENTICATION_ERROR, payload: data })
-    } finally {
       dispatch(clearLoading('authenticationLoading'))
     }
   }
@@ -95,7 +93,6 @@ export function login(email, password) {
       const { response } = e
       const { data } = response || {}
       dispatch({ type: ErrorTypes.AUTHENTICATION_ERROR, payload: data })
-    } finally {
       dispatch(clearLoading('authenticationLoading'))
     }
   };

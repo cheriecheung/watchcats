@@ -12,6 +12,7 @@ export default {
     phone_submission_failed: 'Kan het telefoonnummer niet wijzigen. Probeer het opnieuw a.u.b',
     phone_saving_failed: 'Kay het telefoonnummer niet opslaan. Probeer het opnieuw a.u.b',
 
+    password_incorrect: 'U heeft het verkeerde wachtwoord ingevoerd.',
     password_reset_failed: 'Kan wachtwoord niet resetten. Probeer het opnieuw a.u.b.',
 
     otp_expired: 'You enter an expired code. Click "Resend code" to get a new one.',
@@ -20,8 +21,11 @@ export default {
   },
 
   success: {
-    password_reset: 'You have successfully reset your password.',
+    register: 'Registration successful. A link to activate your account has been sent to the email provided.',
     notification_setting: 'Meldingsinstelling bijgewerkt',
+    password_reset: 'You have successfully reset your password.',
+    phone_verified: 'You have successfully verified your phone',
+    phone_removed: 'You have successfully removed your phone',
     '2FA_enabled': 'You have enabled 2-factor authentication. You will now need to login by phone on top of logging in by email and password.',
     '2FA_disabled': 'You have disabled 2-factor authentication. You will now only log in by email and password.',
     booking_request: 'You have successfully sent your booking request.',
@@ -148,7 +152,7 @@ export default {
 
   account: {
     settings: 'Instellingen',
-    general_info: 'Algemene informatie',
+    personal_info: 'Algemene informatie',
     sitter_profile: 'Oppasprofiel',
     owner_profile: 'Eigenaarsprofiel',
   },
@@ -198,10 +202,10 @@ export default {
     activate: 'Activeren'
   },
 
-  general_info: {
+  personal_info: {
     profile_picture: 'Profielfoto',
     picture_requirement_1: 'Please choose a high quality picture of yourself',
-    picture_requirement_2: 'No filters, effects or stickers applied to the image',
+    picture_requirement_2: 'No filters, effects or stickers applied',
     picture_requirement_3: 'Best image format JPG, JPEG, PNG',
     picture_requirement_4: 'Minimum size 360 x 254 pixels',
 
