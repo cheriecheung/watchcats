@@ -7,6 +7,7 @@ import bookings_reducer from './bookings/reducer';
 import chat_reducer from './chat/reducer';
 import error_reducer from './error/reducer'
 import find_cat_sitter_reducer from './find_cat_sitter/reducer';
+import loading_reducer from './loading/reducer'
 import payment_reducer from './payment/reducer';
 import profile_reducer from './profile/reducer';
 
@@ -19,6 +20,7 @@ const rootReducer = combineReducers(
     chat_reducer,
     error_reducer,
     find_cat_sitter_reducer,
+    loading_reducer,
     payment_reducer,
     profile_reducer,
   ),
