@@ -28,21 +28,25 @@ export function getAppointmentTime() {
 
 export function sendRequest(bookingData) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.BOOKINGS_LOADING, payload: 'LOADING/SEND_BOOKING_REQUEST' });
+
     try {
       const { data } = await axiosInstance().post(bookingUrl, bookingData, getConfig());
       dispatch({ type: BookingActionTypes.BOOKING_REQUEST_SENT, payload: data });
+      dispatch(clearLoading('bookingsLoading'))
     } catch (e) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
       dispatch({ type: ErrorTypes.BOOKINGS_ERROR, payload: data })
+      dispatch(clearLoading('bookingsLoading'))
     }
   };
 }
 
 export function getRecords(type) {
   return async (dispatch) => {
-    dispatch({ type: LoadingTypes.BOOKINGS_LOADING, payload: 'LOADING/FULFILL_ACTION' });
+    dispatch({ type: LoadingTypes.BOOKINGS_LOADING, payload: 'LOADING/GET_BOOKINGS_RECORDS' });
 
     try {
       const { data } = await axiosInstance().get(bookingsURL(type), getConfig());

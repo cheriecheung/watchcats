@@ -2,16 +2,19 @@ import styled, { css } from 'styled-components'
 import { Link } from 'react-router-dom'
 import { themeColor } from '../../../style/theme'
 
+const defaultStyle = css`
+  background: none;
+  outline: none;
+
+  &:hover {
+    color: ${themeColor.peach}
+  }
+`
+
 const defaultLinkButton = ({ variant }) => {
   if (!variant) return css`
     color: #666;
-    background: none;
     border: none;
-    outline: none;
-
-    &:hover {
-      color: ${themeColor.peach}
-    }
   `
 
   return css``;
@@ -22,23 +25,29 @@ const bordered = ({ variant }) => {
     padding: 5px 15px;
     height: 35px;
     color: ${themeColor.peach};
-    background: none;
     border: 1px solid ${themeColor.peach};
     border-radius: 10px;
-    outline: none;
-
-    &:hover {
-      color: ${themeColor.peach}
-    }
   `
 
   return css``;
 }
 
+const colored = ({ variant }) => {
+  if (variant === 'colored') return css`
+    color: ${themeColor.peach};
+    border: none;
+  `
+
+  return css``;
+}
+
+
 const LinkButton = styled(Link)`
+  ${defaultStyle}
   ${defaultLinkButton}
 
   ${bordered}
+  ${colored}
 `
 
 export default LinkButton

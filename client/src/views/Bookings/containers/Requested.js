@@ -56,7 +56,7 @@ function Requested({
 
             <span>
               {t('bookings.go_to')}
-              <LinkButton to="/find" style={{ fontWeight: 'bold' }}>
+              <LinkButton to="/find" variant="colored">
                 &nbsp;{t('header.find_sitter')}&nbsp;
               </LinkButton>
               {t('bookings.find_sitter')}

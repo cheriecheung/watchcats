@@ -84,7 +84,11 @@ function CatSitter() {
             </Section>
           </VerticalCard>
 
-          <Summary t={t} summaryProps={summaryProps} sitterInfo={cleanedData} />
+          <Summary
+            t={t}
+            summaryProps={summaryProps}
+            sitterInfo={cleanedData}
+          />
         </WrapLayout>
       }
     </>

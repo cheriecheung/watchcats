@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
 import { DatePicker, FieldLabel, TimePicker } from '../../../../components/FormComponents';
-import { ContainedButton, ErrorMessage } from '../../../../components/UIComponents'
+import {
+  ContainedButton,
+  ErrorMessage,
+  Spinner,
+  TextButton
+} from '../../../../components/UIComponents'
 import { useCreateAppointmentTime } from '../../viewModel'
 
-function CreateAppointmentTime({ t, modalVisible }) {
+function CreateAppointmentTime({ t, closeModal, modalVisible }) {
   const {
     FormProvider,
     methods,
@@ -14,7 +19,8 @@ function CreateAppointmentTime({ t, modalVisible }) {
     resetForm,
     oneDayStyle,
     overnightStyle,
-    bookingsError
+    bookingsError,
+    isLoadingSendRequest
   } = useCreateAppointmentTime();
 
   const { handleSubmit, reset } = methods;
@@ -111,8 +117,16 @@ function CreateAppointmentTime({ t, modalVisible }) {
       {bookingsError && <ErrorMessage type={bookingsError} />}
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <TextButton
+          style={{ marginRight: 15 }}
+          onClick={closeModal}
+        >
+          {t('form.cancel')}
+        </TextButton>
+
         <ContainedButton onClick={onSendRequest}>
           {t('form.submit')}
+          {isLoadingSendRequest && <Spinner />}
         </ContainedButton>
       </div>
     </div>

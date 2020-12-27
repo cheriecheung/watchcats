@@ -143,6 +143,9 @@ function useCreateAppointmentTime() {
 
   const { bookingsError } = useSelector((state) => state.error);
   const { data } = useSelector((state) => state.profile);
+  const { bookingsLoading } = useSelector((state) => state.loading);
+
+  let isLoadingSendRequest = bookingsLoading === 'LOADING/SEND_BOOKING_REQUEST'
 
   const [rate, setRate] = useState({});
   const [appointmentData, setAppointmentData] = useState({});
@@ -252,7 +255,8 @@ function useCreateAppointmentTime() {
     resetForm,
     oneDayStyle,
     overnightStyle,
-    bookingsError
+    bookingsError,
+    isLoadingSendRequest
   }
 }
 
@@ -262,6 +266,9 @@ function useSelectAppointmentTime() {
 
   const { appointmentTime } = useSelector((state) => state.bookings);
   const { allOneDays = [], allOvernight = [] } = appointmentTime || {};
+
+  const { bookingsLoading } = useSelector((state) => state.loading);
+  let isLoadingSendRequest = bookingsLoading === 'LOADING/SEND_BOOKING_REQUEST'
 
   const { bookingsError } = useSelector((state) => state.error);
   const { data } = useSelector((state) => state.profile);
@@ -327,7 +334,8 @@ function useSelectAppointmentTime() {
     handleSelectTime,
     price,
     onSendRequest,
-    bookingsError
+    bookingsError,
+    isLoadingSendRequest
   }
 }
 

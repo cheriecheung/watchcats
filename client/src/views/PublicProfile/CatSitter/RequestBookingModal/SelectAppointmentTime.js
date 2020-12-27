@@ -1,17 +1,23 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import moment from 'moment';
-import { ContainedButton, ErrorMessage } from '../../../../components/UIComponents'
+import {
+  ContainedButton,
+  ErrorMessage,
+  Spinner,
+  TextButton
+} from '../../../../components/UIComponents'
 import { useSelectAppointmentTime } from '../../viewModel'
 
-function SelectAppointmentTime({ t }) {
+function SelectAppointmentTime({ t, closeModal }) {
   const {
     allOneDays,
     allOvernight,
     handleSelectTime,
     price,
     onSendRequest,
-    bookingsError
+    bookingsError,
+    isLoadingSendRequest
   } = useSelectAppointmentTime();
 
   return (
@@ -28,8 +34,6 @@ function SelectAppointmentTime({ t }) {
           </Col>
           <Col md={8}>
             {allOneDays.map(({ id, date, startTime, endTime }, index) => {
-              //const dateConverted = moment(date, 'YYYY-MM-DD').format('DD MMM YYYY');
-              //const startTimeObj = moment(new Date(startTime)).format('HH:mm');
               const dateConverted = moment(date).format('DD MMM YYYY');
               const startTimeObj = moment(startTime).format('HH:mm');
               const endTimeObj = moment(endTime).format('HH:mm');
@@ -53,7 +57,7 @@ function SelectAppointmentTime({ t }) {
         </Row>
       )}
 
-      {[allOvernight].length > 0 && (
+      {allOvernight.length > 0 && (
         <Row style={{ marginTop: 15 }}>
           <Col md={4} style={{ marginBottom: 15 }}>
             <b>{t('sitter_profile.overnight_appointment')}:</b>
@@ -97,9 +101,19 @@ function SelectAppointmentTime({ t }) {
 
       {bookingsError && <ErrorMessage type={bookingsError} />}
 
+      <br />
+
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <TextButton
+          style={{ marginRight: 15 }}
+          onClick={closeModal}
+        >
+          {t('form.cancel')}
+        </TextButton>
+
         <ContainedButton onClick={onSendRequest}>
           {t('form.submit')}
+          {isLoadingSendRequest && <Spinner />}
         </ContainedButton>
       </div>
     </div>

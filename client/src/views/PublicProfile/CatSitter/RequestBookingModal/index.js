@@ -8,18 +8,34 @@ function RequestBookingModal({
   t,
   modalVisible,
   closeModal,
-  profileActionStatus,
+  profileActionStatus
 }) {
   const renderModalContent = () => {
     switch (profileActionStatus) {
       case 'APPOINTMENT_TIME_NOT_FOUND':
-        return <CreateAppointmentTime t={t} modalVisible={modalVisible} />
+        return (
+          <CreateAppointmentTime
+            t={t}
+            closeModal={closeModal}
+            modalVisible={modalVisible}
+          />
+        )
       case 'OWNER_PROFILE_NOT_FOUND':
         return <CreateOwnerProfile t={t} />
       case 'BOOKING_REQUEST_SENT':
-        return <SuccessDisplay message={t('success.booking_request')} onClick={closeModal} />
+        return (
+          <SuccessDisplay
+            message={t('success.booking_request')}
+            onClick={closeModal}
+          />
+        )
       default:
-        return <SelectAppointmentTime t={t} />
+        return (
+          <SelectAppointmentTime
+            t={t}
+            closeModal={closeModal}
+          />
+        )
     }
   }
 

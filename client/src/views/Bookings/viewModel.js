@@ -25,7 +25,7 @@ function useBookings() {
   const { bookings: returnedBookings } = useSelector((state) => state.bookings);
   const { bookingsLoading } = useSelector((state) => state.loading);
 
-  let isLoadingBookingRecords = bookingsLoading === 'LOADING/GET_ALL_BOOKINGS_RECORDS'
+  let isLoadingBookingRecords = bookingsLoading === 'LOADING/GET_BOOKINGS_RECORDS'
   let isLoadingFulfillAction = bookingsLoading === 'LOADING/FULFILL_ACTION'
 
   console.log({ returnedBookings })
