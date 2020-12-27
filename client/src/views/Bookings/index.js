@@ -1,5 +1,14 @@
 import React from 'react';
-import { Modal, SubTabBar, SubTabBarItem, TabBar, TabItem } from '../../components/UIComponents'
+import {
+  ContainedButton,
+  Modal,
+  Spinner,
+  SubTabBar,
+  SubTabBarItem,
+  TabBar,
+  TabItem,
+  TextButton
+} from '../../components/UIComponents'
 import styled from 'styled-components';
 
 import Requested from './containers/Requested'
@@ -29,15 +38,16 @@ function Bookings() {
     setBookingTypeActiveKey,
     bookingStatusActiveKey,
     setBookingStatusActiveKey,
-    setBookingId,
-    setActionType,
     submitAction,
     bookingTypeTabs,
     bookingStatusTabs,
     modalVisible,
     setModalVisible,
     modalContent,
-    setModalContent,
+    onHandleRequestedBooking,
+    onCompleteBooking,
+    isLoadingFulfillAction,
+    isLoadingBookingRecords
   } = useBookings();
 
   const { requested, confirmed, completed, declined } = bookings || {}
@@ -50,10 +60,7 @@ function Bookings() {
             t={t}
             bookingType={bookingTypeActiveKey}
             bookings={confirmed}
-            openModal={() => setModalVisible(true)}
-            setModalContent={(content) => setModalContent(content)}
-            setBookingId={(id) => setBookingId(id)}
-            setActionType={(type) => setActionType(type)}
+            onCompleteBooking={onCompleteBooking}
           />
         )
       case 'completed':
@@ -68,6 +75,7 @@ function Bookings() {
         return (
           <Declined
             t={t}
+            bookingType={bookingTypeActiveKey}
             bookings={declined}
           />
         )
@@ -77,10 +85,7 @@ function Bookings() {
             t={t}
             bookingType={bookingTypeActiveKey}
             bookings={requested}
-            openModal={() => setModalVisible(true)}
-            setModalContent={(content) => setModalContent(content)}
-            setBookingId={(id) => setBookingId(id)}
-            setActionType={(type) => setActionType(type)}
+            onHandleRequestedBooking={onHandleRequestedBooking}
           />
         )
     }
@@ -116,16 +121,38 @@ function Bookings() {
 
       <Content>
         {renderBookingStatusTabContent()}
+        {/* {isLoadingBookingRecords ?
+          <Spinner /> :
+          renderBookingStatusTabContent()
+        } */}
       </Content>
 
       <Modal
         visible={modalVisible}
-        onOk={submitAction}
         onCancel={() => setModalVisible(false)}
+        okButtonProps={{ style: { display: 'none' } }}
+        cancelButtonProps={{ style: { display: 'none' } }}
+        footer={null}
         maskClosable={false}
       >
         <br />
         {modalContent}
+        <br />
+        <br />
+
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <TextButton
+            style={{ marginRight: 15 }}
+            onClick={() => setModalVisible(false)}
+          >
+            {t('form.cancel')}
+          </TextButton>
+
+          <ContainedButton onClick={submitAction}>
+            {t('form.ok')}
+            {isLoadingFulfillAction && <Spinner />}
+          </ContainedButton>
+        </div>
       </Modal>
     </>
   );

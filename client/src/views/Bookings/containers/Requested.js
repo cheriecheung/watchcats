@@ -1,25 +1,18 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import ItemCard from '../components/ItemCard';
-import { LinkButton, OutlinedButton } from '../../../components/UIComponents';
+import { LinkButton, OutlinedButton, TextButton } from '../../../components/UIComponents';
 import { useTranslation } from 'react-i18next';
 
 function Requested({
   t,
   bookingType,
   bookings,
-  openModal,
-  setModalContent,
-  setActionType,
-  setBookingId,
+  onHandleRequestedBooking,
 }) {
   const renderSection = (id) =>
     bookingType === 'sitting_jobs' ? (
       <RequestedJob
-        openModal={openModal}
-        setModalContent={setModalContent}
-        setActionType={setActionType}
-        setBookingId={() => setBookingId(id)}
+        onHandleRequestedBooking={(actionType) => onHandleRequestedBooking(id, actionType)}
       />
     ) : (
         <RequestedService />
@@ -36,9 +29,9 @@ function Requested({
             <ItemCard
               key={id}
               t={t}
+              bookingType={bookingType}
               data={data}
               renderActionButtons={(id) => renderSection(id)}
-              bookingType={bookingType}
               status='requested'
             />
           )
@@ -49,7 +42,7 @@ function Requested({
         Array.isArray(bookings) &&
         bookings.length === 0 && (
           <>
-            <span>{t('bookings.no_jobs', { status: t('bookings.status_confirmed') })}</span>
+            <span>{t('bookings.no_jobs', { status: t('bookings.requested').toLowerCase() })}</span>
             <span>{t('bookings.receive_sitting_jobs')}</span>
           </>
         )}
@@ -59,11 +52,13 @@ function Requested({
         Array.isArray(bookings) &&
         bookings.length === 0 && (
           <>
-            <span>{t('bookings.no_jobs', { status: t('bookings.status_confirmed') })}</span>
+            <span>{t('bookings.no_service', { status: t('bookings.requested').toLowerCase() })}</span>
 
             <span>
               {t('bookings.go_to')}
-              <LinkButton to="/find">{t('header.find_sitter')}</LinkButton>
+              <LinkButton to="/find" style={{ fontWeight: 'bold' }}>
+                &nbsp;{t('header.find_sitter')}&nbsp;
+              </LinkButton>
               {t('bookings.find_sitter')}
             </span>
           </>
@@ -74,36 +69,21 @@ function Requested({
 
 export default Requested;
 
-function RequestedJob({
-  openModal,
-  setModalContent,
-  setActionType,
-  setBookingId
-}) {
+function RequestedJob({ onHandleRequestedBooking }) {
   const { t } = useTranslation();
 
   return (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <OutlinedButton
-        backgroundColor="#FF5C4E"
-        onClick={() => {
-          openModal();
-          setModalContent(t('bookings.decline_confirm'));
-          setActionType('decline');
-          setBookingId();
-        }}
+      <TextButton
+        style={{ marginRight: 10 }}
+        onClick={() => onHandleRequestedBooking('decline')}
       >
         {t('bookings.decline')}
-      </OutlinedButton>
+      </TextButton>
+
       <OutlinedButton
         style={{ marginRight: 0 }}
-        backgroundColor="#9ACD32"
-        onClick={() => {
-          openModal();
-          setModalContent(t('bookings.accept_confirm'));
-          setActionType('accept');
-          setBookingId();
-        }}
+        onClick={() => onHandleRequestedBooking('accept')}
       >
         {t('bookings.accept')}
       </OutlinedButton>

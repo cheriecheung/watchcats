@@ -23,10 +23,12 @@ function useBookings() {
 
   const dispatch = useDispatch();
   const { bookings: returnedBookings } = useSelector((state) => state.bookings);
+  const { bookingsLoading } = useSelector((state) => state.loading);
+
+  let isLoadingBookingRecords = bookingsLoading === 'LOADING/GET_ALL_BOOKINGS_RECORDS'
+  let isLoadingFulfillAction = bookingsLoading === 'LOADING/FULFILL_ACTION'
 
   console.log({ returnedBookings })
-
-  const [loading, setLoading] = useState(false)
 
   const [bookings, setBookings] = useState({})
   const [bookingStatusTabs, setBookingStatusTabs] = useState([]);
@@ -73,21 +75,39 @@ function useBookings() {
   }, [bookings])
 
   useEffect(() => {
-    setLoading(false)
     if (returnedBookings) {
       setBookings(returnedBookings)
     }
   }, [returnedBookings]);
 
   useEffect(() => {
-    setLoading(true)
-
     if (bookingTypeActiveKey === 'sitting_jobs') {
       dispatch(getRecords('jobs'));
     } else {
       dispatch(getRecords('services'));
     }
   }, [bookingTypeActiveKey]);
+
+  function onHandleRequestedBooking(bookingId, actionType) {
+    setModalVisible(true)
+    setBookingId(bookingId);
+
+    if (actionType === 'decline') {
+      setModalContent(t('bookings.decline_confirm'));
+      setActionType('decline');
+    }
+    if (actionType === 'accept') {
+      setModalContent(t('bookings.accept_confirm'));
+      setActionType('accept');
+    }
+  }
+
+  function onCompleteBooking(bookingId) {
+    setModalVisible(true)
+    setBookingId(bookingId);
+    setModalContent(t('bookings.complete_confirm'));
+    setActionType('complete');
+  }
 
   function submitAction() {
     dispatch(fulfillAction(bookingId, actionType))
@@ -100,15 +120,16 @@ function useBookings() {
     setBookingTypeActiveKey,
     bookingStatusActiveKey,
     setBookingStatusActiveKey,
-    setBookingId,
-    setActionType,
     submitAction,
     bookingTypeTabs,
     bookingStatusTabs,
     modalVisible,
     setModalVisible,
     modalContent,
-    setModalContent,
+    onHandleRequestedBooking,
+    onCompleteBooking,
+    isLoadingBookingRecords,
+    isLoadingFulfillAction
   }
 }
 

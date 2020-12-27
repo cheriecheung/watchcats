@@ -7,27 +7,17 @@ function Confirmed({
   t,
   bookingType,
   bookings,
-  openModal,
-  setModalContent,
-  setActionType,
-  setBookingId,
+  onCompleteBooking
 }) {
   const renderActionButtons = (id, hasPaid) =>
     bookingType === 'sitting_jobs' ? (
       <ConfirmedJob
         id={id}
         hasPaid={hasPaid}
-        openModal={openModal}
-        setModalContent={setModalContent}
-        setActionType={setActionType}
-        setBookingId={() => setBookingId(id)}
+        onCompleteBooking={() => onCompleteBooking(id)}
       />
     ) : (
-        <ConfirmedService
-          hasPaid={hasPaid}
-          openModal={openModal}
-          setModalContent={setModalContent}
-        />
+        <ConfirmedService hasPaid={hasPaid} />
       );
 
   return (
@@ -41,8 +31,8 @@ function Confirmed({
             <ItemCard
               key={id}
               t={t}
+              bookingType={bookingType}
               data={data}
-              openModal={openModal}
               renderActionButtons={renderActionButtons}
               status="confirmed"
             />
@@ -50,18 +40,20 @@ function Confirmed({
         })}
 
       {bookingType === 'sitting_jobs' && bookings.length === 0 && (
-        <span>{t('bookings.no_jobs', { status: t('bookings.status_confirmed') })}</span>
+        <span>{t('bookings.no_jobs', { status: t('bookings.confirmed').toLowerCase() })}</span>
       )}
 
       {bookingType === 'sitting_service' && bookings.length === 0 && (
         <>
           <span>
-            {t('bookings.no_service', { status: t('bookings.status_confirmed') })}
+            {t('bookings.no_service', { status: t('bookings.confirmed').toLowerCase() })}
           </span>
 
           <span>
             {t('bookings.go_to')}
-            <LinkButton to="/find">{t('header.find_sitter')}</LinkButton>
+            <LinkButton to="/find" style={{ fontWeight: 'bold' }}>
+              &nbsp;{t('header.find_sitter')}&nbsp;
+              </LinkButton>
             {t('bookings.find_sitter')}
           </span>
         </>
@@ -72,27 +64,13 @@ function Confirmed({
 
 export default Confirmed;
 
-function ConfirmedJob({
-  hasPaid,
-  openModal,
-  setModalContent,
-  setActionType,
-  setBookingId
-}) {
+function ConfirmedJob({ hasPaid, onCompleteBooking }) {
   const { t } = useTranslation();
   console.log({ hasPaid })
 
   return hasPaid ? (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <OutlinedButton
-        backgroundColor="#9ACD32"
-        onClick={() => {
-          openModal();
-          setModalContent(t('bookings.complete_confirm'));
-          setActionType('complete');
-          setBookingId();
-        }}
-      >
+      <OutlinedButton onClick={onCompleteBooking}>
         {t('bookings.complete')}
       </OutlinedButton>
     </div>
@@ -103,7 +81,7 @@ function ConfirmedJob({
     );
 }
 
-function ConfirmedService({ hasPaid, openModal, setModalContent }) {
+function ConfirmedService({ hasPaid }) {
   const { t } = useTranslation();
 
   console.log({ hasPaid___________: hasPaid })
@@ -114,7 +92,10 @@ function ConfirmedService({ hasPaid, openModal, setModalContent }) {
     </div>
   ) : (
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <LinkButton to={{ pathname: '/payment', state: { stripeAccountId: 'acct_1HYCiyART4JEToPd' } }}>
+        <LinkButton
+          to={{ pathname: '/payment', state: { stripeAccountId: 'acct_1HYCiyART4JEToPd' } }}
+          variant="bordered"
+        >
           {t('bookings.pay_now')}
         </LinkButton>
       </div>

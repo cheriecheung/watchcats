@@ -56,6 +56,8 @@ export default {
     save: 'Save',
     submit: 'Submit',
     reset: 'Reset',
+    ok: 'Ok',
+    cancel: 'Cancel'
   },
 
   login: {
@@ -329,10 +331,6 @@ export default {
     as_cat_sitter: 'As a cat sitter',
     as_cat_owner: 'As a cat owner',
 
-    status_requested: 'aangevraagd',
-    status_confirmed: 'bevestigd',
-    status_completed: 'voltooid',
-    status_declined: 'geweigerd',
     no_jobs: 'You have no {{status}} sitting jobs at the moment.',
     receive_sitting_jobs: 'You will only receive sitting jobs requests when a cat owner  sends you one.',
     no_service: 'You have no {{status}} sitting service at the moment. ',
@@ -356,10 +354,10 @@ export default {
     pay_now: 'Pay now',
     complete: 'Appointment completed',
     complete_confirm:
-      'Click "OK" to confirm the booking completion. The status of this booking will be changed from "Confirmed" to "Completed". You will be able to write the cat sitter a review.',
+      'Click "OK" to confirm the appointment completion. The status of this booking will be changed from "Confirmed" to "Completed". You will be able to write a review about your experience.',
 
     completed: 'Completed',
-    await_completion: 'Waiting for cat sitter to confirm completion of sitting job',
+    await_completion: 'Waiting for cat sitter to complete sitting job',
     write_review: 'Write a review',
 
     declined: 'Declined',

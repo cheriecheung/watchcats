@@ -2,6 +2,8 @@ import axiosInstance from '../../utility/axiosInstance';
 import { getConfig } from '../../utility/api'
 import BookingActionTypes from './actionTypes'
 import ErrorTypes from '../error/actionTypes'
+import LoadingTypes from '../loading/actionTypes'
+import { clearLoading } from '../loading/actions'
 
 const appointmentTimeUrl = `/booking-time`;
 const bookingUrl = `/booking`;
@@ -40,24 +42,33 @@ export function sendRequest(bookingData) {
 
 export function getRecords(type) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.BOOKINGS_LOADING, payload: 'LOADING/FULFILL_ACTION' });
+
     try {
       const { data } = await axiosInstance().get(bookingsURL(type), getConfig());
 
       dispatch({ type: BookingActionTypes.BOOKING_RECORDS_RETURNED, payload: data });
+      dispatch(clearLoading('bookingsLoading'))
     } catch (e) {
       console.log({ e });
+      dispatch(clearLoading('bookingsLoading'))
     }
   };
 }
 
 export function fulfillAction(id, action) {
   return async (dispatch) => {
+    dispatch({ type: LoadingTypes.BOOKINGS_LOADING, payload: 'LOADING/FULFILL_ACTION' });
+
     try {
       const { data } = await axiosInstance().patch(bookingUrl, { id, action }, getConfig());
+
+      window.location.reload()
 
       dispatch({ type: BookingActionTypes.ACTION_FULFILLED, payload: data });
     } catch (e) {
       console.log({ e });
+      dispatch(clearLoading('bookingsLoading'))
     }
   };
 }
@@ -75,7 +86,6 @@ export function getBookingInfo(id) {
 
 export function submitReview(bookingId, data) {
   return async (dispatch) => {
-    // dispatch({ type: BookingActionTypes.REVIEW_SUBMITTED });
     try {
       await axiosInstance().post(reviewURL(bookingId), data, getConfig());
       dispatch({ type: BookingActionTypes.REVIEW_SUBMITTED, payload: '' });

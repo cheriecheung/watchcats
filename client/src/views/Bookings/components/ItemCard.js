@@ -36,7 +36,7 @@ const Item = ({ t, data, bookingType, renderActionButtons, status }) => {
         </BrowseLink>
       </div>
 
-      <ItemContent t={t} bookingType={bookingType} data={data} imageContainerVariant="bookings" />
+      <ItemContent t={t} data={data} imageContainerVariant="bookings" />
 
       {renderActionButtons && _renderActionButtons()}
     </HorizontalCard>

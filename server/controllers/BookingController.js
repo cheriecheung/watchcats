@@ -17,7 +17,7 @@ module.exports = {
     // if (owner) return res.status(404).json('no_owner_profile');
 
     // TRY CATCH
-    User.findById(userId)
+    await User.findById(userId)
       .populate('owner')
       .exec(async (err, user) => {
         if (err) return err;
@@ -242,7 +242,7 @@ module.exports = {
       return res.status(200).json('success')
     } catch (err) {
       console.log({ err })
-      return res.status(401).json('ERROR/ERROR_OCCUTED')
+      return res.status(400).json('ERROR/ERROR_OCCURED')
     }
   },
 

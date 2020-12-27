@@ -26,7 +26,7 @@ const bookings_reducer = {
       case BookingActionTypes.BOOKING_RECORDS_RETURNED:
         return { bookings: action.payload };
       case BookingActionTypes.ACTION_FULFILLED:
-        return window.location.reload();
+        return state;
       case BookingActionTypes.BOOKING_INFO_RETURNED:
         return { ...state, bookingInfo: action.payload }
       case BookingActionTypes.REVIEW_SUBMITTED:

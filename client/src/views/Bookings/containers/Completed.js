@@ -14,6 +14,7 @@ function Completed({ t, bookingType, bookings }) {
               pathname: `/writereivew/${data.id}`,
               state: { booking: { ...data, bookingType } }
             }}
+            variant="bordered"
           >
             {t('bookings.write_review')}
           </LinkButton>
@@ -33,6 +34,7 @@ function Completed({ t, bookingType, bookings }) {
             <ItemCard
               key={id}
               t={t}
+              bookingType={bookingType}
               data={data}
               renderActionButtons={renderActionButtons}
               status="completed"
@@ -41,18 +43,20 @@ function Completed({ t, bookingType, bookings }) {
         })}
 
       {bookingType === 'sitting_jobs' && bookings.length === 0 && (
-        <span>{t('bookings.no_jobs', { status: t('bookings.status_completed') })}</span>
+        <span>{t('bookings.no_jobs', { status: t('bookings.completed').toLowerCase() })}</span>
       )}
 
       {bookingType === 'sitting_service' && bookings.length === 0 && (
         <>
           <span>
-            {t('bookings.no_service', { status: t('bookings.status_completed') })}
+            {t('bookings.no_service', { status: t('bookings.completed').toLowerCase() })}
           </span>
 
           <span>
             {t('bookings.go_to')}
-            <LinkButton to="/find">{t('header.find_sitter')}</LinkButton>
+            <LinkButton to="/find" style={{ fontWeight: 'bold' }}>
+              &nbsp;{t('header.find_sitter')}&nbsp;
+              </LinkButton>
             {t('bookings.find_sitter')}
           </span>
         </>

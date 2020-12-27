@@ -56,6 +56,8 @@ export default {
     save: 'Save',
     submit: 'Submit',
     reset: 'Resetten',
+    ok: 'Doorgaan',
+    cancel: 'Annuleren'
   },
 
   login: {
@@ -326,10 +328,6 @@ export default {
     as_cat_sitter: 'Als een oppas',
     as_cat_owner: 'Als een eigenaar',
 
-    status_requested: 'aangevraagd',
-    status_confirmed: 'bevestigd',
-    status_completed: 'voltooid',
-    status_declined: 'geweigerd',
     no_jobs: 'U hebt geen oppas jobs {{status}} op het moment.',
     receive_sitting_jobs: 'You will only receive sitting jobs requests when a cat owner  sends you one.',
     no_service: 'U hebt geen afspraak {{status}} op het moment',
@@ -353,7 +351,7 @@ export default {
     pay_now: 'Nu betalen',
     complete: 'Afspraak voltooid',
     complete_confirm:
-      'Click "OK" to confirm the booking completion. The status of this booking will be changed from "Confirmed" to "Completed". You will be able to write the cat sitter a review.',
+      'Click "OK" to confirm the appointment completion. The status of this booking will be changed from "Confirmed" to "Completed". You will be able to write a review about your experience.',
 
     completed: 'Voltooid',
     await_completion: 'Waiting for cat sitter to confirm completion of sitting job',

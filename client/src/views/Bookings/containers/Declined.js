@@ -1,7 +1,9 @@
 import React from 'react';
 import ItemCard from '../components/ItemCard';
 
-function Declined({ t, bookings }) {
+function Declined({ t, bookings, bookingType }) {
+  const type = bookingType === 'sitting_jobs' ? 'bookings.no_jobs' : 'bookings.no_service'
+
   return (
     <>
       {Array.isArray(bookings) && bookings.length > 0 ? (
@@ -17,7 +19,7 @@ function Declined({ t, bookings }) {
           )
         })
       ) : (
-          <span>{t('bookings.no_service', { status: t('bookings.status_declined') })}</span>
+          <span>{t(type, { status: t('bookings.declined').toLowerCase() })}</span>
         )}
     </>
   );
