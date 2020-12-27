@@ -13,7 +13,7 @@ import Layout from './components/Layout';
 import { NotFound } from './components/UIComponents'
 import Home from './views/Home';
 import About from './views/About';
-import { EmailVerification, Login, PasswordForgotten, PasswordReset, Register } from './views/Authentication';
+import { AccountActivation, Login, PasswordForgotten, PasswordReset, Register } from './views/Authentication';
 import Bookings from './views/Bookings';
 import Chat from './views/Chat';
 import Payment from './views/Bookings/containers/Payment';
@@ -81,8 +81,8 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/forgot_password" component={PasswordForgotten} />
-          <Route path="/reset_password/:token" component={PasswordReset} />
-          <Route path="/activate/:token?" component={EmailVerification} />
+          <Route path="/reset_password/:token?" component={PasswordReset} />
+          <Route path="/activate/:token?" component={AccountActivation} />
           <PrivateRoute path="/profile/catsitter/:id" component={CatSitter} />
           <PrivateRoute path="/profile/catowner/:id" component={CatOwner} />
           <PrivateRoute path="/bookings" component={Bookings} />

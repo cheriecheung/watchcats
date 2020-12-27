@@ -2,8 +2,8 @@ const { registerValidation } = require('../helpers/validation');
 const bcrypt = require('bcryptjs');
 const User = require('../model/User');
 const Review = require('../model/Review');
-const { sendActivateMail, sendResetPwMail } = require('../helpers/mailer');
-const { createVerifyEmailToken, createResetPasswordToken } = require('../helpers/token');
+const { sendActivateAccountMail, sendResetPasswordMail } = require('../helpers/mailer');
+const { createActivateAccountToken, createResetPasswordToken } = require('../helpers/token');
 const shortid = require('shortid');
 
 module.exports = {
@@ -36,10 +36,10 @@ module.exports = {
     const { error } = registerValidation(req.body);
     if (error) return res.status(400).json('ERROR/ERROR_OCCURED');
 
-    const { name, email: emailValue, password } = req.body;
+    const { firstName, lastName, email: emailValue, password } = req.body;
     const email = emailValue.toLowerCase()
 
-    console.log({ name, email, password })
+    console.log({ email, password })
 
     try {
       const emailExists = await User.findOne({ email });
@@ -48,17 +48,15 @@ module.exports = {
       const salt = await bcrypt.genSalt(12);
       const hashedPassword = await bcrypt.hash(password, salt);
 
-      const newUser = new User({ name, email, password: hashedPassword });
+      const newUser = new User({ firstName, lastName, email, password: hashedPassword });
       await newUser.save();
 
-      const token = createVerifyEmailToken(newUser.id);
-      sendActivateMail(email, token)
+      const token = createActivateAccountToken(newUser.id);
+      sendActivateAccountMail(email, token)
 
-      return res
-        .status(201)
-        .json('A link to activate your account has been sent to the email provided. Be sure to check the spam / junk mailbox if the email is not found in the main inbox.');
+      return res.status(201).json('success');
     } catch (error) {
-      console.log(error.message);
+      console.log({ error });
       return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
@@ -74,8 +72,8 @@ module.exports = {
 
       const { id, email: userEmail } = user;
 
-      const token = createVerifyEmailToken(id);
-      sendActivateMail(userEmail, token)
+      const token = createActivateAccountToken(id);
+      sendActivateAccountMail(userEmail, token)
 
       return res.status(200).json('success');
     } catch (err) {
@@ -85,17 +83,19 @@ module.exports = {
 
   getPasswordResetEmail: async (req, res) => {
     const { email: emailValue } = req.body;
-    const email = emailValue.toLowerCase()
+    const email = emailValue.toLowerCase();
 
-    console.log({ email })
+    try {
+      const user = await User.findOne({ email });
+      if (!user) return res.status(403).json('ERROR/ERROR_OCCURED');
 
-    // const user = await User.findOne({ email });
-    // if (!user) return res.status(403).json('Error');
+      const token = createResetPasswordToken(user.id);
+      sendResetPasswordMail(email, token);
 
-    // const secretToken = signAccessToken(user, JWT_RESET_PW_SECRET);
-    // sendResetPwMail(email, secretToken);
-
-    // return res.status(200).json('Email requested');
+      return res.status(200).json('Email requested');
+    } catch (err) {
+      return res.status(400).json('ERROR/ERROR_OCCURED');
+    }
   },
 };
 
@@ -103,8 +103,8 @@ module.exports = {
 // const { registerValidation } = require('../helpers/validation');
 // const bcrypt = require('bcryptjs');
 // const User = require('../model/User');
-// const { sendActivateMail, sendResetPwMail } = require('../helpers/mailer');
-// const { createVerifyEmailToken, createResetPasswordToken } = require('../helpers/token');
+// const { sendActivateAccountMail, sendResetPwMail } = require('../helpers/mailer');
+// const { createActivateAccountToken, createResetPasswordToken } = require('../helpers/token');
 // const shortid = require('shortid');
 
 // module.exports = {
@@ -138,8 +138,8 @@ module.exports = {
 //     //   const newUser = new User({ name, email, password: hashedPassword });
 //     //   await newUser.save();
 
-//     //   const token = createVerifyEmailToken(newUser.id);
-//     //   sendActivateMail(email, token)
+//     //   const token = createActivateAccountToken(newUser.id);
+//     //   sendActivateAccountMail(email, token)
 
 //     //   return res
 //     //     .status(201)
@@ -160,8 +160,8 @@ module.exports = {
 
 //       const { id, email: userEmail } = user;
 
-//       const token = createVerifyEmailToken(id);
-//       sendActivateMail(userEmail, token)
+//       const token = createActivateAccountToken(id);
+//       sendActivateAccountMail(userEmail, token)
 
 //       return res.status(200).json('success');
 //     } catch (err) {

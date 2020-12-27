@@ -12,7 +12,7 @@ const send = (data) => {
 };
 
 module.exports = {
-  sendActivateMail: (email, token) => {
+  sendActivateAccountMail: (email, token) => {
     // query string activate?token=${token} ??
     const link = `https://${CLIENT_URL}/activate/${token}`;
 
@@ -32,7 +32,7 @@ module.exports = {
     send(data);
   },
 
-  sendResetPwMail: (email, token) => {
+  sendResetPasswordMail: (email, token) => {
     const link = `https://${CLIENT_URL}/reset_password/${token}`;
 
     const data = {
@@ -43,7 +43,7 @@ module.exports = {
       <html>
         <h3>Hi there!</h3>
         <p>Please click on the following link to reset your password:</p>
-        <a href="${link}">${link}</a>
+        <a href="${link}">Reset my password</a>
       </html>
     `,
     };

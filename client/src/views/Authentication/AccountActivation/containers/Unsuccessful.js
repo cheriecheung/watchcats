@@ -9,17 +9,19 @@ function Unsuccessful({ t, unsuccessfulProps }) {
 
   return (
     <>
-      {/* rediret to login page when already activated */}
+      <i className="fas fa-exclamation-triangle fa-3x" />
+      <br />
+      <br />
 
-      <h5>{t('email_verification.error_title')}</h5>
-      <p>{t('email_verification.error_description')}</p>
+      <h5>{t('account_activation.error_title')}</h5>
+      <p>{t('account_activation.error_description')}</p>
       <br />
 
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {emailSubmitted ?
             <Alert type="success">
-              {t('email_verification.response')}
+              {t('account_activation.response')}
             </Alert>
             :
             <>

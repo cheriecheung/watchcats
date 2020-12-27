@@ -32,7 +32,7 @@ module.exports = {
       return res.status(200).json({ ok: true, accessToken })
     } catch (err) {
       console.log({ err })
-      return res.status(402).json('Unable to get access token')
+      return res.status(402).json('ERROR/ERROR_OCCURED')
     }
   },
 
@@ -45,11 +45,9 @@ module.exports = {
 
     try {
       const user = await User.findOne({ email });
-      // dev purpose: error remains "no user found"
-      // for production: error as Invalid email / password combination
-      if (!user) return res.status(400).json("ERROR/LOGIN_CREDENTIALS_INVALID");
+      if (!user) return res.status(400).json("ERROR/LOGIN_FAILED");
 
-      // if (!googledId || !isVerified) return res.status(400).json('not verified)
+      if (!user.isVerified) return res.status(400).json("ERROR/LOGIN_FAILED")
 
       const validPass = await bcrypt.compare(password, user.password)
       if (!validPass) return res.status(400).json("ERROR/LOGIN_CREDENTIALS_INVALID");
@@ -71,7 +69,7 @@ module.exports = {
       return res.status(200).json({ shortId: user.urlId, accessToken })
     } catch (err) {
       console.log({ err })
-      return res.status(400).json("ERROR/LOGIN_FAILED")
+      return res.status(400).json("ERROR/ERROR_OCCURED")
     }
   },
 
@@ -88,7 +86,7 @@ module.exports = {
       return res.status(204).json('')
     } catch (err) {
       console.log({ err })
-      return res.status(400).json('Cannot logout');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 
@@ -105,7 +103,7 @@ module.exports = {
 
       return res.status(200).json('Account activate is now activated');
     } catch (err) {
-      return res.status(400).json('ERROR/ACCOUNT_ACTIVATION_FAILED');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 
@@ -134,11 +132,17 @@ module.exports = {
       return res.status(401).json('ERROR/GOOGLE_LOGIN_FAILED');
     }
 
+    const {
+      GOOGLE_OAUTH_CLIENT_ID,
+      GOOGLE_OAUTH_CLIENT_SECRET,
+      GOOGLE_OAUTH_CALLBACK_URL
+    } = process.env;
+
     const requestBody = {
       code,
-      client_id: process.env.GOOGLE_OAUTH_CLIENT_ID,
-      client_secret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
-      redirect_uri: process.env.GOOGLE_OAUTH_CALLBACK_URL,
+      client_id: GOOGLE_OAUTH_CLIENT_ID,
+      client_secret: GOOGLE_OAUTH_CLIENT_SECRET,
+      redirect_uri: GOOGLE_OAUTH_CALLBACK_URL,
       code_verifier,
       grant_type: 'authorization_code',
     };
@@ -201,7 +205,7 @@ module.exports = {
       console.log({ data })
       // redirect to certain page if failed
       // create page on front end: "please go back and try again"
-      return res.status(401).json('ERROR/GOOGLE_LOGIN_FAILED');
+      return res.status(401).json('ERROR/ERROR_OCCURED');
     }
   },
 
@@ -222,7 +226,6 @@ module.exports = {
       const hashedNewPassword = await bcrypt.hash(newPassword, salt);
 
       user.password = hashedNewPassword;
-
       await user.save();
 
       // joi fulfill password requirement
@@ -237,7 +240,30 @@ module.exports = {
       return res.status(200).json('');
     } catch (err) {
       console.log({ err });
-      return res.status(400).json('ERROR/PASSOWORD_RESET_FAILED');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
+    }
+  },
+
+  resetForgotPassword: async (req, res) => {
+    const { userId } = req.verifiedData;
+    if (!userId) return res.status(404).json('ERROR/ERROR_OCCURED');
+
+    const { newPassword } = req.body;
+
+    try {
+      const user = await User.findById(userId);
+      if (!user) return res.status(400).json('ERROR/USER_NOT_FAILED');
+
+      const salt = await bcrypt.genSalt(12);
+      const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+      user.password = hashedNewPassword;
+      await user.save();
+
+      return res.status(200).json('');
+    } catch (err) {
+      console.log({ err });
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   }
 };

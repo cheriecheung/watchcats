@@ -9,7 +9,8 @@ const optionalTextType = Joi.string().optional().allow('').max(100);
 module.exports = {
   registerValidation: (data) => {
     const schema = Joi.object({
-      name: nameType,
+      firstName: nameType,
+      lastName: nameType,
       email: Joi.string().min(6).required().email(), // more specific logic for email
       password: Joi.string().min(6).required(),
     });

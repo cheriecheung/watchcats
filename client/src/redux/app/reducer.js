@@ -14,6 +14,10 @@ const app_reducer = {
     switch (action.type) {
       case AppActionTypes.CLEAR_STATUS:
         return { ...state, appActionStatus: '' }
+      case AppActionTypes.REGISTRATION_SUCCESSFUL:
+        return { ...state, appActionStatus: 'registrationSuccess' }
+      case AppActionTypes.FORGOT_PASSWORD_RESET:
+        return { ...state, appActionStatus: 'resetForgotPasswordSuccess' }
       case AppActionTypes.CHANGE_LANGUAGE:
         return { ...state, language: action.payload };
       case AppActionTypes.TOGGLE_MOBILE_MENU:

@@ -3,6 +3,7 @@ import AuthActionTypes from './actionTypes'
 
 const initialState = Immutable({
   loginByPhone: false,
+  activationStatus: '',
 });
 
 const authentication_reducer = {
@@ -18,9 +19,10 @@ const authentication_reducer = {
         return { loginByPhone: action.payload }
       case AuthActionTypes.LOGOUT_SUCCESS:
         return window.location = '/login';
-      case AuthActionTypes.VERIFY_SUCCESS:
-      case AuthActionTypes.VERIFY_FAIL:
-        return { payload: action.payload };
+      case AuthActionTypes.ACTIVATION_SUCCESS:
+        return { ...state, activationStatus: 'success' }
+      case AuthActionTypes.ACTIVATION_FAILED:
+        return { ...state, activationStatus: 'failed' }
       default:
         return state;
     }

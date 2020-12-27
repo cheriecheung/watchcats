@@ -34,9 +34,9 @@ function Local({
 
         {appError && <ErrorMessage type={appError} />}
 
-        <OutlinedButton type="submit" style={{ width: '100%' }}>
+        <OutlinedButton type="submit" style={{ width: '100%', marginTop: 10 }}>
           {t('register.title')}
-          {isLoading && <Spinner isoutlinedbutton="true" />}
+          {isLoading && <Spinner colored="true" />}
         </OutlinedButton>
       </form>
     </FormProvider>

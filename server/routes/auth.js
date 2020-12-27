@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { verifyAccessToken, verifyAccessTokenUpdate, verifyActivationLinkToken } = require('../helpers/token');
+const { verifyAccessToken, verifyAccessTokenUpdate, verifyActivationLinkToken, verifyResetPasswordLinkToken } = require('../helpers/token');
 const { generateCodes } = require('../helpers/authentication');
 const AuthController = require('../controllers/AuthController');
 const { authenticationLimiter, speedLimiter } = require('../helpers/limiter')
@@ -24,5 +24,6 @@ router.get('/oauth2callback', AuthController.authenticateGoogleUser);
 
 router.put('/password', authenticationLimiter, speedLimiter(30), verifyAccessTokenUpdate, AuthController.resetPassword)
 
+router.post('/password', verifyResetPasswordLinkToken, AuthController.resetForgotPassword)
 
 module.exports = router;

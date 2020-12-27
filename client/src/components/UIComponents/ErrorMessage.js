@@ -48,7 +48,7 @@ function ErrorMessage({ type }) {
     <Alert
       type="error"
       message={message}
-      style={{ margin: '10px 0' }}
+      style={{ margin: '20px 0' }}
       showIcon
       closable
       onClose={() => dispatch(clearAllErrors())}

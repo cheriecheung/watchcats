@@ -5,7 +5,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   login_default_values,
-  email_verification_default_values,
+  account_activation_default_values,
   password_reset_default_values,
   register_default_values,
 } from './_formConfig/_defaultValues'
@@ -17,16 +17,17 @@ import {
 } from './_formConfig/_validationSchema'
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  verifyEmail,
+  activateAccount,
   login,
   googleLogin,
   phoneLogin,
 } from '../../redux/authentication/actions';
 import {
+  clearAppActionStatus,
   register,
   getActivationEmail,
   getPasswordResetEmail,
-  resetPassword
+  resetForgotPassword
 } from '../../redux/app/actions';
 import { clearError } from '../../redux/error/actions'
 
@@ -34,6 +35,7 @@ function useAuthentication() {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
+  const { appActionStatus } = useSelector((state) => state.app)
   const { appError, authenticationError } = useSelector((state) => state.error)
   const { appLoading, authenticationLoading } = useSelector((state) => state.loading)
 
@@ -41,6 +43,8 @@ function useAuthentication() {
   let isLoadingLocalLogin = authenticationLoading === 'LOADING/LOCAL_LOGIN'
   let isLoadingPhoneLogin = authenticationLoading === 'LOADING/PHONE_LOGIN'
   let isLoadingRegister = appLoading === 'LOADING/REGISTER'
+  let isLoadingResetForgotPassword = appLoading === 'LOADING/RESET_FORGOT_PASSWORD'
+  let isResetForgotPasswordSuccessful = appActionStatus === 'resetForgotPasswordSuccess'
 
   useEffect(() => {
     dispatch(clearError(['appError', 'authenticationError']))
@@ -48,29 +52,32 @@ function useAuthentication() {
 
   return {
     t,
+    appActionStatus,
     appError,
     authenticationError,
     isLoadingGoogleLogin,
     isLoadingLocalLogin,
     isLoadingPhoneLogin,
-    isLoadingRegister
+    isLoadingRegister,
+    isLoadingResetForgotPassword,
+    isResetForgotPasswordSuccessful
   }
 }
 
-function useEmailVerification() {
+function useAccountActivation() {
   const { token } = useParams();
   const dispatch = useDispatch();
-  const activate = useSelector((state) => state.authentication);
+  const { activationStatus } = useSelector((state) => state.authentication);
 
   const [emailSubmitted, setEmailSubmitted] = useState(false)
 
-  const defaultValues = email_verification_default_values;
+  const defaultValues = account_activation_default_values;
   const resolver = yupResolver(send_email_schema)
   const methods = useForm({ defaultValues, resolver });
 
   useEffect(() => {
     if (token) {
-      dispatch(verifyEmail(token));
+      dispatch(activateAccount(token));
     }
   }, [token]);
 
@@ -88,7 +95,7 @@ function useEmailVerification() {
   }
 
   return {
-    activate,
+    activationStatus,
     unsuccessfulProps
   }
 }
@@ -142,10 +149,7 @@ function useLogin() {
 function useForgotPassword() {
   const dispatch = useDispatch();
 
-  const { appActionStatus } = useSelector((state) => state.app)
-  const [emailSubmitted, setEmailSubmitted] = useState(false)
-
-  const defaultValues = email_verification_default_values;
+  const defaultValues = account_activation_default_values;
   const resolver = yupResolver(send_email_schema)
   const methods = useForm({ defaultValues, resolver });
 
@@ -158,11 +162,11 @@ function useForgotPassword() {
     FormProvider,
     methods,
     onSubmitEmail,
-    appActionStatus
   }
 }
 
 function useResetPassword() {
+  const { token } = useParams();
   const dispatch = useDispatch();
 
   const defaultValues = password_reset_default_values;
@@ -171,7 +175,7 @@ function useResetPassword() {
 
   function onSubmitNewPassword(data) {
     const { newPassword } = data;
-    dispatch(resetPassword(newPassword))
+    dispatch(resetForgotPassword(newPassword, token))
   }
 
   return {
@@ -183,10 +187,25 @@ function useResetPassword() {
 
 function useRegister() {
   const dispatch = useDispatch();
+  const { appActionStatus } = useSelector((state) => state.app)
 
   const defaultValues = register_default_values;
   const resolver = yupResolver(register_schema)
   const methods = useForm({ defaultValues, resolver });
+
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearAppActionStatus())
+    }
+  }, [])
+
+  useEffect(() => {
+    if (appActionStatus === 'registrationSuccess') {
+      setShowModal(true);
+    }
+  }, [appActionStatus])
 
   function onRegister(data) {
     const { firstName, lastName, email, password } = data;
@@ -197,6 +216,10 @@ function useRegister() {
     dispatch(googleLogin());
   }
 
+  function closeModal() {
+    setShowModal(false)
+  }
+
   const localRegisterProps = {
     FormProvider,
     methods,
@@ -204,6 +227,8 @@ function useRegister() {
   }
 
   return {
+    closeModal,
+    showModal,
     onGoogleLogin,
     localRegisterProps,
   }
@@ -211,7 +236,7 @@ function useRegister() {
 
 export {
   useAuthentication,
-  useEmailVerification,
+  useAccountActivation,
   useLogin,
   useForgotPassword,
   useResetPassword,

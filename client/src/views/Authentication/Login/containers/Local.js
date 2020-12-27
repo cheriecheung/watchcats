@@ -39,11 +39,9 @@ function LocalLogin({
 
         {authenticationError && <ErrorMessage type={authenticationError} />}
 
-        <br />
-
         <OutlinedButton type="submit">
           {t('login.title')}
-          {isLoading && <Spinner isoutlinedbutton="true" />}
+          {isLoading && <Spinner colored="true" />}
         </OutlinedButton>
       </form>
     </FormProvider>

@@ -1,4 +1,4 @@
-export const email_verification_default_values = {
+export const account_activation_default_values = {
   email: ''
 }
 

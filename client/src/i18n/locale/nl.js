@@ -21,7 +21,11 @@ export default {
   },
 
   success: {
-    register: 'Registration successful. A link to activate your account has been sent to the email provided.',
+    register1: 'Registration successful',
+    register2: 'An activation link has been sent to your email address.',
+    register3: 'Please activate your account in an hour.',
+    check_spam_folder: 'If you do not receive the email within a few minutes, please check your spam folder.',
+    reset_forgot_password: 'You have successfully reset your password. You will now be able to log in with your new password.',
     notification_setting: 'Meldingsinstelling bijgewerkt',
     password_reset: 'You have successfully reset your password.',
     phone_verified: 'You have successfully verified your phone',
@@ -74,11 +78,12 @@ export default {
     password_instruction: 'Password should be 8 to 12 characters',
   },
 
-  email_verification: {
-    success: 'You have sucecssfully activated your account. You are now able to ',
-    error_title: 'Expired or invalid verification link',
+  account_activation: {
+    success1: 'You have sucecssfully activated your account.',
+    success2: 'You are now able to ',
+    error_title: 'Expired or invalid activation link',
     error_desription: 'Please enter your registered email below to get another link to activate your account.',
-    response: 'If the provided email is in our database, a new verification link will be sent to it. Please be sure to check the spam / junk mailbox if it is not found in the main inbox'
+    response: 'If the provided email is in our database, a new activation link will be sent to it. Please be sure to check the spam / junk mailbox if it is not found in the main inbox'
   },
 
   reset_password: {
@@ -90,7 +95,7 @@ export default {
 
   forgot_password: {
     instruction: 'To reset your password, enter your email below and submit. An email will be sent to you with instructions about how to complete the process.',
-    response: 'If the provided email is in our database, a password reset link will be sent to it. Please be sure to check the spam / junk mailbox if it is not found in the main inbox'
+    response: 'If the provided email is in our database, a password reset link will be sent to it. Please reset your password within 30 minutes.'
   },
 
   find_sitter: {

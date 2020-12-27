@@ -19,7 +19,6 @@ export const login_schema = yup.object().shape({
 //https://www.nuomiphp.com/eplan/en/34699.
 export const password_reset_schema = yup.object().shape({
   // passwords must match, and fulfill password requirements
-  currentPassword: yup.string().required(defaultError),
   newPassword: yup.string().required(defaultError)
     .notOneOf([yup.ref('currentPassword'), null], 'New password cannot be the same as current password'),
   newPasswordRepeat: yup.string().required(defaultError)

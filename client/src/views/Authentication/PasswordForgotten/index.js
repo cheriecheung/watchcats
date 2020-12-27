@@ -4,12 +4,11 @@ import { TextField } from '../../../components/FormComponents'
 import { useAuthentication, useForgotPassword } from '../viewModel';
 
 function PasswordForgotten() {
-    const { t, appError } = useAuthentication();
+    const { t, appActionStatus, appError } = useAuthentication();
     const {
         FormProvider,
         methods,
         onSubmitEmail,
-        appActionStatus
     } = useForgotPassword();
 
     const { handleSubmit } = methods;
@@ -32,7 +31,10 @@ function PasswordForgotten() {
                             <>
                                 <TextField name="email" />
                                 {appError && <ErrorMessage type={appError} />}
-                                <ContainedButton>{t('form.submit')}</ContainedButton>
+
+                                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    <ContainedButton>{t('form.submit')}</ContainedButton>
+                                </div>
                             </>
                         }
                     </form>

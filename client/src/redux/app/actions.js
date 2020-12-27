@@ -43,18 +43,10 @@ export function register(firstName, lastName, email, password) {
     dispatch({ type: LoadingTypes.APP_LOADING, payload: 'LOADING/REGISTER' });
 
     try {
-      const { data } = await axios.post(registerURL, {
-        name: `${firstName} ${lastName}`,
-        email,
-        password,
-      });
+      await axios.post(registerURL, { firstName, lastName, email, password });
 
-      console.log({ data })
-
-      dispatch({
-        type: AppActionTypes.REGISTER_SUCCESS,
-        payload: 'Registration successful. Please log into your email to activate your account.',
-      });
+      dispatch({ type: AppActionTypes.REGISTRATION_SUCCESSFUL });
+      dispatch(clearLoading('appLoading'))
     } catch (e) {
       console.log({ e });
       const { response } = e
@@ -110,6 +102,23 @@ export function getPasswordResetEmail(email) {
   };
 }
 
+export function resetForgotPassword(newPassword, token) {
+  return async (dispatch) => {
+    dispatch({ type: LoadingTypes.APP_LOADING, payload: 'LOADING/RESET_FORGOT_PASSWORD' });
+
+    try {
+      await axiosInstance().post(passwordURL, { newPassword }, { headers: { Authorization: `Bearer ${token}` } });
+      dispatch({ type: AppActionTypes.FORGOT_PASSWORD_RESET });
+      dispatch(clearLoading('appLoading'))
+    } catch (e) {
+      console.log({ e });
+      const { response } = e
+      const { data } = response || {}
+      dispatch({ type: ErrorTypes.APP_ERROR, payload: data })
+      dispatch(clearLoading('appLoading'))
+    }
+  };
+}
 
 export function getGoogleAuthenticatorQrCode() {
   return async (dispatch) => {

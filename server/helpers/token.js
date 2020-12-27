@@ -13,7 +13,7 @@ module.exports = {
     return JWT.sign({ userId, tokenVersion }, JWT_REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
   },
 
-  createVerifyEmailToken: userId => {
+  createActivateAccountToken: userId => {
     return JWT.sign({ userId }, JWT_VERIFY_EMAIL_TOKEN_SECRET, { expiresIn: "60m" })
   },
 
@@ -36,6 +36,23 @@ module.exports = {
 
   createResetPasswordToken: userId => {
     return JWT.sign({ userId }, JWT_RESET_PASSWORD_TOKEN_SECRET, { expiresIn: "30m" })
+  },
+
+  verifyResetPasswordLinkToken: (req, res, next) => {
+    const bearerHeader = req.headers['authorization'];
+    if (!bearerHeader) return res.status(401).json('Access deined');
+
+    try {
+      const bearer = bearerHeader.split(' ');
+      const bearerToken = bearer[1].toString();
+      const verifiedData = JWT.verify(bearerToken, JWT_RESET_PASSWORD_TOKEN_SECRET)
+      req.verifiedData = verifiedData;
+
+      return next();
+    } catch (err) {
+      console.log({ err })
+      return res.status(401).json('Invalid token')
+    }
   },
 
   // 24 hours, for verify email and reset password

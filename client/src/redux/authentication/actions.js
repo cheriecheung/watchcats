@@ -33,16 +33,14 @@ export function googleLogin() {
   };
 }
 
-export function verifyEmail(token) {
+export function activateAccount(token) {
   return async (dispatch) => {
     try {
       await axios.post(activateURL, {}, { headers: { Authorization: `Bearer ${token}` } });
-
-      // if already activated, give different response
-      dispatch({ type: AuthActionTypes.VERIFY_SUCCESS, payload: 'Activation successful' });
+      dispatch({ type: AuthActionTypes.ACTIVATION_SUCCESS });
     } catch (e) {
       console.log({ e });
-      dispatch({ type: AuthActionTypes.VERIFY_FAIL, payload: 'Activation failed' });
+      dispatch({ type: AuthActionTypes.ACTIVATION_FAILED });
     }
   };
 }
