@@ -5,7 +5,6 @@ const ClickableImageContainer = styled(Link)`
   display: block;
   width: 70px;
   height: 70px;
-  background: pink;
   overflow: hidden;
   border-radius: 10px;
 `;

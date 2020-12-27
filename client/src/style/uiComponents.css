@@ -6,6 +6,11 @@
   --theme-border-radius: 10px !important;
 }
 
+/* ------------------- ant badge ------------------- */
+.ant-badge-status-text{
+  display:none;
+}
+
 /* ------------------- account page | settings ------------------- */
 @media (max-width: 600px) {
   .settings {

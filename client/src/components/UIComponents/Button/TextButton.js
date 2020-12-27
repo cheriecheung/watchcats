@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { themeColor } from '../../../style/theme'
 
 const TextButton = styled.button`
   background: none;
@@ -7,7 +8,7 @@ const TextButton = styled.button`
   transition: all 0.3s;
 
   &:hover{
-    color: pink
+    color: ${themeColor.peach}
   }
 `;
 

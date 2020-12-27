@@ -57,12 +57,13 @@ function MobileMenu({
 }) {
   // const currentLanguage = localStorage.getItem('lang')
   // const changeLanguage = currentLanguage === 'en' ? 'nl' : 'en'
+  const firstName = 'Cherie'
 
   return (
     <>
       {isLoggedIn ?
         <>
-          <h4 style={{ marginBottom: 30 }}>Cherie C</h4>
+          <h5 style={{ marginBottom: 30, fontWeight: 'bold', color: '#666' }}>Welcome back, {firstName}!</h5>
           <MenuItemBox to="/find" onClick={closeMenu}>
             <Icon className="fas fa-search fa-2x" />
             <Label>{t('header.find_sitter')}</Label>

@@ -27,6 +27,7 @@ import TabBar from './Tab/TabBar'
 import TabItem from './Tab/TabItem'
 
 import Alert from './Alert'
+import Badge from './Badge'
 import CheckedIcon from './CheckedIcon'
 import EllipsisParagraph from './EllipsisParagraph'
 import ErrorMessage from './ErrorMessage'
@@ -67,6 +68,7 @@ export {
   TabItem,
 
   Alert,
+  Badge,
   CheckedIcon,
   EllipsisParagraph,
   ErrorMessage,

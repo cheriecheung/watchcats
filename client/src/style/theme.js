@@ -8,5 +8,6 @@ export const themeColor = {
   navy: '#303C6C',
   greyBlue: '#B4DFE5',
   lightBlue: '#00bac6',
+  lightGrey: '#ECECEC',
   text: '#7f7f7f'
 };

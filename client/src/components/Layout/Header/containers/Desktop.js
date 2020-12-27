@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TextButton } from '../../../UIComponents'
+import { Badge, TextButton } from '../../../UIComponents'
 import {
   Menu,
   Icon,
@@ -9,9 +9,6 @@ import {
   LinkButton,
   LogoutButton
 } from '../styledComponents'
-import { Badge } from 'antd';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
 
 function Desktop({
   t,
@@ -39,16 +36,18 @@ function Desktop({
         {isLoggedIn ? (
           <>
             <Item>
-              <Badge size="small" count={5} offset={[10, 0]} overflowCount={10}>
+              <Badge unreadItems={3}>
                 <LinkButton to="/bookings">
                   {t('header.bookings')}
                 </LinkButton>
               </Badge>
             </Item>
             <Item>
-              <LinkButton to="/messages">
-                {t('header.messages')}
-              </LinkButton>
+              <Badge unreadItems={1}>
+                <LinkButton to="/messages">
+                  {t('header.messages')}
+                </LinkButton>
+              </Badge>
             </Item>
             <Item>
               <LinkButton to="/account">
