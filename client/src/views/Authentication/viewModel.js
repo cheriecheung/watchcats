@@ -30,6 +30,7 @@ import {
   resetForgotPassword
 } from '../../redux/app/actions';
 import { clearError } from '../../redux/error/actions'
+import LOADING from '../../constants/loadingTypes'
 
 function useAuthentication() {
   const { t } = useTranslation();
@@ -39,11 +40,11 @@ function useAuthentication() {
   const { appError, authError } = useSelector((state) => state.error)
   const { appLoading, authLoading } = useSelector((state) => state.loading)
 
-  let isLoadingGoogleLogin = authLoading === 'LOADING/GOOGLE_LOGIN'
-  let isLoadingLocalLogin = authLoading === 'LOADING/LOCAL_LOGIN'
-  let isLoadingPhoneLogin = authLoading === 'LOADING/PHONE_LOGIN'
-  let isLoadingRegister = appLoading === 'LOADING/REGISTER'
-  let isLoadingResetForgotPassword = appLoading === 'LOADING/RESET_FORGOT_PASSWORD'
+  let isLoadingGoogleLogin = authLoading === LOADING.GOOGLE_LOGIN
+  let isLoadingLocalLogin = authLoading === LOADING.LOCAL_LOGIN
+  let isLoadingPhoneLogin = authLoading === LOADING.PHONE_LOGIN
+  let isLoadingRegister = appLoading === LOADING.REGISTER
+  let isLoadingResetForgotPassword = appLoading === LOADING.RESET_FORGOT_PASSWORD
   let isResetForgotPasswordSuccessful = appActionStatus === 'resetForgotPasswordSuccess'
 
   useEffect(() => {

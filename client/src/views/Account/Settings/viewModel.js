@@ -20,6 +20,9 @@ import {
 import { clearError } from '../../../redux/error/actions'
 import { clearLoading } from '../../../redux/loading/actions'
 import { onboardUser } from '../../../redux/payment/actions'
+import ERROR from '../../../constants/errorTypes'
+import LOADING from '../../../constants/loadingTypes'
+
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { reset_password_default_values } from '../_formConfig/_defaultValues'
@@ -40,18 +43,22 @@ function useSettings() {
   const { appError, accountError } = useSelector((state) => state.error);
   const { appLoading, accountLoading, paymentLoading } = useSelector((state) => state.loading);
 
-  let isLoadingChangePassword = appLoading === 'LOADING/CHANGE_PASSWORD'
-  let isLoadingDisable2fa = appLoading === 'LOADING/DISABLE_2FA'
-  let isLoadingEnable2fa = appLoading === 'LOADING/ENABLE_2FA'
-  let isLoadingSendSmsOtp = accountLoading === 'LOADING/SEND_SMS_OTP'
-  let isLoadingSetPayouts = paymentLoading === 'LOADING/TO_SETUP_PAYOUTS';
-  let isLoadingSubmitPhoneNumber = accountLoading === 'LOADING/SUBMIT_PHONE_NUMBER'
-  let isLoadingVerifyPhoneNumber = accountLoading === 'LOADING/VERIFY_PHONE_NUMBER'
+  let isLoadingChangePassword = appLoading === LOADING.CHANGE_PASSWORD
+  let isLoadingDisable2fa = appLoading === LOADING.DISABLE_2FA
+  let isLoadingEnable2fa = appLoading === LOADING.ENABLE_2FA
+  let isLoadingSendSmsOtp = accountLoading === LOADING.SEND_SMS_OTP
+  let isLoadingSetPayouts = paymentLoading === LOADING.TO_SETUP_PAYOUTS
+  let isLoadingSubmitPhoneNumber = accountLoading === LOADING.SUBMIT_PHONE_NUMBER
+  let isLoadingVerifyPhoneNumber = accountLoading === LOADING.VERIFY_PHONE_NUMBER
+  let hasSetEmailNotificationError = accountError === ERROR.SET_EMAIL_NOTIFICATION_FAILED
+  let hasSetPhoneNotificationError = accountError === ERROR.SET_PHONE_NOTIFICATION_FAILED
 
   return {
     t,
     appError,
     accountError,
+    hasSetEmailNotificationError,
+    hasSetPhoneNotificationError,
     isLoadingChangePassword,
     isLoadingDisable2fa,
     isLoadingEnable2fa,

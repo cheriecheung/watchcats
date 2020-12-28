@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { getSitterAccount, saveSitter } from '../../../redux/account/actions';
 import { DateUtils } from 'react-day-picker';
 import moment from 'moment';
+import { getSitterAccount, saveSitter } from '../../../redux/account/actions';
+import LOADING from '../../../constants/loadingTypes'
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -24,7 +25,7 @@ function useCatSitter() {
   const { sitterData } = useSelector((state) => state.account);
   const { accountLoading } = useSelector((state) => state.loading)
 
-  let isLoadingSaveSitter = accountLoading === 'LOADING/SAVE_SITTER'
+  let isLoadingSaveSitter = accountLoading === LOADING.SAVE_SITTER
 
   const [cleanedData, setCleanedData] = useState([])
 

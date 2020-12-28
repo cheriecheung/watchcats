@@ -14,9 +14,11 @@ function ContactDetails({
   t,
   accountError,
   contactDetailsProps,
+  hasSetEmailNotificationError,
+  hasSetPhoneNotificationError,
   isLoadingSendSmsOtp,
   isLoadingSubmitPhoneNumber,
-  isLoadingVerifyPhoneNumber
+  isLoadingVerifyPhoneNumber,
 }) {
   const {
     showModal,
@@ -91,6 +93,7 @@ function ContactDetails({
             onChangeNotification={onChangeNotification}
             prevSettings={prevSettings}
             accountError={accountError}
+            hasSetEmailNotificationError={hasSetEmailNotificationError}
           />
         </div>
 
@@ -106,6 +109,7 @@ function ContactDetails({
             editPhone={() => onHandlePhoneNumber('edit')}
             removePhone={() => onHandlePhoneNumber('remove')}
             accountError={accountError}
+            hasSetPhoneNotificationError={hasSetPhoneNotificationError}
           />
         </div>
       </WrapLayout>

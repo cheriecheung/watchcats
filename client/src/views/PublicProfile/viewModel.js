@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useForm, FormProvider } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { getOwnerProfile, getSitterProfile } from '../../redux/profile/actions';
 import { getAppointmentTime, sendRequest } from '../../redux/bookings/actions';
 import { getChatList, getChatConversation } from '../../redux/chat/actions';
 import { calculateOneDayPrice, calculateOvernightPrice } from '../../utility';
-import { useForm, FormProvider } from 'react-hook-form';
+import LOADING from '../../constants/loadingTypes'
 
 function useCatOwnerProfile() {
   const { t } = useTranslation();
@@ -145,7 +146,7 @@ function useCreateAppointmentTime() {
   const { data } = useSelector((state) => state.profile);
   const { bookingsLoading } = useSelector((state) => state.loading);
 
-  let isLoadingSendRequest = bookingsLoading === 'LOADING/SEND_BOOKING_REQUEST'
+  let isLoadingSendRequest = bookingsLoading === LOADING.SEND_BOOKING_REQUEST
 
   const [rate, setRate] = useState({});
   const [appointmentData, setAppointmentData] = useState({});
@@ -268,7 +269,7 @@ function useSelectAppointmentTime() {
   const { allOneDays = [], allOvernight = [] } = appointmentTime || {};
 
   const { bookingsLoading } = useSelector((state) => state.loading);
-  let isLoadingSendRequest = bookingsLoading === 'LOADING/SEND_BOOKING_REQUEST'
+  let isLoadingSendRequest = bookingsLoading === LOADING.SEND_BOOKING_REQUEST
 
   const { bookingsError } = useSelector((state) => state.error);
   const { data } = useSelector((state) => state.profile);

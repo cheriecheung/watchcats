@@ -4,6 +4,7 @@ import BookingActionTypes from './actionTypes'
 import ErrorActionTypes from '../error/actionTypes'
 import LoadingActionTypes from '../loading/actionTypes'
 import { clearLoading } from '../loading/actions'
+import LOADING from '../../constants/loadingTypes'
 
 const appointmentTimeUrl = `/booking-time`;
 const bookingUrl = `/booking`;
@@ -28,7 +29,10 @@ export function getAppointmentTime() {
 
 export function sendRequest(bookingData) {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_BOOKINGS_LOADING, payload: 'LOADING/SEND_BOOKING_REQUEST' });
+    dispatch({
+      type: LoadingActionTypes.SET_BOOKINGS_LOADING,
+      payload: LOADING.SEND_BOOKING_REQUEST
+    });
 
     try {
       const { data } = await axiosInstance().post(bookingUrl, bookingData, getConfig());
@@ -46,7 +50,10 @@ export function sendRequest(bookingData) {
 
 export function getRecords(type) {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_BOOKINGS_LOADING, payload: 'LOADING/GET_BOOKINGS_RECORDS' });
+    dispatch({
+      type: LoadingActionTypes.SET_BOOKINGS_LOADING,
+      payload: LOADING.GET_BOOKINGS_RECORDS
+    });
 
     try {
       const { data } = await axiosInstance().get(bookingsURL(type), getConfig());
@@ -62,7 +69,10 @@ export function getRecords(type) {
 
 export function fulfillAction(id, action) {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_BOOKINGS_LOADING, payload: 'LOADING/FULFILL_ACTION' });
+    dispatch({
+      type: LoadingActionTypes.SET_BOOKINGS_LOADING,
+      payload: LOADING.FULFILL_ACTION
+    });
 
     try {
       const { data } = await axiosInstance().patch(bookingUrl, { id, action }, getConfig());

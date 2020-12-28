@@ -3,6 +3,7 @@ import { getConfig } from '../../utility/api'
 import PaymentActionTypes from './actionTypes'
 import LoadingActionTypes from '../loading/actionTypes'
 import { clearLoading } from '../loading/actions'
+import LOADING from '../../constants/loadingTypes'
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
@@ -11,7 +12,10 @@ const paymentURL = `${REACT_APP_API_DOMAIN}/payment`;
 
 export function onboardUser() {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_PAYMENT_LOADING, payload: 'LOADING/TO_SETUP_PAYOUTS' });
+    dispatch({
+      type: LoadingActionTypes.SET_PAYMENT_LOADING,
+      payload: LOADING.SETUP_PAYOUTS
+    });
 
     try {
       const {

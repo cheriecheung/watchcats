@@ -6,6 +6,7 @@ import AccountActionTypes from './actionTypes'
 import ErrorActionTypes from '../error/actionTypes'
 import LoadingActionTypes from '../loading/actionTypes'
 import { clearLoading } from '../loading/actions'
+import LOADING from '../../constants/loadingTypes'
 
 const contactDetailsURL = `/contact-details`;
 const notificationURL = `/notification`
@@ -59,7 +60,10 @@ export function changeNotification(contactType) {
 
 export function submitPhoneNumber(phone) {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_ACCOUNT_LOADING, payload: 'LOADING/SUBMIT_PHONE_NUMBER' });
+    dispatch({
+      type: LoadingActionTypes.SET_ACCOUNT_LOADING,
+      payload: LOADING.SUBMIT_PHONE_NUMBER
+    });
 
     try {
       await axiosInstance().post(phoneNumberURL, { phone }, getConfig());
@@ -76,7 +80,10 @@ export function submitPhoneNumber(phone) {
 
 export function resendOtpToInputtedPhoneNumber(phone) {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_ACCOUNT_LOADING, payload: 'LOADING/SEND_SMS_OTP' });
+    dispatch({
+      type: LoadingActionTypes.SET_ACCOUNT_LOADING,
+      payload: LOADING.SEND_SMS_OTP
+    });
 
     try {
       await axiosInstance().post(verificationCodeURL, { phone }, getConfig());
@@ -92,7 +99,10 @@ export function resendOtpToInputtedPhoneNumber(phone) {
 export function sendOtpToSavedPhoneNumber(isResend) {
   return async (dispatch) => {
     if (isResend) {
-      dispatch({ type: LoadingActionTypes.SET_ACCOUNT_LOADING, payload: 'LOADING/SEND_SMS_OTP' });
+      dispatch({
+        type: LoadingActionTypes.SET_ACCOUNT_LOADING,
+        payload: LOADING.SEND_SMS_OTP
+      });
     }
 
     try {
@@ -108,7 +118,10 @@ export function sendOtpToSavedPhoneNumber(isResend) {
 
 export function verifyPhoneNumber(code, phone) {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_ACCOUNT_LOADING, payload: 'LOADING/VERIFY_PHONE_NUMBER' });
+    dispatch({
+      type: LoadingActionTypes.SET_ACCOUNT_LOADING,
+      payload: LOADING.VERIFY_PHONE_NUMBER
+    });
 
     try {
       await axiosInstance().patch(phoneNumberURL, { code, phone }, getConfig());
@@ -125,7 +138,10 @@ export function verifyPhoneNumber(code, phone) {
 
 export function deletePhoneNumber(otp) {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_ACCOUNT_LOADING, payload: 'LOADING/VERIFY_PHONE_NUMBER' });
+    dispatch({
+      type: LoadingActionTypes.SET_ACCOUNT_LOADING,
+      payload: LOADING.VERIFY_PHONE_NUMBER
+    });
 
     try {
       await axiosInstance().delete(phoneNumberURL, { ...getConfig(), data: { otp } });
@@ -153,7 +169,10 @@ export function getPersonalInfo() {
 
 export function postPersonalInfo(userData, profilePicture) {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_ACCOUNT_LOADING, payload: 'LOADING/SAVE_PERSONAL_INFO' });
+    dispatch({
+      type: LoadingActionTypes.SET_ACCOUNT_LOADING,
+      payload: LOADING.SAVE_PERSONAL_INFO
+    });
 
     try {
       const { data } = await axiosInstance().post(personalInfoURL, userData, getConfig());
@@ -174,7 +193,10 @@ export function postPersonalInfo(userData, profilePicture) {
 
 export function removeProfilePicture(filename) {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_ACCOUNT_LOADING, payload: 'LOADING/REMOVE_PROFILE_PICTURE' });
+    dispatch({
+      type: LoadingActionTypes.SET_ACCOUNT_LOADING,
+      payload: LOADING.REMOVE_PROFILE_PICTURE
+    });
 
     try {
       await axiosInstance().delete(imageURL, { ...getConfig(), data: { filename } });
@@ -200,7 +222,10 @@ export function getSitterAccount() {
 
 export function saveSitter(sitterData) {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_ACCOUNT_LOADING, payload: 'LOADING/SAVE_SITTER' });
+    dispatch({
+      type: LoadingActionTypes.SET_ACCOUNT_LOADING,
+      payload: LOADING.SAVE_SITTER
+    });
 
     try {
       const data = await axiosInstance().post(sitterURL, sitterData, getConfig());
@@ -236,7 +261,10 @@ const getCatConfig = () => {
 
 export function saveOwner(ownerData, photos) {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_ACCOUNT_LOADING, payload: 'LOADING/SAVE_OWNER' });
+    dispatch({
+      type: LoadingActionTypes.SET_ACCOUNT_LOADING,
+      payload: LOADING.SAVE_OWNER
+    });
 
     try {
       console.log({ photos })
@@ -271,7 +299,10 @@ export function saveOwner(ownerData, photos) {
 
 export function removeCatPhoto(filename, index) {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_ACCOUNT_LOADING, payload: 'LOADING/REMOVE_CAT_PHOTO' });
+    dispatch({
+      type: LoadingActionTypes.SET_ACCOUNT_LOADING,
+      payload: LOADING.REMOVE_CAT_PHOTO
+    });
 
     try {
       await axiosInstance().delete(catImageURL, { ...getConfig(), data: { filename } });

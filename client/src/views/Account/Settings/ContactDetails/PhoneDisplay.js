@@ -11,7 +11,8 @@ function PhoneDisplay({
   removePhone,
   onChangeNotification,
   prevSettings,
-  accountError
+  accountError,
+  hasSetPhoneNotificationError
 }) {
   const {
     phone,
@@ -19,7 +20,6 @@ function PhoneDisplay({
     setRevealPhone,
     asteriskedPhone,
     getSmsNotification,
-    // deletePhone
   } = phoneProps
 
   return (
@@ -75,7 +75,7 @@ function PhoneDisplay({
       </div>
 
       {accountError &&
-        accountError === 'ERROR/SET_PHONE_NOTIFICATION_FAILED' &&
+        hasSetPhoneNotificationError &&
         <ErrorAlert type={accountError} />
       }
 

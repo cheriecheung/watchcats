@@ -15,6 +15,8 @@ function Settings() {
         t,
         appError,
         accountError,
+        hasSetEmailNotificationError,
+        hasSetPhoneNotificationError,
         isLoadingChangePassword,
         isLoadingDisable2fa,
         isLoadingEnable2fa,
@@ -35,6 +37,8 @@ function Settings() {
                     t={t}
                     accountError={accountError}
                     contactDetailsProps={contactDetailsProps}
+                    hasSetEmailNotificationError={hasSetEmailNotificationError}
+                    hasSetPhoneNotificationError={hasSetPhoneNotificationError}
                     isLoadingSendSmsOtp={isLoadingSendSmsOtp}
                     isLoadingSubmitPhoneNumber={isLoadingSubmitPhoneNumber}
                     isLoadingVerifyPhoneNumber={isLoadingVerifyPhoneNumber}

@@ -57,7 +57,7 @@ module.exports = {
       return res.status(200).json('')
     } catch (err) {
       console.log({ err })
-      return res.status(400).json('ERROR/2FA_ACTIVATION_FAILED')
+      return res.status(400).json('ERROR/TWO_FACTOR_ACTIVATION_FAILED')
     }
   },
 

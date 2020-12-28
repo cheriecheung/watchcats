@@ -14,6 +14,7 @@ import {
   getBookingInfo,
   submitReview
 } from '../../redux/bookings/actions';
+import LOADING from '../../constants/loadingTypes'
 
 const defaultKeyBookingType = 'sitting_jobs';
 const defaultKeyBookingStatus = 'requested';
@@ -25,8 +26,8 @@ function useBookings() {
   const { bookings: returnedBookings } = useSelector((state) => state.bookings);
   const { bookingsLoading } = useSelector((state) => state.loading);
 
-  let isLoadingBookingRecords = bookingsLoading === 'LOADING/GET_BOOKINGS_RECORDS'
-  let isLoadingFulfillAction = bookingsLoading === 'LOADING/FULFILL_ACTION'
+  let isLoadingBookingRecords = bookingsLoading === LOADING.GET_BOOKINGS_RECORDS
+  let isLoadingFulfillAction = bookingsLoading === LOADING.FULFILL_ACTION
 
   console.log({ returnedBookings })
 

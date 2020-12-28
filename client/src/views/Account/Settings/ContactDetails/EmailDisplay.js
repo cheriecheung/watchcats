@@ -8,7 +8,8 @@ function EmailDisplay({
   emailProps,
   onChangeNotification,
   prevSettings,
-  accountError
+  accountError,
+  hasSetEmailNotificationError
 }) {
   const {
     email,
@@ -50,7 +51,7 @@ function EmailDisplay({
       </div>
 
       {accountError &&
-        accountError === 'ERROR/SET_EMAIL_NOTIFICATION_FAILED' &&
+        hasSetEmailNotificationError &&
         <ErrorAlert type={accountError} />
       }
 

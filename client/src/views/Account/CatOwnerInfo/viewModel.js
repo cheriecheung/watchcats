@@ -13,6 +13,7 @@ import {
 } from '../_formConfig/_defaultValues'
 import { cat_owner_schema } from '../_formConfig/_validationSchema'
 import { formatDate, formatTime } from '../../../utility'
+import LOADING from '../../../constants/loadingTypes'
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
@@ -23,8 +24,8 @@ function useCatOwner() {
   const { ownerData, catPhotoRemoved } = useSelector((state) => state.account);
   const { accountLoading } = useSelector((state) => state.loading)
 
-  let isLoadingRemoveCatPhoto = accountLoading === 'LOADING/REMOVE_CAT_PHOTO'
-  let isLoadingSaveOwner = accountLoading === 'LOADING/SAVE_OWNER'
+  let isLoadingRemoveCatPhoto = accountLoading === LOADING.REMOVE_CAT_PHOTO
+  let isLoadingSaveOwner = accountLoading === LOADING.SAVE_OWNER
 
   const [cleanedData, setCleanedData] = useState([])
   const [photoFields, setPhotoFields] = useState([])

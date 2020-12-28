@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPersonalInfo, postPersonalInfo, removeProfilePicture } from '../../../redux/account/actions';
+import LOADING from '../../../constants/loadingTypes'
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -17,8 +18,8 @@ function usePersonal() {
   const { data, profilePicRemoved } = useSelector((state) => state.account);
   const { accountLoading } = useSelector((state) => state.loading);
 
-  let isLoadingRemoveProfilePicture = accountLoading === 'LOADING/REMOVE_PROFILE_PICTURE'
-  let isLoadingSubmit = accountLoading === 'LOADING/SAVE_PERSONAL_INFO'
+  let isLoadingRemoveProfilePicture = accountLoading === LOADING.REMOVE_PROFILE_PICTURE
+  let isLoadingSubmit = accountLoading === LOADING.SAVE_PERSONAL_INFO
 
   const [photoField, setPhotoField] = useState()
 

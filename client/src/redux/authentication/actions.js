@@ -1,11 +1,13 @@
 import axios from 'axios';
+import axiosInstance from '../../utility/axiosInstance';
+import { getConfig } from '../../utility/api'
+import { setAccessToken } from '../../utility/accessToken';
 import AuthActionTypes from './actionTypes'
 import ErrorActionTypes from '../error/actionTypes'
 import LoadingActionTypes from '../loading/actionTypes'
 import { clearLoading } from '../loading/actions'
-import { setAccessToken } from '../../utility/accessToken';
-import axiosInstance from '../../utility/axiosInstance';
-import { getConfig } from '../../utility/api'
+import LOADING from '../../constants/loadingTypes'
+
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
@@ -19,7 +21,10 @@ const logoutURL = '/logout';
 
 export function googleLogin() {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_AUTH_LOADING, payload: 'LOADING/GOOGLE_LOGIN' });
+    dispatch({
+      type: LoadingActionTypes.SET_AUTH_LOADING,
+      payload: LOADING.GOOGLE_LOGIN
+    });
 
     try {
       const { data } = await axios.get(googleLoginURL);
@@ -47,7 +52,10 @@ export function activateAccount(token) {
 
 export function phoneLogin(code) {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_AUTH_LOADING, payload: 'LOADING/PHONE_LOGIN' });
+    dispatch({
+      type: LoadingActionTypes.SET_AUTH_LOADING,
+      payload: LOADING.PHONE_LOGIN
+    });
 
     try {
       const { data } = await axios.post(phoneLoginURL, { code, shortId: cookies.get('shortId') }, {
@@ -71,7 +79,10 @@ export function phoneLogin(code) {
 
 export function login(email, password) {
   return async (dispatch) => {
-    dispatch({ type: LoadingActionTypes.SET_AUTH_LOADING, payload: 'LOADING/LOCAL_LOGIN' });
+    dispatch({
+      type: LoadingActionTypes.SET_AUTH_LOADING,
+      payload: LOADING.LOCAL_LOGIN
+    });
 
     try {
       const { data } = await axios.post(loginURL, { email, password }, {
