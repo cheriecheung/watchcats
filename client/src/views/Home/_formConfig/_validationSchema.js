@@ -1,7 +1,8 @@
 import * as yup from 'yup';
 import { isDate } from "date-fns";
+import translationKeys from '../../../constants/translationKeys'
 
-const dateOrderError = () => "End date must be after start date"
+const { field_required, address_required } = translationKeys
 
 function parseDateString(value, originalValue) {
   if (!originalValue) return null;
@@ -14,16 +15,21 @@ function parseDateString(value, originalValue) {
 }
 
 export const home_search_schema = yup.object().shape({
-  googlePlaceAddress: yup.string().required('Fill in an address or postcode'),
-  startDate: yup.mixed().transform(parseDateString).nullable().when('endDate', {
-    is: endDate => endDate,
-    then: yup.date()
-      .transform(parseDateString)
-  }),
-  endDate: yup.mixed().nullable().when('startDate', {
-    is: startDate => startDate,
-    then: yup.date()
-      .transform(parseDateString)
-      .min(yup.ref('startDate'), dateOrderError)
-  }),
+  googlePlaceAddress: yup.string().required(address_required),
+  startDate: yup.mixed()
+    .transform(parseDateString)
+    .nullable()
+    .when('endDate', {
+      is: endDate => endDate,
+      then: yup.date()
+        .transform(parseDateString)
+    }),
+  endDate: yup.mixed()
+    .nullable()
+    .when('startDate', {
+      is: startDate => startDate,
+      then: yup.date()
+        .transform(parseDateString)
+        .min(yup.ref('startDate'), field_required)
+    }),
 }, [['startDate', 'endDate']])

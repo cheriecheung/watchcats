@@ -9,6 +9,7 @@ import ErrorDisplay from './ErrorDisplay';
 const Label = styled.label`
   display:flex;
   justify-content: center;
+  align-self: center;
   border: 1px solid ${props => props.error ? '#E56E5A' : '#d9d9d9'} !important;
   width: 120px; 
   height: 120px;
@@ -48,8 +49,16 @@ function FileUploader({
   };
 
   return (
-    <>
-      <Label htmlFor={name} className="upload-file-input form-control" error={hasError}>
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      flexDirection: 'column'
+    }}>
+      <Label
+        htmlFor={name}
+        className="upload-file-input form-control"
+        error={hasError}
+      >
         <div style={{ alignSelf: 'center' }}>
           <i className="fas fa-upload" style={{ opacity: 0.4, marginRight: 10 }} />
           <span>{t('owner_form.upload')}</span>
@@ -70,7 +79,7 @@ function FileUploader({
       />
 
       <ErrorDisplay hidden={!hasError}>{message}</ErrorDisplay>
-    </>
+    </div>
   );
 }
 

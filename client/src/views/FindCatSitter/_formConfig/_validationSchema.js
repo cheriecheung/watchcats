@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { isDate } from "date-fns";
 
-const dateOrderError = () => "End date must be after start date"
+const dateOrderError = () => "form_error.date_order"
 
 function parseDateString(value, originalValue) {
   if (!originalValue) return null;

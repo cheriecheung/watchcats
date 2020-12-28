@@ -1,5 +1,5 @@
 export default {
-  error: {
+  api_error: {
     generic: 'Error occured. Please try again.',
 
     email_exists: 'Email already exists.',
@@ -18,6 +18,20 @@ export default {
     otp_expired: 'You enter an expired code. Click "Resend code" to get a new one.',
     otp_invalid: 'Invalid code.',
     two_factor_activation_failed: 'Unable to activate 2FA. Please try again.',
+  },
+
+  form_error: {
+    field_required: 'Required field',
+    email_format: 'Invalid email format',
+    postcode_format: 'Invalid Dutch postcode format. Please submit a postcode with four digits followed by two uppercase letters, i.e. 1234AB',
+    date_order: 'End date must be after start date',
+    time_order: 'End time must be after start time',
+    select_gender: 'Select a gender',
+    select_option: 'Select an option',
+    same_old_password: 'New password cannot be the same as current password',
+    new_passwords_unmatched: 'New passwords must match',
+    review_length: 'Please write a longer review',
+    address_required: 'Enter an address'
   },
 
   success: {
@@ -186,9 +200,14 @@ export default {
 
     authentication: 'Password and Authentication',
     not_available: 'Not available for accounts login via Google',
+
     password: 'Password',
     password_description: 'Update your password for the next time you log in.',
     change_password: 'Change password',
+    password_requirement1: 'Your new password should have',
+    password_requirement2: 'at least 8 characters',
+    password_requirement3: 'a mixture of letters and numbers',
+    password_requirement4: 'a mixture of both uppercase and lowercase letters',
     current_password: 'Current password',
     new_password: 'New password',
     repeat_new_password: 'Repeat new password',
@@ -224,7 +243,7 @@ export default {
     address: 'Address',
     address_tooltip: 'Your address will not be shared with anyone in any manner',
     postcode: 'Postcode',
-    postcode_tooltip: "Once submitted, your location will appear in the map on 'Find Cat Sitter' page",
+    postcode_tooltip: "Only Dutch postcodes are accepted (four digits followed by two uppercase letters, i.e. AB1234). Once submitted, your location will appear in the map on 'Find Cat Sitter' page",
 
     social_media: 'Social media',
     optional: 'Optional',

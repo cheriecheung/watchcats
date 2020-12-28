@@ -17,7 +17,7 @@ const Input = styled.textarea`
 function TextArea({ name, placeholder, rows = 7 }) {
   const { control, errors } = useFormContext();
   const error = errors[name]
-  const message = error && error.message || 'Required field'
+  const message = error && error.message || "form_error.field_required"
 
   return (
     <>

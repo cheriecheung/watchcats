@@ -1,5 +1,5 @@
 export default {
-  error: {
+  api_error: {
     generic: 'Er is een fout opgetreden. Probeer het opnieuw a.u.b',
 
     email_exists: 'E-mailadres bestaat al.',
@@ -18,6 +18,20 @@ export default {
     otp_expired: 'You enter an expired code. Click "Resend code" to get a new one.',
     otp_invalid: 'Verkeerde verificatiecode.',
     two_factor_activation_failed: 'Kan het 2FA niet activeren. Probeer het opnieuw a.u.b.',
+  },
+
+  form_error: {
+    field_required: 'Verplicht veld',
+    email_format: 'Invalid email format',
+    postcode_format: 'Invalid Dutch postcode format. Please submit a postcode with four digits followed by two uppercase letters, i.e. 1234AB',
+    date_order: 'De einddatum moet na de startdatum liggen',
+    time_order: 'De eindtijd moet na de starttijd liggen',
+    select_gender: 'Kies een geslacht',
+    select_option: 'Kies een optie',
+    same_old_password: 'Het wachtwoord mag niet hetzelfde zijn als het huidige wachtwoord',
+    new_passwords_unmatched: 'New passwords must match',
+    review_length: 'Please write a longer review',
+    address_required: 'Enter an address'
   },
 
   success: {
@@ -186,9 +200,14 @@ export default {
 
     authentication: 'Wachtwoord en authenticatie',
     not_available: 'Not available for accounts login via Google',
+
     password: 'Wachtwoord',
     password_description: 'Update your password for the next time you log in.',
     change_password: 'Wachtwoord wijzigen',
+    password_requirement1: 'Uw wachtwoord moet uit',
+    password_requirement2: 'ten minste 8 tekens',
+    password_requirement3: 'ten minste één cijfer en één letter bestaan',
+    password_requirement4: 'een combinatie van hoofdletters en kleine letters',
     current_password: 'Huidig wachtwoord',
     new_password: 'Nieuw wachtwoord',
     repeat_new_password: 'Herhaal nieuw wachtwoord',
@@ -224,7 +243,7 @@ export default {
     address: 'Adres',
     address_tooltip: 'Your address will not be shared with anyone in any manner',
     postcode: 'Postcode',
-    postcode_tooltip: "Once submitted, your location will appear in the map on 'Find Cat Sitter' page",
+    postcode_tooltip: "Only Dutch postcodes are accepted (four digits followed by two uppercase letters, i.e. 1234AB). Once submitted, your location will appear in the map on 'Find Cat Sitter' page",
 
     social_media: 'Sociale media',
     optional: 'Optioneel',

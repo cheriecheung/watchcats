@@ -33,11 +33,11 @@ export function getErrorProperties(name, errors) {
       error &&
       error[index] &&
       error[index][fieldName] &&
-      error[index][fieldName].message || 'Required field'
+      error[index][fieldName].message || 'form_error.field_required'
   } else {
     const error = errors[name]
     hasError = error
-    message = error && error.message || 'Required field'
+    message = error && error.message || 'form_error.field_required'
   }
 
   return { hasError, message }
