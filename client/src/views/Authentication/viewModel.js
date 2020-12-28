@@ -36,25 +36,25 @@ function useAuthentication() {
 
   const dispatch = useDispatch();
   const { appActionStatus } = useSelector((state) => state.app)
-  const { appError, authenticationError } = useSelector((state) => state.error)
-  const { appLoading, authenticationLoading } = useSelector((state) => state.loading)
+  const { appError, authError } = useSelector((state) => state.error)
+  const { appLoading, authLoading } = useSelector((state) => state.loading)
 
-  let isLoadingGoogleLogin = authenticationLoading === 'LOADING/GOOGLE_LOGIN'
-  let isLoadingLocalLogin = authenticationLoading === 'LOADING/LOCAL_LOGIN'
-  let isLoadingPhoneLogin = authenticationLoading === 'LOADING/PHONE_LOGIN'
+  let isLoadingGoogleLogin = authLoading === 'LOADING/GOOGLE_LOGIN'
+  let isLoadingLocalLogin = authLoading === 'LOADING/LOCAL_LOGIN'
+  let isLoadingPhoneLogin = authLoading === 'LOADING/PHONE_LOGIN'
   let isLoadingRegister = appLoading === 'LOADING/REGISTER'
   let isLoadingResetForgotPassword = appLoading === 'LOADING/RESET_FORGOT_PASSWORD'
   let isResetForgotPasswordSuccessful = appActionStatus === 'resetForgotPasswordSuccess'
 
   useEffect(() => {
-    dispatch(clearError(['appError', 'authenticationError']))
+    dispatch(clearError(['appError', 'authError']))
   }, [])
 
   return {
     t,
     appActionStatus,
     appError,
-    authenticationError,
+    authError,
     isLoadingGoogleLogin,
     isLoadingLocalLogin,
     isLoadingPhoneLogin,
@@ -111,7 +111,7 @@ function useLogin() {
   });
 
   function onLocalLogin(data) {
-    dispatch(clearError('authenticationError'))
+    dispatch(clearError('authError'))
 
     const { email, password } = data;
     dispatch(login(email, password));

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AuthActionTypes from './actionTypes'
-import ErrorTypes from '../error/actionTypes'
-import LoadingTypes from '../loading/actionTypes'
+import ErrorActionTypes from '../error/actionTypes'
+import LoadingActionTypes from '../loading/actionTypes'
 import { clearLoading } from '../loading/actions'
 import { setAccessToken } from '../../utility/accessToken';
 import axiosInstance from '../../utility/axiosInstance';
@@ -19,7 +19,7 @@ const logoutURL = '/logout';
 
 export function googleLogin() {
   return async (dispatch) => {
-    dispatch({ type: LoadingTypes.AUTHENTICATION_LOADING, payload: 'LOADING/GOOGLE_LOGIN' });
+    dispatch({ type: LoadingActionTypes.SET_AUTH_LOADING, payload: 'LOADING/GOOGLE_LOGIN' });
 
     try {
       const { data } = await axios.get(googleLoginURL);
@@ -28,7 +28,7 @@ export function googleLogin() {
       dispatch({ type: AuthActionTypes.GOOGLE_LOGIN, payload: data });
     } catch (e) {
       console.log({ e });
-      dispatch(clearLoading('authenticationLoading'))
+      dispatch(clearLoading('authLoading'))
     }
   };
 }
@@ -47,7 +47,7 @@ export function activateAccount(token) {
 
 export function phoneLogin(code) {
   return async (dispatch) => {
-    dispatch({ type: LoadingTypes.AUTHENTICATION_LOADING, payload: 'LOADING/PHONE_LOGIN' });
+    dispatch({ type: LoadingActionTypes.SET_AUTH_LOADING, payload: 'LOADING/PHONE_LOGIN' });
 
     try {
       const { data } = await axios.post(phoneLoginURL, { code, shortId: cookies.get('shortId') }, {
@@ -63,15 +63,15 @@ export function phoneLogin(code) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      dispatch({ type: ErrorTypes.AUTHENTICATION_ERROR, payload: data })
-      dispatch(clearLoading('authenticationLoading'))
+      dispatch({ type: ErrorActionTypes.SET_AUTH_ERROR, payload: data })
+      dispatch(clearLoading('authLoading'))
     }
   }
 }
 
 export function login(email, password) {
   return async (dispatch) => {
-    dispatch({ type: LoadingTypes.AUTHENTICATION_LOADING, payload: 'LOADING/LOCAL_LOGIN' });
+    dispatch({ type: LoadingActionTypes.SET_AUTH_LOADING, payload: 'LOADING/LOCAL_LOGIN' });
 
     try {
       const { data } = await axios.post(loginURL, { email, password }, {
@@ -90,8 +90,8 @@ export function login(email, password) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      dispatch({ type: ErrorTypes.AUTHENTICATION_ERROR, payload: data })
-      dispatch(clearLoading('authenticationLoading'))
+      dispatch({ type: ErrorActionTypes.SET_AUTH_ERROR, payload: data })
+      dispatch(clearLoading('authLoading'))
     }
   };
 }

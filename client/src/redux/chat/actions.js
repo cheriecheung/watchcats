@@ -1,7 +1,7 @@
 import axiosInstance from '../../utility/axiosInstance';
 import { getConfig } from '../../utility/api'
 import ChatActionTypes from './actionTypes'
-import ErrorTypes from '../error/actionTypes'
+import ErrorActionTypes from '../error/actionTypes'
 
 const chatListUrl = `/chat/list`;
 const conversationUrl = (id) => `/chat/conversation?recipient=${id}`;
@@ -15,7 +15,7 @@ export function getChatList() {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      dispatch({ type: ErrorTypes.CHAT_ERROR, payload: data })
+      dispatch({ type: ErrorActionTypes.SET_CHAT_ERROR, payload: data })
     }
   };
 }
@@ -28,7 +28,7 @@ export function getChatConversation(id) {
     } catch (e) {
       const { response } = e
       const { data } = response || {}
-      dispatch({ type: ErrorTypes.CHAT_ERROR, payload: data })
+      dispatch({ type: ErrorActionTypes.SET_CHAT_ERROR, payload: data })
     }
   };
 }

@@ -11,7 +11,7 @@ import { useAuthentication, useLogin } from '../viewModel'
 function Login() {
   const {
     t,
-    authenticationError,
+    authError,
     isLoadingGoogleLogin,
     isLoadingLocalLogin,
     isLoadingPhoneLogin
@@ -34,7 +34,7 @@ function Login() {
           <Phone
             t={t}
             phoneLoginProps={phoneLoginProps}
-            authenticationError={authenticationError}
+            authError={authError}
             isLoadingPhoneLogin={isLoadingPhoneLogin}
           />
         </VerticalCard>
@@ -58,7 +58,7 @@ function Login() {
 
           <Local
             t={t}
-            authenticationError={authenticationError}
+            authError={authError}
             localLoginProps={localLoginProps}
             isLoading={isLoadingLocalLogin}
           />

@@ -1,13 +1,13 @@
-import LoadingTypes from "./actionTypes";
+import LoadingActionTypes from "./actionTypes";
 
 export function clearLoading(type) {
   return (dispatch) => {
     if (Array.isArray(type)) {
       type.map(item => {
-        dispatch({ type: LoadingTypes.CLEAR_LOADING, loadingType: item });
+        dispatch({ type: LoadingActionTypes.CLEAR_LOADING, loadingType: item });
       })
     } else {
-      dispatch({ type: LoadingTypes.CLEAR_LOADING, loadingType: type });
+      dispatch({ type: LoadingActionTypes.CLEAR_LOADING, loadingType: type });
     }
   }
 }

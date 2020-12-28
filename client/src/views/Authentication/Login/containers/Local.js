@@ -9,7 +9,7 @@ import {
 
 function LocalLogin({
   t,
-  authenticationError,
+  authError,
   localLoginProps,
   isLoading
 }) {
@@ -37,7 +37,7 @@ function LocalLogin({
           {t('login.forgot_password')}
         </LinkButton>
 
-        {authenticationError && <ErrorAlert type={authenticationError} />}
+        {authError && <ErrorAlert type={authError} />}
 
         <OutlinedButton type="submit">
           {t('login.title')}

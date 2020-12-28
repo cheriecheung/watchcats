@@ -275,7 +275,7 @@ function useAuthentication() {
 
   function closeModal() {
     setShowModal(false)
-    dispatch(clearError('authenticationError'))
+    dispatch(clearError('authError'))
     dispatch(clearAppActionStatus())
   }
 

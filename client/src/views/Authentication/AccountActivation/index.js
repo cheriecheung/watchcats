@@ -7,7 +7,7 @@ import Unsuccessful from './containers/Unsuccessful'
 import { useAuthentication, useAccountActivation } from '../viewModel'
 
 function AccountActivation() {
-  const { t, authenticationError } = useAuthentication();
+  const { t, authError } = useAuthentication();
   const { activationStatus, unsuccessfulProps } = useAccountActivation();
 
   return (

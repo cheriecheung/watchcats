@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AppActionTypes from './actionTypes'
-import ErrorTypes from '../error/actionTypes'
-import LoadingTypes from '../loading/actionTypes'
+import ErrorActionTypes from '../error/actionTypes'
+import LoadingActionTypes from '../loading/actionTypes'
 import { clearLoading } from '../loading/actions'
 import axiosInstance from '../../utility/axiosInstance';
 import { getConfig } from '../../utility/api'
@@ -40,7 +40,7 @@ export function clearAppActionStatus() {
 
 export function register(firstName, lastName, email, password) {
   return async (dispatch) => {
-    dispatch({ type: LoadingTypes.APP_LOADING, payload: 'LOADING/REGISTER' });
+    dispatch({ type: LoadingActionTypes.SET_APP_LOADING, payload: 'LOADING/REGISTER' });
 
     try {
       await axios.post(registerURL, { firstName, lastName, email, password });
@@ -51,7 +51,7 @@ export function register(firstName, lastName, email, password) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      dispatch({ type: ErrorTypes.APP_ERROR, payload: data });
+      dispatch({ type: ErrorActionTypes.SET_APP_ERROR, payload: data });
       dispatch(clearLoading('appLoading'))
     }
   };
@@ -59,7 +59,7 @@ export function register(firstName, lastName, email, password) {
 
 export function resetPassword(currentPassword, newPassword) {
   return async (dispatch) => {
-    dispatch({ type: LoadingTypes.APP_LOADING, payload: 'LOADING/CHANGE_PASSWORD' });
+    dispatch({ type: LoadingActionTypes.SET_APP_LOADING, payload: 'LOADING/CHANGE_PASSWORD' });
 
     try {
       await axiosInstance().put(passwordURL, { currentPassword, newPassword }, getConfig());
@@ -69,7 +69,7 @@ export function resetPassword(currentPassword, newPassword) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      dispatch({ type: ErrorTypes.APP_ERROR, payload: data })
+      dispatch({ type: ErrorActionTypes.SET_APP_ERROR, payload: data })
       dispatch(clearLoading('appLoading'))
     }
   };
@@ -97,14 +97,14 @@ export function getPasswordResetEmail(email) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      dispatch({ type: ErrorTypes.APP_ERROR, payload: data });
+      dispatch({ type: ErrorActionTypes.SET_APP_ERROR, payload: data });
     }
   };
 }
 
 export function resetForgotPassword(newPassword, token) {
   return async (dispatch) => {
-    dispatch({ type: LoadingTypes.APP_LOADING, payload: 'LOADING/RESET_FORGOT_PASSWORD' });
+    dispatch({ type: LoadingActionTypes.SET_APP_LOADING, payload: 'LOADING/RESET_FORGOT_PASSWORD' });
 
     try {
       await axiosInstance().post(passwordURL, { newPassword }, { headers: { Authorization: `Bearer ${token}` } });
@@ -114,7 +114,7 @@ export function resetForgotPassword(newPassword, token) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      dispatch({ type: ErrorTypes.APP_ERROR, payload: data })
+      dispatch({ type: ErrorActionTypes.SET_APP_ERROR, payload: data })
       dispatch(clearLoading('appLoading'))
     }
   };
@@ -133,7 +133,7 @@ export function getGoogleAuthenticatorQrCode() {
 
 export function enableTwoFactor(code) {
   return async (dispatch) => {
-    dispatch({ type: LoadingTypes.APP_LOADING, payload: 'LOADING/ENABLE_2FA' });
+    dispatch({ type: LoadingActionTypes.SET_APP_LOADING, payload: 'LOADING/ENABLE_2FA' });
 
     try {
       await axiosInstance().post(googleAuthenticatorVerifyCodeURL, { code }, getConfig());
@@ -142,7 +142,7 @@ export function enableTwoFactor(code) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      dispatch({ type: ErrorTypes.APP_ERROR, payload: data })
+      dispatch({ type: ErrorActionTypes.SET_APP_ERROR, payload: data })
       dispatch(clearLoading('appLoading'))
     }
   };
@@ -150,7 +150,7 @@ export function enableTwoFactor(code) {
 
 export function disableTwoFactor(code) {
   return async (dispatch) => {
-    dispatch({ type: LoadingTypes.APP_LOADING, payload: 'LOADING/DISABLE_2FA' });
+    dispatch({ type: LoadingActionTypes.SET_APP_LOADING, payload: 'LOADING/DISABLE_2FA' });
 
     try {
       await axiosInstance().delete(phoneLoginURL, { ...getConfig(), data: { code } });
@@ -159,7 +159,7 @@ export function disableTwoFactor(code) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      dispatch({ type: ErrorTypes.APP_ERROR, payload: data })
+      dispatch({ type: ErrorActionTypes.SET_APP_ERROR, payload: data })
       dispatch(clearLoading('appLoading'))
     }
   };

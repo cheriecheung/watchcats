@@ -1,8 +1,8 @@
 import axiosInstance from '../../utility/axiosInstance';
 import { getConfig } from '../../utility/api'
 import BookingActionTypes from './actionTypes'
-import ErrorTypes from '../error/actionTypes'
-import LoadingTypes from '../loading/actionTypes'
+import ErrorActionTypes from '../error/actionTypes'
+import LoadingActionTypes from '../loading/actionTypes'
 import { clearLoading } from '../loading/actions'
 
 const appointmentTimeUrl = `/booking-time`;
@@ -28,7 +28,7 @@ export function getAppointmentTime() {
 
 export function sendRequest(bookingData) {
   return async (dispatch) => {
-    dispatch({ type: LoadingTypes.BOOKINGS_LOADING, payload: 'LOADING/SEND_BOOKING_REQUEST' });
+    dispatch({ type: LoadingActionTypes.SET_BOOKINGS_LOADING, payload: 'LOADING/SEND_BOOKING_REQUEST' });
 
     try {
       const { data } = await axiosInstance().post(bookingUrl, bookingData, getConfig());
@@ -38,7 +38,7 @@ export function sendRequest(bookingData) {
       console.log({ e });
       const { response } = e
       const { data } = response || {}
-      dispatch({ type: ErrorTypes.BOOKINGS_ERROR, payload: data })
+      dispatch({ type: ErrorActionTypes.SET_BOOKINGS_ERROR, payload: data })
       dispatch(clearLoading('bookingsLoading'))
     }
   };
@@ -46,7 +46,7 @@ export function sendRequest(bookingData) {
 
 export function getRecords(type) {
   return async (dispatch) => {
-    dispatch({ type: LoadingTypes.BOOKINGS_LOADING, payload: 'LOADING/GET_BOOKINGS_RECORDS' });
+    dispatch({ type: LoadingActionTypes.SET_BOOKINGS_LOADING, payload: 'LOADING/GET_BOOKINGS_RECORDS' });
 
     try {
       const { data } = await axiosInstance().get(bookingsURL(type), getConfig());
@@ -62,7 +62,7 @@ export function getRecords(type) {
 
 export function fulfillAction(id, action) {
   return async (dispatch) => {
-    dispatch({ type: LoadingTypes.BOOKINGS_LOADING, payload: 'LOADING/FULFILL_ACTION' });
+    dispatch({ type: LoadingActionTypes.SET_BOOKINGS_LOADING, payload: 'LOADING/FULFILL_ACTION' });
 
     try {
       const { data } = await axiosInstance().patch(bookingUrl, { id, action }, getConfig());

@@ -1,13 +1,13 @@
 import Immutable from 'seamless-immutable';
-import LoadingTypes from './actionTypes'
+import LoadingActionTypes from './actionTypes'
 
 const initialState = Immutable({
   accountLoading: '',
   appLoading: '',
-  authenticationLoading: '',
+  authLoading: '',
   bookingsLoading: '',
   chatLoading: '',
-  findCatSitterLoading: '',
+  findSitterLoading: '',
   paymentLoading: '',
   profileLoading: ''
 });
@@ -15,23 +15,23 @@ const initialState = Immutable({
 const loading_reducer = {
   loading: (state = initialState, action) => {
     switch (action.type) {
-      case LoadingTypes.CLEAR_LOADING:
+      case LoadingActionTypes.CLEAR_LOADING:
         return { ...state, [action.loadingType]: '' }
-      case LoadingTypes.ACCOUNT_LOADING:
+      case LoadingActionTypes.SET_ACCOUNT_LOADING:
         return { ...state, accountLoading: action.payload };
-      case LoadingTypes.APP_LOADING:
+      case LoadingActionTypes.SET_APP_LOADING:
         return { ...state, appLoading: action.payload };
-      case LoadingTypes.AUTHENTICATION_LOADING:
-        return { ...state, authenticationLoading: action.payload };
-      case LoadingTypes.BOOKINGS_LOADING:
+      case LoadingActionTypes.SET_AUTH_LOADING:
+        return { ...state, authLoading: action.payload };
+      case LoadingActionTypes.SET_BOOKINGS_LOADING:
         return { ...state, bookingsLoading: action.payload };
-      case LoadingTypes.CHAT_LOADING:
+      case LoadingActionTypes.SET_CHAT_LOADING:
         return { ...state, chatLoading: action.payload };
-      case LoadingTypes.FIND_CAT_SITTER_LOADING:
-        return { ...state, findCatSitterLoading: action.payload };
-      case LoadingTypes.PAYMENT_LOADING:
+      case LoadingActionTypes.SET_FIND_SITTER_LOADING:
+        return { ...state, findSitterLoading: action.payload };
+      case LoadingActionTypes.SET_PAYMENT_LOADING:
         return { ...state, paymentLoading: action.payload };
-      case LoadingTypes.PROFILE_LOADING:
+      case LoadingActionTypes.SET_PROFILE_LOADING:
         return { ...state, profileLoading: action.payload };
       default:
         return state;

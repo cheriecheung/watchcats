@@ -3,7 +3,7 @@ import { AuthenticatorModal } from '../../../../components/Google'
 
 function PhoneLogin({
   t,
-  authenticationError,
+  authError,
   isLoadingPhoneLogin,
   phoneLoginProps
 }) {
@@ -21,7 +21,7 @@ function PhoneLogin({
         <AuthenticatorModal
           t={t}
           name="code"
-          error={authenticationError}
+          error={authError}
           isLoading={isLoadingPhoneLogin}
         />
       </form>
