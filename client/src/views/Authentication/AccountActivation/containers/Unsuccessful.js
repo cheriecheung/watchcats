@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { TextField } from '../../../../components/FormComponents'
-import { Alert, ContainedButton } from '../../../../components/UIComponents';
+import { ContainedButton, SuccessAlert } from '../../../../components/UIComponents';
 
 function Unsuccessful({ t, unsuccessfulProps }) {
   const { FormProvider, methods, onSubmit, emailSubmitted } = unsuccessfulProps
@@ -20,9 +20,9 @@ function Unsuccessful({ t, unsuccessfulProps }) {
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {emailSubmitted ?
-            <Alert type="success">
+            <SuccessAlert>
               {t('account_activation.response')}
-            </Alert>
+            </SuccessAlert>
             :
             <>
               <TextField name="email" />

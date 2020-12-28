@@ -17,16 +17,12 @@ function PersonalInfo({ t }) {
         </Col>
         <Col md={6}>
           <FieldLabel>{t('personal_info.address')}</FieldLabel>
-          <Tooltip content={t('personal_info.address_tooltip')}>
-            <i className="fas fa-info-circle ml-2" />
-          </Tooltip>
+          <Tooltip content={t('personal_info.address_tooltip')} />
           <TextField name="address" />
         </Col>
         <Col md={6}>
           <FieldLabel>{t('personal_info.postcode')}</FieldLabel>
-          <Tooltip content={t('personal_info.address')}>
-            <i className="fas fa-info-circle ml-2" />
-          </Tooltip>
+          <Tooltip content={t('personal_info.postcode_tooltip')} />
           <TextField name="postcode" />
         </Col>
       </Row>

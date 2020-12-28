@@ -3,7 +3,7 @@ import { Row, Col } from 'reactstrap';
 import moment from 'moment';
 import {
   ContainedButton,
-  ErrorMessage,
+  ErrorAlert,
   Spinner,
   TextButton
 } from '../../../../components/UIComponents'
@@ -99,7 +99,7 @@ function SelectAppointmentTime({ t, closeModal }) {
         </Col>
       </Row>
 
-      {bookingsError && <ErrorMessage type={bookingsError} />}
+      {bookingsError && <ErrorAlert type={bookingsError} />}
 
       <br />
 

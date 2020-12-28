@@ -1,7 +1,7 @@
 import React from 'react'
 import { FieldLabel, TextField } from '../../../../components/FormComponents'
 import {
-  ErrorMessage,
+  ErrorAlert,
   LinkButton,
   OutlinedButton,
   Spinner
@@ -37,7 +37,7 @@ function LocalLogin({
           {t('login.forgot_password')}
         </LinkButton>
 
-        {authenticationError && <ErrorMessage type={authenticationError} />}
+        {authenticationError && <ErrorAlert type={authenticationError} />}
 
         <OutlinedButton type="submit">
           {t('login.title')}

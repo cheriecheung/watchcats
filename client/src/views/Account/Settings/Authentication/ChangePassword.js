@@ -1,6 +1,11 @@
 import React from 'react';
 import { FieldLabel, PasswordField } from '../../../../components/FormComponents';
-import { ContainedButton, ErrorMessage, Spinner } from '../../../../components/UIComponents';
+import {
+  ContainedButton,
+  ErrorAlert,
+  PasswordCriteriaList,
+  Spinner
+} from '../../../../components/UIComponents';
 
 import { useChangePassword } from '../viewModel';
 
@@ -15,8 +20,9 @@ function ChangePassword({ t, appError, isLoading }) {
 
   return (
     <>
-      <h5>{t('settings.change_password')}</h5>
-      <br />
+      <h5 style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{t('settings.change_password')}</h5>
+
+      <PasswordCriteriaList />
 
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} style={{ textAlign: 'left' }}>
@@ -30,7 +36,7 @@ function ChangePassword({ t, appError, isLoading }) {
           <FieldLabel>{t('settings.repeat_new_password')}</FieldLabel>
           <PasswordField name="newPasswordRepeat" />
 
-          {appError && <ErrorMessage type={appError} />}
+          {appError && <ErrorAlert type={appError} />}
 
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <ContainedButton type="submit">

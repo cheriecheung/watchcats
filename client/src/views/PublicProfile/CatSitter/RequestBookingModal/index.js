@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, SuccessDisplay } from '../../../../components/UIComponents'
+import { Modal, ModalSuccessDisplay } from '../../../../components/UIComponents'
 import CreateAppointmentTime from './CreateAppointmentTime';
 import CreateOwnerProfile from './CreateOwnerProfile';
 import SelectAppointmentTime from './SelectAppointmentTime';
@@ -24,7 +24,7 @@ function RequestBookingModal({
         return <CreateOwnerProfile t={t} />
       case 'BOOKING_REQUEST_SENT':
         return (
-          <SuccessDisplay
+          <ModalSuccessDisplay
             message={t('success.booking_request')}
             onClick={closeModal}
           />

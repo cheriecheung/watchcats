@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { clearAllErrors } from '../../redux/error/actions'
 import { Alert } from 'antd';
+import { clearAllErrors } from '../../../redux/error/actions'
 
 function renderMessage(t, type) {
   switch (type) {
@@ -39,7 +39,7 @@ function renderMessage(t, type) {
   }
 }
 
-function ErrorMessage({ type }) {
+function ErrorAlert({ type }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const message = renderMessage(t, type)
@@ -56,4 +56,4 @@ function ErrorMessage({ type }) {
   )
 }
 
-export default ErrorMessage;
+export default ErrorAlert;

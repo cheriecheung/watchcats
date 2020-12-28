@@ -3,7 +3,7 @@ import { Row, Col } from 'reactstrap';
 import { DatePicker, FieldLabel, TimePicker } from '../../../../components/FormComponents';
 import {
   ContainedButton,
-  ErrorMessage,
+  ErrorAlert,
   Spinner,
   TextButton
 } from '../../../../components/UIComponents'
@@ -114,7 +114,7 @@ function CreateAppointmentTime({ t, closeModal, modalVisible }) {
         </Col>
       </Row>
 
-      {bookingsError && <ErrorMessage type={bookingsError} />}
+      {bookingsError && <ErrorAlert type={bookingsError} />}
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <TextButton

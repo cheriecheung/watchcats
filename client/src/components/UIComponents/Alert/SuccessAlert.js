@@ -1,12 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { Alert as AntAlert } from 'antd'
+import { Alert } from 'antd'
 
-function Alert({ children, type, showIcon = true, closable = false, style }) {
+function SuccessAlert({
+  children,
+  showIcon = true,
+  closable = false,
+  style
+}) {
   return (
-    <AntAlert
+    <Alert
+      type="success"
       message={children}
-      type={type}
       showIcon={showIcon}
       closable={closable}
       style={style}
@@ -14,7 +19,7 @@ function Alert({ children, type, showIcon = true, closable = false, style }) {
   )
 }
 
-export default Alert
+export default SuccessAlert
 
 Alert.propTypes = {
   children: PropTypes.string.isRequired,

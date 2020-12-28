@@ -64,7 +64,7 @@ function AboutCat({
                 <FieldLabel>{t('owner_form.picture')}</FieldLabel>
                 <p>{t('owner_form.share_picture')}</p>
               </Col>
-              <Col md={6} className="mb-4" style={{ display: 'flex', justifyContent: 'center' }}>
+              <Col md={6} className="mb-4">
                 {photoFields[index] ?
                   <FileDisplayField
                     name={`cat[${index}].photo`}

@@ -2,7 +2,7 @@ import React from 'react';
 import { FieldLabel, TextField } from '../../../../components/FormComponents';
 import {
   ContainedButton,
-  ErrorMessage,
+  ErrorAlert,
   Image,
   ImageContainer,
   LinkButton,
@@ -98,7 +98,7 @@ function Enable2FA({ t, appError, isLoading }) {
               {isLoading && <Spinner />}
             </ContainedButton>
 
-            {appError && <ErrorMessage type={appError} />}
+            {appError && <ErrorAlert type={appError} />}
           </Description>
         </Section>
       </form>

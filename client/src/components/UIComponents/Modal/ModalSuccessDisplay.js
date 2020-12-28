@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ContainedButton } from '../UIComponents'
+import { ContainedButton } from '../../UIComponents'
+import { themeColor } from '../../../style/theme'
 
-function SuccessDisplay({ message, onClick }) {
+function ModalSuccessDisplay({ message, onClick }) {
   return (
     <>
-      <i className="far fa-check-circle fa-4x" />
+      <br />
+      <i
+        className="far fa-check-circle fa-4x"
+        style={{ color: themeColor.green }}
+      />
       <br />
       <br />
       <p>{message}</p>
@@ -17,9 +22,9 @@ function SuccessDisplay({ message, onClick }) {
   )
 }
 
-export default SuccessDisplay
+export default ModalSuccessDisplay
 
-SuccessDisplay.propTypes = {
+ModalSuccessDisplay.propTypes = {
   message: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired
 };

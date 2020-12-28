@@ -1,10 +1,10 @@
 import React from 'react'
 import { FieldLabel, PasswordField } from '../../../components/FormComponents'
 import {
-    Alert,
     ContainedButton,
-    ErrorMessage,
+    ErrorAlert,
     Spinner,
+    SuccessAlert,
     VerticalCard
 } from '../../../components/UIComponents';
 import { useAuthentication, useResetPassword } from '../viewModel';
@@ -40,11 +40,11 @@ function PasswordReset() {
                         <FieldLabel>{t('reset_password.repeat_password')}</FieldLabel>
                         <PasswordField name="newPasswordRepeat" />
 
-                        {appError && <ErrorMessage type={appError} />}
+                        {appError && <ErrorAlert type={appError} />}
                         {isResetForgotPasswordSuccessful &&
-                            <Alert type="success" style={{ marginBottom: 15 }}>
+                            <SuccessAlert style={{ marginBottom: 15 }}>
                                 {t('success.reset_forgot_password')}
-                            </Alert>
+                            </SuccessAlert>
                         }
 
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>

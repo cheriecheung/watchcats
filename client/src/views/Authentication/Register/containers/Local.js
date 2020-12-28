@@ -1,6 +1,12 @@
 import React from 'react'
 import { FieldLabel, PasswordField, TextField } from '../../../../components/FormComponents'
-import { ErrorMessage, OutlinedButton, Spinner } from '../../../../components/UIComponents'
+import {
+  ErrorAlert,
+  OutlinedButton,
+  PasswordCriteriaList,
+  Spinner,
+  Tooltip
+} from '../../../../components/UIComponents'
 
 function Local({
   t,
@@ -30,9 +36,10 @@ function Local({
 
         {/* password requirement */}
         <FieldLabel>{t('form.password')}</FieldLabel>
+        <Tooltip content={<PasswordCriteriaList />} />
         <PasswordField name="password" />
 
-        {appError && <ErrorMessage type={appError} />}
+        {appError && <ErrorAlert type={appError} />}
 
         <OutlinedButton type="submit" style={{ width: '100%', marginTop: 10 }}>
           {t('register.title')}

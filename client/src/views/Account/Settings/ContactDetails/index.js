@@ -1,5 +1,10 @@
 import React from 'react';
-import { Modal, SuccessDisplay, ResponsiveDivider, WrapLayout } from '../../../../components/UIComponents';
+import {
+  Modal,
+  ModalSuccessDisplay,
+  ResponsiveDivider,
+  WrapLayout
+} from '../../../../components/UIComponents';
 import EmailDisplay from './EmailDisplay'
 import PhoneDisplay from './PhoneDisplay'
 import PhoneNumberInput from './PhoneNumberInput'
@@ -50,14 +55,14 @@ function ContactDetails({
         )
       case 'verified':
         return (
-          <SuccessDisplay
+          <ModalSuccessDisplay
             message={t('success.phone_verified')}
             onClick={closeModal}
           />
         )
       case 'removed':
         return (
-          <SuccessDisplay
+          <ModalSuccessDisplay
             message={t('success.phone_removed')}
             onClick={closeModal}
           />

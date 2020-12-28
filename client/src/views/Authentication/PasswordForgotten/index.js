@@ -1,5 +1,10 @@
 import React from 'react'
-import { Alert, ContainedButton, ErrorMessage, VerticalCard } from '../../../components/UIComponents';
+import {
+    ContainedButton,
+    ErrorAlert,
+    SuccessAlert,
+    VerticalCard
+} from '../../../components/UIComponents';
 import { TextField } from '../../../components/FormComponents'
 import { useAuthentication, useForgotPassword } from '../viewModel';
 
@@ -24,13 +29,13 @@ function PasswordForgotten() {
                 <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(onSubmitEmail)}>
                         {appActionStatus === 'resetPasswordEmailRequested' ?
-                            <Alert type="success">
+                            <SuccessAlert>
                                 {t('forgot_password.response')}
-                            </Alert>
+                            </SuccessAlert>
                             :
                             <>
                                 <TextField name="email" />
-                                {appError && <ErrorMessage type={appError} />}
+                                {appError && <ErrorAlert type={appError} />}
 
                                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                                     <ContainedButton>{t('form.submit')}</ContainedButton>

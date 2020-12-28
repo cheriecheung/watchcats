@@ -1,6 +1,6 @@
 import React from 'react'
 import { FieldLabel } from '../../../../components/FormComponents';
-import { Alert, ErrorMessage, TextButton } from '../../../../components/UIComponents'
+import { ErrorAlert, SuccessAlert, TextButton } from '../../../../components/UIComponents'
 import { Switch } from 'antd';
 
 function EmailDisplay({
@@ -51,14 +51,14 @@ function EmailDisplay({
 
       {accountError &&
         accountError === 'ERROR/SET_EMAIL_NOTIFICATION_FAILED' &&
-        <ErrorMessage type={accountError} />
+        <ErrorAlert type={accountError} />
       }
 
       {prevSettings &&
         prevSettings.getEmailNotification !== getEmailNotification &&
-        <Alert type="success" closable={true} style={{ marginTop: 10 }}>
+        <SuccessAlert closable={true} style={{ marginTop: 10 }}>
           {t('success.notification_setting')}
-        </Alert>
+        </SuccessAlert>
       }
     </>
   )

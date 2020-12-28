@@ -1,6 +1,11 @@
 import React from 'react';
 import { RateField, TextArea } from '../../../components/FormComponents';
-import { ContainedButton, HorizontalCard, Modal, SuccessDisplay } from '../../../components/UIComponents'
+import {
+  ContainedButton,
+  HorizontalCard,
+  Modal,
+  ModalSuccessDisplay
+} from '../../../components/UIComponents'
 import { MainContainer } from '../styledComponents'
 import { useWriteReview } from '../viewModel'
 import ItemContent from '../components/ItemContent'
@@ -50,7 +55,7 @@ function WriteReview() {
         onCancel={closeModal}
         footer={null}
       >
-        <SuccessDisplay message={t('success.review')} onClick={closeModal} />
+        <ModalSuccessDisplay message={t('success.review')} onClick={closeModal} />
       </Modal>
     </MainContainer>
   );

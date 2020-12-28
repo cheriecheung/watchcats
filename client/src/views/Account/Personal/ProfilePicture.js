@@ -24,25 +24,23 @@ function ProfilePicture({
       </Col>
 
       <Col md={6}>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          {photoField ? (
-            <FileDisplayField
+        {photoField ? (
+          <FileDisplayField
+            name="profilePicture"
+            fileName={photoField}
+            handleRemovePhoto={() => handleRemovePhoto(photoField)}
+            isLoading={isLoading}
+          />
+        ) : (
+            <FileUploader
               name="profilePicture"
-              fileName={photoField}
-              handleRemovePhoto={() => handleRemovePhoto(photoField)}
-              isLoading={isLoading}
+              id="profilePicture"
+              fileType="image/x-png,image/jpeg"
+              setFileData={(data) => reset({ profilePicture: data })}
+              setDisplayPreview={handlePreview}
             />
-          ) : (
-              <FileUploader
-                name="profilePicture"
-                id="profilePicture"
-                fileType="image/x-png,image/jpeg"
-                setFileData={(data) => reset({ profilePicture: data })}
-                setDisplayPreview={handlePreview}
-              />
-            )
-          }
-        </div>
+          )
+        }
       </Col>
     </Row>
   );

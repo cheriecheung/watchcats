@@ -3,8 +3,8 @@ import { FieldLabel } from '../../../../components/FormComponents'
 import {
   ContainedButton,
   Modal,
+  ModalSuccessDisplay,
   OutlinedButton,
-  SuccessDisplay,
   WrapLayout
 } from '../../../../components/UIComponents'
 import ChangePassword from './ChangePassword'
@@ -45,7 +45,7 @@ function Authentication({
         )
       case 'resetPasswordSuccess':
         return (
-          <SuccessDisplay
+          <ModalSuccessDisplay
             message={t('success.password_reset')}
             onClick={closeModal}
           />
@@ -60,7 +60,7 @@ function Authentication({
         )
       case 'enable2FASuccess':
         return (
-          <SuccessDisplay
+          <ModalSuccessDisplay
             message={t('success.2FA_enabled')}
             onClick={closeModal}
           />
@@ -75,7 +75,7 @@ function Authentication({
         )
       case 'disable2FASuccess':
         return (
-          <SuccessDisplay
+          <ModalSuccessDisplay
             message={t('success.2FA_disabled')}
             onClick={closeModal}
           />

@@ -2,7 +2,7 @@ import React from 'react';
 import { OtpInput } from '../FormComponents'
 import {
   ContainedButton,
-  ErrorMessage,
+  ErrorAlert,
   Image,
   ImageContainer,
   Spinner
@@ -26,7 +26,7 @@ function AuthenticatorModal({ t, name, error, isLoading }) {
 
       <br />
 
-      {error && <ErrorMessage type={error} />}
+      {error && <ErrorAlert type={error} />}
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <ContainedButton type="submit">

@@ -1,7 +1,7 @@
 import React from 'react';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
-import { ContainedButton, ErrorMessage, Spinner } from '../../../../components/UIComponents'
+import { ContainedButton, ErrorAlert, Spinner } from '../../../../components/UIComponents'
 
 function PhoneNumberInput({
   t,
@@ -29,7 +29,7 @@ function PhoneNumberInput({
         placeholder=""
         className="phone-input"
       />
-      {accountError && <ErrorMessage type={accountError} />}
+      {accountError && <ErrorAlert type={accountError} />}
 
       <br />
 

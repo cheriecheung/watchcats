@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContainedButton, ErrorMessage, Spinner } from '../../../../components/UIComponents'
+import { ContainedButton, ErrorAlert, Spinner } from '../../../../components/UIComponents'
 import { OtpInput } from '../../../../components/FormComponents'
 import { usePhoneNumberVerification } from '../viewModel';
 
@@ -32,7 +32,7 @@ function PhoneNumberVerification({
           <OtpInput name="otp" />
         </div>
 
-        {accountError && <ErrorMessage type={accountError} />}
+        {accountError && <ErrorAlert type={accountError} />}
 
         <br />
 
