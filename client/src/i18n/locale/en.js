@@ -383,5 +383,12 @@ export default {
     describe_experience: 'Describe your experience',
     reminder: 'Your review will be public on the reviewee\'s public profile',
     give_rating: 'Give your rating'
+  },
+
+  chats: {
+    no_chats: 'No chats yet',
+    if_sitter: 'If you\'re a sitter, only owners can write to you',
+    if_owner: 'If you\'re an owner, start by',
+    find_sitter: 'finding a sitter'
   }
 };

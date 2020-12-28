@@ -1,8 +1,5 @@
 import styled, { css } from 'styled-components';
-import { themeColor } from '../../style/theme'
-
-// const NavHeight = 7;
-// const MainContainerHeight = 100 - NavHeight;
+import { themeColor, themeLayout } from '../../style/theme'
 
 // @media (max-width: 920px) 
 // - extend ConversationtContainer
@@ -60,7 +57,7 @@ const scrollableLayerStyle = css`
 `
 
 export const ScrollableLayer = styled.div`
-  height: 100vh;
+  height: ${themeLayout.contentHeight};
 
   ${scrollableLayerStyle}
   ${scrollBarWidth}
@@ -82,6 +79,29 @@ const getPositionX = (view) => {
       return "unset";
   }
 }
+
+export const NoChatContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: ${themeLayout.contentHeight};
+  background-color: #fff;
+  color: ${themeColor.lightGrey};
+`
+
+export const NoChatTitle = styled.h6`
+  margin-top: 20px;
+  color: ${themeColor.darkGrey};
+  font-size: 1.4rem;
+  font-weight: bold;
+`
+
+export const NoChatText = styled.h6`
+  color: ${themeColor.grey};
+  font-size: 1rem;
+`
 
 export const MainContainer = styled.div`
   text-align: left;
@@ -110,7 +130,7 @@ export const ChatListContainer = styled.div`
 `
 
 export const ChatListScrollableLayer = styled.div`
-  height: 100vh;
+  height: ${themeLayout.contentHeight};
 
   ${scrollableLayerStyle}
   ${scrollBarWidth}
@@ -163,7 +183,7 @@ export const MobileViewTabContainer = styled.div`
   padding: 0 13px 0 10px;
   width: 100%;
   min-height: 40px;
-  height: 7vh;
+  height: ${themeLayout.navBarHeight};
   background-color: #fff;
 
   @media (min-width: 920px){
@@ -198,19 +218,32 @@ export const BackButton = styled.button`
 `
 
 export const ConversationScrollableLayer = styled.div`
-  height: 83vh;
+  position: absolute;
+  top: 0;
+  bottom: ${({ bottom }) => bottom};
+  padding: 10px;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   ${scrollableLayerStyle}
   ${scrollBarWidth}
-
-  @media (max-width: 920px) {
-    height: 75vh;
-  }
-
-  @media (max-width: 735px) {
-    height: 75vh;
-  }
 `
+
+// export const ConversationScrollableLayer = styled.div`
+//   height: 83vh;
+
+//   ${scrollableLayerStyle}
+//   ${scrollBarWidth}
+
+//   @media (max-width: 920px) {
+//     height: 75vh;
+//   }
+
+//   @media (max-width: 735px) {
+//     height: 75vh;
+//   }
+// `
 
 export const FormContainer = styled.form`
   height: 100%;
@@ -228,7 +261,11 @@ export const FormContainer = styled.form`
 
 export const MessageInputContainer = styled.div`
   display: flex;
-  padding: 13px 20px;
+  padding: 10px 20px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 `;
 
 export const SubmitButton = styled.button`
@@ -241,7 +278,7 @@ export const SubmitButton = styled.button`
 
 export const ConversationInfoContainer = styled.div`
   width: 25vw;
-  height: 100vh;
+  height: ${themeLayout.contentHeight};
   background-color: #fff;
   ${transitionStyle}
 

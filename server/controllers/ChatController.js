@@ -6,7 +6,7 @@ const User = require('../model/User');
 const ObjectId = require('mongodb').ObjectID;
 
 async function getPartificpantsInfo(conversations, senderId) {
-  const chatList = await Promise.all(
+  const totalChats = await Promise.all(
     conversations.map(async (item) => {
       const {
         _id: conversationId,
@@ -49,7 +49,7 @@ async function getPartificpantsInfo(conversations, senderId) {
     })
   )
 
-  return { chatList }
+  return { totalChats }
 }
 
 module.exports = {
@@ -63,12 +63,14 @@ module.exports = {
           { participant1: senderId },
           { participant2: senderId }
         ]
-      })
-        .sort({ lastMessageDate: -1 })
-      if (!sorted || sorted.length === 0) return res.status(204).json()
+      }).sort({ lastMessageDate: -1 })
 
-      const { chatList, err } = await getPartificpantsInfo(sorted, senderId)
+      if (!sorted) return res.status(404).json('ERROR/ERROR_OCCURED')
+      if (sorted.length === 0) return res.status(200).json({ chatList: [] })
+
+      const { totalChats, err } = await getPartificpantsInfo(sorted, senderId)
       if (err) return res.status(400).json('ERROR/ERROR_OCCURED')
+      chatList = totalChats
 
       // const recipientShortId = chatList[0].recipient.shortId
 
@@ -128,7 +130,6 @@ module.exports = {
       const {
         firstName,
         lastName,
-        lastSeen,
         profilePicture: recipientPicture,
         urlId,
         sitter,
@@ -143,7 +144,6 @@ module.exports = {
       const recipient = {
         firstName,
         lastName,
-        lastSeen,
         profilePicture: recipientPicture,
         shortId: urlId,
         hasSitterProfile: sitterProfile ? true : false,

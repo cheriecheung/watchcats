@@ -2,7 +2,7 @@ import Immutable from 'seamless-immutable';
 import ChatActionTypes from './actionTypes'
 
 const initialState = Immutable({
-  chatList: [],
+  chatList: null,
   conversationInfo: {},
   messages: []
 });

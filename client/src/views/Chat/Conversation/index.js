@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { TextArea } from '../../../components/FormComponents';
 import {
   ConversationContainer,
@@ -12,8 +12,53 @@ import AutomatedMessage from './AutomatedMessage'
 import MessageBubble from './MessageBubble';
 import MobileViewTab from './MobileViewTab'
 
+import styled from 'styled-components'
+
 const NavHeight = 7;
 const ConversationTab = 7
+
+const ChatContainer = styled.div`
+  position: relative;
+  height: 93vh;
+
+  width: 50vw;
+  overflow: hidden;
+
+  @media (max-width: 920px) {
+    width: 65vw;
+    height: 86vh;
+    overflow: visible;
+  }
+
+  @media (max-width: 735px) {
+    width: 100vw;
+  }
+`;
+
+const Chat = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: ${({ bottom }) => bottom};
+  padding: 10px;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+`;
+
+const AutoSizeInput = styled.textarea`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 5px;
+  width: 100%;
+  height: 2rem;
+  font-size: 1.4rem;
+  overflow-x: hidden;
+  overflow-y: ${({ scrollHeight }) =>
+    scrollHeight >= 150 ? "scroll" : "hidden"};
+  resize: none;
+  outline: none;
+`;
 
 function Conversation({
   FormProvider,
@@ -23,18 +68,53 @@ function Conversation({
   onSubmitMessage,
   chatContainerRef,
   backToList,
-  goToInfo
+  goToInfo,
+  inputRef,
+  inputHeight,
+  scrollHeight,
+  onChangeHeight,
 }) {
   const { handleSubmit } = methods
 
   const { recipient } = conversationInfo || {}
   const { firstName, lastName, profilePicture: recipientPicture } = recipient || {}
 
-  const [messageInputHeight, setMessageInputHeight] = useState(10);
-  const [textAreaRows, setTextAreaRows] = useState(1);
+  const [message, setMessage] = useState("");
 
   return (
-    <ConversationContainer>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <MobileViewTab
+        recipientPicture={recipientPicture}
+        backToList={backToList}
+        goToInfo={goToInfo}
+        firstName={firstName}
+        lastName={lastName}
+      />
+      <ChatContainer>
+        <FormProvider {...methods}>
+          <FormContainer onSubmit={handleSubmit(onSubmitMessage)}>
+            <ConversationScrollableLayer
+              bottom={inputHeight}
+              ref={chatContainerRef}
+            >
+              <ScrollableSubLayer>
+                {allMessages &&
+                  allMessages.map(message =>
+                    <MessageBubble message={message} conversationInfo={conversationInfo} />
+                  )
+                }
+              </ScrollableSubLayer>
+            </ConversationScrollableLayer>
+
+            <AutoSizeInput
+              ref={inputRef}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyUp={onChangeHeight}
+              scrollHeight={scrollHeight}
+            />
+
+            {/* <ConversationContainer>
       <FormProvider {...methods}>
         <FormContainer onSubmit={handleSubmit(onSubmitMessage)}>
           <MobileViewTab
@@ -84,7 +164,11 @@ function Conversation({
           </MessageInputContainer>
         </FormContainer>
       </FormProvider>
-    </ConversationContainer>
+    </ConversationContainer> */}
+          </FormContainer>
+        </FormProvider>
+      </ChatContainer>
+    </div>
   );
 }
 

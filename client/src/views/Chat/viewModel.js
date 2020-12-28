@@ -12,8 +12,6 @@ import {
 import io from "socket.io-client";
 import { getAccessToken } from '../../utility/accessToken';
 import ScreenWidthListener from '../../components/Layout/ScreenWidthListener'
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
 
 let socket;
 
@@ -23,13 +21,18 @@ function useChat() {
   const history = useHistory();
   const { t } = useTranslation();
   const { id: recipientId } = useParams();
+
   const chatContainerRef = useRef(null);
+  const inputRef = useRef(null);
 
   const dispatch = useDispatch();
   const { chatList, conversationInfo, messages: allMessages } = useSelector((state) => state.chat);
 
   const [clickedChat, setClickedChat] = useState('');
   const [hoveredChat, setHoveredChat] = useState('');
+
+  const [inputHeight, setInputHeight] = useState("2rem");
+  const [scrollHeight, setScrollHeight] = useState("");
 
   // list, conversation, info
   const [mobileScreenView, setMobileScreenView] = useState('list')
@@ -38,7 +41,7 @@ function useChat() {
   const methods = useForm({ defaultValues });
   const { register, handleSubmit, watch, reset } = methods;
 
-  // console.log({ chatList, conversationInfo, allMessages })
+  console.log({ chatList, conversationInfo, allMessages })
 
   useEffect(() => {
     // chat container should start at bottom
@@ -102,10 +105,41 @@ function useChat() {
     setMobileScreenView('info')
   }
 
-  const scrollToBottom = () => {
-    const scroll = chatContainerRef.current.scrollHeight - chatContainerRef.current.clientHeight;
+  const onChangeHeight = () => {
+    if (inputRef && inputRef.current) {
+      let scroll_height = inputRef.current.scrollHeight;
 
-    chatContainerRef.current.scrollTo(0, scroll);
+      if (scroll_height <= 52) {
+        inputRef.current.style.height = 2 + "rem";
+      }
+
+      if (scroll_height > 52 && scroll_height < 150) {
+        inputRef.current.style.height = "auto";
+        inputRef.current.style.height = inputRef.current.scrollHeight + "px";
+      }
+
+      if (scroll_height > 150) {
+        inputRef.current.style.height = 150 + "px";
+      }
+
+      console.log({ scroll_height });
+
+      setInputHeight(inputRef.current.style.height);
+      setScrollHeight(scroll_height);
+      scrollToBottom();
+    }
+
+    return;
+  };
+
+  const scrollToBottom = () => {
+    if (chatContainerRef && chatContainerRef.current) {
+      const scroll = chatContainerRef.current.scrollHeight - chatContainerRef.current.clientHeight;
+
+      chatContainerRef.current.scrollTo(0, scroll);
+    }
+
+    return;
   };
 
   useEffect(() => {
@@ -138,7 +172,11 @@ function useChat() {
     mobileScreenView,
     backToList,
     backToConversation,
-    goToInfo
+    goToInfo,
+    inputRef,
+    inputHeight,
+    scrollHeight,
+    onChangeHeight
   }
 }
 

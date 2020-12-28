@@ -20,7 +20,6 @@ function ConversationInfo({
   const {
     firstName,
     lastName,
-    lastSeen,
     profilePicture,
     shortId,
     hasSitterProfile,
