@@ -1,8 +1,10 @@
 import React from 'react'
 import { FieldLabel, PasswordField } from '../../../components/FormComponents'
 import {
+    CardTitle,
     ContainedButton,
     ErrorAlert,
+    PasswordCriteriaList,
     Spinner,
     SuccessAlert,
     VerticalCard
@@ -28,9 +30,8 @@ function PasswordReset() {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
             <VerticalCard variant="authentication">
-                <h5>{t('reset_password.title')}</h5>
-                <p>{t('reset_password.enter_new_password')}</p>
-                {/* password requirement */}
+                <CardTitle>{t('reset_password.title')}</CardTitle>
+                <PasswordCriteriaList />
 
                 <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(onSubmitNewPassword)}>
@@ -42,9 +43,10 @@ function PasswordReset() {
 
                         {appError && <ErrorAlert type={appError} />}
                         {isResetForgotPasswordSuccessful &&
-                            <SuccessAlert style={{ marginBottom: 15 }}>
-                                {t('success.reset_forgot_password')}
-                            </SuccessAlert>
+                            <SuccessAlert
+                                message={t('success.reset_forgot_password')}
+                                style={{ marginBottom: 15 }}
+                            />
                         }
 
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
