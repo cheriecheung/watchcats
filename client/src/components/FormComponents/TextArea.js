@@ -7,11 +7,27 @@ import ErrorDisplay from './ErrorDisplay';
 const Input = styled.textarea`
   width: 100%;
   padding: 7px 15px;
-  border: 1px solid ${props => props.error ? '#E56E5A' : '#d9d9d9'};
+  border: 1px solid ${({ error }) => error ? '#E56E5A' : '#d9d9d9'};
   border-radius: 10px !important;
   outline: none;
   resize: none;
   transition: all 0.3s ease-out;
+  overflow-x: hidden;
+
+  ::-webkit-scrollbar {
+    width: 0.5em;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #c5c1c7;
+    outline: none;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent !important;
+    color: transparent !important;
+  }
 `
 
 function TextArea({ name, placeholder, rows = 7 }) {

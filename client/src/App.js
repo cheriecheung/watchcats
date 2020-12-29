@@ -13,7 +13,13 @@ import Layout from './components/Layout';
 import { NotFound } from './components/UIComponents'
 import Home from './views/Home';
 import About from './views/About';
-import { AccountActivation, Login, PasswordForgotten, PasswordReset, Register } from './views/Authentication';
+import {
+  AccountActivation,
+  Login,
+  PasswordForgotten,
+  PasswordReset,
+  Register
+} from './views/Authentication';
 import Bookings from './views/Bookings';
 import Chat from './views/Chat';
 import Payment from './views/Bookings/containers/Payment';
@@ -29,11 +35,11 @@ import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
   html {
-    overflow: ${props => props.toggleMobileMenu || props.isChatPage ? 'hidden' : 'unset'};
+    overflow: ${({ toggleMobileMenu, isChatPage }) => toggleMobileMenu || isChatPage ? 'hidden' : 'unset'};
   }
 
-  body {
-    overflow: ${props => props.isChatPage ? 'hidden' : 'unset'}
+  body, .content {
+    overflow: ${({ isChatPage }) => isChatPage ? 'hidden' : 'unset'}
   }
 `
 

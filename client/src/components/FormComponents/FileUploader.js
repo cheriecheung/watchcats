@@ -10,7 +10,7 @@ const Label = styled.label`
   display:flex;
   justify-content: center;
   align-self: center;
-  border: 1px solid ${props => props.error ? '#E56E5A' : '#d9d9d9'} !important;
+  border: 1px solid ${({ error }) => error ? '#E56E5A' : '#d9d9d9'} !important;
   width: 120px; 
   height: 120px;
   border-radius: 10px;

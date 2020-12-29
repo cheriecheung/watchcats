@@ -6,15 +6,15 @@ const defaultStyle = css`
   margin-left: 15px;
   font-size: 18px;
   align-self: center;
-  opacity: ${props => props.isShown ? 1 : 0};
+  opacity: ${({ isShown }) => isShown ? 1 : 0};
 `
 
-const catInfo = props => {
-  if (props.variant !== 'catInfo') return css``
+const catInfo = ({ variant, isShown }) => {
+  if (variant !== 'catInfo') return css``
 
   return `
     opacity: unset;
-    display: ${props.isShown ? 'block' : 'none'}
+    display: ${isShown ? 'block' : 'none'}
   `
 }
 
@@ -30,5 +30,5 @@ function CheckedIcon({ isShown }) {
 export default CheckedIcon
 
 CheckedIcon.propTypes = {
-  isShown: PropTypes.bool.isRequired
+  isShown: PropTypes.bool
 };

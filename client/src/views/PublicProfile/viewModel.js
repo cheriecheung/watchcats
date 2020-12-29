@@ -8,6 +8,8 @@ import { getAppointmentTime, sendRequest } from '../../redux/bookings/actions';
 import { getChatList, getChatConversation } from '../../redux/chat/actions';
 import { calculateOneDayPrice, calculateOvernightPrice } from '../../utility';
 import LOADING from '../../constants/loadingTypes'
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 function useCatOwnerProfile() {
   const { t } = useTranslation();
@@ -94,6 +96,10 @@ function useCatSitterProfile() {
 }
 
 function useCatSitterSummary() {
+  const { id } = useParams();
+  const shortId = cookies.get('shortId');
+  const isViewingOwnProfile = id === shortId;
+
   const dispatch = useDispatch();
   // move to profile reducer
   const { profileActionStatus } = useSelector((state) => state.bookings);
@@ -116,6 +122,7 @@ function useCatSitterSummary() {
     setModalVisible,
     onSendMessage,
     profileActionStatus,
+    isViewingOwnProfile
   }
 }
 

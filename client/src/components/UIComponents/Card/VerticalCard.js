@@ -8,8 +8,8 @@ const defaultStyle = css`
   overflow: hidden;
 `
 
-const authentication = props => {
-  if (props.variant !== 'authentication') return css``;
+const authentication = ({ variant }) => {
+  if (variant !== 'authentication') return css``;
 
   return css`
     width: 400px;

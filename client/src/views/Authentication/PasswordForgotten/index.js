@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+    CardTitle,
     ContainedButton,
     ErrorAlert,
     SuccessAlert,
@@ -21,7 +22,7 @@ function PasswordForgotten() {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
             <VerticalCard variant="authentication">
-                <h5>{t('reset_password.title')}</h5>
+                <CardTitle>{t('reset_password.title')}</CardTitle>
                 <p>{t('forgot_password.instruction')}</p>
 
                 <br />
@@ -29,9 +30,7 @@ function PasswordForgotten() {
                 <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(onSubmitEmail)}>
                         {appActionStatus === 'resetPasswordEmailRequested' ?
-                            <SuccessAlert>
-                                {t('forgot_password.response')}
-                            </SuccessAlert>
+                            <SuccessAlert message={t('forgot_password.response')} />
                             :
                             <>
                                 <TextField name="email" />

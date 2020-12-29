@@ -15,7 +15,7 @@ const Container = styled.div`
 const Input = styled(AntInput)`
   margin-bottom: 5px;
   padding: 7px 15px;
-  border: 1px solid ${props => props.error ? '#E56E5A' : '#d9d9d9'};
+  border: 1px solid ${({ error }) => error ? '#E56E5A' : '#d9d9d9'};
   border-radius: 10px;
   font-size: unset;
   color: #7f7f7f;

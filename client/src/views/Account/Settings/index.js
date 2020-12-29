@@ -1,5 +1,10 @@
 import React from 'react';
-import { CardTitle, HorizontalCard } from '../../../components/UIComponents'
+import {
+    CardTitle,
+    HorizontalCard,
+    Remark,
+    Tooltip
+} from '../../../components/UIComponents'
 import ContactDetails from './ContactDetails'
 import PaymentSetup from './PaymentSetup'
 import Authentication from './Authentication';
@@ -32,7 +37,10 @@ function Settings() {
     return (
         <>
             <HorizontalCard style={{ width: '100%' }}>
-                <CardTitle>{t('settings.contact_details')}</CardTitle>
+                <CardTitle>
+                    {t('settings.contact_details')}
+                    <Tooltip content={t('settings.contact_details_tooltip')} />
+                </CardTitle>
                 <ContactDetails
                     t={t}
                     accountError={accountError}
@@ -58,9 +66,9 @@ function Settings() {
                 <CardTitle style={{ marginBottom: 0 }}>
                     {t('settings.authentication')}
                 </CardTitle>
-                <p style={{ fontSize: '0.9rem' }}>
+                <Remark>
                     ({t('settings.not_available')})
-                </p>
+                </Remark>
 
                 <Authentication
                     t={t}

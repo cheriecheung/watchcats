@@ -31,11 +31,17 @@ function EmailDisplay({
 
         <div style={{ display: 'flex' }}>
           {revealEmail ?
-            <TextButton onClick={() => setRevealEmail(false)}>
+            <TextButton
+              onClick={() => setRevealEmail(false)}
+              colored
+            >
               {t('settings.hide')}
             </TextButton>
             :
-            <TextButton onClick={() => setRevealEmail(true)}>
+            <TextButton
+              onClick={() => setRevealEmail(true)}
+              colored
+            >
               {t('settings.reveal')}
             </TextButton>
           }
@@ -57,9 +63,11 @@ function EmailDisplay({
 
       {prevSettings &&
         prevSettings.getEmailNotification !== getEmailNotification &&
-        <SuccessAlert closable={true} style={{ marginTop: 10 }}>
-          {t('success.notification_setting')}
-        </SuccessAlert>
+        <SuccessAlert
+          message={t('success.notification_setting')}
+          closable={true}
+          style={{ marginTop: 10 }}
+        />
       }
     </>
   )

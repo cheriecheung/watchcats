@@ -14,8 +14,8 @@ const defaultStyle = css`
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);
 `
 
-const defaultTabBar = props => {
-  if (!props.variant) return css`
+const defaultTabBar = ({ variant }) => {
+  if (!variant) return css`
     margin-bottom: 40px;
     overflow-x: scroll;
 
@@ -32,8 +32,8 @@ const defaultTabBar = props => {
   return css``;
 };
 
-const bookings = props => {
-  if (props.variant !== 'bookings') return css``
+const bookings = ({ variant }) => {
+  if (variant !== 'bookings') return css``
 
   return ``
 }

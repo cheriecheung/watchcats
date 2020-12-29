@@ -183,7 +183,7 @@ select:-webkit-autofill:focus {
   /* padding: 0 0 15px 0!important; */
   border: none !important;
   box-shadow: none !important;
-  height: var(--theme-field-height) !important;
+  /* height: var(--theme-field-height) !important; */
 }
 
 /* ------------------- antd radio ------------------- */

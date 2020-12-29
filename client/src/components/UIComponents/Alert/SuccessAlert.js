@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Alert } from 'antd'
 
 function SuccessAlert({
-  children,
+  message,
   showIcon = true,
   closable = false,
   style
@@ -11,7 +11,7 @@ function SuccessAlert({
   return (
     <Alert
       type="success"
-      message={children}
+      message={message}
       showIcon={showIcon}
       closable={closable}
       style={style}
@@ -22,8 +22,7 @@ function SuccessAlert({
 export default SuccessAlert
 
 Alert.propTypes = {
-  children: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
   showIcon: PropTypes.bool,
   closable: PropTypes.bool,
   style: PropTypes.object

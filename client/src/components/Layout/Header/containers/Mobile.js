@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  CloseButton,
+  Icon,
+  Label,
   Overlay,
   OverlayMask,
   OverlayMenu,
-  CloseButton,
   MenuItemBox,
-  Icon,
-  Label,
+  TextButton,
 } from '../styledComponents'
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -80,10 +81,10 @@ function MobileMenu({
             <Icon className="fas fa-user fa-2x" />
             <Label>{t('header.account')}</Label>
           </MenuItemBox>
-          <MenuItemBox onClick={onMobileLogout}>
+          <TextButton onClick={onMobileLogout}>
             <Icon className="fas fa-sign-out-alt fa-2x" />
             <Label>{t('header.logout')}</Label>
-          </MenuItemBox>
+          </TextButton>
         </>
         :
         <>
@@ -108,13 +109,13 @@ function MobileMenu({
         <Icon className="fas fa-home fa-2x" />
         <Label>{t('header.home')}</Label>
       </MenuItemBox>
-      <MenuItemBox onClick={() => {
+      <TextButton onClick={() => {
         closeMenu && closeMenu()
         setLanguage(currentLanguage === 'en' ? 'nl' : 'en')
       }}>
         <Icon className="fas fa-globe-americas fa-2x" />
         <Label>{currentLanguage === 'en' ? 'NL' : 'EN'}</Label>
-      </MenuItemBox>
+      </TextButton>
     </>
   )
 }

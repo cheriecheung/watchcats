@@ -8,7 +8,7 @@ const LoadingMask = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(255, 255, 255, 0.7); 
-  visibility: ${props => props.loading ? 'visible' : 'hidden'};
+  visibility: ${({ loading }) => loading ? 'visible' : 'hidden'};
 `
 
 export default LoadingMask

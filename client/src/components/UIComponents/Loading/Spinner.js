@@ -14,7 +14,7 @@ const Spinner = styled(Spin)`
   }
 
   & > span > i {
-    background-color: ${({ colored }) => colored === "true" ? themeColor.peach : '#fff'};
+    background-color: ${({ colored }) => colored ? themeColor.peach : '#fff'};
   }
 `
 

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 const SubTabBarItem = styled.button`
-  border: ${props => props.isSelected ? '2px solid #ffa195' : 'none'};  font-weight: ${props => props.isSelected ? 'bold' : 'normal'};
-  color: ${props => props.isSelected ? '#ffa195' : '#949292'};
+  border: ${({ isSelected }) => isSelected ? '2px solid #ffa195' : 'none'};  font-weight: ${({ isSelected }) => isSelected ? 'bold' : 'normal'};
+  color: ${({ isSelected }) => isSelected ? '#ffa195' : '#949292'};
   border-radius: 10px;
   outline: none !important;
   background: none;

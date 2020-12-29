@@ -8,10 +8,9 @@ const defaultStyle = css`
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);
   text-align: left;
 `
-// overflow: hidden;
 
-const defaultCard = props => {
-  if (!props.variant) return css`
+const defaultCard = ({ variant }) => {
+  if (!variant) return css`
     padding: 30px;
     
     @media (max-width: 765px) {
@@ -23,8 +22,8 @@ const defaultCard = props => {
   return css``;
 };
 
-const findCatSitter = props => {
-  if (props.variant !== 'findCatSitter') return css``
+const findCatSitter = ({ variant, hover }) => {
+  if (variant !== 'findCatSitter') return css``
 
   return `
     display: flex;
@@ -35,8 +34,8 @@ const findCatSitter = props => {
     transition: all .3s ease-in-out;
 
     &:hover {
-      margin-left: ${props.hover && '10px'};
-      margin-right: ${props.hover && '-10px'};
+      margin-left: ${hover && '10px'};
+      margin-right: ${hover && '-10px'};
     }
 
     @media (max-width: 680px) {
@@ -52,8 +51,8 @@ const findCatSitter = props => {
   `
 }
 
-const bookings = props => {
-  if (props.variant !== 'bookings') return css``
+const bookings = ({ variant }) => {
+  if (variant !== 'bookings') return css``
 
   return `
     position: relative;

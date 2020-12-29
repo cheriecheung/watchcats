@@ -12,7 +12,7 @@ const ImageContainer = styled.div`
     height: 120px;
     border-radius: 10px;
     overflow: hidden; 
-    background: url(${props => props.image}) no-repeat center center / cover;
+    background: url(${({ image }) => image}) no-repeat center center / cover;
 `
 
 const RemoveButton = styled.div`
@@ -20,7 +20,7 @@ const RemoveButton = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease-out;
-  opacity: ${(props) => (props.hide ? 0 : 1)};
+  opacity: ${({ hide }) => hide ? 0 : 1};
   display: flex;
   justify-content: center;
 `;
@@ -60,10 +60,11 @@ function Display({ fileName, handleRemovePhoto, isLoading }) {
 
     const [hideRemove, setHideRemove] = useState(true);
 
-    const photoURL = fileName.includes('base64') ? fileName : `${REACT_APP_API_DOMAIN}/image/${fileName}`
+    const photoURL = fileName.includes('base64') ?
+        fileName : `${REACT_APP_API_DOMAIN}/image/${fileName}`
 
     return (
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
             <ImageContainer
                 onMouseOver={() => setHideRemove(false)}
                 onMouseLeave={() => setHideRemove(true)}

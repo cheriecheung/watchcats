@@ -6,9 +6,11 @@ const TextButton = styled.button`
   border: none;
   outline: none !important;
   transition: all 0.3s;
+  color: ${({ colored }) => colored ? themeColor.peach : 'unset'};
 
   &:hover{
-    color: ${themeColor.peach}
+    color: ${themeColor.peach};
+    text-decoration: ${({ colored }) => colored ? 'underline' : 'unset'};
   }
 `;
 

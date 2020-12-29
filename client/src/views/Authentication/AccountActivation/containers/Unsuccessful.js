@@ -20,9 +20,7 @@ function Unsuccessful({ t, unsuccessfulProps }) {
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {emailSubmitted ?
-            <SuccessAlert>
-              {t('account_activation.response')}
-            </SuccessAlert>
+            <SuccessAlert message={t('account_activation.response')} />
             :
             <>
               <TextField name="email" />

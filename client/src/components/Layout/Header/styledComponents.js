@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { themeColor } from '../../../style/theme';
@@ -6,14 +5,17 @@ import { themeColor } from '../../../style/theme';
 const NavHeight = 7;
 
 export const NavBar = styled.nav`
+  position: absolute;
+  z-index: 5;
+  width: 100vw;
+  min-height: ${NavHeight}vh;
   display: flex;
   justify-content: space-between;
   padding: 0 20px;
-  min-height: ${NavHeight}vh;
   align-items: center;
   background-color: #fff;
   border: none;
-  box-shadow: 0 5px 5px rgba(182, 182, 182, 0.1);
+  box-shadow: 0 5px 5px rgba(182, 182, 182, 0.15);
 
   @media (max-width: 920px) {
     padding: 0 13px 0 10px;
@@ -99,8 +101,8 @@ export const Line = styled.span`
 export const Overlay = styled.div`
   position: absolute;
   top: 0;
-  left: ${(props) => (props.open ? 0 : '-80vw')};
-  z-index: 5;
+  left: ${({ open }) => open ? 0 : '-80vw'};
+  z-index: 6;
   width: 80vw;
   height: 100vh;
   background: #fff;
@@ -114,8 +116,8 @@ export const Overlay = styled.div`
 `;
 
 export const OverlayMask = styled.div`
-  opacity: ${(props) => (props.open ? 1 : 0)};
-  z-index: ${(props) => (props.open ? 1 : -1)};
+  opacity: ${({ open }) => open ? 1 : 0};
+  z-index: ${({ open }) => open ? 5 : -1};
   background-color: rgba(0, 0 ,0, 0.5);
   width: 100%;
   height: 100vh;
@@ -156,7 +158,27 @@ export const MenuItemBox = styled(Link)`
   width: 70%;
   margin: 20px 0;
   font-size: 10px;
-  color: ${themeColor.peach}
+  color: ${themeColor.peach};
+
+  &:hover {
+    color: ${themeColor.grey};
+  }
+`
+
+export const TextButton = styled.button`
+  display: flex;
+  margin: 20px 0;
+  padding: 0;
+  width: 70%;
+  color: ${themeColor.peach};
+  background: none;
+  font-size: 10px;
+  border: none;
+  outline: none;
+
+  &:hover {
+    color: ${themeColor.grey};
+  }
 `
 
 export const Icon = styled.i`

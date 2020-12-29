@@ -1,15 +1,15 @@
 import styled, { css } from 'styled-components';
 
-const defaultMapContainer = props => {
-  if (!props.variant) return css`
+const defaultMapContainer = ({ variant }) => {
+  if (!variant) return css`
     height: 40vh;
   `;
 
   return css``;
 };
 
-const findCatSitter = props => {
-  if (props.variant !== 'findCatSitter') return css``
+const findCatSitter = ({ variant }) => {
+  if (variant !== 'findCatSitter') return css``
 
   return `
     height: 80vh;

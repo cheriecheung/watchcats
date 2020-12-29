@@ -3,18 +3,18 @@ import styled, { css } from 'styled-components';
 const defaultStyle = css`
   overflow: hidden;
 `
-const defaultContainer = props => {
-  if (!props.variant) return css`
-    width: ${props.size ? props.size : '100px'};
-    height:  ${props.size ? props.size : '100px'};
+const defaultContainer = ({ variant, size }) => {
+  if (!variant) return css`
+    width: ${size ? size : '100px'};
+    height:  ${size ? size : '100px'};
     border-radius: 10px;
   `
 
   return css``
 }
 
-const findCatSitter = props => {
-  if (props.variant !== 'findCatSitter') return css``
+const findCatSitter = ({ variant }) => {
+  if (variant !== 'findCatSitter') return css``
 
   return `
     flex-basis: 26%;
@@ -36,8 +36,8 @@ const findCatSitter = props => {
   `
 }
 
-const bookings = props => {
-  if (props.variant !== 'bookings') return css``
+const bookings = ({ variant }) => {
+  if (variant !== 'bookings') return css``
 
   return `
     width: 140px;

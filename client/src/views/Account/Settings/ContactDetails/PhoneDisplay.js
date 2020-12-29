@@ -28,18 +28,28 @@ function PhoneDisplay({
 
       {phone ?
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          {revealPhone ? <span>{phone}</span> : <span>{asteriskedPhone}</span>}
+          {revealPhone ?
+            <span>{phone}</span> :
+            <span>{asteriskedPhone}</span>
+          }
 
           <div style={{ display: 'flex' }}>
             {revealPhone ?
-              <TextButton onClick={() => setRevealPhone(false)}>
+              <TextButton
+                onClick={() => setRevealPhone(false)}
+                colored
+              >
                 {t('settings.hide')}
               </TextButton>
               :
-              <TextButton onClick={() => setRevealPhone(true)}>
+              <TextButton
+                onClick={() => setRevealPhone(true)}
+                colored
+              >
                 {t('settings.reveal')}
               </TextButton>
             }
+
             <TextButton
               style={{ float: 'right' }}
               onClick={removePhone}
@@ -58,6 +68,7 @@ function PhoneDisplay({
           <span>&#8212;</span>
           <TextButton
             onClick={addPhone}
+            colored
           >
             {t('settings.add')}
           </TextButton>
@@ -81,9 +92,11 @@ function PhoneDisplay({
 
       {prevSettings &&
         prevSettings.getSmsNotification !== getSmsNotification &&
-        <SuccessAlert closable={true} style={{ marginTop: 10 }}>
-          {t('success.notification_setting')}
-        </SuccessAlert>
+        <SuccessAlert
+          message={t('success.notification_setting')}
+          closable={true}
+          style={{ marginTop: 10 }}
+        />
       }
     </>
   )

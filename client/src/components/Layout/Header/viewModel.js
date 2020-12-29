@@ -12,12 +12,13 @@ function useHeader() {
   const { pathname } = location || {}
 
   const dispatch = useDispatch();
-  const { language: currentLanguage, isLoggedIn } = useSelector(state => state.app);
+  const { language, isLoggedIn } = useSelector(state => state.app);
+  const currentLanguage = language || 'en'
 
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
-    dispatch(changeLanguage(i18n, currentLanguage || 'en'))
+    dispatch(changeLanguage(i18n, currentLanguage))
   }, [i18n]);
 
   function setLanguage(language) {

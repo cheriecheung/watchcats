@@ -24,6 +24,9 @@ import styled from 'styled-components';
 // height: ${props => props.isChatPage ? '50vh' : 'unset'};
 
 const Container = styled.div`
+  position: absolute;
+  top: 7vh;
+  width: 100vw;
   font-family: 'Source Sans Pro', sans-serif !important;
 `
 
@@ -32,9 +35,7 @@ function Layout({ children }) {
     <>
       <Header />
       {/* <MainContainer> */}
-      <Container
-        className="content"
-      >
+      <Container className="content">
         {children}
       </Container>
       {/* </MainContainer> */}

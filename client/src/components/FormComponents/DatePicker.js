@@ -8,7 +8,7 @@ import { getErrorProperties } from '../../utility'
 import ErrorDisplay from './ErrorDisplay';
 
 const Field = styled(AntDatePicker)`
-  border: 1px solid ${props => props.error ? '#E56E5A' : '#d9d9d9'};
+  border: 1px solid ${({ error }) => error ? '#E56E5A' : '#d9d9d9'};
 `
 
 function DatePicker({ name, placeholder }) {
