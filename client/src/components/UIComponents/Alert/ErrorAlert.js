@@ -7,6 +7,10 @@ import ERROR from '../../../constants/errorTypes'
 
 function renderMessage(t, type) {
   switch (type) {
+    case ERROR.AUTH_RATE_LIMITED:
+      return t('api_error.auth_rate_limited')
+    case ERROR.FORM_RATE_LIMITED:
+      return t('api_error.form_rate_limited')
     case ERROR.EMAIL_ALREADY_EXISTS:
       return t('api_error.email_exists')
     case ERROR.LOGIN_FAILED:

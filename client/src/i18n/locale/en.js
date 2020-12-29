@@ -2,8 +2,12 @@ export default {
   api_error: {
     generic: 'Error occured. Please try again.',
 
-    email_exists: 'Email already exists.',
+    auth_rate_limited: 'You are being rate limited. Please try again in 30 minutes.',
+    form_rate_limited: 'You are being rate limited. Please try again in 5 minutes.',
 
+    email_exists: 'Email already exists.',
+    password_incorrect: 'You submitted the incorrect password.',
+    password_reset_failed: 'Unable to reset password. Please try again.',
     login_failed: 'Unable to login. Please try again.',
     login_credentials_invalid: 'Email and password combination is incorrect.',
 
@@ -11,9 +15,6 @@ export default {
     code_verify_failed: 'Unable to verify code.',
     phone_submission_failed: 'Unable to submit phone number. Please try again.',
     phone_saving_failed: 'Unable to save phone. Please try again.',
-
-    password_incorrect: 'You submitted the incorrect password.',
-    password_reset_failed: 'Unable to reset password. Please try again.',
 
     otp_expired: 'You enter an expired code. Click "Resend code" to get a new one.',
     otp_invalid: 'Invalid code.',
@@ -23,15 +24,16 @@ export default {
   form_error: {
     field_required: 'Required field',
     email_format: 'Invalid email format',
+    address_required: 'Enter an address',
     postcode_format: 'Invalid Dutch postcode format. Please submit a postcode with four digits followed by two uppercase letters, i.e. 1234AB',
     date_order: 'End date must be after start date',
     time_order: 'End time must be after start time',
     select_gender: 'Select a gender',
     select_option: 'Select an option',
+    password_critera: 'Make sure your password pass all the criteria',
     same_old_password: 'New password cannot be the same as current password',
     new_passwords_unmatched: 'New passwords must match',
     review_length: 'Please write a longer review',
-    address_required: 'Enter an address'
   },
 
   success: {
@@ -102,7 +104,6 @@ export default {
 
   reset_password: {
     title: 'Reset your password',
-    enter_new_password: 'Please enter your new password',
     new_password: 'New Password',
     repeat_password: 'Repeat password'
   },
@@ -141,6 +142,7 @@ export default {
   },
 
   sitter_profile: {
+    no_own_profile_action: 'You cannot do actions to your own profile',
     send_message: 'Send message',
     request_appointment: 'Request an appointment',
     appointment_type: 'Appointment type',
@@ -180,6 +182,7 @@ export default {
 
   settings: {
     contact_details: 'Contact details',
+    contact_details_tooltip: 'Via your email and/or phone, you can receive notifications when someone sends you a booking request; updates your booking status; or messages you. Your contact details will not be shared to anyone.',
     reveal: 'Reveal',
     hide: 'Hide',
     edit: 'Edit',
@@ -204,10 +207,10 @@ export default {
     password: 'Password',
     password_description: 'Update your password for the next time you log in.',
     change_password: 'Change password',
-    password_requirement1: 'Your new password should have',
-    password_requirement2: 'at least 8 characters',
-    password_requirement3: 'a mixture of letters and numbers',
-    password_requirement4: 'a mixture of both uppercase and lowercase letters',
+    password_criteria1: 'Your new password should have',
+    password_criteria2: 'at least 8 characters',
+    password_criteria3: 'a mixture of letters and numbers',
+    password_criteria4: 'a mixture of both uppercase and lowercase letters',
     current_password: 'Current password',
     new_password: 'New password',
     repeat_new_password: 'Repeat new password',

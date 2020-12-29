@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { verifyAccessToken, verifyAccessTokenUpdate, verifyActivationLinkToken, verifyResetPasswordLinkToken } = require('../helpers/token');
 const { generateCodes } = require('../helpers/authentication');
 const AuthController = require('../controllers/AuthController');
-const { authenticationLimiter, speedLimiter } = require('../helpers/limiter')
+const { authLimiter, speedLimiter } = require('../helpers/limiter')
 const logger = require('../helpers/logger')
 
 // router.get('/test_logger', (req, res) => {
@@ -13,7 +13,7 @@ const logger = require('../helpers/logger')
 // rate limit
 router.post('/refresh_token', AuthController.getNewAccessToken)
 
-router.post('/login', authenticationLimiter, speedLimiter(30), AuthController.login)
+router.post('/login', authLimiter, speedLimiter(30), AuthController.login)
 
 router.delete('/logout', verifyAccessTokenUpdate, AuthController.logout);
 
@@ -22,7 +22,7 @@ router.post('/activate-account', verifyActivationLinkToken, AuthController.activ
 router.get('/googlelogin', generateCodes, AuthController.googleLogin);
 router.get('/oauth2callback', AuthController.authenticateGoogleUser);
 
-router.put('/password', authenticationLimiter, speedLimiter(30), verifyAccessTokenUpdate, AuthController.resetPassword)
+router.put('/password', authLimiter, speedLimiter(30), verifyAccessTokenUpdate, AuthController.resetPassword)
 
 router.post('/password', verifyResetPasswordLinkToken, AuthController.resetForgotPassword)
 

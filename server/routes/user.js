@@ -1,15 +1,15 @@
 const router = require('express').Router();
 const { verifyAccessToken } = require('../helpers/token');
 const UserController = require('../controllers/UserController');
-const { authenticationLimiter, speedLimiter } = require('../helpers/limiter')
+const { authLimiter, speedLimiter } = require('../helpers/limiter')
 
 router.post(`/generate-test-accounts`, UserController.generateTestAccounts)
 
-router.post('/register', authenticationLimiter, speedLimiter(30), UserController.register);
+router.post('/register', authLimiter, speedLimiter(30), UserController.register);
 
-router.post('/activate-account-email', authenticationLimiter, speedLimiter(30), UserController.getActivationEmail)
+router.post('/activate-account-email', authLimiter, speedLimiter(30), UserController.getActivationEmail)
 
 // revoke token when forgot password
-router.post('/forgot-password-email', authenticationLimiter, speedLimiter(30), UserController.getPasswordResetEmail);
+router.post('/forgot-password-email', authLimiter, speedLimiter(30), UserController.getPasswordResetEmail);
 
 module.exports = router;

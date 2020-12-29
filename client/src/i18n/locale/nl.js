@@ -2,8 +2,12 @@ export default {
   api_error: {
     generic: 'Er is een fout opgetreden. Probeer het opnieuw a.u.b',
 
-    email_exists: 'E-mailadres bestaat al.',
+    auth_rate_limited: 'You are being rate limited. Please try again in 30 minutes.',
+    form_rate_limited: 'You are being rate limited. Please try again in 5 minutes.',
 
+    email_exists: 'E-mailadres bestaat al.',
+    password_incorrect: 'U heeft het verkeerde wachtwoord ingevoerd.',
+    password_reset_failed: 'Kan wachtwoord niet resetten. Probeer het opnieuw a.u.b.',
     login_failed: 'Unable to login. Please try again.',
     login_credentials_invalid: 'De ingegeven combinatie e-mailadres en wachtwoord is ongeldig.',
 
@@ -11,9 +15,6 @@ export default {
     code_verify_failed: 'Kan het code niet verifiëren.',
     phone_submission_failed: 'Kan het telefoonnummer niet wijzigen. Probeer het opnieuw a.u.b',
     phone_saving_failed: 'Kay het telefoonnummer niet opslaan. Probeer het opnieuw a.u.b',
-
-    password_incorrect: 'U heeft het verkeerde wachtwoord ingevoerd.',
-    password_reset_failed: 'Kan wachtwoord niet resetten. Probeer het opnieuw a.u.b.',
 
     otp_expired: 'You enter an expired code. Click "Resend code" to get a new one.',
     otp_invalid: 'Verkeerde verificatiecode.',
@@ -23,15 +24,16 @@ export default {
   form_error: {
     field_required: 'Verplicht veld',
     email_format: 'Invalid email format',
+    address_required: 'Enter an address',
     postcode_format: 'Invalid Dutch postcode format. Please submit a postcode with four digits followed by two uppercase letters, i.e. 1234AB',
     date_order: 'De einddatum moet na de startdatum liggen',
     time_order: 'De eindtijd moet na de starttijd liggen',
     select_gender: 'Kies een geslacht',
     select_option: 'Kies een optie',
+    password_critera: 'Make sure your password pass all the criteria',
     same_old_password: 'Het wachtwoord mag niet hetzelfde zijn als het huidige wachtwoord',
     new_passwords_unmatched: 'New passwords must match',
     review_length: 'Please write a longer review',
-    address_required: 'Enter an address'
   },
 
   success: {
@@ -102,7 +104,6 @@ export default {
 
   reset_password: {
     title: 'Reset your password',
-    enter_new_password: 'Voer uw nieuwe wachtwoord in',
     new_password: 'Nieuwe wachtwoord',
     repeat_password: 'Herhaal wachtwoord'
   },
@@ -141,6 +142,7 @@ export default {
   },
 
   sitter_profile: {
+    no_own_profile_action: 'You cannot do actions to your own profile',
     send_message: 'Stuur bericht',
     request_appointment: 'Request an appointment',
     appointment_type: 'Appointment type',
@@ -180,6 +182,7 @@ export default {
 
   settings: {
     contact_details: 'Contactgegevens',
+    contact_details_tooltip: 'Via your email and/or phone, you can receive notifications when someone sends you a booking request; updates your booking status; or messages you. Your contact details will not be shared to anyone.',
     reveal: 'Onthullen',
     hide: 'Verbergen',
     edit: 'Bewerken',
@@ -204,10 +207,10 @@ export default {
     password: 'Wachtwoord',
     password_description: 'Update your password for the next time you log in.',
     change_password: 'Wachtwoord wijzigen',
-    password_requirement1: 'Uw wachtwoord moet uit',
-    password_requirement2: 'ten minste 8 tekens',
-    password_requirement3: 'ten minste één cijfer en één letter bestaan',
-    password_requirement4: 'een combinatie van hoofdletters en kleine letters',
+    password_criteria1: 'Uw wachtwoord moet uit',
+    password_criteria2: 'ten minste 8 tekens',
+    password_criteria3: 'ten minste één cijfer en één letter bestaan',
+    password_criteria4: 'een combinatie van hoofdletters en kleine letters',
     current_password: 'Huidig wachtwoord',
     new_password: 'Nieuw wachtwoord',
     repeat_new_password: 'Herhaal nieuw wachtwoord',

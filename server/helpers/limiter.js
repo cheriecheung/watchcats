@@ -1,16 +1,18 @@
 const rateLimit = require("express-rate-limit");
 const slowDown = require("express-slow-down");
 
-const authenticationLimiter = rateLimit({
+const authLimiter = rateLimit({
   windowMs: 30 * 60 * 1000,
   max: 5,
-  message: "Too many request, please try again in 30 minutes"
+  message: "ERROR/AUTH_RATE_LIMITED"
+  // message: "Too many request, please try again in 30 minutes"
 });
 
 const formLimiter = rateLimit({
   windowMs: 5 * 60 * 1000,
   max: 10,
-  message: "Too many request, please try again in 5 minutes"
+  message: "ERROR/FORM_RATE_LIMITED"
+  // message: "Too many request, please try again in 5 minutes"
 })
 
 const fileLimiter = rateLimit({
@@ -25,4 +27,4 @@ const speedLimiter = (minutes) => slowDown({
   delayMs: 500
 });
 
-module.exports = { authenticationLimiter, fileLimiter, formLimiter, speedLimiter }
+module.exports = { authLimiter, fileLimiter, formLimiter, speedLimiter }
