@@ -9,21 +9,21 @@ function PersonalInfo({ t }) {
       <Row>
         <Col md={6}>
           <FieldLabel>{t('personal_info.first_name')}</FieldLabel>
-          <TextField name="firstName" />
+          <TextField name="firstName" maxLength={30} />
         </Col>
         <Col md={6}>
           <FieldLabel>{t('personal_info.last_name')}</FieldLabel>
-          <TextField name="lastName" />
+          <TextField name="lastName" maxLength={30} />
         </Col>
         <Col md={6}>
           <FieldLabel>{t('personal_info.address')}</FieldLabel>
           <Tooltip content={t('personal_info.address_tooltip')} />
-          <TextField name="address" />
+          <TextField name="address" maxLength={200} />
         </Col>
         <Col md={6}>
           <FieldLabel>{t('personal_info.postcode')}</FieldLabel>
           <Tooltip content={t('personal_info.postcode_tooltip')} />
-          <TextField name="postcode" />
+          <TextField name="postcode" maxLength={6} />
         </Col>
       </Row>
     </>

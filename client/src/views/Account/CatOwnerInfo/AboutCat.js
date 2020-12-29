@@ -84,7 +84,7 @@ function AboutCat({
 
               <Col md={6} className="mb-4">
                 <FieldLabel>{t('owner_form.name')}</FieldLabel>
-                <TextField name={`cat[${index}].name`} />
+                <TextField name={`cat[${index}].name`} maxLength={30} />
               </Col>
               <Col md={6} className="mb-4" style={{ marginBottom: 30 }}>
                 <FieldLabel>{t('owner_form.age')}</FieldLabel>

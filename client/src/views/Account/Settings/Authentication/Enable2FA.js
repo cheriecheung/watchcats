@@ -91,8 +91,11 @@ function Enable2FA({ t, appError, isLoading }) {
             <FieldLabel>{t('settings.enable_2FA_step3')}</FieldLabel>
             <p>{t('settings.enable_2FA_step3_detail')}</p>
 
-
-            <TextField name="verificationCode" placeholder="000 000" />
+            <TextField
+              name="verificationCode"
+              placeholder="000 000"
+              maxLength={6}
+            />
             <ContainedButton type="button" onClick={onVerifyCode}>
               {t('settings.activate')}
               {isLoading && <Spinner />}

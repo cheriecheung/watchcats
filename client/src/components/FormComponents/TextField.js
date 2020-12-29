@@ -21,7 +21,15 @@ const Input = styled(AntInput)`
   color: #7f7f7f;
 `
 
-function TextField({ name, prefix, placeholder, disabled, type = "text", style }) {
+function TextField({
+  name,
+  prefix,
+  placeholder,
+  disabled,
+  type = "text",
+  style,
+  maxLength = 150
+}) {
   const { control, errors } = useFormContext();
   const { hasError, message } = getErrorProperties(name, errors)
 
@@ -36,6 +44,7 @@ function TextField({ name, prefix, placeholder, disabled, type = "text", style }
             error={hasError}
             disabled={disabled}
             type={type}
+            maxLength={maxLength}
             style={style}
           />
         }
@@ -54,5 +63,6 @@ TextField.propTypes = {
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
   type: PropTypes.string,
+  maxLength: PropTypes.number,
   style: PropTypes.object,
 };

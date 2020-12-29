@@ -26,10 +26,10 @@ function Local({
         style={{ textAlign: 'left' }}
       >
         <FieldLabel>{t('form.first_name')}</FieldLabel>
-        <TextField name="firstName" />
+        <TextField name="firstName" maxLengt={30} />
 
         <FieldLabel>{t('form.last_name')}</FieldLabel>
-        <TextField name="lastName" />
+        <TextField name="lastName" maxLengt={30} />
 
         <FieldLabel>{t('form.email')}</FieldLabel>
         <TextField name="email" />
@@ -43,7 +43,7 @@ function Local({
 
         <OutlinedButton type="submit" style={{ width: '100%', marginTop: 10 }}>
           {t('register.title')}
-          {isLoading && <Spinner colored="true" />}
+          {isLoading && <Spinner colored />}
         </OutlinedButton>
       </form>
     </FormProvider>
