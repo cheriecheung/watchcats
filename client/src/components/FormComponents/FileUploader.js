@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import { getErrorProperties } from '../../utility'
 import ErrorDisplay from './ErrorDisplay';
@@ -33,9 +33,6 @@ function FileUploader({
     const { files } = e.target || {};
 
     if (files && files[0]) {
-      // const data = new FormData();
-      // data.append(name, files[0]);
-
       setFileData({ name, file: files[0] });
 
       if (setDisplayPreview) {
@@ -85,9 +82,17 @@ function FileUploader({
 
 export default FileUploader
 
+Label.propTypes = {
+  error: PropTypes.bool,
+}
+
+Label.defaultProps = {
+  error: false,
+}
+
 FileUploader.propTypes = {
   name: PropTypes.string.isRequired,
   fileType: PropTypes.string.isRequired,
-  setFileData: PropTypes.func,
-  setDisplayPreview: PropTypes.func
+  setFileData: PropTypes.func.isRequired,
+  setDisplayPreview: PropTypes.func.isRequired
 };

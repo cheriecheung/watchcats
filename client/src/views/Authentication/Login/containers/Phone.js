@@ -2,7 +2,6 @@ import React from 'react'
 import { AuthenticatorModal } from '../../../../components/Google'
 
 function PhoneLogin({
-  t,
   authError,
   isLoadingPhoneLogin,
   phoneLoginProps
@@ -19,7 +18,6 @@ function PhoneLogin({
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onPhoneLogin)}>
         <AuthenticatorModal
-          t={t}
           name="code"
           error={authError}
           isLoading={isLoadingPhoneLogin}

@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { OtpInput } from '../FormComponents'
 import {
   ContainedButton,
@@ -8,7 +10,9 @@ import {
   Spinner
 } from '../UIComponents'
 
-function AuthenticatorModal({ t, name, error, isLoading }) {
+function AuthenticatorModal({ name, error, isLoading }) {
+  const { t } = useTranslation();
+
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -38,4 +42,10 @@ function AuthenticatorModal({ t, name, error, isLoading }) {
   )
 }
 
-export default AuthenticatorModal
+export default AuthenticatorModal;
+
+AuthenticatorModal.propTypes = {
+  name: PropTypes.string.isRequired,
+  error: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+};

@@ -37,6 +37,14 @@ function PasswordField({ name }) {
 
 export default PasswordField
 
+Input.propTypes = {
+  error: PropTypes.bool
+}
+
+Input.defaultProps = {
+  error: false,
+}
+
 PasswordField.propTypes = {
   name: PropTypes.string.isRequired
 };

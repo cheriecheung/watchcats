@@ -32,7 +32,6 @@ function Login() {
           style={{ display: 'flex', justifyContent: 'center' }}
         >
           <Phone
-            t={t}
             phoneLoginProps={phoneLoginProps}
             authError={authError}
             isLoadingPhoneLogin={isLoadingPhoneLogin}
@@ -49,7 +48,6 @@ function Login() {
 
           <DemoUser t={t} />
           <Google
-            t={t}
             onGoogleLogin={onGoogleLogin}
             isLoading={isLoadingGoogleLogin}
           />

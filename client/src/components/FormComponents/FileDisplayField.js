@@ -20,7 +20,7 @@ const RemoveButton = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease-out;
-  opacity: ${({ hide }) => hide ? 0 : 1};
+  opacity: ${({ isHidden }) => isHidden ? 0 : 1};
   display: flex;
   justify-content: center;
 `;
@@ -70,7 +70,11 @@ function Display({ fileName, handleRemovePhoto, isLoading }) {
                 onMouseLeave={() => setHideRemove(true)}
                 image={photoURL}
             >
-                <RemoveButton type="button" onClick={handleRemovePhoto} hide={hideRemove}>
+                <RemoveButton
+                    type="button"
+                    onClick={handleRemovePhoto}
+                    isHidden={hideRemove}
+                >
                     {isLoading ?
                         <Spinner /> :
                         <RemoveText>{t('settings.remove')}</RemoveText>
@@ -80,6 +84,14 @@ function Display({ fileName, handleRemovePhoto, isLoading }) {
         </div>
     )
 }
+
+ImageContainer.propTypes = {
+    image: PropTypes.string.isRequired,
+};
+
+RemoveButton.propTypes = {
+    isHidden: PropTypes.bool.isRequired,
+};
 
 FileDisplayField.propTypes = {
     name: PropTypes.string.isRequired,

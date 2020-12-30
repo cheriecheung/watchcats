@@ -61,6 +61,14 @@ function TimePicker({ name }) {
 
 export default TimePicker
 
+Field.propTypes = {
+  error: PropTypes.bool,
+}
+
+Field.defaultProps = {
+  error: false,
+}
+
 TimePicker.propTypes = {
   name: PropTypes.string.isRequired,
 };

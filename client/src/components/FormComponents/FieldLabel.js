@@ -18,3 +18,7 @@ FieldLabel.propTypes = {
   children: PropTypes.node.isRequired,
   customStyle: PropTypes.object,
 };
+
+FieldLabel.defaultProps = {
+  customStyle: {}
+}

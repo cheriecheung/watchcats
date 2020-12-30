@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import ErrorDisplay from './ErrorDisplay';
@@ -30,10 +31,13 @@ const Input = styled.textarea`
   }
 `
 
-function TextArea({ name, placeholder, rows = 7 }) {
+function TextArea({ name, placeholder, rows }) {
+  const { t } = useTranslation();
   const { control, errors } = useFormContext();
   const error = errors[name]
   const message = error && error.message || "form_error.field_required"
+
+  const translatedPlaceholder = placeholder ? t(placeholder) : ''
 
   return (
     <>
@@ -43,7 +47,7 @@ function TextArea({ name, placeholder, rows = 7 }) {
           <Input
             error={error}
             rows={rows}
-            placeholder={placeholder}
+            placeholder={translatedPlaceholder}
           />
         }
         control={control}
@@ -59,4 +63,9 @@ TextArea.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   rows: PropTypes.number,
+};
+
+TextArea.defaultProps = {
+  placeholder: '',
+  rows: 7,
 };

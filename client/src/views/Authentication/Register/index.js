@@ -37,7 +37,6 @@ function Register() {
         </div>
 
         <Google
-          t={t}
           onGoogleLogin={onGoogleLogin}
           isLoading={isLoadingGoogleLogin}
         />

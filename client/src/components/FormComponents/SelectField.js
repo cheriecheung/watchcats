@@ -1,6 +1,6 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select from 'react-select';
 import { getErrorProperties } from '../../utility'
@@ -60,14 +60,14 @@ const colourStyles = {
 function SelectField({
   name,
   options,
-  onChange = ([selected]) => selected,
-  placeholder,
+  onChange,
 }) {
   const { t } = useTranslation();
   const translatedOptions = options.map(({ value, label }) => ({ value, label: t(label) }))
 
   const { control, errors } = useFormContext();
   const { hasError, message } = getErrorProperties(name, errors)
+
 
   return (
     <>
@@ -77,7 +77,6 @@ function SelectField({
         as={Select}
         styles={colourStyles}
         name={name}
-        placeholder={placeholder}
         options={translatedOptions}
         onChange={onChange}
         isSearchable={false}
@@ -93,5 +92,8 @@ SelectField.propTypes = {
   name: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
   onChange: PropTypes.func,
-  placeholder: PropTypes.string
 };
+
+SelectField.defaultProps = {
+  onChange: ([selected]) => selected,
+}

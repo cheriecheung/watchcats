@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Input as AntInput } from 'antd';
 import styled from 'styled-components';
@@ -26,12 +27,15 @@ function TextField({
   prefix,
   placeholder,
   disabled,
-  type = "text",
+  type,
   style,
-  maxLength = 150
+  maxLength
 }) {
+  const { t } = useTranslation();
   const { control, errors } = useFormContext();
   const { hasError, message } = getErrorProperties(name, errors)
+
+  const translatedPlaceholder = placeholder ? t(placeholder) : ''
 
   return (
     <Container>
@@ -40,7 +44,7 @@ function TextField({
         as={
           <Input
             prefix={prefix}
-            placeholder={placeholder}
+            placeholder={translatedPlaceholder}
             error={hasError}
             disabled={disabled}
             type={type}
@@ -57,6 +61,14 @@ function TextField({
 
 export default TextField
 
+Input.propTypes = {
+  error: PropTypes.bool,
+}
+
+Input.defaultProps = {
+  error: false,
+}
+
 TextField.propTypes = {
   name: PropTypes.string.isRequired,
   prefix: PropTypes.node,
@@ -65,4 +77,13 @@ TextField.propTypes = {
   type: PropTypes.string,
   maxLength: PropTypes.number,
   style: PropTypes.object,
+};
+
+TextField.defaultProps = {
+  prefix: React.createElement('div'),
+  placeholder: '',
+  disabled: false,
+  type: 'text',
+  maxLength: 150,
+  style: {},
 };

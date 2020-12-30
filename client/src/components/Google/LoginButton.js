@@ -1,8 +1,12 @@
 import React from 'react'
-import google_logo from '../../assets/images/google_logo.png'
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { OutlinedButton, Spinner } from '../UIComponents'
+import google_logo from '../../assets/images/google_logo.png'
 
-function GoogleLoginButton({ t, onClick, isLoading }) {
+function GoogleLoginButton({ onClick, isLoading }) {
+  const { t } = useTranslation();
+
   return (
     <OutlinedButton
       type="button"
@@ -19,4 +23,9 @@ function GoogleLoginButton({ t, onClick, isLoading }) {
   )
 }
 
-export default GoogleLoginButton
+export default GoogleLoginButton;
+
+GoogleLoginButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+};

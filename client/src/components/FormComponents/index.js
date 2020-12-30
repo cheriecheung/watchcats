@@ -1,3 +1,4 @@
+import BasicCheckbox from './BasicCheckbox'
 import Calendar from './Calendar';
 import Checkbox from './Checkbox';
 import DatePicker from './DatePicker';
@@ -17,6 +18,7 @@ import TextField from './TextField';
 import TimePicker from './TimePicker';
 
 export {
+  BasicCheckbox,
   Calendar,
   Checkbox,
   DatePicker,

@@ -133,10 +133,17 @@ export default function Maps({
 }
 
 Maps.propTypes = {
-    zoom: PropTypes.number,
+    zoom: PropTypes.number.isRequired,
     setZoom: PropTypes.func,
-    center: PropTypes.object,
-    results: PropTypes.array,
+    center: PropTypes.object.isRequired,
+    results: PropTypes.array.isRequired,
     hoveredResultId: PropTypes.number,
     onGetSitters: PropTypes.func,
 };
+
+Maps.defaultProps = {
+    setZoom: () => { return null; },
+    hoveredResultId: 0,
+    onGetSitters: () => { return null; }
+};
+

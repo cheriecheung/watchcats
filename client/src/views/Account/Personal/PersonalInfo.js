@@ -23,7 +23,7 @@ function PersonalInfo({ t }) {
         <Col md={6}>
           <FieldLabel>{t('personal_info.postcode')}</FieldLabel>
           <Tooltip content={t('personal_info.postcode_tooltip')} />
-          <TextField name="postcode" maxLength={6} />
+          <TextField name="postcode" maxLength={7} />
         </Col>
       </Row>
     </>

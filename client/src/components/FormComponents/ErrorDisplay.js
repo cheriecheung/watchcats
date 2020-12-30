@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
@@ -9,7 +10,7 @@ const StyledErrorDisplay = styled.span`
   float: right;
 `
 
-function ErrorDisplay({ hidden, children = '' }) {
+function ErrorDisplay({ hidden, children }) {
   const { t } = useTranslation();
 
   return (
@@ -20,3 +21,8 @@ function ErrorDisplay({ hidden, children = '' }) {
 }
 
 export default ErrorDisplay;
+
+ErrorDisplay.propTypes = {
+  hidden: PropTypes.bool.isRequired,
+  children: PropTypes.string.isRequired,
+};

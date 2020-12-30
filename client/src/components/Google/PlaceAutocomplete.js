@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -79,8 +79,14 @@ export default function PlaceAutocomplete({
 PlaceAutocomplete.propTypes = {
     name: PropTypes.string.isRequired,
     setLoading: PropTypes.func,
-    setZoom: PropTypes.func,
-    setCenter: PropTypes.func,
+    setZoom: PropTypes.func.isRequired,
+    setCenter: PropTypes.func.isRequired,
     emptyOtherFilters: PropTypes.func,
     style: PropTypes.object
 };
+
+PlaceAutocomplete.defaultProps = {
+    setLoading: () => { return null; },
+    emptyOtherFilters: () => { return null; },
+    style: {}
+}

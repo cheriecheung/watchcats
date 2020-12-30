@@ -34,5 +34,10 @@ function FormButtons({ onClick, isLoading }) {
 export default FormButtons
 
 FormButtons.propTypes = {
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  isLoading: PropTypes.bool.isRequired
+};
+
+FormButtons.defaultProps = {
+  onClick: () => { return null; }
 };

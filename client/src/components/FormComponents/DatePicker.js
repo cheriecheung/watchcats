@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { Controller, useFormContext } from 'react-hook-form';
 import { DatePicker as AntDatePicker } from 'antd';
 import moment from 'moment';
@@ -12,10 +13,14 @@ const Field = styled(AntDatePicker)`
 `
 
 function DatePicker({ name, placeholder }) {
+  const { t } = useTranslation();
+
   const { control, watch, setValue, errors } = useFormContext();
   const { hasError, message } = getErrorProperties(name, errors)
 
   const selectedDate = watch(name);
+
+  const translatedPlaceholder = placeholder ? t(placeholder) : ''
 
   return (
     <>
@@ -25,7 +30,7 @@ function DatePicker({ name, placeholder }) {
         render={() => (
           <Field
             error={hasError}
-            placeholder={placeholder}
+            placeholder={translatedPlaceholder}
             disabledDate={(current) => {
               return current && current < moment();
             }}
@@ -45,3 +50,7 @@ DatePicker.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
 };
+
+DatePicker.defaultProps = {
+  placeholder: 'form.select'
+}

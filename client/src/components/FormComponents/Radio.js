@@ -6,7 +6,7 @@ import { getErrorProperties } from '../../utility'
 import ErrorDisplay from './ErrorDisplay';
 
 export function RadioGroup({ name, children }) {
-  const { control, watch, errors } = useFormContext();
+  const { control, errors } = useFormContext();
   const { hasError, message } = getErrorProperties(name, errors)
 
   return (
@@ -16,7 +16,6 @@ export function RadioGroup({ name, children }) {
         control={control}
         render={({ onChange, value }) => (
           <AntRadio.Group
-            //defaultValue={watch(name)}
             value={value}
             onChange={(e) => onChange(e.target.value)}
             className="custom-radio-group"
@@ -32,7 +31,11 @@ export function RadioGroup({ name, children }) {
 
 export function RadioButton({ value, children, style }) {
   return (
-    <AntRadio.Button value={value} className="custom-radio-button" style={style}>
+    <AntRadio.Button
+      value={value}
+      className="custom-radio-button"
+      style={style}
+    >
       {children}
     </AntRadio.Button>
   );
@@ -44,7 +47,14 @@ RadioGroup.propTypes = {
 };
 
 RadioButton.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]).isRequired,
   children: PropTypes.node.isRequired,
   style: PropTypes.object
+};
+
+RadioButton.defaultProps = {
+  style: {}
 };

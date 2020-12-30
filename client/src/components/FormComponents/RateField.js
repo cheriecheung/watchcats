@@ -7,13 +7,13 @@ import ErrorDisplay from './ErrorDisplay';
 function RateField({ name }) {
   const { control, errors } = useFormContext();
   const error = errors[name]
-  const message = error && error.message || 'Required field'
+  const message = error && error.message || "form_error.field_required"
 
   return (
     <>
       <Controller
         name={name}
-        as={<Rate error={error} />}
+        as={<Rate />}
         control={control}
       />
       <ErrorDisplay hidden={!error}>{message}</ErrorDisplay>

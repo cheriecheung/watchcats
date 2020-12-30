@@ -68,7 +68,6 @@ function Authentication({
       case 'disable2FA':
         return (
           <Disable2FA
-            t={t}
             appError={appError}
             isLoading={isLoadingDisable2fa}
           />

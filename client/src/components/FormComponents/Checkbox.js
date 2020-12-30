@@ -12,7 +12,7 @@ const Container = styled.div`
 const CheckboxComponent = styled(AntCheckbox)`
   display: flex;
   justify-content: space-between;
-  width: ${({ width }) => width ? width : '100%'};
+  width: ${({ width }) => width};
 `
 
 function Checkbox({
@@ -21,7 +21,7 @@ function Checkbox({
   width,
   containerStyle,
 }) {
-  const { control, errors } = useFormContext();
+  const { control } = useFormContext();
 
   return (
     <Container style={containerStyle}>
@@ -33,7 +33,7 @@ function Checkbox({
           <CheckboxComponent
             checked={value}
             onChange={(e) => onChange(e.target.checked)}
-            width={width} // needed?
+            width={width}
           >
             {children}
           </CheckboxComponent>
@@ -51,3 +51,8 @@ Checkbox.propTypes = {
   width: PropTypes.string,
   containerStyle: PropTypes.object
 };
+
+Checkbox.defaultProps = {
+  width: '100%',
+  containerStyle: {}
+}
