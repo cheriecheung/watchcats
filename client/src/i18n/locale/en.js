@@ -25,7 +25,7 @@ export default {
     field_required: 'Required field',
     email_format: 'Invalid email format',
     address_required: 'Enter an address',
-    postcode_format: 'Invalid Dutch postcode format. Please submit a postcode with four digits followed by two uppercase letters, i.e. 1234AB',
+    postcode_format: 'Invalid postcode format. A Dutch postcode consists of four digits followed by a space and two uppercase letters, e.g. 1234 AB',
     date_order: 'End date must be after start date',
     time_order: 'End time must be after start time',
     select_gender: 'Select a gender',
@@ -39,14 +39,14 @@ export default {
   success: {
     register1: 'Registration successful',
     register2: 'An activation link has been sent to your email address.',
-    register3: 'Please activate your account in an hour.',
-    check_spam_folder: 'If you do not receive the email within a few minutes, please check your spam folder.',
-    reset_forgot_password: 'You have successfully reset your password. You will now be able to log in with your new password.',
+    register3: 'Click the link (expires in an hour) to activate your account. You can then log in',
+    check_spam_folder: 'If you do not receive the email within a few minutes, check your spam/junk folder.',
+    reset_forgot_password: 'Your password has been reset successfully. You can now log in with your new password.',
     notification_setting: 'Notification setting updated',
-    password_reset: 'You have successfully reset your password.',
-    phone_verified: 'You have successfully verified your phone',
-    phone_removed: 'You have successfully removed your phone',
-    '2FA_enabled': 'You have enabled 2-factor authentication. You will now need to login by phone on top of logging in by email and password.',
+    password_reset: 'Your password has been reset successfully.',
+    phone_verified: 'You phone number has been verified successfully.',
+    phone_removed: 'You phone number has been removed successfully.',
+    '2FA_enabled': 'You have enabled 2-factor authentication successfully. You are now required to enter both your password and an authentication code from your mobile phone in order to sign in.',
     '2FA_disabled': 'You have disabled 2-factor authentication. You will now only log in by email and password.',
     booking_request: 'You have successfully sent your booking request.',
     review: 'You have successfully submitted a review. You will now be redirected back to the booking page.'
@@ -73,6 +73,7 @@ export default {
     password: 'Password',
     first_name: 'First name',
     last_name: 'Last name',
+    select: 'Select',
     save: 'Save',
     submit: 'Submit',
     reset: 'Reset',
@@ -91,7 +92,6 @@ export default {
 
   register: {
     title: 'Register',
-    password_instruction: 'Password should be 8 to 12 characters',
   },
 
   account_activation: {
@@ -110,7 +110,7 @@ export default {
 
   forgot_password: {
     instruction: 'To reset your password, enter your email below and submit. An email will be sent to you with instructions about how to complete the process.',
-    response: 'If the provided email is in our database, a password reset link will be sent to it. Please reset your password within 30 minutes.'
+    response: 'If the provided email is in our database, a password reset link will be sent to it. The link will expire in 30 minutes.'
   },
 
   find_sitter: {
@@ -133,7 +133,6 @@ export default {
     completed_bookings: 'Completed bookings',
     repeated_customer: 'Repeated customer',
     repeated_customers: 'Repeated customers',
-    view_profile: 'View profile',
   },
 
   profile_summary: {
@@ -342,7 +341,7 @@ export default {
     burmese: 'Burmese',
     british_shorthair: 'British shorthair',
     devon_rex: 'Devon Rex',
-    exotioc: 'Exotic',
+    exotic: 'Exotic',
     maine_coon: 'Maine Coon',
     moggy: 'Moggy',
     oriental: 'Oriental',
@@ -352,6 +351,14 @@ export default {
     sphynx: 'Sphynx',
     tabby: 'Tabby',
     other: 'Other',
+  },
+
+  cat_personality: {
+    outdoor_explorer: 'Outdoor explorer',
+    outdoor_occasionally: 'Outdoor occasionally',
+    indoor_playful: 'Indoor and playful',
+    indoor_chilled: 'Indoor and chilled',
+    others: 'Others'
   },
 
   bookings: {
@@ -388,9 +395,6 @@ export default {
     write_review: 'Write a review',
 
     declined: 'Declined',
-
-    view_profile: 'View profile',
-    view_conversation: 'View conversation',
 
     sitter: 'Sitter',
     owner: 'Owner',

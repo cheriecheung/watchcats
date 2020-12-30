@@ -2,61 +2,61 @@ export default {
   api_error: {
     generic: 'Er is een fout opgetreden. Probeer het opnieuw a.u.b',
 
-    auth_rate_limited: 'You are being rate limited. Please try again in 30 minutes.',
-    form_rate_limited: 'You are being rate limited. Please try again in 5 minutes.',
+    auth_rate_limited: 'You are being rate limited. Wacht 30 minuten en probeer het opvieuw',
+    form_rate_limited: 'You are being rate limited. Wacht 5 minuten en probeer het opvieuw',
 
-    email_exists: 'E-mailadres bestaat al.',
-    password_incorrect: 'U heeft het verkeerde wachtwoord ingevoerd.',
-    password_reset_failed: 'Kan wachtwoord niet resetten. Probeer het opnieuw a.u.b.',
-    login_failed: 'Unable to login. Please try again.',
-    login_credentials_invalid: 'De ingegeven combinatie e-mailadres en wachtwoord is ongeldig.',
+    email_exists: 'E-mailadres bestaat al',
+    password_incorrect: 'U heeft het verkeerde wachtwoord ingevoerd',
+    password_reset_failed: 'Kan wachtwoord niet resetten. Probeer het opnieuw a.u.b',
+    login_failed: 'Inloggen mislukt. Probeer het opnieuw a.u.b',
+    login_credentials_invalid: 'De ingegeven combinatie e-mailadres en wachtwoord is ongeldig',
 
-    phone_exists: 'Dit telefoonnummer is al gebruikt.',
-    code_verify_failed: 'Kan het code niet verifiëren.',
+    phone_exists: 'Dit telefoonnummer is al gebruikt',
+    code_verify_failed: 'Kan het code niet verifiëren',
     phone_submission_failed: 'Kan het telefoonnummer niet wijzigen. Probeer het opnieuw a.u.b',
-    phone_saving_failed: 'Kay het telefoonnummer niet opslaan. Probeer het opnieuw a.u.b',
+    phone_saving_failed: 'Kan het telefoonnummer niet opslaan. Probeer het opnieuw a.u.b',
 
-    otp_expired: 'You enter an expired code. Click "Resend code" to get a new one.',
-    otp_invalid: 'Verkeerde verificatiecode.',
-    two_factor_activation_failed: 'Kan het 2FA niet activeren. Probeer het opnieuw a.u.b.',
+    otp_expired: 'You enter an expired code. Klik \'Code opnieuw verzenden\' om een nieuwe code op te halen',
+    otp_invalid: 'Verkeerde verificatiecode',
+    two_factor_activation_failed: 'Kan het 2FA niet activeren. Probeer het opnieuw a.u.b',
   },
 
   form_error: {
-    field_required: 'Verplicht veld',
-    email_format: 'Invalid email format',
-    address_required: 'Enter an address',
-    postcode_format: 'Invalid Dutch postcode format. Please submit a postcode with four digits followed by two uppercase letters, i.e. 1234AB',
+    field_required: 'Verplichte veld',
+    email_format: 'Verkeerde e-mailadres format',
+    address_required: 'Voer een adres in',
+    postcode_format: 'Verkeerde postcode formaat. De Nederlandse postcode bestaat uit vier cijfers, een spatie en twee letters, e.g. 1234 AB',
     date_order: 'De einddatum moet na de startdatum liggen',
     time_order: 'De eindtijd moet na de starttijd liggen',
     select_gender: 'Kies een geslacht',
     select_option: 'Kies een optie',
-    password_critera: 'Make sure your password pass all the criteria',
-    same_old_password: 'Het wachtwoord mag niet hetzelfde zijn als het huidige wachtwoord',
+    password_critera: 'Een wachtwoord moet voldoen aan de eisen',
+    same_old_password: '',
     new_passwords_unmatched: 'New passwords must match',
     review_length: 'Please write a longer review',
   },
 
   success: {
-    register1: 'Registration successful',
-    register2: 'An activation link has been sent to your email address.',
-    register3: 'Please activate your account in an hour.',
-    check_spam_folder: 'If you do not receive the email within a few minutes, please check your spam folder.',
-    reset_forgot_password: 'You have successfully reset your password. You will now be able to log in with your new password.',
+    register1: 'Registratie gelukt',
+    register2: 'Wij hebben u een e-mail gestuurd met daarin een activatielink.',
+    register3: 'Klik op deze link (verloopt na 1 uur) om uw account te activeren. U kunt daarna inloggen.',
+    check_spam_folder: 'Mocht u binnen enkele minuten geen mail ontvangen, controleer je spam/junk folder.',
+    reset_forgot_password: 'Wachtwoord reset gelukt. U kunt nu inloggen met uw nieuwe wachtwoord.',
     notification_setting: 'Meldingsinstelling bijgewerkt',
-    password_reset: 'You have successfully reset your password.',
-    phone_verified: 'You have successfully verified your phone',
-    phone_removed: 'You have successfully removed your phone',
-    '2FA_enabled': 'You have enabled 2-factor authentication. You will now need to login by phone on top of logging in by email and password.',
-    '2FA_disabled': 'You have disabled 2-factor authentication. You will now only log in by email and password.',
-    booking_request: 'You have successfully sent your booking request.',
-    review: 'You have successfully submitted a review. You will now be redirected back to the booking page.'
+    password_reset: 'Uw wachtwoord is succesvol resetten',
+    phone_verified: 'Uw telefoonnummer is succesvol geverifieerd',
+    phone_removed: 'Uw telefoonnummer is succesvol verwijderd',
+    '2FA_enabled': 'U hebt tweefactor-authenticatie succesvol ingeschakeld. Je bent verplicht om zowel je wachtwoord als een authentiatiecode van je mobiele telefoon in te voeren om in te loggen.',
+    '2FA_disabled': 'U hebt tweefactor-authenticatie succesvol uitgeschakeld. U kunt nu inloggen met alleen uw wachtwoord.',
+    booking_request: 'Uw boekingsaanvraag is succesvol verzonden.',
+    review: 'U heeft uw recensie succesvol ingediend. U wordt nu teruggeleid naar de boekingspagina.'
   },
 
   header: {
     home: 'Startpagina',
     find_sitter: 'Oppas zoeken',
     about: 'Over',
-    bookings: 'Boeking',
+    bookings: 'Boekings',
     messages: 'Chats',
     account: 'Account',
     login: 'Inloggen',
@@ -73,10 +73,11 @@ export default {
     password: 'Wachtwoord',
     first_name: 'Voornaam',
     last_name: 'Achternaam',
+    select: 'Selecteer',
     save: 'Save',
     submit: 'Submit',
     reset: 'Resetten',
-    ok: 'Doorgaan',
+    ok: 'Oke',
     cancel: 'Annuleren'
   },
 
@@ -87,30 +88,30 @@ export default {
     forgot_password: 'Wachtwoord vergeten?',
     google_login: 'Inloggen met Google',
     '2FA_login': 'Enter the 6-digit code in the Google Authenticator app on your phone.',
+    // Voer de code van 6 cijfers van de Google Authenticator app 
   },
 
   register: {
     title: 'Registreren',
-    password_instruction: 'Password should be 8 to 12 characters',
   },
 
   account_activation: {
-    success1: 'You have sucecssfully activated your account.',
-    success2: 'You are now able to ',
-    error_title: 'Expired or invalid activation link',
-    error_desription: 'Please enter your registered email below to get another link to activate your account.',
-    response: 'If the provided email is in our database, a new activation link will be sent to it. Please be sure to check the spam / junk mailbox if it is not found in the main inbox'
+    success1: 'U hebt uw account succesvol geactiveerd.',
+    success2: 'U kunt nu ',
+    error_title: 'De activatielink is verlopen of ongeldig',
+    error_desription: 'Voer uw geldige e-mailadres in om een nieuwe activatelink te ontvangen.',
+    response: 'Als de e-mailadres in onze database staan, er wordt een e-mail gestuurd met een activatelink (verloopt na 1 uur). Mocht u binnen enkele minuten geen mail ontvangen, controleer je spam/junk folder.'
   },
 
   reset_password: {
-    title: 'Reset your password',
+    title: 'Wachtwoord resetten',
     new_password: 'Nieuwe wachtwoord',
     repeat_password: 'Herhaal wachtwoord'
   },
 
   forgot_password: {
-    instruction: 'To reset your password, enter your email below and submit. An email will be sent to you with instructions about how to complete the process.',
-    response: 'If the provided email is in our database, a password reset link will be sent to it. Please reset your password within 30 minutes.'
+    instruction: 'Als u uw e-mailadres invoeren, worden de instructies voor het opnieuw instellen van het wachtwoord naar je e-mailadres verzonden.',
+    response: 'Als de e-mailadres in onze database staan, er wordt een e-mail gestuurd met een link om je wachtwoord opnieuw in te stellen. Deze link verloopt na 30 minuten.'
   },
 
   find_sitter: {
@@ -133,11 +134,10 @@ export default {
     completed_bookings: 'Voltooide afspraken',
     repeated_customer: 'Repeated customer',
     repeated_customers: 'Repeated customers',
-    view_profile: 'Bekijk profiel',
   },
 
   profile_summary: {
-    email_verified: 'Email geverifieerd',
+    email_verified: 'E-mailadres geverifieerd',
     phone_verified: 'Phone geverifieerd',
   },
 
@@ -151,7 +151,7 @@ export default {
     send_request: 'Send request',
     appointment_fee: 'Appointment fee',
     skills_summary: 'Summary of skills',
-    location: 'Location',
+    location: 'Locatie',
     feedback: 'Feedback from cat owners',
 
     create_appointment_time: 'As you haven\'t set an appointment time in your owner profile, please select a time in the following.',
@@ -182,27 +182,27 @@ export default {
 
   settings: {
     contact_details: 'Contactgegevens',
-    contact_details_tooltip: 'Via your email and/or phone, you can receive notifications when someone sends you a booking request; updates your booking status; or messages you. Your contact details will not be shared to anyone.',
+    contact_details_tooltip: 'Via your email and/or phone, you can receive notifications when someone sends you a booking request; updates your booking status; or messages you. Uw gegevens worden met niemand gedeeld',
     reveal: 'Onthullen',
     hide: 'Verbergen',
     edit: 'Bewerken',
     add: 'Toevoegen',
     remove: 'Verwijderen',
     receive_notifications: 'Meldingen inschakelen',
-    email: 'Email',
+    email: 'E-mailadres',
     phone: 'Telefoonnummer',
     receive_sms_code: 'You will receive an SMS with a verification code.',
-    save_phone_description: 'Your phone number is only used for verification and notifications. It will not be shared to anyone on this application',
-    enter_sms_code: 'Enter the 6-digit code we sent to your phone via SMS.',
-    code_to_expire: ' The code will expire in 2 minutes.',
-    resend_code: 'Resend code',
+    save_phone_description: 'Your phone number is only used for verification and notifications. Uw telefoonnummer wordt met niemand gedeeld.',
+    enter_sms_code: 'Voer de 6-cijferige code die je via sms ontvangt in.',
+    code_to_expire: 'Deze code verloopt na 2 minuten.',
+    resend_code: 'Stuur opnieuw',
 
     stripe_account: 'Stripe-account',
     payment_description: 'To send and / or receive payments, please set up payouts on Stripe. Clicking below will guide you to a secure online form which will guide you to connect your bank account.',
-    setup_payouts: 'Set up payouts',
+    setup_payouts: 'Maak een Stripe account aan',
 
     authentication: 'Wachtwoord en authenticatie',
-    not_available: 'Not available for accounts login via Google',
+    not_available: 'Niet beschikbaar als u bent ingelogd via Google',
 
     password: 'Wachtwoord',
     password_description: 'Update your password for the next time you log in.',
@@ -217,8 +217,8 @@ export default {
 
     two_factor_auth: 'Tweefactor-authenticatie',
     '2FA_description': 'Bescherm je Watchcats-account met een extra beveiligingslaag. Na de configuratie ben je verplicht om zowel je wachtwoord als een authentiatiecode van je mobiele telefoon in te voeren om in te loggen.',
-    '2FA_enabled': 'You have already enabled two factor authentication',
-    disable_2FA: 'Disable Two-Factor Auth',
+    '2FA_enabled': 'U hebt tweefactor-authenticatie ingeschakeld.',
+    disable_2FA: 'Tweefactor-authenticatie uitschakelen',
     enable_2FA: 'Tweefactor-authenticatie inschakelen',
     enable_2FA_description: 'Maak je account veiliger in 3 eenvoudige stappen',
     enable_2FA_step1: 'Download een authenticator-app',
@@ -234,17 +234,17 @@ export default {
   personal_info: {
     profile_picture: 'Profielfoto',
     picture_requirement_1: 'Please choose a high quality picture of yourself',
-    picture_requirement_2: 'No filters, effects or stickers applied',
-    picture_requirement_3: 'Best image format JPG, JPEG, PNG',
-    picture_requirement_4: 'Minimum size 360 x 254 pixels',
+    picture_requirement_2: 'Geen filters, effecten of stickers worden toegepast',
+    picture_requirement_3: 'Gebruik het beste beeldformaat: JPG, JPEG, of PNG',
+    picture_requirement_4: 'Minimale afmetingen: 360 x 254 pixels',
 
     personal_info: 'Persoonsgegevens',
     first_name: 'Voornaam',
     last_name: 'Achternaam',
     phone: 'Telefoon',
-    email: 'Email',
+    email: 'E-mailadres',
     address: 'Adres',
-    address_tooltip: 'Your address will not be shared with anyone in any manner',
+    address_tooltip: 'Uw adres worden met niemand gedeeld',
     postcode: 'Postcode',
     postcode_tooltip: "Only Dutch postcodes are accepted (four digits followed by two uppercase letters, i.e. 1234AB). Once submitted, your location will appear in the map on 'Find Cat Sitter' page",
 
@@ -339,7 +339,7 @@ export default {
     burmese: 'Birmees',
     british_shorthair: 'Britse korthaar',
     devon_rex: 'Devon Rex',
-    exotioc: 'Exotisch',
+    exotic: 'Exotisch',
     maine_coon: 'Maine Coon',
     moggy: 'Moggy',
     oriental: 'Oosters',
@@ -349,6 +349,14 @@ export default {
     sphynx: 'Sphynx',
     tabby: 'Tabby',
     other: 'Andere',
+  },
+
+  cat_personality: {
+    outdoor_explorer: 'Vaak naar buiten',
+    outdoor_occasionally: 'Af en toe naar buiten',
+    indoor_playful: 'Binnen blijven en speelse',
+    indoor_chilled: 'Binnen blijven en rustig',
+    others: 'Andere'
   },
 
   bookings: {
@@ -386,9 +394,6 @@ export default {
 
     declined: 'Geweigerd',
 
-    view_profile: 'Bekijk profiel',
-    view_conversation: 'Bekijk gesprek',
-
     sitter: 'Oppas',
     owner: 'Eigenaar',
     location: 'Locatie',
@@ -398,10 +403,10 @@ export default {
 
   review: {
     title: 'Beoordeel en recenseer',
-    booking_information: 'Booking information',
-    describe_experience: 'Describe your experience',
+    booking_information: 'Boekingsinformatie',
+    describe_experience: 'Beschrijf uw ervaring',
     reminder: 'Your review will be public on the reviewee\'s public profile',
-    give_rating: 'Give your rating'
+    give_rating: 'Geef je beoordeling'
   },
 
   chats: {

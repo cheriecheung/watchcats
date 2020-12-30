@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select from 'react-select';
@@ -61,8 +62,10 @@ function SelectField({
   options,
   onChange = ([selected]) => selected,
   placeholder,
-  //defaultValue = { value: '', label: 'Select' },
 }) {
+  const { t } = useTranslation();
+  const translatedOptions = options.map(({ value, label }) => ({ value, label: t(label) }))
+
   const { control, errors } = useFormContext();
   const { hasError, message } = getErrorProperties(name, errors)
 
@@ -75,10 +78,9 @@ function SelectField({
         styles={colourStyles}
         name={name}
         placeholder={placeholder}
-        options={options}
+        options={translatedOptions}
         onChange={onChange}
         isSearchable={false}
-      //defaultValue={defaultValue}
       />
       <ErrorDisplay hidden={!hasError}>{message}</ErrorDisplay>
     </>
