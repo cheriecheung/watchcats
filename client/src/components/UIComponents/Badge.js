@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import styled from 'styled-components'
 import { Badge as AntBadge } from 'antd';
 import { themeColor } from '../../style/theme'
@@ -28,4 +29,13 @@ function Badge({ children, unreadItems }) {
   )
 }
 
-export default Badge
+export default Badge;
+
+Badge.propTypes = {
+  children: PropTypes.node.isRequired,
+  unreadItems: PropTypes.number,
+};
+
+Badge.defaultProps = {
+  unreadItems: undefined
+};

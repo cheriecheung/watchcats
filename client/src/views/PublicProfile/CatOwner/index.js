@@ -35,7 +35,7 @@ function CatOwner() {
 
   return (
     <>
-      {profileError && <NotFound variant="profile" />}
+      {profileError && <NotFound />}
 
       {!profileError && returnedData &&
         <WrapLayout variant="profile">

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { themeColor } from '../../../style/theme';
 import styled from 'styled-components';
 
@@ -15,3 +16,11 @@ const ContainedButton = styled.button`
 `;
 
 export default ContainedButton;
+
+ContainedButton.propTypes = {
+  disabled: PropTypes.bool
+};
+
+ContainedButton.defaultProps = {
+  disabled: false
+};

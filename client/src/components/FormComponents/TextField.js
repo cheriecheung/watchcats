@@ -66,7 +66,7 @@ Input.propTypes = {
 }
 
 Input.defaultProps = {
-  error: false,
+  error: undefined,
 }
 
 TextField.propTypes = {
@@ -81,7 +81,7 @@ TextField.propTypes = {
 
 TextField.defaultProps = {
   prefix: React.createElement('div'),
-  placeholder: '',
+  placeholder: undefined,
   disabled: false,
   type: 'text',
   maxLength: 150,

@@ -51,7 +51,6 @@ function Card({ screenWidth, t, item, setHoveredResultId }) {
   return (
     <HorizontalCard
       variant="findCatSitter"
-      hover
       onMouseOver={() => setHoveredResultId(urlId)}
       onMouseLeave={() => setHoveredResultId('')}
     >

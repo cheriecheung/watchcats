@@ -5,7 +5,14 @@ const { Paragraph } = Typography;
 
 function EllipsisParagraph({ children }) {
   return (
-    <Paragraph ellipsis={{ rows: 3, expandable: true, symbol: 'Read more' }} style={{ whiteSpace: 'pre-line' }}>
+    <Paragraph
+      ellipsis={{
+        rows: 3,
+        expandable: true,
+        symbol: 'Read more'
+      }}
+      style={{ whiteSpace: 'pre-line' }}
+    >
       {children}
     </Paragraph>
   )
@@ -14,5 +21,9 @@ function EllipsisParagraph({ children }) {
 export default EllipsisParagraph
 
 EllipsisParagraph.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node
+};
+
+EllipsisParagraph.defaultProps = {
+  children: undefined
 };

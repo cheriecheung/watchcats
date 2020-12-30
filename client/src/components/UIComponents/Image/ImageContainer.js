@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 const defaultStyle = css`
@@ -70,3 +71,13 @@ const ImageContainer = styled.div`
 `
 
 export default ImageContainer;
+
+ImageContainer.propTypes = {
+  variant: PropTypes.node,
+  size: PropTypes.string
+};
+
+ImageContainer.defaultProps = {
+  variant: undefined,
+  size: undefined
+};

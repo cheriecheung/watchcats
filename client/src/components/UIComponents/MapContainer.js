@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 const defaultMapContainer = ({ variant }) => {
@@ -28,4 +29,12 @@ const MapContainer = styled.div`
   ${findCatSitter}
 `
 
-export default MapContainer
+export default MapContainer;
+
+MapContainer.propTypes = {
+  variant: PropTypes.string
+};
+
+MapContainer.defaultProps = {
+  variant: undefined
+};

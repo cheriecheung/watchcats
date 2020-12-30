@@ -137,13 +137,13 @@ Maps.propTypes = {
     setZoom: PropTypes.func,
     center: PropTypes.object.isRequired,
     results: PropTypes.array.isRequired,
-    hoveredResultId: PropTypes.number,
+    hoveredResultId: PropTypes.string,
     onGetSitters: PropTypes.func,
 };
 
 Maps.defaultProps = {
-    setZoom: () => { return null; },
-    hoveredResultId: 0,
-    onGetSitters: () => { return null; }
+    setZoom: undefined,
+    hoveredResultId: undefined,
+    onGetSitters: undefined
 };
 

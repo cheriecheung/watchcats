@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 const defaultStyle = css`
@@ -59,3 +60,11 @@ const VerticalCard = styled.div`
 `;
 
 export default VerticalCard;
+
+VerticalCard.propTypes = {
+  variant: PropTypes.string,
+};
+
+VerticalCard.defaultProps = {
+  variant: undefined,
+};

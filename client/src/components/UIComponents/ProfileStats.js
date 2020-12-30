@@ -18,7 +18,7 @@ const fiveStarDisplay = (number) => {
 };
 
 function ProfileStats({
-  type = "sitter",
+  type,
   totalReviews,
   totalCompletedBookings,
   totalRepeatedCustomers
@@ -73,11 +73,15 @@ function ProfileStats({
   )
 }
 
-export default ProfileStats
+export default ProfileStats;
 
 ProfileStats.propTypes = {
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   totalReviews: PropTypes.number.isRequired,
   totalCompletedBookings: PropTypes.number.isRequired,
   totalRepeatedCustomers: PropTypes.number.isRequired
+};
+
+ProfileStats.defaultProps = {
+  type: 'sitter'
 };

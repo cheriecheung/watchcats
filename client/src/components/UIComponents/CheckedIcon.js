@@ -32,3 +32,7 @@ export default CheckedIcon
 CheckedIcon.propTypes = {
   isShown: PropTypes.bool
 };
+
+CheckedIcon.defaultProps = {
+  isShown: undefined
+};

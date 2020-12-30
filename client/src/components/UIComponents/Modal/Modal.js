@@ -28,12 +28,12 @@ const StyledAntModal = styled(AntModal)`
 
 function Modal({
   visible,
-  onOk = null,
-  onCancel = null,
-  okButtonProps = {},
-  cancelButtonProps = {},
-  closable = true,
-  maskClosable = false,
+  onOk,
+  onCancel,
+  okButtonProps,
+  cancelButtonProps,
+  closable,
+  maskClosable,
   footer,
   style,
   children
@@ -59,7 +59,7 @@ function Modal({
 export default Modal
 
 Modal.propTypes = {
-  visible: PropTypes.bool,
+  visible: PropTypes.bool.isRequired,
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
   okButtonProps: PropTypes.object,
@@ -70,3 +70,16 @@ Modal.propTypes = {
   style: PropTypes.object,
   children: PropTypes.node
 };
+
+Modal.defaultProps = {
+  onOk: null,
+  onCancel: null,
+  okButtonProps: {},
+  cancelButtonProps: {},
+  closable: true,
+  maskClosable: false,
+  footer: undefined,
+  style: {},
+  children: undefined
+};
+

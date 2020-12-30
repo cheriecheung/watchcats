@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const SubTabBarItem = styled.button`
@@ -19,4 +20,12 @@ const SubTabBarItem = styled.button`
   }
 `
 
-export default SubTabBarItem
+export default SubTabBarItem;
+
+SubTabBarItem.propTypes = {
+  isSelected: PropTypes.bool
+};
+
+SubTabBarItem.defaultProps = {
+  isSelected: false
+};

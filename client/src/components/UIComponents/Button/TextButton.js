@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeColor } from '../../../style/theme'
 
@@ -15,3 +16,11 @@ const TextButton = styled.button`
 `;
 
 export default TextButton;
+
+TextButton.propTypes = {
+  colored: PropTypes.bool,
+};
+
+TextButton.defaultProps = {
+  colored: undefined,
+};

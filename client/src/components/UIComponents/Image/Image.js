@@ -22,4 +22,9 @@ export default Image;
 
 Image.propTypes = {
   url: PropTypes.string.isRequired,
+  style: PropTypes.object
+};
+
+Image.defaultProps = {
+  style: {}
 };

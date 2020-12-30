@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const TabItem = styled.button`
@@ -11,4 +12,12 @@ const TabItem = styled.button`
   padding: 0 15px;
 `
 
-export default TabItem
+export default TabItem;
+
+TabItem.propTypes = {
+  isSelected: PropTypes.bool
+};
+
+TabItem.defaultProps = {
+  isSelected: false
+};

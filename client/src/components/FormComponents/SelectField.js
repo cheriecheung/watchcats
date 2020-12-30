@@ -63,11 +63,13 @@ function SelectField({
   onChange,
 }) {
   const { t } = useTranslation();
-  const translatedOptions = options.map(({ value, label }) => ({ value, label: t(label) }))
+
+  const updatedOptions = name.includes('Rate') ?
+    options :
+    options.map(({ value, label }) => ({ value, label: t(label) }))
 
   const { control, errors } = useFormContext();
   const { hasError, message } = getErrorProperties(name, errors)
-
 
   return (
     <>
@@ -77,7 +79,7 @@ function SelectField({
         as={Select}
         styles={colourStyles}
         name={name}
-        options={translatedOptions}
+        options={updatedOptions}
         onChange={onChange}
         isSearchable={false}
       />

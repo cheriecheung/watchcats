@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 const defaultStyle = css`
@@ -22,7 +23,7 @@ const defaultCard = ({ variant }) => {
   return css``;
 };
 
-const findCatSitter = ({ variant, hover }) => {
+const findCatSitter = ({ variant }) => {
   if (variant !== 'findCatSitter') return css``
 
   return `
@@ -34,8 +35,8 @@ const findCatSitter = ({ variant, hover }) => {
     transition: all .3s ease-in-out;
 
     &:hover {
-      margin-left: ${hover && '10px'};
-      margin-right: ${hover && '-10px'};
+      margin-left: 10px;
+      margin-right: -10px;
     }
 
     @media (max-width: 680px) {
@@ -73,4 +74,12 @@ const HorizontalCard = styled.div`
   ${findCatSitter}
   ${bookings}
 `
-export default HorizontalCard
+export default HorizontalCard;
+
+HorizontalCard.propTypes = {
+  variant: PropTypes.string,
+};
+
+HorizontalCard.defaultProps = {
+  variant: undefined,
+};

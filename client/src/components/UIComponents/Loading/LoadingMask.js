@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const LoadingMask = styled.div`
@@ -11,4 +12,12 @@ const LoadingMask = styled.div`
   visibility: ${({ loading }) => loading ? 'visible' : 'hidden'};
 `
 
-export default LoadingMask
+export default LoadingMask;
+
+LoadingMask.propTypes = {
+  loading: PropTypes.bool,
+};
+
+LoadingMask.defaultProps = {
+  loading: undefined,
+};

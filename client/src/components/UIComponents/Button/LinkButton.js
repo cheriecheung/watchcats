@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components'
 import { Link } from 'react-router-dom'
 import { themeColor } from '../../../style/theme'
@@ -51,3 +52,11 @@ const LinkButton = styled(Link)`
 `
 
 export default LinkButton
+
+LinkButton.propTypes = {
+  variant: PropTypes.string
+};
+
+LinkButton.defaultProps = {
+  variant: undefined
+};

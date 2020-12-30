@@ -36,5 +36,5 @@ Calendar.propTypes = {
 
 Calendar.defaultProps = {
   selectedDays: [],
-  handleDayClick: () => { return null; }
+  handleDayClick: undefined
 }

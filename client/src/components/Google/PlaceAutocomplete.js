@@ -86,7 +86,7 @@ PlaceAutocomplete.propTypes = {
 };
 
 PlaceAutocomplete.defaultProps = {
-    setLoading: () => { return null; },
-    emptyOtherFilters: () => { return null; },
+    setLoading: undefined,
+    emptyOtherFilters: undefined,
     style: {}
 }

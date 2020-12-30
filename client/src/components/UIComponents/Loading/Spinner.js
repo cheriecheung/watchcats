@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Spin } from 'antd';
 import { themeColor } from '../../../style/theme'
@@ -18,4 +19,12 @@ const Spinner = styled(Spin)`
   }
 `
 
-export default Spinner
+export default Spinner;
+
+Spinner.propTypes = {
+  colored: PropTypes.bool,
+};
+
+Spinner.defaultProps = {
+  colored: undefined,
+};

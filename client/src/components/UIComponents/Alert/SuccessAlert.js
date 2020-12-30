@@ -4,8 +4,8 @@ import { Alert } from 'antd'
 
 function SuccessAlert({
   message,
-  showIcon = true,
-  closable = false,
+  showIcon,
+  closable,
   style
 }) {
   return (
@@ -26,4 +26,10 @@ Alert.propTypes = {
   showIcon: PropTypes.bool,
   closable: PropTypes.bool,
   style: PropTypes.object
+};
+
+Alert.defaultProps = {
+  showIcon: true,
+  closable: false,
+  style: {}
 };

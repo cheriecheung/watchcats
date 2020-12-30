@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Alert } from 'antd';
@@ -62,3 +63,7 @@ function ErrorAlert({ type }) {
 }
 
 export default ErrorAlert;
+
+ErrorAlert.propTypes = {
+  type: PropTypes.string.isRequired
+};

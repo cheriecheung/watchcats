@@ -66,6 +66,6 @@ TextArea.propTypes = {
 };
 
 TextArea.defaultProps = {
-  placeholder: '',
+  placeholder: undefined,
   rows: 7,
 };

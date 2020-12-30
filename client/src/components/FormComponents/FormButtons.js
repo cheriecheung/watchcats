@@ -39,5 +39,5 @@ FormButtons.propTypes = {
 };
 
 FormButtons.defaultProps = {
-  onClick: () => { return null; }
+  onClick: undefined
 };

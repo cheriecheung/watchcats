@@ -18,3 +18,7 @@ export default HorizontalDivider
 HorizontalDivider.propTypes = {
   children: PropTypes.node,
 };
+
+HorizontalDivider.defaultProps = {
+  children: undefined,
+};

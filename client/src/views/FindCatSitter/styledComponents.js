@@ -59,7 +59,7 @@ export const ResultContainer = styled.div`
 `
 
 export const FieldContainer = styled.div`
-  flex: ${props => props.flex};
+  flex: ${({ flex }) => flex};
   padding: 0 15px;
   align-self: center;
 

@@ -46,7 +46,11 @@ const TabBarComponent = styled.div`
 `
 
 function TabBar({ variant, children }) {
-  return <TabBarComponent variant={variant}>{children}</TabBarComponent>
+  return (
+    <TabBarComponent variant={variant}>
+      {children}
+    </TabBarComponent>
+  )
 }
 
 export default TabBar
@@ -54,4 +58,8 @@ export default TabBar
 TabBar.propTypes = {
   variant: PropTypes.string,
   children: PropTypes.node.isRequired,
+};
+
+TabBar.defaultProps = {
+  variant: undefined,
 };

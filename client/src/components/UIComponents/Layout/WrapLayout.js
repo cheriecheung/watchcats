@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 const defaultStyle = css`
@@ -108,4 +109,12 @@ const WrapLayout = styled.div`
   ${contact}
 `
 
-export default WrapLayout
+export default WrapLayout;
+
+WrapLayout.propTypes = {
+  variant: PropTypes.node,
+};
+
+WrapLayout.defaultProps = {
+  variant: undefined,
+};

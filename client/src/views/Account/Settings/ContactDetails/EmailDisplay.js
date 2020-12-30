@@ -33,14 +33,14 @@ function EmailDisplay({
           {revealEmail ?
             <TextButton
               onClick={() => setRevealEmail(false)}
-              colored
+              colored={true}
             >
               {t('settings.hide')}
             </TextButton>
             :
             <TextButton
               onClick={() => setRevealEmail(true)}
-              colored
+              colored={true}
             >
               {t('settings.reveal')}
             </TextButton>

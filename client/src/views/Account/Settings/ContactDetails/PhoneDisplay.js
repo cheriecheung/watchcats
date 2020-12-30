@@ -37,14 +37,14 @@ function PhoneDisplay({
             {revealPhone ?
               <TextButton
                 onClick={() => setRevealPhone(false)}
-                colored
+                colored={true}
               >
                 {t('settings.hide')}
               </TextButton>
               :
               <TextButton
                 onClick={() => setRevealPhone(true)}
-                colored
+                colored={true}
               >
                 {t('settings.reveal')}
               </TextButton>
@@ -68,7 +68,7 @@ function PhoneDisplay({
           <span>&#8212;</span>
           <TextButton
             onClick={addPhone}
-            colored
+            colored={true}
           >
             {t('settings.add')}
           </TextButton>

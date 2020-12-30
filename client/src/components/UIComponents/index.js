@@ -32,6 +32,9 @@ import SubTabBarItem from './Tab/SubTabBarItem'
 import TabBar from './Tab/TabBar'
 import TabItem from './Tab/TabItem'
 
+import Remark from './Text/Remark'
+import Title from './Text/Title'
+
 import Badge from './Badge'
 import CheckedIcon from './CheckedIcon'
 import EllipsisParagraph from './EllipsisParagraph'
@@ -75,6 +78,9 @@ export {
   SubTabBarItem,
   TabBar,
   TabItem,
+
+  Remark,
+  Title,
 
   Badge,
   CheckedIcon,
