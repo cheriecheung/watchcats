@@ -1,28 +1,28 @@
 const router = require('express').Router();
-const { verifyAccessTokenUpdate } = require('../helpers/token');
 const AccountController = require('../controllers/AccountController');
+const { validateToken } = require('../helpers/token');
 const { formLimiter, speedLimiter } = require('../helpers/limiter')
 
-router.get('/personal-info', verifyAccessTokenUpdate, verifyAccessTokenUpdate, AccountController.getPersonalInfo);
+router.get('/personal-info', validateToken, AccountController.getPersonalInfo);
 
-router.post('/personal-info', formLimiter, speedLimiter(5), verifyAccessTokenUpdate, verifyAccessTokenUpdate, AccountController.postPersonalInfo);
+router.post('/personal-info', formLimiter, speedLimiter(5), validateToken, AccountController.postPersonalInfo);
 
-router.get('/contact-details', verifyAccessTokenUpdate, AccountController.getContactDetails)
+router.get('/contact-details', validateToken, AccountController.getContactDetails)
 
-router.post('/notification', verifyAccessTokenUpdate, AccountController.changeNotification)
+router.post('/notification', validateToken, AccountController.changeNotification)
 
-router.post('/phone-number', verifyAccessTokenUpdate, AccountController.submitPhoneNumber)
+router.post('/phone-number', validateToken, AccountController.submitPhoneNumber)
 
 // get instead of post
-router.post('/verification-code', verifyAccessTokenUpdate, AccountController.resendOtpToInputtedPhoneNumber)
+router.post('/verification-code', validateToken, AccountController.resendOtpToInputtedPhoneNumber)
 
 // get instead of patch
 // 401 unauthorized always "Access denied" when verifying token
-router.patch('/verification-code', verifyAccessTokenUpdate, AccountController.sendOtpToSavedPhoneNumber)
+router.patch('/verification-code', validateToken, AccountController.sendOtpToSavedPhoneNumber)
 
 // rate limit
-router.patch('/phone-number', verifyAccessTokenUpdate, AccountController.verifyPhoneNumber)
+router.patch('/phone-number', validateToken, AccountController.verifyPhoneNumber)
 
-router.delete('/phone-number', verifyAccessTokenUpdate, AccountController.deletePhoneNumber)
+router.delete('/phone-number', validateToken, AccountController.deletePhoneNumber)
 
 module.exports = router;

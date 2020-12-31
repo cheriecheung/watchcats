@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const ChatController = require('../controllers/ChatController');
-const { verifyAccessTokenUpdate } = require('../helpers/token')
+const { validateToken } = require('../helpers/token')
 
-router.get('/chat/list', verifyAccessTokenUpdate, ChatController.getChatList);
-router.get('/chat/conversation', verifyAccessTokenUpdate, ChatController.getChatConversation);
+router.get('/chat/list', validateToken, ChatController.getChatList);
+router.get('/chat/conversation', validateToken, ChatController.getChatConversation);
 
 module.exports = router;
