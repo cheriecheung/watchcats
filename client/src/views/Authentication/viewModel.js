@@ -48,6 +48,7 @@ function useAuthentication() {
   let isResetForgotPasswordSuccessful = appActionStatus === 'resetForgotPasswordSuccess'
 
   useEffect(() => {
+    dispatch(clearAppActionStatus())
     dispatch(clearError(['appError', 'authError']))
   }, [])
 

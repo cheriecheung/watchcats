@@ -89,8 +89,9 @@ module.exports = {
       const user = await User.findOne({ email });
       if (!user) return res.status(403).json('ERROR/ERROR_OCCURED');
 
+      const name = user.firstName;
       const token = createResetPasswordToken(user.id);
-      sendResetPasswordMail(email, token);
+      sendResetPasswordMail({ email, name, token });
 
       return res.status(200).json('Email requested');
     } catch (err) {

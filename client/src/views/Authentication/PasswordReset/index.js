@@ -33,30 +33,31 @@ function PasswordReset() {
                 <CardTitle>{t('reset_password.title')}</CardTitle>
                 <PasswordCriteriaList />
 
-                <FormProvider {...methods}>
-                    <form onSubmit={handleSubmit(onSubmitNewPassword)}>
-                        <FieldLabel>{t('reset_password.new_password')}</FieldLabel>
-                        <PasswordField name="newPassword" />
+                {isResetForgotPasswordSuccessful ?
+                    <SuccessAlert
+                        message={t('success.reset_forgot_password')}
+                        style={{ marginBottom: 15 }}
+                    />
+                    :
+                    <FormProvider {...methods}>
+                        <form onSubmit={handleSubmit(onSubmitNewPassword)}>
+                            <FieldLabel>{t('reset_password.new_password')}</FieldLabel>
+                            <PasswordField name="newPassword" />
 
-                        <FieldLabel>{t('reset_password.repeat_password')}</FieldLabel>
-                        <PasswordField name="newPasswordRepeat" />
+                            <FieldLabel>{t('reset_password.repeat_password')}</FieldLabel>
+                            <PasswordField name="newPasswordRepeat" />
 
-                        {appError && <ErrorAlert type={appError} />}
-                        {isResetForgotPasswordSuccessful &&
-                            <SuccessAlert
-                                message={t('success.reset_forgot_password')}
-                                style={{ marginBottom: 15 }}
-                            />
-                        }
+                            {appError && <ErrorAlert type={appError} />}
 
-                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <ContainedButton type="submit">
-                                {t('form.submit')}
-                                {isLoadingResetForgotPassword && <Spinner />}
-                            </ContainedButton>
-                        </div>
-                    </form>
-                </FormProvider>
+                            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                <ContainedButton type="submit">
+                                    {t('form.submit')}
+                                    {isLoadingResetForgotPassword && <Spinner />}
+                                </ContainedButton>
+                            </div>
+                        </form>
+                    </FormProvider>
+                }
             </VerticalCard>
         </div>
     )
