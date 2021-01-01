@@ -4,7 +4,7 @@ const Booking = require('../model/Booking');
 const User = require('../model/User');
 const { sendTwilioSMS } = require('../helpers/sms')
 const { sendNewBookingMail, sendUpdatedBookingMail } = require('../helpers/mailer')
-const { cleanRecordData, getNewBookingStatus, getInfo } = require('../helpers/bookings')
+const { cleanRecordData, createAutomatedMessage, getNewBookingStatus, getInfo } = require('../helpers/bookings')
 
 module.exports = {
   getAppointmentTime: async (req, res) => {
@@ -60,15 +60,23 @@ module.exports = {
     const { sitterId: sitterShortId, type } = req.body;
 
     try {
-      // const [{ owner: ownerObjId, postcode, firstName, lastName }, { sitter: sitterObjId, phone, email }] = await Promise.all([
       const [owner, sitter] = await Promise.all([
         User.findById(ownerUserId),
         User.findOne({ urlId: sitterShortId }),
       ]);
 
-      const { owner: ownerObjId, postcode, firstName, lastName } = owner;
       const {
+        owner: ownerObjId,
+        postcode,
+        firstName,
+        lastName
+      } = owner;
+
+      const {
+        id: sitterUserId,
         sitter: sitterObjId,
+        firstName: sitterFirstName,
+        lastName: sitterLastName,
         email,
         getEmailNotification,
         phone,
@@ -79,6 +87,11 @@ module.exports = {
         return res.status(404).json('ERROR/ERROR_OCCURED');
 
       let newBooking;
+      const bookingObj = {
+        sitter: `${sitterFirstName} ${sitterLastName.charAt(0)}`,
+        type,
+        location: postcode,
+      }
 
       if (type === 'oneDay') {
         const { date, startTime, endTime, price } = req.body;
@@ -94,6 +107,11 @@ module.exports = {
           price,
           status: 'requested',
         });
+
+        bookingObj.date = date;
+        bookingObj.startTime = startTime;
+        bookingObj.endTime = endTime;
+        bookingObj.price = endTime;
       }
 
       if (type === 'overnight') {
@@ -109,11 +127,23 @@ module.exports = {
           price,
           status: 'requested',
         });
+
+        bookingObj.startDate = startDate;
+        bookingObj.endDate = endDate;
+        bookingObj.price = endTime;
       }
 
       await newBooking.save();
 
-      const ownerName = `${firstName} ${lastName}`
+      const { err } = await createAutomatedMessage({
+        booking: bookingObj,
+        bookingAction: 'request',
+        senderId: ownerUserId,
+        recipientId: sitterUserId,
+      })
+      if (err) return res.status(400).json('ERROR/ERROR_OCCURED');
+
+      const ownerName = `${firstName} ${lastName.charAt(0)}`
 
       if (email && getEmailNotification) {
         sendNewBookingMail({ email, name: ownerName })
@@ -227,7 +257,15 @@ module.exports = {
         return res.status(401).json('ERROR/USER_NOT_FOUND')
       }
 
-      const sitterName = `${firstName} ${lastName}`
+      const { err } = await createAutomatedMessage({
+        bookingId: id,
+        bookingAction: action,
+        senderId: bookingRecord.sitter,
+        recipientId: bookingRecord.owner,
+      })
+      if (err) return res.status(400).json('ERROR/ERROR_OCCURED');
+
+      const sitterName = `${firstName} ${lastName.charAt(0)}`
 
       if (email && getEmailNotification) {
         sendUpdatedBookingMail({ email, action, name: sitterName })

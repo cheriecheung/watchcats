@@ -20,7 +20,11 @@ const bookings_reducer = {
       case BookingActionTypes.APPOINTMENT_TIME_NOT_FOUND:
         return { ...state, profileActionStatus: action.payload };
       case BookingActionTypes.APPOINTMENT_TIME_RETURNED:
-        return { ...state, appointmentTime: action.payload };
+        return {
+          ...state,
+          appointmentTime: action.payload,
+          profileActionStatus: 'APPOINTMENT_TIME_RETURNED'
+        };
       case BookingActionTypes.BOOKING_REQUEST_SENT:
         return { ...state, profileActionStatus: 'BOOKING_REQUEST_SENT' };
       case BookingActionTypes.BOOKING_RECORDS_RETURNED:

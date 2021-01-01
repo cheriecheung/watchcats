@@ -65,6 +65,7 @@ export const ScrollableLayer = styled.div`
 
 export const ScrollableSubLayer = styled.div`
   visibility: visible;
+  overflow-x: hidden;
 `
 
 const getPositionX = (view) => {
@@ -154,6 +155,17 @@ export const ChatListItemContainer = styled.div`
   cursor: pointer;
   transition: 0.3s;
 `;
+
+export const ContactName = styled.span`
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: ${themeColor.darkGrey};
+`
+
+export const DateDisplay = styled.span`
+  color: ${themeColor.grey};
+  font-size: 0.9rem;
+`
 
 export const TextContainer = styled.div`
   flex-basis: 80%;
@@ -259,13 +271,34 @@ export const FormContainer = styled.form`
   }
 `
 
-export const MessageInputContainer = styled.div`
-  display: flex;
-  padding: 10px 20px;
+// export const MessageInputContainer = styled.div`
+//   display: flex;
+//   padding: 10px 20px;
+//   position: absolute;
+//   left: 0;
+//   bottom: 0;
+//   width: 100%;
+// `;
+
+export const AutoSizeInput = styled.textarea`
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 100%;
+  padding: 5px;
+  width: 90%;
+  height: 4rem;
+  border: 10px solid ${themeColor.lightPeach};
+  font-size: 1.4rem;
+  overflow-x: hidden;
+  overflow-y: ${({ scrollHeight }) =>
+    scrollHeight >= 150 ? "scroll" : "hidden"};
+  resize: none;
+  outline: none;
+
+  &:hover {
+    border: 10px solid ${themeColor.lightPeach} !important;
+    box-shadow: none !important;
+  }
 `;
 
 export const SubmitButton = styled.button`
@@ -274,6 +307,7 @@ export const SubmitButton = styled.button`
   color: #ffa195;
   border: none;
   outline: none;
+  float: right;
 `
 
 export const ConversationInfoContainer = styled.div`

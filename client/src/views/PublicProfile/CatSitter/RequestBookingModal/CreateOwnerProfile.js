@@ -1,18 +1,23 @@
 import React from 'react';
 import { LinkButton } from '../../../../components/UIComponents'
+import { themeColor } from '../../../../style/theme'
 
 function CreateOwnerProfile({ t }) {
   return (
-    <div style={{ margin: '50px 0' }}>
-      <h6>{t('sitter_profile.no_owner_profile')}</h6>
+    <div style={{ margin: '20px 0' }}>
+      <i className="fas fa-exclamation-circle fa-5x" style={{ color: themeColor.lightGrey }} />
       <br />
-      <h6>
+      <br />
+      <h5>{t('sitter_profile.set_up_owner_profile')}</h5>
+      <span>{t('sitter_profile.no_owner_profile')}</span>
+      <span>
+        &nbsp;
         {t('sitter_profile.create_owner_profile1')}
-        <LinkButton to="/account">
-          {t('sitter_profile.create_owner_profile2')}
+        <LinkButton to="/account" variant="colored">
+          &nbsp;{t('sitter_profile.create_owner_profile2')}&nbsp;
         </LinkButton>
         {t('sitter_profile.create_owner_profile3')}
-      </h6>
+      </span>
     </div>
   );
 }

@@ -57,15 +57,21 @@ function ConversationInfo({
               {firstName} {lastName && lastName.charAt(0)}
             </h5>
 
-            {/* <span style={{ color: '#929292' }}>Active 1h ago</span> */}
-
             {hasSitterProfile &&
-              <LinkButton to={`/profile/catsitter/${shortId}`}>
+              <LinkButton
+                to={`/profile/catsitter/${shortId}`}
+                variant="bordered"
+                style={{ margin: '5px 0' }}
+              >
                 View cat sitter profile
               </LinkButton>
             }
             {hasOwnerProfile &&
-              <LinkButton to={`/profile/catowner/${shortId}`}>
+              <LinkButton
+                to={`/profile/catowner/${shortId}`}
+                variant="bordered"
+                style={{ margin: '5px 0' }}
+              >
                 View cat owner profile
               </LinkButton>
             }

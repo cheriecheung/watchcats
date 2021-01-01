@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, ImageContainer } from '../../../components/UIComponents'
-import { ChatListItemContainer, TextContainer } from '../styledComponents'
+import { ChatListItemContainer, ContactName, DateDisplay, TextContainer } from '../styledComponents'
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 import { formatDate } from '../../../utility';
 
@@ -40,15 +40,19 @@ function ChatListItem({
     >
       <ImageContainer
         variant="bookings"
-        style={{ width: 60, height: 60 }}
+        style={{ width: 60, height: 60, marginLeft: -20 }}
       >
         <Image url={pictureUrl} />
       </ImageContainer>
 
       <TextContainer>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <h5>{firstName} {lastName && lastName.charAt(0)}</h5>
-          <span>{formatDate(lastMessageDate, 'DD/MM/YY')}</span>
+          <ContactName>
+            {firstName} {lastName && lastName.charAt(0)}
+          </ContactName>
+          <DateDisplay>
+            {formatDate(lastMessageDate, 'DD/MM/YY')}
+          </DateDisplay>
         </div>
         <span>{lastMessage}</span>
       </TextContainer>

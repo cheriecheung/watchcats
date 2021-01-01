@@ -31,7 +31,7 @@ function useChat() {
   const [clickedChat, setClickedChat] = useState('');
   const [hoveredChat, setHoveredChat] = useState('');
 
-  const [inputHeight, setInputHeight] = useState("2rem");
+  const [inputHeight, setInputHeight] = useState("4rem");
   const [scrollHeight, setScrollHeight] = useState("");
 
   // list, conversation, info

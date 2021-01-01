@@ -11,6 +11,7 @@ const Item = ({ t, data, bookingType, renderActionButtons, status }) => {
     bookingType === 'sitting_jobs'
       ? `/profile/catowner/${urlId}`
       : `/profile/catsitter/${urlId}`;
+  const messageUrl = `/messages/${urlId}`
 
   const _renderActionButtons = () => {
     switch (status) {
@@ -31,7 +32,7 @@ const Item = ({ t, data, bookingType, renderActionButtons, status }) => {
         <BrowseLink to={profileUrl}>
           <i className="fas fa-user-circle fa-xs mr-2" />
         </BrowseLink>
-        <BrowseLink>
+        <BrowseLink to={messageUrl}>
           <i className="fas fa-envelope fa-xs" />
         </BrowseLink>
       </div>

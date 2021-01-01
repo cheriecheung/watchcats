@@ -16,14 +16,13 @@ const messageSchema = new Schema({
     type: String,
     required: true,
   },
-  isAutoMessage: {
-    type: Boolean,
-    default: false
+  booking: {
+    type: Object,
+    required: false
   },
   isRead: {
     type: Boolean,
     default: false
-
   },
   createdAt: {
     type: Date,

@@ -1,11 +1,20 @@
 import React from 'react';
 
-function AutomatedMessage({ content, date, time }) {
+function AutomatedMessage({ message, conversationInfo }) {
+
+  console.log({ message, conversationInfo })
+  const { sender: currentUser } = conversationInfo || {}
+  const { id: currentUserId } = currentUser
+
+  const { booking, sender: bookingResponder } = message || {}
+  const { sitter } = booking || {}
+  const person = currentUserId === bookingResponder ? 'you' : sitter
+
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <span style={{ opacity: 0.6, fontSize: '0.8rem' }}>
-          {date}, {time}
+          {/* {date}, {time} */}
         </span>
       </div>
       <div style={{ margin: '20px 0', display: 'flex', justifyContent: 'center' }}>
@@ -18,7 +27,7 @@ function AutomatedMessage({ content, date, time }) {
             fontWeight: 600,
           }}
         >
-          {content}
+          A BOOKING REQUEST HAS BEEN MADE BY {person}.
         </span>
       </div>
     </>

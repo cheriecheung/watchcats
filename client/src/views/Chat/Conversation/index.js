@@ -1,21 +1,15 @@
-import React, { useState, useRef } from 'react';
-import { TextArea } from '../../../components/FormComponents';
+import React from 'react';
+import styled from 'styled-components'
 import {
   ConversationContainer,
   ConversationScrollableLayer,
   FormContainer,
-  MessageInputContainer,
   ScrollableSubLayer,
-  SubmitButton
 } from '../styledComponents'
 import AutomatedMessage from './AutomatedMessage'
 import MessageBubble from './MessageBubble';
+import MessageInput from './MessageInput'
 import MobileViewTab from './MobileViewTab'
-
-import styled from 'styled-components'
-
-const NavHeight = 7;
-const ConversationTab = 7
 
 const ChatContainer = styled.div`
   position: relative;
@@ -45,20 +39,6 @@ const Chat = styled.div`
   overflow-y: auto;
 `;
 
-const AutoSizeInput = styled.textarea`
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  padding: 5px;
-  width: 100%;
-  height: 2rem;
-  font-size: 1.4rem;
-  overflow-x: hidden;
-  overflow-y: ${({ scrollHeight }) =>
-    scrollHeight >= 150 ? "scroll" : "hidden"};
-  resize: none;
-  outline: none;
-`;
 
 function Conversation({
   FormProvider,
@@ -79,7 +59,6 @@ function Conversation({
   const { recipient } = conversationInfo || {}
   const { firstName, lastName, profilePicture: recipientPicture } = recipient || {}
 
-  const [message, setMessage] = useState("");
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -90,6 +69,7 @@ function Conversation({
         firstName={firstName}
         lastName={lastName}
       />
+
       <ChatContainer>
         <FormProvider {...methods}>
           <FormContainer onSubmit={handleSubmit(onSubmitMessage)}>
@@ -99,72 +79,31 @@ function Conversation({
             >
               <ScrollableSubLayer>
                 {allMessages &&
-                  allMessages.map(message =>
-                    <MessageBubble message={message} conversationInfo={conversationInfo} />
-                  )
+                  allMessages.map(message => {
+                    const { content } = message;
+
+                    return (
+                      content.includes('AUTOMATED_MESSAGE') ?
+                        <AutomatedMessage
+                          message={message}
+                          conversationInfo={conversationInfo}
+                        />
+                        :
+                        <MessageBubble
+                          message={message}
+                          conversationInfo={conversationInfo}
+                        />
+                    )
+                  })
                 }
               </ScrollableSubLayer>
             </ConversationScrollableLayer>
 
-            <AutoSizeInput
-              ref={inputRef}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyUp={onChangeHeight}
+            <MessageInput
+              inputRef={inputRef}
+              onChangeHeight={onChangeHeight}
               scrollHeight={scrollHeight}
             />
-
-            {/* <ConversationContainer>
-      <FormProvider {...methods}>
-        <FormContainer onSubmit={handleSubmit(onSubmitMessage)}>
-          <MobileViewTab
-            recipientPicture={recipientPicture}
-            backToList={backToList}
-            goToInfo={goToInfo}
-            firstName={firstName}
-            lastName={lastName}
-          />
-
-          <ConversationScrollableLayer
-            // style={{
-            //   height: `${100 - NavHeight - messageInputHeight}vh`,
-            //   marginLeft: 10
-            // }}
-            ref={chatContainerRef}
-          >
-            <ScrollableSubLayer>
-              <AutomatedMessage
-                content="Your conversation with Anna C begins"
-                date="2020-08-02"
-                time="14:07"
-              />
-              {allMessages &&
-                allMessages.map(message =>
-                  <MessageBubble message={message} conversationInfo={conversationInfo} />
-                )
-              }
-              <AutomatedMessage
-                content="Reminder - leave a review"
-                date="2020-08-23"
-                time="20:23"
-              />
-            </ScrollableSubLayer>
-          </ConversationScrollableLayer>
-
-          <MessageInputContainer style={{ height: `${messageInputHeight}vh` }}>
-            <TextArea
-              name="messageInput"
-              placeholder="Type a message..."
-              rows={textAreaRows}
-              customStyle={{ margin: '0 5px', overflowY: 'auto' }}
-            />
-            <SubmitButton type="submit">
-              <i className="fas fa-paper-plane fa-lg" />
-            </SubmitButton>
-          </MessageInputContainer>
-        </FormContainer>
-      </FormProvider>
-    </ConversationContainer> */}
           </FormContainer>
         </FormProvider>
       </ChatContainer>

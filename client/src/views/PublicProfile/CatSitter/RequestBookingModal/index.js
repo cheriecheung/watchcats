@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ModalSuccessDisplay } from '../../../../components/UIComponents'
+import { Modal, ModalSuccessDisplay, Spinner } from '../../../../components/UIComponents'
 import CreateAppointmentTime from './CreateAppointmentTime';
 import CreateOwnerProfile from './CreateOwnerProfile';
 import SelectAppointmentTime from './SelectAppointmentTime';
@@ -29,13 +29,15 @@ function RequestBookingModal({
             onClick={closeModal}
           />
         )
-      default:
+      case 'APPOINTMENT_TIME_RETURNED':
         return (
           <SelectAppointmentTime
             t={t}
             closeModal={closeModal}
           />
         )
+      default:
+        return <Spinner />
     }
   }
 

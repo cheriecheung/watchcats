@@ -1,8 +1,72 @@
 const ObjectId = require('mongodb').ObjectID;
 const Booking = require('../model/Booking');
+const Conversation = require('../model/Conversation');
+const Message = require('../model/Message');
 const User = require('../model/User');
 
+function generateMessageType(status) {
+  switch (status) {
+    case 'request':
+      return { message: 'AUTOMATED_MESSAGE/BOOKING_REQUESTED' }
+    case 'accept':
+      return { message: 'AUTOMATED_MESSAGE/BOOKING_CONFIRMED' }
+    case 'decline':
+      return { message: 'AUTOMATED_MESSAGE/BOOKING_DECLINED' }
+    case 'complete':
+      return { message: 'AUTOMATED_MESSAGE/BOOKING_COMPLETED' }
+    default:
+      throw new Error("Unable to generate automated message");
+  }
+}
+
 module.exports = {
+  createAutomatedMessage: async ({ booking, bookingAction, senderId, recipientId }) => {
+    const { message } = generateMessageType(bookingAction)
+    if (!message) return { ok: false, err: 'Unable to generate automated message' }
+
+    const conversation = await Conversation.findOne({
+      participant1: [recipientId, senderId],
+      participant2: [recipientId, senderId],
+    });
+
+    if (!conversation) {
+      const newConversation = new Conversation({
+        lastMessage: message,
+        lastMessageDate: Date.now(),
+        participant1: recipientId,
+        participant2: senderId,
+      });
+
+      await newConversation.save();
+
+      const newMessage = new Message({
+        booking,
+        content: message,
+        conversation: newConversation._id,
+        sender: senderId,
+      });
+
+      await newMessage.save();
+
+      return { ok: true };
+    }
+
+    conversation.lastMessage = message;
+    conversation.lastMessageDate = Date.now();
+    await conversation.save();
+
+    const newMessage = new Message({
+      booking,
+      content: message,
+      conversation: conversation._id,
+      sender: senderId
+    });
+
+    await newMessage.save();
+
+    return { ok: true };
+  },
+
   cleanRecordData: async (item, bookingType) => {
     const { id, appointmentType, owner, sitter, location, price, status, hasPaid } = item;
     const query = bookingType === 'jobs' ? { owner } : { sitter };
