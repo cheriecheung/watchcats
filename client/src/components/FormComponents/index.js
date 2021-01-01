@@ -2,6 +2,7 @@ import BasicCheckbox from './BasicCheckbox'
 import Calendar from './Calendar';
 import Checkbox from './Checkbox';
 import DatePicker from './DatePicker';
+import DateRange from './DateRange';
 import ErrorDisplay from './ErrorDisplay';
 import FieldContainer from './FieldContainer'
 import FieldLabel from './FieldLabel';
@@ -22,6 +23,7 @@ export {
   Calendar,
   Checkbox,
   DatePicker,
+  DateRange,
   ErrorDisplay,
   FieldContainer,
   FieldLabel,

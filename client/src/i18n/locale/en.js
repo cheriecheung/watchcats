@@ -130,9 +130,12 @@ export default {
     no_results: 'No cat sitters found',
     new_member: 'New member',
     completed_booking: 'Completed booking',
-    completed_bookings: 'Completed bookings',
     repeated_customer: 'Repeated customer',
+    total_reviews: 'Total reviews',
+    completed_bookings: 'Completed bookings',
     repeated_customers: 'Repeated customers',
+    hourly_rate: 'Hourly rate',
+    nightly_rate: 'Nightly rate',
   },
 
   profile_summary: {

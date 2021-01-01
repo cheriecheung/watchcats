@@ -131,9 +131,12 @@ export default {
     no_results: 'Geen oppas gevonden',
     new_member: 'Nieuw lid',
     completed_booking: 'Voltooide afspraak',
-    completed_bookings: 'Voltooide afspraken',
     repeated_customer: 'Repeated customer',
-    repeated_customers: 'Repeated customers',
+    total_reviews: 'Aantal recensies',
+    completed_bookings: 'Voltooide afspraken',
+    repeated_customers: 'Terugkerende klanten',
+    hourly_rate: 'Uurtarief',
+    nightly_rate: 'Nachttarief',
   },
 
   profile_summary: {

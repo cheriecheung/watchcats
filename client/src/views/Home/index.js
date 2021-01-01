@@ -1,14 +1,19 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { PlaceAutocomplete } from '../../components/Google'
+import { DateRange } from '../../components/FormComponents'
 import { ContainedButton, HorizontalCard } from '../../components/UIComponents'
 import ScreenWidthListener from '../../components/Layout/ScreenWidthListener'
-import AppointmentPeriodPicker from '../FindCatSitter/Search/AppointmentPeriodPicker';
 // import { checkToken } from '../../redux/app/actions'
 import { useDispatch } from 'react-redux';
 
 import { useHome } from './viewModel'
-import { MainContainer, RelaxCatContainer, FormContainer, FieldContainer } from './styledComponents'
+import {
+  MainContainer,
+  RelaxCatContainer,
+  FormContainer,
+  FieldContainer
+} from './styledComponents'
 
 function Home() {
   const { screenWidth } = ScreenWidthListener();
@@ -50,7 +55,7 @@ function Home() {
 
             {screenWidth > 650 &&
               <FieldContainer>
-                <AppointmentPeriodPicker t={t} style={{ height: 40 }} />
+                <DateRange />
               </FieldContainer>
             }
 

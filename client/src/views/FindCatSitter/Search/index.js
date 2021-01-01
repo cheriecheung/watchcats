@@ -1,9 +1,8 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-
 import { PlaceAutocomplete } from '../../../components/Google'
 import { HorizontalCard, TextButton } from '../../../components/UIComponents'
-import AppointmentPeriodPicker from './AppointmentPeriodPicker';
+import AppointmentPeriod from './AppointmentPeriod';
 import Sorting from './Sorting';
 import { FieldContainer } from '../styledComponents'
 
@@ -20,7 +19,7 @@ function Search({ t, searchProps }) {
   const { reset } = methods;
 
   return (
-    <HorizontalCard>
+    <HorizontalCard style={{ width: 'unset' }}>
       <FormProvider {...methods}>
         <form>
           <div style={{
@@ -38,11 +37,11 @@ function Search({ t, searchProps }) {
             </FieldContainer>
 
             <FieldContainer flex="30%">
-              <AppointmentPeriodPicker t={t} />
+              <AppointmentPeriod />
             </FieldContainer>
 
             <FieldContainer flex="10%">
-              <Sorting t={t} />
+              <Sorting />
             </FieldContainer>
 
             <FieldContainer>

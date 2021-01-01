@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import { isDate } from "date-fns";
 import translationKeys from '../../../constants/translationKeys'
 
-const { field_required, address_required } = translationKeys
+const { address_required, date_order } = translationKeys
 
 function parseDateString(value, originalValue) {
   if (!originalValue) return null;
@@ -30,6 +30,6 @@ export const home_search_schema = yup.object().shape({
       is: startDate => startDate,
       then: yup.date()
         .transform(parseDateString)
-        .min(yup.ref('startDate'), field_required)
+        .min(yup.ref('startDate'), date_order)
     }),
 }, [['startDate', 'endDate']])
