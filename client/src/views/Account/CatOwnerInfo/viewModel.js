@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOwnerAccount, saveOwner, removeCatPhoto } from '../../../redux/account/actions';
-import { catBreedOptions, personalityOptions } from '../../../utility/constants';
+import { catBreedOptions, personalityOptions } from '../../../constants/selectOptions'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 import {
@@ -19,8 +19,10 @@ const cookies = new Cookies();
 
 function useCatOwner() {
   const id = cookies.get('shortId')
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
   const dispatch = useDispatch();
+  const { language } = useSelector((state) => state.app);
   const { ownerData, catPhotoRemoved } = useSelector((state) => state.account);
   const { accountLoading } = useSelector((state) => state.loading)
 
@@ -30,6 +32,7 @@ function useCatOwner() {
   const [cleanedData, setCleanedData] = useState([])
   const [photoFields, setPhotoFields] = useState([])
   const [removePhotoIndex, setRemovePhotoIndex] = useState('')
+  const [catBreeds, setCatBreeds] = useState([])
 
   const defaultValues = cat_owner_default_values;
   const resolver = yupResolver(cat_owner_schema)
@@ -64,12 +67,13 @@ function useCatOwner() {
 
       const cleanedCat = cat.map(({ breed, personality, ...rest }, index) => {
 
+        // find()... no [0] cos returns object, not array
         const breedName = catBreedOptions.filter(({ value }) => value === breed)[0].label
         const personalityName = personalityOptions.filter(({ value }) => value === personality)[0].label
 
         return {
           ...rest,
-          breed: { value: breed, label: breedName },
+          breed: { value: breed, label: t(breedName) },
           personality: { value: personality, label: personalityName },
         }
       })
@@ -245,7 +249,8 @@ function useCatOwner() {
     removeCat,
     photoFields,
     handlePreview,
-    handleRemovePhoto
+    handleRemovePhoto,
+    catBreeds
   }
 
   const bookingOneDayProps = {

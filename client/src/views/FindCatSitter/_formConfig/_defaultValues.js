@@ -1,9 +1,8 @@
-import { sortingTypeOptions } from '../../../utility/constants';
+import { sortingTypeOptions } from '../../../constants/selectOptions';
 
 export const find_cat_sitter_default_values = {
   googlePlaceAddress: '',
   startDate: '',
   endDate: '',
-  // period: { startDate: '', endDate: '' },
   sortBy: sortingTypeOptions[0],
 };

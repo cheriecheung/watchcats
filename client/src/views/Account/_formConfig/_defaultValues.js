@@ -1,4 +1,4 @@
-import { hourlyRateOptions, nightlyRateOptions } from '../../../utility/constants';
+import { hourlyRateOptions, nightlyRateOptions } from '../../../constants/selectOptions';
 
 export const reset_password_default_values = {
     currentPassword: '',

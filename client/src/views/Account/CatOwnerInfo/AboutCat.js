@@ -11,7 +11,7 @@ import {
   TextField,
 } from '../../../components/FormComponents';
 import { CheckedIcon, OutlinedButton, TextButton } from '../../../components/UIComponents'
-import { catBreedOptions, personalityOptions } from '../../../utility/constants';
+import { catBreedOptions, personalityOptions } from '../../../constants/selectOptions'
 
 const color = '#252525';
 
@@ -28,10 +28,8 @@ function AboutCat({
     removeCat,
     photoFields,
     handlePreview,
-    handleRemovePhoto
+    handleRemovePhoto,
   } = catProps;
-
-  console.log({ cat })
 
   return (
     <>
