@@ -90,6 +90,10 @@ function useChat() {
     history.push(`/messages/${recipientShortId}`)
     setClickedChat(conversationId)
     setMobileScreenView('conversation')
+
+    if (recipientId === recipientShortId) {
+      dispatch(getChatConversation(recipientShortId));
+    }
   }
 
   function backToList() {

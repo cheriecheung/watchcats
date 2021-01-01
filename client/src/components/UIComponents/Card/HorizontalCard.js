@@ -67,12 +67,32 @@ const bookings = ({ variant }) => {
   `
 }
 
+const chat = ({ variant }) => {
+  if (variant !== 'chat') return css``
+
+  return `
+    width: 70%; 
+    margin: 10px auto 20px auto;
+    padding: 10px 20px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+
+    @media (max-width: 600px) {
+      width: 80%; 
+    }
+
+    @media (max-width: 500px) {
+      width: 90%; 
+    }
+  `
+}
+
 const HorizontalCard = styled.div`
   ${defaultStyle}
 
   ${defaultCard}
   ${findCatSitter}
   ${bookings}
+  ${chat}
 `
 export default HorizontalCard;
 

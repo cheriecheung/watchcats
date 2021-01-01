@@ -53,7 +53,7 @@ function ConversationInfo({
             <ImageContainer>
               <Image url={pictureUrl} />
             </ImageContainer>
-            <h5 style={{ margin: '15px 0 3px 0' }}>
+            <h5 style={{ margin: '15px 0' }}>
               {firstName} {lastName && lastName.charAt(0)}
             </h5>
 

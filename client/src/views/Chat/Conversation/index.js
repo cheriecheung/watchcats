@@ -41,6 +41,7 @@ const Chat = styled.div`
 
 
 function Conversation({
+  t,
   FormProvider,
   methods,
   conversationInfo,
@@ -85,6 +86,7 @@ function Conversation({
                     return (
                       content.includes('AUTOMATED_MESSAGE') ?
                         <AutomatedMessage
+                          t={t}
                           message={message}
                           conversationInfo={conversationInfo}
                         />

@@ -68,6 +68,7 @@ function Chat() {
           />
 
           <Conversation
+            t={t}
             FormProvider={FormProvider}
             methods={methods}
             conversationInfo={conversationInfo}

@@ -75,8 +75,6 @@ module.exports = {
       const {
         id: sitterUserId,
         sitter: sitterObjId,
-        firstName: sitterFirstName,
-        lastName: sitterLastName,
         email,
         getEmailNotification,
         phone,
@@ -88,7 +86,7 @@ module.exports = {
 
       let newBooking;
       const bookingObj = {
-        sitter: `${sitterFirstName} ${sitterLastName.charAt(0)}`,
+        owner: `${firstName} ${lastName.charAt(0)}`,
         type,
         location: postcode,
       }
@@ -111,7 +109,7 @@ module.exports = {
         bookingObj.date = date;
         bookingObj.startTime = startTime;
         bookingObj.endTime = endTime;
-        bookingObj.price = endTime;
+        bookingObj.price = price;
       }
 
       if (type === 'overnight') {
@@ -130,7 +128,7 @@ module.exports = {
 
         bookingObj.startDate = startDate;
         bookingObj.endDate = endDate;
-        bookingObj.price = endTime;
+        bookingObj.price = price;
       }
 
       await newBooking.save();
@@ -246,22 +244,28 @@ module.exports = {
       ]);
 
       const {
+        id: ownerUserId,
         email,
         getEmailNotification,
         phone,
         getSmsNotification
       } = owner;
-      const { firstName, lastName } = sitter
+
+      const {
+        id: sitterUserId,
+        firstName,
+        lastName
+      } = sitter
 
       if (!firstName || !lastName) {
         return res.status(401).json('ERROR/USER_NOT_FOUND')
       }
 
       const { err } = await createAutomatedMessage({
-        bookingId: id,
+        booking: { sitter: `${firstName} ${lastName.charAt(0)}` },
         bookingAction: action,
-        senderId: bookingRecord.sitter,
-        recipientId: bookingRecord.owner,
+        senderId: sitterUserId,
+        recipientId: ownerUserId,
       })
       if (err) return res.status(400).json('ERROR/ERROR_OCCURED');
 

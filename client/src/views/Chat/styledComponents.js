@@ -343,3 +343,37 @@ export const ConversationInfoLayer = styled.div`
     width: 100vw;
   }
 `
+
+export const Field = styled.tr`
+  display: flex;
+`
+
+export const FieldLabel = styled.td`
+  width: 28%;
+  margin-bottom: 0;
+  font-weight: bold;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`
+
+export const FieldItem = styled.td`
+`
+
+const autoMessageStyle = css`
+  background-color: #FFF;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.1);
+`
+
+export const DefaultAutoMessageStyle = styled.span`
+  ${autoMessageStyle}
+  color: ${themeColor.grey};
+`
+
+export const AlternateAutoMessageStyle = styled.span`
+  ${autoMessageStyle}
+  color: ${themeColor.green};
+`
