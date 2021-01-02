@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Badge } from '../../../UIComponents'
 import {
   CloseButton,
   Icon,
@@ -10,8 +11,6 @@ import {
   MenuItemBox,
   TextButton,
 } from '../styledComponents'
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
 
 function Mobile({
   t,
@@ -20,7 +19,9 @@ function Mobile({
   currentLanguage,
   isLoggedIn,
   closeMenu,
-  onMobileLogout
+  onMobileLogout,
+  hasBookingsNotification,
+  hasChatNotification
 }) {
   return (
     <>
@@ -37,6 +38,8 @@ function Mobile({
             isLoggedIn={isLoggedIn}
             closeMenu={closeMenu}
             onMobileLogout={onMobileLogout}
+            hasBookingsNotification={hasBookingsNotification}
+            hasChatNotification={hasChatNotification}
           />
         </OverlayMenu>
       </Overlay>
@@ -54,7 +57,9 @@ function MobileMenu({
   currentLanguage,
   closeMenu,
   isLoggedIn,
-  onMobileLogout
+  onMobileLogout,
+  hasBookingsNotification,
+  hasChatNotification
 }) {
   // const currentLanguage = localStorage.getItem('lang')
   // const changeLanguage = currentLanguage === 'en' ? 'nl' : 'en'
@@ -71,11 +76,15 @@ function MobileMenu({
           </MenuItemBox>
           <MenuItemBox to="/bookings" onClick={closeMenu}>
             <Icon className="fas fa-calendar-minus fa-2x" />
-            <Label>{t('header.bookings')}</Label>
+            <Badge isShown={hasBookingsNotification}>
+              <Label style={{ paddingRight: 2 }}>{t('header.bookings')}</Label>
+            </Badge>
           </MenuItemBox>
           <MenuItemBox to="/messages" onClick={closeMenu}>
             <Icon className="fas fa-envelope fa-2x" />
-            <Label>{t('header.messages')}</Label>
+            <Badge isShown={hasChatNotification}>
+              <Label style={{ paddingRight: 2 }}>{t('header.messages')}</Label>
+            </Badge>
           </MenuItemBox>
           <MenuItemBox to="/account" onClick={closeMenu}>
             <Icon className="fas fa-user fa-2x" />

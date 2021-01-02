@@ -20,9 +20,10 @@ const messageSchema = new Schema({
     type: Object,
     required: false
   },
-  isReadBy: {
-    type: Array,
-    default: false
+  isReadByRecipient: {
+    type: Boolean,
+    default: false,
+    required: true
   },
   createdAt: {
     type: Date,

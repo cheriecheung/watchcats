@@ -15,7 +15,9 @@ function Desktop({
   setLanguage,
   currentLanguage,
   isLoggedIn,
-  onLogout
+  onLogout,
+  hasBookingsNotification,
+  hasChatNotification
 }) {
   return (
     <Menu>
@@ -36,14 +38,14 @@ function Desktop({
         {isLoggedIn ? (
           <>
             <Item>
-              <Badge unreadItems={3}>
+              <Badge isShown={hasBookingsNotification}>
                 <LinkButton to="/bookings">
                   {t('header.bookings')}
                 </LinkButton>
               </Badge>
             </Item>
             <Item>
-              <Badge unreadItems={1}>
+              <Badge isShown={hasChatNotification}>
                 <LinkButton to="/messages">
                   {t('header.messages')}
                 </LinkButton>

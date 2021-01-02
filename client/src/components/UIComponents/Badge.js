@@ -15,15 +15,14 @@ const BadgeComponent = styled(AntBadge)`
   }
 `
 
-function Badge({ children, unreadItems }) {
-  const hasUnreadItems = unreadItems > 0
+function Badge({ children, isShown }) {
 
   return (
     <>
       {children}
       <BadgeComponent
         status="processing"
-        style={{ display: hasUnreadItems ? 'inline-block' : 'none' }}
+        style={{ display: isShown ? 'inline-block' : 'none' }}
       />
     </>
   )
@@ -33,9 +32,9 @@ export default Badge;
 
 Badge.propTypes = {
   children: PropTypes.node.isRequired,
-  unreadItems: PropTypes.number,
+  isShown: PropTypes.bool,
 };
 
 Badge.defaultProps = {
-  unreadItems: undefined
+  isShown: undefined
 };

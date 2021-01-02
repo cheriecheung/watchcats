@@ -12,7 +12,12 @@ function useHeader() {
   const { pathname } = location || {}
 
   const dispatch = useDispatch();
-  const { language, isLoggedIn } = useSelector(state => state.app);
+  const {
+    language,
+    isLoggedIn,
+    hasBookingsNotification,
+    hasChatNotification
+  } = useSelector(state => state.app);
   const currentLanguage = language || 'en'
 
   const [toggle, setToggle] = useState(false);
@@ -75,7 +80,9 @@ function useHeader() {
     isLoggedIn,
     onLogout,
     onMobileLogout,
-    closeMenu
+    closeMenu,
+    hasBookingsNotification,
+    hasChatNotification
   }
 }
 

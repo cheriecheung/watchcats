@@ -1,10 +1,14 @@
 const { registerValidation } = require('../helpers/validation');
 const bcrypt = require('bcryptjs');
+const Booking = require('../model/Booking');
+const Conversation = require('../model/Conversation');
+const Message = require('../model/Message');
 const User = require('../model/User');
 const Review = require('../model/Review');
 const { sendActivateAccountMail, sendResetPasswordMail } = require('../helpers/mailer');
 const { createActivateAccountToken, createResetPasswordToken } = require('../helpers/token');
 const shortid = require('shortid');
+const ObjectId = require('mongodb').ObjectID;
 
 module.exports = {
   generateTestAccounts: async (req, res) => {
@@ -52,7 +56,7 @@ module.exports = {
       await newUser.save();
 
       const token = createActivateAccountToken(newUser.id);
-      sendActivateAccountMail(email, token)
+      sendActivateAccountMail({ email, name: firstName, token })
 
       return res.status(201).json('success');
     } catch (error) {
@@ -98,89 +102,66 @@ module.exports = {
       return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
+
+  getNotifications: async (req, res) => {
+    const { userId } = req.verifiedData
+    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
+
+    try {
+      const user = await User.findById(userId);
+      if (!user) return res.status(403).json('ERROR/ERROR_OCCURED');
+
+      const { owner, sitter } = user;
+
+      const notifications = {
+        hasBookingsNotification: false,
+        hasChatNotification: false
+      }
+
+      const unreadBookings = await Booking.find({
+        $or: [
+          { owner },
+          { sitter }
+        ],
+        isReadBy: {
+          $nin: [owner, sitter]
+        }
+      }).count() > 0
+
+      if (unreadBookings) {
+        notifications.hasBookingsNotification = true;
+      }
+
+      const chats = await Conversation.find({
+        $or: [
+          { participant1: userId },
+          { participant2: userId }
+        ]
+      },
+        {
+          participant1: 1,
+          participant2: 1
+        }
+      )
+
+      const contactUserIds = chats.map(({ participant1, participant2 }) =>
+        participant1.equals(ObjectId(userId)) ? participant2 : participant1
+      )
+
+      const unreadMessages = await Message.find({
+        $and: [
+          { sender: { $in: contactUserIds } },
+          { isReadByRecipient: false }
+        ]
+      }).count() > 0
+
+      if (unreadMessages) {
+        notifications.hasChatNotification = true;
+      }
+
+      return res.status(200).json(notifications);
+    } catch (err) {
+      return res.status(400).json('ERROR/ERROR_OCCURED');
+    }
+  }
 };
-
-
-// const { registerValidation } = require('../helpers/validation');
-// const bcrypt = require('bcryptjs');
-// const User = require('../model/User');
-// const { sendActivateAccountMail, sendResetPwMail } = require('../helpers/mailer');
-// const { createActivateAccountToken, createResetPasswordToken } = require('../helpers/token');
-// const shortid = require('shortid');
-
-// module.exports = {
-//   generateTestAccounts: async (req, res) => {
-//     for (let i = 0; i < 10; i++) {
-//       const newUser = new User({
-//         name: `Test #${i}`,
-//         email: `${i}@test.com`,
-//         urlId: shortid.generate(),
-//       });
-//       await newUser.save();
-//     }
-
-//     return res.status(200).json('You saved the new test accounts')
-//   },
-
-//   register: async (req, res) => {
-//     const { error } = registerValidation(req.body);
-//     if (error) return res.status(400).json(error.details[0].message);
-
-//     const { name, email, password } = req.body;
-
-//     console.log({ name, email, password })
-//     // try {
-//     //   const emailExists = await User.findOne({ email });
-//     //   if (emailExists) return res.status(400).json({ error: 'Email already exists' });
-
-//     //   const salt = await bcrypt.genSalt(12);
-//     //   const hashedPassword = await bcrypt.hash(password, salt);
-
-//     //   const newUser = new User({ name, email, password: hashedPassword });
-//     //   await newUser.save();
-
-//     //   const token = createActivateAccountToken(newUser.id);
-//     //   sendActivateAccountMail(email, token)
-
-//     //   return res
-//     //     .status(201)
-//     //     .json('A link to activate your account has been sent to the email provided. Be sure to check the spam / junk mailbox if the email is not found in the main inbox.');
-//     // } catch (error) {
-//     //   console.log(error.message);
-//     //   return res.status(400).json({ error });
-//     // }
-//   },
-
-//   getActivationEmail: async (req, res) => {
-//     const { email } = req.body;
-
-//     try {
-//       const user = await User.findOne({ email });
-//       if (!user) return res.status(400).json({ error: 'Invalid email' });
-//       if (user.isVerified) return res.status(200).json('Account has previously been activated');
-
-//       const { id, email: userEmail } = user;
-
-//       const token = createActivateAccountToken(id);
-//       sendActivateAccountMail(userEmail, token)
-
-//       return res.status(200).json('success');
-//     } catch (err) {
-//       return res.status(400).json('error');
-//     }
-//   },
-
-//   getPasswordResetEmail: async (req, res) => {
-//     const { email } = req.body;
-
-//     console.log({ email })
-
-//     // const user = await User.findOne({ email });
-//     // if (!user) return res.status(403).json('Error');
-
-//     // const secretToken = signAccessToken(user, JWT_RESET_PW_SECRET);
-//     // sendResetPwMail(email, secretToken);
-
-//     // return res.status(200).json('Email requested');
-//   },
-// };

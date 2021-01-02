@@ -28,6 +28,8 @@ function Header() {
     onLogout,
     closeMenu,
     onMobileLogout,
+    hasBookingsNotification,
+    hasChatNotification
   } = useHeader();
 
   return (
@@ -54,6 +56,8 @@ function Header() {
           currentLanguage={currentLanguage}
           isLoggedIn={isLoggedIn}
           onLogout={onLogout}
+          hasBookingsNotification={hasBookingsNotification}
+          hasChatNotification={hasChatNotification}
         />
       </NavBar>
 
@@ -65,6 +69,8 @@ function Header() {
         isLoggedIn={isLoggedIn}
         closeMenu={closeMenu}
         onMobileLogout={onMobileLogout}
+        hasBookingsNotification={hasBookingsNotification}
+        hasChatNotification={hasChatNotification}
       />
     </div>
   );

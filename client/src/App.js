@@ -7,7 +7,8 @@ import {
   useLocation
 } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getNotifications } from './redux/app/actions'
 
 import Layout from './components/Layout';
 import { NotFound } from './components/UIComponents'
@@ -64,7 +65,12 @@ function App() {
   const location = useLocation();
   const { pathname } = location || {}
 
+  const dispatch = useDispatch();
   const { language, toggleMobileMenu } = useSelector(state => state.app);
+
+  useEffect(() => {
+    dispatch(getNotifications());
+  }, []);
 
   // const { i18n } = useTranslation();
 
