@@ -33,11 +33,17 @@ export function getChatConversation(id) {
   };
 }
 
-
-export function concatLatestMessage(data) {
+export function concatLatestMessage(message) {
   return {
     type: ChatActionTypes.LATEST_MESSAGE_RETURNED,
-    payload: data
+    payload: message
+  }
+}
+
+export function updateChatList(chatList) {
+  return {
+    type: ChatActionTypes.CHAT_LIST_RETURNED,
+    payload: { chatList }
   }
 }
 

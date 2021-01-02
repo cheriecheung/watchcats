@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useHistory } from 'react-router-dom';
-import { useForm, FormProvider } from 'react-hook-form';
+// import { useForm, FormProvider } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getChatList,
   getChatConversation,
   concatLatestMessage,
-  emptyConversation
+  emptyConversation,
+  updateChatList
 } from '../../redux/chat/actions';
 import io from "socket.io-client";
 import { getAccessToken } from '../../utility/accessToken';
@@ -34,12 +35,15 @@ function useChat() {
   const [inputHeight, setInputHeight] = useState("4rem");
   const [scrollHeight, setScrollHeight] = useState("");
 
+
   // list, conversation, info
   const [mobileScreenView, setMobileScreenView] = useState('list')
 
-  const defaultValues = { messageInput: '' };
-  const methods = useForm({ defaultValues });
-  const { register, handleSubmit, watch, reset } = methods;
+  const [message, setMessage] = useState("");
+
+  // const defaultValues = { messageInput: '' };
+  // const methods = useForm({ defaultValues });
+  // const { register, handleSubmit, watch, reset } = methods;
 
   console.log({ chatList, conversationInfo, allMessages })
 
@@ -53,9 +57,11 @@ function useChat() {
     const token = getAccessToken();
     socket = io(server, { query: { token } });
 
-    socket.on("Output Chat Message", messageFromBackend => {
-      console.log({ messageFromBackend })
-      dispatch(concatLatestMessage(messageFromBackend));
+    socket.on("Output Chat Message", dataFromBackend => {
+      const { newMessage, updatedChatList } = dataFromBackend
+
+      dispatch(concatLatestMessage(newMessage));
+      dispatch(updateChatList(updatedChatList))
     })
 
     return () => {
@@ -114,7 +120,7 @@ function useChat() {
       let scroll_height = inputRef.current.scrollHeight;
 
       if (scroll_height <= 52) {
-        inputRef.current.style.height = 2 + "rem";
+        inputRef.current.style.height = 4 + "rem";
       }
 
       if (scroll_height > 52 && scroll_height < 150) {
@@ -150,20 +156,23 @@ function useChat() {
     scrollToBottom();
   }, [allMessages]);
 
-  const onSubmitMessage = (data) => {
+  const onSubmitMessage = (e) => {
+    e.preventDefault();
+
     socket.emit('Input Chat Message', {
-      message: data.messageInput,
+      // message: data.messageInput,
+      message,
       recipient: recipientId,
     });
 
-    console.log({ messageFromFrontend: data })
-    reset(defaultValues);
+    setMessage('')
+    // reset(defaultValues);
   };
 
   return {
     t,
-    FormProvider,
-    methods,
+    // FormProvider,
+    // methods,
     chatList,
     clickedChat,
     hoveredChat,
@@ -180,7 +189,9 @@ function useChat() {
     inputRef,
     inputHeight,
     scrollHeight,
-    onChangeHeight
+    onChangeHeight,
+    message,
+    setMessage
   }
 }
 

@@ -18,8 +18,8 @@ const ChatWidth = 100 - ListWidth - ChatDetailsWidth;
 function Chat() {
   const {
     t,
-    FormProvider,
-    methods,
+    // FormProvider,
+    // methods,
     chatList,
     clickedChat,
     hoveredChat,
@@ -37,6 +37,8 @@ function Chat() {
     inputHeight,
     scrollHeight,
     onChangeHeight,
+    message,
+    setMessage
   } = useChat();
 
   return (
@@ -69,8 +71,8 @@ function Chat() {
 
           <Conversation
             t={t}
-            FormProvider={FormProvider}
-            methods={methods}
+            // FormProvider={FormProvider}
+            //   methods={methods}
             conversationInfo={conversationInfo}
             allMessages={allMessages}
             onSubmitMessage={onSubmitMessage}
@@ -81,6 +83,8 @@ function Chat() {
             inputHeight={inputHeight}
             scrollHeight={scrollHeight}
             onChangeHeight={onChangeHeight}
+            message={message}
+            setMessage={setMessage}
           />
 
           <ConversationInfo

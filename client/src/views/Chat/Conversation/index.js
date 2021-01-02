@@ -42,8 +42,8 @@ const Chat = styled.div`
 
 function Conversation({
   t,
-  FormProvider,
-  methods,
+  // FormProvider,
+  // methods,
   conversationInfo,
   allMessages,
   onSubmitMessage,
@@ -54,8 +54,10 @@ function Conversation({
   inputHeight,
   scrollHeight,
   onChangeHeight,
+  message,
+  setMessage
 }) {
-  const { handleSubmit } = methods
+  // const { handleSubmit } = methods
 
   const { recipient } = conversationInfo || {}
   const { firstName, lastName, profilePicture: recipientPicture } = recipient || {}
@@ -72,42 +74,45 @@ function Conversation({
       />
 
       <ChatContainer>
-        <FormProvider {...methods}>
-          <FormContainer onSubmit={handleSubmit(onSubmitMessage)}>
-            <ConversationScrollableLayer
-              bottom={inputHeight}
-              ref={chatContainerRef}
-            >
-              <ScrollableSubLayer>
-                {allMessages &&
-                  allMessages.map(message => {
-                    const { content } = message;
+        {/* <FormProvider {...methods}> */}
+        {/* <FormContainer onSubmit={handleSubmit(onSubmitMessage)}> */}
+        <FormContainer onSubmit={onSubmitMessage}>
+          <ConversationScrollableLayer
+            bottom={inputHeight}
+            ref={chatContainerRef}
+          >
+            <ScrollableSubLayer>
+              {allMessages &&
+                allMessages.map(message => {
+                  const { content } = message;
 
-                    return (
-                      content.includes('AUTOMATED_MESSAGE') ?
-                        <AutomatedMessage
-                          t={t}
-                          message={message}
-                          conversationInfo={conversationInfo}
-                        />
-                        :
-                        <MessageBubble
-                          message={message}
-                          conversationInfo={conversationInfo}
-                        />
-                    )
-                  })
-                }
-              </ScrollableSubLayer>
-            </ConversationScrollableLayer>
+                  return (
+                    content.includes('AUTOMATED_MESSAGE') ?
+                      <AutomatedMessage
+                        t={t}
+                        message={message}
+                        conversationInfo={conversationInfo}
+                      />
+                      :
+                      <MessageBubble
+                        message={message}
+                        conversationInfo={conversationInfo}
+                      />
+                  )
+                })
+              }
+            </ScrollableSubLayer>
+          </ConversationScrollableLayer>
 
-            <MessageInput
-              inputRef={inputRef}
-              onChangeHeight={onChangeHeight}
-              scrollHeight={scrollHeight}
-            />
-          </FormContainer>
-        </FormProvider>
+          <MessageInput
+            inputRef={inputRef}
+            onChangeHeight={onChangeHeight}
+            scrollHeight={scrollHeight}
+            message={message}
+            setMessage={setMessage}
+          />
+        </FormContainer>
+        {/* </FormProvider> */}
       </ChatContainer>
     </div>
   );

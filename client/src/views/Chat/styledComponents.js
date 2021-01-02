@@ -242,21 +242,6 @@ export const ConversationScrollableLayer = styled.div`
   ${scrollBarWidth}
 `
 
-// export const ConversationScrollableLayer = styled.div`
-//   height: 83vh;
-
-//   ${scrollableLayerStyle}
-//   ${scrollBarWidth}
-
-//   @media (max-width: 920px) {
-//     height: 75vh;
-//   }
-
-//   @media (max-width: 735px) {
-//     height: 75vh;
-//   }
-// `
-
 export const FormContainer = styled.form`
   height: 100%;
   ${transitionStyle}
@@ -271,15 +256,6 @@ export const FormContainer = styled.form`
   }
 `
 
-// export const MessageInputContainer = styled.div`
-//   display: flex;
-//   padding: 10px 20px;
-//   position: absolute;
-//   left: 0;
-//   bottom: 0;
-//   width: 100%;
-// `;
-
 export const AutoSizeInput = styled.textarea`
   position: absolute;
   left: 0;
@@ -288,6 +264,7 @@ export const AutoSizeInput = styled.textarea`
   width: 90%;
   height: 4rem;
   border: 10px solid ${themeColor.lightPeach};
+  border-radius: 20px;
   font-size: 1.4rem;
   overflow-x: hidden;
   overflow-y: ${({ scrollHeight }) =>

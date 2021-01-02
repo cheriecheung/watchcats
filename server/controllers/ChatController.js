@@ -3,54 +3,7 @@ const Message = require('../model/Message');
 const Owner = require('../model/Owner');
 const Sitter = require('../model/Sitter');
 const User = require('../model/User');
-const ObjectId = require('mongodb').ObjectID;
-
-async function getPartificpantsInfo(conversations, senderId) {
-  const totalChats = await Promise.all(
-    conversations.map(async (item) => {
-      const {
-        _id: conversationId,
-        lastMessage,
-        lastMessageDate,
-        participant1,
-        participant2
-      } = item
-
-      const [user1, user2] = await Promise.all([
-        User.findById(participant1),
-        User.findById(participant2),
-      ]);
-      if (!user1 || !user2) return { err: 'Cannot find user(s)' }
-
-      const recipientObj = user1._id.equals(ObjectId(senderId)) ? user2 : user1
-
-      const {
-        _id: recipientId,
-        firstName,
-        lastName,
-        profilePicture,
-        urlId
-      } = recipientObj
-
-      const recipient = {
-        id: recipientId,
-        firstName,
-        lastName,
-        profilePicture,
-        shortId: urlId
-      }
-
-      return {
-        id: conversationId,
-        lastMessage,
-        lastMessageDate,
-        recipient
-      }
-    })
-  )
-
-  return { totalChats }
-}
+const { getPartificpantsInfo } = require('../helpers/chat')
 
 module.exports = {
   getChatList: async (req, res) => {
@@ -68,11 +21,8 @@ module.exports = {
       if (!sorted) return res.status(404).json('ERROR/ERROR_OCCURED')
       if (sorted.length === 0) return res.status(200).json({ chatList: [] })
 
-      const { totalChats, err } = await getPartificpantsInfo(sorted, senderId)
+      const { chatList, err } = await getPartificpantsInfo(sorted, senderId)
       if (err) return res.status(400).json('ERROR/ERROR_OCCURED')
-      chatList = totalChats
-
-      // const recipientShortId = chatList[0].recipient.shortId
 
       return res.status(200).json({ chatList })
 
@@ -110,13 +60,6 @@ module.exports = {
         participant1: [recipientObjId, senderObjId],
         participant2: [recipientObjId, senderObjId],
       });
-
-      // const conversation = await Conversation.findOne({
-      //   $or: [
-      //     { $and: [{ participant1: senderUserId }, { participant2: recipientUserId }] },
-      //     { $and: [{ participant1: recipientUserId }, { participant2: senderUserId }] },
-      //   ],
-      // })
 
       const {
         profilePicture: senderPicture

@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
-import {
-  AutoSizeInput,
-  SubmitButton
-} from '../styledComponents'
+import { AutoSizeInput, SubmitButton } from '../styledComponents'
 
 function MessageInput({
   inputRef,
   onChangeHeight,
-  scrollHeight
+  scrollHeight,
+  message,
+  setMessage
 }) {
-  const [message, setMessage] = useState("");
 
   return (
     <div>
       <AutoSizeInput
+        name="messageInput"
         ref={inputRef}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
