@@ -7,7 +7,9 @@ const initialState = Immutable({
   getSmsNotification: false,
   getEmailNotification: false,
   phone: '',
-  changePhoneNotifiation: ''
+  hasSetUpStripAccount: false,
+  isTwoFactorEnabled: false,
+  isGoogleLogin: false,
 });
 
 const account_reducer = {
@@ -26,7 +28,11 @@ const account_reducer = {
         return { ...state, changePhoneNumberStep: action.payload }
       case AccountActionTypes.PHONE_NUMBER_DELETED:
         return { ...state, changePhoneNumberStep: action.payload, phone: '' };
-      case AccountActionTypes.GET_USER:
+      case AccountActionTypes.TWO_FACTOR_ENABLED:
+        return { ...state, isTwoFactorEnabled: true };
+      case AccountActionTypes.TWO_FACTOR_DISABLED:
+        return { ...state, isTwoFactorEnabled: false };
+      case AccountActionTypes.GET_PERSONAL_INFO:
         return { ...state, data: action.payload };
       case AccountActionTypes.PERSONAL_INFO_SAVED:
         return { ...state, personalInfoSaved: action.payload };

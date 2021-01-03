@@ -70,7 +70,7 @@ module.exports = {
     }
   },
 
-  getContactDetails: async (req, res) => {
+  getAccountDetails: async (req, res) => {
     const { userId } = req.verifiedData;
     if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
@@ -79,22 +79,26 @@ module.exports = {
       if (!user) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
       const {
+        isVerified,
         email,
         getEmailNotification,
         phone,
         getSmsNotification,
+        password,
+        stripeAccountId,
         twoFactorSecret,
-        password
       } = user;
 
       const isTwoFactorEnabled = twoFactorSecret ? true : false;
-      const isGoogleLogin = password ? false : true
+      const isGoogleLogin = !password && !isVerified ? true : false;
+      const hasStripeAccountSetUp = stripeAccountId && stripeAccountId.includes('acct_') ? true : false;
 
       return res.status(200).json({
         email,
         getEmailNotification,
         phone,
         getSmsNotification,
+        hasStripeAccountSetUp,
         isTwoFactorEnabled,
         isGoogleLogin
       })

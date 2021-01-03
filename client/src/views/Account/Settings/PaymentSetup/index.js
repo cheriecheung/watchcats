@@ -1,17 +1,32 @@
 import React from 'react';
 import { ContainedButton, Spinner, WrapLayout } from '../../../../components/UIComponents'
 
-function PaymentSetup({ t, isLoading, paymentSetupProps }) {
-    const { onHandleOnboardUser } = paymentSetupProps
+function PaymentSetup({
+    t,
+    isLoading,
+    paymentSetupProps
+}) {
+    const {
+        hasSetUpStripAccount,
+        onHandleOnboardUser,
+        onOpenStripeLoginPage
+    } = paymentSetupProps
 
     return (
         <WrapLayout variant="settings">
             <p>{t('settings.payment_description')}</p>
 
-            <ContainedButton type="button" onClick={onHandleOnboardUser}>
-                {t('settings.setup_payouts')}
-                {isLoading && <Spinner />}
-            </ContainedButton>
+            {hasSetUpStripAccount ?
+                <ContainedButton type="button" onClick={onOpenStripeLoginPage}>
+                    {t('settings.edit_account')}
+                    {isLoading && <Spinner />}
+                </ContainedButton>
+                :
+                <ContainedButton type="button" onClick={onHandleOnboardUser}>
+                    {t('settings.setup_payouts')}
+                    {isLoading && <Spinner />}
+                </ContainedButton>
+            }
         </WrapLayout>
     )
 }

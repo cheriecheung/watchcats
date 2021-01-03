@@ -32,7 +32,7 @@ export function uploadTestPicture(profilePicture) {
   };
 }
 
-export function getContactDetails() {
+export function getAccountDetails() {
   return async (dispatch) => {
     try {
       const { data } = await axiosInstance().get(contactDetailsURL, getConfig());
@@ -160,7 +160,7 @@ export function getPersonalInfo() {
   return async (dispatch) => {
     try {
       const { data } = await axiosInstance().get(personalInfoURL, getConfig());
-      dispatch({ type: AccountActionTypes.GET_USER, payload: data });
+      dispatch({ type: AccountActionTypes.GET_PERSONAL_INFO, payload: data });
     } catch (e) {
       console.log({ e });
     }

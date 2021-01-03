@@ -7,7 +7,7 @@ router.get('/personal-info', validateToken, AccountController.getPersonalInfo);
 
 router.post('/personal-info', formLimiter, speedLimiter(5), validateToken, AccountController.postPersonalInfo);
 
-router.get('/contact-details', validateToken, AccountController.getContactDetails)
+router.get('/contact-details', validateToken, AccountController.getAccountDetails)
 
 router.post('/notification', validateToken, AccountController.changeNotification)
 

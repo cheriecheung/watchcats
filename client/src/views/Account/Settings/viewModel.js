@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getContactDetails,
+  getAccountDetails,
   changeNotification,
   submitPhoneNumber,
   deletePhoneNumber,
@@ -71,13 +71,20 @@ function useSettings() {
 
 function usePaymentSetup() {
   const dispatch = useDispatch();
+  const { hasSetUpStripAccount } = useSelector((state) => state.account);
 
   function onHandleOnboardUser() {
     dispatch(onboardUser())
   }
 
+  function onOpenStripeLoginPage() {
+    window.open('https://dashboard.stripe.com/login');
+  }
+
   return {
-    onHandleOnboardUser
+    hasSetUpStripAccount,
+    onHandleOnboardUser,
+    onOpenStripeLoginPage
   }
 }
 
@@ -107,7 +114,7 @@ function useContactDetails() {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    dispatch(getContactDetails());
+    dispatch(getAccountDetails());
   }, [])
 
   useEffect(() => {

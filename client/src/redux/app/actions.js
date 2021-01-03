@@ -1,6 +1,7 @@
 import axios from 'axios';
 import axiosInstance from '../../utility/axiosInstance';
 import { getConfig } from '../../utility/api'
+import AccountActionTypes from '../loading/actionTypes'
 import AppActionTypes from './actionTypes'
 import ErrorActionTypes from '../error/actionTypes'
 import LoadingActionTypes from '../loading/actionTypes'
@@ -171,6 +172,7 @@ export function enableTwoFactor(code) {
     try {
       await axiosInstance().post(googleAuthenticatorVerifyCodeURL, { code }, getConfig());
       dispatch({ type: AppActionTypes.TWO_FACTOR_ENABLED });
+      dispatch({ type: AccountActionTypes.TWO_FACTOR_ENABLED });
     } catch (e) {
       console.log({ e });
       const { response } = e
@@ -191,6 +193,7 @@ export function disableTwoFactor(code) {
     try {
       await axiosInstance().delete(phoneLoginURL, { ...getConfig(), data: { code } });
       dispatch({ type: AppActionTypes.TWO_FACTOR_DISABLED });
+      dispatch({ type: AccountActionTypes.TWO_FACTOR_DISABLED });
     } catch (e) {
       console.log({ e });
       const { response } = e

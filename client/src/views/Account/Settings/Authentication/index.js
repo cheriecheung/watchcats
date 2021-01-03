@@ -112,7 +112,7 @@ function Authentication({
       <FieldLabel>{t('settings.two_factor_auth')}</FieldLabel>
       <WrapLayout variant="settings">
         {
-          isTwoFactorEnabled || appActionStatus === '2faEnabled' ?
+          isTwoFactorEnabled ?
             <>
               <p>{t('settings.2FA_enabled')}</p>
               <OutlinedButton onClick={showDisable2faModal}>
