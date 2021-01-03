@@ -16,7 +16,6 @@ const resetPasswordEmailURL = `${REACT_APP_API_DOMAIN}/forgot-password-email`;
 const passwordURL = `/password`
 const googleAuthenticatorQrCodeURL = `google-authenticator-qrcode`
 const googleAuthenticatorVerifyCodeURL = `google-authenticator-verify-code`
-const notificationsURL = `/notifications`
 
 // export function checkToken() {
 
@@ -38,17 +37,6 @@ export function clearAppActionStatus() {
   return async (dispatch) => {
     dispatch({ type: AppActionTypes.CLEAR_STATUS });
   }
-}
-
-export function getNotifications() {
-  return async (dispatch) => {
-    try {
-      const { data } = await axiosInstance().get(notificationsURL);
-      dispatch({ type: AppActionTypes.GET_NOTIFICATIONS, payload: data });
-    } catch (e) {
-      console.log({ e });
-    }
-  };
 }
 
 export function changeLanguage(i18n, language) {

@@ -1,0 +1,8 @@
+const NotificationsActionTypes = {
+  GET_NOTIFICATIONS: 'GET_NOTIFICATIONS',
+  SET_READ_AS_OWNER: 'SET_READ_AS_OWNER',
+  SET_READ_AS_SITTER: 'SET_READ_AS_SITTER',
+  SET_ALL_BOOKINGS_AS_READ: 'SET_ALL_BOOKINGS_AS_READ'
+}
+
+export default NotificationsActionTypes;
