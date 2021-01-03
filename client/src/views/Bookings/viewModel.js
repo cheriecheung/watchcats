@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { setReadAsOwner, setReadAsSitter, setAllBookingsAsRead } from '../../redux/notifications/actions';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -23,13 +24,12 @@ function useBookings() {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
+  const notifications = useSelector((state) => state.notifications);
   const { bookings: returnedBookings } = useSelector((state) => state.bookings);
   const { bookingsLoading } = useSelector((state) => state.loading);
 
   let isLoadingBookingRecords = bookingsLoading === LOADING.GET_BOOKINGS_RECORDS
   let isLoadingFulfillAction = bookingsLoading === LOADING.FULFILL_ACTION
-
-  console.log({ returnedBookings })
 
   const [bookings, setBookings] = useState({})
   const [bookingStatusTabs, setBookingStatusTabs] = useState([]);
@@ -43,15 +43,10 @@ function useBookings() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState('');
 
-  const bookingTypeTabs = [
-    { key: 'sitting_jobs', tab: t('bookings.as_cat_sitter') },
-    { key: 'sitting_service', tab: t('bookings.as_cat_owner') },
-  ];
-
   useEffect(() => {
     const { requested, confirmed, completed, declined } = bookings || {}
 
-    if (bookings && requested && confirmed && completed && declined) {
+    if (requested && confirmed && completed && declined) {
       const statusTabs = [
         {
           key: 'requested',
@@ -89,6 +84,36 @@ function useBookings() {
     }
   }, [bookingTypeActiveKey]);
 
+  useEffect(() => {
+    const status = bookingStatusActiveKey;
+    const {
+      hasUnreadBookings,
+      unreadBookingsAsOwner,
+      unreadBookingsAsSitter
+    } = notifications || {};
+
+    if (unreadBookingsAsOwner && unreadBookingsAsOwner[status]) {
+      const unread = { ...unreadBookingsAsOwner }
+      delete unread[status];
+      dispatch(setReadAsOwner(unread))
+    }
+
+    if (unreadBookingsAsSitter && unreadBookingsAsSitter[status]) {
+      const unread = { ...unreadBookingsAsSitter }
+      delete unread[status];
+      dispatch(setReadAsSitter(unread))
+    }
+
+    console.log({ unreadBookingsAsOwner, unreadBookingsAsSitter })
+
+    if (hasUnreadBookings &&
+      Object.entries(unreadBookingsAsOwner).length === 0 &&
+      Object.entries(unreadBookingsAsSitter).length === 0) {
+      dispatch(setAllBookingsAsRead())
+    }
+
+  }, [notifications, bookingTypeActiveKey, bookingStatusActiveKey]);
+
   function onHandleRequestedBooking(bookingId, actionType) {
     setModalVisible(true)
     setBookingId(bookingId);
@@ -117,12 +142,12 @@ function useBookings() {
   return {
     t,
     bookings,
+    notifications,
     bookingTypeActiveKey,
     setBookingTypeActiveKey,
     bookingStatusActiveKey,
     setBookingStatusActiveKey,
     submitAction,
-    bookingTypeTabs,
     bookingStatusTabs,
     modalVisible,
     setModalVisible,

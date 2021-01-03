@@ -58,15 +58,14 @@ function MobileMenu({
   closeMenu,
   isLoggedIn,
   onMobileLogout,
-  bookingsNotifications,
-  chatsNotifications
+  hasUnreadBookings,
+  hasUnreadChats
 }) {
   // const currentLanguage = localStorage.getItem('lang')
   // const changeLanguage = currentLanguage === 'en' ? 'nl' : 'en'
   const firstName = 'Cherie'
 
-  const { hasUnread: hasUnreadBookings } = bookingsNotifications || {};
-  const { hasUnread: hasUnreadChats } = chatsNotifications || {};
+
 
   return (
     <>
@@ -80,13 +79,13 @@ function MobileMenu({
           <MenuItemBox to="/bookings" onClick={closeMenu}>
             <Icon className="fas fa-calendar-minus fa-2x" />
             <Badge isShown={hasUnreadBookings}>
-              <Label style={{ paddingRight: 2 }}>{t('header.bookings')}</Label>
+              <Label>{t('header.bookings')}</Label>
             </Badge>
           </MenuItemBox>
           <MenuItemBox to="/messages" onClick={closeMenu}>
             <Icon className="fas fa-envelope fa-2x" />
             <Badge isShown={hasUnreadChats}>
-              <Label style={{ paddingRight: 2 }}>{t('header.messages')}</Label>
+              <Label>{t('header.messages')}</Label>
             </Badge>
           </MenuItemBox>
           <MenuItemBox to="/account" onClick={closeMenu}>

@@ -12,12 +12,8 @@ function useHeader() {
   const { pathname } = location || {}
 
   const dispatch = useDispatch();
-  const {
-    language,
-    isLoggedIn,
-    bookingsNotifications,
-    chatsNotifications
-  } = useSelector(state => state.app);
+  const { hasUnreadBookings, hasUnreadChats } = useSelector(state => state.notifications);
+  const { language, isLoggedIn, } = useSelector(state => state.app);
   const currentLanguage = language || 'en'
 
   const [toggle, setToggle] = useState(false);
@@ -81,8 +77,8 @@ function useHeader() {
     onLogout,
     onMobileLogout,
     closeMenu,
-    bookingsNotifications,
-    chatsNotifications
+    hasUnreadBookings,
+    hasUnreadChats
   }
 }
 

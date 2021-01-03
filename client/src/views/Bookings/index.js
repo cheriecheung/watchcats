@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Badge,
   ContainedButton,
   Modal,
   Spinner,
@@ -34,12 +35,12 @@ function Bookings() {
   const {
     t,
     bookings,
+    notifications,
     bookingTypeActiveKey,
     setBookingTypeActiveKey,
     bookingStatusActiveKey,
     setBookingStatusActiveKey,
     submitAction,
-    bookingTypeTabs,
     bookingStatusTabs,
     modalVisible,
     setModalVisible,
@@ -91,31 +92,59 @@ function Bookings() {
     }
   }
 
+  const { unreadBookingsAsOwner = {}, unreadBookingsAsSitter = {} } = notifications || {};
+
+  console.log({ unreadBookingsAsOwner, unreadBookingsAsSitter })
+
+  const hasUnreadAsOwner = Object.entries(unreadBookingsAsOwner).length > 0;
+  const hasUnreadAsSitter = Object.entries(unreadBookingsAsSitter).length > 0;
+  const sittingJobsSelected = bookingTypeActiveKey === 'sitting_jobs'
+  const sittingServiceSelected = bookingTypeActiveKey === 'sitting_service'
+
   return (
     <>
       <div style={{ padding: '40px 0 5px 0' }}>
         <TabBar variant="bookings">
-          {bookingTypeTabs.map(({ key, tab }) =>
-            <TabItem
-              key={key}
-              isSelected={bookingTypeActiveKey === key}
-              onClick={() => setBookingTypeActiveKey(key)}
+          <TabItem
+            isSelected={sittingJobsSelected}
+            onClick={() => setBookingTypeActiveKey('sitting_jobs')}
+          >
+            <Badge
+              isShown={hasUnreadAsSitter}
+              isWhiteColor={sittingJobsSelected}
             >
-              {tab}
-            </TabItem>
-          )}
+              {t('bookings.as_cat_sitter')}
+            </Badge>
+          </TabItem>
+          <TabItem
+            isSelected={sittingServiceSelected}
+            onClick={() => setBookingTypeActiveKey('sitting_service')}
+          >
+            <Badge
+              isShown={hasUnreadAsOwner}
+              isWhiteColor={sittingServiceSelected}
+            >
+              {t('bookings.as_cat_owner')}
+            </Badge>
+          </TabItem>
         </TabBar>
 
         <SubTabBar>
-          {bookingStatusTabs.map(({ key, tab }) =>
-            <SubTabBarItem
-              key={key}
-              isSelected={bookingStatusActiveKey === key}
-              onClick={() => setBookingStatusActiveKey(key)}
-            >
-              {tab}
-            </SubTabBarItem>
-          )}
+          {bookingStatusTabs.map(({ key, tab }) => {
+            const type = sittingJobsSelected ? unreadBookingsAsSitter : unreadBookingsAsOwner
+
+            return (
+              <SubTabBarItem
+                key={key}
+                isSelected={bookingStatusActiveKey === key}
+                onClick={() => setBookingStatusActiveKey(key)}
+              >
+                <Badge isShown={type[key]}>
+                  {tab}
+                </Badge>
+              </SubTabBarItem>
+            )
+          })}
         </SubTabBar>
       </div>
 

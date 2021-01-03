@@ -7,22 +7,26 @@ import { themeColor } from '../../style/theme'
 const BadgeComponent = styled(AntBadge)`
   & > span {
     margin-top: -10px;
-    background-color: ${themeColor.peach};
+    background-color: ${({ isWhiteColor }) => isWhiteColor ? '#FFF' : themeColor.peach};
   }
 
   & > span::after {
-    border: 1px solid ${themeColor.peach};
+    border: 1px solid ${({ isWhiteColor }) => isWhiteColor ? '#FFF' : themeColor.peach};
   }
 `
 
-function Badge({ children, isShown }) {
+function Badge({ children, isShown, isWhiteColor }) {
 
   return (
     <>
       {children}
       <BadgeComponent
         status="processing"
-        style={{ display: isShown ? 'inline-block' : 'none' }}
+        style={{
+          display: isShown ? 'inline-block' : 'none',
+          paddingLeft: 5
+        }}
+        isWhiteColor={isWhiteColor}
       />
     </>
   )
@@ -30,11 +34,21 @@ function Badge({ children, isShown }) {
 
 export default Badge;
 
+BadgeComponent.propTypes = {
+  isWhiteColor: PropTypes.bool
+}
+
+BadgeComponent.defaultProps = {
+  isWhiteColor: undefined
+}
+
 Badge.propTypes = {
   children: PropTypes.node.isRequired,
   isShown: PropTypes.bool,
+  isWhiteColor: PropTypes.bool
 };
 
 Badge.defaultProps = {
-  isShown: undefined
+  isShown: undefined,
+  isWhiteColor: undefined
 };

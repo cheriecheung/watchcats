@@ -28,8 +28,8 @@ function Header() {
     onLogout,
     closeMenu,
     onMobileLogout,
-    bookingsNotifications,
-    chatsNotifications
+    hasUnreadBookings,
+    hasUnreadChats
   } = useHeader();
 
   return (
@@ -56,8 +56,8 @@ function Header() {
           currentLanguage={currentLanguage}
           isLoggedIn={isLoggedIn}
           onLogout={onLogout}
-          bookingsNotifications={bookingsNotifications}
-          chatsNotifications={chatsNotifications}
+          hasUnreadBookings={hasUnreadBookings}
+          hasUnreadChats={hasUnreadChats}
         />
       </NavBar>
 
@@ -69,8 +69,8 @@ function Header() {
         isLoggedIn={isLoggedIn}
         closeMenu={closeMenu}
         onMobileLogout={onMobileLogout}
-        bookingsNotifications={bookingsNotifications}
-        chatsNotifications={chatsNotifications}
+        hasUnreadBookings={hasUnreadBookings}
+        hasUnreadChats={hasUnreadChats}
       />
     </div>
   );

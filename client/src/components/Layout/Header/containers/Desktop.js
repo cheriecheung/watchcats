@@ -16,11 +16,9 @@ function Desktop({
   currentLanguage,
   isLoggedIn,
   onLogout,
-  bookingsNotifications,
-  chatsNotifications
+  hasUnreadBookings,
+  hasUnreadChats
 }) {
-  const { hasUnread: hasUnreadBookings } = bookingsNotifications || {};
-  const { hasUnread: hasUnreadChats } = chatsNotifications || {};
 
   return (
     <Menu>

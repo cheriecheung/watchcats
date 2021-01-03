@@ -114,8 +114,8 @@ module.exports = {
       const { owner, sitter } = user;
 
       const notifications = {
-        bookings: {},
-        chats: {}
+        hasUnreadBookings: {},
+        hasUnreadChats: {}
       }
 
       const unreadBookings = await Booking.find({
@@ -140,9 +140,9 @@ module.exports = {
           return output
         }, { unreadAsOwner: {}, unreadAsSitter: {} });
 
-        notifications.bookings.hasUnread = true;
-        notifications.bookings.unreadAsOwner = allBookings.unreadAsOwner;
-        notifications.bookings.unreadAsSitter = allBookings.unreadAsSitter;
+        notifications.hasUnreadBookings = true;
+        notifications.unreadBookingsAsOwner = allBookings.unreadAsOwner;
+        notifications.unreadBookingsAsSitter = allBookings.unreadAsSitter;
       }
 
       const allChats = await Conversation.find({
@@ -169,7 +169,7 @@ module.exports = {
       }).count() > 0
 
       if (unreadMessages) {
-        notifications.chats.hasUnread = true;
+        notifications.hasUnreadChats = true;
       }
 
       return res.status(200).json(notifications);

@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { getNotifications } from './redux/app/actions'
+import { getNotifications } from './redux/notifications/actions'
 
 import Layout from './components/Layout';
 import { NotFound } from './components/UIComponents'
