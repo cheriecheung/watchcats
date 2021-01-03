@@ -18,10 +18,11 @@ export function onboardUser() {
     });
 
     try {
-      const {
-        data: { url },
-      } = await axiosInstance().get(onboardURL, getConfig());
-      dispatch({ type: PaymentActionTypes.ONBOARD_USER, payload: url });
+      const { data } = await axiosInstance().get(onboardURL, getConfig());
+      const { accountLink } = data;
+      window.location = accountLink;
+
+      dispatch({ type: PaymentActionTypes.ONBOARD_USER });
     } catch (e) {
       console.log({ e });
       dispatch(clearLoading('paymentLoading'))

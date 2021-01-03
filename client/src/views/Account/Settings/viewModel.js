@@ -47,7 +47,7 @@ function useSettings() {
   let isLoadingDisable2fa = appLoading === LOADING.DISABLE_2FA
   let isLoadingEnable2fa = appLoading === LOADING.ENABLE_2FA
   let isLoadingSendSmsOtp = accountLoading === LOADING.SEND_SMS_OTP
-  let isLoadingSetPayouts = paymentLoading === LOADING.TO_SETUP_PAYOUTS
+  let isLoadingSetPayouts = paymentLoading === LOADING.SETUP_PAYOUTS
   let isLoadingSubmitPhoneNumber = accountLoading === LOADING.SUBMIT_PHONE_NUMBER
   let isLoadingVerifyPhoneNumber = accountLoading === LOADING.VERIFY_PHONE_NUMBER
   let hasSetEmailNotificationError = accountError === ERROR.SET_EMAIL_NOTIFICATION_FAILED

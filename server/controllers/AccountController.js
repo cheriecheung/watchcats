@@ -91,14 +91,14 @@ module.exports = {
 
       const isTwoFactorEnabled = twoFactorSecret ? true : false;
       const isGoogleLogin = !password && !isVerified ? true : false;
-      const hasStripeAccountSetUp = stripeAccountId && stripeAccountId.includes('acct_') ? true : false;
+      const hasSetUpStripAccount = stripeAccountId && stripeAccountId.includes('acct_') ? true : false;
 
       return res.status(200).json({
         email,
         getEmailNotification,
         phone,
         getSmsNotification,
-        hasStripeAccountSetUp,
+        hasSetUpStripAccount,
         isTwoFactorEnabled,
         isGoogleLogin
       })

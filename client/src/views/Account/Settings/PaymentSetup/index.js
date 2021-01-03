@@ -19,7 +19,6 @@ function PaymentSetup({
             {hasSetUpStripAccount ?
                 <ContainedButton type="button" onClick={onOpenStripeLoginPage}>
                     {t('settings.edit_account')}
-                    {isLoading && <Spinner />}
                 </ContainedButton>
                 :
                 <ContainedButton type="button" onClick={onHandleOnboardUser}>
