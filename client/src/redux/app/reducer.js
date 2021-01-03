@@ -4,8 +4,15 @@ import AppActionTypes from './actionTypes'
 const initialState = Immutable({
   appActionStatus: '',
   language: 'en',
-  isLoggedIn: false,
   toggleMobileMenu: false,
+  bookingsNotifications: {
+    hasUnread: false,
+    unreadAsOwner: {},
+    unreadAsSitter: {}
+  },
+  chatsNotifications: {
+    hasUnread: false
+  },
   qrCode: ''
 });
 
@@ -15,10 +22,11 @@ const app_reducer = {
       case AppActionTypes.CLEAR_STATUS:
         return { ...state, appActionStatus: '' }
       case AppActionTypes.GET_NOTIFICATIONS:
+        console.log({ payload: action.payload })
         return {
           ...state,
-          hasBookingsNotification: action.payload.hasBookingsNotification,
-          hasChatNotification: action.payload.hasChatNotification
+          bookingsNotifications: action.payload.bookings,
+          chatsNotifications: action.payload.chats,
         }
       case AppActionTypes.CHANGE_LANGUAGE:
         return { ...state, language: action.payload };

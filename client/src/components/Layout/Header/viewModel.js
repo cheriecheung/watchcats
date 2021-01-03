@@ -15,8 +15,8 @@ function useHeader() {
   const {
     language,
     isLoggedIn,
-    hasBookingsNotification,
-    hasChatNotification
+    bookingsNotifications,
+    chatsNotifications
   } = useSelector(state => state.app);
   const currentLanguage = language || 'en'
 
@@ -81,8 +81,8 @@ function useHeader() {
     onLogout,
     onMobileLogout,
     closeMenu,
-    hasBookingsNotification,
-    hasChatNotification
+    bookingsNotifications,
+    chatsNotifications
   }
 }
 

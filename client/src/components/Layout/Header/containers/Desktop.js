@@ -16,9 +16,12 @@ function Desktop({
   currentLanguage,
   isLoggedIn,
   onLogout,
-  hasBookingsNotification,
-  hasChatNotification
+  bookingsNotifications,
+  chatsNotifications
 }) {
+  const { hasUnread: hasUnreadBookings } = bookingsNotifications || {};
+  const { hasUnread: hasUnreadChats } = chatsNotifications || {};
+
   return (
     <Menu>
       <ItemContainer>
@@ -38,14 +41,14 @@ function Desktop({
         {isLoggedIn ? (
           <>
             <Item>
-              <Badge isShown={hasBookingsNotification}>
+              <Badge isShown={hasUnreadBookings}>
                 <LinkButton to="/bookings">
                   {t('header.bookings')}
                 </LinkButton>
               </Badge>
             </Item>
             <Item>
-              <Badge isShown={hasChatNotification}>
+              <Badge isShown={hasUnreadChats}>
                 <LinkButton to="/messages">
                   {t('header.messages')}
                 </LinkButton>

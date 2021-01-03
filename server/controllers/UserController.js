@@ -114,25 +114,38 @@ module.exports = {
       const { owner, sitter } = user;
 
       const notifications = {
-        hasBookingsNotification: false,
-        hasChatNotification: false
+        bookings: {},
+        chats: {}
       }
 
       const unreadBookings = await Booking.find({
         $or: [
-          { owner },
-          { sitter }
-        ],
-        isReadBy: {
-          $nin: [owner, sitter]
-        }
-      }).count() > 0
+          { owner, isReadBy: { $nin: [owner] } },
+          { sitter, isReadBy: { $nin: [sitter] } }
+        ]
+      })
 
-      if (unreadBookings) {
-        notifications.hasBookingsNotification = true;
+      if (unreadBookings.length > 0) {
+        const allBookings = unreadBookings.reduce((output, item) => {
+          const { owner: ownerId, sitter: sitterId, status } = item
+
+          if (owner && owner.equals(ownerId)) {
+            output.unreadAsOwner[status] = true;
+          }
+
+          if (sitter && sitter.equals(sitterId)) {
+            output.unreadAsSitter[status] = true;
+          }
+
+          return output
+        }, { unreadAsOwner: {}, unreadAsSitter: {} });
+
+        notifications.bookings.hasUnread = true;
+        notifications.bookings.unreadAsOwner = allBookings.unreadAsOwner;
+        notifications.bookings.unreadAsSitter = allBookings.unreadAsSitter;
       }
 
-      const chats = await Conversation.find({
+      const allChats = await Conversation.find({
         $or: [
           { participant1: userId },
           { participant2: userId }
@@ -144,7 +157,7 @@ module.exports = {
         }
       )
 
-      const contactUserIds = chats.map(({ participant1, participant2 }) =>
+      const contactUserIds = allChats.map(({ participant1, participant2 }) =>
         participant1.equals(ObjectId(userId)) ? participant2 : participant1
       )
 
@@ -156,11 +169,12 @@ module.exports = {
       }).count() > 0
 
       if (unreadMessages) {
-        notifications.hasChatNotification = true;
+        notifications.chats.hasUnread = true;
       }
 
       return res.status(200).json(notifications);
     } catch (err) {
+      console.log({ err })
       return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   }

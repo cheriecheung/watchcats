@@ -20,8 +20,8 @@ function Mobile({
   isLoggedIn,
   closeMenu,
   onMobileLogout,
-  hasBookingsNotification,
-  hasChatNotification
+  bookingsNotifications,
+  chatsNotifications
 }) {
   return (
     <>
@@ -38,8 +38,8 @@ function Mobile({
             isLoggedIn={isLoggedIn}
             closeMenu={closeMenu}
             onMobileLogout={onMobileLogout}
-            hasBookingsNotification={hasBookingsNotification}
-            hasChatNotification={hasChatNotification}
+            bookingsNotifications={bookingsNotifications}
+            chatsNotifications={chatsNotifications}
           />
         </OverlayMenu>
       </Overlay>
@@ -58,12 +58,15 @@ function MobileMenu({
   closeMenu,
   isLoggedIn,
   onMobileLogout,
-  hasBookingsNotification,
-  hasChatNotification
+  bookingsNotifications,
+  chatsNotifications
 }) {
   // const currentLanguage = localStorage.getItem('lang')
   // const changeLanguage = currentLanguage === 'en' ? 'nl' : 'en'
   const firstName = 'Cherie'
+
+  const { hasUnread: hasUnreadBookings } = bookingsNotifications || {};
+  const { hasUnread: hasUnreadChats } = chatsNotifications || {};
 
   return (
     <>
@@ -76,13 +79,13 @@ function MobileMenu({
           </MenuItemBox>
           <MenuItemBox to="/bookings" onClick={closeMenu}>
             <Icon className="fas fa-calendar-minus fa-2x" />
-            <Badge isShown={hasBookingsNotification}>
+            <Badge isShown={hasUnreadBookings}>
               <Label style={{ paddingRight: 2 }}>{t('header.bookings')}</Label>
             </Badge>
           </MenuItemBox>
           <MenuItemBox to="/messages" onClick={closeMenu}>
             <Icon className="fas fa-envelope fa-2x" />
-            <Badge isShown={hasChatNotification}>
+            <Badge isShown={hasUnreadChats}>
               <Label style={{ paddingRight: 2 }}>{t('header.messages')}</Label>
             </Badge>
           </MenuItemBox>
