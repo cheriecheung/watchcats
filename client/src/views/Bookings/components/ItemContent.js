@@ -1,6 +1,6 @@
 import React from 'react';
-import { Image, ImageContainer } from '../../../components/UIComponents'
-import { Field, FieldLabel, FieldItem, } from '../styledComponents'
+import { DateDisplay, Image, ImageContainer } from '../../../components/UIComponents'
+import { Field, FieldLabel, FieldItem } from '../styledComponents'
 import { formatDate, formatTime } from '../../../utility'
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
@@ -22,6 +22,10 @@ function ItemContent({ t, data, imageContainerVariant }) {
 
   const imgUrl = profilePicture ? `${process.env.REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
 
+  const dateSplit = formatDate(date, 'DD MMM YYYY').split(" ")
+  const startDateSplit = formatDate(startDate, 'DD MMM YYYY').split(" ")
+  const endDateSplit = formatDate(endDate, 'DD MMM YYYY').split(" ")
+
   return (
     <div style={{ display: 'flex', marginTop: 15, marginBottom: 15 }}>
       <ImageContainer variant={imageContainerVariant}>
@@ -29,6 +33,24 @@ function ItemContent({ t, data, imageContainerVariant }) {
       </ImageContainer>
 
       <div style={{ width: '80%', display: 'flex', flexDirection: 'column' }}>
+        <Field style={{ marginBottom: 10 }}>
+          <FieldLabel>{t('bookings.time')}</FieldLabel>
+          {data && appointmentType === 'oneDay' ? (
+            <FieldItem>
+              <DateDisplay splitString={dateSplit} />
+
+              {/* {formatDate(date, 'DD MMM YYYY')}, {formatTime(startTime)} -
+              {formatTime(endTime)} */}
+            </FieldItem>
+          ) : (
+              <FieldItem>
+                <DateDisplay splitString={startDateSplit} />
+                <div style={{ width: 10, height: 4, background: 'grey', margin: '0 10px', alignSelf: 'center' }} />
+                <DateDisplay splitString={endDateSplit} />
+              </FieldItem>
+            )}
+        </Field>
+
         <Field>
           <FieldLabel>
             {bookingType === 'sitting_jobs' ? t('bookings.owner') : t('bookings.sitter')}
@@ -39,20 +61,6 @@ function ItemContent({ t, data, imageContainerVariant }) {
         <Field>
           <FieldLabel>{t('bookings.location')}</FieldLabel>
           <FieldItem>{location}</FieldItem>
-        </Field>
-
-        <Field>
-          <FieldLabel>{t('bookings.time')}</FieldLabel>
-          {data && appointmentType === 'oneDay' ? (
-            <FieldItem>
-              {formatDate(date, 'DD MMM YYYY')}, {formatTime(startTime)} -
-              {formatTime(endTime)}
-            </FieldItem>
-          ) : (
-              <FieldItem>
-                {formatDate(startDate, 'DD MMM YYYY')} - {formatDate(endDate, 'DD MMM YYYY')}
-              </FieldItem>
-            )}
         </Field>
 
         <Field>

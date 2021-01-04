@@ -33,6 +33,7 @@ export const FieldLabel = styled.td`
 `
 
 export const FieldItem = styled.td`
+  display: flex;
 `
 
 export const BrowseLink = styled(Link)`

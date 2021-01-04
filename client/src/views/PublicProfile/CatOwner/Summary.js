@@ -1,5 +1,11 @@
 import React from 'react';
-import { Image, ImageContainer, ProfileStats, VerticalCard } from '../../../components/UIComponents'
+import {
+  DateDisplay,
+  Image,
+  ImageContainer,
+  ProfileStats,
+  VerticalCard
+} from '../../../components/UIComponents'
 import moment from 'moment';
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
@@ -18,6 +24,8 @@ function Summary({ t, ownerInfo }) {
   } = ownerInfo
 
   const pictureUrl = profilePicture ? `${REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
+
+  console.log({ bookingOneDay, bookingOvernight })
 
   return (
     <VerticalCard variant="profileSummary">
@@ -41,14 +49,15 @@ function Summary({ t, ownerInfo }) {
       {/* phone verified */}
       <h6>Verified</h6>
 
-      {(Array.isArray(bookingOneDay) && bookingOneDay.length > 0) ||
-        Array.isArray(bookingOvernight) && bookingOvernight.length > 0 &&
-        <>
-          <hr />
-          <h6>{t('owner_form.sitter_needed')}:</h6>
-          <AppointmentTime t={t} oneDay={bookingOneDay} overnight={bookingOvernight} />
-        </>
-      }
+      {/* change logic */}
+      {/* {(Array.isArray(bookingOneDay) && bookingOneDay.length > 0) ||
+        Array.isArray(bookingOvernight) && bookingOvernight.length > 0 && */}
+      <>
+        <hr />
+        <h5>{t('owner_profile.sitter_needed')}:</h5>
+        <AppointmentTime t={t} oneDay={bookingOneDay} overnight={bookingOvernight} />
+      </>
+      {/* } */}
     </VerticalCard>
   );
 }
@@ -60,6 +69,7 @@ function AppointmentTime({ t, oneDay, overnight }) {
     <>
       {Array.isArray(oneDay) && oneDay.length > 0 && (
         <>
+          <br />
           <h6>{t('owner_profile.one_day_appointment')}: </h6>
 
           {oneDay.map(({ id, date, endTime, startTime }) => {
@@ -67,11 +77,12 @@ function AppointmentTime({ t, oneDay, overnight }) {
             const startTimeObj = moment(startTime).format('HH:mm');
             const endTimeObj = moment(endTime).format('HH:mm');
 
+            const dateSplit = dateConverted.split(" ");
+
             return (
               <span style={{ display: 'flex' }} key={id}>
-                <h5>
-                  {dateConverted}, {startTimeObj} - {endTimeObj}
-                </h5>
+                <DateDisplay splitString={dateSplit} />
+                {startTimeObj} - {endTimeObj}
               </span>
             );
           })}
@@ -80,18 +91,24 @@ function AppointmentTime({ t, oneDay, overnight }) {
 
       {Array.isArray(overnight) && overnight.length > 0 && (
         <>
+          <br />
           <h6>{t('owner_profile.overnight_appointment')}: </h6>
 
           {overnight.map(({ id, startDate, endDate }) => {
             const startDateConverted = moment(startDate, 'YYYY-MM-DD').format('DD MMM YYYY');
             const endDateConverted = moment(endDate, 'YYYY-MM-DD').format('DD MMM YYYY');
 
+            const startDateSplit = startDateConverted.split(" ");
+            const endDateSplit = endDateConverted.split(" ");
+
             return (
-              <span style={{ display: 'flex' }} key={id}>
-                <h5>
-                  {startDateConverted} - {endDateConverted}
-                </h5>
-              </span>
+              <div style={{ display: 'flex' }}>
+                <DateDisplay splitString={startDateSplit} />
+
+                <div style={{ width: 10, height: 4, background: 'grey', margin: '0 10px', alignSelf: 'center' }} />
+
+                <DateDisplay splitString={endDateSplit} />
+              </div>
             );
           })}
         </>

@@ -1,19 +1,18 @@
 import React from 'react';
-import { ContainedButton } from '../../../components/UIComponents';
-import { Image, ImageContainer, ProfileStats, VerticalCard } from '../../../components/UIComponents'
+import { ContainedButton, LinkButton } from '../../../components/UIComponents';
+import {
+  Image,
+  ImageContainer,
+  PriceDisplay,
+  ProfileStats,
+  VerticalCard
+} from '../../../components/UIComponents'
 import RequestBookingModal from './RequestBookingModal';
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
 function Summary({ t, sitterInfo, summaryProps }) {
-  const {
-    modalVisible,
-    setModalVisible,
-    onSendMessage,
-    profileActionStatus,
-  } = summaryProps;
-
   const {
     firstName,
     lastName,
@@ -25,7 +24,16 @@ function Summary({ t, sitterInfo, summaryProps }) {
     nightlyRate
   } = sitterInfo
 
-  const pictureUrl = profilePicture ? `${REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
+  const {
+    modalVisible,
+    setModalVisible,
+    onSendMessage,
+    profileActionStatus,
+    isViewingOwnProfile
+  } = summaryProps;
+
+  const pictureUrl = profilePicture ?
+    `${REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
 
   return (
     <VerticalCard variant="profileSummary">
@@ -43,18 +51,27 @@ function Summary({ t, sitterInfo, summaryProps }) {
 
       <hr />
 
-      <span style={{ display: 'flex' }}>
-        <h5>€ {hourlyRate} {t('sitter_form.per_hour')}</h5>
-      </span>
+      <div style={{ display: 'flex', margin: '25px 0' }}>
+        <PriceDisplay rate={hourlyRate} type="hourly" />
+        <div style={{ width: 1, height: 35, background: '#ECECEC', margin: '0 20px' }} />
+        <PriceDisplay rate={nightlyRate} type="nightly" />
+      </div>
 
-      <span style={{ display: 'flex' }}>
-        <h5>€ {nightlyRate} {t('sitter_form.per_night')}</h5>
-      </span>
-
-      <ContainedButton onClick={onSendMessage}>{t('sitter_profile.send_message')}</ContainedButton>
-      <ContainedButton onClick={() => setModalVisible(true)}>
+      <ContainedButton
+        onClick={onSendMessage}
+        disabled={isViewingOwnProfile}
+      >
+        {t('sitter_profile.send_message')}
+      </ContainedButton>
+      <ContainedButton
+        onClick={() => setModalVisible(true)}
+        disabled={isViewingOwnProfile}
+      >
         {t('sitter_profile.request_appointment')}
       </ContainedButton>
+      {isViewingOwnProfile &&
+        <p>({t('sitter_profile.no_own_profile_action')})</p>
+      }
 
       <RequestBookingModal
         t={t}
