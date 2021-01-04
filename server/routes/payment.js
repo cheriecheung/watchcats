@@ -8,6 +8,6 @@ router.get('/onboard-user', validateToken, PaymentController.onboardUser);
 
 router.get('/onboard-user/refresh', PaymentController.onboardRefresh);
 
-router.post('/payment', formLimiter, speedLimiter(5), validateToken, PaymentController.getClientSecret);
+router.post('/payment', formLimiter, speedLimiter(5), validateToken, PaymentController.getPaymentIntent);
 
 module.exports = router;

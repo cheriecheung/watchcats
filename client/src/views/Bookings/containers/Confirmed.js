@@ -12,12 +12,17 @@ function Confirmed({
   const renderActionButtons = (id, hasPaid) =>
     bookingType === 'sitting_jobs' ? (
       <ConfirmedJob
+        t={t}
         id={id}
         hasPaid={hasPaid}
         onCompleteBooking={() => onCompleteBooking(id)}
       />
     ) : (
-        <ConfirmedService hasPaid={hasPaid} />
+        <ConfirmedService
+          t={t}
+          hasPaid={hasPaid}
+          bookingId={id}
+        />
       );
 
   return (
@@ -64,9 +69,7 @@ function Confirmed({
 
 export default Confirmed;
 
-function ConfirmedJob({ hasPaid, onCompleteBooking }) {
-  const { t } = useTranslation();
-  console.log({ hasPaid })
+function ConfirmedJob({ t, hasPaid, onCompleteBooking }) {
 
   return hasPaid ? (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -81,10 +84,7 @@ function ConfirmedJob({ hasPaid, onCompleteBooking }) {
     );
 }
 
-function ConfirmedService({ hasPaid }) {
-  const { t } = useTranslation();
-
-  console.log({ hasPaid___________: hasPaid })
+function ConfirmedService({ t, hasPaid, bookingId }) {
 
   return hasPaid ? (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -93,7 +93,7 @@ function ConfirmedService({ hasPaid }) {
   ) : (
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <LinkButton
-          to={{ pathname: '/payment', state: { stripeAccountId: 'acct_1HYCiyART4JEToPd' } }}
+          to={{ pathname: '/payment', state: { bookingId, stripeAccountId: 'acct_1HYCiyART4JEToPd' } }}
           variant="bordered"
         >
           {t('bookings.pay_now')}

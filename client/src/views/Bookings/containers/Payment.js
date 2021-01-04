@@ -22,25 +22,25 @@ const options = {
   },
 };
 
-function CheckoutForm() {
+function CheckoutForm({ bookingId }) {
   const { t } = useTranslation();
 
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.payment);
+  const { paymentIntent } = useSelector((state) => state.payment);
   const [clientSecret, setClientSecret] = useState('');
 
   useEffect(() => {
-    if (data) {
-      const { client_secret } = data || {};
-      setClientSecret(client_secret);
-    }
-  }, [data]);
+    dispatch(getPaymentIntent(bookingId));
+  }, []);
 
   useEffect(() => {
-    dispatch(getPaymentIntent(3));
-  }, []);
+    if (paymentIntent) {
+      const { client_secret } = paymentIntent;
+      setClientSecret(client_secret);
+    }
+  }, [paymentIntent]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -96,15 +96,15 @@ const stripePromise = (accountId) =>
   loadStripe(process.env.REACT_APP_STRIPE_API_KEY, { stripeAccount: accountId });
 
 function Payment() {
-  const { stripeAccountId } = useLocation().state || {};
+  const { bookingId, stripeAccountId } = useLocation().state || {};
 
   useEffect(() => {
-    console.log({ stripeAccountId });
-  }, [stripeAccountId]);
+    console.log({ bookingId });
+  }, [bookingId]);
 
   return (
     <Elements stripe={stripePromise(stripeAccountId)}>
-      <CheckoutForm />
+      <CheckoutForm bookingId={bookingId} />
     </Elements>
   );
 }
