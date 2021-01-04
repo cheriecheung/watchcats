@@ -8,26 +8,27 @@ import {
   DefaultAutoMessageStyle,
   AlternateAutoMessageStyle
 } from '../styledComponents'
+import AUTOMATED_MESSAGES from '../../../constants/automatedMessages'
 
 function AutomatedMessage({ t, message, conversationInfo }) {
-  const generateMessage = (data, user) => {
-    switch (data) {
-      case 'AUTOMATED_MESSAGE/BOOKING_REQUESTED':
+  const generateMessage = (type, user) => {
+    switch (type) {
+      case AUTOMATED_MESSAGES.BOOKING_REQUESTED:
         return (
           <DefaultAutoMessageStyle>
             { `A booking request is made by ${user}`}
           </DefaultAutoMessageStyle>
         )
-      case 'AUTOMATED_MESSAGE/BOOKING_CONFIRMED':
+      case AUTOMATED_MESSAGES.BOOKING_CONFIRMED:
         return (
           <AlternateAutoMessageStyle>
             <i className="fas fa-check fa-xs mr-2" />
             {`Booking is accepted by ${user}`}
           </AlternateAutoMessageStyle>
         )
-      case 'AUTOMATED_MESSAGE/BOOKING_DECLINED':
+      case AUTOMATED_MESSAGES.BOOKING_DECLINED:
         return `Booking has been declined by ${user}`
-      case 'AUTOMATED_MESSAGE/BOOKING_COMPLETED':
+      case AUTOMATED_MESSAGES.BOOKING_COMPLETED:
         return (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <AlternateAutoMessageStyle>
@@ -48,13 +49,12 @@ function AutomatedMessage({ t, message, conversationInfo }) {
     }
   }
 
-  console.log({ message, conversationInfo })
   const { sender: currentUser } = conversationInfo || {}
   const { id: currentUserId } = currentUser
 
   const { booking, content, createdAt, sender } = message || {}
   const {
-    type,
+    appointmentType,
     date,
     startTime,
     endTime,
@@ -65,9 +65,12 @@ function AutomatedMessage({ t, message, conversationInfo }) {
     owner,
     sitter
   } = booking || {}
+  const { user } = owner || {};
+  const { firstName, lastName } = user || {}
+  const ownerName = `${firstName} ${lastName.charAt(0)}`
 
-  const actionMaker = content === 'AUTOMATED_MESSAGE/BOOKING_REQUESTED' ? owner : sitter
-  const user = currentUserId === sender ? 'you' : actionMaker
+  const actionMaker = content === AUTOMATED_MESSAGES.BOOKING_REQUESTED ? ownerName : sitter
+  const person = currentUserId === sender ? 'you' : actionMaker
 
   return (
     <>
@@ -77,7 +80,7 @@ function AutomatedMessage({ t, message, conversationInfo }) {
         </span>
       </div>
       <div style={{ margin: '20px 0', display: 'flex', justifyContent: 'center' }}>
-        {generateMessage(content, user)}
+        {generateMessage(content, person)}
       </div>
 
       {content === 'AUTOMATED_MESSAGE/BOOKING_REQUESTED' &&
@@ -87,7 +90,7 @@ function AutomatedMessage({ t, message, conversationInfo }) {
           <Field style={{ marginTop: 5 }}>
             <FieldLabel>{t('bookings.type')}</FieldLabel>
             <FieldItem>
-              {type === 'oneDay' ?
+              {appointmentType === 'oneDay' ?
                 t('bookings.one_day_appointment') :
                 t('bookings.overnight_appointment')
               }
@@ -96,7 +99,7 @@ function AutomatedMessage({ t, message, conversationInfo }) {
 
           <Field>
             <FieldLabel>{t('bookings.time')}</FieldLabel>
-            {type === 'oneDay' ? (
+            {appointmentType === 'oneDay' ? (
               <FieldItem>
                 {formatDate(date, 'DD MMM YYYY')}, {formatTime(startTime)} -
                 {formatTime(endTime)}

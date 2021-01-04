@@ -17,6 +17,9 @@ const User = require('./model/User')
 const { baseRouter } = require('./routes');
 const { verify } = require('jsonwebtoken');
 const { decode } = require('js-base64');
+const { getPartificpantsInfo } = require('./helpers/chat')
+const { sendNewMessageMail } = require('./helpers/mailer')
+const { sendTwilioSMS } = require('./helpers/sms')
 
 const { DB_CONNECT, SESS_NAME, SESS_SECRET, SESS_LIFETIME, PASSPHRASE, PORT, JWT_ACCESS_TOKEN_SECRET } = process.env;
 
@@ -103,8 +106,6 @@ io.use((socket, next) => {
 
 io.on("connection", socket => {
   socket.on("Input Chat Message", async (incomingData) => {
-
-    // connect.then(db => {
     const { message, recipient } = incomingData
     const { decoded } = socket
     const { userId: senderId } = decoded || {}
@@ -112,7 +113,6 @@ io.on("connection", socket => {
     try {
       const recipientUserRecord = await User.findOne({ urlId: recipient });
       if (!recipientUserRecord) {
-        console.log({ recipientUserRecord })
         console.log('recipient not found..')
         // //   socket.on('disconnect', () => {
         // //     console.log('<<<<<<<<<<< user is now disconnected');
@@ -127,64 +127,83 @@ io.on("connection", socket => {
         participant2: [recipientObjId, senderObjId],
       });
 
-      if (!conversation) {
-        const newConversation = new Conversation({
-          lastMessage: message,
-          lastMessageDate: Date.now(),
-          participant1: recipientObjId,
-          participant2: senderObjId,
+      if (conversation) {
+        const newMessage = new Message({
+          sender: senderObjId,
+          content: message,
+          conversation: conversation._id
         });
+        await newMessage.save();
 
+        conversation.lastMessage = newMessage._id;
+        conversation.updatedAt = Date.now()
+        await conversation.save();
+      } else {
         const newMessage = new Message({
           sender: senderObjId,
           content: message,
         });
 
-        await newConversation.save((err) => {
-          if (err) return err;
-          newMessage.conversation = newConversation._id;
-          newMessage.save();
+        await newMessage.save();
 
-          Conversation.findById(newConversation._id)
-            .populate("sender")
-            .exec((err, doc) => {
-              console.log({ new_convo_message_doc: doc })
-              return io.emit("Output Chat Message", { ...doc, sender: senderId });
-            })
+        const newConversation = new Conversation({
+          lastMessage: newMessage._id,
+          participant1: recipientObjId,
+          participant2: senderObjId,
+          updatedAt: Date.now()
         });
 
-        return;
+        await newConversation.save();
+
+        newMessage.conversation = newConversation._id;
+        newMessage.save();
       }
 
-      conversation.lastMessage = message;
-      conversation.lastMessageDate = Date.now()
+      const sorted = await Conversation.find({
+        $or: [
+          { participant1: senderId },
+          { participant2: senderId }
+        ]
+      }).sort({ updatedAt: -1 })
+      if (!sorted) return res.status(404).json('ERROR/ERROR_OCCURED')
 
-      await conversation.save();
+      const { chatList, err } = await getPartificpantsInfo(sorted, senderId)
+      if (err) return res.status(400).json('ERROR/ERROR_OCCURED')
 
-      const newMessage = new Message({
-        sender: senderObjId,
-        content: message,
-        conversation: conversation._id
-      });
+      const {
+        firstName,
+        lastName,
+        email,
+        getEmailNotification,
+        phone,
+        getSmsNotification
+      } = recipientUserRecord
 
-      await newMessage.save();
+      const recipientName = `${firstName} ${lastName.charAt(0)}`
+      if (email && getEmailNotification) {
+        sendNewMessageMail({ email, name: recipientName })
+      }
 
-      console.log({ newMessageInExistingConvo: newMessage }
-      )
+      if (phone && getSmsNotification) {
+        sendTwilioSMS(phone, 'MESSAGE_RECEIVED', { name: recipientName })
+      }
+
+      // 2. update notification badge in app
 
       return io.emit("Output Chat Message", {
-        date: Date.now(),
-        content: message,
-        sender: senderId
+        newMessage: {
+          date: Date.now(),
+          content: message,
+          sender: senderId
+        },
+        updatedChatList: chatList
       });
     } catch (error) {
       console.error({ error });
       // //   socket.on('disconnect', () => {
       // //     console.log('<<<<<<<<<<< user is now disconnected');
     }
-    // })
   })
-
 })
 
 //  =============================

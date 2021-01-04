@@ -20,7 +20,7 @@ function generateMessageType(status) {
 }
 
 module.exports = {
-  createAutomatedMessage: async ({ booking, bookingAction, senderId, recipientId }) => {
+  createAutomatedMessage: async ({ bookingId, bookingAction, senderId, recipientId }) => {
     const { message } = generateMessageType(bookingAction)
     if (!message) return { ok: false, err: 'Unable to generate automated message' }
 
@@ -30,17 +30,8 @@ module.exports = {
     });
 
     if (!conversation) {
-      const newConversation = new Conversation({
-        lastMessage: message,
-        lastMessageDate: Date.now(),
-        participant1: recipientId,
-        participant2: senderId,
-      });
-
-      await newConversation.save();
-
       const newMessage = new Message({
-        booking,
+        booking: bookingId,
         content: message,
         conversation: newConversation._id,
         sender: senderId,
@@ -48,15 +39,23 @@ module.exports = {
 
       await newMessage.save();
 
+      const newConversation = new Conversation({
+        lastMessage: newMessage._id,
+        participant1: recipientId,
+        participant2: senderId,
+        updatedAt: Date.now()
+      });
+
+      await newConversation.save();
+
       return { ok: true };
     }
 
-    conversation.lastMessage = message;
-    conversation.lastMessageDate = Date.now();
+    conversation.lastMessage = newMessage;
     await conversation.save();
 
     const newMessage = new Message({
-      booking,
+      booking: bookingId,
       content: message,
       conversation: conversation._id,
       sender: senderId

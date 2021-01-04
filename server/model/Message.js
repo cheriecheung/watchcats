@@ -17,7 +17,8 @@ const messageSchema = new Schema({
     required: true,
   },
   booking: {
-    type: Object,
+    type: Schema.Types.ObjectId,
+    ref: 'Booking',
     required: false
   },
   isReadByRecipient: {

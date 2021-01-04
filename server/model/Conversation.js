@@ -2,15 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const conversationSchema = new Schema({
-  message: {
+  lastMessage: {
     type: Schema.Types.ObjectId,
     ref: 'Message',
-  },
-  lastMessage: {
-    type: String,
-  },
-  lastMessageDate: {
-    type: Date,
   },
   participant1: {
     type: Schema.Types.ObjectId,
@@ -25,6 +19,11 @@ const conversationSchema = new Schema({
     default: Date.now(),
     required: false,
   },
+  updatedAt: {
+    type: Date,
+    default: Date.now(),
+    required: false,
+  }
 });
 
 module.exports = mongoose.model('Conversation', conversationSchema);

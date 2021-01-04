@@ -184,7 +184,8 @@ module.exports = {
         filter = { owner: ownerObjId }
       }
 
-      await Booking.update(filter, { $set: { isRead: true } }, { multi: true })
+      // isReadBy
+      // await Booking.update(filter, { $set: { isRead: true } }, { multi: true })
 
       bookingRecords = await Booking.find(filter);
 
@@ -262,7 +263,7 @@ module.exports = {
       }
 
       const { err } = await createAutomatedMessage({
-        booking: { sitter: `${firstName} ${lastName.charAt(0)}` },
+        booking: id,
         bookingAction: action,
         senderId: sitterUserId,
         recipientId: ownerUserId,

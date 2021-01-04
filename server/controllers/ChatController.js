@@ -1,3 +1,4 @@
+const Booking = require('../model/Booking');
 const Conversation = require('../model/Conversation');
 const Message = require('../model/Message');
 const Owner = require('../model/Owner');
@@ -16,7 +17,7 @@ module.exports = {
           { participant1: senderId },
           { participant2: senderId }
         ]
-      }).sort({ lastMessageDate: -1 })
+      }).sort({ updatedAt: -1 })
 
       if (!sorted) return res.status(404).json('ERROR/ERROR_OCCURED')
       if (sorted.length === 0) return res.status(200).json({ chatList: [] })
@@ -97,7 +98,21 @@ module.exports = {
         conversationInfo: { sender, recipient }
       })
 
-      const messages = await Message.find({ conversation: conversation._id })
+      const messages = await Message
+        .find({ conversation: conversation._id })
+        .populate([{
+          path: 'booking',
+          select: ['_id', 'owner', 'sitter', 'appointmentType', 'startDate', 'endDate', 'date', 'startTime', 'endTime', 'location', 'price', 'status'],
+          populate: {
+            path: 'owner',
+            select: ['user'],
+            populate: {
+              path: 'user',
+              select: ['firstName', 'lastName']
+            }
+          }
+        }
+        ])
       if (!messages) return res.status(404).json('ERROR/MESSAGES_NOT_FOUND')
 
       return res.status(200).json({

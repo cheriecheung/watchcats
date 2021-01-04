@@ -1,3 +1,4 @@
+const Message = require('../model/Message');
 const User = require('../model/User');
 const ObjectId = require('mongodb').ObjectID;
 
@@ -8,16 +9,18 @@ module.exports = {
         const {
           _id: conversationId,
           lastMessage,
-          lastMessageDate,
           participant1,
-          participant2
+          participant2,
+          updatedAt,
         } = item
 
-        const [user1, user2] = await Promise.all([
+        const [user1, user2, message] = await Promise.all([
           User.findById(participant1),
           User.findById(participant2),
+          Message.findById(lastMessage)
         ]);
-        if (!user1 || !user2) return { err: 'Cannot find user(s)' }
+        console.log({ user1, user2, message, lastMessage })
+        if (!user1 || !user2 || !message) return { err: 'Cannot find user(s) or message' }
 
         const recipientObj = user1._id.equals(ObjectId(senderId)) ? user2 : user1
 
@@ -39,8 +42,8 @@ module.exports = {
 
         return {
           id: conversationId,
-          lastMessage,
-          lastMessageDate,
+          lastMessage: message.content,
+          lastMessageDate: updatedAt,
           recipient
         }
       })
