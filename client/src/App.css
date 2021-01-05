@@ -16,7 +16,7 @@ html {
   /* background-color: var(--theme-background-color); */
   background-color:#fdefea !important;
 
-  --antd-wave-shadow-color: green !important;
+  /* --antd-wave-shadow-color: green !important; */
   scroll-behavior: smooth;
 }
 

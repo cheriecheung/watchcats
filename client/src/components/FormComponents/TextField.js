@@ -50,6 +50,7 @@ function TextField({
             type={type}
             maxLength={maxLength}
             style={style}
+            className="form-control"
           />
         }
         control={control}

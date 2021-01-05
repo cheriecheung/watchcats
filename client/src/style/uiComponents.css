@@ -6,6 +6,15 @@
   --theme-border-radius: 10px !important;
 }
 
+.ant-spin-nested-loading > div > .ant-spin{
+  height: 80vh;
+}
+
+/* ------------------- ant list empty display ------------------- */
+.ant-list-empty-text{
+  display: none;
+}
+
 /* ------------------- ant badge ------------------- */
 .ant-badge-status-text{
   display:none;
@@ -50,10 +59,10 @@
 body::-webkit-scrollbar {
   width: 0.9em;
 }
-
+/* 
 *::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
-}
+} */
 
 *::-webkit-scrollbar-thumb {
   background-color: #c5c1c7;
@@ -185,7 +194,7 @@ ant-tabs-tab-remove:active {
 }
 
 .gm-ui-hover-effect {
-  background: #4e766b !important;
+  /* background: #4e766b !important; */
   opacity: 1;
   border-radius: 50%;
   top: -10px !important;

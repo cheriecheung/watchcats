@@ -71,7 +71,7 @@
 /* ------------------- Form element: Text type ------------------- */
 .upload-file-input,
 .form-control {
-  /* border: var(--theme-field-border) !important; */
+  border: var(--theme-field-border) !important;
   border-radius: var(--theme-border-radius) !important;
   outline: none;
 }
@@ -95,8 +95,8 @@ input[type='file'] {
   border-radius: var(--theme-border-radius) !important;
 } */
 
-.ant-input:hover,
-.ant-input:focus,
+/* .ant-input:hover, */
+/* .ant-input:focus, */
 .ant-picker:hover,
 .ant-picker.ant-picker-focused,
 .social-media-input .ant-input-affix-wrapper:hover,
@@ -110,6 +110,7 @@ input[type='file'] {
 .ant-input-password.ant-input-affix-wrapper-focused,
 .form-control:hover,
 .form-control:focus,
+.form-control.ant-input-affix-wrapper-focused,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 .upload-file-input:hover,

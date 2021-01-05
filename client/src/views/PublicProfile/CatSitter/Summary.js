@@ -43,6 +43,8 @@ function Summary({ t, sitterInfo, summaryProps }) {
         <Image url={pictureUrl} />
       </ImageContainer>
 
+      <br />
+
       <ProfileStats
         totalReviews={totalReviews}
         totalCompletedBookings={totalCompletedBookings}
@@ -52,9 +54,9 @@ function Summary({ t, sitterInfo, summaryProps }) {
       <hr />
 
       <div style={{ display: 'flex', margin: '25px 0' }}>
-        <PriceDisplay rate={hourlyRate} type="hourly" />
+        <PriceDisplay rate={hourlyRate} rateType="hourly" />
         <div style={{ width: 1, height: 35, background: '#ECECEC', margin: '0 20px' }} />
-        <PriceDisplay rate={nightlyRate} type="nightly" />
+        <PriceDisplay rate={nightlyRate} rateType="nightly" />
       </div>
 
       <ContainedButton

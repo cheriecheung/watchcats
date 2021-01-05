@@ -34,16 +34,18 @@ function CatSitter() {
     urlId
   } = cleanedData || {}
 
+  console.log({ profileError })
+
   return (
     <>
-      {profileError && <NotFound variant="profile" />}
+      {profileError && <NotFound />}
 
       {!profileError && cleanedData &&
         <WrapLayout variant="profile">
           <VerticalCard variant="profileDetails">
             {reviews && reviews.length > 0 &&
               <>
-                <Section>
+                <Section style={{ margin: 0 }}>
                   <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
                     {t('sitter_profile.feedback')} ({reviews.length})
                   </h5>
@@ -78,7 +80,7 @@ function CatSitter() {
 
             <hr />
 
-            <Section>
+            <Section style={{ margin: 0 }}>
               <h5>{t('sitter_profile.location')}</h5>
               <Location coordinates={coordinates} urlId={urlId} />
             </Section>
