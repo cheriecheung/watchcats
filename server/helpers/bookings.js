@@ -29,14 +29,24 @@ module.exports = {
       participant2: [recipientId, senderId],
     });
 
-    if (!conversation) {
+    if (conversation) {
       const newMessage = new Message({
         booking: bookingId,
         content: message,
-        conversation: newConversation._id,
+        conversation: conversation._id,
+        sender: senderId
+      });
+      await newMessage.save();
+
+      conversation.lastMessage = newMessage._id;
+      conversation.updatedAt = Date.now()
+      await conversation.save();
+    } else {
+      const newMessage = new Message({
+        booking: bookingId,
+        content: message,
         sender: senderId,
       });
-
       await newMessage.save();
 
       const newConversation = new Conversation({
@@ -45,23 +55,11 @@ module.exports = {
         participant2: senderId,
         updatedAt: Date.now()
       });
-
       await newConversation.save();
 
-      return { ok: true };
+      newMessage.conversation = newConversation._id;
+      await newMessage.save();
     }
-
-    conversation.lastMessage = newMessage;
-    await conversation.save();
-
-    const newMessage = new Message({
-      booking: bookingId,
-      content: message,
-      conversation: conversation._id,
-      sender: senderId
-    });
-
-    await newMessage.save();
 
     return { ok: true };
   },

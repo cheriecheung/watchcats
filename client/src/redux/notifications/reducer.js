@@ -30,6 +30,11 @@ const notifications_reducer = {
           unreadBookingsAsOwner: {},
           unreadBookingsAsSitter: {}
         }
+      case NotificationsActionTypes.SET_ALL_CHATS_AS_READ:
+        return {
+          ...state,
+          hasUnreadChats: false,
+        }
       default:
         return state;
     }

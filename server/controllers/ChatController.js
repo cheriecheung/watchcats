@@ -1,10 +1,9 @@
-const Booking = require('../model/Booking');
 const Conversation = require('../model/Conversation');
 const Message = require('../model/Message');
 const Owner = require('../model/Owner');
 const Sitter = require('../model/Sitter');
 const User = require('../model/User');
-const { getPartificpantsInfo } = require('../helpers/chat')
+const { populateChatList } = require('../helpers/chat');
 
 module.exports = {
   getChatList: async (req, res) => {
@@ -22,14 +21,9 @@ module.exports = {
       if (!sorted) return res.status(404).json('ERROR/ERROR_OCCURED')
       if (sorted.length === 0) return res.status(200).json({ chatList: [] })
 
-      const { chatList, err } = await getPartificpantsInfo(sorted, senderId)
-      if (err) return res.status(400).json('ERROR/ERROR_OCCURED')
+      const { populatedList } = await populateChatList(senderId);
 
-      return res.status(200).json({ chatList })
-
-      // `/messages/${recipientShortId}` automatically redirects to
-      // https://watchcats.nl/messages/:recipientShortId
-      // return res.redirect(`/messages/${recipientShortId}`);
+      return res.status(200).json({ chatList: populatedList })
     } catch (err) {
       console.log({ err })
       return res.status(400).json('ERROR/ERROR_OCCURED')

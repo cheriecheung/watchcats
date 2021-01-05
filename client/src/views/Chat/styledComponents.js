@@ -92,18 +92,6 @@ export const NoChatContainer = styled.div`
   color: ${themeColor.lightGrey};
 `
 
-export const NoChatTitle = styled.h6`
-  margin-top: 20px;
-  color: ${themeColor.darkGrey};
-  font-size: 1.4rem;
-  font-weight: bold;
-`
-
-export const NoChatText = styled.h6`
-  color: ${themeColor.grey};
-  font-size: 1rem;
-`
-
 export const MainContainer = styled.div`
   text-align: left;
   width: 100%;

@@ -1,11 +1,6 @@
 import React from 'react';
-import { LinkButton } from '../../components/UIComponents'
-import {
-  MainContainer,
-  NoChatContainer,
-  NoChatTitle,
-  NoChatText
-} from './styledComponents'
+import { LinkButton, ResponseDisplayTemplate } from '../../components/UIComponents'
+import { MainContainer, NoChatContainer } from './styledComponents'
 import ChatList from './ChatList';
 import Conversation from './Conversation';
 import ConversationInfo from './ConversationInfo';
@@ -18,8 +13,6 @@ const ChatWidth = 100 - ListWidth - ChatDetailsWidth;
 function Chat() {
   const {
     t,
-    // FormProvider,
-    // methods,
     chatList,
     clickedChat,
     hoveredChat,
@@ -46,15 +39,20 @@ function Chat() {
       {Array.isArray(chatList) &&
         chatList.length === 0 &&
         <NoChatContainer>
-          <i className="far fa-comment-dots fa-5x" />
-          <NoChatTitle>{t('chats.no_chats')}</NoChatTitle>
-          <NoChatText>{t('chats.if_sitter')}</NoChatText>
-          <NoChatText>
-            {t('chats.if_owner')}&nbsp;
-            <LinkButton variant="colored" to="/find">
-              {t('chats.find_sitter')}
-            </LinkButton>
-          </NoChatText>
+          <ResponseDisplayTemplate
+            icon={<i className="far fa-comment-dots fa-5x" />}
+            title={t('chats.no_chats')}
+            text={
+              <>
+                {t('chats.if_sitter')}
+                <br />
+                {t('chats.if_owner')}
+                <LinkButton variant="colored" to="/find" style={{ lineHeight: '2rem' }}>
+                  &nbsp;{t('chats.find_sitter')}
+                </LinkButton>
+              </>
+            }
+          />
         </NoChatContainer>
       }
 
@@ -71,8 +69,6 @@ function Chat() {
 
           <Conversation
             t={t}
-            // FormProvider={FormProvider}
-            //   methods={methods}
             conversationInfo={conversationInfo}
             allMessages={allMessages}
             onSubmitMessage={onSubmitMessage}

@@ -88,8 +88,8 @@ function useBookings() {
     const status = bookingStatusActiveKey;
     const {
       hasUnreadBookings,
-      unreadBookingsAsOwner,
-      unreadBookingsAsSitter
+      unreadBookingsAsOwner = {},
+      unreadBookingsAsSitter = {}
     } = notifications || {};
 
     if (unreadBookingsAsOwner && unreadBookingsAsOwner[status]) {

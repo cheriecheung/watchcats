@@ -85,11 +85,11 @@ module.exports = {
         return res.status(404).json('ERROR/ERROR_OCCURED');
 
       let newBooking;
-      const bookingObj = {
-        owner: `${firstName} ${lastName.charAt(0)}`,
-        type,
-        location: postcode,
-      }
+      // const bookingObj = {
+      //   owner: `${firstName} ${lastName.charAt(0)}`,
+      //   type,
+      //   location: postcode,
+      // }
 
       if (type === 'oneDay') {
         const { date, startTime, endTime, price } = req.body;
@@ -106,10 +106,10 @@ module.exports = {
           status: 'requested',
         });
 
-        bookingObj.date = date;
-        bookingObj.startTime = startTime;
-        bookingObj.endTime = endTime;
-        bookingObj.price = price;
+        // bookingObj.date = date;
+        // bookingObj.startTime = startTime;
+        // bookingObj.endTime = endTime;
+        // bookingObj.price = price;
       }
 
       if (type === 'overnight') {
@@ -126,20 +126,24 @@ module.exports = {
           status: 'requested',
         });
 
-        bookingObj.startDate = startDate;
-        bookingObj.endDate = endDate;
-        bookingObj.price = price;
+        // bookingObj.startDate = startDate;
+        // bookingObj.endDate = endDate;
+        // bookingObj.price = price;
       }
 
-      await newBooking.save();
+      await newBooking.save(async (error, saved) => {
+        if (error) return res.status(400).json('ERROR/ERROR_OCCURED');
 
-      const { err } = await createAutomatedMessage({
-        booking: bookingObj,
-        bookingAction: 'request',
-        senderId: ownerUserId,
-        recipientId: sitterUserId,
-      })
-      if (err) return res.status(400).json('ERROR/ERROR_OCCURED');
+        console
+
+        const { err } = await createAutomatedMessage({
+          bookingId: saved.id,
+          bookingAction: 'request',
+          senderId: ownerUserId,
+          recipientId: sitterUserId,
+        })
+        if (err) return res.status(400).json('ERROR/ERROR_OCCURED');
+      });
 
       const ownerName = `${firstName} ${lastName.charAt(0)}`
 
@@ -263,7 +267,7 @@ module.exports = {
       }
 
       const { err } = await createAutomatedMessage({
-        booking: id,
+        bookingId: id,
         bookingAction: action,
         senderId: sitterUserId,
         recipientId: ownerUserId,

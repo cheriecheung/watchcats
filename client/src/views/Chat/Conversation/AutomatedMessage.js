@@ -69,6 +69,8 @@ function AutomatedMessage({ t, message, conversationInfo }) {
   const { firstName, lastName } = user || {}
   const ownerName = `${firstName} ${lastName.charAt(0)}`
 
+  console.log({ booking })
+
   const actionMaker = content === AUTOMATED_MESSAGES.BOOKING_REQUESTED ? ownerName : sitter
   const person = currentUserId === sender ? 'you' : actionMaker
 

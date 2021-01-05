@@ -42,8 +42,6 @@ const Chat = styled.div`
 
 function Conversation({
   t,
-  // FormProvider,
-  // methods,
   conversationInfo,
   allMessages,
   onSubmitMessage,
@@ -57,11 +55,8 @@ function Conversation({
   message,
   setMessage
 }) {
-  // const { handleSubmit } = methods
-
   const { recipient } = conversationInfo || {}
   const { firstName, lastName, profilePicture: recipientPicture } = recipient || {}
-
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -74,8 +69,6 @@ function Conversation({
       />
 
       <ChatContainer>
-        {/* <FormProvider {...methods}> */}
-        {/* <FormContainer onSubmit={handleSubmit(onSubmitMessage)}> */}
         <FormContainer onSubmit={onSubmitMessage}>
           <ConversationScrollableLayer
             bottom={inputHeight}
@@ -112,7 +105,6 @@ function Conversation({
             setMessage={setMessage}
           />
         </FormContainer>
-        {/* </FormProvider> */}
       </ChatContainer>
     </div>
   );

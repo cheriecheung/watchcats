@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useHistory } from 'react-router-dom';
-// import { useForm, FormProvider } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getChatList,
@@ -13,6 +12,8 @@ import {
 import io from "socket.io-client";
 import { getAccessToken } from '../../utility/accessToken';
 import ScreenWidthListener from '../../components/Layout/ScreenWidthListener'
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 let socket;
 
@@ -22,6 +23,7 @@ function useChat() {
   const history = useHistory();
   const { t } = useTranslation();
   const { id: recipientId } = useParams();
+  const myUrlId = cookies.get('shortId')
 
   const chatContainerRef = useRef(null);
   const inputRef = useRef(null);
@@ -35,21 +37,15 @@ function useChat() {
   const [inputHeight, setInputHeight] = useState("4rem");
   const [scrollHeight, setScrollHeight] = useState("");
 
-
   // list, conversation, info
   const [mobileScreenView, setMobileScreenView] = useState('list')
 
   const [message, setMessage] = useState("");
 
-  // const defaultValues = { messageInput: '' };
-  // const methods = useForm({ defaultValues });
-  // const { register, handleSubmit, watch, reset } = methods;
-
   console.log({ chatList, conversationInfo, allMessages })
 
   useEffect(() => {
     // chat container should start at bottom
-
     let server = process.env.REACT_APP_API_DOMAIN;
 
     dispatch(getChatList());
@@ -75,21 +71,25 @@ function useChat() {
 
   useEffect(() => {
     if (screenWidth >= 735 && Array.isArray(chatList) && chatList.length > 0) {
-      setClickedChat(chatList[0].id)
+      setClickedChat(chatList[0]._id)
     }
 
-    if (screenWidth >= 735 && !recipientId && Array.isArray(chatList) && chatList.length > 0) {
-      const shortId = chatList[0].recipient.shortId
-      history.push(`/messages/${shortId}`)
+    if (screenWidth >= 735 && Array.isArray(chatList) && chatList.length > 0) {
+      const { participant1, participant2 } = chatList[0] || {}
+      const recipient = participant1 ? participant1 : participant2
+      const recipientUrlId = recipient.urlId
+      history.push(`/messages/${recipientUrlId}`)
     }
   }, [chatList])
 
   useEffect(() => {
     if (recipientId) {
-      console.log("sendinggggg")
       dispatch(getChatConversation(recipientId));
     }
-    // if no id, redirect to where?
+
+    if (recipientId === myUrlId || !recipientId) {
+      history.push(`/messages`)
+    }
   }, [recipientId])
 
   function onFetchConversation(recipientShortId, conversationId) {
@@ -160,19 +160,15 @@ function useChat() {
     e.preventDefault();
 
     socket.emit('Input Chat Message', {
-      // message: data.messageInput,
       message,
       recipient: recipientId,
     });
 
     setMessage('')
-    // reset(defaultValues);
   };
 
   return {
     t,
-    // FormProvider,
-    // methods,
     chatList,
     clickedChat,
     hoveredChat,
