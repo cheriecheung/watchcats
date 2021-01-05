@@ -17,7 +17,6 @@ function FindCatSitter() {
     loading,
     totalResults,
     paginatedResults,
-    results, // ???
     pagination,
     currentPage,
     onChangePage,
@@ -43,7 +42,6 @@ function FindCatSitter() {
             t={t}
             totalResults={totalResults}
             paginatedResults={paginatedResults}
-            results={results}
             pagination={pagination}
             loading={loading}
             onChangePage={onChangePage}
@@ -59,7 +57,7 @@ function FindCatSitter() {
             zoom={zoom}
             setZoom={setZoom}
             center={center}
-            results={results}
+            results={paginatedResults}
             loading={loading}
             hoveredResultId={hoveredResultId}
             onGetSitters={onGetSitters}

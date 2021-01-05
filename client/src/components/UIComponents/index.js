@@ -27,7 +27,11 @@ import Spinner from './Loading/Spinner'
 import Modal from './Modal/Modal'
 import ModalSuccessDisplay from './Modal/ModalSuccessDisplay'
 
-import NotFound from './ScreenDisplay/NotFound'
+import DateDisplay from './NumberDisplay/DateDisplay'
+import PriceDisplay from './NumberDisplay/PriceDisplay'
+
+import NotFound from './ResponseDisplay/NotFound'
+import ResponseDisplayTemplate from './ResponseDisplay/ResponseDisplayTemplate'
 
 import SubTabBar from './Tab/SubTabBar'
 import SubTabBarItem from './Tab/SubTabBarItem'
@@ -42,8 +46,6 @@ import CheckedIcon from './CheckedIcon'
 import EllipsisParagraph from './EllipsisParagraph'
 import MapContainer from './MapContainer'
 import PasswordCriteriaList from './PasswordCriteriaList'
-import DateDisplay from './DateDisplay'
-import PriceDisplay from './PriceDisplay'
 import ProfileStats from './ProfileStats'
 import Tooltip from './Tooltip'
 
@@ -77,7 +79,11 @@ export {
   Modal,
   ModalSuccessDisplay,
 
+  DateDisplay,
+  PriceDisplay,
+
   NotFound,
+  ResponseDisplayTemplate,
 
   SubTabBar,
   SubTabBarItem,
@@ -92,8 +98,6 @@ export {
   EllipsisParagraph,
   MapContainer,
   PasswordCriteriaList,
-  DateDisplay,
-  PriceDisplay,
   ProfileStats,
   Tooltip
 }

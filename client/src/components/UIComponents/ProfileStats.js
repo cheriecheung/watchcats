@@ -1,35 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 
-const fiveStarDisplay = (number) => {
-  return (
-    <>
-      <i className="fas fa-star icon-sort-review" />
-      <i className="fas fa-star icon-sort-review" />
-      <i className="fas fa-star icon-sort-review" />
-      <i className="fas fa-star icon-sort-review" />
-      <i className="fas fa-star icon-sort-review" />
-      <span className="ml-1">
-        {number} {number === 1 ? 'Review' : 'Reviews'}
-      </span>
-    </>
-  );
-};
+const Container = styled.div`
+  @media (max-width: 450px) {
+    ${({ isResponsive }) => isResponsive && `
+      & > div > span {
+        font-size: 13px;
+      }
+
+      & > div > span {
+        font-size: 13px;
+      }
+
+      & > div:first-child > i {
+        font-size: 10px;
+      }
+    `}
+  }
+`
 
 function ProfileStats({
   type,
   totalReviews,
   totalCompletedBookings,
-  totalRepeatedCustomers
+  totalRepeatedCustomers,
+  isResponsive
 }) {
   const { t } = useTranslation();
   const isProfilePage = window.location.pathname.includes('profile');
 
   return (
-    <>
+    <Container isResponsive={isResponsive}>
       <div style={{ marginRight: 10, visibility: totalReviews > 0 ? 'visible' : 'hidden' }}>
-        {fiveStarDisplay(totalReviews)}
+        <i className="fas fa-star icon-sort-review" />
+        <i className="fas fa-star icon-sort-review" />
+        <i className="fas fa-star icon-sort-review" />
+        <i className="fas fa-star icon-sort-review" />
+        <i className="fas fa-star icon-sort-review" />
+        <span className="ml-1">
+          {totalReviews} {totalReviews === 1 ? 'Review' : 'Reviews'}
+        </span>
       </div>
 
       {isProfilePage ?
@@ -61,7 +73,7 @@ function ProfileStats({
             </span>
           </div>
 
-          <div style={{ color: '#00C68E', visibility: totalRepeatedCustomers > 0 ? 'visible' : 'hidden' }}>
+          <div style={{ color: '#00C68E', visibility: totalRepeatedCustomers > 0 ? 'visible' : 'hidden', fontSize: 10 }}>
             <i className="fas fa-redo-alt mr-2" />
             <span>
               {totalRepeatedCustomers} {type === 'sitter' ? t('find_sitter.repeated_customers') : 'sitters\' repeated customer '}
@@ -69,7 +81,7 @@ function ProfileStats({
           </div>
         </>
       }
-    </>
+    </Container>
   )
 }
 
@@ -79,9 +91,11 @@ ProfileStats.propTypes = {
   type: PropTypes.string,
   totalReviews: PropTypes.number.isRequired,
   totalCompletedBookings: PropTypes.number.isRequired,
-  totalRepeatedCustomers: PropTypes.number.isRequired
+  totalRepeatedCustomers: PropTypes.number.isRequired,
+  isResponsive: PropTypes.bool
 };
 
 ProfileStats.defaultProps = {
-  type: 'sitter'
+  type: 'sitter',
+  isResponsive: undefined
 };

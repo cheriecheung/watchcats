@@ -2,7 +2,7 @@ import Immutable from 'seamless-immutable';
 import FindCatSitterActionTypes from './actionTypes'
 
 const initialState = Immutable({
-  totalResults: 0,
+  totalResults: null,
   paginatedResults: []
 });
 
@@ -11,6 +11,8 @@ const find_cat_sitter_reducer = {
     switch (action.type) {
       case FindCatSitterActionTypes.GET_SITTERS_IN_BOUNDS:
         return { ...state, ...action.payload }
+      case FindCatSitterActionTypes.SET_INITIAL_STATE:
+        return initialState
       default:
         return state;
     }

@@ -21,3 +21,9 @@ export function getSittersInBounds(query) {
     }
   };
 }
+
+export function setInitialState() {
+  return async (dispatch) => {
+    dispatch({ type: FindCatSitterActionTypes.SET_INITIAL_STATE });
+  }
+}

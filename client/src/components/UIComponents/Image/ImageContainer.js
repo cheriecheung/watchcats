@@ -34,6 +34,11 @@ const findCatSitter = ({ variant }) => {
       width: 100px;
       height: 100px;
     }
+
+    @media (max-width: 450px) {
+      width: 80px;
+      height: 100px;
+    }
   `
 }
 

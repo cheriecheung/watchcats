@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { LinkButton, VerticalCard } from '../UIComponents'
 import styled from 'styled-components';
-import { themeColor, themeLayout } from '../../style/theme'
+import { LinkButton, VerticalCard } from '../../UIComponents'
+import { themeColor, themeLayout } from '../../../style/theme'
 
 const Container = styled.div`
   display: flex;

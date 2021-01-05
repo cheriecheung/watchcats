@@ -77,9 +77,17 @@ function Card({ screenWidth, t, item, setHoveredResultId }) {
             <h5>{firstName} {lastName && lastName.charAt(0)}</h5>
 
             <div style={{ display: 'flex', float: 'right' }}>
-              <PriceDisplay rate={hourlyRate} type="hourly" />
+              <PriceDisplay
+                rate={hourlyRate}
+                rateType="hourly"
+                isResponsive={true}
+              />
               <div style={{ width: 1, height: 35, background: '#ECECEC', margin: '0 10px' }} />
-              <PriceDisplay rate={nightlyRate} type="nightly" />
+              <PriceDisplay
+                rate={nightlyRate}
+                rateType="nightly"
+                isResponsive={true}
+              />
             </div>
           </div>
 
@@ -87,6 +95,7 @@ function Card({ screenWidth, t, item, setHoveredResultId }) {
             totalReviews={totalReviews}
             totalCompletedBookings={totalCompletedBookings}
             totalRepeatedCustomers={totalRepeatedCustomers}
+            isResponsive={true}
           />
 
           {screenWidth > 600 && renderDescription(110)}

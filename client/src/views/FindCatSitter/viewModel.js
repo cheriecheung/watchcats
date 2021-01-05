@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSittersInBounds } from '../../redux/find_cat_sitter/actions';
-import { sortingTypeOptions } from '../../constants/selectOptions';
+import { getSittersInBounds, setInitialState } from '../../redux/find_cat_sitter/actions';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -28,7 +27,6 @@ function useFindCatSitter() {
   const [center, setCenter] = useState(defaultMapCenter);
   const [bounds, setBounds] = useState({})
 
-  const [results, setResults] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [pagination, setPagination] = useState({})
   const [loading, setLoading] = useState(true)
@@ -43,14 +41,14 @@ function useFindCatSitter() {
   const { value: sortByValue } = watch('sortBy') || {};
 
   useEffect(() => {
+    setValue('sortBy', { value: 'totalReviews', label: t('find_sitter.total_reviews') })
     return () => {
-      // clear states
+      dispatch(setInitialState())
     }
   }, [])
 
   useEffect(() => {
     if (paginatedResults) {
-      setResults(paginatedResults)
       // setLoading(false)
       setTimeout(() => {
         setLoading(false)
@@ -65,12 +63,9 @@ function useFindCatSitter() {
 
   useEffect(() => {
     if (googlePlaceAddress && startDate && endDate) {
-      reset({
-        googlePlaceAddress,
-        startDate,
-        endDate,
-        sortBy: sortingTypeOptions[0]
-      })
+      setValue('googlePlaceAddress', googlePlaceAddress)
+      setValue('startDate', startDate)
+      setValue('endDate', endDate)
 
       setCenter(centerValue)
       setZoom(zoomValue)
@@ -104,6 +99,8 @@ function useFindCatSitter() {
   useEffect(() => {
     if (sortByValue) {
       setCurrentPage(1)
+      dispatch(setInitialState())
+      setLoading(true)
       dispatch(getSittersInBounds({ ...bounds, page: 1, sort: sortByValue }))
 
       // reset({
@@ -114,6 +111,7 @@ function useFindCatSitter() {
   }, [sortByValue]);
 
   function onGetSitters(bounds) {
+    dispatch(setInitialState())
     setLoading(true);
     setBounds({ ...bounds })
 
@@ -134,10 +132,11 @@ function useFindCatSitter() {
   }
 
   function onChangePage(current) {
+    dispatch(setInitialState())
     dispatch(getSittersInBounds({ ...bounds, page: current, sort: sortByValue }))
     setCurrentPage(current)
     setLoading(true)
-    setResults([])
+    // setResults([])
   }
 
   function resetZoom() {
@@ -168,7 +167,6 @@ function useFindCatSitter() {
     loading,
     totalResults,
     paginatedResults,
-    results,
     pagination,
     currentPage,
     onChangePage,

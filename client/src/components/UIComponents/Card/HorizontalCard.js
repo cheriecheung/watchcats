@@ -49,6 +49,12 @@ const findCatSitter = ({ variant }) => {
     @media (max-width: 600px) {
       height: unset;
     }
+
+    @media (max-width: 450px) {
+      padding-top: 15px;
+      padding-bottom: 10px;
+      padding-right: 13px;
+    }
   `
 }
 
