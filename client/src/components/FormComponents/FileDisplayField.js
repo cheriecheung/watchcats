@@ -15,7 +15,7 @@ const ImageContainer = styled.div`
     background: url(${({ image }) => image}) no-repeat center center / cover;
 `
 
-const RemoveButton = styled.div`
+const ImageMask = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
@@ -34,7 +34,6 @@ function FileDisplayField({
     name,
     fileName,
     handleRemovePhoto,
-    isLoading
 }) {
     const { control } = useFormContext();
 
@@ -46,7 +45,6 @@ function FileDisplayField({
                 <Display
                     fileName={fileName}
                     handleRemovePhoto={handleRemovePhoto}
-                    isLoading={isLoading}
                 />
             }
         />
@@ -55,10 +53,11 @@ function FileDisplayField({
 
 export default FileDisplayField
 
-function Display({ fileName, handleRemovePhoto, isLoading }) {
+function Display({ fileName, handleRemovePhoto }) {
     const { t } = useTranslation();
 
     const [hideRemove, setHideRemove] = useState(true);
+    const [showConfirmRemove, setShowConfirmRemove] = useState(false)
 
     const photoURL = fileName.includes('base64') ?
         fileName : `${REACT_APP_API_DOMAIN}/image/${fileName}`
@@ -67,19 +66,46 @@ function Display({ fileName, handleRemovePhoto, isLoading }) {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <ImageContainer
                 onMouseOver={() => setHideRemove(false)}
-                onMouseLeave={() => setHideRemove(true)}
+                onMouseLeave={() => {
+                    setHideRemove(true)
+                    setShowConfirmRemove(false)
+                }}
                 image={photoURL}
             >
-                <RemoveButton
-                    type="button"
-                    onClick={handleRemovePhoto}
-                    isHidden={hideRemove}
-                >
-                    {isLoading ?
-                        <Spinner /> :
-                        <RemoveText>{t('settings.remove')}</RemoveText>
+                <ImageMask isHidden={hideRemove}  >
+                    {showConfirmRemove ?
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center'
+                        }}>
+                            <RemoveText>
+                                {t('settings.remove')}&nbsp;?
+                            </RemoveText>
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <RemoveText
+                                    type="button"
+                                    onClick={handleRemovePhoto}
+                                >
+                                    {t('form.yes')}
+                                </RemoveText>
+                                <RemoveText
+                                    type="button"
+                                    onClick={() => setShowConfirmRemove(false)}
+                                >
+                                    {t('form.no')}
+                                </RemoveText>
+                            </div>
+                        </div>
+                        :
+                        <RemoveText
+                            type="button"
+                            onClick={() => setShowConfirmRemove(true)}
+                        >
+                            {t('settings.remove')}
+                        </RemoveText>
                     }
-                </RemoveButton>
+                </ImageMask>
             </ImageContainer>
         </div>
     )
@@ -89,7 +115,7 @@ ImageContainer.propTypes = {
     image: PropTypes.string.isRequired,
 };
 
-RemoveButton.propTypes = {
+ImageMask.propTypes = {
     isHidden: PropTypes.bool.isRequired,
 };
 
