@@ -6,6 +6,7 @@ const initialState = Immutable({
   unreadBookingsAsOwner: {},
   unreadBookingsAsSitter: {},
   hasUnreadChats: false,
+  unreadChats: []
 })
 
 const notifications_reducer = {
@@ -18,11 +19,18 @@ const notifications_reducer = {
           unreadBookingsAsOwner: action.payload.unreadBookingsAsOwner,
           unreadBookingsAsSitter: action.payload.unreadBookingsAsSitter,
           hasUnreadChats: action.payload.hasUnreadChats,
+          unreadChats: action.payload.unreadChats
         }
       case NotificationsActionTypes.SET_READ_AS_OWNER:
-        return { ...state, unreadBookingsAsOwner: action.payload.remainingUnread }
+        return {
+          ...state,
+          unreadBookingsAsOwner: action.payload.remainingUnread
+        }
       case NotificationsActionTypes.SET_READ_AS_SITTER:
-        return { ...state, unreadBookingsAsSitter: action.payload.remainingUnread }
+        return {
+          ...state,
+          unreadBookingsAsSitter: action.payload.remainingUnread
+        }
       case NotificationsActionTypes.SET_ALL_BOOKINGS_AS_READ:
         return {
           ...state,
@@ -30,11 +38,13 @@ const notifications_reducer = {
           unreadBookingsAsOwner: {},
           unreadBookingsAsSitter: {}
         }
-      case NotificationsActionTypes.SET_ALL_CHATS_AS_READ:
+      case NotificationsActionTypes.UPDATE_CHAT_NOTIFICATIONS: {
         return {
           ...state,
-          hasUnreadChats: false,
+          hasUnreadChats: action.payload.hasUnreadChats,
+          unreadChats: action.payload.unreadChats
         }
+      }
       default:
         return state;
     }

@@ -21,9 +21,9 @@ function ConversationInfo({
     firstName,
     lastName,
     profilePicture,
-    shortId,
-    hasSitterProfile,
-    hasOwnerProfile
+    urlId,
+    sitter: hasSitterProfile,
+    owner: hasOwnerProfile
   } = recipient || {}
 
   const pictureUrl = profilePicture ?
@@ -59,7 +59,7 @@ function ConversationInfo({
 
             {hasSitterProfile &&
               <LinkButton
-                to={`/profile/catsitter/${shortId}`}
+                to={`/profile/catsitter/${urlId}`}
                 variant="bordered"
                 style={{ margin: '5px 0' }}
               >
@@ -68,7 +68,7 @@ function ConversationInfo({
             }
             {hasOwnerProfile &&
               <LinkButton
-                to={`/profile/catowner/${shortId}`}
+                to={`/profile/catowner/${urlId}`}
                 variant="bordered"
                 style={{ margin: '5px 0' }}
               >

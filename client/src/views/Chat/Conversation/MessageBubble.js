@@ -7,9 +7,6 @@ const { REACT_APP_API_DOMAIN } = process.env;
 function MessageBubble({ message, conversationInfo }) {
   const {
     id,
-    userId,
-    name,
-    image,
     date,
     time,
     content,
@@ -17,7 +14,7 @@ function MessageBubble({ message, conversationInfo }) {
   } = message || {}
 
   const { sender, recipient } = conversationInfo || {}
-  const { id: senderId, profilePicture: senderPicture } = sender || {}
+  const { _id: senderId, profilePicture: senderPicture } = sender || {}
   const { profilePicture: recipientPicture } = recipient || {}
 
   const pictureType =

@@ -30,6 +30,7 @@ function useChat() {
 
   const dispatch = useDispatch();
   const { chatList, conversationInfo, messages: allMessages } = useSelector((state) => state.chat);
+  const { unreadChats } = useSelector((state) => state.notifications);
 
   const [clickedChat, setClickedChat] = useState('');
   const [hoveredChat, setHoveredChat] = useState('');
@@ -42,7 +43,7 @@ function useChat() {
 
   const [message, setMessage] = useState("");
 
-  console.log({ chatList, conversationInfo, allMessages })
+  // console.log({ chatList, conversationInfo, allMessages })
 
   useEffect(() => {
     // chat container should start at bottom
@@ -132,7 +133,7 @@ function useChat() {
         inputRef.current.style.height = 150 + "px";
       }
 
-      console.log({ scroll_height });
+      // console.log({ scroll_height });
 
       setInputHeight(inputRef.current.style.height);
       setScrollHeight(scroll_height);

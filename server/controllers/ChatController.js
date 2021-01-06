@@ -1,7 +1,5 @@
 const Conversation = require('../model/Conversation');
 const Message = require('../model/Message');
-const Owner = require('../model/Owner');
-const Sitter = require('../model/Sitter');
 const User = require('../model/User');
 const { populateChatList } = require('../helpers/chat');
 
@@ -11,17 +9,9 @@ module.exports = {
     if (!senderId) return res.status(400).json('ERROR/USER_NOT_FOUND');
 
     try {
-      const sorted = await Conversation.find({
-        $or: [
-          { participant1: senderId },
-          { participant2: senderId }
-        ]
-      }).sort({ updatedAt: -1 })
-
-      if (!sorted) return res.status(404).json('ERROR/ERROR_OCCURED')
-      if (sorted.length === 0) return res.status(200).json({ chatList: [] })
-
       const { populatedList } = await populateChatList(senderId);
+      if (!populatedList) return res.status(404).json('ERROR/ERROR_OCCURED')
+      if (populatedList.length === 0) return res.status(200).json({ chatList: [] })
 
       return res.status(200).json({ chatList: populatedList })
     } catch (err) {
@@ -31,66 +21,38 @@ module.exports = {
   },
 
   getChatConversation: async (req, res) => {
-    const { userId: senderObjId } = req.verifiedData
-    if (!senderObjId) return res.status(400).json('ERROR/USER_NOT_FOUND');
+    const { userId: senderId } = req.verifiedData
+    if (!senderId) return res.status(400).json('ERROR/USER_NOT_FOUND');
 
-    // const user = await User.findById(senderUserId);
-    // if (!user) return res.status(400).json('ERROR/USER_NOT_FOUND')
+    const { recipient: recipientUrlId } = req.query;
 
-    const { recipient } = req.query;
-
-    // const recipientUser = await User.findOne({ urlId: recipient })
-    const [senderUser, recipientUser] = await Promise.all([
-      User.findById(senderObjId),
-      User.findOne({ urlId: recipient }),
+    const [sender, recipient] = await Promise.all([
+      User.findById(senderId)
+        .select('profilePicture'),
+      User.findOne({ urlId: recipientUrlId })
+        .select(['firstName', 'lastName', 'profilePicture', 'urlId', 'sitter', 'owner'])
+        .populate({ path: 'sitter', select: ['_id'] })
+        .populate({ path: 'owner', select: ['_id'] })
     ]);
-    if (!senderUser || !recipientUser) return res.status(400).json('ERROR/USER_NOT_FOUND');
-
-    const { _id: recipientObjId } = recipientUser
+    if (!sender || !recipient) return res.status(400).json('ERROR/USER_NOT_FOUND');
 
     try {
-      // query everything in one go
-      // populate exec
       const conversation = await Conversation.findOne({
-        participant1: [recipientObjId, senderObjId],
-        participant2: [recipientObjId, senderObjId],
+        participant1: [senderId, recipient._id],
+        participant2: [senderId, recipient._id],
       });
-
-      const {
-        profilePicture: senderPicture
-      } = senderUser
-
-      const sender = {
-        id: senderObjId,
-        profilePicture: senderPicture
-      }
-
-      const {
-        firstName,
-        lastName,
-        profilePicture: recipientPicture,
-        urlId,
-        sitter,
-        owner
-      } = recipientUser
-
-      const [sitterProfile, ownerProfile] = await Promise.all([
-        Sitter.findById(sitter),
-        Owner.findById(owner),
-      ]);
-
-      const recipient = {
-        firstName,
-        lastName,
-        profilePicture: recipientPicture,
-        shortId: urlId,
-        hasSitterProfile: sitterProfile ? true : false,
-        hasOwnerProfile: ownerProfile ? true : false,
-      }
 
       if (!conversation) return res.status(200).json({
         conversationInfo: { sender, recipient }
       })
+
+      await Message.updateMany(
+        {
+          conversation: conversation._id,
+          sender: recipient._id // sender = user i'm talking to
+        },
+        { isReadByRecipient: true } // = is read by me
+      )
 
       const messages = await Message
         .find({ conversation: conversation._id })
@@ -109,9 +71,36 @@ module.exports = {
         ])
       if (!messages) return res.status(404).json('ERROR/MESSAGES_NOT_FOUND')
 
+      // renew notifications
+
+      const allConversations = await Conversation
+        .find({
+          $or: [
+            { participant1: senderId },
+            { participant2: senderId }
+          ]
+        })
+        .select(['_id'])
+
+      const allConversationsIds = allConversations.map(({ _id }) => _id)
+
+      const unreadChats = await Message.find({
+        conversation: { $in: allConversationsIds },
+        sender: { $ne: senderId },
+        isReadByRecipient: false
+      }).select('_id')
+        .populate([
+          {
+            path: 'conversation',
+            select: ['_id']
+          }
+        ])
+
       return res.status(200).json({
         conversationInfo: { sender, recipient },
-        messages
+        messages,
+        hasUnreadChats: unreadChats.length > 0,
+        unreadChats
       })
     } catch (err) {
       console.log({ err })

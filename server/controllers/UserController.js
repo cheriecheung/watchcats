@@ -114,14 +114,14 @@ module.exports = {
       const { owner, sitter } = user;
 
       const notifications = {
-        hasUnreadBookings: {},
-        hasUnreadChats: {}
+        hasUnreadBookings: false,
+        hasUnreadChats: false
       }
 
       const unreadBookings = await Booking.find({
         $or: [
-          { owner, isReadBy: { $nin: [owner] } },
-          { sitter, isReadBy: { $nin: [sitter] } }
+          { owner, isReadByOwner: false },
+          { sitter, isReadBySitter: false }
         ]
       })
 
@@ -161,15 +161,24 @@ module.exports = {
         participant1.equals(ObjectId(userId)) ? participant2 : participant1
       )
 
-      const unreadMessages = await Message.find({
-        $and: [
-          { sender: { $in: contactUserIds } },
-          { isReadByRecipient: false }
-        ]
-      }).count() > 0
+      const chatsIds = allChats.map(({ _id }) => _id)
 
-      if (unreadMessages) {
+      const unreadChats = await Message.find({
+        conversation: { $in: chatsIds },
+        sender: { $in: contactUserIds },
+        isReadByRecipient: false
+      })
+        .select('_id')
+        .populate([
+          {
+            path: 'conversation',
+            select: ['_id']
+          }
+        ])
+
+      if (unreadChats.length > 0) {
         notifications.hasUnreadChats = true;
+        notifications.unreadChats = unreadChats
       }
 
       return res.status(200).json(notifications);

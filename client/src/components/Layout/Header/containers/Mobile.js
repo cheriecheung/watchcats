@@ -20,8 +20,8 @@ function Mobile({
   isLoggedIn,
   closeMenu,
   onMobileLogout,
-  bookingsNotifications,
-  chatsNotifications
+  hasUnreadBookings,
+  hasUnreadChats
 }) {
   return (
     <>
@@ -38,8 +38,8 @@ function Mobile({
             isLoggedIn={isLoggedIn}
             closeMenu={closeMenu}
             onMobileLogout={onMobileLogout}
-            bookingsNotifications={bookingsNotifications}
-            chatsNotifications={chatsNotifications}
+            hasUnreadBookings={hasUnreadBookings}
+            hasUnreadChats={hasUnreadChats}
           />
         </OverlayMenu>
       </Overlay>

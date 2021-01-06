@@ -17,7 +17,7 @@ const User = require('./model/User')
 const { baseRouter } = require('./routes');
 const { verify } = require('jsonwebtoken');
 const { decode } = require('js-base64');
-const { getPartificpantsInfo } = require('./helpers/chat')
+const { populateChatList } = require('./helpers/chat')
 const { sendNewMessageMail } = require('./helpers/mailer')
 const { sendTwilioSMS } = require('./helpers/sms')
 
@@ -156,19 +156,11 @@ io.on("connection", socket => {
         await newConversation.save();
 
         newMessage.conversation = newConversation._id;
-        newMessage.save();
+        await newMessage.save();
       }
 
-      const sorted = await Conversation.find({
-        $or: [
-          { participant1: senderId },
-          { participant2: senderId }
-        ]
-      }).sort({ updatedAt: -1 })
-      if (!sorted) return res.status(404).json('ERROR/ERROR_OCCURED')
-
-      const { chatList, err } = await getPartificpantsInfo(sorted, senderId)
-      if (err) return res.status(400).json('ERROR/ERROR_OCCURED')
+      const { populatedList } = await populateChatList(senderId);
+      if (!populatedList) return res.status(404).json('ERROR/ERROR_OCCURED')
 
       const {
         firstName,
@@ -196,7 +188,7 @@ io.on("connection", socket => {
           content: message,
           sender: senderId
         },
-        updatedChatList: chatList
+        updatedChatList: populatedList
       });
     } catch (error) {
       console.error({ error });
