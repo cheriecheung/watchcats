@@ -48,7 +48,7 @@ module.exports = {
       address: textType,
       firstName: nameType,
       lastName: nameType,
-      postcode: Joi.string().required().regex(/^\d{4}[a-z]{2}$/i),
+      postcode: Joi.string().required().regex(/^\d{4}[\w\s]{1,}[a-z]{2}$/i),
       profileFacebook: optionalTextType,
       profileInstagram: optionalTextType,
       profileOther: optionalTextType

@@ -58,7 +58,7 @@ export const personal_schema = yup.object().shape({
     address: yup.string().required(field_required),
     postcode: yup.string()
         .required(postcode_format)
-        .matches(/^\d{4}[a-z]{2}$/i, postcode_format),
+        .matches(/^\d{4}[\w\s]{1,}[a-z]{2}$/i, postcode_format),
 })
 
 // ----- Cat Owner Schema ----- //

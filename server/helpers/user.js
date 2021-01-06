@@ -3,7 +3,10 @@ const axios = require('axios');
 const { GOOGLE_MAP_KEY } = process.env
 
 async function getCoordinatesByPostcode(postcode) {
-  const { data: { results } } = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?region=nl&address=${postcode}&key=${GOOGLE_MAP_KEY}`);
+  const postcodeNoSpace = postcode.replace(' ', '')
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?region=nl&address=${postcodeNoSpace}&key=${GOOGLE_MAP_KEY}`
+
+  const { data: { results } } = await axios.get(url);
 
   if (Array.isArray(results) && results.length > 0) {
     const { geometry } = results[0];
