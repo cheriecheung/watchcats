@@ -171,6 +171,7 @@ function useChat() {
   return {
     t,
     chatList,
+    unreadChats,
     clickedChat,
     hoveredChat,
     setHoveredChat,

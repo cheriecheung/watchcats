@@ -96,11 +96,13 @@ module.exports = {
           }
         ])
 
+      const cleanedUnreadChats = unreadChats.map(({ conversation: { _id } }) => _id)
+
       return res.status(200).json({
         conversationInfo: { sender, recipient },
         messages,
         hasUnreadChats: unreadChats.length > 0,
-        unreadChats
+        unreadChats: cleanedUnreadChats
       })
     } catch (err) {
       console.log({ err })

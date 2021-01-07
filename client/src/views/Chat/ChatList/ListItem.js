@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ImageContainer } from '../../../components/UIComponents'
+import { Badge, Image, ImageContainer } from '../../../components/UIComponents'
 import {
   ChatListItemContainer,
   ContactName,
@@ -14,6 +14,7 @@ const { REACT_APP_API_DOMAIN } = process.env;
 
 function ChatListItem({
   item,
+  unreadChats,
   clickedChat,
   hoveredChat,
   setHoveredChat,
@@ -22,15 +23,14 @@ function ChatListItem({
   const {
     _id: chatId,
     lastMessage,
-    // lastMessageDate,
     participant1,
     participant2,
-    // recipient,
     updatedAt: lastMessageDate
   } = item || {};
-  const { content } = lastMessage || {}
 
+  const { content } = lastMessage || {}
   const recipient = participant1 ? participant1 : participant2;
+  const isUnread = unreadChats && unreadChats.includes(chatId)
 
   const {
     firstName,
@@ -80,7 +80,11 @@ function ChatListItem({
             {formatDate(lastMessageDate, 'DD/MM/YY')}
           </DateDisplay>
         </div>
-        <span>{renderLastMessage(content)}</span>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span>{renderLastMessage(content)}</span>
+          <Badge isShown={isUnread} style={{ paddingTop: 5 }} />
+        </div>
       </TextContainer>
     </ChatListItemContainer>
   );

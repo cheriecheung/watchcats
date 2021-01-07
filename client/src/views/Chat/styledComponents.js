@@ -152,7 +152,7 @@ export const ContactName = styled.span`
 
 export const DateDisplay = styled.span`
   color: ${themeColor.grey};
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 `
 
 export const TextContainer = styled.div`

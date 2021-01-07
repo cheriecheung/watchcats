@@ -14,6 +14,7 @@ function Chat() {
   const {
     t,
     chatList,
+    unreadChats,
     clickedChat,
     hoveredChat,
     setHoveredChat,
@@ -61,6 +62,7 @@ function Chat() {
         <MainContainer mobileScreenView={mobileScreenView}>
           <ChatList
             allChats={chatList}
+            unreadChats={unreadChats}
             clickedChat={clickedChat}
             hoveredChat={hoveredChat}
             setHoveredChat={setHoveredChat}

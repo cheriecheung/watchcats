@@ -8,6 +8,7 @@ import ListItem from './ListItem';
 
 function ChatList({
   allChats,
+  unreadChats,
   clickedChat,
   hoveredChat,
   setHoveredChat,
@@ -19,8 +20,9 @@ function ChatList({
         <ScrollableSubLayer>
           {allChats && allChats.map(item =>
             <ListItem
-              key={item.id}
+              key={item._id}
               item={item}
+              unreadChats={unreadChats}
               clickedChat={clickedChat}
               hoveredChat={hoveredChat}
               setHoveredChat={setHoveredChat}
