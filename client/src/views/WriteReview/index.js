@@ -1,17 +1,43 @@
 import React from 'react';
-import { RateField, TextArea } from '../../../components/FormComponents';
+import { RateField, TextArea } from '../../components/FormComponents';
 import {
   ContainedButton,
   HorizontalCard,
   Modal,
   ModalSuccessDisplay
-} from '../../../components/UIComponents'
-import { MainContainer } from '../styledComponents'
-import { useWriteReview } from '../viewModel'
-import ItemContent from '../components/ItemContent'
+} from '../../components/UIComponents'
+import { useWriteReview } from './viewModel'
+import ItemContent from '../Bookings/components/ItemContent'
+import styled from 'styled-components';
+
+const MainContainer = styled.div`
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  width: 800px;
+  margin: 0 auto;
+  padding: 40px 0 50px 0;
+
+  @media (max-width: 850px) {
+    padding: 150px 50px 50px 50px;
+    width: unset;
+  }
+
+  @media (max-width: 500px) {
+    padding: 150px 4vw 50px 4vw;
+  }
+`
 
 function WriteReview() {
-  const { t, FormProvider, methods, onSubmit, bookingInfo, showModal, closeModal } = useWriteReview();
+  const {
+    t,
+    FormProvider,
+    methods,
+    onSubmit,
+    bookingInfo,
+    showModal,
+    closeModal
+  } = useWriteReview();
   const { handleSubmit } = methods;
 
   return (

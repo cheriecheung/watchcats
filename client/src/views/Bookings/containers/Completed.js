@@ -11,7 +11,7 @@ function Completed({ t, bookingType, bookings }) {
       ) : (
           <LinkButton
             to={{
-              pathname: `/writereivew/${data.id}`,
+              pathname: `/write_reivew/${data.id}`,
               state: { booking: { ...data, bookingType } }
             }}
             variant="bordered"
