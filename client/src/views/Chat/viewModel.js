@@ -22,7 +22,8 @@ function useChat() {
 
   const history = useHistory();
   const { t } = useTranslation();
-  const { id: recipientId } = useParams();
+  const params = useParams();
+  const { id: recipientId } = params || {}
   const myUrlId = cookies.get('shortId')
 
   const chatContainerRef = useRef(null);
@@ -75,11 +76,12 @@ function useChat() {
       setClickedChat(chatList[0]._id)
     }
 
-    if (screenWidth >= 735 && Array.isArray(chatList) && chatList.length > 0) {
+    if (!recipientId && screenWidth >= 735 && Array.isArray(chatList) && chatList.length > 0) {
       const { participant1, participant2 } = chatList[0] || {}
       const recipient = participant1 ? participant1 : participant2
       const recipientUrlId = recipient.urlId
       history.push(`/messages/${recipientUrlId}`)
+      console.log({ chatList })
     }
   }, [chatList])
 
@@ -88,7 +90,7 @@ function useChat() {
       dispatch(getChatConversation(recipientId));
     }
 
-    if (recipientId === myUrlId || !recipientId) {
+    if (recipientId === myUrlId) {
       history.push(`/messages`)
     }
   }, [recipientId])

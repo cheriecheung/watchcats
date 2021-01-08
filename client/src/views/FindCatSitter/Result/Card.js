@@ -98,11 +98,11 @@ function Card({ screenWidth, t, item, setHoveredResultId }) {
             isResponsive={true}
           />
 
-          {screenWidth > 600 && renderDescription(110)}
+          {screenWidth > 600 && renderDescription(100)}
         </ContentContainer>
       </div>
 
-      {screenWidth < 600 && renderDescription(100)}
+      {screenWidth < 600 && renderDescription(80)}
     </HorizontalCard>
   );
 }

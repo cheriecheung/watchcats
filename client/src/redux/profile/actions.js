@@ -1,4 +1,5 @@
 import axiosInstance from '../../utility/axiosInstance';
+import { getConfig } from '../../utility/api'
 import ProfileActionTypes from './actionTypes'
 import ErrorActionTypes from '../error/actionTypes'
 
@@ -10,7 +11,7 @@ const ownerProfileURL = (id) => `${REACT_APP_API_DOMAIN}/owner/profile/${id}`;
 export function getSitterProfile(id) {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().get(sitterProfileURL(id));
+      const { data } = await axiosInstance().get(sitterProfileURL(id), getConfig());
       console.log({ data });
       dispatch({ type: ProfileActionTypes.GET_PROFILE, payload: data });
     } catch (e) {
@@ -25,7 +26,7 @@ export function getSitterProfile(id) {
 export function getOwnerProfile(id) {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance().get(ownerProfileURL(id));
+      const { data } = await axiosInstance().get(ownerProfileURL(id), getConfig());
       dispatch({ type: ProfileActionTypes.GET_PROFILE, payload: data });
     } catch (e) {
       console.log({ e });

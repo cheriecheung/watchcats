@@ -74,7 +74,7 @@ function useCatOwner() {
         return {
           ...rest,
           breed: { value: breed, label: t(breedName) },
-          personality: { value: personality, label: personalityName },
+          personality: { value: personality, label: t(personalityName) },
         }
       })
 

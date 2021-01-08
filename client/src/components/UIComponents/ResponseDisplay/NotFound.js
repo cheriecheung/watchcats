@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { LinkButton, VerticalCard } from '../../UIComponents'
@@ -27,43 +28,18 @@ const Icon = styled.i`
 `
 
 function NotFound({ variant }) {
-  switch (variant) {
-    case 'error':
-      return <Error />
-    case 'profile':
-      return <ProfileNotFound />
-    default:
-      return <DefaultNotFound />
-  }
-}
-
-export default NotFound
-
-function Error() {
-  return (
-    <>
-      <h1>Error occured</h1>
-      <h3>Please try refreshing the page or check if the link is valid.</h3>
-    </>
-  )
-}
-
-function ProfileNotFound() {
-  return (
-    <Container>
-
-    </Container>
-  )
-}
-
-function DefaultNotFound() {
   return (
     <Container>
       <VerticalCard>
         <i className="far fa-surprise fa-5x" style={{ color: themeColor.lightGrey }} />
         <br /><br />
         <h6 style={{ fontWeight: 'bold', fontSize: '1.4rem' }}>Not Found</h6>
-        <span>The page you're looking for doesn't exist...</span>
+        <span>
+          {variant === 'profile' ?
+            'The profile you\'re looking for doesn\'t exist...' :
+            'The page you\'re looking for doesn\'t exist...'
+          }
+        </span>
         <br />
         <span>Let's head back home or explore some other pages</span>
 
@@ -91,3 +67,13 @@ function DefaultNotFound() {
     </Container>
   )
 }
+
+export default NotFound;
+
+NotFound.propTypes = {
+  variant: PropTypes.string
+};
+
+NotFound.defaultProps = {
+  variant: undefined,
+};

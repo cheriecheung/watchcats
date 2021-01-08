@@ -29,7 +29,6 @@ function ProfilePicture({
             name="profilePicture"
             fileName={photoField}
             handleRemovePhoto={() => handleRemovePhoto(photoField)}
-            isLoading={isLoading}
           />
         ) : (
             <FileUploader

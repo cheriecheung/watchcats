@@ -1,11 +1,12 @@
 import { useEffect, useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOwnerProfile, getSitterProfile } from '../../redux/profile/actions';
 import { getAppointmentTime, sendRequest } from '../../redux/bookings/actions';
 import { getChatList, getChatConversation } from '../../redux/chat/actions';
+import { clearError } from '../../redux/error/actions';
+import { getOwnerProfile, getSitterProfile } from '../../redux/profile/actions';
 import { calculateOneDayPrice, calculateOvernightPrice } from '../../utility';
 import LOADING from '../../constants/loadingTypes'
 import Cookies from 'universal-cookie';
@@ -24,6 +25,12 @@ function useCatOwnerProfile() {
 
   const reviewListRef = useRef(null);
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearError('profileError'))
+    };
+  }, [])
 
   useEffect(() => {
     if (id) {
@@ -63,6 +70,12 @@ function useCatSitterProfile() {
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
   useEffect(() => {
+    return () => {
+      dispatch(clearError('profileError'))
+    };
+  }, [])
+
+  useEffect(() => {
     if (id) {
       dispatch(getSitterProfile(id));
       // show 'does not exist' message if no profile with such id
@@ -96,6 +109,8 @@ function useCatSitterProfile() {
 }
 
 function useCatSitterSummary() {
+  const history = useHistory();
+
   const { id } = useParams();
   const shortId = cookies.get('shortId');
   const isViewingOwnProfile = id === shortId;
@@ -114,7 +129,8 @@ function useCatSitterSummary() {
 
   function onSendMessage() {
     dispatch(getChatList);
-    dispatch(getChatConversation);
+    dispatch(getChatConversation(id));
+    history.push(`/messages/${id}`)
   };
 
   return {

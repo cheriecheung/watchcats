@@ -68,7 +68,6 @@ function AboutCat({
                     name={`cat[${index}].photo`}
                     fileName={photoFields[index]}
                     handleRemovePhoto={() => handleRemovePhoto(photoFields[index], index)}
-                    isLoading={isLoading}
                   />
                   :
                   <FileUploader

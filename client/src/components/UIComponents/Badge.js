@@ -15,7 +15,7 @@ const BadgeComponent = styled(AntBadge)`
   }
 `
 
-function Badge({ children, isShown, isWhiteColor }) {
+function Badge({ children, isShown, isWhiteColor, style }) {
 
   return (
     <>
@@ -24,7 +24,8 @@ function Badge({ children, isShown, isWhiteColor }) {
         status="processing"
         style={{
           display: isShown ? 'inline-block' : 'none',
-          paddingLeft: 5
+          paddingLeft: 5,
+          ...style
         }}
         isWhiteColor={isWhiteColor}
       />
