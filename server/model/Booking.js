@@ -40,13 +40,21 @@ const bookingSchema = new Schema({
   hasPaid: {
     type: Boolean,
   },
-  hasWrittenReview: {
+  isReadByOwner: {
     type: Boolean,
+    default: false
   },
-  isReadBy: {
-    type: Array,
-    default: [],
-    required: true
+  isReadBySitter: {
+    type: Boolean,
+    default: false
+  },
+  hasReviewLeftByOwner: {
+    type: Boolean,
+    default: false,
+  },
+  hasReviewLeftBySitter: {
+    type: Boolean,
+    default: false,
   },
   createdAt: {
     type: Date,

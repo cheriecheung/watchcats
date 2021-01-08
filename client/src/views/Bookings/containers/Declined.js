@@ -1,4 +1,5 @@
 import React from 'react';
+import Icon from '../components/Icon';
 import ItemCard from '../components/ItemCard';
 
 function Declined({ t, bookings, bookingType }) {
@@ -19,7 +20,12 @@ function Declined({ t, bookings, bookingType }) {
           )
         })
       ) : (
-          <span>{t(type, { status: t('bookings.declined').toLowerCase() })}</span>
+          <>
+            <Icon />
+            <span>
+              {t(type, { status: t('bookings.declined').toLowerCase() })}
+            </span>
+          </>
         )}
     </>
   );

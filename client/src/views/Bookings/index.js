@@ -24,7 +24,7 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
   max-width: 800px;
-  margin: 0 auto; 
+  margin: 0 auto 20px auto; 
 
   @media (max-width: 680px) {
     width: 90vw;
@@ -94,7 +94,7 @@ function Bookings() {
 
   const { unreadBookingsAsOwner = {}, unreadBookingsAsSitter = {} } = notifications || {};
 
-  console.log({ unreadBookingsAsOwner, unreadBookingsAsSitter })
+  // console.log({ unreadBookingsAsOwner, unreadBookingsAsSitter })
 
   const hasUnreadAsOwner = Object.entries(unreadBookingsAsOwner).length > 0;
   const hasUnreadAsSitter = Object.entries(unreadBookingsAsSitter).length > 0;

@@ -23,8 +23,8 @@ import {
 } from './views/Authentication';
 import Bookings from './views/Bookings';
 import Chat from './views/Chat';
-import Payment from './views/Bookings/containers/Payment';
-import WriteReview from './views/Bookings/containers/WriteReview';
+import Payment from './views/Payment';
+import WriteReview from './views/WriteReview';
 import Account from './views/Account';
 import FindCatSitter from './views/FindCatSitter';
 import { CatSitter, CatOwner } from './views/PublicProfile';
@@ -93,15 +93,15 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/forgot_password" component={PasswordForgotten} />
-          <Route path="/reset_password/:token?" component={PasswordReset} />
+          <Route path="/reset_password" component={PasswordReset} />
           <Route path="/activate/:token?" component={AccountActivation} />
           <PrivateRoute path="/profile/catsitter/:id" component={CatSitter} />
           <PrivateRoute path="/profile/catowner/:id" component={CatOwner} />
           <PrivateRoute path="/bookings" component={Bookings} />
-          <PrivateRoute path="/payment" component={Payment} />
-          <PrivateRoute path="/writereivew/:bookingId?" component={WriteReview} />
+          <PrivateRoute path="/checkout" component={Payment} />
+          <PrivateRoute path="/write_reivew" component={WriteReview} />
           <PrivateRoute path="/messages/:id?" component={Chat} />
-          <PrivateRoute path="/account/:id?" component={Account} />
+          <PrivateRoute path="/account" component={Account} />
           {/* <Route path="/loading" component={Loading} /> */}
           <Route path="*" component={NotFound} />
         </Switch>

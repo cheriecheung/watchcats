@@ -64,35 +64,6 @@ module.exports = {
     return { ok: true };
   },
 
-  cleanRecordData: async (item, bookingType) => {
-    const { id, appointmentType, owner, sitter, location, price, status, hasPaid } = item;
-    const query = bookingType === 'jobs' ? { owner } : { sitter };
-    const { firstName, lastName, urlId, profilePicture } = await User.findOne(query);
-
-    const data = {
-      id,
-      firstName,
-      lastName,
-      urlId,
-      profilePicture,
-      appointmentType,
-      location,
-      price,
-      status,
-      hasPaid,
-    }
-
-    if (appointmentType === 'oneDay') {
-      const { date, startTime, endTime } = item;
-
-      return { date, startTime, endTime, ...data };
-    } else {
-      const { startDate, endDate } = item;
-
-      return { startDate, endDate, ...data };
-    }
-  },
-
   getNewBookingStatus: (action) => {
     switch (action) {
       case 'decline':

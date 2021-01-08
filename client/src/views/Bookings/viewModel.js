@@ -3,12 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { setReadAsOwner, setReadAsSitter, setAllBookingsAsRead } from '../../redux/notifications/actions';
 
-import {
-  getRecords,
-  fulfillAction,
-  getBookingInfo,
-  submitReview
-} from '../../redux/bookings/actions';
+import { getRecords, fulfillAction } from '../../redux/bookings/actions';
 import LOADING from '../../constants/loadingTypes'
 
 const defaultKeyBookingType = 'sitting_jobs';
@@ -97,8 +92,6 @@ function useBookings() {
       delete unread[status];
       dispatch(setReadAsSitter(unread))
     }
-
-    console.log({ unreadBookingsAsOwner, unreadBookingsAsSitter })
 
     if (hasUnreadBookings &&
       Object.entries(unreadBookingsAsOwner).length === 0 &&

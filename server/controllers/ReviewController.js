@@ -55,7 +55,7 @@ module.exports = {
 
         reviewerUserRecord = owner.user;
         revieweeUserRecord = sitter.user;
-        hasReviewWrittenField = { hasReviewWrittenByOwner: true }
+        hasReviewWrittenField = { hasReviewLeftByOwner: true }
       }
 
       if (sitterUserId.equals(ObjectId(reviewerUserId))) {
@@ -68,7 +68,7 @@ module.exports = {
 
         reviewerUserRecord = sitter.user;
         revieweeUserRecord = owner.user;
-        hasReviewWrittenField = { hasReviewWrittenBySitter: true }
+        hasReviewWrittenField = { hasReviewLeftBySitter: true }
       }
 
       const newReview = await new Review({

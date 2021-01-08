@@ -1,7 +1,40 @@
 import React from 'react';
-import ItemCard from '../components/ItemCard';
 import { LinkButton, OutlinedButton } from '../../../components/UIComponents';
-import { useTranslation } from 'react-i18next';
+import Icon from '../components/Icon';
+import ItemCard from '../components/ItemCard';
+
+function ConfirmedJob({ t, hasPaid, onCompleteBooking }) {
+
+  return hasPaid ? (
+    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <OutlinedButton onClick={onCompleteBooking}>
+        {t('bookings.complete')}
+      </OutlinedButton>
+    </div>
+  ) : (
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <span>{t('bookings.await_payment')}</span>
+      </div>
+    );
+}
+
+function ConfirmedService({ t, hasPaid, bookingId }) {
+
+  return hasPaid ? (
+    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <span>{t('bookings.await_completion')}</span>
+    </div>
+  ) : (
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <LinkButton
+          to={{ pathname: `/checkout?booking=${bookingId}` }}
+          variant="bordered"
+        >
+          {t('bookings.pay_now')}
+        </LinkButton>
+      </div>
+    );
+}
 
 function Confirmed({
   t,
@@ -45,11 +78,17 @@ function Confirmed({
         })}
 
       {bookingType === 'sitting_jobs' && bookings.length === 0 && (
-        <span>{t('bookings.no_jobs', { status: t('bookings.confirmed').toLowerCase() })}</span>
+        <>
+          <Icon />
+          <span>
+            {t('bookings.no_jobs', { status: t('bookings.confirmed').toLowerCase() })}
+          </span>
+        </>
       )}
 
       {bookingType === 'sitting_service' && bookings.length === 0 && (
         <>
+          <Icon />
           <span>
             {t('bookings.no_service', { status: t('bookings.confirmed').toLowerCase() })}
           </span>
@@ -68,36 +107,3 @@ function Confirmed({
 }
 
 export default Confirmed;
-
-function ConfirmedJob({ t, hasPaid, onCompleteBooking }) {
-
-  return hasPaid ? (
-    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <OutlinedButton onClick={onCompleteBooking}>
-        {t('bookings.complete')}
-      </OutlinedButton>
-    </div>
-  ) : (
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <span>{t('bookings.await_payment')}</span>
-      </div>
-    );
-}
-
-function ConfirmedService({ t, hasPaid, bookingId }) {
-
-  return hasPaid ? (
-    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <span>{t('bookings.await_completion')}</span>
-    </div>
-  ) : (
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <LinkButton
-          to={{ pathname: `/checkout?booking=${bookingId}` }}
-          variant="bordered"
-        >
-          {t('bookings.pay_now')}
-        </LinkButton>
-      </div>
-    );
-}

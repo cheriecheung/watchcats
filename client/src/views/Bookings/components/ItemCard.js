@@ -3,9 +3,26 @@ import { HorizontalCard } from '../../../components/UIComponents'
 import { BrowseLink } from '../styledComponents'
 import ItemContent from './ItemContent'
 
-const Item = ({ t, data, bookingType, renderActionButtons, status }) => {
+const Item = ({
+  t,
+  data,
+  bookingType,
+  renderActionButtons,
+  status
+}) => {
 
-  const { id, urlId } = data;
+  const {
+    _id: id,
+    hasPaid,
+    hasReviewLeftByOwner,
+    hasReviewLeftBySitter,
+    owner,
+    sitter
+  } = data;
+
+  const reviewee = bookingType === 'sitting_jobs' ? owner : sitter;
+  const { user } = reviewee || {}
+  const { urlId } = user || {};
 
   const profileUrl =
     bookingType === 'sitting_jobs'
@@ -18,9 +35,9 @@ const Item = ({ t, data, bookingType, renderActionButtons, status }) => {
       case 'requested':
         return renderActionButtons(id)
       case 'confirmed':
-        return renderActionButtons(id, data.hasPaid)
+        return renderActionButtons(id, hasPaid)
       case 'completed':
-        return renderActionButtons(data, data.hasWrittenReview)
+        return renderActionButtons(id, hasReviewLeftByOwner, hasReviewLeftBySitter)
       default:
         break;
     }
@@ -37,7 +54,12 @@ const Item = ({ t, data, bookingType, renderActionButtons, status }) => {
         </BrowseLink>
       </div>
 
-      <ItemContent t={t} data={data} imageContainerVariant="bookings" />
+      <ItemContent
+        t={t}
+        data={data}
+        imageContainerVariant="bookings"
+        bookingType={bookingType}
+      />
 
       {renderActionButtons && _renderActionButtons()}
     </HorizontalCard>

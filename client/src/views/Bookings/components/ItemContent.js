@@ -4,21 +4,27 @@ import { Field, FieldLabel, FieldItem } from '../styledComponents'
 import { formatDate, formatTime } from '../../../utility'
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
-function ItemContent({ t, data, imageContainerVariant }) {
+function ItemContent({ t, data, bookingType, imageContainerVariant }) {
   const {
-    firstName,
-    lastName,
-    profilePicture,
     appointmentType,
     location,
     price,
-    bookingType,
     date,
     startTime,
     endTime,
     startDate,
-    endDate
+    endDate,
+    owner,
+    sitter
   } = data || {};
+
+  const reviewee = bookingType === 'sitting_jobs' || owner ? owner : sitter;
+  const { user } = reviewee || {}
+  const {
+    firstName,
+    lastName,
+    profilePicture,
+  } = user || {};
 
   const imgUrl = profilePicture ? `${process.env.REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
 
@@ -53,7 +59,7 @@ function ItemContent({ t, data, imageContainerVariant }) {
 
         <Field>
           <FieldLabel>
-            {bookingType === 'sitting_jobs' ? t('bookings.owner') : t('bookings.sitter')}
+            {owner ? t('bookings.owner') : t('bookings.sitter')}
           </FieldLabel>
           <FieldItem>{firstName} {lastName && lastName.charAt(0)}</FieldItem>
         </Field>

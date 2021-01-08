@@ -1,27 +1,53 @@
 import React from 'react';
-import ItemCard from '../components/ItemCard';
 import { LinkButton } from '../../../components/UIComponents';
+import Icon from '../components/Icon';
+import ItemCard from '../components/ItemCard';
 
 function Completed({ t, bookingType, bookings }) {
+  const renderActionButtons = (id, hasReviewLeftByOwner, hasReviewLeftBySitter) => {
 
-  const renderActionButtons = (data, hasWrittenReview) => (
-    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      {hasWrittenReview ? (
-        <h5>Show review here</h5>
-      ) : (
-          <LinkButton
-            to={{
-              pathname: `/write_reivew/${data.id}`,
-              state: { booking: { ...data, bookingType } }
-            }}
-            variant="bordered"
-          >
-            {t('bookings.write_review')}
-          </LinkButton>
-        )
-      }
-    </div>
-  );
+    const noReviewForOwner = bookingType === 'sitting_jobs' && !hasReviewLeftBySitter;
+    const noReviewForSitter = bookingType === 'sitting_service' && !hasReviewLeftByOwner;
+
+    const hasReviewForOwner = bookingType === 'sitting_jobs' && hasReviewLeftBySitter;
+    const hasReviewForSitter = bookingType === 'sitting_service' && hasReviewLeftByOwner;
+
+    const hasReviewFromOwner = bookingType === 'sitting_jobs' && hasReviewLeftByOwner;
+    const hasReviewFromSitter = bookingType === 'sitting_service' && hasReviewLeftBySitter;
+
+    return (
+      <>
+        {((noReviewForOwner) || (noReviewForSitter)) &&
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <LinkButton
+              to={`/write_reivew?booking=${id}`}
+              variant="bordered"
+            >
+              {t('bookings.write_review')}
+            </LinkButton>
+          </div>
+        }
+
+        {((hasReviewForOwner) || (hasReviewForSitter)) &&
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 5 }}>
+
+            <i className="fas fa-check fa-xs mr-2" style={{ alignSelf: 'center' }} />
+            <span> You have left a review</span>
+          </div>
+        }
+
+        {((hasReviewFromOwner) || (hasReviewFromSitter)) &&
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 5 }}>
+            <i className="fas fa-check fa-xs mr-2" style={{ alignSelf: 'center' }} />
+            <span>You have been left a review</span>
+          </div>
+        }
+      </>
+    )
+  };
+
+  const noSittingJobs = bookingType === 'sitting_jobs' && bookings.length === 0;
+  const noSittingServices = bookingType === 'sitting_service' && bookings.length === 0;
 
   return (
     <>
@@ -42,12 +68,18 @@ function Completed({ t, bookingType, bookings }) {
           );
         })}
 
-      {bookingType === 'sitting_jobs' && bookings.length === 0 && (
-        <span>{t('bookings.no_jobs', { status: t('bookings.completed').toLowerCase() })}</span>
+      {noSittingJobs && (
+        <>
+          <Icon />
+          <span>
+            {t('bookings.no_jobs', { status: t('bookings.completed').toLowerCase() })}
+          </span>
+        </>
       )}
 
-      {bookingType === 'sitting_service' && bookings.length === 0 && (
+      {noSittingServices && (
         <>
+          <Icon />
           <span>
             {t('bookings.no_service', { status: t('bookings.completed').toLowerCase() })}
           </span>

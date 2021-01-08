@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBooking, submitReview } from '../../redux/bookings/actions';
@@ -11,7 +11,8 @@ import { review_schema } from './_formConfig/_validationSchema';
 function useWriteReview() {
   const { t } = useTranslation();
   const history = useHistory();
-  const { id } = useParams();
+  const location = useLocation();
+  const bookingId = new URLSearchParams(location?.search || "").get("booking");
 
   const dispatch = useDispatch();
   const { bookingInfo, reviewSubmitted } = useSelector((state) => state.bookings);
@@ -22,8 +23,10 @@ function useWriteReview() {
   const methods = useForm({ defaultValues, resolver });
 
   useEffect(() => {
-    dispatch(getBooking(id))
-  }, [id])
+    if (bookingId) {
+      dispatch(getBooking(bookingId))
+    }
+  }, [bookingId])
 
   useEffect(() => {
     if (reviewSubmitted) {
@@ -32,7 +35,7 @@ function useWriteReview() {
   }, [reviewSubmitted])
 
   function onSubmit(data) {
-    dispatch(submitReview(id, data))
+    dispatch(submitReview(bookingId, data))
   };
 
   function closeModal() {

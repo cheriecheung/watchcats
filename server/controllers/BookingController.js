@@ -5,7 +5,6 @@ const User = require('../model/User');
 const { sendTwilioSMS } = require('../helpers/sms')
 const { sendNewBookingMail, sendUpdatedBookingMail } = require('../helpers/mailer')
 const {
-  cleanRecordData,
   createAutomatedMessage,
   getNewBookingStatus,
   getBookingInfo
@@ -181,7 +180,8 @@ module.exports = {
 
       const { type } = req.query;
       const { sitter: sitterObjId, owner: ownerObjId } = userRecord
-      let bookingRecords, filter;
+
+      let filter;
 
       const defaultRecords = { requested: [], confirmed: [], completed: [], declined: [] }
 
@@ -193,23 +193,23 @@ module.exports = {
         filter = { owner: ownerObjId }
       }
 
-      // isReadBy
-      // if in Review model, find by bookingid, match if reviewee === currentUserId
-      // await Booking.update(filter, { $set: { isRead: true } }, { multi: true })
+      const path = type === 'jobs' ? 'owner' : 'sitter';
 
-      bookingRecords = await Booking.find(filter);
+      let bookingRecords = await Booking
+        .find(filter)
+        .populate({
+          path,
+          select: ['user'],
+          populate: {
+            path: 'user',
+            select: ['firstName', 'lastName', 'profilePicture', 'urlId'],
+          }
+        })
 
-      let response = { requested: [], confirmed: [], completed: [], declined: [] };
+      // let response = { requested: [], confirmed: [], completed: [], declined: [] };
 
       if (bookingRecords.length > 0) {
-        response = await Promise.all(
-          bookingRecords
-            .map(async (item) => {
-              return cleanRecordData(item, type);
-            })
-        );
-
-        response = response.reduce((output, record) => {
+        bookingRecords = bookingRecords.reduce((output, record) => {
           const { status } = record;
 
           if (status === 'requested') {
@@ -228,7 +228,8 @@ module.exports = {
           return output
         }, { requested: [], confirmed: [], completed: [], declined: [] });
       }
-      return res.status(200).json(response);
+
+      return res.status(200).json(bookingRecords);
     } catch (err) {
       console.log({ err })
       return res.status(401).json('ERROR/ERROR_OCCURED');
