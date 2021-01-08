@@ -79,7 +79,7 @@ module.exports = {
       location,
       price,
       status,
-      hasPaid
+      hasPaid,
     }
 
     if (appointmentType === 'oneDay') {
@@ -106,31 +106,33 @@ module.exports = {
     }
   },
 
-  getInfo: async (bookingId, reviewerUserId) => {
-    const booking = await Booking.findById(bookingId)
-    if (!booking) return { error: 'Booking record not found' }
+  getBookingInfo: async (userId, bookingId) => {
+    const { owner, sitter } = await User
+      .findById(userId)
+      .select(['owner', 'sitter'])
 
-    const participantsIds = [
-      ObjectId(booking.owner).toString(),
-      ObjectId(booking.sitter).toString()
-    ];
+    const bookingInfo = await Booking
+      .findById(bookingId)
+      .select(['appointmentType', 'startDate', 'endDate', 'date', 'startTime', 'endTime', 'location', 'price'])
+      .populate({
+        path: 'owner',
+        select: ['user'],
+        match: { _id: { $ne: owner } },
+        populate: {
+          path: 'user',
+          select: ['firstName', 'lastName', 'profilePicture'],
+        }
+      })
+      .populate({
+        path: 'sitter',
+        select: ['user'],
+        match: { _id: { $ne: sitter } },
+        populate: {
+          path: 'user',
+          select: ['firstName', 'lastName', 'profilePicture'],
+        }
+      })
 
-    const reviewerUserRecord = await User.findById(reviewerUserId)
-    if (!reviewerUserRecord) return { error: 'Reviewer\'s User record not found' }
-
-    const reviewerIds = [
-      ObjectId(reviewerUserRecord.owner).toString(),
-      ObjectId(reviewerUserRecord.sitter).toString()
-    ]
-
-    const reviewer = participantsIds.find(id => reviewerIds.includes(id));
-    const reviewee = participantsIds.find(id => id !== reviewer)
-
-    const revieweeUserRecord = await User.findOne({
-      $or: [{ owner: reviewee }, { sitter: reviewee }],
-    })
-    if (!revieweeUserRecord) return { error: 'Reviewee\'s user record not found' };
-
-    return { booking, reviewer: reviewerUserRecord, reviewee: revieweeUserRecord }
+    return { bookingInfo }
   }
 }

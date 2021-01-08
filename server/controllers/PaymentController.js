@@ -80,7 +80,7 @@ module.exports = {
 
       const { sitter, price } = booking;
 
-      const user = await User.find({ sitter });
+      const user = await User.findOne({ sitter });
       if (!user) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
       const { stripeAccountId } = user;
@@ -96,11 +96,13 @@ module.exports = {
           payment_method_types: ['ideal'],
         },
         { stripeAccount: 'acct_1HYCiyART4JEToPd' }
+        // must be the same as the one sending to frontend
+        // { stripeAccount: stripeAccountId }
       );
 
-      const client_secret = intent.client_secret;
+      const { client_secret } = intent;
 
-      return res.status(200).json({ client_secret, stripeAccountId });
+      return res.status(200).json({ client_secret, stripeAccountId: 'acct_1HYCiyART4JEToPd' });
     } catch (e) {
       console.log({ e });
       return res.status(401).json('ERROR/ERROR_OCCURED');

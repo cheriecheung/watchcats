@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { getBooking } from '../../redux/bookings/actions';
 import { getPaymentIntent } from '../../redux/payment/actions';
 import {
   useStripe,
@@ -27,25 +28,19 @@ const dropDownStyle = {
 function useCheckout() {
   const { t } = useTranslation();
 
-  const { bookingId } = useLocation().state || {};
+  const { id } = useParams();
 
   const stripe = useStripe();
   const elements = useElements();
 
   const dispatch = useDispatch();
-  const { paymentIntent } = useSelector((state) => state.payment);
-  const [clientSecret, setClientSecret] = useState('');
+  const { bookingInfo } = useSelector((state) => state.bookings);
+  const { clientSecret } = useSelector((state) => state.payment);
 
   useEffect(() => {
-    dispatch(getPaymentIntent(bookingId));
+    dispatch(getPaymentIntent(id));
+    dispatch(getBooking((id)));
   }, []);
-
-  useEffect(() => {
-    if (paymentIntent) {
-      const { client_secret } = paymentIntent;
-      setClientSecret(client_secret);
-    }
-  }, [paymentIntent]);
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -77,6 +72,7 @@ function useCheckout() {
 
   return {
     t,
+    bookingInfo,
     stripe,
     IdealBankElement,
     dropDownStyle,
@@ -85,7 +81,7 @@ function useCheckout() {
 }
 
 function usePaymentElements() {
-  const { stripeAccountId } = useLocation().state || {};
+  const { stripeAccountId } = useSelector((state) => state.payment);
 
   return {
     stripeAccountId,

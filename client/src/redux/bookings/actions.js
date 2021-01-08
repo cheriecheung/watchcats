@@ -87,7 +87,7 @@ export function fulfillAction(id, action) {
   };
 }
 
-export function getBookingInfo(id) {
+export function getBooking(id) {
   return async (dispatch) => {
     try {
       const { data } = await axiosInstance().get(`${bookingUrl}/${id}`, getConfig());

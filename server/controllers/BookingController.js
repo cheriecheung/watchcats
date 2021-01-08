@@ -4,7 +4,12 @@ const Booking = require('../model/Booking');
 const User = require('../model/User');
 const { sendTwilioSMS } = require('../helpers/sms')
 const { sendNewBookingMail, sendUpdatedBookingMail } = require('../helpers/mailer')
-const { cleanRecordData, createAutomatedMessage, getNewBookingStatus, getInfo } = require('../helpers/bookings')
+const {
+  cleanRecordData,
+  createAutomatedMessage,
+  getNewBookingStatus,
+  getBookingInfo
+} = require('../helpers/bookings')
 
 module.exports = {
   getAppointmentTime: async (req, res) => {
@@ -189,6 +194,7 @@ module.exports = {
       }
 
       // isReadBy
+      // if in Review model, find by bookingid, match if reviewee === currentUserId
       // await Booking.update(filter, { $set: { isRead: true } }, { multi: true })
 
       bookingRecords = await Booking.find(filter);
@@ -293,30 +299,17 @@ module.exports = {
     }
   },
 
-  getBookingInfo: async (req, res) => {
+  getBooking: async (req, res) => {
     const { userId } = req.verifiedData
     if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
-    const { bookingId } = req.params;
+    const { id: bookingId } = req.params;
 
     try {
-      const { booking, reviewee, error } = await getInfo(bookingId, userId);
-      if (error) return res.status(401).json('ERROR/USER_NOT_FOUND')
+      const { bookingInfo } = await getBookingInfo(userId, bookingId);
+      if (!bookingInfo) return res.status(401).json('ERROR/ERROR_OCCURED')
 
-      const { appointmentType, location, price } = booking
-      const { firstName, lastName, profilePicture } = reviewee
-
-      let returnData = { firstName, lastName, appointmentType, location, profilePicture, price }
-
-      if (appointmentType === 'oneDay') {
-        const { date, startTime, endTime } = booking;
-        returnData = { date, startTime, endTime, ...returnData };
-      } else {
-        const { startDate, endDate } = booking;
-        returnData = { startDate, endDate, ...returnData };
-      }
-
-      return res.status(200).json(returnData)
+      return res.status(200).json(bookingInfo)
     } catch (err) {
       console.log({ err })
       return res.status(401).json('ERROR/ERROR_OCCURED')

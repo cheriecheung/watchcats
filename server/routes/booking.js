@@ -11,6 +11,6 @@ router.post('/booking', formLimiter, speedLimiter(5), validateToken, BookingCont
 
 router.patch('/booking', validateToken, BookingController.fulfillAction)
 
-router.get('/booking/:bookingId?', validateToken, BookingController.getBookingInfo)
+router.get('/booking/:id?', validateToken, BookingController.getBooking)
 
 module.exports = router;

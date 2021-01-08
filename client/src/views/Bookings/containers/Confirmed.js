@@ -93,7 +93,7 @@ function ConfirmedService({ t, hasPaid, bookingId }) {
   ) : (
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <LinkButton
-          to={{ pathname: '/payment', state: { bookingId, stripeAccountId: 'acct_1HYCiyART4JEToPd' } }}
+          to={{ pathname: `/checkout?booking=${bookingId}` }}
           variant="bordered"
         >
           {t('bookings.pay_now')}
