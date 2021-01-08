@@ -1,8 +1,9 @@
+const Booking = require('../model/Booking');
 const Review = require('../model/Review');
 const User = require('../model/User');
 const { sendTwilioSMS } = require('../helpers/sms')
 const { sendNewReviewMail } = require('../helpers/mailer')
-const { getInfo } = require('../helpers/bookings')
+const ObjectId = require('mongodb').ObjectID;
 
 module.exports = {
   submitReview: async (req, res) => {
@@ -10,31 +11,91 @@ module.exports = {
     if (!reviewerUserId) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
     const { review: content, rating } = req.body;
-    const { bookingId } = req.params
+    const { bookingId } = req.params;
 
     try {
-      const { reviewer, reviewee, error } = await getInfo(bookingId, reviewerUserId);
-      if (error) return res.status(401).json('ERROR/ERROR_OCCURED')
+      const bookingInfo = await Booking
+        .findById(bookingId)
+        .select(['id',])
+        .populate({
+          path: 'owner',
+          select: ['user'],
+          populate: {
+            path: 'user',
+            select: ['firstName', 'lastName', 'email', 'getEmailNotification', 'phone', 'getSmsNotification'],
+          }
+        })
+        .populate({
+          path: 'sitter',
+          select: ['user'],
+          populate: {
+            path: 'user',
+            select: ['firstName', 'lastName', 'email', 'getEmailNotification', 'phone', 'getSmsNotification'],
+          }
+        })
 
-      const newReview = new Review({
-        reviewer: reviewer._id,
-        reviewee: reviewee._id,
+      const { owner, sitter } = bookingInfo;
+
+      const ownerUserId = owner.user._id;
+      const sitterUserId = sitter.user._id;
+
+      let reviewObj = {};
+
+      let reviewerUserRecord,
+        revieweeUserRecord,
+        hasReviewWrittenField;
+
+      if (ownerUserId.equals(ObjectId(reviewerUserId))) {
+        reviewObj = {
+          reviewer: owner._id,
+          reviewee: sitter._id,
+          onReviewer: 'Owner',
+          onReviewee: 'Sitter'
+        }
+
+        reviewerUserRecord = owner.user;
+        revieweeUserRecord = sitter.user;
+        hasReviewWrittenField = { hasReviewWrittenByOwner: true }
+      }
+
+      if (sitterUserId.equals(ObjectId(reviewerUserId))) {
+        reviewObj = {
+          reviewer: sitter._id,
+          reviewee: owner._id,
+          onReviewer: 'Sitter',
+          onReviewee: 'Owner'
+        }
+
+        reviewerUserRecord = sitter.user;
+        revieweeUserRecord = owner.user;
+        hasReviewWrittenField = { hasReviewWrittenBySitter: true }
+      }
+
+      const newReview = await new Review({
+        booking: bookingId,
         content,
-        rating
+        rating,
+        ...reviewObj
       })
+      if (!newReview) return res.status(401).json('ERROR/ERROR_OCCURED');
       await newReview.save();
-      if (!newReview) return res.status(401).json('ERROR/ERROR_OCCURED')
 
-      const { firstName, lastName } = reviewer;
+      const bookingRecord = await Booking.findOneAndUpdate(
+        { _id: bookingId },
+        { $set: hasReviewWrittenField },
+        { useFindAndModify: false }
+      );
+      if (!bookingRecord) return res.status(401).json('ERROR/ERROR_OCCURED')
+
+      const { firstName, lastName } = reviewerUserRecord;
+      const reviewerName = `${firstName} ${lastName.charAt(0)}`
 
       const {
         email,
         getEmailNotification,
         phone,
         getSmsNotification
-      } = reviewee;
-
-      const reviewerName = `${firstName} ${lastName}`
+      } = revieweeUserRecord;
 
       if (email && getEmailNotification) {
         sendNewReviewMail({ email, name: reviewerName })
