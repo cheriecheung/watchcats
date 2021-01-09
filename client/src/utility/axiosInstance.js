@@ -1,10 +1,16 @@
 import axios from 'axios';
 import { getAccessToken, setAccessToken } from './accessToken';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
-// logs out automatically when tried too many times?
+const { REACT_APP_API_DOMAIN } = process.env;
+
 export default (history = null) => {
+    const hasLoggedIn = cookies.get('shortId');
+    if (!hasLoggedIn) return;
+
     const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_API_DOMAIN,
+        baseURL: REACT_APP_API_DOMAIN,
         withCredentials: true,
     })
 
@@ -22,7 +28,7 @@ export default (history = null) => {
                 if (status === 401 && originalReq && !originalReq.__isRetryRequest) {
                     originalReq._retry = true;
 
-                    let refreshTokenRes = fetch(`/refresh_token`, {
+                    let refreshTokenRes = fetch(`${REACT_APP_API_DOMAIN}/refresh-token`, {
                         method: 'POST',
                         mode: 'cors',
                         cache: 'no-cache',

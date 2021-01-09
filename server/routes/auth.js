@@ -4,7 +4,7 @@ const { validateToken } = require('../helpers/token');
 const { generateCodes } = require('../helpers/authentication');
 const { authLimiter, speedLimiter } = require('../helpers/limiter')
 
-router.post('/refresh_token', AuthController.getNewAccessToken)
+router.post('/refresh-token', AuthController.getNewAccessToken)
 
 router.post('/activate-account', (req, res, next) => {
   res.locals.type = "activateAccount";

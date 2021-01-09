@@ -5,12 +5,13 @@ const { REACT_APP_API_DOMAIN } = process.env;
 
 export function getSittersInBounds(query) {
   return async (dispatch) => {
+    const { neLat, neLng, swLat, swLng } = query;
+    if (!neLat || !neLng || !swLat || !swLng) return;
+
     try {
       const queryString = Object.entries(query)
         .map(([key, value]) => `${key}=${value}`)
         .join('&');
-
-      console.log({ queryString })
 
       const url = `${REACT_APP_API_DOMAIN}/sitter?${queryString}`
 

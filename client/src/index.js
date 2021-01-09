@@ -11,15 +11,19 @@ import { setAccessToken } from './utility/accessToken'
 
 import i18n from './i18n/i18n';
 import { I18nextProvider } from 'react-i18next';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
 async function checkLoggedIn() {
-  let preloadedState
+  let preloadedState;
+
+  const hasLoggedIn = cookies.get('shortId');
+  if (!hasLoggedIn) return;
 
   try {
-    // get
-    const { data } = await axios.post(`${REACT_APP_API_DOMAIN}/refresh_token`, {}, {
+    const { data } = await axios.post(`${REACT_APP_API_DOMAIN}/refresh-token`, {}, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
