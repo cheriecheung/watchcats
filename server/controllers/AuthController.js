@@ -133,6 +133,7 @@ module.exports = {
     }
 
     const {
+      CLIENT_URL,
       GOOGLE_OAUTH_CLIENT_ID,
       GOOGLE_OAUTH_CLIENT_SECRET,
       GOOGLE_OAUTH_CALLBACK_URL
@@ -158,7 +159,7 @@ module.exports = {
       const { access_token, refresh_token } = data || {};
 
       if (!access_token && !refresh_token) {
-        // return res.redirect('https://localhost:3000/');
+        return res.redirect(`${CLIENT_URL}/google-login/failcallback`);
       }
 
       const getGoogleUserConfig = {
@@ -171,23 +172,22 @@ module.exports = {
         data: { sub: google_id, name, email },
       } = await axios.get('https://openidconnect.googleapis.com/v1/userinfo', getGoogleUserConfig);
 
-      let shortId;
       let userObj;
 
-      // if user logs in with google but registered locally
       const user = await User.findOne({ email });
+
+      if (user && user.password) {
+        return res.redirect(`${CLIENT_URL}/google-login/failcallback`);
+      }
+
+      if (user && !user.password) {
+        userObj = user
+      }
 
       if (!user) {
         const newUser = new User({ name, email });
         await newUser.save();
-
-        const { urlId } = newUser;
-        shortId = urlId;
         userObj = newUser
-      } else {
-        const { urlId } = user;
-        shortId = urlId;
-        userObj = user
       }
 
       const refreshToken = createRefreshToken(userObj);
@@ -195,17 +195,15 @@ module.exports = {
         httpOnly: true,
         // domain
       })
-      res.cookie('shortId', user.urlId);
+      res.cookie('shortId', userObj.urlId);
 
-      return res.redirect("https://localhost:3000/account");
+      return res.redirect(`${CLIENT_URL}/account`);
     } catch (e) {
       console.log({ e });
       const { response } = e || {};
       const { data } = response || {}
       console.log({ data })
-      // redirect to certain page if failed
-      // create page on front end: "please go back and try again"
-      return res.status(401).json('ERROR/ERROR_OCCURED');
+      return res.redirect(`${CLIENT_URL}/google-login/failcallback`);
     }
   },
 

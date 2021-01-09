@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getNotifications } from './redux/notifications/actions'
 
 import Layout from './components/Layout';
-import { NotFound } from './components/UIComponents'
+import { GoogleLoginFailedDisplay, NotFound } from './components/UIComponents'
 import Home from './views/Home';
 import About from './views/About';
 import {
@@ -91,6 +91,7 @@ function App() {
           <Route path="/find" component={FindCatSitter} />
           <Route path="/about" component={About} />
           <Route path="/login" component={Login} />
+          <Route path="/google-login/failcallback" component={GoogleLoginFailedDisplay} />
           <Route path="/register" component={Register} />
           <Route path="/forgot_password" component={PasswordForgotten} />
           <Route path="/reset_password" component={PasswordReset} />

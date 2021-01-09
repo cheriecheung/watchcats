@@ -30,6 +30,7 @@ import ModalSuccessDisplay from './Modal/ModalSuccessDisplay'
 import DateDisplay from './NumberDisplay/DateDisplay'
 import PriceDisplay from './NumberDisplay/PriceDisplay'
 
+import { GoogleLoginFailedDisplay } from './ResponseDisplay/FailedDisplay'
 import NotFound from './ResponseDisplay/NotFound'
 import ResponseDisplayTemplate from './ResponseDisplay/ResponseDisplayTemplate'
 
@@ -39,7 +40,6 @@ import TabBar from './Tab/TabBar'
 import TabItem from './Tab/TabItem'
 
 import Remark from './Text/Remark'
-import Title from './Text/Title'
 
 import Badge from './Badge'
 import CheckedIcon from './CheckedIcon'
@@ -82,6 +82,7 @@ export {
   DateDisplay,
   PriceDisplay,
 
+  GoogleLoginFailedDisplay,
   NotFound,
   ResponseDisplayTemplate,
 
@@ -91,7 +92,6 @@ export {
   TabItem,
 
   Remark,
-  Title,
 
   Badge,
   CheckedIcon,
