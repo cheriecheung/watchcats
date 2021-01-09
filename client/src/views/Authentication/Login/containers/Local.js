@@ -33,7 +33,7 @@ function LocalLogin({
         <FieldLabel>{t('form.password')}</FieldLabel>
         <TextField name="password" type="password" />
 
-        <LinkButton to="/forgot_password" style={{ textAlign: 'right', marginBottom: 10 }}>
+        <LinkButton to="/forgot-password" style={{ textAlign: 'right', marginBottom: 10 }}>
           {t('login.forgot_password')}
         </LinkButton>
 

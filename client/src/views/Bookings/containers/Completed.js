@@ -20,7 +20,7 @@ function Completed({ t, bookingType, bookings }) {
         {((noReviewForOwner) || (noReviewForSitter)) &&
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <LinkButton
-              to={`/write_reivew?booking=${id}`}
+              to={`/write-reivew?booking=${id}`}
               variant="bordered"
             >
               {t('bookings.write_review')}

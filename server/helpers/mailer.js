@@ -48,21 +48,17 @@ const generateEmailTemplate = ({ email, name, content, link, buttonLabel }) => `
 `
 
 module.exports = {
-  sendActivateAccountMail: (email, token) => {
-    // query string activate?token=${token} ??
-    const link = `https://${CLIENT_URL}/activate/${token}`;
+  sendActivateAccountMail: ({ email, name, token }) => {
+    const content = 'You\'re just one click away from getting started with Watch Cats. You\'re receiving this email because you recently created a new Watch Cats account. If this wasn\'t you, please ignore this email.'
+    const link = `${CLIENT_URL}/activate?token=${token}`;
+    const buttonLabel = 'CONFIRM MY EMAIL'
+    const html = generateEmailTemplate({ email, name, content, link, buttonLabel });
 
     const data = {
       from: 'noreply@watchcats.com',
       to: email,
-      subject: 'Please verify your email',
-      html: `
-      <html>
-        <h3>Hi there!</h3>
-        <p>Please click on the following link to activate your account:</p>
-        <a href="${link}" style="background:pink;">Confirm my email</a>
-      </html>
-    `,
+      subject: 'Activate Your Watch Cats Account Now',
+      html,
     };
 
     send(data);
@@ -70,7 +66,7 @@ module.exports = {
 
   sendResetPasswordMail: ({ email, name, token }) => {
     const content = 'We request a request to reset your password. Please click the link below to complete the reset. If you did not request to reset your password, ignore this email and the link will expire on its own.'
-    const link = `https://${CLIENT_URL}/reset_password/${token}`;
+    const link = `${CLIENT_URL}/reset-password?token=${token}`;
     const buttonLabel = 'SET NEW PASSWORD'
     const html = generateEmailTemplate({ email, name, content, link, buttonLabel });
 
@@ -120,19 +116,21 @@ module.exports = {
 
 
   sendNewMessageMail: ({ email, name }) => {
+    const content = `You have just received a message from ${name}. Click the link below to log in and give your response.`
+    const link = `${CLIENT_URL}/messages`;
+    const buttonLabel = 'LOG IN AND SEE CONVERSATION'
+    const html = generateEmailTemplate({ email, name, content, link, buttonLabel });
+
+    // display message content?
+
     const data = {
       from: 'noreply@watchcats.com',
       to: email,
-      subject: 'You have a new message',
-      html: `
-      <html>
-        <h3>Hi there!</h3>
-        <p>You have received a new message by ${name}. Log into your account to reply in your conversation.</p>
-      </html>
-    `,
+      subject: 'You received a new message',
+      html,
     };
 
-    send(data);
+    // send(data);
   },
 
   sendNewReviewMail: ({ email, name }) => {
@@ -148,6 +146,6 @@ module.exports = {
     `,
     };
 
-    send(data);
+    // send(data);
   }
 };

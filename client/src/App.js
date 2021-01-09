@@ -93,14 +93,14 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/google-login/failcallback" component={GoogleLoginFailedDisplay} />
           <Route path="/register" component={Register} />
-          <Route path="/forgot_password" component={PasswordForgotten} />
-          <Route path="/reset_password" component={PasswordReset} />
-          <Route path="/activate/:token?" component={AccountActivation} />
+          <Route path="/forgot-password" component={PasswordForgotten} />
+          <Route path="/reset-password" component={PasswordReset} />
+          <Route path="/activate" component={AccountActivation} />
           <PrivateRoute path="/profile/catsitter/:id" component={CatSitter} />
           <PrivateRoute path="/profile/catowner/:id" component={CatOwner} />
           <PrivateRoute path="/bookings" component={Bookings} />
           <PrivateRoute path="/checkout" component={Payment} />
-          <PrivateRoute path="/write_reivew" component={WriteReview} />
+          <PrivateRoute path="/write-reivew" component={WriteReview} />
           <PrivateRoute path="/messages/:id?" component={Chat} />
           <PrivateRoute path="/account" component={Account} />
           {/* <Route path="/loading" component={Loading} /> */}

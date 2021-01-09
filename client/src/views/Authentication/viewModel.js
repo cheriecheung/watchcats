@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -67,7 +67,10 @@ function useAuthentication() {
 }
 
 function useAccountActivation() {
-  const { token } = useParams();
+  // const { token } = useParams(); 
+  const location = useLocation();
+  const token = new URLSearchParams(location?.search || "").get("token");
+
   const dispatch = useDispatch();
   const { activationStatus } = useSelector((state) => state.authentication);
 
@@ -168,7 +171,10 @@ function useForgotPassword() {
 }
 
 function useResetPassword() {
-  const { token } = useParams();
+  // const { token } = useParams();
+  const location = useLocation();
+  const token = new URLSearchParams(location?.search || "").get("token");
+
   const dispatch = useDispatch();
 
   const defaultValues = password_reset_default_values;
