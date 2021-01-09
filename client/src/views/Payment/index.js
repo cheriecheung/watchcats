@@ -8,17 +8,21 @@ function CheckoutForm() {
   const {
     t,
     bookingInfo,
+    bookingType,
     stripe,
     IdealBankElement,
     dropDownStyle,
     onSubmit
   } = useCheckout();
 
-  console.log({ bookingInfo })
-
   return (
     <div style={{ maxWidth: 900, margin: '50px auto', textAlign: 'left' }}>
-      <ItemContent t={t} data={bookingInfo} />
+      <ItemContent
+        t={t}
+        data={bookingInfo}
+        bookingType={bookingType}
+      />
+
       <hr style={{ margin: '30px 0' }} />
 
       <form onSubmit={onSubmit}>

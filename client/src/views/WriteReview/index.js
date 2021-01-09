@@ -35,6 +35,7 @@ function WriteReview() {
     methods,
     onSubmit,
     bookingInfo,
+    bookingType,
     showModal,
     closeModal
   } = useWriteReview();
@@ -49,7 +50,11 @@ function WriteReview() {
               <h5>{t('review.title')}</h5>
               <h6>{t('review.booking_information')}</h6>
 
-              <ItemContent t={t} data={bookingInfo} />
+              <ItemContent
+                t={t}
+                data={bookingInfo}
+                bookingType={bookingType}
+              />
 
               <hr />
 

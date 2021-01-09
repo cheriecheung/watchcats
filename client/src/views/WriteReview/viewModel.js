@@ -17,6 +17,7 @@ function useWriteReview() {
   const dispatch = useDispatch();
   const { bookingInfo, reviewSubmitted } = useSelector((state) => state.bookings);
 
+  const [bookingType, setBookingType] = useState('')
   const [showModal, setShowModal] = useState(false)
 
   const resolver = yupResolver(review_schema)
@@ -27,6 +28,20 @@ function useWriteReview() {
       dispatch(getBooking(bookingId))
     }
   }, [bookingId])
+
+  useEffect(() => {
+    if (bookingInfo) {
+      const { owner, sitter } = bookingInfo || {};
+
+      if (owner) {
+        setBookingType('sitting_jobs')
+      }
+
+      if (sitter) {
+        setBookingType('sitting_service')
+      }
+    }
+  }, [bookingInfo])
 
   useEffect(() => {
     if (reviewSubmitted) {
@@ -52,6 +67,7 @@ function useWriteReview() {
     methods,
     onSubmit,
     bookingInfo,
+    bookingType,
     showModal,
     closeModal,
   }

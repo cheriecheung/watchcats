@@ -18,13 +18,9 @@ function ItemContent({ t, data, bookingType, imageContainerVariant }) {
     sitter
   } = data || {};
 
-  const reviewee = bookingType === 'sitting_jobs' || owner ? owner : sitter;
+  const reviewee = bookingType === 'sitting_jobs' ? owner : sitter;
   const { user } = reviewee || {}
-  const {
-    firstName,
-    lastName,
-    profilePicture,
-  } = user || {};
+  const { firstName, lastName, profilePicture } = user || {};
 
   const imgUrl = profilePicture ? `${process.env.REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
 

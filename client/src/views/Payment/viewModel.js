@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBooking } from '../../redux/bookings/actions';
 import { getPaymentIntent } from '../../redux/payment/actions';
@@ -28,7 +28,8 @@ const dropDownStyle = {
 function useCheckout() {
   const { t } = useTranslation();
 
-  const { id } = useParams();
+  const location = useLocation();
+  const bookingId = new URLSearchParams(location?.search || "").get("booking");
 
   const stripe = useStripe();
   const elements = useElements();
@@ -37,10 +38,26 @@ function useCheckout() {
   const { bookingInfo } = useSelector((state) => state.bookings);
   const { clientSecret } = useSelector((state) => state.payment);
 
+  const [bookingType, setBookingType] = useState('')
+
   useEffect(() => {
-    dispatch(getPaymentIntent(id));
-    dispatch(getBooking((id)));
+    dispatch(getPaymentIntent(bookingId));
+    dispatch(getBooking((bookingId)));
   }, []);
+
+  useEffect(() => {
+    if (bookingInfo) {
+      const { owner, sitter } = bookingInfo || {};
+
+      if (owner) {
+        setBookingType('sitting_jobs')
+      }
+
+      if (sitter) {
+        setBookingType('sitting_service')
+      }
+    }
+  }, [bookingInfo])
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -73,6 +90,7 @@ function useCheckout() {
   return {
     t,
     bookingInfo,
+    bookingType,
     stripe,
     IdealBankElement,
     dropDownStyle,

@@ -27,7 +27,7 @@ function ConfirmedService({ t, hasPaid, bookingId }) {
   ) : (
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <LinkButton
-          to={{ pathname: `/checkout?booking=${bookingId}` }}
+          to={`/checkout?booking=${bookingId}`}
           variant="bordered"
         >
           {t('bookings.pay_now')}
