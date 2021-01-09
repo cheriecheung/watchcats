@@ -5,6 +5,7 @@ import {
   Modal,
   ModalSuccessDisplay,
   OutlinedButton,
+  Remark,
   WrapLayout
 } from '../../../../components/UIComponents'
 import ChangePassword from './ChangePassword'
@@ -121,7 +122,11 @@ function Authentication({
             </>
             :
             <>
-              <p>{t('settings.2FA_description')}</p>
+
+              <p>
+                <Remark><i className="fas fa-exclamation fas-xs mr-1" /> If you logged in as a demo user, the 2FA settings will NOT be stored. To test the feature, please make a new account.</Remark>
+                {t('settings.2FA_description')}
+              </p>
 
               <ContainedButton
                 type="button"

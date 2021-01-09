@@ -62,7 +62,7 @@ export function phoneLogin(code) {
         withCredentials: true,
         // credentials: 'include',
       });
-      const { shortId, accessToken } = data || {};
+      const { accessToken } = data || {};
       await setAccessToken(accessToken)
 
       window.location = "/account";
@@ -85,13 +85,14 @@ export function login(email, password) {
     });
 
     try {
-      const { data } = await axios.post(loginURL, { email, password }, {
-        withCredentials: true,
-        // credentials: 'include',
-      });
-      const { shortId, accessToken } = data || {};
+      const { data } = await axios.post(
+        loginURL,
+        { email, password, asDemoUser: false },
+        { withCredentials: true, }
+      );
+      const { accessToken } = data || {};
 
-      if (shortId, accessToken) {
+      if (accessToken) {
         await setAccessToken(accessToken)
         window.location = "/account";
       } else {
@@ -105,6 +106,32 @@ export function login(email, password) {
       dispatch(clearLoading('authLoading'))
     }
   };
+}
+
+export function loginAsDemoUser() {
+  return async (dispatch) => {
+    dispatch({
+      type: LoadingActionTypes.SET_AUTH_LOADING,
+      payload: LOADING.DEMO_USER_LOGIN
+    });
+
+    try {
+      await axios.post(
+        loginURL,
+        { asDemoUser: true },
+        { withCredentials: true }
+      );
+
+      window.location = "/account";
+    }
+    catch (e) {
+      console.log({ e });
+      const { response } = e
+      const { data } = response || {}
+      dispatch({ type: ErrorActionTypes.SET_AUTH_ERROR, payload: data })
+      dispatch(clearLoading('authLoading'))
+    }
+  }
 }
 
 export function logout() {

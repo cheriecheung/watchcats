@@ -12,6 +12,7 @@ function Login() {
   const {
     t,
     authError,
+    isLoadingDemoUserLogin,
     isLoadingGoogleLogin,
     isLoadingLocalLogin,
     isLoadingPhoneLogin
@@ -20,6 +21,7 @@ function Login() {
   const {
     localLoginProps,
     phoneLoginProps,
+    onLoginAsDemoUser,
     onGoogleLogin,
     loginByPhone,
   } = useLogin();
@@ -46,7 +48,12 @@ function Login() {
             </LinkButton>
           </div>
 
-          <DemoUser t={t} />
+          <DemoUser
+            t={t}
+            isLoading={isLoadingDemoUserLogin}
+            onLoginAsDemoUser={onLoginAsDemoUser}
+          />
+
           <Google
             onGoogleLogin={onGoogleLogin}
             isLoading={isLoadingGoogleLogin}

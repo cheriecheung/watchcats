@@ -18,6 +18,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import {
   activateAccount,
+  loginAsDemoUser,
   login,
   googleLogin,
   phoneLogin,
@@ -36,16 +37,17 @@ function useAuthentication() {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
-  const { appActionStatus } = useSelector((state) => state.app)
-  const { appError, authError } = useSelector((state) => state.error)
-  const { appLoading, authLoading } = useSelector((state) => state.loading)
+  const { appActionStatus } = useSelector((state) => state.app);
+  const { appError, authError } = useSelector((state) => state.error);
+  const { appLoading, authLoading } = useSelector((state) => state.loading);
 
-  let isLoadingGoogleLogin = authLoading === LOADING.GOOGLE_LOGIN
-  let isLoadingLocalLogin = authLoading === LOADING.LOCAL_LOGIN
-  let isLoadingPhoneLogin = authLoading === LOADING.PHONE_LOGIN
-  let isLoadingRegister = appLoading === LOADING.REGISTER
-  let isLoadingResetForgotPassword = appLoading === LOADING.RESET_FORGOT_PASSWORD
-  let isResetForgotPasswordSuccessful = appActionStatus === 'resetForgotPasswordSuccess'
+  let isLoadingDemoUserLogin = authLoading === LOADING.DEMO_USER_LOGIN;
+  let isLoadingGoogleLogin = authLoading === LOADING.GOOGLE_LOGIN;
+  let isLoadingLocalLogin = authLoading === LOADING.LOCAL_LOGIN;
+  let isLoadingPhoneLogin = authLoading === LOADING.PHONE_LOGIN;
+  let isLoadingRegister = appLoading === LOADING.REGISTER;
+  let isLoadingResetForgotPassword = appLoading === LOADING.RESET_FORGOT_PASSWORD;
+  let isResetForgotPasswordSuccessful = appActionStatus === 'resetForgotPasswordSuccess';
 
   useEffect(() => {
     dispatch(clearAppActionStatus())
@@ -57,6 +59,7 @@ function useAuthentication() {
     appActionStatus,
     appError,
     authError,
+    isLoadingDemoUserLogin,
     isLoadingGoogleLogin,
     isLoadingLocalLogin,
     isLoadingPhoneLogin,
@@ -115,6 +118,10 @@ function useLogin() {
     resolver: yupResolver(login_schema)
   });
 
+  function onLoginAsDemoUser() {
+    dispatch(loginAsDemoUser())
+  }
+
   function onLocalLogin(data) {
     dispatch(clearError('authError'))
 
@@ -146,6 +153,7 @@ function useLogin() {
   return {
     localLoginProps,
     phoneLoginProps,
+    onLoginAsDemoUser,
     onGoogleLogin,
     loginByPhone,
   }

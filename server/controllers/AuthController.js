@@ -37,22 +37,33 @@ module.exports = {
   },
 
   login: async (req, res) => {
-    const { error } = loginValidation(req.body);
-    if (error) return res.status(400).json('ERROR/LOGIN_FAILED');
+    const { email, password, asDemoUser } = req.body;
 
-    const { email: emailValue, password } = req.body;
-    const email = emailValue.toLowerCase()
+    const { DEMO_USER_EMAIL, DEMO_USER_PASSWORD } = process.env;
+
+    const credentials = {};
+
+    if (asDemoUser) {
+      credentials.email = DEMO_USER_EMAIL;
+      credentials.password = DEMO_USER_PASSWORD;
+    } else {
+      const { error } = loginValidation({ email, password });
+      if (error) return res.status(400).json('ERROR/LOGIN_FAILED');
+
+      credentials.email = email.toLowerCase();
+      credentials.password = password;
+    }
 
     try {
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email: credentials.email });
       if (!user) return res.status(400).json("ERROR/LOGIN_FAILED");
 
       if (!user.isVerified) return res.status(400).json("ERROR/LOGIN_FAILED")
 
-      const validPass = await bcrypt.compare(password, user.password)
+      const validPass = await bcrypt.compare(credentials.password, user.password)
       if (!validPass) return res.status(400).json("ERROR/LOGIN_CREDENTIALS_INVALID");
 
-      if (user.twoFactorSecret) {
+      if (user.twoFactorSecret && !asDemoUser) {
         res.cookie('shortId', user.urlId);
         return res.status(200).json('enter google authenticator code')
       }
@@ -66,7 +77,7 @@ module.exports = {
       })
       res.cookie('shortId', user.urlId);
 
-      return res.status(200).json({ shortId: user.urlId, accessToken })
+      return res.status(200).json({ accessToken })
     } catch (err) {
       console.log({ err })
       return res.status(400).json("ERROR/ERROR_OCCURED")
