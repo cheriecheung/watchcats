@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../redux/authentication/actions';
-import { changeLanguage, toggleMobileMenu } from '../../../redux/app/actions';
+import { toggleMobileMenu } from '../../../redux/app/actions';
 
 function useHeader() {
   const { t, i18n } = useTranslation();
@@ -13,19 +13,17 @@ function useHeader() {
 
   const dispatch = useDispatch();
   const { hasUnreadBookings, hasUnreadChats } = useSelector(state => state.notifications);
-  const { language, isLoggedIn, } = useSelector(state => state.app);
-  const currentLanguage = language || 'en'
+  const { isLoggedIn, } = useSelector(state => state.app);
 
   const [toggle, setToggle] = useState(false);
 
-  useEffect(() => {
-    dispatch(changeLanguage(i18n, currentLanguage))
-  }, [i18n]);
+  const currentLanguage = localStorage.getItem('lang') || 'en'
 
-  function setLanguage(language) {
-    // localStorage.setItem('lang', language);
-    // i18n.changeLanguage(language);
-    dispatch(changeLanguage(i18n, language))
+  function setLanguage() {
+    const languageToSet = currentLanguage === 'en' ? 'nl' : 'en';
+
+    localStorage.setItem('lang', languageToSet);
+    i18n.changeLanguage(languageToSet);
   };
 
   function triggerToggle() {

@@ -69,7 +69,13 @@ function App() {
   const { pathname } = location || {}
 
   const dispatch = useDispatch();
-  const { language, toggleMobileMenu } = useSelector(state => state.app);
+  const { toggleMobileMenu } = useSelector(state => state.app);
+
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    i18n.changeLanguage(localStorage.getItem('lang') || 'en');
+  }, [i18n]);
 
   useEffect(() => {
     const hasLoggedIn = cookies.get('shortId');
@@ -77,12 +83,6 @@ function App() {
       dispatch(getNotifications())
     }
   }, []);
-
-  // const { i18n } = useTranslation();
-
-  // useEffect(() => {
-  //   i18n.changeLanguage(localStorage.getItem('lang') || 'en');
-  // }, [i18n]);
 
   return (
     <div className="App">

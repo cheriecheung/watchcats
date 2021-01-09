@@ -3,7 +3,6 @@ import AppActionTypes from './actionTypes'
 
 const initialState = Immutable({
   appActionStatus: '',
-  language: 'en',
   toggleMobileMenu: false,
   qrCode: ''
 });
@@ -13,8 +12,6 @@ const app_reducer = {
     switch (action.type) {
       case AppActionTypes.CLEAR_STATUS:
         return { ...state, appActionStatus: '' }
-      case AppActionTypes.CHANGE_LANGUAGE:
-        return { ...state, language: action.payload };
       case AppActionTypes.TOGGLE_MOBILE_MENU:
         return { ...state, toggleMobileMenu: action.payload }
       case AppActionTypes.REGISTRATION_SUCCESSFUL:

@@ -40,17 +40,6 @@ export function clearAppActionStatus() {
   }
 }
 
-export function changeLanguage(i18n, language) {
-  return (dispatch) => {
-    i18n.changeLanguage(language, () => {
-      dispatch({
-        type: AppActionTypes.CHANGE_LANGUAGE,
-        payload: language,
-      });
-    });
-  };
-}
-
 export function toggleMobileMenu(isOpen) {
   return (dispatch) => {
     dispatch({

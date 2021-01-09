@@ -61,11 +61,7 @@ function MobileMenu({
   hasUnreadBookings,
   hasUnreadChats
 }) {
-  // const currentLanguage = localStorage.getItem('lang')
-  // const changeLanguage = currentLanguage === 'en' ? 'nl' : 'en'
   const firstName = 'Cherie'
-
-
 
   return (
     <>

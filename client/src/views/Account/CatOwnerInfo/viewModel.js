@@ -19,10 +19,9 @@ const cookies = new Cookies();
 
 function useCatOwner() {
   const id = cookies.get('shortId')
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
-  const { language } = useSelector((state) => state.app);
   const { ownerData, catPhotoRemoved } = useSelector((state) => state.account);
   const { accountLoading } = useSelector((state) => state.loading)
 
@@ -32,7 +31,6 @@ function useCatOwner() {
   const [cleanedData, setCleanedData] = useState([])
   const [photoFields, setPhotoFields] = useState([])
   const [removePhotoIndex, setRemovePhotoIndex] = useState('')
-  const [catBreeds, setCatBreeds] = useState([])
 
   const defaultValues = cat_owner_default_values;
   const resolver = yupResolver(cat_owner_schema)
@@ -250,7 +248,6 @@ function useCatOwner() {
     photoFields,
     handlePreview,
     handleRemovePhoto,
-    catBreeds
   }
 
   const bookingOneDayProps = {

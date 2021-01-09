@@ -72,7 +72,7 @@ function Desktop({
           )}
 
         <Item>
-          <TextButton onClick={() => setLanguage(currentLanguage === 'en' ? 'nl' : 'en')}>
+          <TextButton onClick={setLanguage}>
             <Icon className="fas fa-globe-americas" style={{ fontSize: 13, marginRight: 5 }} />
             <span>{currentLanguage === 'en' ? 'NL' : 'EN'}</span>
           </TextButton>
