@@ -94,10 +94,10 @@ module.exports = {
   },
 
   phoneLogin: async (req, res) => {
-    const { code, shortId } = req.body;
+    const { code, urlId } = req.body;
 
     try {
-      const user = await User.findOne({ urlId: shortId });
+      const user = await User.findOne({ urlId });
       if (!user) return res.status(401).json("ERROR/ERROR_OCCURED");
 
       const decrypted = decryptSecret(user.twoFactorSecret)
@@ -113,13 +113,7 @@ module.exports = {
       const accessToken = createAccessToken(user);
       const refreshToken = createRefreshToken(user);
 
-      res.cookie('refresh_token', refreshToken, {
-        httpOnly: true,
-        // domain
-      })
-      res.cookie('shortId', user.urlId);
-
-      return res.status(200).json({ shortId: user.urlId, accessToken })
+      return res.status(200).json({ accessToken, refreshToken })
     } catch (err) {
       console.log({ err })
       return res.status(401).json("ERROR/ERROR_OCCURED")

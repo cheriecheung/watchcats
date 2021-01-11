@@ -57,16 +57,21 @@ export function phoneLogin(code) {
       payload: LOADING.PHONE_LOGIN
     });
 
+    const urlId = cookies.get('urlId');
+
     try {
-      const { data } = await axios.post(phoneLoginURL, { code, shortId: cookies.get('shortId') }, {
-        withCredentials: true,
-        // credentials: 'include',
-      });
-      const { accessToken } = data || {};
+      const { data } = await axios.post(
+        phoneLoginURL,
+        { code, urlId },
+        { withCredentials: true }
+      );
+
+      const { accessToken, refreshToken } = data || {};
+
       await setAccessToken(accessToken)
+      cookies.set('refreshToken', refreshToken)
 
       window.location = "/account";
-
     } catch (e) {
       console.log({ e });
       const { response } = e
@@ -90,12 +95,17 @@ export function login(email, password) {
         { email, password, asDemoUser: false },
         { withCredentials: true, }
       );
-      const { accessToken } = data || {};
+      const { accessToken, refreshToken, urlId } = data || {};
 
       if (accessToken) {
         await setAccessToken(accessToken)
+        cookies.set('refreshToken', refreshToken)
+        cookies.set('urlId', urlId)
+
         window.location = "/account";
       } else {
+        cookies.set('urlId', urlId)
+
         dispatch({ type: AuthActionTypes.PHONE_LOGIN, payload: true });
       }
     } catch (e) {
@@ -116,11 +126,17 @@ export function loginAsDemoUser() {
     });
 
     try {
-      await axios.post(
+      const { data } = await axios.post(
         loginURL,
         { asDemoUser: true },
         { withCredentials: true }
       );
+
+      const { accessToken, refreshToken, urlId } = data || {};
+
+      await setAccessToken(accessToken)
+      cookies.set('refreshToken', refreshToken)
+      cookies.set('urlId', urlId)
 
       window.location = "/account";
     }
@@ -139,8 +155,9 @@ export function logout() {
     try {
       await axiosInstance().delete(logoutURL, getConfig());
       dispatch({ type: AuthActionTypes.LOGOUT_SUCCESS });
-      // window.location = '/';
-      cookies.remove('shortId', { path: "/" })
+
+      cookies.remove('refreshToken', { path: "/" })
+      cookies.remove('urlId', { path: "/" })
     } catch (e) {
       console.log({ e });
     }

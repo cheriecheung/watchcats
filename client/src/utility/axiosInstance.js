@@ -6,8 +6,8 @@ const cookies = new Cookies();
 const { REACT_APP_API_DOMAIN } = process.env;
 
 export default (history = null) => {
-    const hasLoggedIn = cookies.get('shortId');
-    if (!hasLoggedIn) return;
+    const refresh_token = cookies.get('refreshToken');
+    if (!refresh_token) return;
 
     const axiosInstance = axios.create({
         baseURL: REACT_APP_API_DOMAIN,

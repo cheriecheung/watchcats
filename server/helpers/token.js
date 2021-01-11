@@ -9,6 +9,8 @@ const {
 
 function getSecret(type) {
   switch (type) {
+    case 'refreshToken':
+      return JWT_REFRESH_TOKEN_SECRET;
     case 'activateAccount':
       return JWT_VERIFY_ACTIVATE_ACCOUNT_SECRET;
     case 'resetPassword':
@@ -20,13 +22,13 @@ function getSecret(type) {
 
 module.exports = {
   createAccessToken: (user) => {
-    const { id: userId, tokenVersion } = user;
-    return JWT.sign({ userId, tokenVersion }, JWT_ACCESS_TOKEN_SECRET, { expiresIn: "10m" })
+    const { id: userId } = user;
+    return JWT.sign({ userId }, JWT_ACCESS_TOKEN_SECRET, { expiresIn: "10m" })
   },
 
   createRefreshToken: (user) => {
-    const { id: userId, tokenVersion } = user;
-    return JWT.sign({ userId, tokenVersion }, JWT_REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
+    const { id: userId } = user;
+    return JWT.sign({ userId }, JWT_REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
   },
 
   createActivateAccountToken: userId => {
@@ -38,18 +40,14 @@ module.exports = {
   },
 
   validateToken: (req, res, next) => {
-    let type;
-
-    if (res.locals.type) {
-      type = res.locals.type
-    } else {
-      type = 'accessToken'
-    }
+    const type = res.locals.type ? res.locals.type : 'accessToken';
 
     const secret = getSecret(type);
 
     const bearerHeader = req.headers['authorization'];
     if (!bearerHeader) return res.status(401).json('Access deined');
+
+    console.log({ secret, type, bearerHeader })
 
     try {
       const bearer = bearerHeader.split(' ');

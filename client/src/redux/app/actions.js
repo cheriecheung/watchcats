@@ -127,7 +127,7 @@ export function resetForgotPassword(newPassword, token) {
     });
 
     try {
-      await axiosInstance().post(passwordURL, { newPassword }, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.post(passwordURL, { newPassword }, { headers: { Authorization: `Bearer ${token}` } });
       dispatch({ type: AppActionTypes.FORGOT_PASSWORD_RESET });
       dispatch(clearLoading('appLoading'))
     } catch (e) {
