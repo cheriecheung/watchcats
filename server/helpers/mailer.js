@@ -2,7 +2,11 @@ const mailgun = require('mailgun-js');
 
 const { MAILGUN_API_KEY, MAILGUN_API_DOMAIN, CLIENT_URL } = process.env;
 
-const mg = mailgun({ apiKey: MAILGUN_API_KEY, domain: MAILGUN_API_DOMAIN });
+const mg = mailgun({
+  apiKey: MAILGUN_API_KEY,
+  domain: MAILGUN_API_DOMAIN,
+  host: "api.eu.mailgun.net",
+});
 
 const send = (data) => {
   mg.messages().send(data, (error, body) => {
