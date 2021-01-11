@@ -18,7 +18,7 @@ function useCatSitter() {
   const aboutSitterRef = useRef(null);
   const experienceRef = useRef(null);
 
-  const id = cookies.get('shortId')
+  const id = cookies.get('urlId')
   const { t } = useTranslation();
 
   const dispatch = useDispatch();

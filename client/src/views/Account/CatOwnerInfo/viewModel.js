@@ -18,7 +18,7 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 function useCatOwner() {
-  const id = cookies.get('shortId')
+  const id = cookies.get('urlId')
   const { t } = useTranslation();
 
   const dispatch = useDispatch();

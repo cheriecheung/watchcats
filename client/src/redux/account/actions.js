@@ -106,7 +106,7 @@ export function sendOtpToSavedPhoneNumber(isResend) {
     }
 
     try {
-      await axiosInstance().patch(verificationCodeURL, getConfig());
+      await axiosInstance().patch(verificationCodeURL, {}, getConfig());
       dispatch({ type: AccountActionTypes.VERIFICATION_CODE_SENT });
       dispatch(clearLoading('accountLoading'))
     } catch (e) {
@@ -144,7 +144,7 @@ export function deletePhoneNumber(otp) {
     });
 
     try {
-      await axiosInstance().delete(phoneNumberURL, { ...getConfig(), data: { otp } });
+      await axiosInstance().delete(`${phoneNumberURL}?otp=${otp}`, getConfig());
       dispatch({ type: AccountActionTypes.PHONE_NUMBER_DELETED, payload: 'removed' });
     } catch (e) {
       console.log({ e });

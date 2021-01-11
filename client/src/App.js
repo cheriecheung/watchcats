@@ -34,9 +34,6 @@ import './style/formComponents.css';
 import './style/uiComponents.css';
 import { createGlobalStyle } from 'styled-components'
 
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
-
 const GlobalStyle = createGlobalStyle`
   html {
     overflow: ${({ toggleMobileMenu, isChatPage }) => toggleMobileMenu || isChatPage ? 'hidden' : 'unset'};
@@ -78,10 +75,7 @@ function App() {
   }, [i18n]);
 
   useEffect(() => {
-    const hasLoggedIn = cookies.get('shortId');
-    if (hasLoggedIn) {
-      dispatch(getNotifications())
-    }
+    dispatch(getNotifications())
   }, []);
 
   return (

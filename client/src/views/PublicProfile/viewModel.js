@@ -112,8 +112,8 @@ function useCatSitterSummary() {
   const history = useHistory();
 
   const { id } = useParams();
-  const shortId = cookies.get('shortId');
-  const isViewingOwnProfile = id === shortId;
+  const urlId = cookies.get('urlId');
+  const isViewingOwnProfile = id === urlId;
 
   const dispatch = useDispatch();
   // move to profile reducer

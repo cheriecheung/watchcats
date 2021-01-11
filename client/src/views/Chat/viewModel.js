@@ -24,7 +24,7 @@ function useChat() {
   const { t } = useTranslation();
   const params = useParams();
   const { id: recipientId } = params || {}
-  const myUrlId = cookies.get('shortId')
+  const myUrlId = cookies.get('urlId')
 
   const chatContainerRef = useRef(null);
   const inputRef = useRef(null);

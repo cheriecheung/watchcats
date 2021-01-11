@@ -238,7 +238,7 @@ module.exports = {
     const { userId } = req.verifiedData;
     if (!userId) return res.status(404).json('ERROR/PHONE_DELETION_FAILED');
 
-    const { otp: submittedOtp } = req.body;
+    const { otp: submittedOtp } = req.query;
 
     try {
       const user = await User.findById(userId)
