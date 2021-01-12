@@ -20,7 +20,7 @@ import {
   activateAccount,
   loginAsDemoUser,
   login,
-  googleLogin,
+  onGetGoogleLoginURL,
   phoneLogin,
 } from '../../redux/authentication/actions';
 import {
@@ -42,7 +42,7 @@ function useAuthentication() {
   const { appLoading, authLoading } = useSelector((state) => state.loading);
 
   let isLoadingDemoUserLogin = authLoading === LOADING.DEMO_USER_LOGIN;
-  let isLoadingGoogleLogin = authLoading === LOADING.GOOGLE_LOGIN;
+  let isLoadingGoogleLogin = authLoading === LOADING.GET_GOOGLE_LOGIN_URL;
   let isLoadingLocalLogin = authLoading === LOADING.LOCAL_LOGIN;
   let isLoadingPhoneLogin = authLoading === LOADING.PHONE_LOGIN;
   let isLoadingRegister = appLoading === LOADING.REGISTER;
@@ -129,7 +129,7 @@ function useLogin() {
   };
 
   function onGoogleLogin() {
-    dispatch(googleLogin());
+    dispatch(onGetGoogleLoginURL());
   }
 
   function onPhoneLogin(data) {
@@ -227,7 +227,7 @@ function useRegister() {
   };
 
   function onGoogleLogin() {
-    dispatch(googleLogin());
+    dispatch(onGetGoogleLoginURL());
   }
 
   function closeModal() {

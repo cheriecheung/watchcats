@@ -13,27 +13,53 @@ const cookies = new Cookies();
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
-const googleLoginURL = `${REACT_APP_API_DOMAIN}/googlelogin`;
+const googleLoginURL = `${REACT_APP_API_DOMAIN}/google-login`;
+const googleUserURL = `${REACT_APP_API_DOMAIN}/google-user`;
 const activateURL = `${REACT_APP_API_DOMAIN}/activate-account`;
 const phoneLoginURL = `${REACT_APP_API_DOMAIN}/phone-login`;
 const loginURL = `${REACT_APP_API_DOMAIN}/login`;
 const logoutURL = '/logout';
 
-export function googleLogin() {
+export function onGetGoogleLoginURL() {
   return async (dispatch) => {
     dispatch({
       type: LoadingActionTypes.SET_AUTH_LOADING,
-      payload: LOADING.GOOGLE_LOGIN
+      payload: LOADING.GET_GOOGLE_LOGIN_URL
     });
 
     try {
       const { data } = await axios.get(googleLoginURL);
 
-      console.log({ data })
-      dispatch({ type: AuthActionTypes.GOOGLE_LOGIN, payload: data });
+      dispatch({ type: AuthActionTypes.GET_GOOGLE_LOGIN_URL, payload: data });
     } catch (e) {
       console.log({ e });
       dispatch(clearLoading('authLoading'))
+    }
+  };
+}
+
+export function onGetGoogleUser() {
+  return async (dispatch) => {
+    dispatch({
+      type: LoadingActionTypes.SET_AUTH_LOADING,
+      payload: LOADING.GET_GOOGLE_LOGIN_URL
+    });
+
+    try {
+      const { data } = await axios.get(googleUserURL, { withCredentials: true });
+
+      const { accessToken, refreshToken, urlId } = data || {};
+
+      await setAccessToken(accessToken)
+      cookies.set('refreshToken', refreshToken)
+      cookies.set('urlId', urlId)
+
+      console.log({ accessToken, refreshToken, urlId })
+
+      // window.location = "/account";
+    } catch (e) {
+      console.log({ e });
+      window.location = "/google-login/failcallback";
     }
   };
 }

@@ -9,7 +9,7 @@ const initialState = Immutable({
 const authentication_reducer = {
   authentication: (state = initialState, action) => {
     switch (action.type) {
-      case AuthActionTypes.GOOGLE_LOGIN:
+      case AuthActionTypes.GET_GOOGLE_LOGIN_URL:
         return (window.location = action.payload);
       case AuthActionTypes.GOOGLE_LOGIN_SUCCESS:
         return 'login success';
