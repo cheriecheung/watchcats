@@ -1,5 +1,4 @@
 import React from 'react';
-import 'antd/dist/antd.css';
 import { PlaceAutocomplete } from '../../../components/Google'
 import { HorizontalCard, TextButton } from '../../../components/UIComponents'
 import AppointmentPeriod from './AppointmentPeriod';

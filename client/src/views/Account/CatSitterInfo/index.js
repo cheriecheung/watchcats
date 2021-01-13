@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormButtons } from '../../../components/FormComponents';
 import { CardTitle, HorizontalCard, LinkButton } from '../../../components/UIComponents'
-import 'react-day-picker/lib/style.css';
 
 import AboutMe from './AboutMe';
 import Experience from './Experience';

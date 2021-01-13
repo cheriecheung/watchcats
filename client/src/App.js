@@ -1,4 +1,13 @@
-import React, { useEffect } from 'react';
+import './App.css';
+import './style/formComponents.css';
+import './style/uiComponents.css';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-day-picker/lib/style.css';
+import 'react-phone-input-2/lib/style.css'
+import 'antd/dist/antd.css';
+
+import React, { lazy, Suspense, useEffect } from 'react';
 import {
   // BrowserRouter,
   Switch,
@@ -9,30 +18,30 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNotifications } from './redux/notifications/actions'
-
-import Layout from './components/Layout';
-import { GoogleLoginFailedDisplay, NotFound } from './components/UIComponents'
-import Home from './views/Home';
-import About from './views/About';
-import {
-  AccountActivation,
-  Login,
-  PasswordForgotten,
-  PasswordReset,
-  Register
-} from './views/Authentication';
-import Bookings from './views/Bookings';
-import Chat from './views/Chat';
-import Payment from './views/Payment';
-import WriteReview from './views/WriteReview';
-import Account from './views/Account';
-import FindCatSitter from './views/FindCatSitter';
-import { CatSitter, CatOwner } from './views/PublicProfile';
-
-import './App.css';
-import './style/formComponents.css';
-import './style/uiComponents.css';
 import { createGlobalStyle } from 'styled-components'
+
+const Layout = lazy(() => import("./components/Layout"));
+const NotFound = lazy(() => import("./components/UIComponents/ResponseDisplay/NotFound"));
+const Home = lazy(() => import("./views/Home"));
+const About = lazy(() => import("./views/About"));
+const Account = lazy(() => import("./views/Account"));
+const Chat = lazy(() => import("./views/Chat"));
+
+const FindCatSitter = lazy(() => import("./views/FindCatSitter"));
+const CatOwner = lazy(() => import("./views/PublicProfile/CatOwner"));
+const CatSitter = lazy(() => import("./views/PublicProfile/CatSitter"));
+
+const AccountActivation = lazy(() => import("./views/Authentication/AccountActivation"));
+const GoogleLoginFailure = lazy(() => import("./views/Authentication/Login/containers/GoogleLoginFailure"));
+const GoogleLoginLoading = lazy(() => import("./views/Authentication/Login/containers/GoogleLoginLoading"));
+const Login = lazy(() => import("./views/Authentication/Login"));
+const PasswordForgotten = lazy(() => import("./views/Authentication/PasswordForgotten"));
+const PasswordReset = lazy(() => import("./views/Authentication/PasswordReset"));
+const Register = lazy(() => import("./views/Authentication/Register"));
+
+const Bookings = lazy(() => import("./views/Bookings"));
+const Payment = lazy(() => import("./views/Payment"));
+const WriteReview = lazy(() => import("./views/WriteReview"));
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -84,29 +93,32 @@ function App() {
         toggleMobileMenu={toggleMobileMenu}
         isChatPage={pathname.includes('messages')}
       />
-
-      <Layout>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/find" component={FindCatSitter} />
-          <Route path="/about" component={About} />
-          <Route path="/login" component={Login} />
-          <Route path="/google-login/failcallback" component={GoogleLoginFailedDisplay} />
-          <Route path="/register" component={Register} />
-          <Route path="/forgot-password" component={PasswordForgotten} />
-          <Route path="/reset-password" component={PasswordReset} />
-          <Route path="/activate" component={AccountActivation} />
-          <PrivateRoute path="/profile/catsitter/:id" component={CatSitter} />
-          <PrivateRoute path="/profile/catowner/:id" component={CatOwner} />
-          <PrivateRoute path="/bookings" component={Bookings} />
-          <PrivateRoute path="/checkout" component={Payment} />
-          <PrivateRoute path="/write-reivew" component={WriteReview} />
-          <PrivateRoute path="/messages/:id?" component={Chat} />
-          <PrivateRoute path="/account" component={Account} />
-          {/* <Route path="/loading" component={Loading} /> */}
-          <Route path="*" component={NotFound} />
-        </Switch>
-      </Layout>
+      {/* ScrollToTop */}
+      <Suspense fallback={null}>
+        <Layout>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/find" component={FindCatSitter} />
+            <Route path="/about" component={About} />
+            <Route path="/login" component={Login} />
+            <Route path="/google-login/failcallback" component={GoogleLoginFailure} />
+            <Route path="/google-login/callback" component={GoogleLoginLoading} />
+            <Route path="/register" component={Register} />
+            <Route path="/forgot-password" component={PasswordForgotten} />
+            <Route path="/reset-password" component={PasswordReset} />
+            <Route path="/activate" component={AccountActivation} />
+            <PrivateRoute path="/profile/catsitter/:id" component={CatSitter} />
+            <PrivateRoute path="/profile/catowner/:id" component={CatOwner} />
+            <PrivateRoute path="/bookings" component={Bookings} />
+            <PrivateRoute path="/checkout" component={Payment} />
+            <PrivateRoute path="/write-reivew" component={WriteReview} />
+            <PrivateRoute path="/messages/:id?" component={Chat} />
+            <PrivateRoute path="/account" component={Account} />
+            {/* <Route path="/loading" component={Loading} /> */}
+            <Route path="*" component={NotFound} />
+          </Switch>
+        </Layout>
+      </Suspense>
     </div>
   );
 }
