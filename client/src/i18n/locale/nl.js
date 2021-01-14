@@ -8,15 +8,22 @@ export default {
     email_exists: 'E-mailadres bestaat al',
     password_incorrect: 'U heeft het verkeerde wachtwoord ingevoerd',
     password_reset_failed: 'Kan wachtwoord niet resetten. Probeer het opnieuw a.u.b',
-    login_failed: 'Inloggen mislukt. Probeer het opnieuw a.u.b',
+
+    login_failed: 'Aanmelden mislukt. Probeer het opnieuw a.u.b',
     login_credentials_invalid: 'De ingegeven combinatie e-mailadres en wachtwoord is ongeldig',
+
+    google_login_failed: 'Google login failed',
+    google_login1: 'Er is een fout opgetreden',
+    google_login2: 'the email you used was locally registered on Watch Cats.',
+    google_login3: '(i.e. please use the local login)',
+    google_login_redirect: 'U wordt in 5 seconden doorgestuurd naar de aanmeldenpagina.',
 
     phone_exists: 'Dit telefoonnummer is al gebruikt',
     code_verify_failed: 'Kan het code niet verifiëren',
     phone_submission_failed: 'Kan het telefoonnummer niet wijzigen. Probeer het opnieuw a.u.b',
     phone_saving_failed: 'Kan het telefoonnummer niet opslaan. Probeer het opnieuw a.u.b',
 
-    otp_expired: 'You enter an expired code. Klik \'Code opnieuw verzenden\' om een nieuwe code op te halen',
+    otp_expired: 'Uw code is niet meer geldig. Klik \'Code opnieuw verzenden\' om een nieuwe code op te halen',
     otp_invalid: 'Verkeerde verificatiecode',
     two_factor_activation_failed: 'Kan het 2FA niet activeren. Probeer het opnieuw a.u.b',
   },
@@ -31,23 +38,23 @@ export default {
     select_gender: 'Kies een geslacht',
     select_option: 'Kies een optie',
     password_critera: 'Een wachtwoord moet voldoen aan de eisen',
-    same_old_password: '',
-    new_passwords_unmatched: 'New passwords must match',
-    review_length: 'Please write a longer review',
+    same_old_password: 'Het nieuwe paswoord kan niet hetzelfde zijn als je huidige paswoord.',
+    new_passwords_unmatched: 'De nieuwe paswoorden moeten overeenkomen',
+    review_length: 'De geschreven review is niet lang genoeg',
   },
 
   success: {
     register1: 'Registratie gelukt',
     register2: 'Wij hebben u een e-mail gestuurd met daarin een activatielink.',
-    register3: 'Klik op deze link (verloopt na 1 uur) om uw account te activeren. U kunt daarna inloggen.',
+    register3: 'Klik op deze link (verloopt na 1 uur) om uw account te activeren. U kunt daarna aanmelden.',
     check_spam_folder: 'Mocht u binnen enkele minuten geen mail ontvangen, controleer je spam/junk folder.',
-    reset_forgot_password: 'Wachtwoord reset gelukt. U kunt nu inloggen met uw nieuwe wachtwoord.',
+    reset_forgot_password: 'Wachtwoord reset gelukt. U kunt nu aanmelden met uw nieuwe wachtwoord.',
     notification_setting: 'Meldingsinstelling bijgewerkt',
     password_reset: 'Uw wachtwoord is succesvol resetten',
     phone_verified: 'Uw telefoonnummer is succesvol geverifieerd',
     phone_removed: 'Uw telefoonnummer is succesvol verwijderd',
-    '2FA_enabled': 'U hebt tweefactor-authenticatie succesvol ingeschakeld. Je bent verplicht om zowel je wachtwoord als een authentiatiecode van je mobiele telefoon in te voeren om in te loggen.',
-    '2FA_disabled': 'U hebt tweefactor-authenticatie succesvol uitgeschakeld. U kunt nu inloggen met alleen uw wachtwoord.',
+    '2FA_enabled': 'U hebt tweefactor-authenticatie succesvol ingeschakeld. Je bent verplicht om zowel je wachtwoord als een authentiatiecode van je mobiele telefoon in te voeren om aan te melden.',
+    '2FA_disabled': 'U hebt tweefactor-authenticatie succesvol uitgeschakeld. U kunt nu aanmelden met alleen uw wachtwoord.',
     booking_request: 'Uw boekingsaanvraag is succesvol verzonden.',
     review: 'U heeft uw recensie succesvol ingediend. U wordt nu teruggeleid naar de boekingspagina.'
   },
@@ -59,12 +66,12 @@ export default {
     bookings: 'Boekings',
     messages: 'Chats',
     account: 'Account',
-    login: 'Inloggen',
-    logout: 'Uitloggen',
+    login: 'Aanmelden',
+    logout: 'Afmelden',
   },
 
   home: {
-    find_sitter: 'Find your ideal cat sitter in town today!',
+    find_sitter: 'Zoek vandaag de ideale kattenoppas in je buurt!',
   },
 
   form: {
@@ -74,21 +81,20 @@ export default {
     first_name: 'Voornaam',
     last_name: 'Achternaam',
     select: 'Selecteer',
-    save: 'Save',
-    submit: 'Submit',
+    save: 'Opslaan',
+    submit: 'Indienen',
     reset: 'Resetten',
     ok: 'Oke',
     cancel: 'Annuleren'
   },
 
   login: {
-    title: 'Inloggen',
-    log_in: 'inloggen',
-    demo_user: 'Login als een demo gebruiker',
+    title: 'Aanmelden',
+    demo_user: 'Aanmelden als een demo gebruiker',
     forgot_password: 'Wachtwoord vergeten?',
-    google_login: 'Inloggen met Google',
-    '2FA_login': 'Enter the 6-digit code in the Google Authenticator app on your phone.',
-    // Voer de code van 6 cijfers van de Google Authenticator app 
+    google_login: 'Aanmelden met Google',
+    loading: 'Bezig met laden...',
+    '2FA_login': 'Geef de 6-cijferige code in in de Google authenticator app op je gsm',
   },
 
   register: {
@@ -145,19 +151,20 @@ export default {
   },
 
   sitter_profile: {
-    no_own_profile_action: 'You cannot do actions to your own profile',
+    no_own_profile_action: 'U kan geen activiteiten op je eigen profiel maken',
     send_message: 'Stuur bericht',
-    request_appointment: 'Request an appointment',
-    appointment_type: 'Appointment type',
-    one_day: 'One day',
-    overnight: 'Overnight',
-    send_request: 'Send request',
-    appointment_fee: 'Appointment fee',
-    skills_summary: 'Summary of skills',
+    request_appointment: 'Aanvraag afspraak',
+    appointment_type: 'Afspraak type',
+    one_day: 'Een dag',
+    overnight: 'Overnacht',
+    send_request: 'Zend uitnodiging',
+    appointment_fee: 'Vergoeding afspraak',
+    skills_summary: 'Overzicht van kwaliteiten',
     location: 'Locatie',
     feedback: 'Feedback from cat owners',
 
     create_appointment_time: 'As you haven\'t set an appointment time in your owner profile, please select a time in the following.',
+    set_up_owner_profile: 'Please set up an owner profile first',
     no_owner_profile: 'You can only send a request to a cat sitter when you have a cat owner profile.',
     create_owner_profile1: 'To start creating your cat owner profile, go to the',
     create_owner_profile2: 'account',
@@ -185,7 +192,7 @@ export default {
 
   settings: {
     contact_details: 'Contactgegevens',
-    contact_details_tooltip: 'Via your email and/or phone, you can receive notifications when someone sends you a booking request; updates your booking status; or messages you. Uw gegevens worden met niemand gedeeld',
+    contact_details_tooltip: 'Je kan notificaties krijgen via de mail of op je telefoon voor het volgende: bij een boekings verzoek, bij updates van de boekings status en bij berichten van de boekers. Uw gegevens worden met niemand gedeeld.',
     reveal: 'Onthullen',
     hide: 'Verbergen',
     edit: 'Bewerken',
@@ -203,6 +210,7 @@ export default {
     stripe_account: 'Stripe-account',
     payment_description: 'To send and / or receive payments, please set up payouts on Stripe. Clicking below will guide you to a secure online form which will guide you to connect your bank account.',
     setup_payouts: 'Maak een Stripe account aan',
+    edit_account: 'Bewerk account',
 
     authentication: 'Wachtwoord en authenticatie',
     not_available: 'Niet beschikbaar als u bent ingelogd via Google',
@@ -219,7 +227,8 @@ export default {
     repeat_new_password: 'Herhaal nieuw wachtwoord',
 
     two_factor_auth: 'Tweefactor-authenticatie',
-    '2FA_description': 'Bescherm je Watchcats-account met een extra beveiligingslaag. Na de configuratie ben je verplicht om zowel je wachtwoord als een authentiatiecode van je mobiele telefoon in te voeren om in te loggen.',
+    two_factor_auth_as_demo_user: 'If you logged in as a demo user, 2FA can NOT be enabled. To test the feature, please make your own account.',
+    '2FA_description': 'Bescherm je Watchcats-account met een extra beveiligingslaag. Na de configuratie ben je verplicht om zowel je wachtwoord als een authentiatiecode van je mobiele telefoon in te voeren om aan te melden.',
     '2FA_enabled': 'U hebt tweefactor-authenticatie ingeschakeld.',
     disable_2FA: 'Tweefactor-authenticatie uitschakelen',
     enable_2FA: 'Tweefactor-authenticatie inschakelen',
@@ -229,14 +238,14 @@ export default {
     enable_2FA_step1_detail2: ' voor je telefoon of je tablet.',
     enable_2FA_step2: '2. Scan de QR code',
     enable_2FA_step2_detail: 'Open de authenticator-app en scan de afbeelding links met de camera van je telefoon.',
-    enable_2FA_step3: '3. Log in met je code',
+    enable_2FA_step3: '3. Aanmelden met beveiligingscode via Google-authenticator app',
     enable_2FA_step3_detail: 'Voer de gegenereerde 6-cijferige verificatecode in.',
     activate: 'Activeren'
   },
 
   personal_info: {
     profile_picture: 'Profielfoto',
-    picture_requirement_1: 'Please choose a high quality picture of yourself',
+    picture_requirement_1: 'Zoek alstublieft van jezelf een afbeelding met hoger qualiteit',
     picture_requirement_2: 'Geen filters, effecten of stickers worden toegepast',
     picture_requirement_3: 'Gebruik het beste beeldformaat: JPG, JPEG, of PNG',
     picture_requirement_4: 'Minimale afmetingen: 360 x 254 pixels',
@@ -249,8 +258,7 @@ export default {
     address: 'Adres',
     address_tooltip: 'Uw adres worden met niemand gedeeld',
     postcode: 'Postcode',
-    postcode_tooltip: "Only Dutch postcodes are accepted (four digits followed by two uppercase letters, i.e. 1234AB). Once submitted, your location will appear in the map on 'Find Cat Sitter' page",
-
+    postcode_tooltip: "Only Dutch postcodes are accepted (four digits followed by two uppercase letters, i.e. 1234AB). Uw locatie zal verschijnen op de map van de 'Zoek een kattenoppas' pagina wanneer u uw kattenoppas profiel hebt uitgewerkt",
     social_media: 'Sociale media',
     optional: 'Optioneel',
     facebook: 'Facebook profiel',
@@ -262,12 +270,9 @@ export default {
     view_profile: 'Bekijk mijn openbare oppasprofiel',
 
     about_me: 'Over mij',
-    about_me_description:
-      'Tell cat owners about yourself. Start with a little description of yourself - What do you do for a living? Why do you want to be a cat sitter?',
-
+    about_me_description: 'Tell cat owners about yourself. Start with a little description of yourself - What do you do for a living? Why do you want to be a cat sitter?',
     experience: 'Ervaring',
-    experience_description:
-      'Please select relevant experience / skills you possess. For every item selected, please briefly explain the details in the text box below.',
+    experience_description: 'Please select relevant experience / skills you possess. For every item selected, please briefly explain the details in the text box below.',
     has_cat: 'Eigenaar van een kat',
     volunteer: 'Heeft vrijwillegerswerk gedaan',
     medication: 'Kan medicijnen toedienen',
@@ -282,8 +287,7 @@ export default {
     per_night: '/ nacht',
 
     availability: 'Beschikbaarheid',
-    availability_description:
-      'Select the dates that you are not available, so that cat owners can send you requests based on your availability.',
+    availability_description: 'Selecteer de datums wanneer u niet beschikbaar bent, zodat katteneigenaren u aanvragen gebaseerd op je beschikbaarheid kunnen verzenden.',
     available: 'Beschikbaar',
     unavailable: 'Niet beschikbaar',
   },
@@ -309,7 +313,7 @@ export default {
 
     about_cat: 'Over mijn kat',
     picture: 'Afbeelding',
-    share_picture: 'Show a picture of your cat to cat sitters!',
+    share_picture: 'Toon een foto van je kat aan kattenoppassers!',
     name: 'Naam',
     age: 'Leeftijd',
     gender: 'Geslacht',
@@ -367,13 +371,13 @@ export default {
     as_cat_owner: 'Als een eigenaar',
 
     no_jobs: 'U hebt geen oppas jobs {{status}} op het moment.',
-    receive_sitting_jobs: 'You will only receive sitting jobs requests when a cat owner  sends you one.',
+    receive_sitting_jobs: 'U zal alleen oppas aanvragen ontvangen wanner een katteneigenaar ze zend.',
     no_service: 'U hebt geen afspraak {{status}} op het moment',
     go_to: 'Ga naar de',
     find_sitter: 'pagina om een katoppas te zoeken.',
 
     requested: 'Aangevraagd',
-    await_acceptance: 'Currently waiting for cat sitter to accept booking',
+    await_acceptance: 'Wacht tot een kattenoppas de booking accepteert',
     decline: 'Weigeren',
     decline_confirm:
       'Click "OK" to confirm the booking decline. It is recommended that you write the cat owner about the reason you reject the booking',
@@ -387,21 +391,27 @@ export default {
     cancel_confirm:
       'Click "OK" to confirm the booking cancellation. Make sure to inform the cat owner about the cancellation and the reason.',
     pay_now: 'Nu betalen',
-    complete: 'Afspraak voltooid',
-    complete_confirm:
-      'Click "OK" to confirm the appointment completion. The status of this booking will be changed from "Confirmed" to "Completed". You will be able to write a review about your experience.',
 
+    complete: 'Afspraak voltooid',
+    complete_confirm: 'Klik op "Ok" om de afspraak te voltooien. De status van deze boeking zal veranderen van "Bevestigd" naar "Compleet". Je kan nu een recensie achterlaten.',
     completed: 'Voltooid',
-    await_completion: 'Waiting for cat sitter to confirm completion of sitting job',
+    await_completion: 'Wacht tot een kattenoppas de voltooiïng van een oppas bevestigd',
     write_review: 'Schrijf een recensie',
 
     declined: 'Geweigerd',
 
     sitter: 'Oppas',
     owner: 'Eigenaar',
+    type: 'Type',
+    one_day_appointment: 'One-day appointment',
+    overnight_appointment: 'Overnight appointment',
     location: 'Locatie',
     time: 'Tijd',
     price: 'Prjs',
+  },
+
+  pay: {
+    title: 'Pay',
   },
 
   review: {
@@ -414,8 +424,18 @@ export default {
 
   chats: {
     no_chats: 'No chats yet',
-    if_sitter: 'If you\'re a sitter, only owners can write to you',
+    if_sitter: 'Ben je een oppasser, dan kunnen alleen eigenaren een bericht naar je sturen.',
     if_owner: 'If you\'re an owner, start by',
-    find_sitter: 'finding a sitter'
+    find_sitter: 'finding a sitter',
+    view_owner_profile: 'Eigenaarsprofiel kijken',
+    view_sitter_profile_: 'Oppasprofiel kijken',
+  },
+
+  auto_message: {
+    reminder: 'Reminder - Leave a review',
+    booking_requested: 'A booking request is made by {{owner}}',
+    booking_accepted: 'Booking has been accepted by {{sitter}}',
+    booking_declined: 'Booking has been declined by {{sitter}}',
+    booking_completed: 'Booking is marked as completed by {{sitter}}'
   }
 };

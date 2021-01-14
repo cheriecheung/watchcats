@@ -11,8 +11,8 @@ function Successful({ t }) {
       <span>{t('account_activation.success1')}</span>
       <span>
         {t('account_activation.success2')}
-        <LinkButton to="/login" variant="colored" t>
-          {t('login.log_in')}
+        <LinkButton to="/login" variant="colored">
+          {t('login.titley').toLowerCase()}
         </LinkButton>
       </span>
     </div>

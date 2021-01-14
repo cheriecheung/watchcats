@@ -8,8 +8,15 @@ export default {
     email_exists: 'Email already exists.',
     password_incorrect: 'You submitted the incorrect password.',
     password_reset_failed: 'Unable to reset password. Please try again.',
+
     login_failed: 'Unable to login. Please try again.',
     login_credentials_invalid: 'Email and password combination is incorrect.',
+
+    google_login_failed: 'Google login failed',
+    google_login1: 'An error has occured',
+    google_login2: 'the email you used was locally registered on Watch Cats.',
+    google_login3: '(i.e. please use the local login)',
+    google_login_redirect: 'You will be redirected to the login page in 5 seconds...',
 
     phone_exists: 'Phone number is used by another account.',
     code_verify_failed: 'Unable to verify code.',
@@ -68,6 +75,8 @@ export default {
   },
 
   form: {
+    yes: 'Yes',
+    no: 'No',
     or: 'OR',
     email: 'Email address',
     password: 'Password',
@@ -83,10 +92,10 @@ export default {
 
   login: {
     title: 'Login',
-    log_in: 'log in',
     demo_user: 'Login as a demo user',
     forgot_password: 'Forgot password?',
     google_login: 'Login with Google',
+    loading: 'Loading...',
     '2FA_login': 'Enter the 6-digit code in the Google Authenticator app on your phone.',
   },
 
@@ -157,8 +166,9 @@ export default {
     feedback: 'Feedback from cat owners',
 
     create_appointment_time: 'As you haven\'t set an appointment time in your owner profile, please select a time in the following.',
-    no_owner_profile: 'You can only send a request to a cat sitter when you have a cat owner profile.',
-    create_owner_profile1: 'To start creating your cat owner profile, go to the',
+    set_up_owner_profile: 'Please set up an owner profile first',
+    no_owner_profile: 'You can only send a request to a cat sitter if you have a cat owner profile.',
+    create_owner_profile1: 'To create your cat owner profile, go to the',
     create_owner_profile2: 'account',
     create_owner_profile3: 'page, and click on the \'Cat owner profile\' tab.',
     select_time: 'Select a time',
@@ -202,6 +212,7 @@ export default {
     stripe_account: 'Stripe Account',
     payment_description: 'To send and / or receive payments, please set up payouts on Stripe. Clicking below will guide you to a secure online form which will guide you to connect your bank account.',
     setup_payouts: 'Set up payouts',
+    edit_account: 'Edit account',
 
     authentication: 'Password and Authentication',
     not_available: 'Not available for accounts login via Google',
@@ -218,7 +229,8 @@ export default {
     repeat_new_password: 'Repeat new password',
 
     two_factor_auth: 'Two-factor authentication',
-    '2FA_description': ' Protect your account with an extra layer of security. Once configured, you\'ll be required to enter both your password and an authentication code from your mobile phone in order to sign in.',
+    two_factor_auth_as_demo_user: 'If you logged in as a demo user, 2FA can NOT be enabled. To test the feature, please make your own account.',
+    '2FA_description': ' Protect your account with an extra layer of security. Once configured, you\'ll be required to enter both your password and an authentication code from your mobile phone to sign in.',
     '2FA_enabled': 'You have already enabled two factor authentication',
     disable_2FA: 'Disable 2FA',
     enable_2FA: 'Enable 2FA',
@@ -248,7 +260,7 @@ export default {
     address: 'Address',
     address_tooltip: 'Your address will not be shared with anyone in any manner',
     postcode: 'Postcode',
-    postcode_tooltip: "Only Dutch postcodes are accepted (four digits followed by two uppercase letters, i.e. AB1234). Once submitted, your location will appear in the map on 'Find Cat Sitter' page",
+    postcode_tooltip: "Only Dutch postcodes are accepted (four digits followed by two uppercase letters, i.e. AB1234). Your location will appear in the map on 'Find Cat Sitter' page once you filled out your cat sitter profile",
 
     social_media: 'Social media',
     optional: 'Optional',
@@ -375,7 +387,7 @@ export default {
     find_sitter: 'to start looking for a cat sitter now.',
 
     requested: 'Requested',
-    await_acceptance: 'Currently waiting for cat sitter to accept booking',
+    await_acceptance: 'Waiting for cat sitter to accept booking',
     decline: 'Decline',
     decline_confirm:
       'Click "OK" to confirm the booking decline. It is recommended that you write the cat owner about the reason you reject the booking',
@@ -401,9 +413,16 @@ export default {
 
     sitter: 'Sitter',
     owner: 'Owner',
+    type: 'Type',
+    one_day_appointment: 'One-day appointment',
+    overnight_appointment: 'Overnight appointment',
     location: 'Location',
     time: 'Time',
     price: 'Price',
+  },
+
+  pay: {
+    title: 'Pay',
   },
 
   review: {
@@ -418,6 +437,16 @@ export default {
     no_chats: 'No chats yet',
     if_sitter: 'If you\'re a sitter, only owners can write to you',
     if_owner: 'If you\'re an owner, start by',
-    find_sitter: 'finding a sitter'
+    find_sitter: 'finding a sitter',
+    view_owner_profile: 'View cat owner profile',
+    view_sitter_profile_: 'View cat sitter profile',
+  },
+
+  auto_message: {
+    reminder: 'Reminder - Leave a review',
+    booking_requested: 'A booking request is made by {{owner}}',
+    booking_accepted: 'Booking has been accepted by {{sitter}}',
+    booking_declined: 'Booking has been declined by {{sitter}}',
+    booking_completed: 'Booking is marked as completed by {{sitter}}'
   }
 };

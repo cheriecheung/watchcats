@@ -17,6 +17,7 @@ const Container = styled.div`
 `
 
 function GoogleLoginLoading() {
+  const t = useTranslation();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,8 +28,8 @@ function GoogleLoginLoading() {
     <Container>
       <VerticalCard>
         <ResponseDisplayTemplate
-          icon={<i className="far fa-grin-beam-sweat fa-5x" style={{ color: themeColor.lightGrey }} />}
-          title={'Logging in via Google...'}
+          icon={<i className="fab fa-google fa-5x" style={{ color: themeColor.lightGrey }} />}
+          title={t('login.loading')}
         />
       </VerticalCard>
     </Container>

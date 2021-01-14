@@ -16,31 +16,31 @@ function AutomatedMessage({ t, message, conversationInfo }) {
       case AUTOMATED_MESSAGES.BOOKING_REQUESTED:
         return (
           <DefaultAutoMessageStyle>
-            { `A booking request is made by ${user}`}
+            {t('auto_message.booking_requested', { owner: user })}
           </DefaultAutoMessageStyle>
         )
       case AUTOMATED_MESSAGES.BOOKING_CONFIRMED:
         return (
           <AlternateAutoMessageStyle>
             <i className="fas fa-check fa-xs mr-2" />
-            {`Booking is accepted by ${user}`}
+            {t('auto_message.booking_accepted', { sitter: user })}
           </AlternateAutoMessageStyle>
         )
       case AUTOMATED_MESSAGES.BOOKING_DECLINED:
-        return `Booking has been declined by ${user}`
+        return t('auto_message.booking_declined', { sitter: user })
       case AUTOMATED_MESSAGES.BOOKING_COMPLETED:
         return (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <AlternateAutoMessageStyle>
               <i className="fas fa-check-double fa-xs mr-2" />
-              {`Booking is marked as completed by ${user}`}
+              {t('auto_message.booking_completed', { sitter: user })}
             </AlternateAutoMessageStyle>
 
             <DefaultAutoMessageStyle
               style={{ display: 'inline-block', margin: '20px auto 10px auto' }}
             >
               <i className="fas fa-pencil-alt fa-xs mr-2" />
-              Reminder - Leave a review
+              {t('auto_message.reminder')}
             </DefaultAutoMessageStyle>
           </div>
         )
@@ -87,7 +87,7 @@ function AutomatedMessage({ t, message, conversationInfo }) {
 
       {content === 'AUTOMATED_MESSAGE/BOOKING_REQUESTED' &&
         <HorizontalCard variant="chat">
-          <FieldLabel>Booking information</FieldLabel>
+          <FieldLabel>{t('review.booking_information')}</FieldLabel>
 
           <Field style={{ marginTop: 5 }}>
             <FieldLabel>{t('bookings.type')}</FieldLabel>

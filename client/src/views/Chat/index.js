@@ -86,6 +86,7 @@ function Chat() {
           />
 
           <ConversationInfo
+            t={t}
             info={conversationInfo}
             backToConversation={backToConversation}
             mobileScreenView={mobileScreenView}

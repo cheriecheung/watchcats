@@ -124,7 +124,10 @@ function Authentication({
             <>
 
               <p>
-                <Remark><i className="fas fa-exclamation fas-xs mr-1" /> If you logged in as a demo user, the 2FA settings will NOT be stored. To test the feature, please make a new account.</Remark>
+                <Remark>
+                  <i className="fas fa-exclamation fas-xs mr-1" />
+                  {t('settings.two_factor_auth_as_demo_user')}
+                </Remark>
                 {t('settings.2FA_description')}
               </p>
 

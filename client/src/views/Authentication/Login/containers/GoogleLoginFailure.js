@@ -16,12 +16,13 @@ const Container = styled.div`
 `
 
 function GoogleLoginFailure() {
+  const t = useTranslation();
   const history = useHistory();
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   history.push('/login');
-    // }, 5000)
+    setTimeout(() => {
+      history.push('/login');
+    }, 5000)
   }, [])
 
   return (
@@ -29,17 +30,17 @@ function GoogleLoginFailure() {
       <VerticalCard>
         <ResponseDisplayTemplate
           icon={<i className="far fa-grin-beam-sweat fa-5x" style={{ color: themeColor.lightGrey }} />}
-          title={'Google Login failed'}
+          title={t('api_error.google_login_failed')}
           text={
             <>
-              <span>An error has occured</span>
-              <h5 style={{ margin: '15px 0' }}>OR</h5>
-              <span>The email you used was locally registered on Watch Cats.</span>
+              <span>{t('api_error.google_login1')}</span>
+              <h5 style={{ margin: '15px 0' }}>{t('form.or')}</h5>
+              <span>{t('api_error.google_login2')}</span>
               <br />
-              <span>(i.e. please use the local login)</span>
+              <span>{t('api_error.google_login3')}</span>
               <br />
               <br />
-              <span>You will be redirected to the login page in 5 seconds...</span>
+              <span>{t('api_error.google_login_redirect')}</span>
             </>
           }
         />

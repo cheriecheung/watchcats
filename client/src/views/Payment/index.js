@@ -35,7 +35,7 @@ function CheckoutForm() {
         <br />
 
         <button type="submit" disabled={!stripe} className="IdealBankPayButton">
-          Pay
+          {t('pay.title')}
         </button>
       </form>
     </div>

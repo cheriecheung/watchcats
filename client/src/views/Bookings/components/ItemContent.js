@@ -55,7 +55,7 @@ function ItemContent({ t, data, bookingType, imageContainerVariant }) {
 
         <Field>
           <FieldLabel>
-            {owner ? t('bookings.owner') : t('bookings.sitter')}
+            {bookingType === 'sitting_jobs' ? t('bookings.owner') : t('bookings.sitter')}
           </FieldLabel>
           <FieldItem>{firstName} {lastName && lastName.charAt(0)}</FieldItem>
         </Field>

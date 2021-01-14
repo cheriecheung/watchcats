@@ -12,6 +12,7 @@ import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 const { REACT_APP_API_DOMAIN } = process.env;
 
 function ConversationInfo({
+  t,
   info,
   backToConversation,
   mobileScreenView
@@ -57,22 +58,22 @@ function ConversationInfo({
               {firstName} {lastName && lastName.charAt(0)}
             </h5>
 
-            {hasSitterProfile &&
-              <LinkButton
-                to={`/profile/catsitter/${urlId}`}
-                variant="bordered"
-                style={{ margin: '5px 0' }}
-              >
-                View cat sitter profile
-              </LinkButton>
-            }
             {hasOwnerProfile &&
               <LinkButton
                 to={`/profile/catowner/${urlId}`}
                 variant="bordered"
                 style={{ margin: '5px 0' }}
               >
-                View cat owner profile
+                {t('chats.view_owner_profile')}
+              </LinkButton>
+            }
+            {hasSitterProfile &&
+              <LinkButton
+                to={`/profile/catsitter/${urlId}`}
+                variant="bordered"
+                style={{ margin: '5px 0' }}
+              >
+                {t('chats.view_sitter_profile')}
               </LinkButton>
             }
           </div>
