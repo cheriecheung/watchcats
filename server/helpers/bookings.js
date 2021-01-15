@@ -20,6 +20,42 @@ function generateMessageType(status) {
 }
 
 module.exports = {
+  getUnreadBookings: async (owner, sitter) => {
+    const notifications = {
+      hasUnreadBookings: false,
+      hasUnreadChats: false
+    }
+
+    const unreadBookings = await Booking.find({
+      $or: [
+        { owner, isReadByOwner: false },
+        { sitter, isReadBySitter: false }
+      ]
+    })
+
+    if (unreadBookings.length > 0) {
+      const allBookings = unreadBookings.reduce((output, item) => {
+        const { owner: ownerId, sitter: sitterId, status } = item
+
+        if (owner && owner.equals(ownerId)) {
+          output.unreadAsOwner[status] = true;
+        }
+
+        if (sitter && sitter.equals(sitterId)) {
+          output.unreadAsSitter[status] = true;
+        }
+
+        return output
+      }, { unreadAsOwner: {}, unreadAsSitter: {} });
+
+      notifications.hasUnreadBookings = true;
+      notifications.unreadBookingsAsOwner = allBookings.unreadAsOwner;
+      notifications.unreadBookingsAsSitter = allBookings.unreadAsSitter;
+    }
+
+    return { notifications }
+  },
+
   createAutomatedMessage: async ({ bookingId, bookingAction, senderId, recipientId }) => {
     const { message } = generateMessageType(bookingAction)
     if (!message) return { ok: false, err: 'Unable to generate automated message' }

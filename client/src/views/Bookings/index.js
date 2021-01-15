@@ -51,8 +51,6 @@ function Bookings() {
     isLoadingBookingRecords
   } = useBookings();
 
-  const { requested, confirmed, completed, declined } = bookings || {}
-
   const renderBookingStatusTabContent = () => {
     switch (bookingStatusActiveKey) {
       case 'confirmed':
@@ -60,7 +58,7 @@ function Bookings() {
           <Confirmed
             t={t}
             bookingType={bookingTypeActiveKey}
-            bookings={confirmed}
+            bookings={bookings}
             onCompleteBooking={onCompleteBooking}
           />
         )
@@ -69,7 +67,7 @@ function Bookings() {
           <Completed
             t={t}
             bookingType={bookingTypeActiveKey}
-            bookings={completed}
+            bookings={bookings}
           />
         )
       case 'declined':
@@ -77,7 +75,7 @@ function Bookings() {
           <Declined
             t={t}
             bookingType={bookingTypeActiveKey}
-            bookings={declined}
+            bookings={bookings}
           />
         )
       default:
@@ -85,7 +83,7 @@ function Bookings() {
           <Requested
             t={t}
             bookingType={bookingTypeActiveKey}
-            bookings={requested}
+            bookings={bookings}
             onHandleRequestedBooking={onHandleRequestedBooking}
           />
         )

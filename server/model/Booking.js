@@ -51,10 +51,12 @@ const bookingSchema = new Schema({
   hasReviewLeftByOwner: {
     type: Boolean,
     default: false,
+    required: true
   },
   hasReviewLeftBySitter: {
     type: Boolean,
     default: false,
+    required: true,
   },
   createdAt: {
     type: Date,

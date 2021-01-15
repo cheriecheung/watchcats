@@ -16,6 +16,7 @@ function Declined({ t, bookings, bookingType }) {
               key={id}
               t={t}
               data={data}
+              bookingType={bookingType}
             />
           )
         })

@@ -8,7 +8,7 @@ import LOADING from '../../constants/loadingTypes'
 
 const appointmentTimeUrl = `/booking-time`;
 const bookingUrl = `/booking`;
-const bookingsURL = type => `/bookings?type=${type}`
+const bookingsURL = (type, status) => `/bookings?type=${type}&status=${status}`;
 const reviewURL = bookingId => `/review/${bookingId}`;
 
 export function getAppointmentTime() {
@@ -48,7 +48,7 @@ export function sendRequest(bookingData) {
   };
 }
 
-export function getRecords(type) {
+export function getRecords(type, status) {
   return async (dispatch) => {
     dispatch({
       type: LoadingActionTypes.SET_BOOKINGS_LOADING,
@@ -56,9 +56,17 @@ export function getRecords(type) {
     });
 
     try {
-      const { data } = await axiosInstance().get(bookingsURL(type), getConfig());
+      const { data } = await axiosInstance().get(
+        bookingsURL(type, status),
+        getConfig()
+      );
 
-      dispatch({ type: BookingActionTypes.BOOKING_RECORDS_RETURNED, payload: data });
+      const { bookingRecords, notifications } = data
+
+      dispatch({
+        type: BookingActionTypes.BOOKING_RECORDS_RETURNED,
+        payload: bookingRecords
+      });
       dispatch(clearLoading('bookingsLoading'))
     } catch (e) {
       console.log({ e });

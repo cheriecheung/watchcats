@@ -9,6 +9,9 @@ router.get('/bookings', validateToken, BookingController.getRecords);
 
 router.post('/booking', formLimiter, speedLimiter(5), validateToken, BookingController.sendRequest);
 
+// router.patch('/bookings', validateToken, BookingController.markBookingsAsRead)
+
+// :id?
 router.patch('/booking', validateToken, BookingController.fulfillAction)
 
 router.get('/booking/:id?', validateToken, BookingController.getBooking)

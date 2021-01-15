@@ -77,31 +77,35 @@ function Confirmed({
           );
         })}
 
-      {bookingType === 'sitting_jobs' && bookings.length === 0 && (
-        <>
-          <Icon />
-          <span>
-            {t('bookings.no_jobs', { status: t('bookings.confirmed').toLowerCase() })}
-          </span>
-        </>
-      )}
+      {bookingType === 'sitting_jobs' &&
+        Array.isArray(bookings) &&
+        bookings.length === 0 && (
+          <>
+            <Icon />
+            <span>
+              {t('bookings.no_jobs', { status: t('bookings.confirmed').toLowerCase() })}
+            </span>
+          </>
+        )}
 
-      {bookingType === 'sitting_service' && bookings.length === 0 && (
-        <>
-          <Icon />
-          <span>
-            {t('bookings.no_service', { status: t('bookings.confirmed').toLowerCase() })}
-          </span>
+      {bookingType === 'sitting_service' &&
+        Array.isArray(bookings) &&
+        bookings.length === 0 && (
+          <>
+            <Icon />
+            <span>
+              {t('bookings.no_service', { status: t('bookings.confirmed').toLowerCase() })}
+            </span>
 
-          <span>
-            {t('bookings.go_to')}
-            <LinkButton to="/find" variant="colored">
-              &nbsp;{t('header.find_sitter')}&nbsp;
+            <span>
+              {t('bookings.go_to')}
+              <LinkButton to="/find" variant="colored">
+                &nbsp;{t('header.find_sitter')}&nbsp;
             </LinkButton>
-            {t('bookings.find_sitter')}
-          </span>
-        </>
-      )}
+              {t('bookings.find_sitter')}
+            </span>
+          </>
+        )}
     </>
   );
 }

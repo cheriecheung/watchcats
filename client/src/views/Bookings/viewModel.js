@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { setReadAsOwner, setReadAsSitter, setAllBookingsAsRead } from '../../redux/notifications/actions';
+import {
+  setReadAsOwner, setReadAsSitter,
+  // markBookingsAsRead,
+  setAllBookingsAsRead
+} from '../../redux/notifications/actions';
 
 import { getRecords, fulfillAction } from '../../redux/bookings/actions';
 import LOADING from '../../constants/loadingTypes'
@@ -14,14 +18,11 @@ function useBookings() {
 
   const dispatch = useDispatch();
   const notifications = useSelector((state) => state.notifications);
-  const { bookings: returnedBookings } = useSelector((state) => state.bookings);
+  const { bookings } = useSelector((state) => state.bookings);
   const { bookingsLoading } = useSelector((state) => state.loading);
 
   let isLoadingBookingRecords = bookingsLoading === LOADING.GET_BOOKINGS_RECORDS
   let isLoadingFulfillAction = bookingsLoading === LOADING.FULFILL_ACTION
-
-  const [bookings, setBookings] = useState({})
-  const [bookingStatusTabs, setBookingStatusTabs] = useState([]);
 
   const [bookingTypeActiveKey, setBookingTypeActiveKey] = useState(defaultKeyBookingType);
   const [bookingStatusActiveKey, setBookingStatusActiveKey] = useState(defaultKeyBookingStatus);
@@ -32,46 +33,41 @@ function useBookings() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState('');
 
+  const bookingStatusTabs = [
+    {
+      key: 'requested',
+      tab: `${t('bookings.requested')}`
+    },
+    {
+      key: 'confirmed',
+      tab: `${t('bookings.confirmed')}`
+    },
+    {
+      key: 'completed',
+      tab: `${t('bookings.completed')}`
+
+    },
+    {
+      key: 'declined',
+      tab: `${t('bookings.declined')}`
+    },
+  ]
+
+  // useEffect(() => {
+  //   if (bookingTypeActiveKey === 'sitting_jobs') {
+  //     dispatch(getRecords('jobs'));
+  //   } else {
+  //     dispatch(getRecords('service'));
+  //   }
+  // }, [bookingTypeActiveKey]);
+
+  // useEffect(() => {
+  //   dispatch(markBookingsAsRead({ type: bookingTypeActiveKey, status: bookingStatusActiveKey }))
+  // }, [bookingTypeActiveKey, bookingStatusActiveKey])
+
   useEffect(() => {
-    const { requested, confirmed, completed, declined } = bookings || {}
-
-    if (requested && confirmed && completed && declined) {
-      const statusTabs = [
-        {
-          key: 'requested',
-          tab: `${t('bookings.requested')} (${bookings.requested.length})`
-        },
-        {
-          key: 'confirmed',
-          tab: `${t('bookings.confirmed')}  (${bookings.confirmed.length})`
-        },
-        {
-          key: 'completed',
-          tab: `${t('bookings.completed')}  (${bookings.completed.length})`
-        },
-        {
-          key: 'declined',
-          tab: `${t('bookings.declined')}  (${bookings.declined.length})`
-        },
-      ]
-
-      setBookingStatusTabs(statusTabs)
-    }
-  }, [bookings])
-
-  useEffect(() => {
-    if (returnedBookings) {
-      setBookings(returnedBookings)
-    }
-  }, [returnedBookings]);
-
-  useEffect(() => {
-    if (bookingTypeActiveKey === 'sitting_jobs') {
-      dispatch(getRecords('jobs'));
-    } else {
-      dispatch(getRecords('services'));
-    }
-  }, [bookingTypeActiveKey]);
+    dispatch({ type: bookingTypeActiveKey, status: bookingStatusActiveKey })
+  }, [bookingTypeActiveKey, bookingStatusActiveKey]);
 
   useEffect(() => {
     const status = bookingStatusActiveKey;

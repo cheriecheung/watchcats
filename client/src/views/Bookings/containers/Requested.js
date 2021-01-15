@@ -43,6 +43,7 @@ function Requested({
   bookings,
   onHandleRequestedBooking,
 }) {
+  console.log({ bookings })
   const renderSection = (id) =>
     bookingType === 'sitting_jobs' ? (
       <RequestedJob
@@ -72,7 +73,6 @@ function Requested({
         })}
 
       {bookingType === 'sitting_jobs' &&
-        bookings &&
         Array.isArray(bookings) &&
         bookings.length === 0 && (
           <>
@@ -85,7 +85,6 @@ function Requested({
         )}
 
       {bookingType === 'sitting_service' &&
-        bookings &&
         Array.isArray(bookings) &&
         bookings.length === 0 && (
           <>
