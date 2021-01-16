@@ -5,11 +5,9 @@ const { formLimiter, speedLimiter } = require('../helpers/limiter')
 
 router.get('/booking-time', validateToken, BookingController.getAppointmentTime);
 
-router.get('/bookings', validateToken, BookingController.getRecords);
+router.get('/bookings', validateToken, BookingController.getBookings);
 
 router.post('/booking', formLimiter, speedLimiter(5), validateToken, BookingController.sendRequest);
-
-// router.patch('/bookings', validateToken, BookingController.markBookingsAsRead)
 
 // :id?
 router.patch('/booking', validateToken, BookingController.fulfillAction)

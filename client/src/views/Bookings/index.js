@@ -36,28 +36,31 @@ function Bookings() {
     t,
     bookings,
     notifications,
-    bookingTypeActiveKey,
-    setBookingTypeActiveKey,
-    bookingStatusActiveKey,
-    setBookingStatusActiveKey,
-    submitAction,
-    bookingStatusTabs,
+    statusTabs,
+
+    clickedType,
+    setClickedType,
+    clickedStatus,
+    setClickedStatus,
+
     modalVisible,
     setModalVisible,
     modalContent,
+
+    isLoadingBookings,
+    isLoadingFulfillAction,
     onHandleRequestedBooking,
     onCompleteBooking,
-    isLoadingFulfillAction,
-    isLoadingBookingRecords
+    submitAction
   } = useBookings();
 
   const renderBookingStatusTabContent = () => {
-    switch (bookingStatusActiveKey) {
+    switch (clickedStatus) {
       case 'confirmed':
         return (
           <Confirmed
             t={t}
-            bookingType={bookingTypeActiveKey}
+            bookingType={clickedType}
             bookings={bookings}
             onCompleteBooking={onCompleteBooking}
           />
@@ -66,7 +69,7 @@ function Bookings() {
         return (
           <Completed
             t={t}
-            bookingType={bookingTypeActiveKey}
+            bookingType={clickedType}
             bookings={bookings}
           />
         )
@@ -74,7 +77,7 @@ function Bookings() {
         return (
           <Declined
             t={t}
-            bookingType={bookingTypeActiveKey}
+            bookingType={clickedType}
             bookings={bookings}
           />
         )
@@ -82,7 +85,7 @@ function Bookings() {
         return (
           <Requested
             t={t}
-            bookingType={bookingTypeActiveKey}
+            bookingType={clickedType}
             bookings={bookings}
             onHandleRequestedBooking={onHandleRequestedBooking}
           />
@@ -92,12 +95,10 @@ function Bookings() {
 
   const { unreadBookingsAsOwner = {}, unreadBookingsAsSitter = {} } = notifications || {};
 
-  // console.log({ unreadBookingsAsOwner, unreadBookingsAsSitter })
-
   const hasUnreadAsOwner = Object.entries(unreadBookingsAsOwner).length > 0;
   const hasUnreadAsSitter = Object.entries(unreadBookingsAsSitter).length > 0;
-  const sittingJobsSelected = bookingTypeActiveKey === 'sitting_jobs'
-  const sittingServiceSelected = bookingTypeActiveKey === 'sitting_service'
+  const sittingJobsSelected = clickedType === 'sitting_jobs'
+  const sittingServiceSelected = clickedType === 'sitting_service'
 
   return (
     <>
@@ -105,7 +106,7 @@ function Bookings() {
         <TabBar variant="bookings">
           <TabItem
             isSelected={sittingJobsSelected}
-            onClick={() => setBookingTypeActiveKey('sitting_jobs')}
+            onClick={() => setClickedType('sitting_jobs')}
           >
             <Badge
               isShown={hasUnreadAsSitter}
@@ -116,7 +117,7 @@ function Bookings() {
           </TabItem>
           <TabItem
             isSelected={sittingServiceSelected}
-            onClick={() => setBookingTypeActiveKey('sitting_service')}
+            onClick={() => setClickedType('sitting_service')}
           >
             <Badge
               isShown={hasUnreadAsOwner}
@@ -128,14 +129,14 @@ function Bookings() {
         </TabBar>
 
         <SubTabBar>
-          {bookingStatusTabs.map(({ key, tab }) => {
+          {statusTabs.map(({ key, tab }) => {
             const type = sittingJobsSelected ? unreadBookingsAsSitter : unreadBookingsAsOwner
 
             return (
               <SubTabBarItem
                 key={key}
-                isSelected={bookingStatusActiveKey === key}
-                onClick={() => setBookingStatusActiveKey(key)}
+                isSelected={clickedStatus === key}
+                onClick={() => setClickedStatus(key)}
               >
                 <Badge isShown={type[key]}>
                   {tab}
@@ -147,11 +148,10 @@ function Bookings() {
       </div>
 
       <Content>
-        {renderBookingStatusTabContent()}
-        {/* {isLoadingBookingRecords ?
-          <Spinner /> :
+        {isLoadingBookings ?
+          <Spinner colored={true} style={{ margin: '30px 0' }} /> :
           renderBookingStatusTabContent()
-        } */}
+        }
       </Content>
 
       <Modal

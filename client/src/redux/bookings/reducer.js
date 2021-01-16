@@ -3,6 +3,12 @@ import BookingActionTypes from './actionTypes'
 
 const initialState = Immutable({
   bookings: [],
+  bookingCounts: {
+    requested: 0,
+    confirmed: 0,
+    completed: 0,
+    declined: 0
+  },
   bookingInfo: {},
   reviewSubmitted: false,
 });
@@ -22,8 +28,12 @@ const bookings_reducer = {
         };
       case BookingActionTypes.BOOKING_REQUEST_SENT:
         return { ...state, profileActionStatus: 'BOOKING_REQUEST_SENT' };
-      case BookingActionTypes.BOOKING_RECORDS_RETURNED:
-        return { ...state, bookings: action.payload };
+      case BookingActionTypes.BOOKING_RETURNED:
+        return {
+          ...state,
+          bookings: action.payload.bookings,
+          bookingCounts: action.payload.bookingCounts
+        };
       case BookingActionTypes.ACTION_FULFILLED:
         return state;
       case BookingActionTypes.BOOKING_INFO_RETURNED:

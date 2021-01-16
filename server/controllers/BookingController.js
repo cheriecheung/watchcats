@@ -169,7 +169,7 @@ module.exports = {
     }
   },
 
-  getRecords: async (req, res) => {
+  getBookings: async (req, res) => {
     const { userId } = req.verifiedData
     if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
 
@@ -183,20 +183,19 @@ module.exports = {
 
       const { owner, sitter } = userRecord;
 
-      const defaultRecords = { requested: [], confirmed: [], completed: [], declined: [] }
       let filter;
       let isReadField;
       let path;
 
       if (type === 'sitting_jobs') {
-        if (!sitter) return res.status(200).json(defaultRecords);
+        if (!sitter) return res.status(200).json({ bookings: [], bookingCounts: {} });
         filter = { sitter, status };
         isReadField = 'isReadBySitter';
         path = 'owner';
       }
 
       if (type === 'sitting_service') {
-        if (!owner) return res.status(200).json(defaultRecords);
+        if (!owner) return res.status(200).json({ bookings: [], bookingCounts: {} });
         filter = { owner, status };
         isReadField = 'isReadByOwner';
         path = 'sitter';
@@ -207,10 +206,10 @@ module.exports = {
       await Booking.updateMany(
         filter,
         { $set: { [isReadField]: true } }
-      )
+      );
 
-      let bookingRecords = await Booking
-        .find({ filter })
+      const bookings = await Booking
+        .find(filter)
         .populate({
           path,
           select: ['user'],
@@ -218,121 +217,39 @@ module.exports = {
             path: 'user',
             select: ['firstName', 'lastName', 'profilePicture', 'urlId'],
           }
-        })
+        });
 
-      console.log({ bookingRecords })
-
-      if (bookingRecords.length > 0) {
-        bookingRecords = bookingRecords.reduce((output, record) => {
-          const { status } = record;
-
-          if (status === 'requested') {
-            output.requested.push(record)
+      const bookingCounts = await Booking.aggregate([
+        {
+          $facet: {
+            requested: [{ $match: { ...filter, status: 'requested' } }],
+            confirmed: [{ $match: { ...filter, status: 'confirmed' } }],
+            completed: [{ $match: { ...filter, status: 'completed' } }],
+            declined: [{ $match: { ...filter, status: 'declined' } }]
           }
-          if (status === 'confirmed') {
-            output.confirmed.push(record)
+        },
+        {
+          $project: {
+            requested: { $size: "$requested" },
+            confirmed: { $size: "$confirmed" },
+            completed: { $size: "$completed" },
+            declined: { $size: "$declined" },
           }
-          if (status === 'completed') {
-            output.completed.push(record)
-          }
-          if (status === 'declined') {
-            output.declined.push(record)
-          }
+        }
+      ]);
 
-          return output
-        }, defaultRecords);
-      }
+      const notifications = await getUnreadBookings(owner, sitter);
 
-      const { notifications } = await getUnreadBookings(owner, sitter)
-
-      return res.status(200).json({ bookingRecords, notifications });
+      return res.status(200).json({
+        bookings,
+        bookingCounts: bookingCounts[0],
+        notifications
+      });
     } catch (err) {
       console.log({ err })
       return res.status(401).json('ERROR/ERROR_OCCURED');
     }
   },
-
-  // getRecords: async (req, res) => {
-  //   const { userId } = req.verifiedData
-  //   if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
-
-  //   // if requested / comfirmed booking is expired, change status to 'declined'
-  //   const { type } = req.query;
-
-  //   try {
-  //     const userRecord = await User.findById(userId);
-  //     if (!userRecord) return res.status(403).json('ERROR/USER_NOT_FOUND');
-
-  //     const { sitter: sitterObjId, owner: ownerObjId } = userRecord
-
-  //     let filter;
-
-  //     const defaultRecords = { requested: [], confirmed: [], completed: [], declined: [] }
-
-  //     if (type === 'jobs') {
-  //       if (!sitterObjId) return res.status(200).json(defaultRecords);
-  //       filter = { sitter: sitterObjId }
-  //     } else {
-  //       if (!ownerObjId) return res.status(200).json(defaultRecords);
-  //       filter = { owner: ownerObjId }
-  //     }
-
-  //     const path = type === 'jobs' ? 'owner' : 'sitter';
-
-  //     let bookingRecords = await Booking
-  //       .find(filter)
-  //       .populate({
-  //         path,
-  //         select: ['user'],
-  //         populate: {
-  //           path: 'user',
-  //           select: ['firstName', 'lastName', 'profilePicture', 'urlId'],
-  //         }
-  //       })
-
-  //     if (bookingRecords.length > 0) {
-  //       bookingRecords = bookingRecords.reduce((output, record) => {
-  //         const { status } = record;
-
-  //         if (status === 'requested') {
-  //           output.requested.push(record)
-  //         }
-  //         if (status === 'confirmed') {
-  //           output.confirmed.push(record)
-  //         }
-  //         if (status === 'completed') {
-  //           output.completed.push(record)
-  //         }
-  //         if (status === 'declined') {
-  //           output.declined.push(record)
-  //         }
-
-  //         return output
-  //       }, { requested: [], confirmed: [], completed: [], declined: [] });
-  //     }
-
-  //     return res.status(200).json(bookingRecords);
-  //   } catch (err) {
-  //     console.log({ err })
-  //     return res.status(401).json('ERROR/ERROR_OCCURED');
-  //   }
-  // },
-
-  // markBookingsAsRead: async (req, res) => {
-  //   const { userId } = req.verifiedData
-  //   if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
-
-  //   const { type, status } = req.query;
-
-  //   try {
-  //     console.log({ type, status })
-
-  //     return res.status(200).json('')
-  //   } catch (err) {
-  //     console.log({ err })
-  //     return res.status(401).json('ERROR/ERROR_OCCURED');
-  //   }
-  // },
 
   fulfillAction: async (req, res) => {
     const { id, action } = req.body

@@ -5,6 +5,7 @@ import ErrorActionTypes from '../error/actionTypes'
 import LoadingActionTypes from '../loading/actionTypes'
 import { clearLoading } from '../loading/actions'
 import LOADING from '../../constants/loadingTypes'
+import NotificationsActionTypes from '../notifications/actionTypes'
 
 const appointmentTimeUrl = `/booking-time`;
 const bookingUrl = `/booking`;
@@ -48,11 +49,11 @@ export function sendRequest(bookingData) {
   };
 }
 
-export function getRecords(type, status) {
+export function getBookings(type, status) {
   return async (dispatch) => {
     dispatch({
       type: LoadingActionTypes.SET_BOOKINGS_LOADING,
-      payload: LOADING.GET_BOOKINGS_RECORDS
+      payload: LOADING.GET_BOOKINGS
     });
 
     try {
@@ -61,12 +62,24 @@ export function getRecords(type, status) {
         getConfig()
       );
 
-      const { bookingRecords, notifications } = data
+      const { bookings, bookingCounts, notifications } = data
+
+      // if (notifiations)  update notifications
+      console.log({ notifications })
+      if (notifications) {
+        const { hasUnreadBookings, unreadBookingsAsOwner, unreadBookingsAsSitter } = notifications;
+
+        dispatch({
+          type: NotificationsActionTypes.UPDATE_BOOKING_NOTIFICATIONS,
+          payload: { hasUnreadBookings, unreadBookingsAsOwner, unreadBookingsAsSitter }
+        })
+      }
 
       dispatch({
-        type: BookingActionTypes.BOOKING_RECORDS_RETURNED,
-        payload: bookingRecords
+        type: BookingActionTypes.BOOKING_RETURNED,
+        payload: { bookings, bookingCounts }
       });
+
       dispatch(clearLoading('bookingsLoading'))
     } catch (e) {
       console.log({ e });

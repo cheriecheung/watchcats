@@ -1,4 +1,3 @@
-const ObjectId = require('mongodb').ObjectID;
 const Booking = require('../model/Booking');
 const Conversation = require('../model/Conversation');
 const Message = require('../model/Message');
@@ -21,11 +20,6 @@ function generateMessageType(status) {
 
 module.exports = {
   getUnreadBookings: async (owner, sitter) => {
-    const notifications = {
-      hasUnreadBookings: false,
-      hasUnreadChats: false
-    }
-
     const unreadBookings = await Booking.find({
       $or: [
         { owner, isReadByOwner: false },
@@ -33,8 +27,13 @@ module.exports = {
       ]
     })
 
+    let hasUnreadBookings = false;
+    let sorted = { unreadAsOwner: {}, unreadAsSitter: {} };
+
     if (unreadBookings.length > 0) {
-      const allBookings = unreadBookings.reduce((output, item) => {
+      hasUnreadBookings = true;
+
+      sorted = unreadBookings.reduce((output, item) => {
         const { owner: ownerId, sitter: sitterId, status } = item
 
         if (owner && owner.equals(ownerId)) {
@@ -47,13 +46,13 @@ module.exports = {
 
         return output
       }, { unreadAsOwner: {}, unreadAsSitter: {} });
-
-      notifications.hasUnreadBookings = true;
-      notifications.unreadBookingsAsOwner = allBookings.unreadAsOwner;
-      notifications.unreadBookingsAsSitter = allBookings.unreadAsSitter;
     }
 
-    return { notifications }
+    return {
+      hasUnreadBookings,
+      unreadBookingsAsOwner: sorted.unreadAsOwner,
+      unreadBookingsAsSitter: sorted.unreadAsSitter
+    }
   },
 
   createAutomatedMessage: async ({ bookingId, bookingAction, senderId, recipientId }) => {

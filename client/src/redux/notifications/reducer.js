@@ -21,22 +21,12 @@ const notifications_reducer = {
           hasUnreadChats: action.payload.hasUnreadChats,
           unreadChats: action.payload.unreadChats
         }
-      case NotificationsActionTypes.SET_READ_AS_OWNER:
+      case NotificationsActionTypes.UPDATE_BOOKING_NOTIFICATIONS:
         return {
           ...state,
-          unreadBookingsAsOwner: action.payload.remainingUnread
-        }
-      case NotificationsActionTypes.SET_READ_AS_SITTER:
-        return {
-          ...state,
-          unreadBookingsAsSitter: action.payload.remainingUnread
-        }
-      case NotificationsActionTypes.SET_ALL_BOOKINGS_AS_READ:
-        return {
-          ...state,
-          hasUnreadBookings: false,
-          unreadBookingsAsOwner: {},
-          unreadBookingsAsSitter: {}
+          hasUnreadBookings: action.payload.hasUnreadBookings,
+          unreadBookingsAsOwner: action.payload.unreadBookingsAsOwner,
+          unreadBookingsAsSitter: action.payload.unreadBookingsAsSitter
         }
       case NotificationsActionTypes.UPDATE_CHAT_NOTIFICATIONS: {
         return {

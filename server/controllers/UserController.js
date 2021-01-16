@@ -5,6 +5,7 @@ const Conversation = require('../model/Conversation');
 const Message = require('../model/Message');
 const User = require('../model/User');
 const Review = require('../model/Review');
+const { getUnreadBookings } = require('../helpers/bookings');
 const { sendActivateAccountMail, sendResetPasswordMail } = require('../helpers/mailer');
 const { createActivateAccountToken, createResetPasswordToken } = require('../helpers/token');
 const shortid = require('shortid');
@@ -97,8 +98,11 @@ module.exports = {
       const token = createResetPasswordToken(user.id);
       sendResetPasswordMail({ email, name, token });
 
+      console.log({ email, name, token })
+
       return res.status(200).json('Email requested');
     } catch (err) {
+      console.log({ err___get_password_reset_email: err })
       return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
@@ -115,34 +119,17 @@ module.exports = {
 
       const notifications = {
         hasUnreadBookings: false,
+        unreadBookingsAsOwner: {},
+        unreadBookingsAsSitter: {},
         hasUnreadChats: false
       }
 
-      const unreadBookings = await Booking.find({
-        $or: [
-          { owner, isReadByOwner: false },
-          { sitter, isReadBySitter: false }
-        ]
-      })
+      const { hasUnreadBookings, unreadBookingsAsOwner, unreadBookingsAsSitter } = await getUnreadBookings(owner, sitter);
 
-      if (unreadBookings.length > 0) {
-        const allBookings = unreadBookings.reduce((output, item) => {
-          const { owner: ownerId, sitter: sitterId, status } = item
-
-          if (owner && owner.equals(ownerId)) {
-            output.unreadAsOwner[status] = true;
-          }
-
-          if (sitter && sitter.equals(sitterId)) {
-            output.unreadAsSitter[status] = true;
-          }
-
-          return output
-        }, { unreadAsOwner: {}, unreadAsSitter: {} });
-
+      if (hasUnreadBookings) {
         notifications.hasUnreadBookings = true;
-        notifications.unreadBookingsAsOwner = allBookings.unreadAsOwner;
-        notifications.unreadBookingsAsSitter = allBookings.unreadAsSitter;
+        notifications.unreadBookingsAsOwner = unreadBookingsAsOwner;
+        notifications.unreadBookingsAsSitter = unreadBookingsAsSitter;
       }
 
       const allChats = await Conversation.find({
@@ -178,7 +165,7 @@ module.exports = {
 
       if (unreadChats.length > 0) {
         notifications.hasUnreadChats = true;
-        notifications.unreadChats = unreadChats
+        notifications.unreadChats = unreadChats.map(({ conversation: { _id } }) => _id)
       }
 
       return res.status(200).json(notifications);
