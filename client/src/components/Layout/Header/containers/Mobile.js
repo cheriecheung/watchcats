@@ -14,6 +14,7 @@ import {
 
 function Mobile({
   t,
+  name,
   toggle,
   setLanguage,
   currentLanguage,
@@ -33,6 +34,7 @@ function Mobile({
         <OverlayMenu open={toggle}>
           <MobileMenu
             t={t}
+            name={name}
             setLanguage={setLanguage}
             currentLanguage={currentLanguage}
             isLoggedIn={isLoggedIn}
@@ -53,6 +55,7 @@ export default Mobile;
 
 function MobileMenu({
   t,
+  name,
   setLanguage,
   currentLanguage,
   closeMenu,
@@ -61,13 +64,17 @@ function MobileMenu({
   hasUnreadBookings,
   hasUnreadChats
 }) {
-  const firstName = 'Cherie'
+  // const firstName = 'Cherie'
 
   return (
     <>
       {isLoggedIn ?
         <>
-          <h5 style={{ marginBottom: 30, fontWeight: 'bold', color: '#666' }}>Welcome back, {firstName}!</h5>
+          <h5 style={{ marginBottom: 30, fontWeight: 'bold', color: '#666' }}>
+            {/* Welcome back, {firstName}! */}
+            {t('home.welcome_back', { name })}
+          </h5>
+
           <MenuItemBox to="/find" onClick={closeMenu}>
             <Icon className="fas fa-search fa-2x" />
             <Label>{t('header.find_sitter')}</Label>

@@ -37,12 +37,14 @@ async function checkLoggedIn() {
       }
     )
 
-    const { accessToken } = data;
+    const { accessToken, name } = data;
     setAccessToken(accessToken)
 
-    preloadedState = { app: { isLoggedIn: true } };
+    preloadedState = {
+      app: { isLoggedIn: true },
+      account: { name }
+    };
 
-    // history push
     return preloadedState;
 
   } catch (err) {

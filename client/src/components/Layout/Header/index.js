@@ -18,6 +18,7 @@ import { useHeader } from './viewModel';
 function Header() {
   const {
     t,
+    name,
     toggle,
     triggerToggle,
     currentLanguage,
@@ -62,6 +63,7 @@ function Header() {
 
       <Mobile
         t={t}
+        name={name}
         toggle={toggle}
         setLanguage={setLanguage}
         currentLanguage={currentLanguage}

@@ -3,11 +3,13 @@ import AccountActionTypes from './actionTypes'
 
 const initialState = Immutable({
   changePhoneNumberStep: 'input',
+  name: '',
   email: '',
   getSmsNotification: false,
   getEmailNotification: false,
   phone: '',
   hasSetUpStripAccount: false,
+  isDemoUser: false,
   isTwoFactorEnabled: false,
   isGoogleLogin: false,
 });

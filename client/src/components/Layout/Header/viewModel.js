@@ -12,8 +12,9 @@ function useHeader() {
   const { pathname } = location || {}
 
   const dispatch = useDispatch();
+  const { name } = useSelector(state => state.account);
+  const { isLoggedIn } = useSelector(state => state.app);
   const { hasUnreadBookings, hasUnreadChats } = useSelector(state => state.notifications);
-  const { isLoggedIn, } = useSelector(state => state.app);
 
   const [toggle, setToggle] = useState(false);
 
@@ -66,6 +67,7 @@ function useHeader() {
 
   return {
     t,
+    name,
     toggle,
     triggerToggle,
     currentLanguage,

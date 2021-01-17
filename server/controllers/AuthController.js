@@ -16,9 +16,10 @@ module.exports = {
       const user = await User.findById(userId)
       if (!user) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
+      const { firstName } = user;
       const accessToken = createAccessToken(user)
 
-      return res.status(200).json({ accessToken })
+      return res.status(200).json({ accessToken, name: firstName })
     } catch (err) {
       console.log({ err })
       return res.status(402).json('ERROR/ERROR_OCCURED')

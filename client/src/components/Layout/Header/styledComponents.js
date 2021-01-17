@@ -7,7 +7,7 @@ const NavHeight = 7;
 export const NavBar = styled.nav`
   position: absolute;
   z-index: 5;
-  width: 100vw;
+  width: 100%;
   min-height: ${NavHeight}vh;
   display: flex;
   justify-content: space-between;
@@ -174,7 +174,7 @@ export const TextButton = styled.button`
   background: none;
   font-size: 10px;
   border: none;
-  outline: none;
+  outline: none !important;
 
   &:hover {
     color: ${themeColor.grey};

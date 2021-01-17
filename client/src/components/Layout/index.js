@@ -26,7 +26,7 @@ import styled from 'styled-components';
 const Container = styled.div`
   position: absolute;
   top: 7vh;
-  width: 100vw;
+  width: 100%;
   font-family: 'Source Sans Pro', sans-serif !important;
 `
 
