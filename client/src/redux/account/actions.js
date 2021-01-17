@@ -1,7 +1,6 @@
 import axios from 'axios'
 import axiosInstance from '../../utility/axiosInstance';
-import { getAccessToken } from '../../utility/accessToken'
-import { getConfig } from '../../utility/api'
+import { getCatConfig, getConfig } from '../../utility/api'
 import AccountActionTypes from './actionTypes'
 import ErrorActionTypes from '../error/actionTypes'
 import LoadingActionTypes from '../loading/actionTypes'
@@ -247,16 +246,6 @@ export function getOwnerAccount() {
       console.log({ e });
     }
   };
-}
-
-const getCatConfig = () => {
-  return {
-    withCredentials: true,
-    headers: {
-      Authorization: `Bearer ${getAccessToken()}`,
-      'content-type': undefined
-    },
-  }
 }
 
 export function saveOwner(ownerData, photos) {

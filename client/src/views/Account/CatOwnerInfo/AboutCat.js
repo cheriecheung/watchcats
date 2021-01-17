@@ -11,7 +11,7 @@ import {
   TextField,
 } from '../../../components/FormComponents';
 import { CheckedIcon, OutlinedButton, TextButton } from '../../../components/UIComponents'
-import { catBreedOptions, personalityOptions } from '../../../constants/selectOptions'
+import { catBreedOptions, catPersonalityOptions } from '../../../constants/selectOptions'
 
 const color = '#252525';
 
@@ -170,7 +170,7 @@ function AboutCat({
               </Col>
               <Col md={6} className="mb-4">
                 <FieldLabel>{t('owner_form.personality')}</FieldLabel>
-                <SelectField name={`cat[${index}].personality`} options={personalityOptions} />
+                <SelectField name={`cat[${index}].personality`} options={catPersonalityOptions} />
               </Col>
 
               <Col md={6} className="mb-3">

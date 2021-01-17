@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOwnerAccount, saveOwner, removeCatPhoto } from '../../../redux/account/actions';
-import { catBreedOptions, personalityOptions } from '../../../constants/selectOptions'
+import { catBreedOptions, catPersonalityOptions } from '../../../constants/selectOptions'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 import {
@@ -63,16 +63,14 @@ function useCatOwner() {
         catsDescription,
       } = ownerData;
 
-      const cleanedCat = cat.map(({ breed, personality, ...rest }, index) => {
-
-        // find()... no [0] cos returns object, not array
-        const breedName = catBreedOptions.filter(({ value }) => value === breed)[0].label
-        const personalityName = personalityOptions.filter(({ value }) => value === personality)[0].label
+      const cleanedCat = cat.map(({ breed, personality, ...rest }) => {
+        const selectedBreed = catBreedOptions.find(({ id }) => id === breed)
+        const selectedPersonality = catPersonalityOptions.find(({ id }) => id === personality)
 
         return {
           ...rest,
-          breed: { value: breed, label: t(breedName) },
-          personality: { value: personality, label: t(personalityName) },
+          breed: { ...selectedBreed, label: t(selectedBreed.value) },
+          personality: { ...selectedPersonality, label: t(selectedPersonality.value) },
         }
       })
 
@@ -87,7 +85,6 @@ function useCatOwner() {
   }, [ownerData])
 
   useEffect(() => {
-    console.log({ cleanedData })
     if (cleanedData && cleanedData.cat) {
       // Object.entries(cleanedData).map(([key, value]) => setValue(key, value))
       reset(cleanedData)
@@ -133,12 +130,12 @@ function useCatOwner() {
     const { cat, bookingOneDay, bookingOvernight, ...rest } = data;
 
     const cleanedCat = cat.map(({ breed, personality, ...restCat }) => {
-      const { value: breedValue } = breed || {};
-      const { value: personalityValue } = personality || {};
+      const { id: breedId } = catBreedOptions.find(({ value }) => value === breed.value);
+      const { id: personalityId } = catPersonalityOptions.find(({ value }) => value === personality.value);
 
       return {
-        breed: parseInt(breedValue),
-        personality: parseInt(personalityValue),
+        breed: parseInt(breedId),
+        personality: parseInt(personalityId),
         ...restCat
       }
     })

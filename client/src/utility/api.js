@@ -9,4 +9,14 @@ const getConfig = () => {
   }
 }
 
-export { getConfig }
+const getCatConfig = () => {
+  return {
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${getAccessToken()}`,
+      'content-type': undefined
+    },
+  }
+}
+
+export { getConfig, getCatConfig }
