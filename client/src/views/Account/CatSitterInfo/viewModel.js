@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { DateUtils } from 'react-day-picker';
 import moment from 'moment';
+import { calculateNetProfit } from '../../../utility/rate';
 import { getSitterAccount, saveSitter } from '../../../redux/account/actions';
-import LOADING from '../../../constants/loadingTypes'
+import LOADING from '../../../constants/loadingTypes';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { cat_sitter_default_values } from '../_formConfig/_defaultValues';
-import { cat_sitter_schema } from '../_formConfig/_validationSchema'
+import { cat_sitter_schema } from '../_formConfig/_validationSchema';
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -18,36 +19,53 @@ function useCatSitter() {
   const aboutSitterRef = useRef(null);
   const experienceRef = useRef(null);
 
-  const id = cookies.get('urlId')
+  const id = cookies.get('urlId');
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const { sitterData } = useSelector((state) => state.account);
-  const { accountLoading } = useSelector((state) => state.loading)
+  const { accountLoading } = useSelector((state) => state.loading);
 
-  let isLoadingSaveSitter = accountLoading === LOADING.SAVE_SITTER
+  let isLoadingSaveSitter = accountLoading === LOADING.SAVE_SITTER;
 
-  const [cleanedData, setCleanedData] = useState([])
+  const [cleanedData, setCleanedData] = useState([]);
 
-  const defaultValues = cat_sitter_default_values
-  const resolver = yupResolver(cat_sitter_schema)
+  const defaultValues = cat_sitter_default_values;
+  const resolver = yupResolver(cat_sitter_schema);
   const methods = useForm({ defaultValues, resolver });
   const { watch, reset, errors } = methods;
 
   const hasCat = watch('hasCat');
   const hasCertification = watch('hasCertification');
-  const hasGroomingSkills = watch('hasGroomingSkills')
-  const hasInjectionSkills = watch('hasInjectionSkills')
-  const hasMedicationSkills = watch('hasMedicationSkills')
-  const hasVolunteered = watch('hasVolunteered')
+  const hasGroomingSkills = watch('hasGroomingSkills');
+  const hasInjectionSkills = watch('hasInjectionSkills');
+  const hasMedicationSkills = watch('hasMedicationSkills');
+  const hasVolunteered = watch('hasVolunteered');
 
-  console.log({ watch: watch() })
+  const selectedHourlyRate = watch('hourlyRate');
+  const selectedNightlyRate = watch('nightlyRate');
+  const [hourlyNetProfit, setHourlyNetProfit] = useState('');
+  const [nightlyNetProfit, setNightlyNetProfit] = useState('');
 
   const selectedUnavailableDays = watch('unavailableDates') || [];
 
   useEffect(() => {
+    if (selectedHourlyRate) {
+      const netAmount = calculateNetProfit(selectedHourlyRate.value);
+      setHourlyNetProfit(netAmount)
+    }
+  }, [selectedHourlyRate])
+
+  useEffect(() => {
+    if (selectedNightlyRate) {
+      const netAmount = calculateNetProfit(selectedNightlyRate.value);
+      setNightlyNetProfit(netAmount)
+    }
+  }, [selectedNightlyRate])
+
+  useEffect(() => {
     dispatch(getSitterAccount());
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (sitterData) {
@@ -157,6 +175,8 @@ function useCatSitter() {
     aboutSitterRef,
     experienceRef,
     experienceData,
+    hourlyNetProfit,
+    nightlyNetProfit,
     isLoadingSaveSitter
   }
 }

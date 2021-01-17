@@ -22,7 +22,7 @@ function SelectAppointmentTime({ t, closeModal }) {
 
   return (
     <div style={{ textAlign: 'left' }}>
-      <b style={{ fontSize: '1.1rem', flexBasis: '25%' }}>
+      <b style={{ fontSize: '1.1rem', flexBasis: '25%', fontWeight: 600 }}>
         {t('sitter_profile.select_time')}
       </b>
       <p>{t('sitter_profile.existing_time')}</p>

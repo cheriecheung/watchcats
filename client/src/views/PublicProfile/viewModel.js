@@ -7,7 +7,7 @@ import { getAppointmentTime, sendRequest } from '../../redux/bookings/actions';
 import { getChatList, getChatConversation } from '../../redux/chat/actions';
 import { clearError } from '../../redux/error/actions';
 import { getOwnerProfile, getSitterProfile } from '../../redux/profile/actions';
-import { calculateOneDayPrice, calculateOvernightPrice } from '../../utility';
+import { calculateHourlyRate, calculateNightlyRate } from '../../utility/rate';
 import LOADING from '../../constants/loadingTypes'
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -205,7 +205,7 @@ function useCreateAppointmentTime() {
 
   useEffect(() => {
     if (oneDayDate && oneDayStartTime && oneDayEndTime) {
-      const priceValue = calculateOneDayPrice(oneDayStartTime, oneDayEndTime, rate.hourlyRate);
+      const priceValue = calculateHourlyRate(oneDayStartTime, oneDayEndTime, rate.hourlyRate);
 
       if (typeof priceValue === 'number') {
         setValue('price', `€ ${priceValue}, 00`);
@@ -225,7 +225,7 @@ function useCreateAppointmentTime() {
 
   useEffect(() => {
     if (overnightStartDate && overnightEndDate) {
-      const priceValue = calculateOvernightPrice(
+      const priceValue = calculateNightlyRate(
         overnightStartDate,
         overnightEndDate,
         rate.nightlyRate
@@ -317,7 +317,7 @@ function useSelectAppointmentTime() {
       const startTime = allOneDays[index].startTime;
       const endTime = allOneDays[index].endTime;
 
-      const priceValue = calculateOneDayPrice(startTime, endTime, rate.hourlyRate);
+      const priceValue = calculateHourlyRate(startTime, endTime, rate.hourlyRate);
 
       if (typeof priceValue === 'number') {
         setPrice(`€ ${priceValue}, 00`);
@@ -332,7 +332,7 @@ function useSelectAppointmentTime() {
       const startDate = allOvernight[index].startDate;
       const endDate = allOvernight[index].endDate;
 
-      const priceValue = calculateOvernightPrice(startDate, endDate, rate.nightlyRate);
+      const priceValue = calculateNightlyRate(startDate, endDate, rate.nightlyRate);
 
       if (typeof priceValue === 'number') {
         setPrice(`€ ${priceValue}, 00`);

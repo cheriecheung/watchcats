@@ -45,8 +45,7 @@ module.exports = {
       user.stripeAccountId = account.id
       await user.save();
 
-      // const origin = `${req.headers.origin}`;
-      const origin = `https://localhost:3000`;
+      const origin = process.env.CLIENT_URL;
       const accountLink = await generateAccountLink(account.id, origin);
       return res.status(200).json({ accountLink });
     } catch (err) {
@@ -85,24 +84,22 @@ module.exports = {
 
       const { stripeAccountId } = user;
 
+      const amount = parseInt(price) * 100; // if 48 euros, submit 4800, hence * 100
+      const application_fee_amount = amount * 0.2; //  deducted from above for Watch Cats platform
+
       const intent = await stripe.paymentIntents.create(
         {
-          // destination: stripeAccountId,
-          // amount that user pays. if 48 euros, submit 4800
-          amount: price,
-          // amount from above that goes to Watch Cats platform
-          application_fee_amount: 7,
+          amount,
+          application_fee_amount,
           currency: 'eur',
           payment_method_types: ['ideal'],
         },
-        { stripeAccount: 'acct_1HYCiyART4JEToPd' }
-        // must be the same as the one sending to frontend
-        // { stripeAccount: stripeAccountId }
+        { stripeAccount } // for testing: acct_1HYCiyART4JEToPd
       );
 
       const { client_secret } = intent;
 
-      return res.status(200).json({ client_secret, stripeAccountId: 'acct_1HYCiyART4JEToPd' });
+      return res.status(200).json({ client_secret, stripeAccountId });
     } catch (e) {
       console.log({ e });
       return res.status(401).json('ERROR/ERROR_OCCURED');

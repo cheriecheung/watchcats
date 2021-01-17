@@ -22,6 +22,8 @@ function SitterProfile() {
     aboutSitterRef,
     experienceRef,
     experienceData,
+    hourlyNetProfit,
+    nightlyNetProfit,
     isLoadingSaveSitter
   } = useCatSitter()
 
@@ -53,7 +55,7 @@ function SitterProfile() {
           <HorizontalCard>
             <CardTitle>{t('sitter_form.pricing')}</CardTitle>
 
-            <Pricing t={t} />
+            <Pricing t={t} hourlyNetProfit={hourlyNetProfit} nightlyNetProfit={nightlyNetProfit} />
           </HorizontalCard>
 
           <HorizontalCard>
