@@ -73,8 +73,6 @@ module.exports = {
       const user = await User.findById(userId);
       if (!user) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
-      req.session.destroy();
-
       return res.status(204).json('')
     } catch (err) {
       console.log({ err })
@@ -113,14 +111,19 @@ module.exports = {
   },
 
   authenticateGoogleUser: async (req, res) => {
-    const code = req.query.code;
-    const state = req.query.state.split(' ').join('+');
+    const { code, state: stateValue } = req.query;
+
+    if (!code || !stateValue) {
+      return res.redirect(`${process.env.CLIENT_URL}/google-login/failcallback`);
+    }
+
+    const state = stateValue.split(' ').join('+');
 
     const code_verifier = myCache.take("code_verifier")
     const csrf_token = myCache.take("csrf_token")
 
     if (state !== csrf_token) {
-      return res.redirect(`${process.env.CLIENT_URL}/google-login/failcallback`);
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
 
     const requestBody = {
@@ -149,10 +152,7 @@ module.exports = {
         return res.redirect(`${process.env.CLIENT_URL}/google-login/failcallback`);
       }
 
-      // req.session.access_token = access_token;
       myCache.set("access_token", access_token)
-
-      console.log({ data, access_token })
 
       return res.redirect(`${process.env.CLIENT_URL}/google-login/callback`);
     } catch (err) {
@@ -162,7 +162,6 @@ module.exports = {
   },
 
   getGoogleUser: async (req, res) => {
-    // const { access_token: googleAccessToken } = req.session;
     const googleAccessToken = myCache.take("access_token")
 
     console.log({ googleAccessToken })
@@ -211,93 +210,6 @@ module.exports = {
       return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
-
-  // authenticateGoogleUser: async (req, res, next) => {
-  //   const code = req.query.code;
-  //   const state = req.query.state.split(' ').join('+');
-
-  //   const code_verifier = myCache.take("code_verifier")
-  //   const csrf_token = myCache.take("csrf_token")
-
-  //   if (state !== csrf_token) {
-  //     // create page on front end: "please go back and try again"
-  //     return res.status(401).json('ERROR/GOOGLE_LOGIN_FAILED');
-  //   }
-
-  //   const {
-  //     CLIENT_URL,
-  //     GOOGLE_OAUTH_CLIENT_ID,
-  //     GOOGLE_OAUTH_CLIENT_SECRET,
-  //     GOOGLE_OAUTH_CALLBACK_URL
-  //   } = process.env;
-
-  //   const requestBody = {
-  //     code,
-  //     client_id: GOOGLE_OAUTH_CLIENT_ID,
-  //     client_secret: GOOGLE_OAUTH_CLIENT_SECRET,
-  //     redirect_uri: GOOGLE_OAUTH_CALLBACK_URL,
-  //     code_verifier,
-  //     grant_type: 'authorization_code',
-  //   };
-
-  //   const authenticateConfig = {
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded',
-  //     },
-  //   };
-
-  //   try {
-  //     const { data } = await axios.post('https://oauth2.googleapis.com/token', qs.stringify(requestBody), authenticateConfig);
-  //     const { access_token, refresh_token } = data || {};
-
-  //     if (!access_token && !refresh_token) {
-  //       return res.redirect(`${CLIENT_URL}/google-login/failcallback`);
-  //     }
-
-  //     const getGoogleUserConfig = {
-  //       headers: {
-  //         Authorization: `Bearer ${access_token}`,
-  //       },
-  //     };
-
-  //     const {
-  //       data: { sub: google_id, name, email },
-  //     } = await axios.get('https://openidconnect.googleapis.com/v1/userinfo', getGoogleUserConfig);
-
-  //     let userObj;
-
-  //     const user = await User.findOne({ email });
-
-  //     if (user && user.password) {
-  //       return res.redirect(`${CLIENT_URL}/google-login/failcallback`);
-  //     }
-
-  //     if (user && !user.password) {
-  //       userObj = user
-  //     }
-
-  //     if (!user) {
-  //       const newUser = new User({ name, email });
-  //       await newUser.save();
-  //       userObj = newUser
-  //     }
-
-  //     const refreshToken = createRefreshToken(userObj);
-  //     res.cookie('refresh_token', refreshToken, {
-  //       httpOnly: true,
-  //       // domain
-  //     })
-  //     res.cookie('urlId', userObj.urlId);
-
-  //     return res.redirect(`${CLIENT_URL}/account`);
-  //   } catch (e) {
-  //     console.log({ e });
-  //     const { response } = e || {};
-  //     const { data } = response || {}
-  //     console.log({ data })
-  //     return res.redirect(`${CLIENT_URL}/google-login/failcallback`);
-  //   }
-  // },
 
   resetPassword: async (req, res) => {
     const { userId } = req.verifiedData;

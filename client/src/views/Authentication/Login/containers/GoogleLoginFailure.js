@@ -16,7 +16,7 @@ const Container = styled.div`
 `
 
 function GoogleLoginFailure() {
-  const t = useTranslation();
+  const { t } = useTranslation();
   const history = useHistory();
 
   useEffect(() => {

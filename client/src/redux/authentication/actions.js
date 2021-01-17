@@ -51,15 +51,13 @@ export function onGetGoogleUser() {
       const { accessToken, refreshToken, urlId } = data || {};
 
       await setAccessToken(accessToken)
-      cookies.set('refreshToken', refreshToken)
-      cookies.set('urlId', urlId)
+      cookies.set('refreshToken', refreshToken, { path: "/" })
+      cookies.set('urlId', urlId, { path: "/" })
 
-      console.log({ accessToken, refreshToken, urlId })
-
-      // window.location = "/account";
+      window.location.href = '/account';
     } catch (e) {
       console.log({ e });
-      window.location = "/google-login/failcallback";
+      window.location.href = "/google-login/failcallback";
     }
   };
 }
@@ -97,7 +95,7 @@ export function phoneLogin(code) {
       await setAccessToken(accessToken)
       cookies.set('refreshToken', refreshToken)
 
-      window.location = "/account";
+      window.location.href = "/account";
     } catch (e) {
       console.log({ e });
       const { response } = e
@@ -119,7 +117,7 @@ export function login(email, password) {
       const { data } = await axios.post(
         loginURL,
         { email, password, asDemoUser: false },
-        { withCredentials: true, }
+        { withCredentials: true }
       );
       const { accessToken, refreshToken, urlId } = data || {};
 
@@ -128,7 +126,7 @@ export function login(email, password) {
         cookies.set('refreshToken', refreshToken)
         cookies.set('urlId', urlId)
 
-        window.location = "/account";
+        window.location.href = "/account";
       } else {
         cookies.set('urlId', urlId)
 
@@ -164,7 +162,7 @@ export function loginAsDemoUser() {
       cookies.set('refreshToken', refreshToken)
       cookies.set('urlId', urlId)
 
-      window.location = "/account";
+      window.location.href = "/account";
     }
     catch (e) {
       console.log({ e });

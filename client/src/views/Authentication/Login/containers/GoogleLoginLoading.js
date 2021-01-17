@@ -17,7 +17,7 @@ const Container = styled.div`
 `
 
 function GoogleLoginLoading() {
-  const t = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   useEffect(() => {
