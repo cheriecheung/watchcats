@@ -31,7 +31,7 @@ async function generateOTP(userId) {
 module.exports = {
   getPersonalInfo: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const user = await User.findById(userId);
     if (!user) return res.status(404).json('ERROR/USER_NOT_FOUND');
@@ -41,20 +41,20 @@ module.exports = {
 
   postPersonalInfo: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const { postcode } = req.body;
 
     try {
       const { error } = personalDataValidation(req.body)
-      if (error) return res.status(401).json('ERROR/CORRECT_INFO_NEEDED');
+      if (error) return res.status(400).json('ERROR/CORRECT_INFO_NEEDED');
 
       const user = await User.findOneAndUpdate(
         { _id: userId },
         { $set: { ...req.body } },
         { useFindAndModify: false }
       );
-      if (!user) return res.status(401).json('ERROR/FAIL_TO_SAVE');
+      if (!user) return res.status(400).json('ERROR/FAIL_TO_SAVE');
 
       if (postcode !== user.postcode) {
         const { lng, lat } = await getCoordinatesByPostcode(postcode)
@@ -66,7 +66,7 @@ module.exports = {
       return res.status(200).json('Success');
     } catch (e) {
       console.log({ e });
-      return res.status(401).json('ERROR/FAIL_TO_SAVE');
+      return res.status(400).json('ERROR/FAIL_TO_SAVE');
     }
   },
 
@@ -107,7 +107,7 @@ module.exports = {
       })
     } catch (err) {
       console.log({ err })
-      return res.status(403).json('ERROR/ERROR_OCCURED')
+      return res.status(404).json('ERROR/ERROR_OCCURED')
     }
   },
 
@@ -182,7 +182,7 @@ module.exports = {
       return res.status(200).json('')
     } catch (err) {
       console.log({ err })
-      return res.status(403).json('ERROR/ERROR_OCCURED')
+      return res.status(404).json('ERROR/ERROR_OCCURED')
     }
   },
 
@@ -212,7 +212,7 @@ module.exports = {
 
     try {
       const { otp, otpExpiryTime } = await User.findById(userId)
-      if (!otp || !otpExpiryTime) return res.status(404).json('ERROR/OTP_INVALID');
+      if (!otp || !otpExpiryTime) return res.status(400).json('ERROR/OTP_INVALID');
 
       const validOtp = await bcrypt.compare(code, otp)
       const expired = new Date() > otpExpiryTime
@@ -245,15 +245,15 @@ module.exports = {
 
     try {
       const user = await User.findById(userId)
-      if (!user) return res.status(401).json('ERROR/PHONE_DELETION_FAILED');
+      if (!user) return res.status(400).json('ERROR/PHONE_DELETION_FAILED');
 
       const { otp, otpExpiryTime } = user;
 
       const validOtp = await bcrypt.compare(submittedOtp, otp)
       const expired = new Date() > otpExpiryTime
 
-      if (!validOtp) return res.status(401).json('ERROR/OTP_INVALID')
-      if (expired) return res.status(401).json('ERROR/OTP_EXPIRED')
+      if (!validOtp) return res.status(400).json('ERROR/OTP_INVALID')
+      if (expired) return res.status(400).json('ERROR/OTP_EXPIRED')
 
       await user.updateOne({
         $unset: {
@@ -267,7 +267,7 @@ module.exports = {
       return res.status(200).json('')
     } catch (err) {
       console.log({ err })
-      return res.status(403).json('ERROR/PHONE_DELETION_FAILED')
+      return res.status(400).json('ERROR/PHONE_DELETION_FAILED')
     }
   }
 }

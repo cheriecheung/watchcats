@@ -14,7 +14,7 @@ const {
 module.exports = {
   getAppointmentTime: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     // const userRecord = await User.findById(userId);
     // const {owner} = userRecord
@@ -171,7 +171,7 @@ module.exports = {
 
   getBookings: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     //   // if requested / comfirmed booking is expired, change status to 'declined'
 
@@ -179,7 +179,7 @@ module.exports = {
 
     try {
       const userRecord = await User.findById(userId).select(['owner', 'sitter']);
-      if (!userRecord) return res.status(403).json('ERROR/USER_NOT_FOUND');
+      if (!userRecord) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
       const { owner, sitter } = userRecord;
 
@@ -247,7 +247,7 @@ module.exports = {
       });
     } catch (err) {
       console.log({ err })
-      return res.status(401).json('ERROR/ERROR_OCCURED');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 
@@ -262,7 +262,7 @@ module.exports = {
         { $set: { status } },
         { useFindAndModify: false }
       );
-      if (!bookingRecord) return res.status(401).json('ERROR/ERROR_OCCURED')
+      if (!bookingRecord) return res.status(400).json('ERROR/ERROR_OCCURED')
 
       // const [{ phone, email }, { firstName, lastName }] = await Promise.all([
       const [owner, sitter] = await Promise.all([
@@ -285,7 +285,7 @@ module.exports = {
       } = sitter
 
       if (!firstName || !lastName) {
-        return res.status(401).json('ERROR/USER_NOT_FOUND')
+        return res.status(400).json('ERROR/USER_NOT_FOUND')
       }
 
       const { err } = await createAutomatedMessage({
@@ -317,18 +317,18 @@ module.exports = {
 
   getBooking: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const { id: bookingId } = req.params;
 
     try {
       const { bookingInfo } = await getBookingInfo(userId, bookingId);
-      if (!bookingInfo) return res.status(401).json('ERROR/ERROR_OCCURED')
+      if (!bookingInfo) return res.status(400).json('ERROR/ERROR_OCCURED')
 
       return res.status(200).json(bookingInfo)
     } catch (err) {
       console.log({ err })
-      return res.status(401).json('ERROR/ERROR_OCCURED')
+      return res.status(400).json('ERROR/ERROR_OCCURED')
     }
   }
 };

@@ -110,7 +110,7 @@ module.exports = {
       return res.status(200).json(ownerData);
     } catch (err) {
       console.log({ err });
-      return res.status(401).json('ERROR_ERROR/OCCURED');
+      return res.status(400).json('ERROR_ERROR/OCCURED');
     }
   },
 
@@ -173,7 +173,7 @@ module.exports = {
       });
     } catch (err) {
       console.log({ err });
-      return res.status(401).json('ERROR/ERROR_OCCURED');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 
@@ -193,12 +193,13 @@ module.exports = {
       } = req.body;
 
       const { error } = catOwnerValidation(req.body);
-      if (error) return res.status(401).json(error.details[0].message);
+      if (error) return res.status(400).json(error.details[0].message);
 
       if (!userRecord.owner) {
         const newOwner = new Owner({
           _id: new mongoose.Types.ObjectId(),
           urlId: userRecord.urlId,
+          user: userId,
           ...rest,
         });
 
@@ -254,7 +255,7 @@ module.exports = {
         { $set: { ...rest } },
         { useFindAndModify: false }
       );
-      if (!ownerRecord) return res.status(401).json('ERROR/ERROR_OCCURED');
+      if (!ownerRecord) return res.status(400).json('ERROR/ERROR_OCCURED');
 
       const { id: ownerId } = ownerRecord;
 
@@ -390,7 +391,7 @@ module.exports = {
       return res.status(201).json('Owner profile successfully saved');
     } catch (err) {
       console.log({ err });
-      return res.status(401).json('ERROR/ERROR_OCCURED');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 };

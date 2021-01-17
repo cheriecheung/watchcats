@@ -102,7 +102,7 @@ module.exports = {
       return res.status(200).json({ client_secret, stripeAccountId });
     } catch (e) {
       console.log({ e });
-      return res.status(401).json('ERROR/ERROR_OCCURED');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 };

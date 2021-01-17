@@ -73,7 +73,7 @@ module.exports = {
       return res.status(200).json(sitterData);
     } catch (err) {
       console.log({ err });
-      return res.status(401).json('ERROR/ERROR_OCCURED');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 
@@ -95,7 +95,7 @@ module.exports = {
       return res.status(200).json(sitterData);
     } catch (err) {
       console.log({ err });
-      return res.status(401).json('ERROR/ERROR_OCCURED');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 
@@ -109,13 +109,14 @@ module.exports = {
     const { unavailableDates: unavailableDatesArr, ...rest } = req.body;
 
     const { error } = catSitterValidation(req.body);
-    if (error) return res.status(401).json('ERROR/CORRECT_INFO_NEEDED');
+    if (error) return res.status(400).json('ERROR/CORRECT_INFO_NEEDED');
 
     try {
       if (!userRecord.sitter) {
         const newSitter = new Sitter({
           _id: new mongoose.Types.ObjectId(),
           urlId: userRecord.urlId,
+          user: userId,
           ...rest,
         });
 
@@ -173,7 +174,7 @@ module.exports = {
       return res.status(200).json('Sitter profile successfully saved');
     } catch (err) {
       console.log({ err });
-      return res.status(401).json('ERROR/ERROR_OCCURED');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 };

@@ -67,7 +67,7 @@ module.exports = {
 
   deleteImage: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const userRecord = await User.findById(userId);
     if (!userRecord) return res.status(404).json('ERROR/USER_NOT_FOUND');
@@ -87,7 +87,7 @@ module.exports = {
 
   saveFileName: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const userRecord = await User.findById(userId);
     if (!userRecord) return res.status(404).json('ERROR/USER_NOT_FOUND');

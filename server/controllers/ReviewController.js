@@ -8,7 +8,7 @@ const ObjectId = require('mongodb').ObjectID;
 module.exports = {
   submitReview: async (req, res) => {
     const { userId: reviewerUserId } = req.verifiedData
-    if (!reviewerUserId) return res.status(403).json('ERROR/USER_NOT_FOUND');
+    if (!reviewerUserId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const { review: content, rating } = req.body;
     const { bookingId } = req.params;
@@ -77,7 +77,7 @@ module.exports = {
         rating,
         ...reviewObj
       })
-      if (!newReview) return res.status(401).json('ERROR/ERROR_OCCURED');
+      if (!newReview) return res.status(400).json('ERROR/ERROR_OCCURED');
       await newReview.save();
 
       const bookingRecord = await Booking.findOneAndUpdate(
@@ -85,7 +85,7 @@ module.exports = {
         { $set: hasReviewWrittenField },
         { useFindAndModify: false }
       );
-      if (!bookingRecord) return res.status(401).json('ERROR/ERROR_OCCURED')
+      if (!bookingRecord) return res.status(400).json('ERROR/ERROR_OCCURED')
 
       const { firstName, lastName } = reviewerUserRecord;
       const reviewerName = `${firstName} ${lastName.charAt(0)}`
@@ -108,13 +108,13 @@ module.exports = {
       return res.status(200).json('Successful submitted review')
     } catch (err) {
       console.log({ err })
-      return res.status(401).json('ERROR/ERROR_OCCURED');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   },
 
   getReviews: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const { type } = req.query;
 
@@ -131,7 +131,7 @@ module.exports = {
       return res.status(200).json(reviews)
     } catch (err) {
       console.log({ err })
-      return res.status(401).json('ERROR/ERROR_OCCURED');
+      return res.status(400).json('ERROR/ERROR_OCCURED');
     }
   }
 }

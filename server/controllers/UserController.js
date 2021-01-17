@@ -92,7 +92,7 @@ module.exports = {
 
     try {
       const user = await User.findOne({ email });
-      if (!user) return res.status(403).json('ERROR/ERROR_OCCURED');
+      if (!user) return res.status(404).json('ERROR/ERROR_OCCURED');
 
       const name = user.firstName;
       const token = createResetPasswordToken(user.id);
@@ -109,11 +109,11 @@ module.exports = {
 
   getNotifications: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     try {
       const user = await User.findById(userId);
-      if (!user) return res.status(403).json('ERROR/ERROR_OCCURED');
+      if (!user) return res.status(404).json('ERROR/ERROR_OCCURED');
 
       const { owner, sitter } = user;
 

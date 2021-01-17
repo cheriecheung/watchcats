@@ -9,10 +9,10 @@ const myCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 module.exports = {
   getGoogleAuthenticatorQrCode: async (req, res) => {
     const { userId } = req.verifiedData
-    if (!userId) return res.status(403).json('ERROR/USER_NOT_FOUND');
+    if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
     const user = await User.findById(userId);
-    if (!user) return res.status(401).json('ERROR/USER_NOT_FOUND')
+    if (!user) return res.status(400).json('ERROR/USER_NOT_FOUND')
 
     try {
       const name = `WatchCats (${user.email})`
@@ -98,7 +98,7 @@ module.exports = {
 
     try {
       const user = await User.findOne({ urlId });
-      if (!user) return res.status(401).json("ERROR/ERROR_OCCURED");
+      if (!user) return res.status(400).json("ERROR/ERROR_OCCURED");
 
       const decrypted = decryptSecret(user.twoFactorSecret)
 
@@ -108,7 +108,7 @@ module.exports = {
         encoding: 'ascii',
         token: code
       })
-      if (!verified) return res.status(401).json('ERROR/OTP_INVALID')
+      if (!verified) return res.status(400).json('ERROR/OTP_INVALID')
 
       const accessToken = createAccessToken(user);
       const refreshToken = createRefreshToken(user);
@@ -116,7 +116,7 @@ module.exports = {
       return res.status(200).json({ accessToken, refreshToken })
     } catch (err) {
       console.log({ err })
-      return res.status(401).json("ERROR/ERROR_OCCURED")
+      return res.status(400).json("ERROR/ERROR_OCCURED")
     }
   }
 }
