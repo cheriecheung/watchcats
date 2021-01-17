@@ -118,22 +118,24 @@ function useContactDetails() {
   }, [])
 
   useEffect(() => {
-    if (contactDetails) {
+    if (emailValue) {
       setEmail(emailValue);
 
       const asteriskedEmailName = emailValue.substr(0, emailValue.indexOf('@')).replace(/./g, '*');
       const emailDomain = emailValue.substr(emailValue.indexOf("@") + 1);
       setAsteriskedEmail(`${asteriskedEmailName}@${emailDomain}`)
-
-      if (phoneValue) {
-        setPhone(phoneValue)
-
-        const withoutLastFourDigits = phoneValue.slice(0, -4).replace(/./g, '*')
-        const lastFourDigits = phoneValue.substr(phoneValue.length - 4);
-        setAsteriskedPhone(`${withoutLastFourDigits}${lastFourDigits}`)
-      }
     }
-  }, [contactDetails])
+  }, [emailValue])
+
+  useEffect(() => {
+    if (phoneValue) {
+      setPhone(phoneValue)
+
+      const withoutLastFourDigits = phoneValue.slice(0, -4).replace(/./g, '*')
+      const lastFourDigits = phoneValue.substr(phoneValue.length - 4);
+      setAsteriskedPhone(`${withoutLastFourDigits}${lastFourDigits}`)
+    }
+  }, [phoneValue])
 
   useEffect(() => {
     if (phone) {
@@ -259,7 +261,7 @@ function usePhoneNumberVerification() {
 function useAuthentication() {
   const dispatch = useDispatch();
 
-  const { isTwoFactorEnabled, isGoogleLogin } = useSelector((state) => state.account);
+  const { isDemoUser, isTwoFactorEnabled, isGoogleLogin } = useSelector((state) => state.account);
   const { appActionStatus } = useSelector((state) => state.app);
 
   const [showModal, setShowModal] = useState(false);
@@ -294,6 +296,7 @@ function useAuthentication() {
   }
 
   return {
+    isDemoUser,
     isTwoFactorEnabled,
     isGoogleLogin,
     appActionStatus,

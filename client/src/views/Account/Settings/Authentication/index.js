@@ -21,6 +21,7 @@ function Authentication({
   isLoadingEnable2fa
 }) {
   const {
+    isDemoUser,
     isTwoFactorEnabled,
     isGoogleLogin,
     appActionStatus,
@@ -124,7 +125,7 @@ function Authentication({
             <>
 
               <p>
-                <Remark>
+                <Remark style={{ display: isDemoUser ? 'block' : 'none', textDecoration: 'underline' }}>
                   <i className="fas fa-exclamation fas-xs mr-1" />
                   {t('settings.two_factor_auth_as_demo_user')}
                 </Remark>

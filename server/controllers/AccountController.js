@@ -89,6 +89,8 @@ module.exports = {
         twoFactorSecret,
       } = user;
 
+      const isDemoUser = email === process.env.DEMO_USER_EMAIL;
+
       const isTwoFactorEnabled = twoFactorSecret ? true : false;
       const isGoogleLogin = !password && !isVerified ? true : false;
       const hasSetUpStripAccount = stripeAccountId && stripeAccountId.includes('acct_') ? true : false;
@@ -99,6 +101,7 @@ module.exports = {
         phone,
         getSmsNotification,
         hasSetUpStripAccount,
+        isDemoUser,
         isTwoFactorEnabled,
         isGoogleLogin
       })

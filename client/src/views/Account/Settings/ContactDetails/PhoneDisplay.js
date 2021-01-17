@@ -1,6 +1,6 @@
 import React from 'react'
 import { FieldLabel } from '../../../../components/FormComponents';
-import { ErrorAlert, SuccessAlert, TextButton } from '../../../../components/UIComponents'
+import { ErrorAlert, OutlinedButton, SuccessAlert, TextButton } from '../../../../components/UIComponents'
 import { Switch } from 'antd';
 
 function PhoneDisplay({
@@ -56,11 +56,11 @@ function PhoneDisplay({
             >
               {t('settings.remove')}
             </TextButton>
-            <TextButton
-              style={{ float: 'right', paddingRight: 0 }}
+            <OutlinedButton
+              style={{ float: 'right', height: 25, padding: '0 10px' }}
               onClick={editPhone}>
               {t('settings.edit')}
-            </TextButton>
+            </OutlinedButton>
           </div>
         </div>
         :
