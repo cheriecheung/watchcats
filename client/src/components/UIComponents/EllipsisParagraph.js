@@ -1,11 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { themeColor } from '../../style/theme';
 import { Typography } from 'antd';
 const { Paragraph } = Typography;
 
+const ParagraphComponent = styled(Paragraph)`
+  & > a {
+    color: ${themeColor.peach};
+  }
+
+  & > a:hover {
+    color: ${themeColor.peach};
+  }
+`
+
 function EllipsisParagraph({ children }) {
   return (
-    <Paragraph
+    <ParagraphComponent
       ellipsis={{
         rows: 3,
         expandable: true,
@@ -14,7 +26,7 @@ function EllipsisParagraph({ children }) {
       style={{ whiteSpace: 'pre-line' }}
     >
       {children}
-    </Paragraph>
+    </ParagraphComponent>
   )
 }
 

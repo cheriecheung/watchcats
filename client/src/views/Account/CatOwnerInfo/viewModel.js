@@ -185,10 +185,6 @@ function useCatOwner() {
     dispatch(saveOwner(cleanedData, photos))
   };
 
-  function resetForm() {
-    reset(defaultValues)
-  }
-
   function addCat() {
     catFieldArray.append(catObj)
   }
@@ -267,7 +263,6 @@ function useCatOwner() {
     methods,
     FormProvider,
     onSubmit,
-    resetForm,
     bookingOneDayProps,
     bookingOvernightProps,
     catProps,

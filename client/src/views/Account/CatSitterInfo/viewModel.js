@@ -150,10 +150,6 @@ function useCatSitter() {
     dispatch(saveSitter(cleanedData));
   };
 
-  function resetForm() {
-    reset(defaultValues)
-  }
-
   const experienceData = {
     hasCat,
     hasCertification,
@@ -171,7 +167,6 @@ function useCatSitter() {
     selectedUnavailableDays,
     onDayClick,
     onSubmit,
-    resetForm,
     aboutSitterRef,
     experienceRef,
     experienceData,

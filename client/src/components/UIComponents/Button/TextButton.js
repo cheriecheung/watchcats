@@ -11,7 +11,6 @@ const TextButton = styled.button`
 
   &:hover{
     color: ${themeColor.peach};
-    text-decoration: ${({ colored }) => colored ? 'underline' : 'unset'};
   }
 `;
 

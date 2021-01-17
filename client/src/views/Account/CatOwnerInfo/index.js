@@ -14,7 +14,6 @@ function CatOwnerInfo() {
     methods,
     FormProvider,
     onSubmit,
-    resetForm,
     bookingOneDayProps,
     bookingOvernightProps,
     catProps,
@@ -69,7 +68,7 @@ function CatOwnerInfo() {
             <Responsibilities t={t} />
           </HorizontalCard>
 
-          <FormButtons onClick={resetForm} isLoading={isLoadingSaveOwner} />
+          <FormButtons isLoading={isLoadingSaveOwner} />
         </form>
       </FormProvider>
     </>

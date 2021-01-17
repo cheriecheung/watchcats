@@ -18,7 +18,6 @@ function SitterProfile() {
     selectedUnavailableDays,
     onDayClick,
     onSubmit,
-    resetForm,
     aboutSitterRef,
     experienceRef,
     experienceData,
@@ -68,7 +67,7 @@ function SitterProfile() {
             />
           </HorizontalCard>
 
-          <FormButtons onClick={resetForm} isLoading={isLoadingSaveSitter} />
+          <FormButtons isLoading={isLoadingSaveSitter} />
         </form>
       </FormProvider>
     </>
