@@ -41,7 +41,6 @@ function useFindCatSitter() {
   const { value: sortByValue } = watch('sortBy') || {};
 
   useEffect(() => {
-    setValue('sortBy', { value: 'totalReviews', label: t('find_sitter.total_reviews') })
     return () => {
       dispatch(setInitialState())
     }

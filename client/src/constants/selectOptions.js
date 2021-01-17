@@ -1,36 +1,36 @@
 export const catBreedOptions = [
-  { value: 1, label: 'cat_breed.abyssinian' },
-  { value: 2, label: 'cat_breed.bengal_cat' },
-  { value: 3, label: 'cat_breed.birman' },
-  { value: 4, label: 'cat_breed.burmese' },
-  { value: 5, label: 'cat_breed.british_shorthair' },
-  { value: 6, label: 'cat_breed.devon_rex' },
-  { value: 7, label: 'cat_breed.exotic' },
-  { value: 8, label: 'cat_breed.maine_coon' },
-  { value: 9, label: 'cat_breed.moggy' },
-  { value: 10, label: 'cat_breed.oriental' },
-  { value: 11, label: 'cat_breed.persian' },
-  { value: 12, label: 'cat_breed.ragdoll' },
-  { value: 13, label: 'cat_breed.siamese' },
-  { value: 14, label: 'cat_breed.sphynx' },
-  { value: 15, label: 'cat_breed.tabby' },
-  { value: 16, label: 'cat_breed.other' },
+  { id: 1, value: 'cat_breed.abyssinian', label: 'cat_breed.abyssinian' },
+  { id: 2, value: 'cat_breed.bengal_cat', label: 'cat_breed.bengal_cat' },
+  { id: 3, value: 'cat_breed.birman', label: 'cat_breed.birman' },
+  { id: 4, value: 'cat_breed.burmese', label: 'cat_breed.burmese' },
+  { id: 5, value: 'cat_breed.british_shorthair', label: 'cat_breed.british_shorthair' },
+  { id: 6, value: 'cat_breed.devon_rex', label: 'cat_breed.devon_rex' },
+  { id: 7, value: 'cat_breed.exotic', label: 'cat_breed.exotic' },
+  { id: 8, value: 'cat_breed.maine_coon', label: 'cat_breed.maine_coon' },
+  { id: 9, value: 'cat_breed.moggy', label: 'cat_breed.moggy' },
+  { id: 10, value: 'cat_breed.oriental', label: 'cat_breed.oriental' },
+  { id: 11, value: 'cat_breed.persian', label: 'cat_breed.persian' },
+  { id: 12, value: 'cat_breed.ragdoll', label: 'cat_breed.ragdoll' },
+  { id: 13, value: 'cat_breed.siamese', label: 'cat_breed.siamese' },
+  { id: 14, value: 'cat_breed.sphynx', label: 'cat_breed.sphynx' },
+  { id: 15, value: 'cat_breed.tabby', label: 'cat_breed.tabby' },
+  { id: 16, value: 'cat_breed.other', label: 'cat_breed.other' },
 ];
 
-export const personalityOptions = [
-  { value: 1, label: 'cat_personality.outdoor_explorer' },
-  { value: 2, label: 'cat_personality.outdoor_occasionally' },
-  { value: 3, label: 'cat_personality.indoor_playful' },
-  { value: 4, label: 'cat_personality.indoor_chilled' },
-  { value: 5, label: 'cat_personality.others' },
+export const catPersonalityOptions = [
+  { id: 1, value: 'cat_personality.outdoor_explorer', label: 'cat_personality.outdoor_explorer' },
+  { id: 2, value: 'cat_personality.outdoor_occasionally', label: 'cat_personality.outdoor_occasionally' },
+  { id: 3, value: 'cat_personality.indoor_playful', label: 'cat_personality.indoor_playful' },
+  { id: 4, value: 'cat_personality.indoor_chilled', label: 'cat_personality.indoor_chilled' },
+  { id: 5, value: 'cat_personality.others', label: 'cat_personality.others' },
 ];
 
 export const sortingTypeOptions = [
-  { value: 'totalReviews', label: 'find_sitter.total_reviews' },
-  { value: 'totalCompletedBookings', label: 'find_sitter.completed_bookings' },
-  { value: 'totalRepeatedCustomers', label: 'find_sitter.repeated_customers' },
-  { value: 'hourlyRate', label: 'find_sitter.hourly_rate' },
-  { value: 'nightlyRate', label: 'find_sitter.nightly_rate' },
+  { value: 'find_sitter.total_reviews', label: 'find_sitter.total_reviews' },
+  { value: 'find_sitter.completed_bookings', label: 'find_sitter.completed_bookings' },
+  { value: 'find_sitter.repeated_customers', label: 'find_sitter.repeated_customers' },
+  { value: 'find_sitter.hourly_rate', label: 'find_sitter.hourly_rate' },
+  { value: 'find_sitter.nightly_rate', label: 'find_sitter.nightly_rate' },
 ]
 
 export const hourlyRateOptions = [

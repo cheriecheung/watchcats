@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -62,14 +62,34 @@ function SelectField({
   options,
   onChange,
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { language } = i18n || {}
 
   const updatedOptions = name.includes('Rate') ?
     options :
     options.map(({ value, label }) => ({ value, label: t(label) }))
 
-  const { control, errors } = useFormContext();
+  const { control, errors, setValue, watch } = useFormContext();
   const { hasError, message } = getErrorProperties(name, errors)
+
+  const translateOptions = () => {
+    if (!watch(name)) {
+      setValue(name, { value: 'form.select', label: t('form.select') })
+    }
+
+    if (!name.includes('Rate')) {
+      const value = watch(name).value;
+      setValue(name, { value, label: t(value) })
+    }
+  }
+
+  useEffect(() => {
+    translateOptions();
+  }, [language])
+
+  useEffect(() => {
+    translateOptions();
+  }, [])
 
   return (
     <>
