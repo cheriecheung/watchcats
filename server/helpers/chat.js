@@ -13,7 +13,7 @@ module.exports = {
       .sort({ updatedAt: -1 })
       .populate([{
         path: 'participant1',
-        select: ['firstName', 'lastName'],
+        select: ['firstName', 'lastName', 'profilePicture', 'urlId'],
         match: { _id: { $ne: ObjectId(senderId) } }
       },
       {

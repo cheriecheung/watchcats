@@ -1,17 +1,18 @@
 import React from 'react';
+import { formatDate, formatTime } from '../../../utility';
 import { Image } from '../../../components/UIComponents'
-import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
+import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg';
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
 function MessageBubble({ message, conversationInfo }) {
   const {
     id,
-    date,
-    time,
     content,
+    createdAt,
     sender: messageSender
   } = message || {}
+  console.log({ message })
 
   const { sender, recipient } = conversationInfo || {}
   const { _id: senderId, profilePicture: senderPicture } = sender || {}
@@ -34,11 +35,13 @@ function MessageBubble({ message, conversationInfo }) {
   const messageBackgroundColor =
     senderId === messageSender ? 'rgba(219, 254, 224, 0.8)' : '#fff';
 
+  const messageTimeAlignSelf = senderId === messageSender ? 'flex-end' : 'unset';
+
   return (
     <div key={id}>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <span style={{ opacity: 0.6, fontSize: '0.8rem' }}>
-          {date}, {time}
+          {formatDate(createdAt, 'DD MMM')}
         </span>
         {/* <span
                 style={{
@@ -52,9 +55,10 @@ function MessageBubble({ message, conversationInfo }) {
                 {date}
               </span> */}
       </div>
+
       <div
         style={{
-          margin: '15px 0',
+          margin: '10px 0',
           display: 'flex',
           flexDirection: messageFlexDirection,
         }}
@@ -64,7 +68,7 @@ function MessageBubble({ message, conversationInfo }) {
             width: 30,
             height: 30,
             borderRadius: 10,
-            alignSelf: 'flex-end',
+            alignSelf: 'center',
             overflow: 'hidden',
             display: senderId === messageSender ? 'none' : 'block'
           }}
@@ -72,32 +76,28 @@ function MessageBubble({ message, conversationInfo }) {
           <Image url={pictureUrl} />
         </div>
 
-        <div
-          style={{
-            margin: '0 10px',
-            padding: '8px 15px',
-            maxWidth: '50%',
-            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.1)',
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: messageBackgroundColor,
-            borderRadius: 10,
-            ...messageBorderRadius,
-          }}
-        >
-          <div>{content}</div>
-          {/* <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    fontSize: '0.7rem',
-                    marginBottom: -5,
-                    marginRight: -5,
-                    opacity: 0.6,
-                  }}
-                >
-                  {time}
-                </div> */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          maxWidth: '50%',
+          margin: '0 10px'
+        }}>
+          <div
+            style={{
+              marginBottom: 5,
+              padding: '8px 15px',
+              // maxWidth: '50%',
+              boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.1)',
+              backgroundColor: messageBackgroundColor,
+              borderRadius: 10,
+              ...messageBorderRadius,
+            }}
+          >
+            {content}
+          </div>
+          <span style={{ opacity: 0.6, fontSize: '0.8rem', alignSelf: messageTimeAlignSelf }}>
+            {formatTime(createdAt, 'HH:mm')}
+          </span>
         </div>
       </div>
     </div>

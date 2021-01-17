@@ -22,8 +22,8 @@ function MessageInput({
       <SubmitButton type="submit"
         style={{
           position: 'absolute',
-          bottom: 5,
-          right: 5,
+          bottom: 15,
+          right: 10,
         }}
       >
         <i className="fas fa-paper-plane fa-lg" />

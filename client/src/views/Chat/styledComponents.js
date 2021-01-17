@@ -248,12 +248,13 @@ export const AutoSizeInput = styled.textarea`
   position: absolute;
   left: 0;
   bottom: 0;
-  padding: 5px;
+  padding: 10px 15px;
   width: 90%;
-  height: 4rem;
+  height: 3.8rem;
   border: 10px solid ${themeColor.lightPeach};
   border-radius: 20px;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
+  line-height: 1.2rem;
   overflow-x: hidden;
   overflow-y: ${({ scrollHeight }) =>
     scrollHeight >= 150 ? "scroll" : "hidden"};
@@ -263,6 +264,21 @@ export const AutoSizeInput = styled.textarea`
   &:hover {
     border: 10px solid ${themeColor.lightPeach} !important;
     box-shadow: none !important;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0.5em;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #c5c1c7;
+    outline: none;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent !important;
+    color: transparent !important;
   }
 `;
 

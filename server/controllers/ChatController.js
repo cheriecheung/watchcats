@@ -56,17 +56,28 @@ module.exports = {
 
       const messages = await Message
         .find({ conversation: conversation._id })
+        .sort({ createdAt: 1 })
         .populate([{
           path: 'booking',
           select: ['_id', 'owner', 'sitter', 'appointmentType', 'startDate', 'endDate', 'date', 'startTime', 'endTime', 'location', 'price', 'status'],
-          populate: {
-            path: 'owner',
-            select: ['user'],
-            populate: {
-              path: 'user',
-              select: ['firstName', 'lastName']
+          populate: [
+            {
+              path: 'owner',
+              select: ['user'],
+              populate: {
+                path: 'user',
+                select: ['firstName', 'lastName']
+              }
+            },
+            {
+              path: 'sitter',
+              select: ['user'],
+              populate: {
+                path: 'user',
+                select: ['firstName', 'lastName']
+              }
             }
-          }
+          ]
         }
         ])
       if (!messages) return res.status(404).json('ERROR/MESSAGES_NOT_FOUND')

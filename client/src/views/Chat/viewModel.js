@@ -11,7 +11,7 @@ import {
 } from '../../redux/chat/actions';
 import io from "socket.io-client";
 import { getAccessToken } from '../../utility/accessToken';
-import ScreenWidthListener from '../../components/Layout/ScreenWidthListener'
+import ScreenWidthListener from '../../components/Layout/ScreenWidthListener';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
@@ -23,8 +23,8 @@ function useChat() {
   const history = useHistory();
   const { t } = useTranslation();
   const params = useParams();
-  const { id: recipientId } = params || {}
-  const myUrlId = cookies.get('urlId')
+  const { id: recipientId } = params || {};
+  const myUrlId = cookies.get('urlId');
 
   const chatContainerRef = useRef(null);
   const inputRef = useRef(null);
@@ -36,11 +36,10 @@ function useChat() {
   const [clickedChat, setClickedChat] = useState('');
   const [hoveredChat, setHoveredChat] = useState('');
 
-  const [inputHeight, setInputHeight] = useState("4rem");
+  const [inputHeight, setInputHeight] = useState("3.8rem");
   const [scrollHeight, setScrollHeight] = useState("");
 
-  // list, conversation, info
-  const [mobileScreenView, setMobileScreenView] = useState('list')
+  const [mobileScreenView, setMobileScreenView] = useState('list');
 
   const [message, setMessage] = useState("");
 
@@ -56,10 +55,10 @@ function useChat() {
     socket = io(server, { query: { token } });
 
     socket.on("Output Chat Message", dataFromBackend => {
-      const { newMessage, updatedChatList } = dataFromBackend
+      const { newMessage, updatedChatList } = dataFromBackend;
 
       dispatch(concatLatestMessage(newMessage));
-      dispatch(updateChatList(updatedChatList))
+      dispatch(updateChatList(updatedChatList));
     })
 
     return () => {
@@ -73,14 +72,14 @@ function useChat() {
 
   useEffect(() => {
     if (screenWidth >= 735 && Array.isArray(chatList) && chatList.length > 0) {
-      setClickedChat(chatList[0]._id)
+      setClickedChat(chatList[0]._id);
     }
 
     if (!recipientId && screenWidth >= 735 && Array.isArray(chatList) && chatList.length > 0) {
-      const { participant1, participant2 } = chatList[0] || {}
-      const recipient = participant1 ? participant1 : participant2
-      const recipientUrlId = recipient.urlId
-      history.push(`/messages/${recipientUrlId}`)
+      const { participant1, participant2 } = chatList[0] || {};
+      const recipient = participant1 ? participant1 : participant2;
+      const recipientUrlId = recipient.urlId;
+      history.push(`/messages/${recipientUrlId}`);
       console.log({ chatList })
     }
   }, [chatList])
@@ -91,7 +90,7 @@ function useChat() {
     }
 
     if (recipientId === myUrlId) {
-      history.push(`/messages`)
+      history.push(`/messages`);
     }
   }, [recipientId])
 
@@ -122,17 +121,17 @@ function useChat() {
     if (inputRef && inputRef.current) {
       let scroll_height = inputRef.current.scrollHeight;
 
-      if (scroll_height <= 52) {
+      if (scroll_height <= 60) {
         inputRef.current.style.height = 4 + "rem";
       }
 
-      if (scroll_height > 52 && scroll_height < 150) {
+      if (scroll_height > 60 && scroll_height < 120) {
         inputRef.current.style.height = "auto";
         inputRef.current.style.height = inputRef.current.scrollHeight + "px";
       }
 
-      if (scroll_height > 150) {
-        inputRef.current.style.height = 150 + "px";
+      if (scroll_height > 120) {
+        inputRef.current.style.height = 120 + "px";
       }
 
       // console.log({ scroll_height });
@@ -179,19 +178,22 @@ function useChat() {
     setHoveredChat,
     onFetchConversation,
     conversationInfo,
+
     allMessages,
+    message,
+    setMessage,
     onSubmitMessage,
+
     chatContainerRef,
     mobileScreenView,
     backToList,
     backToConversation,
     goToInfo,
+
     inputRef,
     inputHeight,
     scrollHeight,
     onChangeHeight,
-    message,
-    setMessage
   }
 }
 

@@ -50,7 +50,7 @@ function AutomatedMessage({ t, message, conversationInfo }) {
   }
 
   const { sender: currentUser } = conversationInfo || {}
-  const { id: currentUserId } = currentUser
+  const { _id: currentUserId } = currentUser
 
   const { booking, content, createdAt, sender } = message || {}
   const {
@@ -65,20 +65,19 @@ function AutomatedMessage({ t, message, conversationInfo }) {
     owner,
     sitter
   } = booking || {}
-  const { user } = owner || {};
-  const { firstName, lastName } = user || {}
-  const ownerName = `${firstName} ${lastName.charAt(0)}`
+  const { user: ownerUserRecord } = owner || {};
+  const { user: sitterUserRecord } = sitter || {}
 
-  console.log({ booking })
+  const actionMaker = content === AUTOMATED_MESSAGES.BOOKING_REQUESTED ? ownerUserRecord : sitterUserRecord
+  const { firstName = '', lastName = '' } = actionMaker || {}
 
-  const actionMaker = content === AUTOMATED_MESSAGES.BOOKING_REQUESTED ? ownerName : sitter
-  const person = currentUserId === sender ? 'you' : actionMaker
+  const person = currentUserId === sender ? t('auto_message.you') : `${firstName} ${lastName.charAt(0)}`
 
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <span style={{ opacity: 0.6, fontSize: '0.8rem' }}>
-          {formatDate(createdAt, 'DD MMM YYYY')}
+          {formatDate(createdAt, 'DD MMM')}
         </span>
       </div>
       <div style={{ margin: '20px 0', display: 'flex', justifyContent: 'center' }}>

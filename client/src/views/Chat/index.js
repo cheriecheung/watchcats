@@ -20,19 +20,22 @@ function Chat() {
     setHoveredChat,
     onFetchConversation,
     conversationInfo,
+
     allMessages,
+    message,
+    setMessage,
     onSubmitMessage,
+
     chatContainerRef,
     mobileScreenView,
     backToList,
     backToConversation,
     goToInfo,
+
     inputRef,
     inputHeight,
     scrollHeight,
     onChangeHeight,
-    message,
-    setMessage
   } = useChat();
 
   return (

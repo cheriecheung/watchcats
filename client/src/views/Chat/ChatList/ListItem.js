@@ -77,7 +77,7 @@ function ChatListItem({
             {firstName} {lastName && lastName.charAt(0)}
           </ContactName>
           <DateDisplay>
-            {formatDate(lastMessageDate, 'DD/MM/YY')}
+            {formatDate(lastMessageDate, 'DD MMM')}
           </DateDisplay>
         </div>
 
