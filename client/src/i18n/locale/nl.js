@@ -72,6 +72,7 @@ export default {
 
   home: {
     find_sitter: 'Zoek vandaag de ideale kattenoppas in je buurt!',
+    welcome_back: 'Welkom terug, {{name}}!'
   },
 
   form: {
@@ -80,7 +81,7 @@ export default {
     password: 'Wachtwoord',
     first_name: 'Voornaam',
     last_name: 'Achternaam',
-    select: 'Selecteer',
+    select: 'Selecteer...',
     save: 'Opslaan',
     submit: 'Indienen',
     reset: 'Resetten',
@@ -285,6 +286,7 @@ export default {
     per_hour: '/ uur',
     overnight: 'Overnachting',
     per_night: '/ nacht',
+    you_make: 'You will make € {{euros}}',
 
     availability: 'Beschikbaarheid',
     availability_description: 'Selecteer de datums wanneer u niet beschikbaar bent, zodat katteneigenaren u aanvragen gebaseerd op je beschikbaarheid kunnen verzenden.',
@@ -377,23 +379,19 @@ export default {
     find_sitter: 'pagina om een katoppas te zoeken.',
 
     requested: 'Aangevraagd',
-    await_acceptance: 'Wacht tot een kattenoppas de booking accepteert',
-    decline: 'Weigeren',
+    await_acceptance: 'Wacht tot de kattenoppas de booking accepteert',
+    decline: 'Weigerde',
     decline_confirm:
-      'Click "OK" to confirm the booking decline. It is recommended that you write the cat owner about the reason you reject the booking',
+      'Klik op "Ok" om de afspraak te weigeren. De status van deze boeking zal veranderen van "Aangevraagd" naar "Weigerde".',
     accept: 'Accepteren',
     accept_confirm:
-      'Click "OK" to confirm the booking acceptance. The status of this booking will be changed from "Requested" to "Confirmed".',
-
+      'Klik op "Ok" om de afspraak te accepteren. De status van deze boeking zal veranderen van "Aangevraagd" naar "Bevestigd".',
     confirmed: 'Bevestigd',
-    await_payment: 'Waiting for cat owner to pay',
-    cancel: 'Annuleren',
-    cancel_confirm:
-      'Click "OK" to confirm the booking cancellation. Make sure to inform the cat owner about the cancellation and the reason.',
+    await_payment: 'Wachten tot de betaling van de kat eigenaar',
     pay_now: 'Nu betalen',
 
     complete: 'Afspraak voltooid',
-    complete_confirm: 'Klik op "Ok" om de afspraak te voltooien. De status van deze boeking zal veranderen van "Bevestigd" naar "Compleet". Je kan nu een recensie achterlaten.',
+    complete_confirm: 'Klik op "Ok" om de afspraak te voltooien. De status van deze boeking zal veranderen van "Bevestigd" naar "Voltooid". Je kan nu een recensie achterlaten.',
     completed: 'Voltooid',
     await_completion: 'Wacht tot een kattenoppas de voltooiïng van een oppas bevestigd',
     write_review: 'Schrijf een recensie',
@@ -411,31 +409,32 @@ export default {
   },
 
   pay: {
-    title: 'Pay',
+    title: 'Betalen',
   },
 
   review: {
     title: 'Beoordeel en recenseer',
     booking_information: 'Boekingsinformatie',
     describe_experience: 'Beschrijf uw ervaring',
-    reminder: 'Your review will be public on the reviewee\'s public profile',
+    reminder: 'Je review zal publiekelijk gemaak worden op de reviewers openbaar profiel',
     give_rating: 'Geef je beoordeling'
   },
 
   chats: {
-    no_chats: 'No chats yet',
+    no_chats: 'Geen berichten',
     if_sitter: 'Ben je een oppasser, dan kunnen alleen eigenaren een bericht naar je sturen.',
-    if_owner: 'If you\'re an owner, start by',
-    find_sitter: 'finding a sitter',
+    if_owner: 'Als u een eigenaar bent, start met het ',
+    find_sitter: 'zoeken van een katoppas',
     view_owner_profile: 'Eigenaarsprofiel kijken',
-    view_sitter_profile_: 'Oppasprofiel kijken',
+    view_sitter_profile: 'Oppasprofiel kijken',
   },
 
   auto_message: {
-    reminder: 'Reminder - Leave a review',
-    booking_requested: 'A booking request is made by {{owner}}',
+    reminder: 'Herinnering - Laat een recensie achter',
+    booking_requested: 'Boeking is geaccepteerd door {{owner}}',
     booking_accepted: 'Booking has been accepted by {{sitter}}',
-    booking_declined: 'Booking has been declined by {{sitter}}',
-    booking_completed: 'Booking is marked as completed by {{sitter}}'
+    booking_declined: 'Boeking is geweigerd door {{sitter}}',
+    booking_completed: 'Boeking is gemarkeerd als voltooid door {{sitter}}',
+    you: 'jou'
   }
 };

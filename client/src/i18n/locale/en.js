@@ -72,6 +72,7 @@ export default {
 
   home: {
     find_sitter: 'Find your ideal cat sitter in town today!',
+    welcome_back: 'Welcome back, {{name}}!'
   },
 
   form: {
@@ -82,7 +83,7 @@ export default {
     password: 'Password',
     first_name: 'First name',
     last_name: 'Last name',
-    select: 'Select',
+    select: 'Select...',
     save: 'Save',
     submit: 'Submit',
     reset: 'Reset',
@@ -291,6 +292,7 @@ export default {
     per_hour: '/ hour',
     overnight: 'Overnight visit',
     per_night: '/ night',
+    you_make: 'You will make € {{euros}}',
 
     availability: 'Availability',
     availability_description:
@@ -390,21 +392,18 @@ export default {
     await_acceptance: 'Waiting for cat sitter to accept booking',
     decline: 'Decline',
     decline_confirm:
-      'Click "OK" to confirm the booking decline. It is recommended that you write the cat owner about the reason you reject the booking',
+      'Click "OK" to decline the booking. It is recommended that you write the cat owner about the reason you reject the booking',
     accept: 'Accept',
     accept_confirm:
-      'Click "OK" to confirm the booking acceptance. The status of this booking will be changed from "Requested" to "Confirmed".',
+      'Click "OK" to accept the booking. The status of this booking will be changed from "Requested" to "Confirmed".',
 
     confirmed: 'Confirmed',
     await_payment: 'Waiting for cat owner to pay',
-    cancel: 'Cancel',
-    cancel_confirm:
-      'Click "OK" to confirm the booking cancellation. Make sure to inform the cat owner about the cancellation and the reason.',
     pay_now: 'Pay now',
+
     complete: 'Appointment completed',
     complete_confirm:
       'Click "OK" to confirm the appointment completion. The status of this booking will be changed from "Confirmed" to "Completed". You will be able to write a review about your experience.',
-
     completed: 'Completed',
     await_completion: 'Waiting for cat sitter to complete sitting job',
     write_review: 'Write a review',
@@ -439,7 +438,7 @@ export default {
     if_owner: 'If you\'re an owner, start by',
     find_sitter: 'finding a sitter',
     view_owner_profile: 'View cat owner profile',
-    view_sitter_profile_: 'View cat sitter profile',
+    view_sitter_profile: 'View cat sitter profile',
   },
 
   auto_message: {
@@ -447,6 +446,7 @@ export default {
     booking_requested: 'A booking request is made by {{owner}}',
     booking_accepted: 'Booking has been accepted by {{sitter}}',
     booking_declined: 'Booking has been declined by {{sitter}}',
-    booking_completed: 'Booking is marked as completed by {{sitter}}'
+    booking_completed: 'Booking has been marked as completed by {{sitter}}',
+    you: 'you'
   }
 };
