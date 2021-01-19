@@ -8,7 +8,7 @@ function MapItem({
   setZoom,
   center,
   results,
-  hoveredResultId,
+  hoveredResult,
   onGetSitters,
 }) {
   return (
@@ -21,7 +21,7 @@ function MapItem({
         setZoom={setZoom}
         center={center}
         results={results}
-        hoveredResultId={hoveredResultId}
+        hoveredResult={hoveredResult}
         onGetSitters={onGetSitters}
       />
     </MapContainer>

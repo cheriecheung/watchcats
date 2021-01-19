@@ -14,12 +14,12 @@ function Result({
   loading,
   onChangePage,
   currentPage,
-  setHoveredResultId,
+  setHoveredResult,
   screenWidth,
 }) {
   const { from, to } = pagination
 
-  console.log({ totalResults, paginatedResults })
+  // console.log({ totalResults, paginatedResults })
 
   return (
     <>
@@ -50,7 +50,6 @@ function Result({
         <List
           itemLayout="vertical"
           size="large"
-          // loading={loading}
           pagination={{
             onChange: (current) => { onChangePage(current) },
             total: totalResults,
@@ -61,9 +60,8 @@ function Result({
           dataSource={paginatedResults}
           renderItem={(item) =>
             <Card
-              t={t}
               item={item}
-              setHoveredResultId={setHoveredResultId}
+              setHoveredResult={setHoveredResult}
               screenWidth={screenWidth}
             />
           }

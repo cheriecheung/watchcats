@@ -9,7 +9,7 @@ export default function Maps({
     setZoom,
     center,
     results,
-    hoveredResultId,
+    hoveredResult,
     onGetSitters
 }) {
     const [infoWindow, setInfoWindow] = useState();
@@ -17,14 +17,15 @@ export default function Maps({
     const [markersArray, setMarkersArray] = useState([]);
 
     useEffect(() => {
-        hoveredResultId && markersArray.forEach((marker) => {
-            if (marker.id === hoveredResultId) {
+        hoveredResult && markersArray.forEach((marker) => {
+            console.log({ marker, hoveredResult })
+            if (marker.id === hoveredResult.urlId) {
                 marker.setAnimation(window.google.maps.Animation.BOUNCE);
             } else {
                 marker.setAnimation(null);
             }
         })
-    }, [hoveredResultId])
+    }, [hoveredResult])
 
     const createInfoWindow = () => {
         const infoWindowInstance = new window.google.maps.InfoWindow({
@@ -137,13 +138,13 @@ Maps.propTypes = {
     setZoom: PropTypes.func,
     center: PropTypes.object.isRequired,
     results: PropTypes.array.isRequired,
-    hoveredResultId: PropTypes.string,
+    hoveredResult: PropTypes.string,
     onGetSitters: PropTypes.func,
 };
 
 Maps.defaultProps = {
     setZoom: undefined,
-    hoveredResultId: undefined,
+    hoveredResult: undefined,
     onGetSitters: undefined
 };
 

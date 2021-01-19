@@ -30,7 +30,7 @@ function useFindCatSitter() {
   const [currentPage, setCurrentPage] = useState(1)
   const [pagination, setPagination] = useState({})
   const [loading, setLoading] = useState(true)
-  const [hoveredResultId, setHoveredResultId] = useState('')
+  const [hoveredResult, setHoveredResult] = useState({})
 
   const resolver = yupResolver(find_cat_sitter_schema)
   const methods = useForm({ defaultValues, resolver });
@@ -39,6 +39,10 @@ function useFindCatSitter() {
   const startDateValue = watch('startDate');
   const endDateValue = watch('endDate');
   const { value: sortByValue } = watch('sortBy') || {};
+
+  useEffect(() => {
+    console.log({ hoveredResult })
+  }, [hoveredResult])
 
   useEffect(() => {
     return () => {
@@ -169,8 +173,8 @@ function useFindCatSitter() {
     pagination,
     currentPage,
     onChangePage,
-    hoveredResultId,
-    setHoveredResultId,
+    hoveredResult,
+    setHoveredResult,
     zoom,
     setZoom,
     center,

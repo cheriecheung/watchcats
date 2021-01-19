@@ -11,13 +11,12 @@ import {
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 import { ContentContainer } from '../styledComponents'
 
-function Card({ screenWidth, t, item, setHoveredResultId }) {
+function Card({ screenWidth, item, setHoveredResult }) {
   const {
     urlId,
     firstName,
     lastName,
     profilePicture,
-    // distance,
     hourlyRate,
     nightlyRate,
     totalReviews,
@@ -59,8 +58,8 @@ function Card({ screenWidth, t, item, setHoveredResultId }) {
   return (
     <HorizontalCard
       variant="findCatSitter"
-      onMouseOver={() => setHoveredResultId(urlId)}
-      onMouseLeave={() => setHoveredResultId('')}
+      onMouseOver={() => setHoveredResult(item)}
+      onMouseLeave={() => setHoveredResult({})}
     >
       <div style={{ display: 'flex' }}>
         <ImageContainer variant="findCatSitter">
