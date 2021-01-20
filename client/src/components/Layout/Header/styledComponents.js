@@ -200,7 +200,7 @@ export const ItemContainer = styled.div`
 `
 
 export const LinkButton = styled(Link)`
-  color: #9d9d9d;
+  color: ${themeColor.grey};
   font-weight: 400;
 
   @media (max-width: 920px) {
@@ -213,7 +213,7 @@ export const LinkButton = styled(Link)`
 `
 
 export const LogoutButton = styled.button`
-  color: #9d9d9d;
+  color: ${themeColor.grey};
   font-weight: 400;
   outline: none !important;
   border: none;

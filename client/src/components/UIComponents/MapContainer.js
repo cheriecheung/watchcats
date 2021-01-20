@@ -13,7 +13,7 @@ const findCatSitter = ({ variant }) => {
   if (variant !== 'findCatSitter') return css``
 
   return `
-    height: 80vh;
+    height: 65vh;
     top: 20px;
     position: sticky;
 

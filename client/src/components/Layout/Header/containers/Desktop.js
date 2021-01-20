@@ -58,7 +58,11 @@ function Desktop({
               </LinkButton>
             </Item>
             <Item>
-              <LogoutButton type="button" onClick={onLogout}>
+              <LogoutButton
+                type="button"
+                onClick={onLogout}
+                style={{ marginTop: -2 }}
+              >
                 {t('header.logout')}
               </LogoutButton>
             </Item>
@@ -72,7 +76,7 @@ function Desktop({
           )}
 
         <Item>
-          <TextButton onClick={setLanguage}>
+          <TextButton onClick={setLanguage} style={{ marginTop: -2 }}>
             <Icon className="fas fa-globe-americas" style={{ fontSize: 13, marginRight: 5 }} />
             <span>{currentLanguage === 'en' ? 'NL' : 'EN'}</span>
           </TextButton>

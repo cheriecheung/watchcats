@@ -1,19 +1,21 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { PlaceAutocomplete } from '../../components/Google'
-import { DateRange } from '../../components/FormComponents'
-import { ContainedButton, HorizontalCard } from '../../components/UIComponents'
-import ScreenWidthListener from '../../components/Layout/ScreenWidthListener'
-// import { checkToken } from '../../redux/app/actions'
 import { useDispatch } from 'react-redux';
 
-import { useHome } from './viewModel'
+import { themeColor } from '../../style/theme';
+import ScreenWidthListener from '../../components/Layout/ScreenWidthListener';
+import { PlaceAutocomplete } from '../../components/Google';
+import { DateRange } from '../../components/FormComponents';
+import { ContainedButton, HorizontalCard } from '../../components/UIComponents';
 import {
   MainContainer,
   RelaxCatContainer,
   FormContainer,
   FieldContainer
 } from './styledComponents'
+// import { checkToken } from '../../redux/app/actions'
+
+import { useHome } from './viewModel'
 
 function Home() {
   const { screenWidth } = ScreenWidthListener();
@@ -38,8 +40,13 @@ function Home() {
         <div className="cat-horizontal" ref={horizontalCatRef} />
       </RelaxCatContainer>
 
-      <HorizontalCard style={{ width: '100%' }}>
-        <h5>{t('home.find_sitter')}</h5>
+      <HorizontalCard
+        style={{
+          width: '100%',
+          boxShadow: '0 1px 15px rgba(0, 0, 0, 0.15), 0 1px 6px rgba(0, 0, 0, 0.05)'
+        }}
+      >
+        <h5 style={{ color: themeColor.grey, fontSize: '1.3rem' }}>{t('home.find_sitter')}</h5>
         <br />
 
         <FormProvider {...methods}>

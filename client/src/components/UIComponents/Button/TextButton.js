@@ -7,7 +7,7 @@ const TextButton = styled.button`
   border: none;
   outline: none !important;
   transition: all 0.3s;
-  color: ${({ colored }) => colored ? themeColor.peach : 'unset'};
+  color: ${({ colored }) => colored ? themeColor.peach : themeColor.grey};
 
   &:hover{
     color: ${themeColor.peach};
