@@ -5,7 +5,6 @@ import {
   ErrorAlert,
   Image,
   ImageContainer,
-  LinkButton,
   Spinner
 } from '../../../../components/UIComponents';
 import { themeColor } from '../../../../style/theme'
@@ -55,13 +54,9 @@ function Enable2FA({ t, appError, isLoading }) {
             <FieldLabel>{t('settings.enable_2FA_step1')}</FieldLabel>
             <p>
               {t('settings.enable_2FA_step1_detail1')}
-              <LinkButton
-                to={url}
-                target="_blank"
-                style={{ color: themeColor.peach }}
-              >
+              <a href={url} target="_blank" style={{ color: themeColor.peach }}>
                 Google Authenticator
-              </LinkButton>
+              </a>
               {t('settings.enable_2FA_step1_detail2')}
             </p>
           </Description>
