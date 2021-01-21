@@ -70,6 +70,11 @@ export default {
     logout: 'Afmelden',
   },
 
+  footer: {
+    made_with_love: 'Met liefde',
+    by: 'door',
+  },
+
   home: {
     find_sitter: 'Zoek vandaag de ideale kattenoppas in je buurt!',
     welcome_back: 'Welkom terug, {{name}}!'

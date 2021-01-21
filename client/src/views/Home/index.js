@@ -40,12 +40,7 @@ function Home() {
         <div className="cat-horizontal" ref={horizontalCatRef} />
       </RelaxCatContainer>
 
-      <HorizontalCard
-        style={{
-          width: '100%',
-          boxShadow: '0 1px 15px rgba(0, 0, 0, 0.15), 0 1px 6px rgba(0, 0, 0, 0.05)'
-        }}
-      >
+      <HorizontalCard style={{ width: '100%' }}>
         <h5 style={{ color: themeColor.grey, fontSize: '1.3rem' }}>{t('home.find_sitter')}</h5>
         <br />
 

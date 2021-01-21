@@ -70,6 +70,11 @@ export default {
     logout: 'Logout',
   },
 
+  footer: {
+    made_with: 'Made with',
+    by: 'by',
+  },
+
   home: {
     find_sitter: 'Find your ideal cat sitter in town today!',
     welcome_back: 'Welcome back, {{name}}!'
@@ -211,7 +216,7 @@ export default {
     resend_code: 'Resend code',
 
     stripe_account: 'Stripe Account',
-    payment_description: 'To send and / or receive payments, please set up payouts on Stripe. Clicking below will guide you to a secure online form which will guide you to connect your bank account.',
+    payment_description: 'To receive payment as a cat sitter, please set up payouts on Stripe. Clicking below will guide you to a secure online form which will guide you to connect your bank account.',
     setup_payouts: 'Set up payouts',
     edit_account: 'Edit account',
 
