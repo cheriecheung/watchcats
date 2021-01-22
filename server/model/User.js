@@ -75,15 +75,19 @@ const userSchema = new Schema({
     max: 1024,
     min: 6,
   },
-  tokenVersion: {
-    type: Number,
-    default: 0,
-    required: false,
+  // tokenVersion: {
+  //   type: Number,
+  //   default: 0,
+  //   required: false,
 
-  },
+  // },
   stripeAccountId: {
     type: String,
     required: false,
+  },
+  isStripeAccountVerified: {
+    type: Boolean,
+    defaultValue: false,
   },
   isVerified: {
     type: Boolean,
@@ -101,14 +105,10 @@ const userSchema = new Schema({
     type: Date,
     required: false
   },
-  google_id: {
-    type: String,
-    required: false,
-  },
-  facebook_id: {
-    type: String,
-    required: false,
-  },
+  // google_id: {
+  //   type: String,
+  //   required: false,
+  // },
   createdAt: {
     type: Date,
     default: Date.now(),

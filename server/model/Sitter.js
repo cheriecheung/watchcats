@@ -22,10 +22,6 @@ const sitterSchema = new Schema({
     type: String,
     required: false,
   },
-  // photo: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'Photo',
-  // },
   experience: {
     type: String,
     required: false,
