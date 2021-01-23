@@ -5,24 +5,25 @@ const conversationSchema = new Schema({
   lastMessage: {
     type: Schema.Types.ObjectId,
     ref: 'Message',
+    required: true
   },
   participant1: {
     type: Schema.Types.ObjectId,
     ref: 'User',
+    required: true
   },
   participant2: {
     type: Schema.Types.ObjectId,
     ref: 'User',
+    required: true
   },
   createdAt: {
     type: Date,
     default: Date.now(),
-    required: false,
   },
   updatedAt: {
     type: Date,
     default: Date.now(),
-    required: false,
   }
 });
 

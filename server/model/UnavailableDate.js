@@ -8,12 +8,10 @@ const unavailableDatesSchema = new Schema({
   },
   date: {
     type: Date,
-    required: false,
   },
   createdAt: {
     type: Date,
     default: Date.now(),
-    required: false,
   },
 });
 

@@ -11,47 +11,43 @@ const userSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'Owner',
+    required: false
   },
   sitter: {
     type: Schema.Types.ObjectId,
     ref: 'Sitter',
+    required: false
   },
   firstName: {
     type: String,
-    required: false,
   },
   lastName: {
     type: String,
-    required: false,
   },
   profilePicture: {
     type: String,
   },
   email: {
     type: String,
-    required: false,
+    required: true,
+    unique: true,
     max: 255,
-    min: 5,
+    min: 8,
   },
   phone: {
     type: String,
-    required: false,
   },
   getEmailNotification: {
     type: Boolean,
-    required: false,
   },
   getSmsNotification: {
     type: Boolean,
-    required: false,
   },
   address: {
     type: String,
-    required: false,
   },
   postcode: {
     type: String,
-    required: false,
   },
   coordinates: {
     type: [Number],
@@ -59,31 +55,20 @@ const userSchema = new Schema({
   },
   profileFacebook: {
     type: String,
-    required: false,
   },
   profileInstagram: {
     type: String,
-    required: false,
   },
   profileOther: {
     type: String,
-    required: false,
   },
   password: {
     type: String,
-    required: false,
     max: 1024,
     min: 6,
   },
-  // tokenVersion: {
-  //   type: Number,
-  //   default: 0,
-  //   required: false,
-
-  // },
   stripeAccountId: {
     type: String,
-    required: false,
   },
   isStripeAccountVerified: {
     type: Boolean,
@@ -95,15 +80,12 @@ const userSchema = new Schema({
   },
   twoFactorSecret: {
     type: String,
-    defaultValue: false,
   },
   otp: {
     type: String,
-    required: false
   },
   otpExpiryTime: {
     type: Date,
-    required: false
   },
   // google_id: {
   //   type: String,
@@ -112,7 +94,6 @@ const userSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now(),
-    required: false,
   },
 });
 
@@ -123,7 +104,5 @@ userSchema.methods.isValidPassword = async (filledPassword) => {
     throw new Error(error);
   }
 };
-
-// userSchema.index({ "coordinates": '2d' })
 
 module.exports = mongoose.model('User', userSchema);

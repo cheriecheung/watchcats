@@ -5,6 +5,7 @@ const sitterSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
+    required: true
   },
   urlId: {
     type: String,
@@ -13,46 +14,40 @@ const sitterSchema = new Schema({
   review: {
     type: Schema.Types.ObjectId,
     ref: 'Review',
+    required: false,
   },
   booking: {
     type: Schema.Types.ObjectId,
     ref: 'Booking',
+    required: false,
   },
   aboutSitter: {
     type: String,
-    required: false,
   },
   experience: {
     type: String,
-    required: false,
+    required: true,
   },
   hasCat: {
     type: Boolean,
-    required: false,
   },
   hasVolunteered: {
     type: Boolean,
-    required: false,
   },
   hasMedicationSkills: {
     type: Boolean,
-    required: false,
   },
   hasInjectionSkills: {
     type: Boolean,
-    required: false,
   },
   hasGroomingSkills: {
     type: Boolean,
-    required: false,
   },
   hasCertification: {
     type: Boolean,
-    required: false,
   },
   hourlyRate: {
     type: Number,
-    required: false,
   },
   nightlyRate: {
     type: Number,
@@ -61,6 +56,7 @@ const sitterSchema = new Schema({
   unavailableDate: {
     type: Schema.Types.ObjectId,
     ref: 'UnavailableDate',
+    required: false,
   },
   createdAt: {
     type: Date,

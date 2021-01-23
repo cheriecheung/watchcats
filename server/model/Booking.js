@@ -5,10 +5,12 @@ const bookingSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'Owner',
+    required: true
   },
   sitter: {
     type: Schema.Types.ObjectId,
     ref: 'Sitter',
+    required: true
   },
   location: {
     type: String,
@@ -51,17 +53,14 @@ const bookingSchema = new Schema({
   hasReviewLeftByOwner: {
     type: Boolean,
     default: false,
-    required: true
   },
   hasReviewLeftBySitter: {
     type: Boolean,
     default: false,
-    required: true,
   },
   createdAt: {
     type: Date,
     default: Date.now(),
-    required: false,
   },
 });
 

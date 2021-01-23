@@ -5,20 +5,17 @@ const appointmentOvernightSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'Owner',
-    required: false,
+    required: true,
   },
   startDate: {
     type: Date,
-    required: false,
   },
   endDate: {
     type: Date,
-    required: false,
   },
   createdAt: {
     type: Date,
     default: Date.now(),
-    required: false,
   },
 });
 

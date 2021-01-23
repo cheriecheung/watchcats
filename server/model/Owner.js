@@ -5,6 +5,7 @@ const ownerSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
+    required: true
   },
   urlId: {
     type: String,
@@ -12,14 +13,15 @@ const ownerSchema = new Schema({
   review: {
     type: Schema.Types.ObjectId,
     ref: 'Review',
+    required: false
   },
   booking: {
     type: Schema.Types.ObjectId,
     ref: 'Booking',
+    required: false
   },
   aboutMe: {
     type: String,
-    required: true,
   },
   appointmentOneDay: {
     type: Schema.Types.ObjectId,
@@ -28,20 +30,14 @@ const ownerSchema = new Schema({
   appointmentOvernight: {
     type: Schema.Types.ObjectId,
     ref: 'AppointmentOvernight',
+    required: false
   },
   catsDescription: {
     type: String,
-    required: false,
   },
-  // updatedAt: {
-  //   type: Date,
-  //   default: Date.now(),
-  //   required: false,
-  // },
   createdAt: {
     type: Date,
     default: Date.now(),
-    required: false,
   },
 });
 
