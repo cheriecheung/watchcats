@@ -26,8 +26,6 @@ module.exports = {
 
       const account = await stripe.accounts.create({
         business_profile: {
-          // name: null,
-          // email,
           product_description: 'Pet sitting',
           url: `https://watchcats.nl/profile/catsitter/${urlId}`,
         },
@@ -42,13 +40,15 @@ module.exports = {
         type: 'standard',
       });
 
-      user.stripeAccountId = account.id
+      user.stripeAccountId = account.id;
+      user.isStripeAccountVerified = false;
       await user.save();
 
       const origin = process.env.CLIENT_URL;
       const accountLink = await generateAccountLink(account.id, origin);
       return res.status(200).json({ accountLink });
     } catch (err) {
+      console.log({ err })
       return res.status(500).send({ err });
     }
   },
@@ -58,7 +58,6 @@ module.exports = {
 
     try {
       const { accountID } = req.session;
-      // const origin = `${req.secure ? 'https://' : 'https://'}${req.headers.host}`;
       const origin = `https://${req.headers.host}`;
       const accountLink = await generateAccountLink(accountID, origin);
       return res.redirect(accountLink);
@@ -84,8 +83,10 @@ module.exports = {
 
       const { stripeAccountId } = user;
 
-      const amount = parseInt(price) * 100; // if 48 euros, submit 4800, hence * 100
-      const application_fee_amount = amount * 0.2; //  deducted from above for Watch Cats platform
+      // if 45 euros, submit 4500, hence * 100
+      const amount = parseInt(price) * 100;
+      // deducted from above for Watch Cats platform
+      const application_fee_amount = amount * 0.2;
 
       const intent = await stripe.paymentIntents.create(
         {
@@ -94,9 +95,10 @@ module.exports = {
           currency: 'eur',
           payment_method_types: ['ideal'],
         },
-        { stripeAccount } // for testing: acct_1HYCiyART4JEToPd
+        { stripeAccount: stripeAccountId }
       );
 
+      console.log({})
       const { client_secret } = intent;
 
       return res.status(200).json({ client_secret, stripeAccountId });

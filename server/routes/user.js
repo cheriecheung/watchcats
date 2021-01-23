@@ -9,7 +9,6 @@ router.post('/register', authLimiter, speedLimiter(30), UserController.register)
 
 router.post('/activate-account-email', authLimiter, speedLimiter(30), UserController.getActivationEmail)
 
-// revoke token when forgot password
 router.post('/forgot-password-email', authLimiter, speedLimiter(30), UserController.getPasswordResetEmail);
 
 router.get('/notifications', validateToken, UserController.getNotifications)

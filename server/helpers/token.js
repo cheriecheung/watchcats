@@ -47,8 +47,6 @@ module.exports = {
     const bearerHeader = req.headers['authorization'];
     if (!bearerHeader) return res.status(401).json('Access deined');
 
-    console.log({ secret, type, bearerHeader })
-
     try {
       const bearer = bearerHeader.split(' ');
       const bearerToken = bearer[1].toString();

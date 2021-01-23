@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Cat = require('../model/Cat')
-const Owner = require('../model/Owner')
 const User = require('../model/User');
 
 const crypto = require('crypto');
@@ -52,7 +51,6 @@ module.exports = {
   },
 
   displayImage: async (req, res) => {
-    // console.log({ params: req.params })
     const image = await gfs.files.findOne({ filename: req.params.filename });
     if (!image) return res.status(404).json('ERROR/ERROR_OCCURED');
 
@@ -135,19 +133,6 @@ module.exports = {
       await catRecords[fieldArrayIndex].save();
 
       return res.status(200).json('Cat photos saved in respective cat records');
-
-      // const catRecords = await Owner.aggregate([
-      //   { $match: { urlId: req.params.id } },
-      //   {
-      //     $lookup: {
-      //       from: "cat",
-      //       localField: "cat",
-      //       foreignField: "photo",
-      //       as: 'photo'
-      //     }
-      //   },
-      // ])
-
     } catch (err) {
       console.log({ err })
       return res.status(400).json('ERROR/ERROR_OCCURED');

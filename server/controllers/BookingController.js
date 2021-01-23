@@ -90,11 +90,6 @@ module.exports = {
         return res.status(404).json('ERROR/ERROR_OCCURED');
 
       let newBooking;
-      // const bookingObj = {
-      //   owner: `${firstName} ${lastName.charAt(0)}`,
-      //   type,
-      //   location: postcode,
-      // }
 
       if (type === 'oneDay') {
         const { date, startTime, endTime, price } = req.body;
@@ -109,12 +104,8 @@ module.exports = {
           location: postcode,
           price,
           status: 'requested',
+          isReadBySitter: false
         });
-
-        // bookingObj.date = date;
-        // bookingObj.startTime = startTime;
-        // bookingObj.endTime = endTime;
-        // bookingObj.price = price;
       }
 
       if (type === 'overnight') {
@@ -129,17 +120,12 @@ module.exports = {
           location: postcode,
           price,
           status: 'requested',
+          isReadBySitter: false
         });
-
-        // bookingObj.startDate = startDate;
-        // bookingObj.endDate = endDate;
-        // bookingObj.price = price;
       }
 
       await newBooking.save(async (error, saved) => {
         if (error) return res.status(400).json('ERROR/ERROR_OCCURED');
-
-        console
 
         const { err } = await createAutomatedMessage({
           bookingId: saved.id,
@@ -160,8 +146,6 @@ module.exports = {
         sendTwilioSMS(phone, 'BOOKING_REQUESTED', { name: ownerName })
       }
 
-      // +1 booking notification to sitter's notification document
-
       return res.status(201).json('Booking request successfully created');
     } catch (e) {
       console.log({ e });
@@ -173,7 +157,7 @@ module.exports = {
     const { userId } = req.verifiedData
     if (!userId) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
-    //   // if requested / comfirmed booking is expired, change status to 'declined'
+    // if requested / comfirmed booking is expired, change status to 'declined'
 
     const { type, status } = req.query;
 
@@ -200,8 +184,6 @@ module.exports = {
         isReadField = 'isReadByOwner';
         path = 'sitter';
       }
-
-      //https://stackoverflow.com/questions/42017424/mongodb-return-updated-object-with-populate
 
       await Booking.updateMany(
         filter,
@@ -259,12 +241,17 @@ module.exports = {
 
       const bookingRecord = await Booking.findOneAndUpdate(
         { _id: id },
-        { $set: { status } },
+        {
+          $set: {
+            status,
+            isReadByOwner: false,
+            isReadBySitter: false
+          }
+        },
         { useFindAndModify: false }
       );
       if (!bookingRecord) return res.status(400).json('ERROR/ERROR_OCCURED')
 
-      // const [{ phone, email }, { firstName, lastName }] = await Promise.all([
       const [owner, sitter] = await Promise.all([
         User.findOne({ owner: bookingRecord.owner }),
         User.findOne({ sitter: bookingRecord.sitter })
@@ -305,8 +292,6 @@ module.exports = {
       if (phone && getSmsNotification) {
         sendTwilioSMS(phone, description, { name: sitterName })
       }
-
-      // change notification on web
 
       return res.status(200).json('success')
     } catch (err) {

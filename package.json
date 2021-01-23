@@ -27,6 +27,7 @@
     "@hapi/joi-date": "^2.0.1",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
     "concurrently": "^5.2.0",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.5",
@@ -43,6 +44,7 @@
     "js-sha1": "^0.6.0",
     "jsonwebtoken": "^8.5.1",
     "mailgun-js": "^0.22.0",
+    "mongodb": "^3.6.3",
     "mongoose": "^5.9.20",
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
@@ -56,8 +58,7 @@
     "socket.io": "^2.3.0",
     "speakeasy": "^2.0.0",
     "stripe": "^8.102.0",
-    "twilio": "^3.51.0",
-    "winston": "^3.3.3"
+    "twilio": "^3.51.0"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^18.2.0",

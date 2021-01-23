@@ -82,7 +82,6 @@ module.exports = {
     if (!userId) return res.status(404).json('No user id');
 
     try {
-      // populate
       const user = await User.findById(userId);
       if (!user) return res.status(404).json('no user')
 
