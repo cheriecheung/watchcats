@@ -35,7 +35,7 @@ function Header() {
   return (
     <div style={{ fontFamily: 'Source Sans Pro, sans-serif' }}>
       <NavBar>
-        <NavIcon onClick={triggerToggle}>
+        <NavIcon onClick={triggerToggle} aria-label="toggle">
           <Line />
           <Line />
           <Line />
@@ -47,7 +47,7 @@ function Header() {
 
         <HomeButton to="/" onClick={closeMenu}>
           <AppName toggle={toggle}>Watch Cats</AppName>
-          <AppLogo src={Logo} alt="logo" />
+          <AppLogo src={Logo} alt="logo" width="32" height="30" />
         </HomeButton>
 
         <Desktop

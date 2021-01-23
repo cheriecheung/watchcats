@@ -22,7 +22,11 @@ function Footer() {
     }}>
       {t('footer.made_with')}&nbsp;&#x2764;&nbsp;
       {t('footer.by')}&nbsp;
-      <a href="https://github.com/cheriecheung" target="_blank" style={{ color: themeColor.peach, fontSize: '0.85rem' }}>
+      <a
+        href="https://github.com/cheriecheung" target="_blank"
+        rel="noreferrer"
+        style={{ color: themeColor.peach, fontSize: '0.85rem' }}
+      >
         Cherie Cheung
       </a>&nbsp;
       &#169; 2020

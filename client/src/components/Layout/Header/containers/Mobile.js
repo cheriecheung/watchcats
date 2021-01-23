@@ -27,7 +27,7 @@ function Mobile({
   return (
     <>
       <Overlay open={toggle}>
-        <CloseButton onClick={closeMenu}>
+        <CloseButton onClick={closeMenu} aria-label="close">
           <i className="fas fa-times fa-2x" />
         </CloseButton>
 

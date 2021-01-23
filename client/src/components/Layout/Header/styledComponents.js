@@ -23,7 +23,7 @@ export const NavBar = styled.nav`
 `;
 
 export const AppLogo = styled.img`
-  width: 30px;
+  width: 32px;
   height: 30px;
 `
 

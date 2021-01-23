@@ -54,7 +54,12 @@ function Enable2FA({ t, appError, isLoading }) {
             <FieldLabel>{t('settings.enable_2FA_step1')}</FieldLabel>
             <p>
               {t('settings.enable_2FA_step1_detail1')}
-              <a href={url} target="_blank" style={{ color: themeColor.peach }}>
+              <a
+                href={url}
+                target="_blank"
+                style={{ color: themeColor.peach }}
+                rel="noreferrer"
+              >
                 Google Authenticator
               </a>
               {t('settings.enable_2FA_step1_detail2')}

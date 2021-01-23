@@ -61,7 +61,11 @@ function Home() {
               </FieldContainer>
             }
 
-            <ContainedButton type="input" style={{ height: 40, margin: 0 }}>
+            <ContainedButton
+              type="input"
+              aria-label="search"
+              style={{ height: 40, margin: 0 }}
+            >
               <i className="fas fa-search" />
             </ContainedButton>
           </FormContainer>
