@@ -5,25 +5,24 @@ const https = require('https');
 const fs = require('fs')
 const path = require('path');
 const cors = require('cors');
-const session = require('express-session');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
-const MongoStore = require('connect-mongo')(session);
+const compression = require('compression');
+
 const socketio = require('socket.io');
 const Conversation = require('./model/Conversation')
 const Message = require('./model/Message')
 const User = require('./model/User')
 const { baseRouter } = require('./routes');
 const { verify } = require('jsonwebtoken');
-const { decode } = require('js-base64');
 const { populateChatList } = require('./helpers/chat')
 const { sendNewMessageMail } = require('./helpers/mailer')
 const { sendTwilioSMS } = require('./helpers/sms')
 
-const { DB_CONNECT, SESS_NAME, SESS_SECRET, SESS_LIFETIME, PASSPHRASE, PORT, JWT_ACCESS_TOKEN_SECRET } = process.env;
+const { DB_CONNECT, PORT, JWT_ACCESS_TOKEN_SECRET, CLIENT_URL } = process.env;
 
-const connect = mongoose
+mongoose
   .connect(DB_CONNECT, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -40,38 +39,28 @@ const port = PORT || 5000
 const server = https.createServer(credentials, app).listen(port, () => {
   console.log('SERVER RUNNING AT ' + port);
 });
-const io = socketio(server);
 
 app.use(
   cors({
-    // https://watchcats.nl
-    origin: 'https://localhost:3000',
+    origin: CLIENT_URL,
     credentials: true,
   })
 );
+
+app.use(compression({
+  level: 6,
+  threshold: 100 * 1000,
+  filter: (req, res) => {
+    if (req.header['x-no-compression']) {
+      return false;
+    }
+    return compression.filter(req, res)
+  }
+}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-app.use(
-  session({
-    name: SESS_NAME,
-    resave: true,
-    saveUninitialized: true,
-    secret: SESS_SECRET,
-    store: new MongoStore({
-      mongooseConnection: mongoose.connection,
-      collection: 'session',
-      ttl: (24 * 60 * 60) / 1000,
-    }),
-
-    cookie: {
-      httpOnly: true,
-      secure: true,
-      maxAge: 24 * 60 * 60,
-    },
-  })
-);
 
 app.use('/', baseRouter);
 
@@ -86,6 +75,8 @@ app.get('/test-api', (req, res) => {
 app.get('/test-again', (req, res) => {
   return res.status(200).send('your api is working again!!!!!!!!!!!');
 });
+
+const io = socketio(server);
 
 io.use((socket, next) => {
   const query = socket.handshake.query
@@ -197,75 +188,3 @@ io.on("connection", socket => {
     }
   })
 })
-
-//  =============================
-//  =============================
-
-// const mongoose = require('mongoose');
-// const express = require('express');
-// const app = express();
-// const cors = require('cors');
-// const cookie = require('cookie');
-// const cookieParser = require('cookie-parser');
-// const session = require('express-session');
-// const MongoStore = require('connect-mongo')(session);
-// const bodyParser = require('body-parser');
-// require('dotenv').config();
-// const https = require('https');
-// const fs = require('fs');
-// const User = require('./model/User');
-// const Conversation = require('./model/Conversation');
-// const Message = require('./model/Message');
-// const { baseRouter } = require('./routes');
-// const socketio = require('socket.io');
-
-// const { DB_CONNECT, SESS_NAME, SESS_SECRET, SESS_LIFETIME, PASSPHRASE } = process.env;
-
-// mongoose
-//   .connect(DB_CONNECT, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     useCreateIndex: true,
-//   })
-//   .then(() => console.log('connected to db yay'))
-//   .catch((err) => console.log(err.message));
-
-// app.use(
-//   cors({
-//     origin: 'https://localhost:3000',
-//     credentials: true,
-//   })
-// );
-
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
-// // app.use(cookieParser('secretcode'));
-// app.use(cookieParser());
-
-// app.use(
-//   session({
-//     name: SESS_NAME,
-//     resave: true,
-//     saveUninitialized: true,
-//     secret: SESS_SECRET,
-//     store: new MongoStore({
-//       mongooseConnection: mongoose.connection,
-//       collection: 'session',
-//       ttl: (24 * 60 * 60) / 1000,
-//     }),
-
-//     cookie: {
-//       httpOnly: true,
-//       secure: true,
-//       maxAge: 24 * 60 * 60,
-//     },
-//   })
-// );
-
-// // app.use((req, res, next) => {
-// //   res.header("Access-Control-Allow-Headers","*");
-// // res.header('Access-Control-Allow-Credentials', true);
-// //   res.header('Access-Control-Allow-Origin', 'YOUR-DOMAIN.TLD'); // update to match the domain you will make the request from
-// //   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-// //   next();
-// // });
