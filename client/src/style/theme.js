@@ -4,7 +4,8 @@ export const themeColor = {
   // grey: '#a8a5a5',
   green: '#00C68E',
   lightGrey: '#ECECEC',
-  grey: '#7F7F7F',
+  // grey: '#7F7F7F',
+  grey: '#6d6c6c',
   darkGrey: '#4C4C4C'
 };
 

@@ -34,6 +34,7 @@ function FindCatSitter() {
       <Search
         t={t}
         searchProps={searchProps}
+        screenWidth={screenWidth}
       />
 
       <Container>

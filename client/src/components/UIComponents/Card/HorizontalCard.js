@@ -23,6 +23,19 @@ const defaultCard = ({ variant }) => {
   return css``;
 };
 
+const searchBar = ({ variant }) => {
+  if (variant !== 'searchBar') return css``
+
+  return `
+    padding: 25px;
+    width: unset;
+    
+    @media (max-width: 915px) {
+      padding-bottom: 15px;
+    }
+  `
+}
+
 const findCatSitter = ({ variant }) => {
   if (variant !== 'findCatSitter') return css``
 
@@ -96,6 +109,7 @@ const HorizontalCard = styled.div`
   ${defaultStyle}
 
   ${defaultCard}
+  ${searchBar}
   ${findCatSitter}
   ${bookings}
   ${chat}

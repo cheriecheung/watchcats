@@ -13,15 +13,15 @@ export const MainContainer = styled.div`
   }
   
   @media (max-width: 1090px) {
-    padding: 40px 50px 50px 50px;
+    padding: 30px 50px 50px 50px;
   }
 
   @media (max-width: 890px) {
-    padding: 40px 50px 50px 50px;
+    padding: 30px 50px 50px 50px;
   }
 
   @media (max-width: 500px) {
-    padding: 40px 4vw 50px 4vw;
+    padding: 30px 4vw 50px 4vw;
   }
 `
 
@@ -63,14 +63,14 @@ export const FieldContainer = styled.div`
   padding: 0 15px;
   align-self: center;
 
-  @media (max-width: 770px) {
+  @media (max-width: 915px) {
     flex: 100%;
     margin-bottom: 20px;
     padding: 0;
   }
 
   :last-child{
-    @media (max-width: 770px) {
+    @media (max-width: 915px) {
       margin: -5px 0 -10px 0;
     }
   }

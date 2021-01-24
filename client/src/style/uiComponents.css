@@ -188,6 +188,32 @@ ant-tabs-tab-remove:active {
   color: var(--theme-color-grey) !important;
 }
 
+/* ------------------- find cat sitter page: search section collapse element -------------------*/
+.ant-collapse-item.ant-collapse-no-arrow {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.ant-collapse-content.ant-collapse-content-active {
+  overflow: visible;
+}
+
+.ant-collapse {
+  width: 100%;
+}
+
+.ant-collapse-content-box{
+  padding: 0 !important;
+}
+
+.ant-collapse-header {
+  padding: 0 !important;
+  align-self: flex-end;
+  line-height: 1 !important;
+  margin-top: -10px !important;
+  color: #6d6c6c !important;
+}
+
 /* ------------------- google map Info Window close button ------------------- */
 .gm-style .gm-style-iw-c {
   overflow: visible !important;

@@ -1,11 +1,36 @@
 import React from 'react';
-import { PlaceAutocomplete } from '../../../components/Google'
-import { HorizontalCard, TextButton } from '../../../components/UIComponents'
+import { PlaceAutocomplete } from '../../../components/Google';
+import { HorizontalCard, TextButton } from '../../../components/UIComponents';
 import AppointmentPeriod from './AppointmentPeriod';
 import Sorting from './Sorting';
-import { FieldContainer } from '../styledComponents'
+import { FieldContainer } from '../styledComponents';
+import { Collapse } from "antd";
+const { Panel } = Collapse;
 
-function Search({ t, searchProps }) {
+function CollapsibleSection({ t, resetSearch }) {
+  return (
+    <>
+      <FieldContainer flex="30%">
+        <AppointmentPeriod />
+      </FieldContainer>
+
+      <FieldContainer flex="10%">
+        <Sorting />
+      </FieldContainer>
+
+      <FieldContainer>
+        <TextButton
+          type="button"
+          onClick={resetSearch}
+        >
+          {t('find_sitter.reset')}
+        </TextButton>
+      </FieldContainer>
+    </>
+  )
+}
+
+function Search({ t, searchProps, screenWidth }) {
   const {
     FormProvider,
     methods,
@@ -18,13 +43,10 @@ function Search({ t, searchProps }) {
   const { reset } = methods;
 
   return (
-    <HorizontalCard style={{ width: 'unset' }}>
+    <HorizontalCard variant="searchBar">
       <FormProvider {...methods}>
         <form>
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap'
-          }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
             <FieldContainer flex="10%">
               <PlaceAutocomplete
                 name="googlePlaceAddress"
@@ -35,22 +57,15 @@ function Search({ t, searchProps }) {
               />
             </FieldContainer>
 
-            <FieldContainer flex="30%">
-              <AppointmentPeriod />
-            </FieldContainer>
-
-            <FieldContainer flex="10%">
-              <Sorting />
-            </FieldContainer>
-
-            <FieldContainer>
-              <TextButton
-                type="button"
-                onClick={resetSearch}
-              >
-                {t('find_sitter.reset')}
-              </TextButton>
-            </FieldContainer>
+            {screenWidth >= 915 ?
+              <CollapsibleSection t={t} resetSearch={resetSearch} />
+              :
+              <Collapse defaultActiveKey={[]} ghost>
+                <Panel key="1" showArrow={false} header="More">
+                  <CollapsibleSection t={t} resetSearch={resetSearch} />
+                </Panel>
+              </Collapse>
+            }
           </div>
         </form>
       </FormProvider>
