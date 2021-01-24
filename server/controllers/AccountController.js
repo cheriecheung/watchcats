@@ -1,3 +1,4 @@
+const axios = require('axios');
 const User = require('../model/User');
 const { changePasswordValidation, phoneNumberValidation, personalDataValidation } = require('../helpers/validation')
 const { sendTwilioSMS } = require('../helpers/sms')
@@ -86,6 +87,7 @@ module.exports = {
         getSmsNotification,
         password,
         stripeAccountId,
+        isStripeAccountVerified,
         twoFactorSecret,
       } = user;
 
@@ -93,7 +95,36 @@ module.exports = {
 
       const isTwoFactorEnabled = twoFactorSecret ? true : false;
       const isGoogleLogin = !password && !isVerified ? true : false;
-      const hasSetUpStripAccount = stripeAccountId && stripeAccountId.includes('acct_') ? true : false;
+
+      let hasSetUpStripAccount = false;
+
+      if (stripeAccountId && isStripeAccountVerified) {
+        hasSetUpStripAccount = true;
+      }
+
+      if (stripeAccountId && !isStripeAccountVerified) {
+        const { data } = await axios.get(
+          `https://api.stripe.com/v1/accounts/${stripeAccountId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`,
+            },
+          }
+        );
+
+        if (data.details_submitted) {
+          user.isStripeAccountVerified = true;
+          await user.save();
+          hasSetUpStripAccount = true;
+        } else {
+          await user.updateOne({
+            $unset: {
+              stripeAccountId: '',
+              isStripeAccountVerified: ''
+            }
+          });
+        }
+      }
 
       return res.status(200).json({
         email,
@@ -136,8 +167,6 @@ module.exports = {
       }
 
       await user.save();
-
-      console.log({ contactType, user })
 
       return res.status(200).json({
         getEmailNotification: user.getEmailNotification,
