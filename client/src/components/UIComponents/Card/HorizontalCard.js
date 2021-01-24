@@ -27,6 +27,7 @@ const searchBar = ({ variant }) => {
   if (variant !== 'searchBar') return css``
 
   return `
+    margin-bottom: 15px;
     padding: 25px;
     width: unset;
     

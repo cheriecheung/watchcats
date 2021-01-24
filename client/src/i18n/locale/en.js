@@ -151,6 +151,8 @@ export default {
     total_repeated_customers: 'Repeated customers',
     hourly_rate: 'Hourly rate',
     nightly_rate: 'Nightly rate',
+
+    view_profile: 'View profile'
   },
 
   profile_summary: {

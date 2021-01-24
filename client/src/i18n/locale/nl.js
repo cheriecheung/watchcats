@@ -149,6 +149,8 @@ export default {
     total_repeated_customers: 'Terugkerende klanten',
     hourly_rate: 'Uurtarief',
     nightly_rate: 'Nachttarief',
+
+    view_profile: 'Bekijk profiel'
   },
 
   profile_summary: {

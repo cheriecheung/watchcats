@@ -19,12 +19,12 @@ function Result({
 }) {
   const { from, to } = pagination
 
-  // console.log({ totalResults, paginatedResults })
+  console.log({ totalResults, paginatedResults })
 
   return (
     <>
       {totalResults > 0 && paginatedResults.length > 0 ?
-        <p style={{ textAlign: 'left', marginBottom: 20 }}>
+        <p style={{ textAlign: 'left', marginBottom: 10 }}>
           {t('find_sitter.showing', { from, to, totalResults })}
         </p>
         : []
