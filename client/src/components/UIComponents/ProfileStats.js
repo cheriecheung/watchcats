@@ -50,7 +50,7 @@ function ProfileStats({
             <div style={{ color: '#00C68E', marginRight: 10 }}>
               <i className="far fa-calendar-alt mr-2" />
               <span>
-                {totalCompletedBookings} {t('find_sitter.completed_bookings')}
+                {totalCompletedBookings} {t('find_sitter.total_completed_bookings')}
               </span>
             </div>
           }
@@ -59,7 +59,7 @@ function ProfileStats({
             <div style={{ color: '#00C68E' }}>
               <i className="fas fa-redo-alt mr-2" />
               <span>
-                {totalRepeatedCustomers} {type === 'sitter' ? t('find_sitter.repeated_customers') : 'sitters\' repeated customer '}
+                {totalRepeatedCustomers} {type === 'sitter' ? t('find_sitter.total_repeated_customers') : 'sitters\' repeated customer '}
               </span>
             </div>
           }
@@ -69,14 +69,14 @@ function ProfileStats({
           <div style={{ color: '#00C68E', marginRight: 10, visibility: totalCompletedBookings > 0 ? 'visible' : 'hidden' }}>
             <i className="far fa-calendar-alt mr-2" />
             <span>
-              {totalCompletedBookings} {t('find_sitter.completed_bookings')}
+              {totalCompletedBookings} {t('find_sitter.total_completed_bookings')}
             </span>
           </div>
 
           <div style={{ color: '#00C68E', visibility: totalRepeatedCustomers > 0 ? 'visible' : 'hidden', fontSize: 10 }}>
             <i className="fas fa-redo-alt mr-2" />
             <span>
-              {totalRepeatedCustomers} {type === 'sitter' ? t('find_sitter.repeated_customers') : 'sitters\' repeated customer '}
+              {totalRepeatedCustomers} {type === 'sitter' ? t('find_sitter.total_repeated_customers') : 'sitters\' repeated customer '}
             </span>
           </div>
         </>

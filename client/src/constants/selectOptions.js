@@ -27,8 +27,8 @@ export const catPersonalityOptions = [
 
 export const sortingTypeOptions = [
   { value: 'find_sitter.total_reviews', label: 'find_sitter.total_reviews' },
-  { value: 'find_sitter.completed_bookings', label: 'find_sitter.completed_bookings' },
-  { value: 'find_sitter.repeated_customers', label: 'find_sitter.repeated_customers' },
+  { value: 'find_sitter.total_completed_bookings', label: 'find_sitter.total_completed_bookings' },
+  { value: 'find_sitter.total_repeated_customers', label: 'find_sitter.total_repeated_customers' },
   { value: 'find_sitter.hourly_rate', label: 'find_sitter.hourly_rate' },
   { value: 'find_sitter.nightly_rate', label: 'find_sitter.nightly_rate' },
 ]

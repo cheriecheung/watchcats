@@ -7,9 +7,10 @@ import { getSittersInBounds, setInitialState } from '../../redux/find_cat_sitter
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { find_cat_sitter_default_values as defaultValues } from './_formConfig/_defaultValues';
-import { find_cat_sitter_schema } from './_formConfig/_validationSchema'
+import { find_cat_sitter_schema } from './_formConfig/_validationSchema';
 
 import moment from 'moment';
+import { capitalize } from '../../utility';
 
 const defaultMapCenter = { lat: 52.379189, lng: 4.899431 }
 const pageSize = 10;
@@ -71,15 +72,33 @@ function useFindCatSitter() {
     }
   }, [googlePlaceAddress, startDate, endDate])
 
+  function getSortByName() {
+    const sortByName = sortByValue.split(".")[1]
+    const nameParts = sortByName.split('_');
+
+    let sort;
+    if (nameParts.length === 2) {
+      sort = `${nameParts[0]}${capitalize(nameParts[1])}`
+    }
+
+    if (nameParts.length === 3) {
+      sort = `${nameParts[0]}${capitalize(nameParts[1])}${capitalize(nameParts[2])}`
+    }
+    console.log({ sort })
+    return { sort }
+  }
+
   useEffect(() => {
     handleSubmit(() => {
       // errors appears even when endDate is before startDate
       if (startDateValue && endDateValue && Object.keys(errors).length === 0) {
         console.log({ errors })
+        const { sort } = getSortByName();
+
         const queryParams = {
           ...bounds,
           page: 1,
-          sort: sortByValue,
+          sort,
           startDate: startDateValue,
           endDate: endDateValue
         }
@@ -100,7 +119,10 @@ function useFindCatSitter() {
       setCurrentPage(1)
       dispatch(setInitialState())
       setLoading(true)
-      dispatch(getSittersInBounds({ ...bounds, page: 1, sort: sortByValue }))
+
+      const { sort } = getSortByName();
+
+      dispatch(getSittersInBounds({ ...bounds, page: 1, sort }))
 
       // reset({
       //   ...defaultValues,
@@ -114,11 +136,13 @@ function useFindCatSitter() {
     setLoading(true);
     setBounds({ ...bounds })
 
+    const { sort } = getSortByName();
+
     // sortByValue remains default value even when changed to another
     const queryParams = {
       ...bounds,
       page: 1,
-      sort: sortByValue,
+      sort,
     }
 
     if (startDateValue && endDateValue) {
@@ -132,7 +156,10 @@ function useFindCatSitter() {
 
   function onChangePage(current) {
     dispatch(setInitialState())
-    dispatch(getSittersInBounds({ ...bounds, page: current, sort: sortByValue }))
+
+    const { sort } = getSortByName();
+    dispatch(getSittersInBounds({ ...bounds, page: current, sort }))
+
     setCurrentPage(current)
     setLoading(true)
     // setResults([])
@@ -140,10 +167,6 @@ function useFindCatSitter() {
 
   function resetZoom() {
     setZoom(12)
-  }
-
-  function onZoom() {
-    setZoom(13)
   }
 
   function resetSearch() {

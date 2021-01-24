@@ -71,8 +71,8 @@ export default {
   },
 
   footer: {
-    made_with_love: 'Met liefde',
-    by: 'door',
+    made_with: 'Met',
+    by: 'gemaakt door',
   },
 
   home: {
@@ -145,8 +145,8 @@ export default {
     completed_booking: 'Voltooide afspraak',
     repeated_customer: 'Repeated customer',
     total_reviews: 'Aantal recensies',
-    completed_bookings: 'Voltooide afspraken',
-    repeated_customers: 'Terugkerende klanten',
+    total_completed_bookings: 'Voltooide afspraken',
+    total_repeated_customers: 'Terugkerende klanten',
     hourly_rate: 'Uurtarief',
     nightly_rate: 'Nachttarief',
   },
