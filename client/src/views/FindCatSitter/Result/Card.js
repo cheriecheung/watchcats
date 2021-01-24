@@ -17,13 +17,13 @@ function Card({ screenWidth, item, setHoveredResultId }) {
     firstName,
     lastName,
     profilePicture,
-    hourlyRate,
-    nightlyRate,
     totalReviews,
     totalCompletedBookings,
     totalRepeatedCustomers,
-    aboutSitter,
-  } = item;
+    sitter,
+  } = item || {};
+
+  const { aboutSitter = '', hourlyRate, nightlyRate } = sitter || {}
 
   const profilePicURL = profilePicture ? `${process.env.REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
 
@@ -35,6 +35,7 @@ function Card({ screenWidth, item, setHoveredResultId }) {
         <div style={{ width: '85%', height: '50px', overflow: 'hidden' }}>
           {aboutSitter.slice(0, wordCount).trim().replace(/("[^"]+"|\w+)$/, "...")}
         </div>
+
 
         <LinkButton to={`/profile/catsitter/${urlId}`}
           style={{

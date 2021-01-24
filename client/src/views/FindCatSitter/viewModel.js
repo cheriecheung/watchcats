@@ -90,9 +90,7 @@ function useFindCatSitter() {
 
   useEffect(() => {
     handleSubmit(() => {
-      // errors appears even when endDate is before startDate
       if (startDateValue && endDateValue && Object.keys(errors).length === 0) {
-        console.log({ errors })
         const { sort } = getSortByName();
 
         const queryParams = {

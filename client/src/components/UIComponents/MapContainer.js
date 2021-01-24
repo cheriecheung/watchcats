@@ -18,6 +18,11 @@ const findCatSitter = ({ variant }) => {
     position: sticky;
     margin-top: 30px;
 
+    @media (max-width: 990px) {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
     @media (max-width: 770px) {
       height: 65vh;
     }

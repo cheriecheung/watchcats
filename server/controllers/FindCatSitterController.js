@@ -1,44 +1,36 @@
-const Sitter = require('../model/Sitter');
+const moment = require('moment');
+const UnavailableDate = require('../model/UnavailableDate');
 const User = require('../model/User');
-const { getProfileStats } = require('../helpers/profile')
+const { getProfileStats } = require('../helpers/profile');
 
-async function getInfo(records) {
+async function getCompleteInfo(records, startDate, endDate) {
+  const isValidStartDate = moment(startDate, "YYYY-MM-DD", true).isValid();
+  const isValidEndDate = moment(endDate, "YYYY-MM-DD", true).isValid();
+
   return await Promise.all(
-    records.map(async (user) => {
-      const {
-        urlId,
-        coordinates,
-        firstName, lastName,
-        profilePicture,
-        sitter: sitterObjId
-      } = user;
+    records.map(async ({ _doc: user }) => {
+      const { sitter } = user;
+      const { _id: sitterObjId } = sitter;
 
-      const [stats, sitter] = await Promise.all([
-        getProfileStats('sitter', sitterObjId),
-        Sitter.findById(sitterObjId)
-      ])
+      if (isValidStartDate && isValidEndDate) {
+        const startDateObj = new Date(startDate);
+        const endDateObj = new Date(endDate);
 
-      const {
-        totalReviews,
-        totalCompletedBookings,
-        totalRepeatedCustomers
-      } = stats
+        const unavailableDates = await UnavailableDate.find({ sitter: sitterObjId });
 
-      const { aboutSitter, hourlyRate, nightlyRate } = sitter;
+        if (unavailableDates && unavailableDates.length > 0) {
+          const hasUnavailableDates = unavailableDates.filter(({ date }) => startDateObj <= date && endDateObj >= date);
+          if (hasUnavailableDates.length > 0) return;
+        }
+      }
 
-      return {
-        urlId,
-        coordinates,
-        firstName,
-        lastName,
-        profilePicture,
-        aboutSitter,
-        hourlyRate,
-        nightlyRate,
-        totalReviews,
-        totalCompletedBookings,
-        totalRepeatedCustomers,
-      };
+      const stats = await getProfileStats('sitter', sitterObjId)
+
+      user.totalReviews = stats.totalReviews;
+      user.totalCompletedBookings = stats.totalCompletedBookings;
+      user.totalRepeatedCustomers = stats.totalRepeatedCustomers;
+
+      return user;
     })
   );
 }
@@ -63,25 +55,30 @@ module.exports = {
       const swLat = parseFloat(req.query.swLat);
       const swLng = parseFloat(req.query.swLng);
 
-      console.log({ neLat, neLng, swLat, swLng, page, sortType, startDate, endDate })
-
-      const inBounds = await User.find({
-        firstName: { $exists: true },
-        lastName: { $exists: true },
-        sitter: { $exists: true },
-        coordinates: {
-          $geoWithin: {
-            $box: [
-              [swLng, swLat],
-              [neLng, neLat]
-            ]
+      const inBounds = await User
+        .find({
+          firstName: { $exists: true },
+          lastName: { $exists: true },
+          sitter: { $exists: true },
+          urlId: { $exists: true },
+          coordinates: {
+            $geoWithin: {
+              $box: [
+                [swLng, swLat],
+                [neLng, neLat]
+              ]
+            }
           }
-        }
-      })
+        })
+        .select(['firstName', 'lastName', 'coordinates', 'profilePicture', 'urlId', 'sitter'])
+        .populate({
+          path: 'sitter',
+          select: ['aboutSitter', 'hourlyRate', 'nightlyRate']
+        })
 
       const totalResults = inBounds.length
 
-      const cleaned = await getInfo(inBounds)
+      const cleaned = await getCompleteInfo(inBounds, startDate, endDate);
       let sorted = []
 
       // totalReviews / totalCompletedBookings / totalRepeatedCustomers
@@ -102,53 +99,5 @@ module.exports = {
       console.log({ err });
       return res.status(404).json('ERROR/ERROR_OCCURED');
     }
-  },
-
-  // filterByDate: async (req, res) => {
-  //   const {
-  //     currentPage = 2,
-  //     nPerPage = 2,
-  //     startDate = '2020-10-10',
-  //     endDate = '2020-10-15',
-  //   } = req.body;
-
-  //   const startDateObj = new Date(startDate);
-  //   const endDateObj = new Date(endDate);
-
-  //   try {
-  //     const recordsInPage = await Sitter.find()
-  //       .skip(currentPage > 0 ? (currentPage - 1) * nPerPage : 0)
-  //       .limit(nPerPage);
-
-  //     const recordsAvailable = await Promise.all(
-  //       recordsInPage.map(async ({ id, ...rest }) => {
-  //         const sitterObjId = ObjectId(id);
-  //         const { _doc } = rest;
-
-  //         const unavailability = await UnavailableDate.find({ sitter: sitterObjId });
-
-  //         const arr = unavailability.map(({ date }) => {
-  //           if (startDateObj <= date && endDateObj >= date) {
-  //             return 'unavailable';
-  //           } else {
-  //             return 'available';
-  //           }
-  //         });
-
-  //         if (arr.includes('unavailable')) {
-  //           return;
-  //         } else {
-  //           return _doc;
-  //         }
-  //       })
-  //     );
-
-  //     const filteredRecords = recordsAvailable.filter((item) => !!item);
-
-  //     return res.status(200).json(filteredRecords);
-  //   } catch (err) {
-  //     console.log({ err });
-  //     return res.status(404).json('No records found');
-  //   }
-  // },
+  }
 };

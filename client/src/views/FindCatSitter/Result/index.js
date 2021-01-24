@@ -19,7 +19,7 @@ function Result({
 }) {
   const { from, to } = pagination
 
-  console.log({ totalResults, paginatedResults })
+  // console.log({ totalResults, paginatedResults })
 
   return (
     <>
