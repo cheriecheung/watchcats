@@ -9,7 +9,7 @@ export default function Maps({
     setZoom,
     center,
     results,
-    hoveredResult,
+    hoveredResultId,
     onGetSitters
 }) {
     const [infoWindow, setInfoWindow] = useState();
@@ -17,19 +17,19 @@ export default function Maps({
     const [markersArray, setMarkersArray] = useState([]);
 
     useEffect(() => {
-        hoveredResult && markersArray.forEach((marker) => {
-            console.log({ marker, hoveredResult })
-            if (marker.id === hoveredResult.urlId) {
+        hoveredResultId && markersArray.forEach((marker) => {
+            if (marker.id === hoveredResultId) {
                 marker.setAnimation(window.google.maps.Animation.BOUNCE);
             } else {
                 marker.setAnimation(null);
             }
         })
-    }, [hoveredResult])
+    }, [hoveredResultId])
 
     const createInfoWindow = () => {
         const infoWindowInstance = new window.google.maps.InfoWindow({
-            content: '<div id="infoWindow" />'
+            content: '<div id="infoWindow" />',
+            disableAutoPan: true
         });
         setInfoWindow(infoWindowInstance)
     }
@@ -57,7 +57,10 @@ export default function Maps({
 
             setZoom && marker.addListener("click", () => {
                 infoWindow.addListener("domready", () => {
-                    render(<InfoWindow />, document.getElementById("infoWindow"));
+                    render(
+                        <InfoWindow item={item} />,
+                        document.getElementById("infoWindow")
+                    );
                 });
                 infoWindow.open(map, marker);
             });
@@ -138,13 +141,13 @@ Maps.propTypes = {
     setZoom: PropTypes.func,
     center: PropTypes.object.isRequired,
     results: PropTypes.array.isRequired,
-    hoveredResult: PropTypes.string,
+    hoveredResultId: PropTypes.string,
     onGetSitters: PropTypes.func,
 };
 
 Maps.defaultProps = {
     setZoom: undefined,
-    hoveredResult: undefined,
+    hoveredResultId: undefined,
     onGetSitters: undefined
 };
 

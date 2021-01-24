@@ -197,6 +197,15 @@ ant-tabs-tab-remove:active {
   /* background: #4e766b !important; */
   opacity: 1;
   border-radius: 50%;
+  background: #FDEFEA !important;
   top: -10px !important;
   right: -10px !important;
+  width: 26px !important;
+  height: 26px !important;
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+.gm-ui-hover-effect img {
+  margin: 0 6px !important;
+  padding: 0 !important;
 }

@@ -14,7 +14,7 @@ function Result({
   loading,
   onChangePage,
   currentPage,
-  setHoveredResult,
+  setHoveredResultId,
   screenWidth,
 }) {
   const { from, to } = pagination
@@ -61,7 +61,7 @@ function Result({
           renderItem={(item) =>
             <Card
               item={item}
-              setHoveredResult={setHoveredResult}
+              setHoveredResultId={setHoveredResultId}
               screenWidth={screenWidth}
             />
           }

@@ -23,8 +23,8 @@ function FindCatSitter() {
     zoom,
     setZoom,
     center,
-    hoveredResult,
-    setHoveredResult,
+    hoveredResultId,
+    setHoveredResultId,
     searchProps,
     onGetSitters
   } = useFindCatSitter();
@@ -46,7 +46,7 @@ function FindCatSitter() {
             loading={loading}
             onChangePage={onChangePage}
             currentPage={currentPage}
-            setHoveredResult={setHoveredResult}
+            setHoveredResultId={setHoveredResultId}
             screenWidth={screenWidth}
           />
         </ResultContainer>
@@ -59,7 +59,7 @@ function FindCatSitter() {
             center={center}
             results={paginatedResults}
             loading={loading}
-            hoveredResult={hoveredResult}
+            hoveredResultId={hoveredResultId}
             onGetSitters={onGetSitters}
           />
         </div>
