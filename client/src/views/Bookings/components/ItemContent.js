@@ -1,8 +1,12 @@
 import React from 'react';
-import { DateDisplay, Image, ImageContainer } from '../../../components/UIComponents'
-import { Field, FieldLabel, FieldItem } from '../styledComponents'
-import { formatDate, formatTime } from '../../../utility'
-import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
+import {
+  DateDisplay,
+  Image,
+  ImageContainer,
+  TimeDisplay
+} from '../../../components/UIComponents';
+import { Field, FieldLabel, FieldItem } from '../styledComponents';
+import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg';
 
 function ItemContent({ t, data, bookingType, imageContainerVariant }) {
   const {
@@ -24,10 +28,6 @@ function ItemContent({ t, data, bookingType, imageContainerVariant }) {
 
   const imgUrl = profilePicture ? `${process.env.REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
 
-  const dateSplit = formatDate(date, 'DD MMM YYYY').split(" ")
-  const startDateSplit = formatDate(startDate, 'DD MMM YYYY').split(" ")
-  const endDateSplit = formatDate(endDate, 'DD MMM YYYY').split(" ")
-
   return (
     <div style={{ display: 'flex', marginTop: 15, marginBottom: 15 }}>
       <ImageContainer variant={imageContainerVariant}>
@@ -39,16 +39,14 @@ function ItemContent({ t, data, bookingType, imageContainerVariant }) {
           <FieldLabel>{t('bookings.time')}</FieldLabel>
           {data && appointmentType === 'oneDay' ? (
             <FieldItem>
-              <DateDisplay splitString={dateSplit} />
-
-              {/* {formatDate(date, 'DD MMM YYYY')}, {formatTime(startTime)} -
-              {formatTime(endTime)} */}
+              <DateDisplay date={date} />
+              <TimeDisplay startTime={startTime} endTime={endTime} />
             </FieldItem>
           ) : (
               <FieldItem>
-                <DateDisplay splitString={startDateSplit} />
+                <DateDisplay date={startDate} />
                 <div style={{ width: 10, height: 4, background: 'grey', margin: '0 10px', alignSelf: 'center' }} />
-                <DateDisplay splitString={endDateSplit} />
+                <DateDisplay date={endDate} />
               </FieldItem>
             )}
         </Field>

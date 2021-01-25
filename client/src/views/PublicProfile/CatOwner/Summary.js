@@ -4,9 +4,9 @@ import {
   Image,
   ImageContainer,
   ProfileStats,
+  TimeDisplay,
   VerticalCard
 } from '../../../components/UIComponents'
-import moment from 'moment';
 import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
 const { REACT_APP_API_DOMAIN } = process.env;
@@ -72,20 +72,13 @@ function AppointmentTime({ t, oneDay, overnight }) {
           <br />
           <h6>{t('owner_profile.one_day_appointment')}: </h6>
 
-          {oneDay.map(({ id, date, endTime, startTime }) => {
-            const dateConverted = moment(date).format('DD MMM YYYY');
-            const startTimeObj = moment(startTime).format('HH:mm');
-            const endTimeObj = moment(endTime).format('HH:mm');
-
-            const dateSplit = dateConverted.split(" ");
-
-            return (
-              <span style={{ display: 'flex' }} key={id}>
-                <DateDisplay splitString={dateSplit} />
-                {startTimeObj} - {endTimeObj}
-              </span>
-            );
-          })}
+          {oneDay.map(({ id, date, endTime, startTime }) => (
+            <span style={{ display: 'flex' }} key={id}>
+              <DateDisplay date={date} />
+              <TimeDisplay startTime={startTime} endTime={endTime} />
+            </span>
+          )
+          )}
         </>
       )}
 
@@ -94,23 +87,15 @@ function AppointmentTime({ t, oneDay, overnight }) {
           <br />
           <h6>{t('owner_profile.overnight_appointment')}: </h6>
 
-          {overnight.map(({ id, startDate, endDate }) => {
-            const startDateConverted = moment(startDate, 'YYYY-MM-DD').format('DD MMM YYYY');
-            const endDateConverted = moment(endDate, 'YYYY-MM-DD').format('DD MMM YYYY');
+          {overnight.map(({ id, startDate, endDate }) => (
+            <div style={{ display: 'flex' }}>
+              <DateDisplay date={startDate} />
 
-            const startDateSplit = startDateConverted.split(" ");
-            const endDateSplit = endDateConverted.split(" ");
+              <div style={{ width: 10, height: 4, background: 'grey', margin: '0 10px', alignSelf: 'center' }} />
 
-            return (
-              <div style={{ display: 'flex' }}>
-                <DateDisplay splitString={startDateSplit} />
-
-                <div style={{ width: 10, height: 4, background: 'grey', margin: '0 10px', alignSelf: 'center' }} />
-
-                <DateDisplay splitString={endDateSplit} />
-              </div>
-            );
-          })}
+              <DateDisplay date={endDate} />
+            </div>
+          ))}
         </>
       )}
     </>

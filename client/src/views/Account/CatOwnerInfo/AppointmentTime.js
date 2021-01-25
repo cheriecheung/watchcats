@@ -82,7 +82,7 @@ function AppointmentTime({ t, bookingOneDayProps, bookingOvernightProps }) {
         {t('owner_form.maximum_one_day')}
       </span>
 
-      <h6 style={{ marginTop: 40 }}> {t('owner_form.overnight', { index: null })}</h6>
+      <h6 style={{ marginTop: 25 }}> {t('owner_form.overnight', { index: null })}</h6>
 
       {overnightFields.map((item, index) => {
         return (

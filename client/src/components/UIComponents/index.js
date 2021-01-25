@@ -29,6 +29,7 @@ import ModalSuccessDisplay from './Modal/ModalSuccessDisplay'
 
 import DateDisplay from './NumberDisplay/DateDisplay'
 import PriceDisplay from './NumberDisplay/PriceDisplay'
+import TimeDisplay from './NumberDisplay/TimeDisplay'
 
 import NotFound from './ResponseDisplay/NotFound'
 import ResponseDisplayTemplate from './ResponseDisplay/ResponseDisplayTemplate'
@@ -80,6 +81,7 @@ export {
 
   DateDisplay,
   PriceDisplay,
+  TimeDisplay,
 
   NotFound,
   ResponseDisplayTemplate,
