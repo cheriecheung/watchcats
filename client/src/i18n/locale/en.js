@@ -429,6 +429,7 @@ export default {
 
   pay: {
     title: 'Pay',
+    description: 'Below is the appointment you\'ll be paying for:',
   },
 
   review: {

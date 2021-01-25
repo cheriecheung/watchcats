@@ -266,7 +266,7 @@ export default {
     address: 'Adres',
     address_tooltip: 'Uw adres worden met niemand gedeeld',
     postcode: 'Postcode',
-    postcode_tooltip: "Only Dutch postcodes are accepted (four digits followed by two uppercase letters, i.e. 1234AB). Uw locatie zal verschijnen op de map van de 'Zoek een kattenoppas' pagina wanneer u uw kattenoppas profiel hebt uitgewerkt",
+    postcode_tooltip: "Only Dutch postcodes are accepted (bestaat uit vier cijfers, een spatie en twee letters, i.e. 1234AB). Uw locatie zal verschijnen op de map van de 'Zoek een kattenoppas' pagina wanneer u uw kattenoppas profiel hebt uitgewerkt",
     social_media: 'Sociale media',
     optional: 'Optioneel',
     facebook: 'Facebook profiel',
@@ -417,6 +417,7 @@ export default {
 
   pay: {
     title: 'Betalen',
+    description: 'Zie hieronder de afspraak waarvoor je zal betalen:',
   },
 
   review: {
