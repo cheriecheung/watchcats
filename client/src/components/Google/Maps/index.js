@@ -10,7 +10,7 @@ export default function Maps({
     center,
     results,
     hoveredResultId,
-    onGetSitters
+    setBounds
 }) {
     const [infoWindow, setInfoWindow] = useState();
     const [map, setMap] = useState(null)
@@ -28,8 +28,7 @@ export default function Maps({
 
     const createInfoWindow = () => {
         const infoWindowInstance = new window.google.maps.InfoWindow({
-            content: '<div id="infoWindow" />',
-            disableAutoPan: true
+            content: '<div id="infoWindow" />'
         });
         setInfoWindow(infoWindowInstance)
     }
@@ -80,9 +79,7 @@ export default function Maps({
         const swLat = bounds.getSouthWest().lat();
         const swLng = bounds.getSouthWest().lng();
 
-        if (onGetSitters) {
-            onGetSitters({ neLat, neLng, swLat, swLng })
-        }
+        setBounds({ neLat, neLng, swLat, swLng });
     }
 
     const addMapEventListeners = () => {

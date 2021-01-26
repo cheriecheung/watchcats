@@ -17,6 +17,8 @@ export function getSittersInBounds(query) {
 
       const { data } = await axios.get(url);
       dispatch({ type: FindCatSitterActionTypes.GET_SITTERS_IN_BOUNDS, payload: data });
+
+      localStorage.setItem('mapSearch', 'disabled');
     } catch (e) {
       console.log({ e });
     }

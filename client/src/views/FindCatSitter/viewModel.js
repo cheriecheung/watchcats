@@ -42,6 +42,8 @@ function useFindCatSitter() {
   const { value: sortByValue } = watch('sortBy') || {};
 
   useEffect(() => {
+    localStorage.setItem('mapSearch', 'enabled');
+
     return () => {
       dispatch(setInitialState())
     }
@@ -84,7 +86,6 @@ function useFindCatSitter() {
     if (nameParts.length === 3) {
       sort = `${nameParts[0]}${capitalize(nameParts[1])}${capitalize(nameParts[2])}`
     }
-    console.log({ sort })
     return { sort }
   }
 
@@ -129,10 +130,15 @@ function useFindCatSitter() {
     }
   }, [sortByValue]);
 
-  function onGetSitters(bounds) {
+  useEffect(() => {
+    if (bounds && localStorage.getItem('mapSearch') === 'enabled') {
+      onGetSitters();
+    }
+  }, [bounds, localStorage.getItem('mapSearch')])
+
+  function onGetSitters() {
     dispatch(setInitialState())
     setLoading(true);
-    setBounds({ ...bounds })
 
     const { sort } = getSortByName();
 
@@ -196,6 +202,7 @@ function useFindCatSitter() {
     setZoom,
     center,
     searchProps,
+    setBounds,
     onGetSitters,
     startDate,
     endDate

@@ -26,7 +26,8 @@ function FindCatSitter() {
     hoveredResultId,
     setHoveredResultId,
     searchProps,
-    onGetSitters
+    onGetSitters,
+    setBounds
   } = useFindCatSitter();
 
   return (
@@ -62,6 +63,7 @@ function FindCatSitter() {
             loading={loading}
             hoveredResultId={hoveredResultId}
             onGetSitters={onGetSitters}
+            setBounds={setBounds}
           />
         </div>
       </Container>
