@@ -88,7 +88,7 @@ module.exports = {
 
       // hourlyRate / nightlyRate
       if (sortType.includes('Rate')) {
-        sorted = cleaned.sort((a, b) => a[sortType] - b[sortType])
+        sorted = cleaned.sort((a, b) => a.sitter[sortType] - b.sitter[sortType])
       }
 
       const nPerPage = 10
