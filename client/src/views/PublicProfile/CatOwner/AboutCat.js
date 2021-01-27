@@ -72,13 +72,13 @@ function AboutCat({ t, allCats }) {
 
                 {needsInjection &&
                   <>
-                    <i className="fas fa-syringe fa-2x" />
+                    <i className="fas fa-syringe fa-2x profile" />
                     <span>{t('owner_form.injection')}</span>
                   </>}
 
                 {needsPill &&
                   <>
-                    <i className="fas fa-pills fa-2x" />
+                    <i className="fas fa-pills fa-2x profile" />
                     <span>{t('owner_form.pill')}</span>
                   </>}
               </div>

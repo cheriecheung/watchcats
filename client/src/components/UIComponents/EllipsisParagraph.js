@@ -15,11 +15,11 @@ const ParagraphComponent = styled(Paragraph)`
   }
 `
 
-function EllipsisParagraph({ children }) {
+function EllipsisParagraph({ children, rows }) {
   return (
     <ParagraphComponent
       ellipsis={{
-        rows: 3,
+        rows,
         expandable: true,
         symbol: 'Read more'
       }}
@@ -33,9 +33,11 @@ function EllipsisParagraph({ children }) {
 export default EllipsisParagraph
 
 EllipsisParagraph.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  rows: PropTypes.number
 };
 
 EllipsisParagraph.defaultProps = {
-  children: undefined
+  children: undefined,
+  rows: 2
 };

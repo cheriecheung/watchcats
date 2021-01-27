@@ -12,7 +12,7 @@ import Responsibilities from './Responsibilities';
 import { useCatOwnerProfile } from '../viewModel';
 
 const Section = styled.div`
-  margin: 30px 0;
+  margin: 0 0 30px 0;
 `;
 
 function CatOwner() {
@@ -45,7 +45,7 @@ function CatOwner() {
               reviews.length > 0 &&
               <>
                 <Section>
-                  <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
+                  <h5 ref={reviewListRef} style={{ marginBottom: 15 }}>
                     {t('owner_profile.feedback')} ({reviews.length})
                    </h5>
                   <Reviews

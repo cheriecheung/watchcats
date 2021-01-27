@@ -46,7 +46,7 @@ function CatSitter() {
             {reviews && reviews.length > 0 &&
               <>
                 <Section style={{ margin: 0 }}>
-                  <h5 ref={reviewListRef} style={{ paddingTop: 15, marginBottom: 15 }}>
+                  <h5 ref={reviewListRef} style={{ marginBottom: 15 }}>
                     {t('sitter_profile.feedback')} ({reviews.length})
                   </h5>
                   <Reviews

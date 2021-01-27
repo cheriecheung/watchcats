@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContainedButton, LinkButton } from '../../../components/UIComponents';
+import { ContainedButton, LinkButton, OutlinedButton } from '../../../components/UIComponents';
 import {
   Image,
   ImageContainer,
@@ -59,12 +59,14 @@ function Summary({ t, sitterInfo, summaryProps }) {
         <PriceDisplay rate={nightlyRate} rateType="nightly" />
       </div>
 
-      <ContainedButton
+      <OutlinedButton
         onClick={onSendMessage}
         disabled={isViewingOwnProfile}
+        style={{ marginBottom: 10 }}
       >
         {t('sitter_profile.send_message')}
-      </ContainedButton>
+      </OutlinedButton>
+      <br />
       <ContainedButton
         onClick={() => setModalVisible(true)}
         disabled={isViewingOwnProfile}

@@ -1,11 +1,18 @@
 import React from 'react';
-import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
-import { EllipsisParagraph, ClickableImageContainer, Image, LinkButton } from '../../../components/UIComponents';
+import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg';
+import {
+  EllipsisParagraph,
+  ClickableImageContainer,
+  Image,
+  LinkButton
+} from '../../../components/UIComponents';
+import { formatDate } from '../../../utility';
 
 const { REACT_APP_API_DOMAIN } = process.env
 
 function ReviewTemplate({ review }) {
   const {
+    createdAt,
     content,
     rating,
     reviewerPicture,
@@ -35,13 +42,11 @@ function ReviewTemplate({ review }) {
             {reviewerName}
           </LinkButton>
           <br />
-          {[...Array(rating).keys()].map((item, index) => {
-            return (
-              <i key={index} className="fas fa-star icon-sort-review" />
-            )
-          })}
+          <span>{formatDate(createdAt, 'DD MMM YYYY')}</span>
+          <br />
+          {[...Array(rating).keys()].map((item, index) => <i key={index} className="fas fa-star icon-sort-review mb-3" />)}
 
-          <EllipsisParagraph>{content}</EllipsisParagraph>
+          <EllipsisParagraph rows={1.5}>{content}</EllipsisParagraph>
         </div>
       </div>
     </div>

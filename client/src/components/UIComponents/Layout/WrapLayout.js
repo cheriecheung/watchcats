@@ -21,7 +21,7 @@ const defaultWrapLayout = ({ variant }) => {
 const profile = ({ variant }) => {
   if (variant === 'profile') return css`
   flex-direction: row;
-  padding: 30px 60px;
+  padding: 60px 60px 30px 60px;
   text-align: left;
 
   @media (max-width: 900px) {

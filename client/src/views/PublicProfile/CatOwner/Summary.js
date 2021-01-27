@@ -19,8 +19,8 @@ function Summary({ t, ownerInfo }) {
     totalReviews,
     totalCompletedBookings,
     totalRepeatedCustomers,
-    bookingOneDay,
-    bookingOvernight
+    bookingOneDay = [],
+    bookingOvernight = []
   } = ownerInfo
 
   const pictureUrl = profilePicture ? `${REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
@@ -45,19 +45,18 @@ function Summary({ t, ownerInfo }) {
       />
 
       <hr />
-      {/* email verified */}
-      {/* phone verified */}
-      <h6>Verified</h6>
 
-      {/* change logic */}
-      {/* {(Array.isArray(bookingOneDay) && bookingOneDay.length > 0) ||
-        Array.isArray(bookingOvernight) && bookingOvernight.length > 0 && */}
-      <>
-        <hr />
-        <h5>{t('owner_profile.sitter_needed')}:</h5>
-        <AppointmentTime t={t} oneDay={bookingOneDay} overnight={bookingOvernight} />
-      </>
-      {/* } */}
+      {bookingOneDay.length === 0 &&
+        bookingOvernight.length === 0 &&
+        <span>No sitter needed currently</span>
+      }
+
+      {(bookingOneDay.length > 0 || bookingOvernight.length > 0) &&
+        <>
+          <h5>{t('owner_profile.sitter_needed')}:</h5>
+          <AppointmentTime t={t} oneDay={bookingOneDay} overnight={bookingOvernight} />
+        </>
+      }
     </VerticalCard>
   );
 }

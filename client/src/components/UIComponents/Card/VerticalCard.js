@@ -33,6 +33,7 @@ const profileSummary = ({ variant }) => {
     display: inline-block;
     flex-basis: 35%;
     height: 100%;
+    padding: 25px;
 
     @media (max-width: 900px) {
       position: initial;
@@ -47,7 +48,7 @@ const profileDetails = ({ variant }) => {
 
   return css`
     flex-basis: 60%;
-    padding: 25px;
+    padding: 35px;
   `
 }
 
