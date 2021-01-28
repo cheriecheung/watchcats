@@ -18,7 +18,7 @@ function GoogleLoginButton({ onClick, isLoading }) {
         style={{ width: 'auto', height: '70%', marginLeft: '-10px', marginRight: 10 }}
       />
       {t('login.google_login')}
-      {isLoading && <Spinner colored={true} />}
+      {isLoading && <Spinner colored={true.toString()} />}
     </OutlinedButton>
   )
 }

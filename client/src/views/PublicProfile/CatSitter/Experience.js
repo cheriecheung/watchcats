@@ -45,34 +45,25 @@ function Experience({ t, sitterInfo }) {
     },
   ]
 
-  const hasSkills =
-    hasCat ||
-    hasVolunteered ||
-    hasMedicationSkills ||
-    hasInjectionSkills ||
-    hasCertification ||
-    hasGroomingSkills
+  const possessedSkills = skillSet.filter(({ value }) => value)
 
   return (
     <>
       <EllipsisParagraph>{experience}</EllipsisParagraph>
 
-      {hasSkills &&
+      {possessedSkills.length > 0 &&
         <>
           <br />
           <span>{t('sitter_profile.skills_summary')}:</span>
           <br />
           <br />
 
-          {skillSet.map(({ value, icon, title }) => {
-            return (
-              value &&
-              <div style={{ marginBottom: 15 }}>
-                {icon}
-                <span>{title}</span>
-              </div>
-            )
-          })}
+          {possessedSkills.map(({ icon, title }) => (
+            <div style={{ marginBottom: 15 }} key={title}>
+              {icon}
+              <span>{title}</span>
+            </div>
+          ))}
         </>
       }
     </>

@@ -41,7 +41,7 @@ function LocalLogin({
 
         <OutlinedButton type="submit">
           {t('login.title')}
-          {isLoading && <Spinner colored={true} />}
+          {isLoading && <Spinner colored={true.toString()} />}
         </OutlinedButton>
       </form>
     </FormProvider>

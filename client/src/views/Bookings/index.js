@@ -110,7 +110,7 @@ function Bookings() {
           >
             <Badge
               isShown={hasUnreadAsSitter}
-              isWhiteColor={sittingJobsSelected}
+              iswhitecolor={sittingJobsSelected}
             >
               {t('bookings.as_cat_sitter')}
             </Badge>
@@ -121,7 +121,7 @@ function Bookings() {
           >
             <Badge
               isShown={hasUnreadAsOwner}
-              isWhiteColor={sittingServiceSelected}
+              iswhitecolor={sittingServiceSelected}
             >
               {t('bookings.as_cat_owner')}
             </Badge>
@@ -149,7 +149,7 @@ function Bookings() {
 
       <Content>
         {isLoadingBookings ?
-          <Spinner colored={true} style={{ margin: '30px 0' }} /> :
+          <Spinner colored={true.toString()} style={{ margin: '30px 0' }} /> :
           renderBookingStatusTabContent()
         }
       </Content>

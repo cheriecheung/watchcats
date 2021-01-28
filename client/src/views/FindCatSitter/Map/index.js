@@ -16,7 +16,7 @@ function MapItem({
     <MapContainer variant="findCatSitter">
       <LoadingMask onClick={() => !loading && onGetSitters()}>
         {loading ?
-          <Spinner size="middle" colored={true} style={{ marginLeft: 0 }} />
+          <Spinner size="middle" colored={true.toString()} style={{ marginLeft: 0 }} />
           :
           <div style={{ alignSelf: 'center' }}>
             <i className="fas fa-search fa-xs" />

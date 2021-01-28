@@ -59,7 +59,7 @@ function useCatOwner() {
         aboutMe,
         bookingOneDay = [{ date: '', startTime: null, endTime: '' }],
         bookingOvernight = [{ startDAte: null, endDate: '' }],
-        cat,
+        cat = [],
         catsDescription,
       } = ownerData;
 

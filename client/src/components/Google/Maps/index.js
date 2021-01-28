@@ -144,7 +144,7 @@ Maps.propTypes = {
 
 Maps.defaultProps = {
     setZoom: undefined,
-    hoveredResultId: undefined,
+    hoveredResultId: '',
     onGetSitters: undefined
 };
 

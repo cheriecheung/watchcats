@@ -31,7 +31,7 @@ function useFindCatSitter() {
   const [currentPage, setCurrentPage] = useState(1)
   const [pagination, setPagination] = useState({})
   const [loading, setLoading] = useState(true)
-  const [hoveredResultId, setHoveredResultId] = useState({})
+  const [hoveredResultId, setHoveredResultId] = useState('')
 
   const resolver = yupResolver(find_cat_sitter_schema)
   const methods = useForm({ defaultValues, resolver });

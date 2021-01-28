@@ -124,13 +124,13 @@ function Authentication({
             :
             <>
 
-              <p>
+              <div>
                 <Remark style={{ display: isDemoUser ? 'block' : 'none', textDecoration: 'underline' }}>
                   <i className="fas fa-exclamation fas-xs mr-1" />
                   {t('settings.two_factor_auth_as_demo_user')}
                 </Remark>
                 {t('settings.2FA_description')}
-              </p>
+              </div>
 
               <ContainedButton
                 type="button"

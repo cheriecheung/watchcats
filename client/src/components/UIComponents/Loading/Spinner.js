@@ -22,7 +22,7 @@ const Spinner = styled(Spin)`
 export default Spinner;
 
 Spinner.propTypes = {
-  colored: PropTypes.bool,
+  colored: PropTypes.string,
 };
 
 Spinner.defaultProps = {

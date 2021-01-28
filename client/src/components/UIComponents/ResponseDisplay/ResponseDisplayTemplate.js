@@ -34,7 +34,7 @@ export default ResponseDisplayTemplate;
 
 ResponseDisplayTemplate.propTypes = {
   icon: PropTypes.node.isRequired,
-  title: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
   text: PropTypes.node
 };
 
