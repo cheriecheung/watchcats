@@ -5,18 +5,19 @@ import { themeColor, themeEffect } from '../../../style/theme';
 const LoadingMask = styled.button`
   position: absolute; 
   top: 15px;
-  left: 35%;
+  left: 50%;
+  margin-left: -75px;
   z-index: 5;
   display: flex;
   justify-content: center;
   padding: 0 10px;
-  min-width: 120px;
+  width: 150px;
   height: 35px;
   background: #fff; 
   outline: none !important;
   border: none;
   border-radius: 10px;
-  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.3) !important;
 
   & > div  {
     transition: ${themeEffect.transition};

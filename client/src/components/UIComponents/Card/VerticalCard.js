@@ -49,6 +49,10 @@ const profileDetails = ({ variant }) => {
   return css`
     flex-basis: 60%;
     padding: 35px;
+
+    @media (max-width: 900px) {
+      padding: 35px 25px;
+    }
   `
 }
 

@@ -18,18 +18,18 @@ function Footer() {
       color: themeColor.grey,
       background: 'transparent',
       height: 'auto',
-      marginBottom: 20,
+      marginBottom: 30,
     }}>
+      &#169; 2021 Watch Cats -&nbsp;
       {t('footer.made_with')}&nbsp;&#x2764;&nbsp;
       {t('footer.by')}&nbsp;
       <a
         href="https://github.com/cheriecheung" target="_blank"
         rel="noreferrer"
-        style={{ color: themeColor.peach, fontSize: '0.85rem' }}
+        style={{ color: themeColor.peach, fontSize: '0.85rem', fontWeight: 'bold' }}
       >
         Cherie Cheung
-      </a>&nbsp;
-      &#169; 2020
+      </a>
     </footer>
   );
 }

@@ -235,3 +235,16 @@ ant-tabs-tab-remove:active {
   margin: 0 6px !important;
   padding: 0 !important;
 }
+
+.gmnoprint.gm-bundled-control.gm-bundled-control-on-bottom{
+  bottom: unset !important;
+  
+}
+
+.gmnoprint.gm-bundled-control.gm-bundled-control-on-bottom .gmnoprint {
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.gmnoprint.gm-bundled-control.gm-bundled-control-on-bottom .gmnoprint div {
+  border-radius: 10px !important;
+}

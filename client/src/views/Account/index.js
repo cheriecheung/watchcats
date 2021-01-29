@@ -11,7 +11,7 @@ import { useAccount } from './viewModel'
 
 const Container = styled.div`
   margin: 0 4vw; 
-  padding: 40px 0;
+  padding: 40px 0 20px 0;
 `;
 
 const Content = styled.div`
