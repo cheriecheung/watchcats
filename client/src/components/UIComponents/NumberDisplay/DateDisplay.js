@@ -26,5 +26,5 @@ function DateDisplay({ date }) {
 export default DateDisplay
 
 DateDisplay.propTypes = {
-  splitString: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
 };

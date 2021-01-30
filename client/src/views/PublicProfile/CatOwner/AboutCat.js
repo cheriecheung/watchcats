@@ -19,7 +19,7 @@ function AboutCat({ t, allCats }) {
         isInsured,
         breed,
         personality,
-        favoriteTreat,
+        favouriteTreat,
         photo
       } = cat;
 
@@ -110,16 +110,16 @@ function AboutCat({ t, allCats }) {
 
             <FieldContainer>
               <FieldLabel>{t('owner_form.breed')}</FieldLabel>
-              {/* <span>{breed.label}</span> */}
+              <span>{breed}</span>
             </FieldContainer>
             <FieldContainer>
               <FieldLabel>{t('owner_form.personality')}</FieldLabel>
-              {/* <span>{personality.label}</span> */}
+              <span>{personality}</span>
             </FieldContainer>
 
             <FieldContainer style={{ marginBottom: 0 }}>
               <FieldLabel>{t('owner_form.favourite_treat')}</FieldLabel>
-              <span>{favoriteTreat}</span>
+              <span>{favouriteTreat}</span>
             </FieldContainer>
           </div>
         </WrapLayout>

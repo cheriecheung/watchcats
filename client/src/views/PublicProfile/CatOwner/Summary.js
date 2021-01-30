@@ -82,7 +82,7 @@ function AppointmentTime({ t, oneDay, overnight }) {
           <h6>{t('owner_profile.overnight_appointment')}: </h6>
 
           {overnight.map(({ id, startDate, endDate }) => (
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex' }} key={id}>
               <DateDisplay date={startDate} />
 
               <div style={{ width: 10, height: 4, background: 'grey', margin: '0 10px', alignSelf: 'center' }} />

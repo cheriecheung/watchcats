@@ -7,6 +7,7 @@ import { getAppointmentTime, sendRequest } from '../../redux/bookings/actions';
 import { getChatList, getChatConversation } from '../../redux/chat/actions';
 import { clearError } from '../../redux/error/actions';
 import { getOwnerProfile, getSitterProfile } from '../../redux/profile/actions';
+import { catBreedOptions, catPersonalityOptions } from '../../constants/selectOptions';
 import { calculateHourlyRate, calculateNightlyRate } from '../../utility/rate';
 import LOADING from '../../constants/loadingTypes'
 import Cookies from 'universal-cookie';
@@ -42,7 +43,20 @@ function useCatOwnerProfile() {
 
   useEffect(() => {
     if (data) {
-      setReturnedData(data);
+      const { cat } = data;
+
+      const cleanedCat = cat.map(({ breed, personality, ...rest }) => {
+        const selectedBreed = catBreedOptions.find(({ id }) => id === breed)
+        const selectedPersonality = catPersonalityOptions.find(({ id }) => id === personality)
+
+        return {
+          ...rest,
+          breed: t(selectedBreed.value),
+          personality: t(selectedPersonality.value)
+        }
+      })
+
+      setReturnedData({ ...data, cat: cleanedCat });
     }
   }, [data]);
 

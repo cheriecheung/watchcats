@@ -209,14 +209,14 @@ export default {
     receive_notifications: 'Meldingen inschakelen',
     email: 'E-mailadres',
     phone: 'Telefoonnummer',
-    receive_sms_code: 'You will receive an SMS with a verification code.',
-    save_phone_description: 'Your phone number is only used for verification and notifications. Uw telefoonnummer wordt met niemand gedeeld.',
+    receive_sms_code: 'Je zal een sms ontvangen met een verificatiecode.',
+    save_phone_description: 'Je telefoonnummer wordt alleen gebruikt voor verificaties en notificaties. Uw telefoonnummer wordt met niemand gedeeld.',
     enter_sms_code: 'Voer de 6-cijferige code die je via sms ontvangt in.',
     code_to_expire: 'Deze code verloopt na 2 minuten.',
     resend_code: 'Stuur opnieuw',
 
     stripe_account: 'Stripe-account',
-    payment_description: 'To send and / or receive payments, please set up payouts on Stripe. Clicking below will guide you to a secure online form which will guide you to connect your bank account.',
+    payment_description: 'Om betalingen te zenden en/of ontvangen, moet u de betalingen op stripe aanmaken. Onderaan vind je de link met een beveiligde formulier die je zal helpen om je bank account te linken met je account.',
     setup_payouts: 'Maak een Stripe account aan',
     edit_account: 'Bewerk account',
 
@@ -224,7 +224,7 @@ export default {
     not_available: 'Niet beschikbaar als u bent ingelogd via Google',
 
     password: 'Wachtwoord',
-    password_description: 'Update your password for the next time you log in.',
+    password_description: 'Update je passwoord voor de volgende log in.',
     change_password: 'Wachtwoord wijzigen',
     password_criteria1: 'Uw wachtwoord moet uit',
     password_criteria2: 'ten minste 8 tekens',
@@ -235,7 +235,7 @@ export default {
     repeat_new_password: 'Herhaal nieuw wachtwoord',
 
     two_factor_auth: 'Tweefactor-authenticatie',
-    two_factor_auth_as_demo_user: 'If you logged in as a demo user, 2FA can NOT be enabled. To test the feature, please make your own account.',
+    two_factor_auth_as_demo_user: 'Als je ingelogd bent als demo gebruiker kan 2FA niet aangezet (of gebruikt) worden. Om deze functie te gebruiken, Moet je je eigen account aanmaken.',
     '2FA_description': 'Bescherm je Watchcats-account met een extra beveiligingslaag. Na de configuratie ben je verplicht om zowel je wachtwoord als een authentiatiecode van je mobiele telefoon in te voeren om aan te melden.',
     '2FA_enabled': 'U hebt tweefactor-authenticatie ingeschakeld.',
     disable_2FA: 'Tweefactor-authenticatie uitschakelen',
@@ -266,7 +266,7 @@ export default {
     address: 'Adres',
     address_tooltip: 'Uw adres worden met niemand gedeeld',
     postcode: 'Postcode',
-    postcode_tooltip: "Only Dutch postcodes are accepted (bestaat uit vier cijfers, een spatie en twee letters, i.e. 1234AB). Uw locatie zal verschijnen op de map van de 'Zoek een kattenoppas' pagina wanneer u uw kattenoppas profiel hebt uitgewerkt",
+    postcode_tooltip: "Alleen Nederlandse postcodes worden geaccepteerd (bestaat uit vier cijfers, een spatie en twee letters, i.e. 1234AB). Uw locatie zal verschijnen op de map van de 'Zoek een kattenoppas' pagina wanneer u uw kattenoppas profiel hebt uitgewerkt",
     social_media: 'Sociale media',
     optional: 'Optioneel',
     facebook: 'Facebook profiel',
@@ -293,7 +293,7 @@ export default {
     per_hour: '/ uur',
     overnight: 'Overnachting',
     per_night: '/ nacht',
-    you_make: 'You will make € {{euros}}',
+    you_make: 'Je zal € {{euros}} aanmaken',
 
     availability: 'Beschikbaarheid',
     availability_description: 'Selecteer de datums wanneer u niet beschikbaar bent, zodat katteneigenaren u aanvragen gebaseerd op je beschikbaarheid kunnen verzenden.',
