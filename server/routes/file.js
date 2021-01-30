@@ -4,24 +4,17 @@ const multer = require('multer');
 const { validateToken } = require('../helpers/token')
 const { fileLimiter, formLimiter, speedLimiter } = require('../helpers/limiter')
 
-const { storage, storageS3 } = FileController;
+const { storageS3 } = FileController;
 
-const uploadS3 = multer({ storage: multer.memoryStorage() });
+const uploadS3 = multer({ storage: storageS3 });
 
-const upload = multer({ storage });
-
-router.post('/image/test-picture', upload.single('test_picture'), FileController.saveTestPicture)
-
-router.get('/image/:filename', FileController.displayImage);
+router.post('/image/test-picture', uploadS3.single('test_picture'), FileController.saveTestPicture)
 
 router.delete('/image', formLimiter, speedLimiter(5), validateToken, FileController.deleteImage);
 
-router.post('/image/profile-picture', formLimiter, speedLimiter(5), validateToken,
-  // upload.single('profilePic'),
-  uploadS3.single('profilePic'),
-  FileController.saveFileName);
+router.post('/image/profile-picture', formLimiter, speedLimiter(5), validateToken, uploadS3.single('profilePic'), FileController.saveFileName);
 
-router.post('/image/cat', fileLimiter, speedLimiter(5), validateToken, upload.single('catPhoto'), FileController.saveCatPhoto)
+router.post('/image/cat', fileLimiter, speedLimiter(5), validateToken, uploadS3.single('catPhoto'), FileController.saveCatPhoto)
 
 router.delete('/image/cat', formLimiter, speedLimiter(5), validateToken, FileController.deleteCatPhoto)
 

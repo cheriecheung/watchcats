@@ -5,8 +5,6 @@ import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import { Spinner } from '../UIComponents'
 
-const { REACT_APP_API_DOMAIN } = process.env;
-
 const ImageContainer = styled.div`
     width: 120px; 
     height: 120px;
@@ -60,7 +58,7 @@ function Display({ fileName, handleRemovePhoto }) {
     const [showConfirmRemove, setShowConfirmRemove] = useState(false)
 
     const photoURL = fileName.includes('base64') ?
-        fileName : `${REACT_APP_API_DOMAIN}/image/${fileName}`
+        fileName : `${process.env.REACT_APP_IMAGE_DOMAIN}/${fileName}`
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
