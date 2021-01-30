@@ -7,7 +7,6 @@ import {
   TimeDisplay,
   VerticalCard
 } from '../../../components/UIComponents'
-import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 
 const { REACT_APP_API_DOMAIN } = process.env;
 
@@ -23,16 +22,12 @@ function Summary({ t, ownerInfo }) {
     bookingOvernight = []
   } = ownerInfo
 
-  const pictureUrl = profilePicture ? `${REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
-
-  console.log({ bookingOneDay, bookingOvernight })
-
   return (
     <VerticalCard variant="profileSummary">
       <h4>{firstName} {lastName && lastName.charAt(0)}</h4>
 
       <ImageContainer>
-        <Image url={pictureUrl} />
+        <Image url={profilePicture} />
       </ImageContainer>
 
       <br />

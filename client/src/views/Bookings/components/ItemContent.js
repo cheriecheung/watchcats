@@ -6,7 +6,6 @@ import {
   TimeDisplay
 } from '../../../components/UIComponents';
 import { Field, FieldLabel, FieldItem } from '../styledComponents';
-import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg';
 
 function ItemContent({ t, data, bookingType, imageContainerVariant }) {
   const {
@@ -26,12 +25,10 @@ function ItemContent({ t, data, bookingType, imageContainerVariant }) {
   const { user } = reviewee || {}
   const { firstName, lastName, profilePicture } = user || {};
 
-  const imgUrl = profilePicture ? `${process.env.REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
-
   return (
     <div style={{ display: 'flex', marginTop: 15, marginBottom: 15 }}>
       <ImageContainer variant={imageContainerVariant}>
-        <Image url={imgUrl} />
+        <Image url={profilePicture} />
       </ImageContainer>
 
       <div style={{ width: '80%', display: 'flex', flexDirection: 'column' }}>

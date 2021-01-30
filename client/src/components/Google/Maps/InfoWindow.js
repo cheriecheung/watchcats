@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { themeColor } from '../../../style/theme';
 import { Image, ImageContainer, OutlinedButton } from '../../UIComponents';
-import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg';
 
 const Text = styled.span`
     font-family: Source Sans Pro;
@@ -20,13 +19,11 @@ function InfoWindow({ item }) {
         urlId
     } = item || {}
 
-    const profilePicURL = profilePicture ? `${process.env.REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
-
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <ImageContainer style={{ width: 50, height: 50 }}>
-                    <Image url={profilePicURL} />
+                    <Image url={profilePicture} />
                 </ImageContainer>
 
                 <div style={{

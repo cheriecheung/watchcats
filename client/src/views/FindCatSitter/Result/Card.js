@@ -8,7 +8,6 @@ import {
   PriceDisplay,
   ProfileStats
 } from '../../../components/UIComponents';
-import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 import { ContentContainer } from '../styledComponents'
 
 function Card({ screenWidth, item, setHoveredResultId }) {
@@ -25,8 +24,6 @@ function Card({ screenWidth, item, setHoveredResultId }) {
 
   const { aboutSitter = '', hourlyRate, nightlyRate } = sitter || {}
 
-  const profilePicURL = profilePicture ? `${process.env.REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
-
   const renderDescription = (wordCount) => (
     <>
       <HorizontalDivider />
@@ -35,7 +32,6 @@ function Card({ screenWidth, item, setHoveredResultId }) {
         <div style={{ width: '85%', height: '50px', overflow: 'hidden' }}>
           {aboutSitter.slice(0, wordCount).trim().replace(/("[^"]+"|\w+)$/, "...")}
         </div>
-
 
         <LinkButton to={`/profile/catsitter/${urlId}`}
           style={{
@@ -64,7 +60,7 @@ function Card({ screenWidth, item, setHoveredResultId }) {
     >
       <div style={{ display: 'flex' }}>
         <ImageContainer variant="findCatSitter">
-          <Image url={profilePicURL} />
+          <Image url={profilePicture} />
         </ImageContainer>
 
         <ContentContainer>

@@ -1,9 +1,6 @@
 import React from 'react';
 import { formatDate, formatTime } from '../../../utility';
 import { Image } from '../../../components/UIComponents'
-import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg';
-
-const { REACT_APP_API_DOMAIN } = process.env;
 
 function MessageBubble({ message, conversationInfo }) {
   const {
@@ -20,9 +17,6 @@ function MessageBubble({ message, conversationInfo }) {
 
   const pictureType =
     senderId === messageSender ? senderPicture : recipientPicture;
-
-  const pictureUrl = senderPicture && recipientPicture ?
-    `${REACT_APP_API_DOMAIN}/image/${pictureType}` : defaultProfilePic
 
   const messageFlexDirection =
     senderId === messageSender ? 'row-reverse' : 'row';
@@ -73,7 +67,7 @@ function MessageBubble({ message, conversationInfo }) {
             display: senderId === messageSender ? 'none' : 'block'
           }}
         >
-          <Image url={pictureUrl} />
+          <Image url={pictureType} />
         </div>
 
         <div style={{

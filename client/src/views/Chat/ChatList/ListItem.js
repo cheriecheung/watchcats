@@ -6,7 +6,6 @@ import {
   DateDisplay,
   TextContainer
 } from '../styledComponents'
-import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
 import { formatDate } from '../../../utility';
 import AUTOMATED_MESSAGES from '../../../constants/automatedMessages'
 
@@ -39,9 +38,6 @@ function ChatListItem({
     urlId
   } = recipient || {}
 
-  const pictureUrl = profilePicture ?
-    `${REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
-
   const renderLastMessage = (type) => {
     switch (type) {
       case AUTOMATED_MESSAGES.BOOKING_REQUESTED:
@@ -68,7 +64,7 @@ function ChatListItem({
         variant="bookings"
         style={{ width: 60, height: 60, marginLeft: -20 }}
       >
-        <Image url={pictureUrl} />
+        <Image url={profilePicture} />
       </ImageContainer>
 
       <TextContainer>

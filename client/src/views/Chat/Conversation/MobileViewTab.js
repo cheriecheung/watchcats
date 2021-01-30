@@ -1,9 +1,6 @@
 import React from 'react';
 import { Image } from '../../../components/UIComponents'
 import { IconButton, MobileViewTabContainer } from '../styledComponents'
-import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
-
-const { REACT_APP_API_DOMAIN } = process.env;
 
 function MobileViewTab({
   recipientPicture,
@@ -12,9 +9,6 @@ function MobileViewTab({
   firstName,
   lastName
 }) {
-  const pictureUrl = recipientPicture ?
-    `${REACT_APP_API_DOMAIN}/image/${recipientPicture}` : defaultProfilePic
-
   return (
     <MobileViewTabContainer>
       <div style={{ display: 'flex' }}>
@@ -32,7 +26,7 @@ function MobileViewTab({
             overflow: 'hidden',
           }}
         >
-          <Image url={pictureUrl} />
+          <Image url={recipientPicture} />
         </div>
         <h5 style={{ alignSelf: 'center' }}>{firstName} {lastName && lastName.charAt(0)}</h5>
       </div>

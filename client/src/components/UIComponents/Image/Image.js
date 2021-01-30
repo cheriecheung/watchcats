@@ -1,12 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import no_image from '../../../assets/images/no_image.png';
+
+const { REACT_APP_IMAGE_DOMAIN } = process.env;
 
 function Image({ url, style }) {
-  const alt = url.substr(url.lastIndexOf('/') + 1);
+  const src = url ? `${REACT_APP_IMAGE_DOMAIN}/${url}` : no_image;
+  const alt = src.substr(src.lastIndexOf('/') + 1);
 
   return (
     <img
-      src={url}
+      src={src}
       alt={alt}
       style={{
         objectFit: 'cover',

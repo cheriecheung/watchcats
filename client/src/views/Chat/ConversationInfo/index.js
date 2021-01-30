@@ -7,9 +7,6 @@ import {
   MobileViewTabContainer,
   ScrollableSubLayer
 } from '../styledComponents'
-import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
-
-const { REACT_APP_API_DOMAIN } = process.env;
 
 function ConversationInfo({
   t,
@@ -26,9 +23,6 @@ function ConversationInfo({
     sitter: hasSitterProfile,
     owner: hasOwnerProfile
   } = recipient || {}
-
-  const pictureUrl = profilePicture ?
-    `${REACT_APP_API_DOMAIN}/image/${profilePicture}` : defaultProfilePic
 
   return (
     <ConversationInfoContainer isTranslateX={mobileScreenView === 'info'}>
@@ -52,7 +46,7 @@ function ConversationInfo({
             }}
           >
             <ImageContainer>
-              <Image url={pictureUrl} />
+              <Image url={profilePicture} />
             </ImageContainer>
             <h5 style={{ margin: '15px 0' }}>
               {firstName} {lastName && lastName.charAt(0)}

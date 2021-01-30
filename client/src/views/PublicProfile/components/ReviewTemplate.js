@@ -1,5 +1,4 @@
 import React from 'react';
-import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg';
 import {
   EllipsisParagraph,
   ClickableImageContainer,
@@ -7,8 +6,6 @@ import {
   LinkButton
 } from '../../../components/UIComponents';
 import { formatDate } from '../../../utility';
-
-const { REACT_APP_API_DOMAIN } = process.env
 
 function ReviewTemplate({ review }) {
   const {
@@ -20,10 +17,6 @@ function ReviewTemplate({ review }) {
     reviewerName,
   } = review
 
-  const profilePicURL = reviewerPicture ?
-    `${REACT_APP_API_DOMAIN}/image/${reviewerPicture}` :
-    defaultProfilePic
-
   const pathname = window.location.pathname.includes('catsitter') ?
     `/profile/catowner/${reviewerUrlId}` :
     `/profile/catsitter/${reviewerUrlId}`
@@ -33,7 +26,7 @@ function ReviewTemplate({ review }) {
       <div style={{ display: 'flex' }}>
         <div>
           <ClickableImageContainer to={pathname}>
-            <Image url={profilePicURL} />
+            <Image url={reviewerPicture} />
           </ClickableImageContainer>
         </div>
 

@@ -2,9 +2,6 @@ import React from 'react';
 import { FieldContainer, FieldLabel } from '../../../components/FormComponents'
 import { Image, ImageContainer, WrapLayout } from '../../../components/UIComponents'
 import { capitalize } from '../../../utility'
-import defaultProfilePic from '../../../assets/images/default_profile_pic.jpg'
-
-const { REACT_APP_API_DOMAIN } = process.env;
 
 function AboutCat({ t, allCats }) {
   return (
@@ -26,8 +23,6 @@ function AboutCat({ t, allCats }) {
         photo
       } = cat;
 
-      const pictureUrl = photo ? `${REACT_APP_API_DOMAIN}/image/${photo}` : defaultProfilePic
-
       return (
         <WrapLayout
           key={id}
@@ -35,7 +30,7 @@ function AboutCat({ t, allCats }) {
           style={{ marginBottom: index + 1 === allCats.length ? 0 : 30 }}
         >
           <ImageContainer>
-            <Image url={pictureUrl} />
+            <Image url={photo} />
           </ImageContainer>
 
           <br />
