@@ -91,10 +91,10 @@ export default function Maps({
     }
 
     useEffect(() => {
-        if (results) {
+        if (map && results) {
             createMarkers();
         }
-    }, [results])
+    }, [map, results])
 
     useEffect(() => {
         if (map && zoom) {

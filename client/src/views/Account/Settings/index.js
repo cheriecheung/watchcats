@@ -30,9 +30,11 @@ function Settings() {
         isLoadingSubmitPhoneNumber,
         isLoadingVerifyPhoneNumber
     } = useSettings()
-    const authenticationProps = useAuthentication();
+
     const contactDetailsProps = useContactDetails();
     const paymentSetupProps = usePaymentSetup();
+    const authenticationProps = useAuthentication();
+    const { isGoogleLogin } = authenticationProps || {}
 
     return (
         <>
@@ -66,10 +68,10 @@ function Settings() {
                 <CardTitle style={{ marginBottom: 0 }}>
                     {t('settings.authentication')}
                 </CardTitle>
-                <Remark>
-                    ({t('settings.not_available')})
-                </Remark>
 
+                {isGoogleLogin && <Remark>({t('settings.not_available')}) </Remark>}
+
+                <br />
                 <Authentication
                     t={t}
                     appError={appError}

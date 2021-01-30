@@ -15,7 +15,7 @@ function Result({
   onChangePage,
   currentPage,
   setHoveredResultId,
-  screenWidth,
+  screenWidth
 }) {
   const { from, to } = pagination
 
@@ -24,7 +24,9 @@ function Result({
   return (
     <>
       {totalResults > 0 && paginatedResults.length > 0 ?
-        <p style={{ textAlign: 'left', marginBottom: 10 }}>
+        <p
+          style={{ textAlign: 'left', marginBottom: 10 }}
+        >
           {t('find_sitter.showing', { from, to, totalResults })}
         </p>
         : []
@@ -51,7 +53,7 @@ function Result({
           itemLayout="vertical"
           size="large"
           pagination={{
-            onChange: (current) => { onChangePage(current) },
+            onChange: (current) => onChangePage(current),
             total: totalResults,
             pageSize,
             current: currentPage,

@@ -27,7 +27,8 @@ function FindCatSitter() {
     setHoveredResultId,
     searchProps,
     onGetSitters,
-    setBounds
+    setBounds,
+    resultRef
   } = useFindCatSitter();
 
   return (
@@ -39,7 +40,7 @@ function FindCatSitter() {
       />
 
       <Container>
-        <ResultContainer>
+        <ResultContainer ref={resultRef}>
           <Result
             t={t}
             totalResults={totalResults}

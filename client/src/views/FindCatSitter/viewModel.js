@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -40,6 +40,9 @@ function useFindCatSitter() {
   const startDateValue = watch('startDate');
   const endDateValue = watch('endDate');
   const { value: sortByValue } = watch('sortBy') || {};
+
+  const resultRef = useRef(null);
+  const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
   useEffect(() => {
     localStorage.setItem('mapSearch', 'enabled');
@@ -159,6 +162,8 @@ function useFindCatSitter() {
   }
 
   function onChangePage(current) {
+    // scrollToRef(resultRef);
+
     dispatch(setInitialState())
 
     const { sort } = getSortByName();
@@ -205,7 +210,8 @@ function useFindCatSitter() {
     setBounds,
     onGetSitters,
     startDate,
-    endDate
+    endDate,
+    resultRef
   }
 }
 
