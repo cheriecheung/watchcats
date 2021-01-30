@@ -64,7 +64,8 @@ const settings = ({ variant }) => {
     flex-wrap: wrap;
     text-align: justify;
 
-    & > p {
+    & > p, 
+    & > div {
       flex: 0 50%;
     }
 

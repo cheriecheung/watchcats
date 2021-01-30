@@ -29,7 +29,6 @@ function ProfileStats({
   isResponsive
 }) {
   const { t } = useTranslation();
-  const isProfilePage = window.location.pathname.includes('profile');
 
   return (
     <Container isResponsive={isResponsive}>
@@ -44,42 +43,27 @@ function ProfileStats({
         </span>
       </div>
 
-      {isProfilePage ?
-        <>
-          {totalCompletedBookings > 0 &&
-            <div style={{ color: '#00C68E', marginRight: 10 }}>
-              <i className="far fa-calendar-alt mr-2" />
-              <span>
-                {totalCompletedBookings} {t('find_sitter.total_completed_bookings')}
-              </span>
-            </div>
-          }
+      {totalCompletedBookings === 0 &&
+        <div style={{ color: '#00C68E' }}>
+          <i className="fas fa-user-plus fa-xs mr-1" />
+          {t('find_sitter.new_member')}
+        </div>
+      }
 
-          {totalRepeatedCustomers > 0 &&
-            <div style={{ color: '#00C68E' }}>
-              <i className="fas fa-redo-alt mr-2" />
-              <span>
-                {totalRepeatedCustomers} {type === 'sitter' ? t('find_sitter.total_repeated_customers') : 'sitters\' repeated customer '}
-              </span>
-            </div>
-          }
-        </>
-        :
-        <>
-          <div style={{ color: '#00C68E', marginRight: 10, visibility: totalCompletedBookings > 0 ? 'visible' : 'hidden' }}>
-            <i className="far fa-calendar-alt mr-2" />
-            <span>
-              {totalCompletedBookings} {t('find_sitter.total_completed_bookings')}
-            </span>
-          </div>
+      <div style={{ color: '#00C68E', marginRight: 10, visibility: totalCompletedBookings > 0 ? 'visible' : 'hidden' }}>
+        <i className="far fa-calendar-alt mr-2" />
+        <span>
+          {totalCompletedBookings} {t('find_sitter.total_completed_bookings')}
+        </span>
+      </div>
 
-          <div style={{ color: '#00C68E', visibility: totalRepeatedCustomers > 0 ? 'visible' : 'hidden', fontSize: 10 }}>
-            <i className="fas fa-redo-alt mr-2" />
-            <span>
-              {totalRepeatedCustomers} {type === 'sitter' ? t('find_sitter.total_repeated_customers') : 'sitters\' repeated customer '}
-            </span>
-          </div>
-        </>
+      {totalRepeatedCustomers > 0 &&
+        <div style={{ color: '#00C68E' }}>
+          <i className="fas fa-redo-alt mr-2" />
+          <span>
+            {totalRepeatedCustomers} {type === 'sitter' ? t('find_sitter.total_repeated_customers') : 'sitters\' repeated customer '}
+          </span>
+        </div>
       }
     </Container>
   )

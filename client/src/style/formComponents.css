@@ -88,16 +88,6 @@ input[type='file'] {
   display: none;
 }
 
-.ant-input-affix-wrapper .ant-input,
-.ant-input-affix-wrapper:hover .ant-input
-.ant-input-affix-wrapper .ant-input:hover {
-  border: none !important;
-  /* margin-bottom: 5px !important;
-  padding: 7px 15px !important;
-  border: var(--theme-field-border);
-  border-radius: var(--theme-border-radius) !important; */
-}
-
 /* .ant-input:hover, */
 /* .ant-input:focus, */
 .ant-picker:hover,
@@ -123,6 +113,17 @@ textarea:hover {
   box-shadow: 0 0 0 2px rgba(255, 161, 149, 0.15) !important;
   outline: 0 !important;
 }
+
+.ant-input-affix-wrapper .ant-input,
+.ant-input-affix-wrapper:hover .ant-input,
+.ant-input-affix-wrapper .ant-input:hover,
+.ant-input-affix-wrapper:hover .ant-input:hover,
+.form-control.ant-input-affix-wrapper-focused .ant-input {
+  border: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
 
 /* .ant-input-affix-wrapper {
     border-radius: 5px !important;

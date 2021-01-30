@@ -46,7 +46,7 @@ function Enable2FA({ t, appError, isLoading }) {
             style={{ display: 'flex', justifyContent: 'center' }}
           >
             <Image
-              url="https://whooptous.com/wp-content/uploads/2020/05/unnamed.png"
+              url="3e9c2817-5bff-44d6-8724-348d342cdf0f.png"
               style={{ width: 70, height: 70 }}
             />
           </ImageContainer>
@@ -71,7 +71,13 @@ function Enable2FA({ t, appError, isLoading }) {
 
         <Section>
           <ImageContainer>
-            <Image url={qrCodeImage} />
+            <img
+              src={qrCodeImage}
+              alt="qr_code"
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+              width="100%"
+              height="100%"
+            />
           </ImageContainer>
           <Description>
             <FieldLabel>{t('settings.enable_2FA_step2')}</FieldLabel>
