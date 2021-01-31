@@ -36,7 +36,7 @@ function Badge({ children, isShown, iswhitecolor, style }) {
 export default Badge;
 
 BadgeComponent.propTypes = {
-  iswhitecolor: PropTypes.bool
+  iswhitecolor: PropTypes.string
 }
 
 BadgeComponent.defaultProps = {
@@ -46,7 +46,7 @@ BadgeComponent.defaultProps = {
 Badge.propTypes = {
   children: PropTypes.node.isRequired,
   isShown: PropTypes.bool,
-  iswhitecolor: PropTypes.bool
+  iswhitecolor: PropTypes.string
 };
 
 Badge.defaultProps = {

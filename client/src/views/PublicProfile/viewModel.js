@@ -42,8 +42,8 @@ function useCatOwnerProfile() {
   }, [id]);
 
   useEffect(() => {
-    if (data) {
-      const { cat } = data;
+    if (data && data.cat) {
+      const { cat = [] } = data;
 
       const cleanedCat = cat.map(({ breed, personality, ...rest }) => {
         const selectedBreed = catBreedOptions.find(({ id }) => id === breed)

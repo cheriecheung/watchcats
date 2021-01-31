@@ -53,16 +53,18 @@ const bookings = ({ variant }) => {
     border-bottom-right-radius: 10px;
     border-top-right-radius: 10px;
 
+    @media (max-width: 765px) {
+      margin-left: -15px;
+    }
+
     @media (max-width: 500px) {
       width: 80px;
       height: 80px;
-      margin-left: -15px;
     }
 
     @media (max-width: 380px) {
       width: 60px;
       height: 60px;
-      margin-left: -15px;
     }
   `
 }

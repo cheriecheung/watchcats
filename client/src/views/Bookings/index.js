@@ -110,7 +110,7 @@ function Bookings() {
           >
             <Badge
               isShown={hasUnreadAsSitter}
-              iswhitecolor={sittingJobsSelected}
+              iswhitecolor={sittingJobsSelected.toString()}
             >
               {t('bookings.as_cat_sitter')}
             </Badge>
@@ -121,7 +121,7 @@ function Bookings() {
           >
             <Badge
               isShown={hasUnreadAsOwner}
-              iswhitecolor={sittingServiceSelected}
+              iswhitecolor={sittingServiceSelected.toString()}
             >
               {t('bookings.as_cat_owner')}
             </Badge>

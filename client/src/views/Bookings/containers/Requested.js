@@ -57,12 +57,12 @@ function Requested({
     <>
       {Array.isArray(bookings) &&
         bookings.length > 0 &&
-        bookings.map(data => {
+        bookings.map((data, index) => {
           const { id } = data || {}
 
           return (
             <ItemCard
-              key={id}
+              key={`${id}-${index}`}
               t={t}
               bookingType={bookingType}
               data={data}

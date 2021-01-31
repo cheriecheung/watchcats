@@ -67,7 +67,7 @@ function Confirmed({
 
           return (
             <ItemCard
-              key={id}
+              key={`${id}-${index}`}
               t={t}
               bookingType={bookingType}
               data={data}
