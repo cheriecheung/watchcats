@@ -29,7 +29,7 @@ module.exports = {
         AppointmentOneDay.find({ owner: ownerId }),
         AppointmentOvernight.find({ owner: ownerId }),
         Cat.find({ owner: ownerId }),
-        Review.find({ reviewee: ownerId })
+        Review.find({ reviewee: ownerId }).sort({ createdAt: -1 })
       ]);
 
       const {
@@ -82,7 +82,7 @@ module.exports = {
 
             const data = {
               ...item,
-              reviewerName: `${reviewerFirstName} ${reviewerLastName}`,
+              reviewerName: `${reviewerFirstName} ${reviewerLastName.charAt(0)}`,
               reviewerPicture: reviewerprofilePicture,
               reviewerUrlId
             }

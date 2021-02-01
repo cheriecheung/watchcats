@@ -12,7 +12,7 @@ import Location from '../components/Location';
 import { useCatSitterProfile, useCatSitterSummary } from '../viewModel'
 
 const Section = styled.div`
-  margin: 50px 0;
+  margin: 30px 0;
 `;
 
 function CatSitter() {

@@ -25,7 +25,7 @@ module.exports = {
       const [stats, unavailableDates, allReviews] = await Promise.all([
         getProfileStats('sitter', sitterId),
         getUnavailableDates(sitterId),
-        Review.find({ reviewee: sitterId })
+        Review.find({ reviewee: sitterId }).sort({ createdAt: -1 })
       ]);
 
       const {
@@ -47,7 +47,7 @@ module.exports = {
 
             const data = {
               ...item,
-              reviewerName: `${reviewerFirstName} ${reviewerLastName}`,
+              reviewerName: `${reviewerFirstName} ${reviewerLastName.charAt(0)}`,
               reviewerPicture: reviewerprofilePicture,
               reviewerUrlId
             }
