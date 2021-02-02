@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -34,8 +34,9 @@ export default function PlaceAutocomplete({
         setLoading && setLoading(true)
         setZoom && setZoom(13)
         setCenter && setCenter({ lat: addressLat, lng: addressLng });
+        localStorage.setItem('mapSearch', 'enabled');
 
-        console.log({ addressLat, addressLng })
+        // console.log({ addressLat, addressLng })
     };
 
     const handleScriptLoad = (ref) => {
@@ -53,9 +54,9 @@ export default function PlaceAutocomplete({
         autoComplete.addListener('place_changed', () => handlePlaceSelect());
     };
 
-    // useEffect(() => {
-    //     handleScriptLoad(autoCompleteRef);
-    // }, []);
+    useEffect(() => {
+        handleScriptLoad(autoCompleteRef);
+    }, []);
 
     return (
         <>

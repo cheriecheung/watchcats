@@ -40,7 +40,8 @@ function FindCatSitter() {
       />
 
       <Container>
-        <ResultContainer ref={resultRef}>
+        {/* <ResultContainer ref={resultRef}> */}
+        <ResultContainer >
           <Result
             t={t}
             totalResults={totalResults}

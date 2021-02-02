@@ -102,7 +102,6 @@ export default function Maps({
         }
     }, [map, zoom])
 
-
     useEffect(() => {
         if (map && center) {
             map.setCenter(center)

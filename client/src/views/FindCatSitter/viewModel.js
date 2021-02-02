@@ -17,7 +17,13 @@ const pageSize = 10;
 
 function useFindCatSitter() {
   const { t } = useTranslation();
-  const { googlePlaceAddress, startDate, endDate, center: centerValue, zoom: zoomValue } = useLocation().state || {};
+  const {
+    googlePlaceAddress,
+    startDate,
+    endDate,
+    center: centerValue,
+    zoom: zoomValue
+  } = useLocation().state || {};
 
   const dispatch = useDispatch();
   const { totalResults, paginatedResults } = useSelector((state) => state.find_cat_sitter);
@@ -95,6 +101,8 @@ function useFindCatSitter() {
   useEffect(() => {
     handleSubmit(() => {
       if (startDateValue && endDateValue && Object.keys(errors).length === 0) {
+        setLoading(true);
+
         const { sort } = getSortByName();
 
         const queryParams = {
@@ -117,6 +125,7 @@ function useFindCatSitter() {
   }, [startDateValue, endDateValue]);
 
   useEffect(() => {
+    // console.log({ sortByValue })
     if (sortByValue) {
       setCurrentPage(1)
       dispatch(setInitialState())
