@@ -18,7 +18,7 @@ function Footer() {
       color: themeColor.grey,
       background: 'transparent',
       height: 'auto',
-      marginBottom: 30,
+      margin: '5px 0 30px 0',
     }}>
       &#169; 2021 Watch Cats -&nbsp;
       {t('footer.made_with')}&nbsp;&#x2764;&nbsp;

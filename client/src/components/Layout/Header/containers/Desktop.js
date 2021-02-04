@@ -28,11 +28,11 @@ function Desktop({
             {t('header.find_sitter')}
           </LinkButton>
         </Item>
-        <Item>
+        {/* <Item>
           <LinkButton to="/about">
             {t('header.about')}
           </LinkButton>
-        </Item>
+        </Item> */}
       </ItemContainer>
 
       <ItemContainer>

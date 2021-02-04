@@ -115,10 +115,10 @@ function MobileMenu({
 
       <br /><br />
 
-      <MenuItemBox to="/about" onClick={() => closeMenu && closeMenu()}>
+      {/* <MenuItemBox to="/about" onClick={() => closeMenu && closeMenu()}>
         <Icon className="fas fa-info-circle fa-2x" />
         <Label>{t('header.about')}</Label>
-      </MenuItemBox>
+      </MenuItemBox> */}
       <MenuItemBox to="/" onClick={() => closeMenu && closeMenu()}>
         <Icon className="fas fa-home fa-2x" />
         <Label>{t('header.home')}</Label>
