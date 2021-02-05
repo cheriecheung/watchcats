@@ -9,8 +9,6 @@ import {
 import { formatDate } from '../../../utility';
 import AUTOMATED_MESSAGES from '../../../constants/automatedMessages'
 
-const { REACT_APP_API_DOMAIN } = process.env;
-
 function ChatListItem({
   item,
   unreadChats,
@@ -46,7 +44,7 @@ function ChatListItem({
         return `A booking has been accepted`
       case AUTOMATED_MESSAGES.BOOKING_DECLINED:
         return `A booking has been declined`
-      case AUTOMATED_MESSAGES.BOOKING_DECLINEDBOOKING_COMPLETED:
+      case AUTOMATED_MESSAGES.BOOKING_COMPLETED:
         return `A booking has been marked as completed`
       default:
         return content;
