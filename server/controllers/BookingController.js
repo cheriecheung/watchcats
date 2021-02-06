@@ -162,7 +162,10 @@ module.exports = {
     const { type, status } = req.query;
 
     try {
-      const userRecord = await User.findById(userId).select(['owner', 'sitter']);
+      const userRecord = await User
+        .findById(userId)
+        .select(['owner', 'sitter'])
+
       if (!userRecord) return res.status(404).json('ERROR/USER_NOT_FOUND');
 
       const { owner, sitter } = userRecord;
@@ -192,6 +195,7 @@ module.exports = {
 
       const bookings = await Booking
         .find(filter)
+        .sort({ createdAt: -1 })
         .populate({
           path,
           select: ['user'],

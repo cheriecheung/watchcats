@@ -38,8 +38,8 @@ module.exports = {
       const { file } = req;
       if (!file) return res.status(404).json('ERROR/ERROR_OCCURED');
 
-      const { fieldname, filename } = file || {};
-      console.log({ fieldname, filename });
+      const { fieldname, key } = file || {};
+      console.log({ fieldname, key });
 
       return res.status(200).json('TEST picture successfully saved');
     } catch (e) {
