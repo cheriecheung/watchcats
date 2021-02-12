@@ -24,7 +24,7 @@ export function uploadTestPicture(profilePicture) {
     try {
       const formData = new FormData();
       formData.append('test_picture', profilePicture);
-      await axios.post(`https://localhost:5000/image/test-picture`, formData, getConfig());
+      await axios.post(`http://localhost:5000/image/test-picture`, formData, getConfig());
     } catch (e) {
       console.log({ e });
     }
