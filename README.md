@@ -30,4 +30,18 @@ Map & Place Autocomplete | Google Maps API
 English and Dutch langauges | i18n
 
 ## 2. Screen shots
-- coming soon - 
+### Home page
+![alt text](https://www.dropbox.com/s/9z39eeihwfsdubp/01_home.png?raw=1)
+&nbsp;  
+### Find a cat sitter page
+![alt text](https://www.dropbox.com/s/qvljyk7d7c98pt9/02_find_cat_sitter.png?raw=1)
+&nbsp;  
+### Account page - Sitter Profile
+![alt text](https://www.dropbox.com/s/gbhacco3e2yd71x/05_account_sitter_info.png?raw=1)
+&nbsp;  
+
+-- More coming soon --
+
+## 3. Activity diagram
+The following portrays the booking system flow in the project:
+![alt text](https://i.imgur.com/mMFN39H.png)
