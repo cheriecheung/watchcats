@@ -10,6 +10,7 @@ const defaultKeyBookingStatus = 'requested';
 
 function useBookings() {
   const { t } = useTranslation();
+  const language = localStorage.getItem('lang') || 'en'
 
   const dispatch = useDispatch();
   const notifications = useSelector((state) => state.notifications);
@@ -54,7 +55,7 @@ function useBookings() {
 
       setStatusTabs(updatedTabs)
     }
-  }, [bookingCounts])
+  }, [bookingCounts, language])
 
   useEffect(() => {
     const type = clickedType;
