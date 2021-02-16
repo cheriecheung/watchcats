@@ -77,17 +77,19 @@ function Conversation({
             <ScrollableSubLayer>
               {allMessages &&
                 allMessages.map(message => {
-                  const { content } = message;
+                  const { content, id } = message;
 
                   return (
                     content.includes('AUTOMATED_MESSAGE') ?
                       <AutomatedMessage
+                        key={id}
                         t={t}
                         message={message}
                         conversationInfo={conversationInfo}
                       />
                       :
                       <MessageBubble
+                        key={id}
                         message={message}
                         conversationInfo={conversationInfo}
                       />

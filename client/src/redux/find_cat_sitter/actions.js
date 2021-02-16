@@ -10,6 +10,7 @@ export function getSittersInBounds(query) {
 
     try {
       const queryString = Object.entries(query)
+        .filter(([key, value]) => key && value)
         .map(([key, value]) => `${key}=${value}`)
         .join('&');
 
