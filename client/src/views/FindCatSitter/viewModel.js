@@ -73,15 +73,23 @@ function useFindCatSitter() {
   }, [paginatedResults])
 
   useEffect(() => {
-    if (googlePlaceAddress && startDate && endDate) {
+    if (googlePlaceAddress) {
       setValue('googlePlaceAddress', googlePlaceAddress)
+
+      setCenter(centerValue)
+      setZoom(zoomValue)
+    }
+  }, [googlePlaceAddress])
+
+  useEffect(() => {
+    if (startDate && endDate) {
       setValue('startDate', startDate)
       setValue('endDate', endDate)
 
       setCenter(centerValue)
       setZoom(zoomValue)
     }
-  }, [googlePlaceAddress, startDate, endDate])
+  }, [startDate, endDate])
 
   function getSortByName() {
     const sortByName = sortByValue.split(".")[1]

@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
 import { themeColor } from '../../style/theme';
 import ScreenWidthListener from '../../components/Layout/ScreenWidthListener';
@@ -13,13 +11,11 @@ import {
   FormContainer,
   FieldContainer
 } from './styledComponents'
-// import { checkToken } from '../../redux/app/actions'
 
 import { useHome } from './viewModel'
 
 function Home() {
   const { screenWidth } = ScreenWidthListener();
-  const dispatch = useDispatch();
 
   const {
     t,
@@ -75,14 +71,6 @@ function Home() {
       <div style={{ width: '95%', margin: '20px auto 0 auto' }}>
         <div className="card_sphynx" />
       </div>
-
-      {/* <button type="button" onClick={() => {
-        dispatch(checkToken())
-        console.log('helo')
-      }}>
-        test API
-        </button> */}
-
     </MainContainer>
   )
 }

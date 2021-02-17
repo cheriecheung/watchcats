@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import { isDate } from "date-fns";
 import translationKeys from '../../../constants/translationKeys'
 
-const { address_required, date_order } = translationKeys
+const { address_required, date_order, field_required } = translationKeys
 
 function parseDateString(value, originalValue) {
   if (!originalValue) return null;
@@ -23,6 +23,7 @@ export const home_search_schema = yup.object().shape({
       is: endDate => endDate,
       then: yup.date()
         .transform(parseDateString)
+        .required(field_required)
     }),
   endDate: yup.mixed()
     .nullable()
@@ -31,5 +32,6 @@ export const home_search_schema = yup.object().shape({
       then: yup.date()
         .transform(parseDateString)
         .min(yup.ref('startDate'), date_order)
+        .required(field_required)
     }),
 }, [['startDate', 'endDate']])

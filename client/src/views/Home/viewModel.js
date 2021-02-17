@@ -22,22 +22,19 @@ function useHome() {
   const { errors } = methods;
 
   function onSubmit(data) {
-    // console.log({ data })
+    const cleanedData = Object.entries(data).reduce((output, [key, value]) => {
+      if (key && value) {
+        output[key] = value;
+      }
+      return output
+    }, {})
 
-    const { googlePlaceAddress, startDate, endDate } = data
+    console.log({ cleanedData })
 
-    // console.log({
-    //   center,
-    //   zoom,
-    //   startDate,
-    //   endDate
-    // })
     history.push({
       pathname: "/find",
       state: {
-        googlePlaceAddress,
-        startDate,
-        endDate,
+        ...cleanedData,
         center,
         zoom
       }
