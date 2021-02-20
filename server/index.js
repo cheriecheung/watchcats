@@ -1,10 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-// const https = require('https');
 const http = require('http');
-const fs = require('fs')
-const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -31,10 +28,6 @@ mongoose
   })
   .then(() => console.log('connected to db yay'))
   .catch((err) => console.log(err.message));
-
-const key = fs.readFileSync(path.join(__dirname, 'certificate', 'key.pem'))
-const cert = fs.readFileSync(path.join(__dirname, 'certificate', 'cert.pem'))
-const credentials = { key, cert };
 
 const port = PORT || 5000
 const server = http.createServer({}, app).listen(port, () => {
@@ -66,15 +59,7 @@ app.use(cookieParser());
 app.use('/', baseRouter);
 
 app.get('/', (req, res) => {
-  return res.status(200).send(`${process.env.TEST_VALUE}lalalalal`)
-});
-
-app.get('/test-api', (req, res) => {
-  return res.status(200).send('your api is working finally omg ');
-});
-
-app.get('/test-again', (req, res) => {
-  return res.status(200).send('your api is working again!!!!!!!!!!!');
+  return res.status(200).send(`response returned!`)
 });
 
 const io = socketio(server);
