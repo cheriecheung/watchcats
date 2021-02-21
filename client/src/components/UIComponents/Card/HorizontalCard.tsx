@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 const defaultStyle = css`
@@ -9,8 +8,11 @@ const defaultStyle = css`
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.05);
   text-align: left;
 `
+type Props = {
+  variant?: string | undefined;
+};
 
-const defaultCard = ({ variant }) => {
+const defaultCard = ({ variant }: Props) => {
   if (!variant) return css`
     padding: 30px;
     
@@ -23,7 +25,7 @@ const defaultCard = ({ variant }) => {
   return css``;
 };
 
-const searchBar = ({ variant }) => {
+const searchBar = ({ variant }: Props) => {
   if (variant !== 'searchBar') return css``
 
   return `
@@ -37,7 +39,7 @@ const searchBar = ({ variant }) => {
   `
 }
 
-const findCatSitter = ({ variant }) => {
+const findCatSitter = ({ variant }: Props) => {
   if (variant !== 'findCatSitter') return css``
 
   return `
@@ -72,7 +74,7 @@ const findCatSitter = ({ variant }) => {
   `
 }
 
-const bookings = ({ variant }) => {
+const bookings = ({ variant }: Props) => {
   if (variant !== 'bookings') return css``
 
   return `
@@ -87,7 +89,7 @@ const bookings = ({ variant }) => {
   `
 }
 
-const chat = ({ variant }) => {
+const chat = ({ variant }: Props) => {
   if (variant !== 'chat') return css``
 
   return `
@@ -106,7 +108,11 @@ const chat = ({ variant }) => {
   `
 }
 
-const HorizontalCard = styled.div`
+type HorizontalCardProps = {
+  variant?: string | undefined,
+}
+
+const HorizontalCard = styled.div<HorizontalCardProps>`
   ${defaultStyle}
 
   ${defaultCard}
@@ -116,11 +122,3 @@ const HorizontalCard = styled.div`
   ${chat}
 `
 export default HorizontalCard;
-
-HorizontalCard.propTypes = {
-  variant: PropTypes.string,
-};
-
-HorizontalCard.defaultProps = {
-  variant: undefined,
-};

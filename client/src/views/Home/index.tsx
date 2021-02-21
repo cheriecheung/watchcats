@@ -58,7 +58,6 @@ function Home() {
             }
 
             <ContainedButton
-              type="input"
               aria-label="search"
               style={{ height: 40, margin: 0 }}
             >

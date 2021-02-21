@@ -13,6 +13,7 @@ import {
   Switch,
   Route,
   Redirect,
+  RouteProps,
   useLocation
 } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -43,7 +44,12 @@ const Bookings = lazy(() => import("./views/Bookings"));
 const Payment = lazy(() => import("./views/Payment"));
 const WriteReview = lazy(() => import("./views/WriteReview"));
 
-const GlobalStyle = createGlobalStyle`
+interface GlobalStyleProps {
+  readonly toggleMobileMenu: boolean;
+  readonly isChatPage: boolean;
+};
+
+const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   html {
     overflow: ${({ toggleMobileMenu, isChatPage }) => toggleMobileMenu || isChatPage ? 'hidden' : 'unset'};
   }
@@ -53,8 +59,20 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-function PrivateRoute({ component: Component, ...rest }) {
-  const { isLoggedIn } = useSelector(state => state.app);
+interface PrivateRouteProps extends RouteProps {
+  component: any;
+}
+
+interface AppState {
+  app: {
+    isLoggedIn: boolean;
+    toggleMobileMenu: boolean;
+  };
+}
+
+function PrivateRoute(props: PrivateRouteProps) {
+  const { component: Component, ...rest } = props;
+  const { isLoggedIn } = useSelector((state: AppState) => state.app);
 
   return (
     <Route
@@ -75,7 +93,7 @@ function App() {
   const { pathname } = location || {}
 
   const dispatch = useDispatch();
-  const { toggleMobileMenu } = useSelector(state => state.app);
+  const { toggleMobileMenu } = useSelector((state: AppState) => state.app);
 
   const { i18n } = useTranslation();
 
