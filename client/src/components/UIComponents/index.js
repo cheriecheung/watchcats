@@ -22,6 +22,7 @@ import SpaceBetween from './Layout/SpaceBetween'
 import WrapLayout from './Layout/WrapLayout'
 
 import LoadingMask from './Loading/LoadingMask'
+import LoadingScreen from './Loading/LoadingScreen'
 import Spinner from './Loading/Spinner'
 
 import Modal from './Modal/Modal'
@@ -74,6 +75,7 @@ export {
   WrapLayout,
 
   LoadingMask,
+  LoadingScreen,
   Spinner,
 
   Modal,
