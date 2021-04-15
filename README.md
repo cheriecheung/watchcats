@@ -19,15 +19,15 @@ The project is put together by the following:
 &nbsp;  
 The features of Watch Cats app includes:
 
- Features     | APIs and tools
-------------- | ------------- 
-Two-Factor Authentication  | Speakeasy, Google authenticator
-Payment Gateway  | Stripe (testing version)
-Private chat | Socket.IO
-Email / SMS notifications | Mailgun / Twilio
-Oauth-based Google login | Google APIs
-Map & Place Autocomplete | Google Maps API
-English and Dutch langauges | i18n
+ Features     | APIs and tools | Description
+------------- | ------------- | ------------- 
+Two-Factor Authentication | Speakeasy, Google Authenticator app | Verify users with one time password
+Payment Gateway | Stripe (testing version) | Accept payments via bank transfer
+Private chat | Socket.IO | Facilitate real-time messaging
+Email / SMS notifications | Mailgun / Twilio | Notify users of new bookings or new private messages
+Oauth-based Google login | Google APIs | Login with user's existing Google account
+Map & Place Autocomplete | Google Maps API | Locate and display cat sitters on Google Maps
+Multi-Language Support | i18n | Offer English and Dutch as display language options
 
 ## 2. Screen shots
 ### Home page
