@@ -3,7 +3,7 @@ Watch Cats app helps cat owners find their ideal cat sitter in designated cities
 
 This is a self-initiated project where everything is done independently. Through working on this project, I aim to challenge myself and grow as a developer.
 
-Demo link: [https://watchcats.nl](https://watchcats.nl)
+Demo link: [https://watchcats.nl](https://watchcats.nl) (currently not deployed anymore!)
 
 ## 1. App Info
 
