@@ -1,4 +1,4 @@
-# <img src="https://www.dropbox.com/s/afc3s0uo47fa7pi/logo.png?raw=1" width="250" />
+# <img src="https://github.com/user-attachments/assets/fa24c57b-ad97-4b19-bedd-90a98b01eb35" width="250" />
 Watch Cats app helps cat owners find their ideal cat sitter in designated cities (demo focuses on Amsterdam, the Netherlands).
 
 This is a self-initiated project where everything is done independently. Through working on this project, I aim to challenge myself and grow as a developer.
@@ -29,16 +29,15 @@ The features of Watch Cats app includes:
 [Map](https://github.com/cheriecheung/watchcats/blob/master/client/src/components/Google/Maps/index.js) & [Place Autocomplete](https://github.com/cheriecheung/watchcats/blob/master/client/src/components/Google/PlaceAutocomplete.js) | Google Maps API | Locate and display cat sitters on Google Maps
 [Multi-Language Support](https://github.com/cheriecheung/watchcats/blob/master/client/src/i18n/i18n.js) | i18n | Offer English and Dutch as display language options
 
-## 2. Screen shots
 ### Home page
-![alt text](https://www.dropbox.com/s/9z39eeihwfsdubp/01_home.png?raw=1)
+![alt text](https://github.com/user-attachments/assets/07c33cb7-9621-4f5d-b0bf-b1b88122cab3)
 &nbsp;  
 ### Find a cat sitter page
-![alt text](https://www.dropbox.com/s/qvljyk7d7c98pt9/02_find_cat_sitter.png?raw=1)
+![alt text](https://github.com/user-attachments/assets/b805bebd-933a-4260-8b55-2e63eba8e72a)
 &nbsp;  
 ### Account page - Sitter Profile
-![alt text](https://www.dropbox.com/s/gbhacco3e2yd71x/05_account_sitter_info.png?raw=1)
-&nbsp;  
+![alt text](https://github.com/user-attachments/assets/8942c902-21de-408b-ba18-7c7a1cd351c3)
+&nbsp;
 
 -- More coming soon --
 
